@@ -64,12 +64,14 @@
             </a>
         </li>
 
-        <li class="menu-item {!! request()->routeIs('users.*') ? 'active' : '' !!}">
-            <a href="{{ route('users.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Analytics">User</div>
-            </a>
-        </li>
+        @if (Auth::user()->role == 'superadmin')
+            <li class="menu-item {!! request()->routeIs('users.*') ? 'active' : '' !!}">
+                <a href="{{ route('users.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <div data-i18n="Analytics">User</div>
+                </a>
+            </li>
+        @endif
 
         <!-- Misc -->
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
