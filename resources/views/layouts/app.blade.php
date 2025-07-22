@@ -153,6 +153,8 @@
     <!-- / Layout wrapper -->
 
     <!-- Core JS -->
+
+    @stack('script')
     <!-- build:js assets/vendor/js/core.js -->
     <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script>
@@ -174,5 +176,6 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+
   </body>
 </html>

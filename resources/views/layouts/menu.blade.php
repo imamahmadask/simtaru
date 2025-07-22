@@ -64,30 +64,28 @@
             </a>
         </li>
 
+        <li class="menu-item {!! request()->routeIs('registrasi.*') ? 'active' : '' !!}">
+            <a href="{{ route('registrasi.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-edit"></i>
+                <div data-i18n="Analytics">Registrasi</div>
+            </a>
+        </li>
+
+        <li class="menu-item {!! request()->routeIs('permohonan.*') ? 'active' : '' !!}">
+            <a href="{{ route('permohonan.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-file"></i>
+                <div data-i18n="Analytics">Permohonan</div>
+            </a>
+        </li>
+
         @if (Auth::user()->role == 'superadmin')
             <li class="menu-item {!! request()->routeIs('users.*') ? 'active' : '' !!}">
                 <a href="{{ route('users.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                    <div data-i18n="Analytics">User</div>
+                    <i class="menu-icon tf-icons bx bx-user-circle"></i>
+                    <div data-i18n="Analytics">Users</div>
                 </a>
             </li>
         @endif
 
-        <!-- Misc -->
-        <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
-        <li class="menu-item">
-            <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues" target="_blank"
-                class="menu-link">
-                <i class="menu-icon tf-icons bx bx-support"></i>
-                <div data-i18n="Support">Support</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" target="_blank"
-                class="menu-link">
-                <i class="menu-icon tf-icons bx bx-file"></i>
-                <div data-i18n="Documentation">Documentation</div>
-            </a>
-        </li>
     </ul>
 </aside>

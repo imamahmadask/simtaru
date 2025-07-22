@@ -14,15 +14,15 @@
         @endif
 
 
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Users /</span> Data User</h4>
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Registrasi /</span> Daftar Registrasi</h4>
 
         <!-- Basic Bootstrap Table -->
         <div class="card">
-            <h5 class="card-header">List Data User</h5>
+            <h5 class="card-header">List Data Registrasi</h5>
             <div class="col-4">
                 <button type="button" class="ms-4 mb-3 btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#AddUserModal">
-                    Add User
+                    data-bs-target="#AddRegistrasiModal">
+                    Create Registrasi
                 </button>
             </div>
             <div class="table-responsive text-nowrap">
@@ -31,8 +31,10 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
-                            <th>Email</th>
-                            <th>Role</th>
+                            <th>No Hp</th>
+                            <th>NIK</th>
+                            <th>Jenis Layanan</th>
+                            <th>Tanggal</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -40,42 +42,45 @@
                         @php
                             $no = 1;
                         @endphp
-                        @foreach ($users as $user)
-                            <div wire:key="{{ $user->id }}">
+                        @foreach ($registrasis as $data)
+                            <div wire:key="{{ $data->id }}">
                                 <tr>
                                     <td>
                                         {{ $no++ }}
                                     </td>
                                     <td>
-                                        {{ $user->name }}
+                                        {{ $data->nama }}
                                     </td>
                                     <td>
-                                        {{ $user->email }}
+                                        {{ $data->no_hp }}
                                     </td>
                                     <td>
-                                        <span class="badge bg-label-primary me-1">
-                                            {{ $user->role }}
-                                        </span>
+                                        {{ Str::mask($data->nik, '*', 5, -1) }}
+                                    </td>
+                                    <td>
+                                        {{ $data->layanan->nama }}
+                                    </td>
+                                    <td>
+                                        {{ date('d-m-Y', strtotime($data->tanggal)) }}
                                     </td>
                                     <td>
                                         <div class="me-3">
                                             <!-- Button trigger modal -->
-                                            <button wire:click="$dispatch('user-edit', { id: {{ $user->id }} })"
+                                            <button
+                                                wire:click="$dispatch('registrasi-edit', { id: {{ $data->id }} })"
                                                 type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#editUserModal">
+                                                data-bs-target="#editRegistrasiModal">
                                                 Edit
                                             </button>
-                                            <button wire:click="deleteUser({{ $user->id }})"
-                                                wire:confirm="Are you sure you want to delete this User?"
-                                                class="btn btn-primary btn-sm">
+                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#basicModal">
                                                 Hapus
                                             </button>
                                         </div>
-
                                         <!-- Modal -->
                                         @teleport('body')
-                                            <!-- Edit  User Modal -->
-                                            @livewire('admin.users.user-edit')
+                                            <!-- Edit  Regustrasi Modal -->
+                                            @livewire('admin.registrasi.registrasi-edit')
                                         @endteleport
                                     </td>
                                 </tr>
@@ -90,6 +95,6 @@
     <!-- Modal -->
     @teleport('body')
         <!-- Edit  User Modal -->
-        @livewire('admin.users.user-create')
+        @livewire('admin.registrasi.registrasi-create')
     @endteleport
 </div>
