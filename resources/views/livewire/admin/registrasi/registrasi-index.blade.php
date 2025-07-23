@@ -30,6 +30,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Kode Registrasi</th>
                             <th>Nama</th>
                             <th>No Hp</th>
                             <th>NIK</th>
@@ -47,6 +48,9 @@
                                 <tr>
                                     <td>
                                         {{ $no++ }}
+                                    </td>
+                                    <td>
+                                        {{ $data->kode }}
                                     </td>
                                     <td>
                                         {{ $data->nama }}

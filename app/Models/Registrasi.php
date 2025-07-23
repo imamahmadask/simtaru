@@ -9,6 +9,7 @@ class Registrasi extends Model
     protected $table = 'registrasi';
 
     protected $fillable = [
+        'kode',
         'nama',
         'nik',
         'no_hp',

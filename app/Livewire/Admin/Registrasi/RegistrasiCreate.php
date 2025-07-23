@@ -27,6 +27,7 @@ class RegistrasiCreate extends Component
         $this->validate();
 
         Registrasi::create([
+           'kode' => 'REG-' . str_pad((Registrasi::count() + 1), 5, '0', STR_PAD_LEFT),
            'nama' => $this->nama,
            'nik' => $this->nik,
            'no_hp' => $this->no_hp,
