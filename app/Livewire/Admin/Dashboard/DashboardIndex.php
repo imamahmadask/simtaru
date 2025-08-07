@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Admin\Dashboard;
 
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
+#[Title('Dashboard')]
 class DashboardIndex extends Component
 {
     public function render()

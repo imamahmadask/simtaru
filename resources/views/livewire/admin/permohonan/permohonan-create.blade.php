@@ -11,12 +11,12 @@
                         <small class="text-muted float-end"></small>
                     </div>
                     <div class="card-body">
-                        <form wire:submit.prevent="addPermohonan">
+                        <form wire:submit="addPermohonan">
                             <div class="mb-3">
                                 <label for="registrasi_id" class="form-label">Kode Registrasi</label>
                                 <select class="form-select" wire:model.live="registrasi_id" id="registrasi_id"
                                     aria-label="Default select example">
-                                    <option selected>Pilih Registrasi</option>
+                                    <option value="" selected>Pilih Registrasi</option>
                                     @foreach ($registrasis as $data)
                                         <option value="{{ $data->id }}">{{ $data->kode }} - {{ $data->nama }}
                                         </option>
@@ -30,7 +30,6 @@
                                         <label for="layanan_id" class="form-label">Jenis Layanan</label>
                                         <select class="form-select" wire:model="layanan_id" id="layanan_id"
                                             aria-label="Default select example" disabled>
-                                            <option selected>Pilih Jenis Layanan</option>
                                             @foreach ($layanans as $data)
                                                 <option value="{{ $data->id }}">{{ $data->nama }}</option>
                                             @endforeach

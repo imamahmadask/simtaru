@@ -3,8 +3,9 @@
 namespace App\Livewire\Admin\Users;
 
 use App\Models\User;
+use Livewire\Attributes\Title;
 use Livewire\Component;
-
+#[Title('Users')]
 class UserIndex extends Component
 {
     public function render()

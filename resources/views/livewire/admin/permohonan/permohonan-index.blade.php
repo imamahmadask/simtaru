@@ -57,6 +57,10 @@
                                 </td>
                                 <td>
                                     <div class="me-3">
+                                        <a href="{{ route('permohonan.edit', ['id' => $data->id]) }}" type="button"
+                                            class="btn btn-primary btn-sm">
+                                            Edit
+                                        </a>
                                         <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
                                             data-bs-target="#basicModal">
                                             Detail

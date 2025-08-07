@@ -3,8 +3,10 @@
 namespace App\Livewire\Admin\Registrasi;
 
 use App\Models\Registrasi;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
+#[Title('Registrasi')]
 class RegistrasiIndex extends Component
 {
     public function render()

@@ -6,9 +6,10 @@ use App\Models\Layanan;
 use App\Models\Permohonan;
 use App\Models\Registrasi;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
-
+#[Title('Tambah Permohonan')]
 class PermohonanCreate extends Component
 {
     public $layanans, $registrasis;
@@ -50,13 +51,20 @@ class PermohonanCreate extends Component
     public function mount()
     {
         $this->layanans = Layanan::all();
-        $this->registrasis = Registrasi::all();
+        $this->registrasis = Registrasi::doesntHave('permohonan')->get();
     }
 
     public function updated($registrasi_id)
     {
-        $registrasi = Registrasi::find($this->registrasi_id);
-        $this->layanan_id = $registrasi->layanan_id;
-        $this->nama = $registrasi->nama;
+        if ($this->registrasi_id != "") {
+            $registrasi = Registrasi::find($this->registrasi_id);
+            $this->layanan_id = $registrasi->layanan_id;
+            $this->nama = $registrasi->nama;
+        }
+        else
+        {
+            $this->layanan_id = null;
+            $this->nama = null;
+        }
     }
 }
