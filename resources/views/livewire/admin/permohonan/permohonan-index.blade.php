@@ -17,7 +17,7 @@
                             <th>No</th>
                             <th>Kode Registrasi</th>
                             <th>Nama Pemohon</th>
-                            <th>Tanggal Permohonan</th>
+                            <th>Tgl Permohonan</th>
                             <th>Jenis Layanan</th>
                             <th>Jenis Bangunan</th>
                             <th>Status</th>
@@ -51,7 +51,8 @@
                                     {{ $data->jenis_bangunan }}
                                 </td>
                                 <td>
-                                    <span class="badge bg-label-warning me-1">
+                                    <span
+                                        class="badge bg-label-{{ $data->status == 'pending' ? 'danger' : ($data->status == 'process' ? 'warning' : ($data->status == 'completed' ? 'success' : 'secondary')) }} me-1">
                                         {{ $data->status }}
                                     </span>
                                 </td>

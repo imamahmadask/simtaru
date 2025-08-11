@@ -53,7 +53,7 @@ class PermohonanEdit extends Component
             'jenis_bangunan' => $this->jenis_bangunan,
             'keterangan' => $this->keterangan,
             'status' => $this->status,
-            'edited_by' => Auth::user()->id
+            'updated_by' => Auth::user()->id
         ]);
 
         session()->flash('message', 'Permohonan berhasil diperbarui.');

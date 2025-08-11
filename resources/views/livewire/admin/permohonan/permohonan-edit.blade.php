@@ -20,37 +20,36 @@
                         @endif
 
                         <form wire:submit="updatePermohonan">
-                            <div class="mb-3">
-                                <label for="registrasi_id" class="form-label">Kode Registrasi</label>
-                                <select class="form-select @error('registrasi_id') is-invalid @enderror"
-                                    wire:model="registrasi_id" id="registrasi_id">
-                                    <option value="">Pilih Registrasi</option>
-                                    @foreach ($registrasis as $registrasi)
-                                        <option value="{{ $registrasi->id }}">{{ $registrasi->kode }} -
-                                            {{ $registrasi->nama }}</option>
-                                    @endforeach
-                                </select>
-                                @error('registrasi_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
                             <div class="row">
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label for="layanan_id" class="form-label">Jenis Layanan</label>
-                                        <select class="form-select @error('layanan_id') is-invalid @enderror"
-                                            wire:model="layanan_id" id="layanan_id">
-                                            <option value="">Pilih Layanan</option>
-                                            @foreach ($layanans as $layanan)
-                                                <option value="{{ $layanan->id }}">{{ $layanan->nama }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('layanan_id')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                                <div class="col mb-3">
+                                    <label for="registrasi_id" class="form-label">Kode Registrasi</label>
+                                    <select class="form-select @error('registrasi_id') is-invalid @enderror"
+                                        wire:model="registrasi_id" id="registrasi_id" disabled>
+                                        <option value="">Pilih Registrasi</option>
+                                        @foreach ($registrasis as $registrasi)
+                                            <option value="{{ $registrasi->id }}">{{ $registrasi->kode }} -
+                                                {{ $registrasi->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('registrasi_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
+
+                                <div class="col mb-3">
+                                    <label for="layanan_id" class="form-label">Jenis Layanan</label>
+                                    <select class="form-select @error('layanan_id') is-invalid @enderror"
+                                        wire:model="layanan_id" id="layanan_id" disabled>
+                                        <option value="">Pilih Layanan</option>
+                                        @foreach ($layanans as $layanan)
+                                            <option value="{{ $layanan->id }}">{{ $layanan->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('layanan_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
                             </div>
 
                             <div class="mb-3">
@@ -98,7 +97,6 @@
                                     <option value="pending">Pending</option>
                                     <option value="process">Process</option>
                                     <option value="completed">Completed</option>
-                                    <option value="rejected">Rejected</option>
                                 </select>
                             </div>
 
