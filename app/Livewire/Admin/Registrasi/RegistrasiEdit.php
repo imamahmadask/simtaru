@@ -49,6 +49,12 @@ class RegistrasiEdit extends Component
             'layanan_id' => $this->layanan_id,
         ]);
 
+        if($registrasi->permohonan->count() > 0){
+            $registrasi->permohonan()->update([
+                'layanan_id' => $this->layanan_id,
+            ]);
+        }
+
         session()->flash('success', 'Data registrasi berhasil diupdate!');
 
         $this->redirectRoute('registrasi.index');
