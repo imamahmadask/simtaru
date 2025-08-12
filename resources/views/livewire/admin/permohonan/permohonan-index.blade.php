@@ -62,10 +62,10 @@
                                             class="btn btn-primary btn-sm">
                                             Edit
                                         </a>
-                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#basicModal">
+                                        <a href="{{ route('permohonan.detail', ['id' => $data->id]) }}" type="button"
+                                            class="btn btn-primary btn-sm">
                                             Detail
-                                        </button>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
