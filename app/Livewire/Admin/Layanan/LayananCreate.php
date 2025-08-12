@@ -3,8 +3,10 @@
 namespace App\Livewire\Admin\Layanan;
 
 use App\Models\Layanan;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
+#[Title('Tambah Layanan')]
 class LayananCreate extends Component
 {
     public $nama_layanan = '';
@@ -31,7 +33,7 @@ class LayananCreate extends Component
         ]);
 
         session()->flash('message', 'Layanan berhasil ditambahkan.');
-        return redirect()->route('admin.layanan.index');
+        return redirect()->route('layanan.index');
     }
 
     public function render()

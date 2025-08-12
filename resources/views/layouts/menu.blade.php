@@ -78,6 +78,13 @@
             </a>
         </li>
 
+        <li class="menu-item {!! request()->routeIs('layanan.*') ? 'active' : '' !!}">
+            <a href="{{ route('layanan.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-file"></i>
+                <div data-i18n="Analytics">Layanan</div>
+            </a>
+        </li>
+
         @if (Auth::user()->role == 'superadmin')
             <li class="menu-item {!! request()->routeIs('users.*') ? 'active' : '' !!}">
                 <a href="{{ route('users.index') }}" class="menu-link">

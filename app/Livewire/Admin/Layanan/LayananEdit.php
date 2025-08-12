@@ -3,49 +3,46 @@
 namespace App\Livewire\Admin\Layanan;
 
 use App\Models\Layanan;
+use Livewire\Attributes\On;
+use Livewire\Attributes\Title;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 
+#[Title('Edit Layanan')]
 class LayananEdit extends Component
 {
-    public $layananId;
-    public $nama_layanan = '';
-    public $deskripsi = '';
+    public $layanan_id, $keterangan;
 
-    protected $rules = [
-        'nama_layanan' => 'required|string|max:255',
-        'deskripsi' => 'required|string',
-    ];
-
-    protected $messages = [
-        'nama_layanan.required' => 'Nama layanan harus diisi.',
-        'nama_layanan.max' => 'Nama layanan maksimal 255 karakter.',
-        'deskripsi.required' => 'Deskripsi harus diisi.',
-    ];
-
-    public function mount($id)
-    {
-        $layanan = Layanan::findOrFail($id);
-        $this->layananId = $layanan->id;
-        $this->nama_layanan = $layanan->nama_layanan;
-        $this->deskripsi = $layanan->deskripsi;
-    }
-
-    public function update()
-    {
-        $this->validate();
-
-        $layanan = Layanan::findOrFail($this->layananId);
-        $layanan->update([
-            'nama_layanan' => $this->nama_layanan,
-            'deskripsi' => $this->deskripsi,
-        ]);
-
-        session()->flash('message', 'Layanan berhasil diperbarui.');
-        return redirect()->route('admin.layanan.index');
-    }
+    #[Validate('required')]
+    public $nama = '';
 
     public function render()
     {
         return view('livewire.admin.layanan.layanan-edit');
     }
+
+    #[On('layanan-edit')]
+    public function getLayanan($id)
+    {
+        $layanan = Layanan::findOrFail($id);
+        $this->layanan_id = $layanan->id;
+        $this->nama = $layanan->nama;
+        $this->keterangan = $layanan->keterangan;
+    }
+
+    public function editLayanan()
+    {
+        $this->validate();
+
+        $layanan = Layanan::findOrFail($this->layanan_id);
+        $layanan->update([
+            'nama' => $this->nama,
+            'keterangan' => $this->keterangan,
+        ]);
+
+        session()->flash('success', 'Layanan berhasil diperbarui.');
+
+        return redirect()->route('layanan.index');
+    }
+
 }

@@ -1,47 +1,43 @@
 <div>
-    <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4">
-            <span class="text-muted fw-light">Layanan /</span> Edit Layanan
-        </h4>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card mb-4">
-                    <h5 class="card-header">Edit Layanan</h5>
-                    <div class="card-body">
-                        <form wire:submit.prevent="update">
-                            <div class="mb-3">
-                                <label for="nama_layanan" class="form-label">Nama Layanan</label>
-                                <input type="text" 
-                                    class="form-control @error('nama_layanan') is-invalid @enderror" 
-                                    id="nama_layanan" 
-                                    wire:model="nama_layanan" 
-                                    placeholder="Masukkan nama layanan">
-                                @error('nama_layanan')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="deskripsi" class="form-label">Deskripsi</label>
-                                <textarea 
-                                    class="form-control @error('deskripsi') is-invalid @enderror" 
-                                    id="deskripsi" 
-                                    wire:model="deskripsi" 
-                                    rows="4" 
-                                    placeholder="Masukkan deskripsi layanan"></textarea>
-                                @error('deskripsi')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="mt-4">
-                                <button type="submit" class="btn btn-primary me-2">Simpan Perubahan</button>
-                                <a href="{{ route('admin.layanan.index') }}" class="btn btn-outline-secondary">Batal</a>
-                            </div>
-                        </form>
-                    </div>
+    <div wire:ignore.self class="modal fade" id="editLayananModal" data-bs-backdrop="static" tabindex="-1"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">Edit Layanan
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
+                <form wire:submit="editLayanan">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="nama" class="form-label">Nama Layanan</label>
+                                <input type="text" wire:model="nama" name="nama" class="form-control"
+                                    placeholder="Masukkan Nama Layanan" />
+                                @error('nama')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="keterangan" class="form-label">Keterangan</label>
+                                <input type="text" wire:model="keterangan" name="keterangan" class="form-control"
+                                    placeholder="Masukkan keterangan Jika ada" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Edit
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
