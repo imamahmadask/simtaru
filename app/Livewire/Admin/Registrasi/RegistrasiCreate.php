@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Registrasi;
 
 use App\Models\Layanan;
 use App\Models\Registrasi;
+use App\Models\RiwayatPermohonan;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -27,13 +28,20 @@ class RegistrasiCreate extends Component
         $this->validate();
 
         Registrasi::create([
-           'kode' => 'REG-' . str_pad((Registrasi::count() + 1), 5, '0', STR_PAD_LEFT),
+           'kode' => 'REG-' . str_pad((Registrasi::count() + 1), 4, '0', STR_PAD_LEFT),
            'nama' => $this->nama,
            'nik' => $this->nik,
            'no_hp' => $this->no_hp,
            'tanggal' => $this->tanggal,
            'layanan_id' => $this->layanan_id,
            'created_by' => Auth::user()->id
+        ]);
+        $registrasi = Registrasi::latest()->first();
+
+        RiwayatPermohonan::create([
+            'registrasi_id' => $registrasi->id,
+            'user_id' => Auth::user()->id,
+            'keterangan' => 'Entry Registrasi'
         ]);
 
         session()->flash('success', 'Registrasi berhasil ditambahkan!');

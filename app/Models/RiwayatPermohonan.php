@@ -9,17 +9,14 @@ class RiwayatPermohonan extends Model
     protected $table = 'riwayat_permohonans';
 
     protected $fillable = [
-        'permohonan_id',
+        'registrasi_id',
         'user_id',
-        'status',
         'keterangan',
-        'file',
-        'permohonan_id'
     ];
 
-    public function permohonan()
+    public function registrasi()
     {
-        return $this->belongsTo(Permohonan::class);
+        return $this->belongsTo(Registrasi::class);
     }
 
     public function user()

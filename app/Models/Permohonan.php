@@ -30,9 +30,4 @@ class Permohonan extends Model
     {
         return $this->belongsTo(Registrasi::class);
     }
-
-    public function riwayatpermohonan()
-    {
-        return $this->hasMany(RiwayatPermohonan::class);
-    }
 }

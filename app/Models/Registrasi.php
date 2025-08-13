@@ -27,4 +27,9 @@ class Registrasi extends Model
     {
         return $this->hasOne(Permohonan::class);
     }
+
+    public function riwayat()
+    {
+        return $this->hasMany(RiwayatPermohonan::class);
+    }
 }

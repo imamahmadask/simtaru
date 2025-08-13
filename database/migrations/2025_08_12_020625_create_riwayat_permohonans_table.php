@@ -13,12 +13,10 @@ return new class extends Migration
     {
         Schema::create('riwayat_permohonans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('permohonan_id');
+            $table->unsignedBigInteger('registrasi_id');
             $table->integer('user_id');
-            $table->string('status');
             $table->string('keterangan')->nullable();
-            $table->string('file')->nullable();
-            $table->foreign('permohonan_id')->references('id')->on('permohonan')->onDelete('cascade');
+            $table->foreign('registrasi_id')->references('id')->on('registrasi')->onDelete('cascade');
             $table->timestamps();
         });
     }

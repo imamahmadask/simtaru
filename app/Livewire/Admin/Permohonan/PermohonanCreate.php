@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Permohonan;
 use App\Models\Layanan;
 use App\Models\Permohonan;
 use App\Models\Registrasi;
+use App\Models\RiwayatPermohonan;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
@@ -28,7 +29,7 @@ class PermohonanCreate extends Component
     {
         $this->validate();
 
-        $this->status = 'Pending';
+        $this->status = 'pending';
 
         Permohonan::create([
             'registrasi_id' => $this->registrasi_id,
@@ -41,6 +42,14 @@ class PermohonanCreate extends Component
             'keterangan' => $this->keterangan,
             'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id
+        ]);
+
+        $permohonan = Permohonan::latest()->first();
+
+        RiwayatPermohonan::create([
+            'registrasi_id' => $permohonan->registrasi_id,
+            'user_id' => Auth::user()->id,
+            'keterangan' => 'Entry Permohonan'
         ]);
 
         session()->flash('success', 'Permohonan berhasil ditambahkan!');
