@@ -11,7 +11,7 @@ class PermohonanIndex extends Component
 {
     public function render()
     {
-        $permohonans = Permohonan::with('layanan.registrasi')->get();
+        $permohonans = Permohonan::with('layanan.registrasi')->orderBy('created_at', 'desc')->get();
 
         return view('livewire.admin.permohonan.permohonan-index', [
             'permohonans' => $permohonans

@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Registrasi;
 
 use App\Models\Registrasi;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
@@ -11,7 +12,7 @@ class RegistrasiIndex extends Component
 {
     public function render()
     {
-        $registrasis = Registrasi::with('layanan')->orderBy('tanggal', 'desc')->get();
+        $registrasis = Registrasi::with('layanan')->orderBy('created_at', 'desc')->get();
 
         return view('livewire.admin.registrasi.registrasi-index', [
             'registrasis' => $registrasis
@@ -20,6 +21,10 @@ class RegistrasiIndex extends Component
 
     public function deleteRegistrasi(Registrasi $registrasi)
     {
+        if (Auth::user()->role != 'superadmin') {
+            abort(403);
+        }
+
         $registrasi->permohonan()->delete();
         $registrasi->delete();
 

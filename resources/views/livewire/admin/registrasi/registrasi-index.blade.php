@@ -36,6 +36,7 @@
                             <th>NIK</th>
                             <th>Jenis Layanan</th>
                             <th>Tanggal</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -68,6 +69,11 @@
                                         {{ date('d-m-Y', strtotime($data->tanggal)) }}
                                     </td>
                                     <td>
+                                        <span class="badge bg-label-{{ $data->permohonan ? 'success' : 'danger' }}">
+                                            {{ $data->permohonan ? 'Sudah Entry' : 'Belum Entry' }}
+                                        </span>
+                                    </td>
+                                    <td>
                                         <div class="me-3">
                                             <!-- Button trigger modal -->
                                             <button
@@ -76,11 +82,13 @@
                                                 data-bs-target="#editRegistrasiModal">
                                                 Edit
                                             </button>
-                                            <button type="button" class="btn btn-primary btn-sm"
-                                                wire:click="deleteRegistrasi({{ $data->id }})"
-                                                wire:confirm="Are you sure you want to delete this Registrasi?">
-                                                Hapus
-                                            </button>
+                                            @if (Auth::user()->role == 'superadmin')
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    wire:click="deleteRegistrasi({{ $data->id }})"
+                                                    wire:confirm="Are you sure you want to delete this Registrasi?">
+                                                    Hapus
+                                                </button>
+                                            @endif
                                         </div>
                                         <!-- Modal -->
                                         @teleport('body')

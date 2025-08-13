@@ -23,4 +23,18 @@ class RiwayatPermohonan extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function (self $model) {
+            $model->order = static::max('order') + 1;
+        });
+    }
+
+    public function scopeLatest($query)
+    {
+        return $query->orderByDesc('created_at');
+    }
 }
