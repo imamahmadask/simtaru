@@ -18,5 +18,13 @@ class RegistrasiIndex extends Component
         ]);
     }
 
+    public function deleteRegistrasi(Registrasi $registrasi)
+    {
+        $registrasi->permohonan()->delete();
+        $registrasi->delete();
 
+        session()->flash('message', 'Registrasi berhasil dihapus');
+
+        return redirect()->route('registrasi.index');
+    }
 }

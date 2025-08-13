@@ -76,8 +76,9 @@
                                                 data-bs-target="#editRegistrasiModal">
                                                 Edit
                                             </button>
-                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#basicModal">
+                                            <button type="button" class="btn btn-primary btn-sm"
+                                                wire:click="deleteRegistrasi({{ $data->id }})"
+                                                wire:confirm="Are you sure you want to delete this Registrasi?">
                                                 Hapus
                                             </button>
                                         </div>
