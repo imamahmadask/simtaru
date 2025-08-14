@@ -24,14 +24,14 @@ class RiwayatPermohonan extends Model
         return $this->belongsTo(User::class);
     }
 
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function boot()
+    // {
+    //     parent::boot();
 
-        static::creating(function (self $model) {
-            $model->order = static::max('order') + 1;
-        });
-    }
+    //     static::creating(function (self $model) {
+    //         $model->order = static::max('created_at') + 1;
+    //     });
+    // }
 
     public function scopeLatest($query)
     {
