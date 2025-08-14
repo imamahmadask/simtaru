@@ -1,0 +1,108 @@
+/* Custom CSS for Bootstrap Landing Page */
+
+/* Hero Section Background */
+.hero-section {
+    /* Updated gradient from amber to blue theme */
+    background: linear-gradient(to bottom, #dbeafe, #ffffff);
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+}
+
+/* Custom Hover Effects */
+.hover-warning:hover {
+    /* Changed hover color from amber to blue */
+    color: #1098ce !important;
+    transition: color 0.3s ease;
+}
+
+.hover-white:hover {
+    color: #ffffff !important;
+    transition: color 0.3s ease;
+}
+
+/* Avatar Styles */
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid white;
+    margin-left: -8px;
+}
+
+.avatar:first-child {
+    margin-left: 0;
+}
+
+/* Feature Icon Styles */
+.feature-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+/* Card Hover Effects */
+.feature-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+
+/* Button Hover Effects */
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn-warning:hover {
+    /* Updated button hover colors to blue theme */
+    background-color: #1d4ed8;
+    border-color: #1d4ed8;
+}
+
+.btn-outline-warning:hover {
+    /* Updated outline button hover to blue */
+    background-color: #2563eb;
+    border-color: #2563eb;
+    color: white;
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+    .display-2 {
+        font-size: 2.5rem;
+    }
+
+    .display-4 {
+        font-size: 2rem;
+    }
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom Badge Styling */
+.badge {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+}
+
+/* Footer Link Spacing */
+footer ul li {
+    margin-bottom: 0.5rem;
+}
+
+/* Navbar Brand Hover */
+.navbar-brand:hover {
+    /* Updated navbar brand hover to blue */
+    color: #092b88 !important;
+    transition: color 0.3s ease;
+}
