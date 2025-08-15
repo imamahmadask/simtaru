@@ -27,8 +27,8 @@
     </style>
 
     <div class="card mb-4">
-        <div class="card-header d-flex align-items-center justify-content-between">
-            <h5 class="mb-0">Riwayat</h5>
+        <div class="card-header d-flex align-items-center justify-content-between bg-secondary">
+            <h5 class="mb-0 text-white">Riwayat Permohonan</h5>
         </div>
         <div class="card-body">
             <!-- Section: Timeline -->
