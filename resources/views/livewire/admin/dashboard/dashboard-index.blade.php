@@ -40,11 +40,7 @@
                                         <span class="badge bg-label-warning rounded-pill">Year 2025</span>
                                     </div>
                                     <div class="mt-sm-auto">
-                                        <small class="text-success text-nowrap fw-semibold">
-                                            <i class="bx bx-chevron-up"></i>
-                                            68.2%
-                                        </small>
-                                        <h3 class="mb-0">120 Berkas</h3>
+                                        <h3 class="mb-0">{{ $this->rekap['count_permohonan'] }} Berkas</h3>
                                     </div>
                                 </div>
                                 <div id="profileReportChart"></div>
@@ -78,7 +74,7 @@
                                         </div>
                                     </div>
                                     <span>Registrasi</span>
-                                    <h3 class="card-title text-nowrap">3</h3>
+                                    <h3 class="card-title text-nowrap">{{ $this->rekap['count_registrasi'] }}</h3>
                                     <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i>
                                         +72.80%
                                     </small>
@@ -105,7 +101,7 @@
                                         </div>
                                     </div>
                                     <span>Permohonan</span>
-                                    <h3 class="card-title text-nowrap">2</h3>
+                                    <h3 class="card-title text-nowrap">{{ $this->rekap['count_permohonan'] }}</h3>
                                     <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i>
                                         +28.42%
                                     </small>
@@ -131,8 +127,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <span class="d-block">Success</span>
-                                    <h3 class="card-title text-nowrap">0</h3>
+                                    <span class="d-block">Layanan</span>
+                                    <h3 class="card-title text-nowrap">{{ $this->rekap['count_layanan'] }}</h3>
                                     <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i>
                                         -14.82%</small>
                                 </div>
@@ -157,8 +153,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <span>Process</span>
-                                    <h3 class="card-title text-nowrap">2</h3>
+                                    <span>Pending</span>
+                                    <h3 class="card-title text-nowrap">{{ $this->rekap['count_pending'] }}</h3>
                                     <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i>
                                         +28.14%</small>
                                 </div>
