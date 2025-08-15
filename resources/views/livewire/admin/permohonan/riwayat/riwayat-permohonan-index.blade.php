@@ -36,8 +36,9 @@
                 <ul class="timeline">
                     @foreach ($permohonan->registrasi->riwayat as $riwayat)
                         <li class="timeline-item mb-3">
-                            <p class="text-muted mb-1 fw-bold">{{ date('j F Y h:i:s', strtotime($riwayat->created_at)) }}
-                            </p>
+                            <small class="text-muted">
+                                {{ date('j F Y h:i:s', strtotime($riwayat->created_at)) }}
+                            </small>
                             <h5 class="fw-bold mb-1">{{ $riwayat->keterangan }}</h5>
                             <p class="text-muted">
                                 Oleh : {{ $riwayat->user->name }}
