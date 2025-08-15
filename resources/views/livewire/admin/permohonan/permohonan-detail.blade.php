@@ -12,10 +12,39 @@
         <div class="row">
             <div class="col-xxl">
                 <div class="card mb-4">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                        <h5 class="mb-0">Data Permohonan</h5>
+                    {{-- Data Pemohon --}}
+                    <div class="card-header d-flex align-items-center justify-content-between bg-secondary">
+                        <h5 class="mb-0 text-white">Data Pemohon</h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body mt-3">
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="nama">Nama</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="nama"
+                                    value="{{ $permohonan->registrasi->nama }}" readonly />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="nik">NIK</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="nik"
+                                    value="{{ Str::mask($permohonan->registrasi->nik, '*', 5, -1) }}" readonly />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="no_hp">No HP</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="no_hp"
+                                    value="{{ $permohonan->registrasi->no_hp }}" readonly />
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Data Permohonan --}}
+                    <div class="card-header d-flex align-items-center justify-content-between bg-secondary">
+                        <h5 class="mb-0 text-white">Data Permohonan</h5>
+                    </div>
+                    <div class="card-body mt-3">
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label" for="kode">Kode Registrasi</label>
                             <div class="col-sm-10">
@@ -24,18 +53,18 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label" for="tanggal">Tanggal
-                                Registrasi</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="tanggal"
-                                    value="{{ $permohonan->registrasi->tanggal }}" readonly />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
                             <label class="col-sm-2 col-form-label" for="layanan">Nama Layanan</label>
                             <div class="col-sm-10">
                                 <input type="text" id="layanan" class="form-control"
                                     value="{{ $permohonan->layanan->nama }}" readonly />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="tanggal">Tanggal
+                                Registrasi</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="tanggal"
+                                    value="{{ date('d-m-Y', strtotime($permohonan->created_at)) }}" readonly />
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -83,36 +112,11 @@
                 </div>
             </div>
             <div class="col-xxl">
-                <div class="card mb-4">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                        <h5 class="mb-0">Data Pemohon</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label" for="nama">Nama</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="nama"
-                                    value="{{ $permohonan->registrasi->nama }}" readonly />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label" for="nik">NIK</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="nik"
-                                    value="{{ $permohonan->registrasi->nik }}" readonly />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label" for="no_hp">No HP</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="no_hp"
-                                    value="{{ $permohonan->registrasi->no_hp }}" readonly />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                {{-- Riwayat Permohonan --}}
                 @livewire('admin.permohonan.riwayat.riwayat-permohonan-index', ['permohonan' => $permohonan])
+
+                {{-- Upload Berkas --}}
+                @livewire('admin.permohonan.berkas.upload-berkas', ['permohonan' => $permohonan])
             </div>
         </div>
     </div>
