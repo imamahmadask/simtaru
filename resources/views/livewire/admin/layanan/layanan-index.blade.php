@@ -20,7 +20,7 @@
             <h5 class="card-header">List Data Layanan</h5>
             <div class="col-4">
                 <button type="button" class="ms-4 mb-3 btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#AddLayananModal">
+                    data-bs-target="#addLayananModal">
                     Create Layanan
                 </button>
             </div>
