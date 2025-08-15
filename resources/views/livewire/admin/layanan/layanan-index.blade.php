@@ -58,10 +58,10 @@
                                                 data-bs-target="#editLayananModal">
                                                 Edit
                                             </button>
-                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#basicModal">
+                                            <a href="{{ route('layanan.detail', ['id' => $data->id]) }}" type="button"
+                                                class="btn btn-primary btn-sm">
                                                 Detail
-                                            </button>
+                                            </a>
                                         </div>
                                         <!-- Modal -->
                                         @teleport('body')

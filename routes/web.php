@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Admin\Dashboard\DashboardIndex;
+use App\Livewire\Admin\Layanan\LayananDetail;
 use App\Livewire\Admin\Layanan\LayananIndex;
 use App\Livewire\Admin\Permohonan\PermohonanCreate;
 use App\Livewire\Admin\Permohonan\PermohonanDetail;
@@ -24,6 +25,7 @@ Route::middleware(['cekRole:superadmin,admin,user'])->group(function () {
     Route::get('admin/permohonan/{id}', PermohonanDetail::class)->name('permohonan.detail'); // layanan
 
     Route::get('admin/layanan', LayananIndex::class)->name('layanan.index'); // layanan
+    Route::get('admin/layanan/{id}', LayananDetail::class)->name('layanan.detail'); // layanan
 
 });
 
