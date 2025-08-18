@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class PersyaratanBerkasCreate extends Component
 {
-    public $layanan_id;
+    public $tahapan_id, $layanan_id;
 
     #[Validate(['required'])]
     public $nama_berkas, $deskripsi, $urutan, $wajib;
@@ -18,8 +18,9 @@ class PersyaratanBerkasCreate extends Component
         return view('livewire.admin.layanan.persyaratan.persyaratan-berkas-create');
     }
 
-    public function mount($layanan_id)
+    public function mount($tahapan_id, $layanan_id)
     {
+        $this->tahapan_id = $tahapan_id;
         $this->layanan_id = $layanan_id;
     }
 
@@ -28,7 +29,7 @@ class PersyaratanBerkasCreate extends Component
         $this->validate();
 
         PersyaratanBerkas::create([
-            'layanan_id' => $this->layanan_id,
+            'tahapan_id' => $this->tahapan_id,
             'nama_berkas' => $this->nama_berkas,
             'deskripsi' => $this->deskripsi,
             'urutan' => $this->urutan,

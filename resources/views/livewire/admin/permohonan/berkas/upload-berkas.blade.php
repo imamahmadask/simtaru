@@ -22,8 +22,8 @@
                     </form>
                 @elseif ($berkas == null)
                     <p class="text-danger">Belum ada berkas yang diupload.</p>
-                    Syarat Berkas yang harus diupload:
-                    @foreach ($permohonan->layanan->persyaratan as $persyaratan)
+                    Syarat Berkas yang harus diupload :
+                    @foreach ($permohonan->layanan->persyaratanBerkas as $persyaratan)
                         <ul>
                             <li>
                                 {{ $persyaratan->nama_berkas }}

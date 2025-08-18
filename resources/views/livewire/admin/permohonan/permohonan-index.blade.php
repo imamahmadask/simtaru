@@ -18,8 +18,7 @@
                             <th>Kode Registrasi</th>
                             <th>Nama Pemohon</th>
                             <th>Tgl Permohonan</th>
-                            <th>Jenis Layanan</th>
-                            <th>Jenis Bangunan</th>
+                            <th>Layanan</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -46,9 +45,6 @@
                                 </td>
                                 <td>
                                     {{ $data->layanan->nama }}
-                                </td>
-                                <td>
-                                    {{ $data->jenis_bangunan }}
                                 </td>
                                 <td>
                                     <span

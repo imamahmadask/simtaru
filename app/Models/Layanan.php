@@ -20,9 +20,14 @@ class Layanan extends Model
         return $this->hasMany(Permohonan::class);
     }
 
-    public function persyaratan()
+    public function tahapan()
     {
-        return $this->hasMany(PersyaratanBerkas::class);
+        return $this->hasMany(Tahapan::class);
+    }
+
+    public function persyaratanBerkas()
+    {
+        return $this->hasManyThrough(PersyaratanBerkas::class, Tahapan::class);
     }
 
 }

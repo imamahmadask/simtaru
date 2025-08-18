@@ -9,14 +9,14 @@ class PersyaratanBerkas extends Model
     protected $table = 'persyaratan_berkas';
 
     protected $fillable = [
-        'layanan_id',
         'nama_berkas',
         'deskripsi',
         'urutan',
         'wajib',
+        'tahapan_id',
     ];
 
-    public function layanan()
+    public function tahapan()
     {
         return $this->belongsTo(Layanan::class);
     }
