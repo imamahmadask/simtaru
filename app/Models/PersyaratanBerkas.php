@@ -20,4 +20,9 @@ class PersyaratanBerkas extends Model
     {
         return $this->belongsTo(Layanan::class);
     }
+
+    public function permohonan_berkas()
+    {
+        return $this->hasOne(PermohonanBerkas::class);
+    }
 }

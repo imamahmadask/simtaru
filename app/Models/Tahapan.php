@@ -23,4 +23,9 @@ class Tahapan extends Model
     {
         return $this->hasMany(PersyaratanBerkas::class);
     }
+
+    public function disposisi()
+    {
+        return $this->hasMany(Disposisi::class);
+    }
 }

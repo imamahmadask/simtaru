@@ -6,29 +6,20 @@
         <div class="card-body">
             <!-- Section: Timeline -->
             <section class="py-2">
-                @if ($berkas)
-                    <h4>Upload Berkas: {{ $berkas->persyaratan->nama_berkas }}</h4>
-                    @if ($berkas->persyaratan->deskripsi)
-                        <p>{{ $berkas->persyaratan->deskripsi }}</p>
-                    @endif
+                @if ($berkas == null)
+                    @foreach ($permohonan->layanan->persyaratanBerkas as $data)
+                        <h4>
+                            {{ $data->nama_berkas }}
+                        </h4>
+                        <form wire:submit.prevent="uploadBerkas">
+                            <input type="file" wire:model="file" name="file">
+                            @error('file')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
 
-                    <form wire:submit.prevent="upload">
-                        <input type="file" wire:model="file">
-                        @error('file')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-
-                        <button type="submit" class="btn btn-primary mt-2">Upload</button>
-                    </form>
-                @elseif ($berkas == null)
-                    <p class="text-danger">Belum ada berkas yang diupload.</p>
-                    Syarat Berkas yang harus diupload :
-                    @foreach ($permohonan->layanan->persyaratanBerkas as $persyaratan)
-                        <ul>
-                            <li>
-                                {{ $persyaratan->nama_berkas }}
-                            </li>
-                        </ul>
+                            <button type="submit" class="btn btn-primary mt-2">Upload</button>
+                        </form>
+                        <hr>
                     @endforeach
                 @else
                     <p>✅ Semua berkas sudah diupload.</p>

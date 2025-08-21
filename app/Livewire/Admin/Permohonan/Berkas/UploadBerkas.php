@@ -2,9 +2,12 @@
 
 namespace App\Livewire\Admin\Permohonan\Berkas;
 
+use App\Models\Layanan;
 use App\Models\Permohonan;
 use App\Models\PermohonanBerkas;
+use App\Models\PersyaratanBerkas;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -14,11 +17,10 @@ class UploadBerkas extends Component
 
     public $permohonan;
     public $berkasId;
-    public $file;
+    public $layanan;
 
-    protected $rules = [
-        'file' => 'required|file|max:2048', // max 2MB
-    ];
+    #[Validate('required')]
+    public $file;
 
     public function mount(Permohonan $permohonan)
     {
@@ -36,7 +38,7 @@ class UploadBerkas extends Component
         $this->berkasId = $next ? $next->id : null;
     }
 
-    public function upload()
+    public function uploadBerkas()
     {
         $this->validate();
 

@@ -36,7 +36,9 @@
                                 <select class="form-select" wire:model="role" name="role" aria-label="Select Role">
                                     <option selected>Pilih Role</option>
                                     <option value="superadmin">Super Admin</option>
-                                    <option value="admin">Admin</option>
+                                    <option value="supervisor">Supervisor</option>
+                                    <option value="surveyor">Surveyor</option>
+                                    <option value="Analis">Analis</option>
                                     <option value="user">User</option>
                                 </select>
                                 @error('role')

@@ -62,7 +62,9 @@
                                             class="btn btn-primary btn-sm">
                                             Detail
                                         </a>
+
                                     </div>
+
                                 </td>
                             </tr>
                         @endforeach

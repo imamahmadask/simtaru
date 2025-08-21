@@ -14,29 +14,23 @@
         @endif
 
 
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Registrasi /</span> Daftar Registrasi</h4>
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Disposisi /</span> Daftar Disposisi</h4>
 
         <!-- Basic Bootstrap Table -->
         <div class="card">
-            <h5 class="card-header">List Data Registrasi</h5>
-            <div class="col-4">
-                <button type="button" class="ms-4 mb-3 btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#AddRegistrasiModal">
-                    Create Registrasi
-                </button>
-            </div>
+            <h5 class="card-header">List Data Disposisi</h5>
             <div class="table-responsive text-nowrap">
                 <table class="table">
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Kode Registrasi</th>
-                            <th>Nama</th>
-                            <th>No Hp</th>
-                            <th>NIK</th>
-                            <th>Jenis Layanan</th>
+                            <th>Kode</th>
+                            <th>Pemohon</th>
+                            <th>Layanan</th>
+                            <th>Tahapan</th>
+                            <th>Pemberi</th>
+                            <th>Penerima</th>
                             <th>Tanggal</th>
-                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -44,56 +38,52 @@
                         @php
                             $no = 1;
                         @endphp
-                        @foreach ($registrasis as $data)
+                        @foreach ($disposisis as $data)
                             <div wire:key="{{ $data->id }}">
                                 <tr>
                                     <td>
                                         {{ $no++ }}
                                     </td>
                                     <td>
-                                        {{ $data->kode }}
+                                        {{ $data->permohonan->registrasi->kode }}
                                     </td>
                                     <td>
-                                        {{ $data->nama }}
+                                        {{ $data->permohonan->registrasi->nama }}
                                     </td>
                                     <td>
-                                        {{ $data->no_hp }}
+                                        {{ $data->permohonan->layanan->nama }}
                                     </td>
                                     <td>
-                                        {{ Str::mask($data->nik, '*', 5, -1) }}
+                                        {{ $data->tahapan->nama }}
                                     </td>
                                     <td>
-                                        {{ $data->layanan->nama }}
+                                        {{ Auth::user()->where('id', $data->pemberi_id)->first()->name ?? '-' }}
                                     </td>
                                     <td>
-                                        {{ date('d-m-Y', strtotime($data->tanggal)) }}
+                                        {{ Auth::user()->where('id', $data->penerima_id)->first()->name ?? '-' }}
                                     </td>
                                     <td>
-                                        <span class="badge bg-label-{{ $data->permohonan ? 'success' : 'danger' }}">
-                                            {{ $data->permohonan ? 'Sudah Entry' : 'Belum Entry' }}
-                                        </span>
+                                        {{ date('d-m-Y', strtotime($data->tanggal_disposisi)) }} <br>
+                                        <small class="text-muted fw-small">
+                                            <em>
+                                                {{ date('H:i:s', strtotime($data->tanggal_disposisi)) }}
+                                            </em>
+                                        </small>
                                     </td>
                                     <td>
                                         <div class="me-3">
                                             <!-- Button trigger modal -->
                                             <button
-                                                wire:click="$dispatch('registrasi-edit', { id: {{ $data->id }} })"
+                                                wire:click="$dispatch('disposisi-edit', { id: {{ $data->id }} })"
                                                 type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#editRegistrasiModal">
+                                                data-bs-target="#editDisposisiModal">
                                                 Edit
                                             </button>
-                                            @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor')
-                                                <button type="button" class="btn btn-primary btn-sm"
-                                                    wire:click="deleteRegistrasi({{ $data->id }})"
-                                                    wire:confirm="Are you sure you want to delete this Registrasi?">
-                                                    Hapus
-                                                </button>
-                                            @endif
                                         </div>
                                         <!-- Modal -->
                                         @teleport('body')
                                             <!-- Edit  Regustrasi Modal -->
-                                            @livewire('admin.registrasi.registrasi-edit')
+                                            @livewire('admin.permohonan.disposisi.disposisi-edit')
                                         @endteleport
                                     </td>
                                 </tr>

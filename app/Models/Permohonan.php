@@ -35,4 +35,9 @@ class Permohonan extends Model
     {
         return $this->hasMany(PermohonanBerkas::class);
     }
+
+    public function disposisi()
+    {
+        return $this->hasMany(Disposisi::class);
+    }
 }

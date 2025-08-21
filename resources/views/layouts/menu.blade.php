@@ -78,19 +78,22 @@
             </a>
         </li>
 
-        {{-- <li class="menu-item {!! request()->routeIs('permohonan.*') ? 'active' : '' !!}">
-            <a href="{{ route('permohonan.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-file"></i>
-                <div data-i18n="Analytics">Disposisi</div>
-            </a>
-        </li> --}}
+        @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor')
+            <li class="menu-item {!! request()->routeIs('disposisi.*') ? 'active' : '' !!}">
+                <a href="{{ route('disposisi.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-file"></i>
+                    <div data-i18n="Analytics">Disposisi</div>
+                </a>
+            </li>
 
-        <li class="menu-item {!! request()->routeIs('layanan.*') ? 'active' : '' !!}">
-            <a href="{{ route('layanan.index') }}" class="menu-link">
-                <i class='menu-icon tf-icons bx bx-folder-open'></i>
-                <div data-i18n="Analytics">Layanan</div>
-            </a>
-        </li>
+            <li class="menu-item {!! request()->routeIs('layanan.*') ? 'active' : '' !!}">
+                <a href="{{ route('layanan.index') }}" class="menu-link">
+                    <i class='menu-icon tf-icons bx bx-folder-open'></i>
+                    <div data-i18n="Analytics">Layanan</div>
+                </a>
+            </li>
+        @endif
+
 
         @if (Auth::user()->role == 'superadmin')
             <li class="menu-item {!! request()->routeIs('users.*') ? 'active' : '' !!}">
@@ -100,6 +103,5 @@
                 </a>
             </li>
         @endif
-
     </ul>
 </aside>

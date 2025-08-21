@@ -8,7 +8,17 @@
     </style>
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Permohonan /</span> Detail Permohonan</h4>
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="fw-bold py-3 mb-4">
+                <span class="text-muted fw-light">Permohonan /</span> Detail Permohonan
+            </h4>
+            @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor')
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddDisposisiModal">
+                    <i class="bx bx-plus"></i> Disposisi
+                </button>
+            @endif
+        </div>
+
         <div class="row">
             <div class="col-xxl">
                 <div class="card mb-4">
@@ -119,5 +129,8 @@
                 @livewire('admin.permohonan.berkas.upload-berkas', ['permohonan' => $permohonan])
             </div>
         </div>
+        @teleport('body')
+            @livewire('admin.permohonan.disposisi.disposisi-create', ['permohonan_id' => $permohonan->id])
+        @endteleport
     </div>
 </div>

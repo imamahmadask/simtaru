@@ -67,7 +67,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <span class="badge bg-primary-subtle text-primary-emphasis mb-4">✨ New features available now</span>
-                    <h1 class="display-2 fw-bold text-dark mb-4">Unlock Your Potential Today</h1>
+                    <h1 class="display-2 fw-bold text-dark mb-4">SIMTARU HARUM</h1>
                     <p class="lead text-muted mb-5">
                         Join a community of innovators and transform your ideas into reality. Explore our resources and
                         connect with like-minded individuals.
