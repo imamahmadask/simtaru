@@ -30,7 +30,7 @@ class RiwayatPermohonan extends Model
         parent::boot();
 
         static::addGlobalScope('orderByCreatedAt', function ($builder) {
-            $builder->orderBy('created_at', 'desc');
+            $builder->orderBy('created_at', 'desc')->orderBy('id', 'desc');
         });
     }
 }
