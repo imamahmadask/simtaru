@@ -18,7 +18,7 @@ class PersyaratanBerkas extends Model
 
     public function tahapan()
     {
-        return $this->belongsTo(Layanan::class);
+        return $this->belongsTo(Tahapan::class);
     }
 
     public function permohonan_berkas()

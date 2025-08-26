@@ -13,7 +13,7 @@ class LayananCreate extends Component
     #[Validate('required')]
     public $nama = '';
 
-    public $deskripsi = '';
+    public $keterangan = '';
 
     public function addLayanan()
     {
@@ -21,7 +21,7 @@ class LayananCreate extends Component
 
         Layanan::create([
             'nama' => $this->nama,
-            'deskripsi' => $this->deskripsi,
+            'keterangan' => $this->keterangan,
         ]);
 
         session()->flash('message', 'Layanan berhasil ditambahkan.');

@@ -65,7 +65,18 @@
                                                 @foreach ($tahapan->persyaratanBerkas as $persyaratan)
                                                     <ul>
                                                         <li>
-                                                            {{ $persyaratan->nama_berkas }}
+                                                            {{ $persyaratan->nama_berkas }} -
+                                                            {{ $persyaratan->wajib == 1 ? 'Wajib' : 'Tidak Wajib' }}
+                                                            <button type="button"
+                                                                wire:click="$dispatch('persyaratan-berkas-edit', { id: {{ $persyaratan->id }} })"
+                                                                class="btn btn-primary btn-xs" data-bs-toggle="modal"
+                                                                data-bs-target="#editPersyaratanBerkasModal">
+                                                                <i class="bx bx-edit"></i>
+                                                            </button>
+                                                            @teleport('body')
+                                                                <!-- Edit  Persyaratan Berkas Modal -->
+                                                                @livewire('admin.layanan.persyaratan.persyaratan-berkas-edit')
+                                                            @endteleport
                                                         </li>
                                                     </ul>
                                                 @endforeach
@@ -78,9 +89,10 @@
                                                 Edit
                                             </button>
                                             @teleport('body')
-                                                <!-- Edit  Regustrasi Modal -->
+                                                <!-- Edit  Tahapan Modal -->
                                                 @livewire('admin.layanan.tahapan.tahapan-edit')
                                             @endteleport
+
                                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
                                                 data-bs-target="#addPersyaratanModal">
                                                 Add Persyaratan

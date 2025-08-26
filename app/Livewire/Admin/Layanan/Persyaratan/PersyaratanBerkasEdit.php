@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class PersyaratanBerkasEdit extends Component
 {
-    public $berkas, $layanan_id;
+    public $berkas, $tahapan_id, $layanan_id;
 
     #[Validate(['required'])]
     public $nama_berkas, $deskripsi, $urutan, $wajib;
@@ -22,11 +22,14 @@ class PersyaratanBerkasEdit extends Component
     public function getPersyaratanBerkas($id)
     {
         $this->berkas = PersyaratanBerkas::find($id);
-        $this->layanan_id = $this->berkas->layanan_id;
+        $this->tahapan_id = $this->berkas->tahapan_id;
         $this->nama_berkas = $this->berkas->nama_berkas;
         $this->deskripsi = $this->berkas->deskripsi;
         $this->urutan = $this->berkas->urutan;
         $this->wajib = $this->berkas->wajib;
+
+
+        $this->layanan_id = $this->berkas->tahapan->layanan_id;
     }
 
     public function editPersyaratanBerkas()
@@ -34,7 +37,7 @@ class PersyaratanBerkasEdit extends Component
         $this->validate();
 
         $this->berkas->update([
-            'layanan_id' => $this->layanan_id,
+            'tahapan_id' => $this->tahapan_id,
             'nama_berkas' => $this->nama_berkas,
             'deskripsi' => $this->deskripsi,
             'urutan' => $this->urutan,
