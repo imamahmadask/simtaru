@@ -19,7 +19,13 @@ class Permohonan extends Model
         'keterangan',
         'created_by',
         'updated_by',
-        'berkas_pemohon'
+        'alamat_pemohon',
+        'email',
+        'npwp',
+        'luas_tanah',
+        'tgl_selesai',
+        'berkas_nib',
+        'berkas_penguasaan',
     ];
 
     public function layanan()
@@ -40,5 +46,9 @@ class Permohonan extends Model
     public function disposisi()
     {
         return $this->hasMany(Disposisi::class);
+    }
+
+    public function skrk() {
+        return $this->hasOne(Skrk::class);
     }
 }

@@ -30,4 +30,9 @@ class Layanan extends Model
         return $this->hasManyThrough(PersyaratanBerkas::class, Tahapan::class);
     }
 
+    public function skrk()
+    {
+        return $this->hasMany(Skrk::class);
+    }
+
 }
