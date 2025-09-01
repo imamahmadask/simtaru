@@ -13,16 +13,20 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\WithFileUploads;
+
 #[Title('Tambah Permohonan')]
 class PermohonanCreate extends Component
 {
+    use WithFileUploads;
+
     public $layanans, $registrasis, $users;
     public $tahapans = [];
 
     #[Validate('required')]
     public $registrasi_id, $layanan_id, $nama, $alamat_tanah, $kel_tanah, $kec_tanah, $jenis_bangunan, $tahapan_id, $penerima_id;
 
-    public $keterangan, $status, $pemberi_id, $catatan;
+    public $keterangan, $status, $pemberi_id, $catatan, $berkas_pemohon;
 
     public function render()
     {
@@ -35,6 +39,20 @@ class PermohonanCreate extends Component
 
         $this->status = 'pending';
 
+        if($this->berkas_pemohon) {
+            $registrasi = Registrasi::find($this->registrasi_id);
+
+            $filename = $registrasi->kode . '.' . $this->berkas_pemohon->getClientOriginalExtension();
+
+            $path_berkas_pemohon = $this->berkas_pemohon->storeAs(
+                'berkas_pemohon',
+                $filename,
+                'public' // supaya bisa diakses via URL
+            );
+        }else{
+            $path_berkas_pemohon = null;
+        }
+
         Permohonan::create([
             'registrasi_id' => $this->registrasi_id,
             'layanan_id' => $this->layanan_id,
@@ -44,6 +62,7 @@ class PermohonanCreate extends Component
             'jenis_bangunan' => $this->jenis_bangunan,
             'status' => $this->status,
             'keterangan' => $this->keterangan,
+            'berkas_pemohon' => $path_berkas_pemohon,
             'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id
         ]);
@@ -66,7 +85,7 @@ class PermohonanCreate extends Component
             'catatan' => $this->catatan
         ]);
 
-         RiwayatPermohonan::create([
+        RiwayatPermohonan::create([
             'registrasi_id' => $permohonan->registrasi_id,
             'user_id' => Auth::user()->id,
             'keterangan' => 'Disposisi kepada ' . $this->users->where('id', $this->penerima_id)->first()->name.' pada tahapan Survey Berkas'

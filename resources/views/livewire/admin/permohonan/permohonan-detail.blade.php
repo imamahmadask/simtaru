@@ -113,10 +113,56 @@
                             </div>
                         </div>
                         <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="berkas_pemohon">Berkas Pemohon</label>
+                            <div class="col-sm-10">
+                                <a href="{{ asset('storage/' . $permohonan->berkas_pemohon) }}" target="_blank">
+                                    Lihat Berkas
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
                             <label class="col-sm-2 col-form-label" for="keterangan">Keterangan</label>
                             <div class="col-sm-10">
                                 <textarea id="keterangan" class="form-control" aria-describedby="basic-icon-default-message2" readonly>{{ $permohonan->keterangan }}</textarea>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    {{-- Data Pemohon --}}
+                    <div class="card-header d-flex align-items-center justify-content-between bg-secondary">
+                        <h5 class="mb-0 text-white">Download Template Berkas</h5>
+                    </div>
+                    <div class="card-body mt-3">
+                        <div class="row mb-3">
+                            <a href="{{ asset('storage/' . $satu_a) }}" target="_blank">
+                                1A. Form Isian Pemeriksaan Lapangan
+                            </a>
+                        </div>
+                        <div class="row mb-3">
+                            <a href="{{ asset('storage/' . $satu_b) }}" target="_blank">
+                                1B. BA Pemeriksaan Lapangan SKRK
+                            </a>
+                        </div>
+                        <div class="row mb-3">
+                            <a href="{{ asset('storage/' . $dua_a) }}" target="_blank">
+                                2A. BA Rapat FPR (Bila Ada) SKRK
+                            </a>
+                        </div>
+                        <div class="row mb-3">
+                            <a href="{{ asset('storage/' . $dua_b) }}" target="_blank">
+                                2B. Notulensi Rapat FPR SKRK (Bila Ada)
+                            </a>
+                        </div>
+                        <div class="row mb-3">
+                            <a href="{{ asset('storage/' . $tiga) }}" target="_blank">
+                                3. Kajian SKRK
+                            </a>
+                        </div>
+                        <div class="row mb-3">
+                            <a href="{{ asset('storage/' . $empat) }}" target="_blank">
+                                4. Dokumen SKRK
+                            </a>
                         </div>
                     </div>
                 </div>

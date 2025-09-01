@@ -22,6 +22,9 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                @error('registrasi_id')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
 
                             <div class="row">
@@ -30,6 +33,7 @@
                                         <label for="layanan_id" class="form-label">Jenis Layanan</label>
                                         <select class="form-select" wire:model="layanan_id" id="layanan_id"
                                             aria-label="Default select example" disabled>
+                                            <option value="" selected>Pilih Jenis Layanan</option>
                                             @foreach ($layanans as $data)
                                                 <option value="{{ $data->id }}">{{ $data->nama }}</option>
                                             @endforeach
@@ -50,6 +54,9 @@
                                 <label class="form-label" for="alamat_tanah">Alamat Tanah</label>
                                 <input type="text" class="form-control" wire:model="alamat_tanah" id="alamat_tanah"
                                     placeholder="Masukkan Alamat Tanah" />
+                                @error('alamat_tanah')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
 
                             <div class="row">
@@ -58,6 +65,9 @@
                                         <label class="form-label" for="kel_tanah">Kelurahan Tanah</label>
                                         <input type="text" class="form-control" wire:model="kel_tanah" id="kel_tanah"
                                             placeholder="Masukkan Kelurahan Tanah" />
+                                        @error('kel_tanah')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col">
@@ -65,6 +75,9 @@
                                         <label class="form-label" for="kec_tanah">Kecamatan Tanah</label>
                                         <input type="text" class="form-control" wire:model="kec_tanah" id="kec_tanah"
                                             placeholder="Masukkan Kecamatan Tanah" />
+                                        @error('kec_tanah')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -73,11 +86,20 @@
                                 <label class="form-label" for="jenis_bangunan">Jenis Bangunan</label>
                                 <input type="text" class="form-control" wire:model="jenis_bangunan"
                                     id="jenis_bangunan" placeholder="Masukkan Jenis Bangunan" />
+                                @error('jenis_bangunan')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
 
                             <div class="mb-3">
                                 <label for="keterangan" class="form-label">Keterangan</label>
                                 <textarea class="form-control" id="keterangan" rows="3"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="berkas_pemohon" class="form-label">Upload Berkas Pemohon</label>
+                                <input type="file" class="form-control" id="berkas_pemohon"
+                                    wire:model="berkas_pemohon">
                             </div>
 
                             <h5 class="mt-5">Disposisi</h5>

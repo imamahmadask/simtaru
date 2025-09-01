@@ -18,7 +18,8 @@ class Permohonan extends Model
         'status',
         'keterangan',
         'created_by',
-        'updated_by'
+        'updated_by',
+        'berkas_pemohon'
     ];
 
     public function layanan()

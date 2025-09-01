@@ -101,6 +101,20 @@
                             </div>
 
                             <div class="mb-3">
+                                <label for="berkas_pemohon" class="form-label">Upload Berkas Pemohon</label>
+                                <input type="file" class="form-control" id="berkas_pemohon"
+                                    wire:model="berkas_pemohon">
+
+                                @if ($berkas_pemohon_lama)
+                                    <a href="{{ asset('storage/' . $berkas_pemohon_lama) }}" target="_blank">
+                                        Lihat Berkas
+                                    </a>
+                                @else
+                                    Belum ada file
+                                @endif
+                            </div>
+
+                            <div class="mb-3">
                                 <label class="form-label" for="keterangan">Keterangan</label>
                                 <textarea class="form-control" id="keterangan" wire:model="keterangan" rows="3"></textarea>
                             </div>
