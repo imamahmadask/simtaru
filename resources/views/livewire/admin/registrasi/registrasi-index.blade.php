@@ -97,6 +97,7 @@
                                         @endteleport
                                     </td>
                                 </tr>
+                            </div>
                         @endforeach
                     </tbody>
                 </table>

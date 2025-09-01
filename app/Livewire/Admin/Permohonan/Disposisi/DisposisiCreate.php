@@ -29,6 +29,11 @@ class DisposisiCreate extends Component
     {
         $this->permohonan = Permohonan::findOrFail($permohonan_id);
         $this->tahapans = Tahapan::where('layanan_id', $this->permohonan->layanan_id)
+                                 ->whereNotIn('id', function($query) {
+                                    $query->select('tahapan_id')
+                                          ->from('disposisis')
+                                          ->where('permohonan_id', $this->permohonan->id);
+                                 })
                                  ->get();
         $this->users = User::where('role', '!=', 'superadmin')->where('role', '!=', 'supervisor')->get();
     }
@@ -58,8 +63,18 @@ class DisposisiCreate extends Component
         $this->redirectRoute('permohonan.detail', ['id' => $this->permohonan_id]);
     }
 
-    // public function updatedTahapanId($value)
-    // {
+    public function updatedTahapanId($value)
+    {
+        $tahapan = Tahapan::find($value);
 
-    // }
+        if($tahapan->nama == 'Analisis')
+        {
+            $this->users = User::where('role', 'analis')->get();
+        }
+        else
+        {
+            $this->users = User::where('role', '!=', 'superadmin')
+                            ->where('role', '!=', 'supervisor')->get();
+        }
+    }
 }

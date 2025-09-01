@@ -3,6 +3,8 @@
 namespace App\Livewire\Admin\Layanan\Persyaratan;
 
 use App\Models\PersyaratanBerkas;
+use App\Models\Tahapan;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -18,7 +20,8 @@ class PersyaratanBerkasCreate extends Component
         return view('livewire.admin.layanan.persyaratan.persyaratan-berkas-create');
     }
 
-    public function mount($tahapan_id, $layanan_id)
+    #[On('persyaratan-add')]
+    public function getTahapanId($tahapan_id, $layanan_id)
     {
         $this->tahapan_id = $tahapan_id;
         $this->layanan_id = $layanan_id;

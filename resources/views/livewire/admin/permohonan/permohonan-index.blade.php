@@ -28,45 +28,47 @@
                             $no = 1;
                         @endphp
                         @foreach ($permohonans as $data)
-                            <tr>
-                                <td>
-                                    {{ $no++ }}
-                                </td>
-                                <td>
-                                    <strong>
-                                        {{ $data->registrasi->kode }}
-                                    </strong>
-                                </td>
-                                <td>
-                                    {{ $data->registrasi->nama }}
-                                </td>
-                                <td>
-                                    {{ date('d-m-Y', strtotime($data->registrasi->tanggal)) }}
-                                </td>
-                                <td>
-                                    {{ $data->layanan->nama }}
-                                </td>
-                                <td>
-                                    <span
-                                        class="badge bg-label-{{ $data->status == 'pending' ? 'danger' : ($data->status == 'process' ? 'warning' : ($data->status == 'completed' ? 'success' : 'secondary')) }} me-1">
-                                        {{ $data->status }}
-                                    </span>
-                                </td>
-                                <td>
-                                    <div class="me-3">
-                                        <a href="{{ route('permohonan.edit', ['id' => $data->id]) }}" type="button"
-                                            class="btn btn-primary btn-sm">
-                                            Edit
-                                        </a>
-                                        <a href="{{ route('permohonan.detail', ['id' => $data->id]) }}" type="button"
-                                            class="btn btn-primary btn-sm">
-                                            Detail
-                                        </a>
+                            <div wire:key="{{ $data->id }}">
+                                <tr>
+                                    <td>
+                                        {{ $no++ }}
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            {{ $data->registrasi->kode }}
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        {{ $data->registrasi->nama }}
+                                    </td>
+                                    <td>
+                                        {{ date('d-m-Y', strtotime($data->registrasi->tanggal)) }}
+                                    </td>
+                                    <td>
+                                        {{ $data->layanan->nama }}
+                                    </td>
+                                    <td>
+                                        <span
+                                            class="badge bg-label-{{ $data->status == 'pending' ? 'danger' : ($data->status == 'process' ? 'warning' : ($data->status == 'completed' ? 'success' : 'secondary')) }} me-1">
+                                            {{ $data->status }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="me-3">
+                                            <a href="{{ route('permohonan.edit', ['id' => $data->id]) }}" type="button"
+                                                class="btn btn-primary btn-sm">
+                                                Edit
+                                            </a>
+                                            <a href="{{ route('permohonan.detail', ['id' => $data->id]) }}"
+                                                type="button" class="btn btn-primary btn-sm">
+                                                Detail
+                                            </a>
 
-                                    </div>
+                                        </div>
 
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                            </div>
                         @endforeach
                     </tbody>
                 </table>

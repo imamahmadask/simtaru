@@ -75,7 +75,12 @@
                                     id="jenis_bangunan" placeholder="Masukkan Jenis Bangunan" />
                             </div>
 
-                            <hr>
+                            <div class="mb-3">
+                                <label for="keterangan" class="form-label">Keterangan</label>
+                                <textarea class="form-control" id="keterangan" rows="3"></textarea>
+                            </div>
+
+                            <h5 class="mt-5">Disposisi</h5>
 
                             <div class="row">
                                 <div class="col mb-3">
@@ -118,11 +123,6 @@
                                     <label for="catatan" class="form-label">Catatan Disposisi</label>
                                     <textarea class="form-control" wire:model="catatan" name="catatan" rows="3"></textarea>
                                 </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="keterangan" class="form-label">Keterangan</label>
-                                <textarea class="form-control" id="keterangan" rows="3"></textarea>
                             </div>
 
                             <button type="submit" class="btn btn-primary">Submit</button>
