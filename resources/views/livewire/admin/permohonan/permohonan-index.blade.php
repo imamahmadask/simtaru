@@ -5,11 +5,21 @@
         <!-- Basic Bootstrap Table -->
         <div class="card">
             <h5 class="card-header">List Data Permohonan</h5>
-            <div class="col-4">
-                <a href="{{ route('permohonan.create') }}" type="button" class="ms-4 mb-3 btn btn-primary">
-                    Input Permohonan
-                </a>
+            <div class="row mx-3 mb-3">
+                <div class="col d-flex justify-content-between align-items-center">
+                    <!-- Tombol kiri -->
+                    <a href="{{ route('permohonan.create') }}" class="btn btn-primary">
+                        Input Permohonan
+                    </a>
+
+                    <!-- Search kanan -->
+                    <div class="col-2">
+                        <input class="form-control" type="search" wire:model.live="search" placeholder="Search"
+                            aria-label="Search">
+                    </div>
+                </div>
             </div>
+
             <div class="table-responsive text-nowrap">
                 <table class="table">
                     <thead>

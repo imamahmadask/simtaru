@@ -9,9 +9,15 @@ use Livewire\Component;
 #[Title('Permohonan')]
 class PermohonanIndex extends Component
 {
+    public $search = '';
     public function render()
     {
-        $permohonans = Permohonan::with('layanan.registrasi')->orderBy('created_at', 'desc')->get();
+        $permohonans = Permohonan::with('layanan.registrasi')
+                        ->whereHas('registrasi', function($query) {
+                            $query->where('nama', 'like', '%' . $this->search . '%')
+                                ->orWhere('kode', 'like', '%' . $this->search . '%');
+                        })
+                        ->orderBy('created_at', 'desc')->get();
 
         return view('livewire.admin.permohonan.permohonan-index', [
             'permohonans' => $permohonans
