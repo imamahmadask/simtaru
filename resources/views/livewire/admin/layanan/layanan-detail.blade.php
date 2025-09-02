@@ -17,6 +17,13 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>Kode</td>
+                                <td>:</td>
+                                <td>
+                                    <strong>{{ $layanan->kode }}</strong>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>Keterangan</td>
                                 <td>:</td>
                                 <td>

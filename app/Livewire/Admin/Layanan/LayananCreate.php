@@ -11,7 +11,7 @@ use Livewire\Component;
 class LayananCreate extends Component
 {
     #[Validate('required')]
-    public $nama = '';
+    public $nama, $kode;
 
     public $keterangan = '';
 
@@ -21,6 +21,7 @@ class LayananCreate extends Component
 
         Layanan::create([
             'nama' => $this->nama,
+            'kode' => $this->kode,
             'keterangan' => $this->keterangan,
         ]);
 

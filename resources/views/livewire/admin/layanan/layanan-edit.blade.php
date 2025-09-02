@@ -23,6 +23,16 @@
                         </div>
                         <div class="row">
                             <div class="col mb-3">
+                                <label for="kode" class="form-label">Kode Layanan</label>
+                                <input type="text" wire:model="kode" name="kode" class="form-control"
+                                    placeholder="Masukkan Kode Layanan" />
+                                @error('kode')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-3">
                                 <label for="keterangan" class="form-label">Keterangan</label>
                                 <input type="text" wire:model="keterangan" name="keterangan" class="form-control"
                                     placeholder="Masukkan keterangan Jika ada" />

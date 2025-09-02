@@ -14,7 +14,7 @@ class LayananEdit extends Component
     public $layanan_id, $keterangan;
 
     #[Validate('required')]
-    public $nama = '';
+    public $nama, $kode;
 
     public function render()
     {
@@ -27,6 +27,7 @@ class LayananEdit extends Component
         $layanan = Layanan::findOrFail($id);
         $this->layanan_id = $layanan->id;
         $this->nama = $layanan->nama;
+        $this->kode = $layanan->kode;
         $this->keterangan = $layanan->keterangan;
     }
 
@@ -37,6 +38,7 @@ class LayananEdit extends Component
         $layanan = Layanan::findOrFail($this->layanan_id);
         $layanan->update([
             'nama' => $this->nama,
+            'kode' => $this->kode,
             'keterangan' => $this->keterangan,
         ]);
 

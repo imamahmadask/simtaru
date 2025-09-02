@@ -8,7 +8,7 @@ class Layanan extends Model
 {
     protected $table = 'layanan';
 
-    protected $fillable = ['nama', 'keterangan'];
+    protected $fillable = ['nama', 'kode', 'keterangan'];
 
     public function registrasi()
     {

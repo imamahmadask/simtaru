@@ -30,6 +30,7 @@
                         <tr>
                             <th>No</th>
                             <th>Layanan</th>
+                            <th>Kode</th>
                             <th>Keterangan</th>
                             <th>Actions</th>
                         </tr>
@@ -46,6 +47,9 @@
                                     </td>
                                     <td>
                                         {{ $data->nama }}
+                                    </td>
+                                    <td>
+                                        {{ $data->kode }}
                                     </td>
                                     <td>
                                         {{ $data->keterangan }}
