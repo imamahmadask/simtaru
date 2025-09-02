@@ -32,4 +32,17 @@ class Registrasi extends Model
     {
         return $this->hasMany(RiwayatPermohonan::class);
     }
+
+    // Registrasi bisa punya banyak skrk melalui permohonan
+    public function skrk()
+    {
+        return $this->hasManyThrough(
+            Skrk::class,        // Model tujuan
+            Permohonan::class,  // Model perantara
+            'registrasi_id',    // FK di tabel permohonans yang mengacu ke registrasi
+            'permohonan_id',    // FK di tabel skrks yang mengacu ke permohonan
+            'id',               // PK di tabel registrasis
+            'id'                // PK di tabel permohonans
+        );
+    }
 }

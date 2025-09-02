@@ -44,4 +44,15 @@ class Skrk extends Model
     {
         return $this->belongsTo(Layanan::class);
     }
+    public function registrasi()
+    {
+        return $this->hasOneThrough(
+            Registrasi::class,   // Model tujuan
+            Permohonan::class,   // Model perantara
+            'id',                // FK di tabel permohonans (id permohonan)
+            'id',                // FK di tabel registrasis
+            'permohonan_id',     // FK di tabel skrks
+            'registrasi_id'      // FK di tabel permohonans
+        );
+    }
 }

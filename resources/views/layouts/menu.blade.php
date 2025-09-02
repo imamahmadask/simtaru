@@ -71,12 +71,42 @@
             </a>
         </li>
 
-        <li class="menu-item {!! request()->routeIs('permohonan.*') ? 'active' : '' !!}">
-            <a href="{{ route('permohonan.index') }}" class="menu-link">
+        <li
+            class="menu-item {{ request()->routeIs('permohonan.*') || request()->routeIs('skrk.*') ? 'active open' : '' }}">
+            <a href="javascript:void(0)" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-file"></i>
-                <div data-i18n="Analytics">Permohonan</div>
+                <div data-i18n="Permohonan">Permohonan</div>
             </a>
+            <ul class="menu-sub">
+                <li class="menu-item {!! request()->routeIs('permohonan.*') ? 'active' : '' !!}">
+                    <a href="{{ route('permohonan.index') }}" class="menu-link">
+                        <div data-i18n="Analytics">Semua Permohonan</div>
+                    </a>
+                </li>
+                <li class="menu-item {!! request()->routeIs('skrk.*') ? 'active' : '' !!}">
+                    <a href="{{ route('skrk.index') }}" class="menu-link">
+                        <div data-i18n="Text Divider">SKRK</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <div data-i18n="Text Divider">KKPR Berusaha</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <div data-i18n="Text Divider">KKPR Non Berusaha</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <div data-i18n="Text Divider">ITR</div>
+                    </a>
+                </li>
+            </ul>
         </li>
+
+
 
         @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor')
             <li class="menu-item {!! request()->routeIs('disposisi.*') ? 'active' : '' !!}">

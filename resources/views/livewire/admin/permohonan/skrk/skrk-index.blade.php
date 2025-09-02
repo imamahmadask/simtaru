@@ -1,0 +1,75 @@
+<div>
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Permohonan /</span> SKRK</h4>
+
+        <!-- Basic Bootstrap Table -->
+        <div class="card">
+            <h5 class="card-header">List Permohonan SKRK</h5>
+
+            <div class="table-responsive text-nowrap">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Kode Registrasi</th>
+                            <th>Nama Pemohon</th>
+                            <th>Tgl Permohonan</th>
+                            <th>Layanan</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        @php
+                            $no = 1;
+                        @endphp
+                        @foreach ($permohonans as $data)
+                            <div wire:key="{{ $data->id }}">
+                                <tr>
+                                    <td>
+                                        {{ $no++ }}
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            {{ $data->registrasi->kode }}
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        {{ $data->registrasi->nama }}
+                                    </td>
+                                    <td>
+                                        {{ date('d-m-Y', strtotime($data->registrasi->tanggal)) }}
+                                    </td>
+                                    <td>
+                                        {{ $data->layanan->nama }}
+                                    </td>
+                                    <td>
+                                        <span
+                                            class="badge bg-label-{{ $data->status == 'pending' ? 'danger' : ($data->status == 'process' ? 'warning' : ($data->status == 'completed' ? 'success' : 'secondary')) }} me-1">
+                                            {{ $data->status }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="me-3">
+                                            <a href="{{ route('permohonan.edit', ['id' => $data->id]) }}" type="button"
+                                                class="btn btn-primary btn-sm">
+                                                Edit
+                                            </a>
+                                            <a href="{{ route('permohonan.detail', ['id' => $data->id]) }}"
+                                                type="button" class="btn btn-primary btn-sm">
+                                                Detail
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            </div>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--/ Basic Bootstrap Table -->
+    </div>
+</div>

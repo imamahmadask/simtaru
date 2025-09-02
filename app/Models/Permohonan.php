@@ -24,6 +24,7 @@ class Permohonan extends Model
         'npwp',
         'luas_tanah',
         'tgl_selesai',
+        'berkas_ktp',
         'berkas_nib',
         'berkas_penguasaan',
     ];
@@ -49,6 +50,6 @@ class Permohonan extends Model
     }
 
     public function skrk() {
-        return $this->hasOne(Skrk::class);
+        return $this->hasMany(Skrk::class);
     }
 }
