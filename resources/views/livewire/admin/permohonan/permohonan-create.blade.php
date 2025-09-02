@@ -38,6 +38,9 @@
                                                 <option value="{{ $data->id }}">{{ $data->nama }}</option>
                                             @endforeach
                                         </select>
+                                        @error('layanan_id')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
                                     </div>
                                 </div>
 
@@ -46,8 +49,66 @@
                                         <label class="form-label" for="nama">Nama Pemohon</label>
                                         <input type="text" class="form-control" wire:model="nama" id="nama"
                                             placeholder="" disabled />
+                                        @error('nama')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="nik">NIK</label>
+                                        <input type="text" class="form-control" wire:model="nik" id="nik"
+                                            placeholder="" disabled />
+                                        @error('nik')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="no_hp">No. HP</label>
+                                        <input type="text" class="form-control" wire:model="no_hp" id="no_hp"
+                                            placeholder="" disabled />
+                                        @error('no_hp')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="email">Email Pemohon</label>
+                                        <input type="email" class="form-control" wire:model="email" id="email"
+                                            placeholder="Masukkan email pemohon" />
+                                        @error('email')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="npwp">NPWP Pemohon</label>
+                                        <input type="npwp" class="form-control" wire:model="npwp" id="npwp"
+                                            placeholder="Masukkan nomor npwp pemohon" />
+                                        @error('npwp')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="alamat_pemohon">Alamat Pemohon</label>
+                                <input type="text" class="form-control" wire:model="alamat_pemohon"
+                                    id="alamat_pemohon" placeholder="Masukkan Alamat Pemohon" />
+                                @error('alamat_pemohon')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
 
                             <div class="mb-3">
@@ -63,8 +124,8 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="kel_tanah">Kelurahan Tanah</label>
-                                        <input type="text" class="form-control" wire:model="kel_tanah" id="kel_tanah"
-                                            placeholder="Masukkan Kelurahan Tanah" />
+                                        <input type="text" class="form-control" wire:model="kel_tanah"
+                                            id="kel_tanah" placeholder="Masukkan Kelurahan Tanah" />
                                         @error('kel_tanah')
                                             <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                         @enderror
@@ -73,8 +134,8 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="kec_tanah">Kecamatan Tanah</label>
-                                        <input type="text" class="form-control" wire:model="kec_tanah" id="kec_tanah"
-                                            placeholder="Masukkan Kecamatan Tanah" />
+                                        <input type="text" class="form-control" wire:model="kec_tanah"
+                                            id="kec_tanah" placeholder="Masukkan Kecamatan Tanah" />
                                         @error('kec_tanah')
                                             <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                         @enderror
@@ -82,24 +143,58 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label class="form-label" for="jenis_bangunan">Jenis Bangunan</label>
-                                <input type="text" class="form-control" wire:model="jenis_bangunan"
-                                    id="jenis_bangunan" placeholder="Masukkan Jenis Bangunan" />
-                                @error('jenis_bangunan')
-                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
-                                @enderror
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="jenis_bangunan">Jenis Bangunan</label>
+                                        <input type="text" class="form-control" wire:model="jenis_bangunan"
+                                            id="jenis_bangunan" placeholder="Masukkan Jenis Bangunan" />
+                                        @error('jenis_bangunan')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="luas_tanah">Luas Tanah (m2)</label>
+                                        <input type="text" class="form-control" wire:model="luas_tanah"
+                                            id="luas_tanah"
+                                            placeholder="Masukkan Luas Tanah/persil yang dimohonkan" />
+                                        @error('luas_tanah')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="mb-3">
+                                        <label for="berkas_ktp" class="form-label">Upload KTP</label>
+                                        <input type="file" class="form-control" id="berkas_ktp"
+                                            wire:model="berkas_ktp">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="mb-3">
+                                        <label for="berkas_nib" class="form-label">Upload NIB</label>
+                                        <input type="file" class="form-control" id="berkas_nib"
+                                            wire:model="berkas_nib">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="mb-3">
+                                        <label for="berkas_penguasaan" class="form-label">Upload Penguasaan
+                                            Tanah</label>
+                                        <input type="file" class="form-control" id="berkas_penguasaan"
+                                            wire:model="berkas_penguasaan">
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="mb-3">
                                 <label for="keterangan" class="form-label">Keterangan</label>
                                 <textarea class="form-control" id="keterangan" rows="3"></textarea>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="berkas_pemohon" class="form-label">Upload Berkas Pemohon</label>
-                                <input type="file" class="form-control" id="berkas_pemohon"
-                                    wire:model="berkas_pemohon">
                             </div>
 
                             <h5 class="mt-5">Disposisi</h5>

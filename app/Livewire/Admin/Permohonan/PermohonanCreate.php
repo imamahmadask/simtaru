@@ -24,9 +24,12 @@ class PermohonanCreate extends Component
     public $tahapans = [];
 
     #[Validate('required')]
-    public $registrasi_id, $layanan_id, $nama, $alamat_tanah, $kel_tanah, $kec_tanah, $jenis_bangunan, $tahapan_id, $penerima_id;
+    public $registrasi_id, $layanan_id, $nama, $nik, $no_hp, $alamat_pemohon, $alamat_tanah, $kel_tanah, $kec_tanah, $jenis_bangunan, $luas_tanah, $tahapan_id, $penerima_id;
 
-    public $keterangan, $status, $pemberi_id, $catatan, $berkas_pemohon;
+    #[Validate('required|email')]
+    public $email;
+
+    public $npwp, $keterangan, $status, $pemberi_id, $catatan, $berkas_ktp, $berkas_nib, $berkas_penguasaan;
 
     public function render()
     {
@@ -37,37 +40,29 @@ class PermohonanCreate extends Component
     {
         $this->validate();
 
-        $this->status = 'pending';
+        $path_berkas_ktp = $this->uploadFile($this->berkas_ktp, 'berkas_ktp');
+        $path_berkas_nib = $this->uploadFile($this->berkas_nib, 'berkas_nib');
+        $path_berkas_penguasaan = $this->uploadFile($this->berkas_penguasaan, 'berkas_penguasaan');
 
-        if($this->berkas_pemohon) {
-            $registrasi = Registrasi::find($this->registrasi_id);
-
-            $filename = $registrasi->kode . '.' . $this->berkas_pemohon->getClientOriginalExtension();
-
-            $path_berkas_pemohon = $this->berkas_pemohon->storeAs(
-                'berkas_pemohon',
-                $filename,
-                'public' // supaya bisa diakses via URL
-            );
-        }else{
-            $path_berkas_pemohon = null;
-        }
-
-        Permohonan::create([
+        $permohonan = Permohonan::create([
             'registrasi_id' => $this->registrasi_id,
             'layanan_id' => $this->layanan_id,
+            'alamat_pemohon' => $this->alamat_pemohon,
+            'npwp' => $this->npwp,
+            'email' => $this->email,
             'alamat_tanah' => $this->alamat_tanah,
             'kel_tanah' => $this->kel_tanah,
             'kec_tanah' => $this->kec_tanah,
             'jenis_bangunan' => $this->jenis_bangunan,
-            'status' => $this->status,
+            'luas_tanah' => $this->luas_tanah,
+            'status' => 'pending',
             'keterangan' => $this->keterangan,
-            'berkas_pemohon' => $path_berkas_pemohon,
+            'berkas_ktp' => $path_berkas_ktp,
+            'berkas_nib' => $path_berkas_nib,
+            'berkas_penguasaan' => $path_berkas_penguasaan,
             'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id
         ]);
-
-        $permohonan = Permohonan::latest()->first();
 
         RiwayatPermohonan::create([
             'registrasi_id' => $permohonan->registrasi_id,
@@ -96,6 +91,19 @@ class PermohonanCreate extends Component
         $this->redirectRoute('permohonan.index');
     }
 
+    private function uploadFile($file, $folder)
+    {
+        if ($file) {
+            $registrasi = Registrasi::find($this->registrasi_id);
+
+            $filename = $registrasi->kode . '.' . $file->getClientOriginalExtension();
+
+            return $file->storeAs($folder, $filename, 'public');
+        }
+
+        return null;
+    }
+
     public function mount()
     {
         $this->layanans = Layanan::all();
@@ -109,13 +117,17 @@ class PermohonanCreate extends Component
             $registrasi = Registrasi::find($this->registrasi_id);
             $this->layanan_id = $registrasi->layanan_id;
             $this->nama = $registrasi->nama;
+            $this->nik = $registrasi->nik;
+            $this->no_hp = $registrasi->no_hp;
             $this->tahapans = Tahapan::where('layanan_id', $this->layanan_id)->where('urutan', 1)->get();
         }
         else
         {
-            $this->layanan_id = null;
-            $this->nama = null;
-            $this->tahapans = null;
+            $this->layanan_id = "";
+            $this->nama = "";
+            $this->nik = "";
+            $this->no_hp = "";
+            $this->tahapans = [];
         }
     }
 }
