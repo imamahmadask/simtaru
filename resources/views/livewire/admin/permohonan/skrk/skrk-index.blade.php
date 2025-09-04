@@ -5,6 +5,15 @@
         <!-- Basic Bootstrap Table -->
         <div class="card">
             <h5 class="card-header">List Permohonan SKRK</h5>
+            <div class="row mx-3 mb-3">
+                <div class="col d-flex justify-content-end align-items-center">
+                    <!-- Search kanan -->
+                    <div class="col-2">
+                        <input class="form-control" type="search" wire:model.live="search" placeholder="Search"
+                            aria-label="Search">
+                    </div>
+                </div>
+            </div>
 
             <div class="table-responsive text-nowrap">
                 <table class="table">
@@ -23,7 +32,7 @@
                         @php
                             $no = 1;
                         @endphp
-                        @foreach ($permohonans as $data)
+                        @foreach ($skrk as $data)
                             <div wire:key="{{ $data->id }}">
                                 <tr>
                                     <td>
@@ -45,23 +54,15 @@
                                     </td>
                                     <td>
                                         <span
-                                            class="badge bg-label-{{ $data->status == 'pending' ? 'danger' : ($data->status == 'process' ? 'warning' : ($data->status == 'completed' ? 'success' : 'secondary')) }} me-1">
-                                            {{ $data->status }}
+                                            class="badge bg-label-{{ $data->permohonan->status == 'pending' ? 'danger' : ($data->permohonan->status == 'process' ? 'warning' : ($data->permohonan->status == 'completed' ? 'success' : 'secondary')) }} me-1">
+                                            {{ $data->permohonan->status }}
                                         </span>
                                     </td>
                                     <td>
-                                        <div class="me-3">
-                                            <a href="{{ route('permohonan.edit', ['id' => $data->id]) }}" type="button"
-                                                class="btn btn-primary btn-sm">
-                                                Edit
-                                            </a>
-                                            <a href="{{ route('permohonan.detail', ['id' => $data->id]) }}"
-                                                type="button" class="btn btn-primary btn-sm">
-                                                Detail
-                                            </a>
-
-                                        </div>
-
+                                        <a href="{{ route('skrk.detail', ['id' => $data->id]) }}" type="button"
+                                            class="btn btn-primary btn-sm">
+                                            Detail
+                                        </a>
                                     </td>
                                 </tr>
                             </div>

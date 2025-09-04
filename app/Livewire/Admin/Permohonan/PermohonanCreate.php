@@ -7,6 +7,7 @@ use App\Models\Layanan;
 use App\Models\Permohonan;
 use App\Models\Registrasi;
 use App\Models\RiwayatPermohonan;
+use App\Models\Skrk;
 use App\Models\Tahapan;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -63,6 +64,14 @@ class PermohonanCreate extends Component
             'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id
         ]);
+
+        $layanan = Layanan::findOrFail($this->layanan_id);
+        if($layanan->kode == 'SKRK') {
+            Skrk::create([
+                'permohonan_id' => $permohonan->id,
+                'layanan_id' => $this->layanan_id
+            ]);
+        }
 
         $this->createRiwayat($permohonan, 'Entry Permohonan');
 

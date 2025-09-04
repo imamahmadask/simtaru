@@ -3,22 +3,29 @@
 namespace App\Livewire\Admin\Permohonan\Skrk;
 
 use App\Models\Permohonan;
+use App\Models\Skrk;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
 #[Title('Permohonan SKRK')]
 class SkrkIndex extends Component
 {
+    public $search = '';
+
     public function render()
     {
-        $permohonans = Permohonan::with('layanan.registrasi')
-                    ->whereHas('layanan', function($query) {
+        $skrk = Skrk::with('layanan.permohonan.registrasi')
+            ->whereHas('layanan', function($query) {
                         $query->where('kode', 'SKRK');
-                    })
-                    ->orderBy('created_at', 'desc')->get();
+            })
+            ->whereHas('registrasi', (function($query) {
+                $query->where('kode', 'LIKE', '%'.$this->search.'%')
+                ->orWhere('nama', 'LIKE', '%'.$this->search.'%');
+            }))
+            ->orderBy('created_at', 'desc')->get();
 
         return view('livewire.admin.permohonan.skrk.skrk-index', [
-            'permohonans' => $permohonans
+            'skrk' => $skrk
         ]);
     }
 }

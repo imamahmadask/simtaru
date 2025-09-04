@@ -8,6 +8,7 @@ use App\Livewire\Admin\Permohonan\PermohonanCreate;
 use App\Livewire\Admin\Permohonan\PermohonanDetail;
 use App\Livewire\Admin\Permohonan\PermohonanEdit;
 use App\Livewire\Admin\Permohonan\PermohonanIndex;
+use App\Livewire\Admin\Permohonan\Skrk\SkrkDetail;
 use App\Livewire\Admin\Permohonan\Skrk\SkrkIndex;
 use App\Livewire\Admin\Registrasi\RegistrasiIndex;
 use App\Livewire\Admin\Users\UserIndex;
@@ -27,6 +28,7 @@ Route::middleware(['cekRole:superadmin,supervisor,analis,surveyor,user'])->group
     Route::get('admin/permohonan/{id}', PermohonanDetail::class)->name('permohonan.detail'); // Permohonan Detail
 
     Route::get('admin/permohonan-skrk', SkrkIndex::class)->name('skrk.index');
+    Route::get('admin/permohonan-skrk/{id}', SkrkDetail::class)->name('skrk.detail');
 });
 
 Route::middleware(['cekRole:superadmin,supervisor'])->group(function () {
