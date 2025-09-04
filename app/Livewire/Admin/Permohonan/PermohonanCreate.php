@@ -55,7 +55,7 @@ class PermohonanCreate extends Component
             'kec_tanah' => $this->kec_tanah,
             'jenis_bangunan' => $this->jenis_bangunan,
             'luas_tanah' => $this->luas_tanah,
-            'status' => 'pending',
+            'status' => 'process',
             'keterangan' => $this->keterangan,
             'berkas_ktp' => $path_berkas_ktp,
             'berkas_nib' => $path_berkas_nib,
@@ -64,11 +64,7 @@ class PermohonanCreate extends Component
             'updated_by' => Auth::user()->id
         ]);
 
-        RiwayatPermohonan::create([
-            'registrasi_id' => $permohonan->registrasi_id,
-            'user_id' => Auth::user()->id,
-            'keterangan' => 'Entry Permohonan'
-        ]);
+        $this->createRiwayat($permohonan, 'Entry Permohonan');
 
         $this->pemberi_id = Auth::user()->id;
 
@@ -80,15 +76,20 @@ class PermohonanCreate extends Component
             'catatan' => $this->catatan
         ]);
 
-        RiwayatPermohonan::create([
-            'registrasi_id' => $permohonan->registrasi_id,
-            'user_id' => Auth::user()->id,
-            'keterangan' => 'Disposisi kepada ' . $this->users->where('id', $this->penerima_id)->first()->name.' pada tahapan Survey Berkas'
-        ]);
+        $this->createRiwayat($permohonan, "Disposisi kepada {$this->users->where('id', $this->penerima_id)->first()->name} pada tahapan Survey Berkas");
 
         session()->flash('success', 'Permohonan berhasil ditambahkan!');
 
         $this->redirectRoute('permohonan.index');
+    }
+
+    private function createRiwayat(Permohonan $permohonan, string $keterangan)
+    {
+        RiwayatPermohonan::create([
+            'registrasi_id' => $permohonan->registrasi_id,
+            'user_id' => Auth::user()->id,
+            'keterangan' => $keterangan
+        ]);
     }
 
     private function uploadFile($file, $folder)

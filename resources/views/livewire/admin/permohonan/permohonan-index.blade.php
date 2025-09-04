@@ -6,16 +6,34 @@
         <div class="card">
             <h5 class="card-header">List Data Permohonan</h5>
             <div class="row mx-3 mb-3">
-                <div class="col d-flex justify-content-between align-items-center">
+                <div class="col d-flex flex-wrap justify-content-between align-items-center gap-2">
                     <!-- Tombol kiri -->
                     <a href="{{ route('permohonan.create') }}" class="btn btn-primary">
                         Input Permohonan
                     </a>
 
-                    <!-- Search kanan -->
-                    <div class="col-2">
-                        <input class="form-control" type="search" wire:model.live="search" placeholder="Search"
-                            aria-label="Search">
+                    <!-- Filter & Search -->
+                    <div class="d-flex flex-wrap gap-2">
+                        <div class="flex-fill" style="min-width: 150px;">
+                            <select wire:model.live="filterStatus" id="filterStatus" class="form-control">
+                                <option value="">Pilih Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="process">Process</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </div>
+                        <div class="flex-fill" style="min-width: 150px;">
+                            <select wire:model.live="filterLayanan" id="filterLayanan" class="form-control">
+                                <option value="">Pilih Layanan</option>
+                                @foreach ($layanans as $layanan)
+                                    <option value="{{ $layanan->id }}">{{ $layanan->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="flex-fill" style="min-width: 150px;">
+                            <input class="form-control" type="search" wire:model.live="search" placeholder="Search"
+                                aria-label="Search">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -65,8 +83,8 @@
                                     </td>
                                     <td>
                                         <div class="me-3">
-                                            <a href="{{ route('permohonan.edit', ['id' => $data->id]) }}" type="button"
-                                                class="btn btn-primary btn-sm">
+                                            <a href="{{ route('permohonan.edit', ['id' => $data->id]) }}"
+                                                type="button" class="btn btn-primary btn-sm">
                                                 Edit
                                             </a>
                                             <a href="{{ route('permohonan.detail', ['id' => $data->id]) }}"
