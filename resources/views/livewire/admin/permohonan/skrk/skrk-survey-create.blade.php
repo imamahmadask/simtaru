@@ -15,6 +15,9 @@
                             <div class="col mb-3">
                                 <label for="tgl_survey" class="form-label">Tanggal Survey</label>
                                 <input type="date" class="form-control" wire:model="tgl_survey" id="tgl_survey">
+                                @error('tgl_survey')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="row">
@@ -22,25 +25,28 @@
                                 <label for="koordinat" class="form-label">Koordinat</label>
                                 <input type="text" class="form-control" wire:model="koordinat" id="koordinat"
                                     placeholder="Masukkan Koordinat (X, Y)">
+                                @error('koordinat')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col mb-3">
-                                <label for="form_survey" class="form-label">Upload Form Survey</label>
-                                <input type="file" class="form-control" wire:model="form_survey" id="form_survey">
+
+                        @foreach ($persyaratan_berkas as $item)
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="file_.{{ $item->id }}" class="form-label">Upload
+                                        {{ $item->nama_berkas }}</label>
+                                    <input type="file" class="form-control" wire:model="file_.{{ $item->kode }}"
+                                        id="file_.{{ $item->id }}">
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col mb-3">
-                                <label for="ba_form_survey" class="form-label">Upload Berita Acara Survey</label>
-                                <input type="file" class="form-control" wire:model="ba_form_survey"
-                                    id="ba_form_survey">
-                            </div>
-                        </div>
+                        @endforeach
+
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="foto_survey" class="form-label">Upload Foto Survey</label>
-                                <input type="file" class="form-control" wire:model="foto_survey" id="foto_survey">
+                                <input type="file" class="form-control" wire:model="foto_survey" id="foto_survey"
+                                    multiple>
                             </div>
                         </div>
                     </div>

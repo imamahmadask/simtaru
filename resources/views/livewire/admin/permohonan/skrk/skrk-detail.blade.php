@@ -293,7 +293,7 @@
                                                 </label>
                                                 <div class="col-sm-10">
                                                     <input id="tgl_survey" class="form-control"
-                                                        readonly>{{ $skrk->tgl_survey }}</input>
+                                                        value="{{ $skrk->tgl_survey }}" readonly>
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
@@ -301,8 +301,14 @@
                                                     Koordinat
                                                 </label>
                                                 <div class="col-sm-10">
-                                                    <input id="koordinat" class="form-control"
-                                                        readonly>{{ $skrk->koordinat }}</input>
+                                                    <div class="input-group">
+                                                        <input id="koordinat" class="form-control"
+                                                            value="{{ $skrk->koordinat }}" readonly>
+                                                        <button class="btn btn-outline-secondary" type="button"
+                                                            onclick="copyToClipboard('#koordinat')">
+                                                            <i class="bx bx-clipboard"></i>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -310,10 +316,16 @@
                                 </div>
 
                                 <div class="col-xl-6">
+                                    @foreach (json_decode($skrk->foto_survey) as $item)
+                                        <img src="{{ asset('storage/' . $item) }}" alt="" width="200px"
+                                            class="mb-3">
+                                    @endforeach
                                     <ol>
-                                        @foreach ($skrk->layanan->persyaratanBerkas as $item)
+                                        @foreach ($skrk->permohonan->berkas as $item)
                                             <li>
-                                                {{ $item->nama_berkas }}
+                                                <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank">
+                                                    {{ $item->file_path }}
+                                                </a>
                                             </li>
                                         @endforeach
                                     </ol>
@@ -335,3 +347,14 @@
         @endteleport
     </div>
 </div>
+@push('scripts')
+    <script>
+        function copyToClipboard(element) {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val($(element).val()).select();
+            document.execCommand("copy");
+            $temp.remove();
+        }
+    </script>
+@endpush

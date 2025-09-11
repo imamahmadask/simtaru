@@ -10,6 +10,7 @@ class PersyaratanBerkas extends Model
 
     protected $fillable = [
         'nama_berkas',
+        'kode',
         'deskripsi',
         'urutan',
         'wajib',

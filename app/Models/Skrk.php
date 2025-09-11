@@ -32,7 +32,9 @@ class Skrk extends Model
         'ktb',
         'luas_kavling',
         'jaringan_utilitas',
-        'persyaratan_pelaksanaan'
+        'persyaratan_pelaksanaan',
+        'gambar_peta',
+        'foto_survey'
     ];
 
     public function permohonan()

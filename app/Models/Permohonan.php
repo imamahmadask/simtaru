@@ -52,4 +52,16 @@ class Permohonan extends Model
     public function skrk() {
         return $this->hasMany(Skrk::class);
     }
+
+    public function persyaratanBerkas()
+    {
+        return $this->hasManyThrough(
+            PersyaratanBerkas::class,
+            Tahapan::class,
+            'layanan_id',       // foreign key di tabel tahapan
+            'tahapan_id',       // foreign key di tabel persyaratan_berkas
+            'layanan_id',       // foreign key di tabel permohonan
+            'id'                // local key di tabel tahapan
+        );
+    }
 }
