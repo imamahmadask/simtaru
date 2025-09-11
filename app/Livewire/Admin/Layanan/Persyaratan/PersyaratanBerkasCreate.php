@@ -13,7 +13,7 @@ class PersyaratanBerkasCreate extends Component
     public $tahapan_id, $layanan_id;
 
     #[Validate(['required'])]
-    public $nama_berkas, $deskripsi, $urutan, $wajib;
+    public $nama_berkas, $kode, $deskripsi, $urutan, $wajib;
 
     public function render()
     {
@@ -34,6 +34,7 @@ class PersyaratanBerkasCreate extends Component
         PersyaratanBerkas::create([
             'tahapan_id' => $this->tahapan_id,
             'nama_berkas' => $this->nama_berkas,
+            'kode' => $this->kode,
             'deskripsi' => $this->deskripsi,
             'urutan' => $this->urutan,
             'wajib' => $this->wajib

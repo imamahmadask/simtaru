@@ -12,7 +12,7 @@ class PersyaratanBerkasEdit extends Component
     public $berkas, $tahapan_id, $layanan_id;
 
     #[Validate(['required'])]
-    public $nama_berkas, $deskripsi, $urutan, $wajib;
+    public $nama_berkas, $kode, $deskripsi, $urutan, $wajib;
     public function render()
     {
         return view('livewire.admin.layanan.persyaratan.persyaratan-berkas-edit');
@@ -24,6 +24,7 @@ class PersyaratanBerkasEdit extends Component
         $this->berkas = PersyaratanBerkas::find($id);
         $this->tahapan_id = $this->berkas->tahapan_id;
         $this->nama_berkas = $this->berkas->nama_berkas;
+        $this->kode = $this->berkas->kode;
         $this->deskripsi = $this->berkas->deskripsi;
         $this->urutan = $this->berkas->urutan;
         $this->wajib = $this->berkas->wajib;
@@ -39,6 +40,7 @@ class PersyaratanBerkasEdit extends Component
         $this->berkas->update([
             'tahapan_id' => $this->tahapan_id,
             'nama_berkas' => $this->nama_berkas,
+            'kode' => $this->kode,
             'deskripsi' => $this->deskripsi,
             'urutan' => $this->urutan,
             'wajib' => $this->wajib
