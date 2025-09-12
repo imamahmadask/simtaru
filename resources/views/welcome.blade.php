@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIMTARU</title>
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/fav.svg') }}" />
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -21,9 +21,8 @@
         <nav class="navbar navbar-expand-lg">
             <div class="container">
                 <a class="navbar-brand fw-bold fs-3 text-primary" href="/">
-                    <img src="{{ asset('assets/img/favicon/favicon.ico') }}" alt="SIMTARU Logo" class="d-inline-block"
-                        width="30">
-                    SIMTARU
+                    <img src="{{ asset('assets/img/logo/simtaru2.png') }}" alt="SIMTARU Logo" class="d-inline-block"
+                        width="180px">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
@@ -31,13 +30,13 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto align-items-center">
                         <li class="nav-item">
-                            <a class="nav-link text-muted hover-primary" href="#features">Features</a>
+                            <a class="nav-link text-muted hover-primary" href="#features">Fitur</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-muted hover-primary" href="#testimonials">Testimonials</a>
+                            <a class="nav-link text-muted hover-primary" href="#testimonials">Permohonan</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-muted hover-primary" href="#pricing">Pricing</a>
+                            <a class="nav-link text-muted hover-primary" href="#pricing">Dokumentasi</a>
                         </li>
                         @if (Route::has('login'))
                             @auth
@@ -66,35 +65,12 @@
         <div class="container text-center">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
-                    <span class="badge bg-primary-subtle text-primary-emphasis mb-4">✨ New features available now</span>
-                    <h1 class="display-2 fw-bold text-dark mb-4">SIMTARU HARUM</h1>
+                    <img src="{{ asset('assets/img/logo/simtaru3.png') }}" alt="" width="150">
+                    <h1 class="display-2 fw-bold text-dark mt-2">SIMTARU HARUM</h1>
+                    <h3>Spatial Planning Permit Application</h3>
                     <p class="lead text-muted mb-5">
-                        Join a community of innovators and transform your ideas into reality. Explore our resources and
-                        connect with like-minded individuals.
+                        Sistem Informasi Tata Ruang Kota Mataram
                     </p>
-                    <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center mb-5">
-                        <button class="btn btn-primary btn-lg px-4">Get Started</button>
-                        <button class="btn btn-outline-secondary btn-lg px-4">Watch Demo</button>
-                    </div>
-                    <div
-                        class="d-flex flex-column flex-md-row align-items-center justify-content-center gap-4 text-muted small">
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="d-flex">
-                                <div class="avatar bg-primary-subtle"></div>
-                                <div class="avatar bg-info-subtle"></div>
-                                <div class="avatar bg-success-subtle"></div>
-                            </div>
-                            <span>10,000+ happy users</span>
-                        </div>
-                        <div class="d-flex align-items-center gap-1">
-                            <i class="bi bi-star-fill text-primary"></i>
-                            <i class="bi bi-star-fill text-primary"></i>
-                            <i class="bi bi-star-fill text-primary"></i>
-                            <i class="bi bi-star-fill text-primary"></i>
-                            <i class="bi bi-star-fill text-primary"></i>
-                            <span class="ms-1">4.9/5 rating</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -261,43 +237,27 @@
         <div class="container">
             <div class="row g-4">
                 <div class="col-md-6 col-lg-3">
-                    <h5 class="text-primary mb-3">YourBrand</h5>
+                    <h5 class="text-primary mb-3 bg-white p-1">
+                        <img src="{{ asset('assets/img/logo/simtaru2.png') }}" alt="" width="200">
+                    </h5>
                     <p class="text-light">
-                        Empowering innovators to transform ideas into reality through cutting-edge tools and community.
+                        Sistem Informasi Tata Ruang Kota Mataram
                     </p>
                 </div>
                 <div class="col-md-6 col-lg-3">
-                    <h6 class="mb-3">Product</h6>
+                    <h6 class="mb-3">Main Menu</h6>
                     <ul class="list-unstyled">
                         <li><a href="#" class="text-light text-decoration-none hover-white">Features</a></li>
-                        <li><a href="#" class="text-light text-decoration-none hover-white">Pricing</a></li>
-                        <li><a href="#" class="text-light text-decoration-none hover-white">API</a></li>
+                        <li><a href="#" class="text-light text-decoration-none hover-white">Permohonan</a></li>
+                        <li><a href="#" class="text-light text-decoration-none hover-white">Lacak</a></li>
                         <li><a href="#" class="text-light text-decoration-none hover-white">Documentation</a>
                         </li>
-                    </ul>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <h6 class="mb-3">Company</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-light text-decoration-none hover-white">About</a></li>
-                        <li><a href="#" class="text-light text-decoration-none hover-white">Blog</a></li>
-                        <li><a href="#" class="text-light text-decoration-none hover-white">Careers</a></li>
-                        <li><a href="#" class="text-light text-decoration-none hover-white">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <h6 class="mb-3">Support</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-light text-decoration-none hover-white">Help Center</a></li>
-                        <li><a href="#" class="text-light text-decoration-none hover-white">Community</a></li>
-                        <li><a href="#" class="text-light text-decoration-none hover-white">Status</a></li>
-                        <li><a href="#" class="text-light text-decoration-none hover-white">Privacy</a></li>
                     </ul>
                 </div>
             </div>
             <hr class="my-4">
             <div class="text-center text-light">
-                <p>&copy; 2024 YourBrand. All rights reserved.</p>
+                <p>&copy; 2025 SIMTARU HARUM. All rights reserved.</p>
             </div>
         </div>
     </footer>
