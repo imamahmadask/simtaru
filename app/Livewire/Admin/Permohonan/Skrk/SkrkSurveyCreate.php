@@ -2,9 +2,13 @@
 
 namespace App\Livewire\Admin\Permohonan\Skrk;
 
+use App\Models\Disposisi;
 use App\Models\Permohonan;
 use App\Models\PermohonanBerkas;
+use App\Models\RiwayatPermohonan;
 use App\Models\Skrk;
+use App\Models\Tahapan;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -15,7 +19,10 @@ class SkrkSurveyCreate extends Component
 {
     use WithFileUploads;
 
-    public $tahapan, $permohonan_id, $skrk_id;
+    public $tahapans, $users, $permohonan_id, $skrk_id, $catatan;
+
+    #[Validate('required')]
+    public $tahapan_id, $penerima_id;
 
     #[Validate('required')]
     public $tgl_survey, $koordinat;
@@ -94,6 +101,18 @@ class SkrkSurveyCreate extends Component
            'foto_survey' => $foto_survey_path
         ]);
 
+        $this->createRiwayat($permohonan, 'Entry Data Survey');
+
+        Disposisi::create([
+            'permohonan_id' => $permohonan->id,
+            'tahapan_id' => $this->tahapan_id,
+            'pemberi_id' => Auth::user()->id,
+            'penerima_id' => $this->penerima_id,
+            'catatan' => $this->catatan
+        ]);
+
+        $this->createRiwayat($permohonan, "Disposisi kepada {$this->users->where('id', $this->penerima_id)->first()->name} pada tahapan Analis Berkas");
+
         session()->flash('success', 'Data Survey berhasil ditambahkan!');
 
         return redirect()->route('skrk.detail', ['id' => $this->skrk_id]);
@@ -103,5 +122,17 @@ class SkrkSurveyCreate extends Component
     {
         $this->permohonan_id = $permohonan_id;
         $this->skrk_id = $skrk_id;
+        $permohonan = Permohonan::findOrFail($this->permohonan_id);
+        $this->tahapans = Tahapan::where('layanan_id', $permohonan->layanan_id)->where('urutan', 2)->get();
+        $this->users = User::where('role', 'analis')->get();
+    }
+
+    private function createRiwayat(Permohonan $permohonan, string $keterangan)
+    {
+        RiwayatPermohonan::create([
+            'registrasi_id' => $permohonan->registrasi_id,
+            'user_id' => Auth::user()->id,
+            'keterangan' => $keterangan
+        ]);
     }
 }

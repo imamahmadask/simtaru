@@ -49,6 +49,51 @@
                                     multiple>
                             </div>
                         </div>
+
+                        <h5 class="mt-3">Disposisi</h5>
+
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="tahapan_id" class="form-label">Tahapan</label>
+                                <select class="form-select" wire:model.live="tahapan_id" name="tahapan_id"
+                                    aria-label="Select Tahapan">
+                                    <option selected>Pilih Tahapan</option>
+                                    @foreach ($tahapans as $tahapan)
+                                        <option value="{{ $tahapan->id }}">
+                                            {{ $tahapan->urutan }} - {{ $tahapan->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('tahapan_id')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="penerima_id" class="form-label">Penerima Disposisi</label>
+                                <select class="form-select" wire:model="penerima_id" name="penerima_id"
+                                    aria-label="Select Penerima">
+                                    <option selected>Pilih Penerima</option>
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}">
+                                            {{ $user->name }} - {{ $user->role }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('penerima_id')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="catatan" class="form-label">Catatan Disposisi</label>
+                                <textarea class="form-control" wire:model="catatan" name="catatan" rows="3"></textarea>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">

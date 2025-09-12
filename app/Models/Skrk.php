@@ -34,7 +34,12 @@ class Skrk extends Model
         'jaringan_utilitas',
         'persyaratan_pelaksanaan',
         'gambar_peta',
-        'foto_survey'
+        'foto_survey',
+        'jml_bangunan',
+        'jml_lantai',
+        'luas_lantai',
+        'kedalaman_min',
+        'kedalaman_max'
     ];
 
     public function permohonan()
