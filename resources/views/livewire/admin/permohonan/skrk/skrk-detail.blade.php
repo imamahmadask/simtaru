@@ -281,168 +281,168 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="tab-pane fade" id="navs-pills-top-survey" role="tabpanel">
-                        <div class="mb-3">
-                            @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor' || Auth::user()->role == 'surveyor')
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#AddSurveyModal">
-                                    <i class="bx bx-plus"></i> Tambah Survey
-                                </button>
-                            @endif
-                        </div>
-
-                        <div class="row">
-                            <div class="col-xl">
-                                <div class="card mb-4">
-                                    <div
-                                        class="card-header d-flex align-items-center justify-content-between bg-secondary">
-                                        <h5 class="mb-0 text-white">Data Survey</h5>
-                                    </div>
-                                    <div class="card-body mt-3">
-                                        <div class="row mb-3">
-                                            <label class="col-sm-2 col-form-label" for="tgl_survey">
-                                                Tgl Survey
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <input id="tgl_survey" class="form-control"
-                                                    value="{{ $skrk->tgl_survey }}" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <label class="col-sm-2 col-form-label" for="koordinat">
-                                                Koordinat
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <div class="input-group">
-                                                    <input id="koordinat" class="form-control"
-                                                        value="{{ $skrk->koordinat }}" readonly>
-                                                    <button class="btn btn-outline-secondary" type="button"
-                                                        onclick="copyToClipboard('#koordinat')">
-                                                        <i class="bx bx-clipboard"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-6">
-                                @if ($skrk->foto_survey != null)
-                                    @foreach (json_decode($skrk->foto_survey) as $item)
-                                        <img src="{{ asset('storage/' . $item) }}" alt="" width="200px"
-                                            class="mb-3">
-                                    @endforeach
-
-                                @endif
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="tab-pane fade" id="navs-pills-top-analisa" role="tabpanel">
-                        <div class="mb-3">
-                            @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor' || Auth::user()->role == 'analis')
-                                @if ($skrk->tgl_survey != null)
+                        <div class="tab-pane fade" id="navs-pills-top-survey" role="tabpanel">
+                            <div class="mb-3">
+                                @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor' || Auth::user()->role == 'surveyor')
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#AddAnalisaModal">
-                                        <i class="bx bx-plus"></i> Tambah Analisa
+                                        data-bs-target="#AddSurveyModal">
+                                        <i class="bx bx-plus"></i> Tambah Survey
                                     </button>
                                 @endif
-                            @endif
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl">
+                                    <div class="card mb-4">
+                                        <div
+                                            class="card-header d-flex align-items-center justify-content-between bg-secondary">
+                                            <h5 class="mb-0 text-white">Data Survey</h5>
+                                        </div>
+                                        <div class="card-body mt-3">
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label" for="tgl_survey">
+                                                    Tgl Survey
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input id="tgl_survey" class="form-control"
+                                                        value="{{ $skrk->tgl_survey }}" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label" for="koordinat">
+                                                    Koordinat
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <div class="input-group">
+                                                        <input id="koordinat" class="form-control"
+                                                            value="{{ $skrk->koordinat }}" readonly>
+                                                        <button class="btn btn-outline-secondary" type="button"
+                                                            onclick="copyToClipboard('#koordinat')">
+                                                            <i class="bx bx-clipboard"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-6">
+                                    @if ($skrk->foto_survey != null)
+                                        @foreach (json_decode($skrk->foto_survey) as $item)
+                                            <img src="{{ asset('storage/' . $item) }}" alt="" width="200px"
+                                                class="mb-3">
+                                        @endforeach
+
+                                    @endif
+                                </div>
+                            </div>
+
                         </div>
 
-                        <div class="row">
-                            <div class="col-xl">
-                                <div class="card mb-4">
-                                    <div
-                                        class="card-header d-flex align-items-center justify-content-between bg-secondary">
-                                        <h5 class="mb-0 text-white">Data Analisa</h5>
-                                    </div>
-                                    <div class="card-body mt-3">
-                                        <div class="row mb-3">
-                                            <label class="col-sm-2 col-form-label" for="luas_permohonan">
-                                                Luas Permohonan
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <input id="luas_permohonan" class="form-control"
-                                                    value="{{ $skrk->permohonan->luas_tanah }} m2" readonly>
-                                            </div>
+                        <div class="tab-pane fade" id="navs-pills-top-analisa" role="tabpanel">
+                            <div class="mb-3">
+                                @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor' || Auth::user()->role == 'analis')
+                                    @if ($skrk->tgl_survey != null)
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#AddAnalisaModal">
+                                            <i class="bx bx-plus"></i> Tambah Analisa
+                                        </button>
+                                    @endif
+                                @endif
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl">
+                                    <div class="card mb-4">
+                                        <div
+                                            class="card-header d-flex align-items-center justify-content-between bg-secondary">
+                                            <h5 class="mb-0 text-white">Data Analisa</h5>
                                         </div>
-                                        <div class="row mb-3">
-                                            <label class="col-sm-2 col-form-label" for="penguasaan_tanah">
-                                                Informasi Penguasaan Tanah
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <input id="penguasaan_tanah" class="form-control"
-                                                    value="{{ $skrk->penguasaan_tanah }}" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <label class="col-sm-2 col-form-label" for="ada_bangunan">
-                                                Ada Bangunan
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <div class="input-group">
-                                                    <input id="ada_bangunan" class="form-control"
-                                                        value="{{ $skrk->ada_bangunan }}" readonly>
+                                        <div class="card-body mt-3">
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label" for="luas_permohonan">
+                                                    Luas Permohonan
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input id="luas_permohonan" class="form-control"
+                                                        value="{{ $skrk->permohonan->luas_tanah }} m2" readonly>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <label class="col-sm-2 col-form-label" for="jml_bangunan">
-                                                Jumlah Bangunan
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <div class="input-group">
-                                                    <input id="jml_bangunan" class="form-control"
-                                                        value="{{ $skrk->jml_bangunan }} Unit" readonly>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label" for="penguasaan_tanah">
+                                                    Informasi Penguasaan Tanah
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input id="penguasaan_tanah" class="form-control"
+                                                        value="{{ $skrk->penguasaan_tanah }}" readonly>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <label class="col-sm-2 col-form-label" for="jml_lantai">
-                                                Rencana Lantai Bangunan
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <div class="input-group">
-                                                    <input id="jml_lantai" class="form-control"
-                                                        value="{{ $skrk->jml_lantai }} Lantai" readonly>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label" for="ada_bangunan">
+                                                    Ada Bangunan
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <div class="input-group">
+                                                        <input id="ada_bangunan" class="form-control"
+                                                            value="{{ $skrk->ada_bangunan }}" readonly>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <label class="col-sm-2 col-form-label" for="luas_lantai">
-                                                Rencana Luas Lantai Bangunan
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <div class="input-group">
-                                                    <input id="luas_lantai" class="form-control"
-                                                        value="{{ $skrk->luas_lantai }} m2" readonly>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label" for="jml_bangunan">
+                                                    Jumlah Bangunan
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <div class="input-group">
+                                                        <input id="jml_bangunan" class="form-control"
+                                                            value="{{ $skrk->jml_bangunan }} Unit" readonly>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <label class="col-sm-2 col-form-label" for="kedalaman_min">
-                                                Kedalaman/Ketinggian Minimal
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <div class="input-group">
-                                                    <input id="kedalaman_min" class="form-control"
-                                                        value="{{ $skrk->kedalaman_min }} Meter" readonly>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label" for="jml_lantai">
+                                                    Rencana Lantai Bangunan
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <div class="input-group">
+                                                        <input id="jml_lantai" class="form-control"
+                                                            value="{{ $skrk->jml_lantai }} Lantai" readonly>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <label class="col-sm-2 col-form-label" for="kedalaman_max">
-                                                Kedalaman/Ketinggian Maksimal
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <div class="input-group">
-                                                    <input id="kedalaman_max" class="form-control"
-                                                        value="{{ $skrk->kedalaman_max }} Meter" readonly>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label" for="luas_lantai">
+                                                    Rencana Luas Lantai Bangunan
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <div class="input-group">
+                                                        <input id="luas_lantai" class="form-control"
+                                                            value="{{ $skrk->luas_lantai }} m2" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label" for="kedalaman_min">
+                                                    Kedalaman/Ketinggian Minimal
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <div class="input-group">
+                                                        <input id="kedalaman_min" class="form-control"
+                                                            value="{{ $skrk->kedalaman_min }} Meter" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label" for="kedalaman_max">
+                                                    Kedalaman/Ketinggian Maksimal
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <div class="input-group">
+                                                        <input id="kedalaman_max" class="form-control"
+                                                            value="{{ $skrk->kedalaman_max }} Meter" readonly>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -450,44 +450,44 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="tab-pane fade" id="navs-pills-top-dokumen" role="tabpanel">
-                        <div class="row">
-                            <div class="col-xl">
-                                <div class="card mb-4">
-                                    <div
-                                        class="card-header d-flex align-items-center justify-content-between bg-secondary">
-                                        <h5 class="mb-0 text-white">Dokumen</h5>
-                                    </div>
-                                    <div class="card-body mt-3">
-                                        <div class="table-responsive text-nowrap">
-                                            <table class="table-hover">
-                                                <thead>
-                                                    <th>No</th>
-                                                    <th>Nama Berkas</th>
-                                                    <th>Status</th>
-                                                    <th>Lihat</th>
-                                                </thead>
-                                                <tbody>
-                                                    @php
-                                                        $no = 1;
-                                                    @endphp
-                                                    @foreach ($skrk->permohonan->berkas as $item)
-                                                        <tr>
-                                                            <td>{{ $no++ }}</td>
-                                                            <td>{{ $item->file_path }}</td>
-                                                            <td>{{ $item->status }}</td>
-                                                            <td>
-                                                                <a href="{{ asset('storage/' . $item->file_path) }}"
-                                                                    target="_blank">
-                                                                    <i class="bx bx-show"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
+                        <div class="tab-pane fade" id="navs-pills-top-dokumen" role="tabpanel">
+                            <div class="row">
+                                <div class="col-xl">
+                                    <div class="card mb-4">
+                                        <div
+                                            class="card-header d-flex align-items-center justify-content-between bg-secondary">
+                                            <h5 class="mb-0 text-white">Dokumen</h5>
+                                        </div>
+                                        <div class="card-body mt-3">
+                                            <div class="table-responsive text-nowrap">
+                                                <table class="table table-hover table-bordered">
+                                                    <thead>
+                                                        <th>No</th>
+                                                        <th>Nama Berkas</th>
+                                                        <th>Status</th>
+                                                        <th>Lihat</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        @php
+                                                            $no = 1;
+                                                        @endphp
+                                                        @foreach ($skrk->permohonan->berkas as $item)
+                                                            <tr>
+                                                                <td>{{ $no++ }}</td>
+                                                                <td>{{ $item->file_path }}</td>
+                                                                <td>{{ $item->status }}</td>
+                                                                <td>
+                                                                    <a href="{{ asset('storage/' . $item->file_path) }}"
+                                                                        target="_blank">
+                                                                        <i class="bx bx-show"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -497,15 +497,14 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    @teleport('body')
-        @livewire('admin.permohonan.skrk.skrk-survey-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
-    @endteleport
-    @teleport('body')
-        @livewire('admin.permohonan.skrk.skrk-analis-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
-    @endteleport
-</div>
+        @teleport('body')
+            @livewire('admin.permohonan.skrk.skrk-survey-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+        @endteleport
+        @teleport('body')
+            @livewire('admin.permohonan.skrk.skrk-analis-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+        @endteleport
+    </div>
 </div>
 @push('scripts')
     <script>
