@@ -20,7 +20,6 @@ class Permohonan extends Model
         'created_by',
         'updated_by',
         'alamat_pemohon',
-        'email',
         'npwp',
         'luas_tanah',
         'tgl_selesai',

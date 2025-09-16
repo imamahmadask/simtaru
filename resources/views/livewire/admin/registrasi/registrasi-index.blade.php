@@ -33,6 +33,7 @@
                             <th>Kode Registrasi</th>
                             <th>Nama</th>
                             <th>No Hp</th>
+                            <th>Email</th>
                             <th>NIK</th>
                             <th>Jenis Layanan</th>
                             <th>Tanggal</th>
@@ -58,6 +59,9 @@
                                     </td>
                                     <td>
                                         {{ $data->no_hp }}
+                                    </td>
+                                    <td>
+                                        {{ $data->email }}
                                     </td>
                                     <td>
                                         {{ Str::mask($data->nik, '*', 5, -1) }}

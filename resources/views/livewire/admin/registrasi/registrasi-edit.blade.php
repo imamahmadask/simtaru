@@ -43,6 +43,16 @@
                         </div>
                         <div class="row">
                             <div class="col mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" wire:model="email" name="email" class="form-control"
+                                    placeholder="Masukkan Email pemohon" />
+                                @error('email')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-3">
                                 <label for="tanggal" class="form-label">Tanggal Permohonan</label>
                                 <input type="date" wire:model="tanggal" name="tanggal" class="form-control"
                                     placeholder="" />

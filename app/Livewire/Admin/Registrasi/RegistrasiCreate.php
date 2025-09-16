@@ -19,6 +19,9 @@ class RegistrasiCreate extends Component
     #[Validate('required|min:16,max:16|numeric')]
     public $nik;
 
+    #[Validate('required|email')]
+    public $email;
+
     public function render()
     {
         return view('livewire.admin.registrasi.registrasi-create');
@@ -34,7 +37,8 @@ class RegistrasiCreate extends Component
            'no_hp' => $this->no_hp,
            'tanggal' => $this->tanggal,
            'layanan_id' => $this->layanan_id,
-           'created_by' => Auth::user()->id
+           'created_by' => Auth::user()->id,
+           'email' => $this->email,
         ]);
         $registrasi = Registrasi::latest()->first();
 

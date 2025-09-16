@@ -78,13 +78,12 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="email">Email Pemohon</label>
                                         <input type="email" class="form-control" wire:model="email" id="email"
-                                            placeholder="Masukkan email pemohon" />
+                                            placeholder="Masukkan email pemohon" disabled />
                                         @error('email')
                                             <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                         @enderror

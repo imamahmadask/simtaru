@@ -80,7 +80,8 @@
                                                 </label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control" id="email"
-                                                        value="{{ $permohonan->email }}" autocomplete="off" readonly />
+                                                        value="{{ $permohonan->registrasi->email }}" autocomplete="off"
+                                                        readonly />
                                                 </div>
                                             </div>
                                             <div class="row mb-3">

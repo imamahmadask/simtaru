@@ -16,6 +16,7 @@ class Registrasi extends Model
         'tanggal',
         'layanan_id',
         'created_by',
+        'email',
     ];
 
     public function layanan()

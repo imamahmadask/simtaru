@@ -25,10 +25,7 @@ class PermohonanCreate extends Component
     public $tahapans = [];
 
     #[Validate('required')]
-    public $registrasi_id, $layanan_id, $nama, $nik, $no_hp, $alamat_pemohon, $alamat_tanah, $kel_tanah, $kec_tanah, $jenis_bangunan, $luas_tanah, $tahapan_id, $penerima_id;
-
-    #[Validate('required|email')]
-    public $email;
+    public $registrasi_id, $layanan_id, $nama, $nik, $no_hp, $email, $alamat_pemohon, $alamat_tanah, $kel_tanah, $kec_tanah, $jenis_bangunan, $luas_tanah, $tahapan_id, $penerima_id;
 
     public $npwp, $keterangan, $status, $pemberi_id, $catatan, $berkas_ktp, $berkas_nib, $berkas_penguasaan;
 
@@ -50,7 +47,6 @@ class PermohonanCreate extends Component
             'layanan_id' => $this->layanan_id,
             'alamat_pemohon' => $this->alamat_pemohon,
             'npwp' => $this->npwp,
-            'email' => $this->email,
             'alamat_tanah' => $this->alamat_tanah,
             'kel_tanah' => $this->kel_tanah,
             'kec_tanah' => $this->kec_tanah,
@@ -129,6 +125,7 @@ class PermohonanCreate extends Component
             $this->nama = $registrasi->nama;
             $this->nik = $registrasi->nik;
             $this->no_hp = $registrasi->no_hp;
+            $this->email = $registrasi->email;
             $this->tahapans = Tahapan::where('layanan_id', $this->layanan_id)->where('urutan', 1)->get();
         }
         else
@@ -137,6 +134,7 @@ class PermohonanCreate extends Component
             $this->nama = "";
             $this->nik = "";
             $this->no_hp = "";
+            $this->email = "";
             $this->tahapans = [];
         }
     }
