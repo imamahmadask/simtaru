@@ -12,6 +12,7 @@ class Skrk extends Model
         'permohonan_id',
         'layanan_id',
         'tgl_survey',
+        'koordinat',
         'penguasaan_tanah',
         'ada_bangunan',
         'status_modal',
