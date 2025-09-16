@@ -38,7 +38,8 @@
                                     <option value="superadmin">Super Admin</option>
                                     <option value="supervisor">Supervisor</option>
                                     <option value="surveyor">Surveyor</option>
-                                    <option value="Analis">Analis</option>
+                                    <option value="analis">Analis</option>
+                                    <option value="cs">Customer Service</option>
                                     <option value="user">User</option>
                                 </select>
                                 @error('role')

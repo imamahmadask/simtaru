@@ -18,7 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['cekRole:superadmin,supervisor,analis,surveyor,user'])->group(function () {
+Route::middleware(['cekRole:superadmin,supervisor,analis,surveyor,cs,user'])->group(function () {
     Route::get('admin/dashboard', DashboardIndex::class)->name('dashboard'); // dashboard
     Route::get('admin/registrasi', RegistrasiIndex::class)->name('registrasi.index'); // registrasi
 
