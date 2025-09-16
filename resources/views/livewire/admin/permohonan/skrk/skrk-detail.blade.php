@@ -232,52 +232,6 @@
                                 </div>
                                 <div class="col-xl-6">
                                     @livewire('admin.permohonan.riwayat.riwayat-permohonan-index', ['permohonan' => $skrk->permohonan])
-
-                                    <div class="card mb-4">
-                                        {{-- Data Pemohon --}}
-                                        <div
-                                            class="card-header d-flex align-items-center justify-content-between bg-secondary">
-                                            <h5 class="mb-0 text-white">Download Template Berkas</h5>
-                                        </div>
-                                        <div class="card-body mt-3">
-                                            <div class="row mb-3">
-                                                <button type="button" class="btn btn-primary"
-                                                    wire:click="download1a">
-                                                    Template 1A (Form Survey)
-                                                </button>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <button type="button" class="btn btn-primary"
-                                                    wire:click="download1b">
-                                                    Template 1B (BA Survey)
-                                                </button>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <button type="button" class="btn btn-primary"
-                                                    wire:click="download2a">
-                                                    Template 2A (BA Rapat FPR)
-                                                </button>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <button type="button" class="btn btn-primary"
-                                                    wire:click="download2b">
-                                                    Template 2B (Notulensi Rapat FPR)
-                                                </button>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <button type="button" class="btn btn-primary"
-                                                    wire:click="download3">
-                                                    Template 3 (Kajian SKRK)
-                                                </button>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <button type="button" class="btn btn-primary"
-                                                    wire:click="download4">
-                                                    Template 4 (Dokumen SKRK)
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -287,7 +241,7 @@
                                 @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor' || Auth::user()->role == 'surveyor')
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                         data-bs-target="#AddSurveyModal">
-                                        <i class="bx bx-plus"></i> Tambah Survey
+                                        <i class="bx bx-plus"></i> Data Survey
                                     </button>
                                 @endif
                             </div>
@@ -326,7 +280,29 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="card mb-4">
+                                        <div
+                                            class="card-header d-flex align-items-center justify-content-between bg-secondary">
+                                            <h5 class="mb-0 text-white">Download Template Berkas</h5>
+                                        </div>
+                                        <div class="card-body mt-3">
+                                            <div class="row mb-3">
+                                                <button type="button" class="btn btn-primary"
+                                                    wire:click="download1a">
+                                                    Template 1A (Form Survey)
+                                                </button>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <button type="button" class="btn btn-primary"
+                                                    wire:click="download1b">
+                                                    Template 1B (BA Survey)
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+
 
                                 <div class="col-xl-6">
                                     @if ($skrk->foto_survey != null)
@@ -444,6 +420,42 @@
                                                             value="{{ $skrk->kedalaman_max }} Meter" readonly>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="card mb-4">
+                                        <div
+                                            class="card-header d-flex align-items-center justify-content-between bg-secondary">
+                                            <h5 class="mb-0 text-white">Download Template Berkas</h5>
+                                        </div>
+                                        <div class="card-body mt-3">
+                                            <div class="row mb-3">
+                                                <button type="button" class="btn btn-primary"
+                                                    wire:click="download2a">
+                                                    Template 2A (BA Rapat FPR)
+                                                </button>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <button type="button" class="btn btn-primary"
+                                                    wire:click="download2b">
+                                                    Template 2B (Notulensi Rapat FPR)
+                                                </button>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <button type="button" class="btn btn-primary"
+                                                    wire:click="download3">
+                                                    Template 3 (Kajian SKRK)
+                                                </button>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <button type="button" class="btn btn-primary"
+                                                    wire:click="download4">
+                                                    Template 4 (Dokumen SKRK)
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
