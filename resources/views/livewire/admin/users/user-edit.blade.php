@@ -40,7 +40,7 @@
                                     <option value="surveyor">Surveyor</option>
                                     <option value="analis">Analis</option>
                                     <option value="cs">Customer Service</option>
-                                    <option value="user">User</option>
+                                    <option value="data-entry">Data Entry</option>
                                 </select>
                                 @error('role')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
