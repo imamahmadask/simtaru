@@ -18,7 +18,6 @@ class Skrk extends Model
         'kbli',
         'judul_kbli',
         'skala_usaha',
-        'koordinat',
         'luas_disetujui',
         'pemanfaatan_ruang',
         'peraturan_zonasi',

@@ -260,23 +260,32 @@
                                                 </label>
                                                 <div class="col-sm-10">
                                                     <input id="tgl_survey" class="form-control"
-                                                        value="{{ $skrk->tgl_survey }}" readonly>
+                                                        value="{{ date('d-m-Y', strtotime($skrk->tgl_survey)) }}"
+                                                        readonly>
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
                                                 <label class="col-sm-2 col-form-label" for="koordinat">
                                                     Koordinat
                                                 </label>
-                                                <div class="col-sm-10">
-                                                    <div class="input-group">
-                                                        <input id="koordinat" class="form-control"
-                                                            value="{{ $skrk->koordinat }}" readonly>
-                                                        <button class="btn btn-outline-secondary" type="button"
-                                                            onclick="copyToClipboard('#koordinat')">
-                                                            <i class="bx bx-clipboard"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>X</th>
+                                                            <th>Y</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($skrk->koordinat as $i => $point)
+                                                            <tr>
+                                                                <td>{{ $i + 1 }}</td>
+                                                                <td>{{ $point['x'] }}</td>
+                                                                <td>{{ $point['y'] }}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>

@@ -79,6 +79,11 @@ class SkrkDetail extends Component
     public function download3()
     {
         $permohonan = $this->skrk->permohonan;
+        $textKoordinat = '';
+        foreach ($this->skrk->koordinat as $i => $point) {
+            $textKoordinat .= "{$point['x']}, {$point['y']}\n";
+        }
+
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
             'alamat_pemohon' => $permohonan->alamat_pemohon,
@@ -93,7 +98,7 @@ class SkrkDetail extends Component
             'jenis_bangunan' => $permohonan->jenis_bangunan,
             'luas_tanah' => $permohonan->luas_tanah,
             'ada_bangunan' => $this->skrk->ada_bangunan,
-            'koordinat' => $this->skrk->koordinat,
+            'koordinat' => $textKoordinat,
             'penguasaan_tanah' => $this->skrk->penguasaan_tanah,
             'jml_bangunan' => $this->skrk->jml_bangunan,
             'jml_lantai' => $this->skrk->jml_lantai,
