@@ -25,12 +25,14 @@ class SkrkSurveyCreate extends Component
     public $tahapan_id, $penerima_id;
 
     #[Validate('required')]
-    public $tgl_survey, $koordinat;
+    public $tgl_survey;
 
     #[Validate(['foto_survey.*' => 'image|max:1024'])]
     public $foto_survey = [];
 
     public $file_ = [];
+
+    public $koordinat = [];
 
     public function render()
     {
@@ -122,9 +124,17 @@ class SkrkSurveyCreate extends Component
     {
         $this->permohonan_id = $permohonan_id;
         $this->skrk_id = $skrk_id;
+        $skrk = Skrk::find($this->skrk_id);
         $permohonan = Permohonan::findOrFail($this->permohonan_id);
         $this->tahapans = Tahapan::where('layanan_id', $permohonan->layanan_id)->where('urutan', 2)->get();
         $this->users = User::where('role', 'analis')->get();
+
+         $this->koordinat = $skrk->koordinat ?? [
+            ['x' => '', 'y' => ''],
+            ['x' => '', 'y' => ''],
+            ['x' => '', 'y' => ''],
+            ['x' => '', 'y' => ''], // minimal 4
+        ];
     }
 
     private function createRiwayat(Permohonan $permohonan, string $keterangan)
@@ -134,5 +144,20 @@ class SkrkSurveyCreate extends Component
             'user_id' => Auth::user()->id,
             'keterangan' => $keterangan
         ]);
+    }
+
+    public function addRow()
+    {
+        if (count($this->koordinat) < 8) {
+            $this->koordinat[] = ['x' => '', 'y' => ''];
+        }
+    }
+
+    public function removeRow($index)
+    {
+        if (count($this->koordinat) > 4) { // minimal 4 titik
+            unset($this->koordinat[$index]);
+            $this->koordinat = array_values($this->koordinat);
+        }
     }
 }

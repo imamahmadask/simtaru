@@ -42,6 +42,10 @@ class Skrk extends Model
         'kedalaman_max'
     ];
 
+    protected $casts = [
+        'koordinat' => 'array',
+    ];
+
     public function permohonan()
     {
         return $this->belongsTo(Permohonan::class);

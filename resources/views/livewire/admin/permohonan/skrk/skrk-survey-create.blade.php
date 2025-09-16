@@ -20,14 +20,40 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col mb-3">
-                                <label for="koordinat" class="form-label">Koordinat</label>
-                                <input type="text" class="form-control" wire:model="koordinat" id="koordinat"
-                                    placeholder="Masukkan Koordinat (X, Y)">
-                                @error('koordinat')
-                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
-                                @enderror
+
+                        <div class="mb-3">
+                            <label class="form-label">Koordinat</label>
+
+                            @foreach ($koordinat as $i => $point)
+                                <div class="row mb-2">
+                                    <div class="col">
+                                        <input type="text" class="form-control"
+                                            wire:model="koordinat.{{ $i }}.x" placeholder="X">
+                                        @error("koordinat.$i.x")
+                                            <span class="form-text text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control"
+                                            wire:model="koordinat.{{ $i }}.y" placeholder="Y">
+                                        @error("koordinat.$i.y")
+                                            <span class="form-text text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="button" class="btn btn-sm btn-danger"
+                                            wire:click="removeRow({{ $i }})" @disabled(count($koordinat) <= 4)>
+                                            <i class="bx bx-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            @endforeach
+
+                            <div class="d-flex justify-content-between mt-2">
+                                <button type="button" class="btn btn-sm btn-success" wire:click="addRow"
+                                    @disabled(count($koordinat) >= 8)>
+                                    <i class="bx bx-plus"></i>
+                                </button>
                             </div>
                         </div>
 
