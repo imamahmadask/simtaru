@@ -20,103 +20,264 @@
                         @endif
 
                         <form wire:submit="updatePermohonan">
+                            <div class="mb-3">
+                                <label for="registrasi_id" class="form-label">Kode Registrasi</label>
+                                <select class="form-select" wire:model.live="registrasi_id" id="registrasi_id"
+                                    aria-label="Default select example">
+                                    <option value="" selected>Pilih Registrasi</option>
+                                    @foreach ($registrasis as $data)
+                                        <option value="{{ $data->id }}">{{ $data->kode }} - {{ $data->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('registrasi_id')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+
                             <div class="row">
-                                <div class="col mb-3">
-                                    <label for="registrasi_id" class="form-label">Kode Registrasi</label>
-                                    <select class="form-select @error('registrasi_id') is-invalid @enderror"
-                                        wire:model="registrasi_id" id="registrasi_id" disabled>
-                                        <option value="">Pilih Registrasi</option>
-                                        @foreach ($registrasis as $registrasi)
-                                            <option value="{{ $registrasi->id }}">{{ $registrasi->kode }} -
-                                                {{ $registrasi->nama }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('registrasi_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label for="layanan_id" class="form-label">Jenis Layanan</label>
+                                        <select class="form-select" wire:model="layanan_id" id="layanan_id"
+                                            aria-label="Default select example" disabled>
+                                            <option value="" selected>Pilih Jenis Layanan</option>
+                                            @foreach ($layanans as $data)
+                                                <option value="{{ $data->id }}">{{ $data->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('layanan_id')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
                                 </div>
 
-                                <div class="col mb-3">
-                                    <label for="layanan_id" class="form-label">Jenis Layanan</label>
-                                    <select class="form-select @error('layanan_id') is-invalid @enderror"
-                                        wire:model="layanan_id" id="layanan_id" disabled>
-                                        <option value="">Pilih Layanan</option>
-                                        @foreach ($layanans as $layanan)
-                                            <option value="{{ $layanan->id }}">{{ $layanan->nama }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('layanan_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="nama">Nama Pemohon</label>
+                                        <input type="text" class="form-control" wire:model="nama" id="nama"
+                                            placeholder="" disabled />
+                                        @error('nama')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
                                 </div>
+                            </div>
 
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="nik">NIK</label>
+                                        <input type="text" class="form-control" wire:model="nik" id="nik"
+                                            placeholder="" disabled />
+                                        @error('nik')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="no_hp">No. HP</label>
+                                        <input type="text" class="form-control" wire:model="no_hp" id="no_hp"
+                                            placeholder="" disabled />
+                                        @error('no_hp')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="email">Email Pemohon</label>
+                                        <input type="email" class="form-control" wire:model="email" id="email"
+                                            placeholder="Masukkan email pemohon" disabled />
+                                        @error('email')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="npwp">NPWP Pemohon</label>
+                                        <input type="npwp" class="form-control" wire:model="npwp" id="npwp"
+                                            placeholder="Masukkan nomor npwp pemohon" />
+                                        @error('npwp')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="alamat_pemohon">Alamat Pemohon</label>
+                                <input type="text" class="form-control" wire:model="alamat_pemohon"
+                                    id="alamat_pemohon" placeholder="Masukkan Alamat Pemohon" />
+                                @error('alamat_pemohon')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label" for="alamat_tanah">Alamat Tanah</label>
-                                <textarea class="form-control @error('alamat_tanah') is-invalid @enderror" id="alamat_tanah" wire:model="alamat_tanah"
-                                    rows="3"></textarea>
+                                <input type="text" class="form-control" wire:model="alamat_tanah"
+                                    id="alamat_tanah" placeholder="Masukkan Alamat Tanah" />
                                 @error('alamat_tanah')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
                             </div>
 
                             <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="kel_tanah">Kelurahan Tanah</label>
+                                        <input type="text" class="form-control" wire:model="kel_tanah"
+                                            id="kel_tanah" placeholder="Masukkan Kelurahan Tanah" />
+                                        @error('kel_tanah')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="kec_tanah">Kecamatan Tanah</label>
+                                        <input type="text" class="form-control" wire:model="kec_tanah"
+                                            id="kec_tanah" placeholder="Masukkan Kecamatan Tanah" />
+                                        @error('kec_tanah')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="jenis_bangunan">Fungsi Bangunan</label>
+                                        <input type="text" class="form-control" wire:model="jenis_bangunan"
+                                            id="jenis_bangunan" placeholder="Masukkan Jenis Bangunan" />
+                                        @error('jenis_bangunan')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="luas_tanah">Luas Tanah (m2)</label>
+                                        <input type="text" class="form-control" wire:model="luas_tanah"
+                                            id="luas_tanah"
+                                            placeholder="Masukkan Luas Tanah/persil yang dimohonkan" />
+                                        @error('luas_tanah')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="mb-3">
+                                        <label for="berkas_ktp" class="form-label">Upload KTP</label>
+                                        <input type="file" class="form-control" id="berkas_ktp"
+                                            wire:model="berkas_ktp">
+                                        @if ($berkas_ktp_lama)
+                                            <a href="{{ asset('storage/' . $berkas_ktp_lama) }}"
+                                                class="btn btn-sm btn-primary my-2" target="_blank">
+                                                <i class="bx bx-show"></i> KTP
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="mb-3">
+                                        <label for="berkas_permohonan" class="form-label">Upload Permohonan</label>
+                                        <input type="file" class="form-control" id="berkas_permohonan"
+                                            wire:model="berkas_permohonan">
+                                        @if ($berkas_permohonan_lama)
+                                            <a href="{{ asset('storage/' . $berkas_permohonan_lama) }}"
+                                                class="btn btn-sm btn-primary my-2" target="_blank">
+                                                <i class="bx bx-show"></i> Permohonan
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="mb-3">
+                                        <label for="berkas_nib" class="form-label">Upload NIB</label>
+                                        <input type="file" class="form-control" id="berkas_nib"
+                                            wire:model="berkas_nib">
+                                        @if ($berkas_nib_lama)
+                                            <a href="{{ asset('storage/' . $berkas_nib_lama) }}"
+                                                class="btn btn-sm btn-primary my-2" target="_blank">
+                                                <i class="bx bx-show"></i> NIB
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="mb-3">
+                                        <label for="berkas_penguasaan" class="form-label">Upload Penguasaan
+                                            Tanah</label>
+                                        <input type="file" class="form-control" id="berkas_penguasaan"
+                                            wire:model="berkas_penguasaan">
+                                        @if ($berkas_penguasaan_lama)
+                                            <a href="{{ asset('storage/' . $berkas_penguasaan_lama) }}"
+                                                class="btn btn-sm btn-primary my-2" target="_blank">
+                                                <i class="bx bx-show"></i> Penguasaan
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="keterangan" class="form-label">Keterangan</label>
+                                <textarea class="form-control" wire:model="keterangan" id="keterangan" rows="3"></textarea>
+                            </div>
+
+                            <h5 class="mt-5">Disposisi</h5>
+
+                            <div class="row">
                                 <div class="col mb-3">
-                                    <label class="form-label" for="kel_tanah">Kelurahan</label>
-                                    <input type="text" class="form-control @error('kel_tanah') is-invalid @enderror"
-                                        wire:model="kel_tanah" id="kel_tanah" placeholder="Masukkan kelurahan" />
-                                    @error('kel_tanah')
-                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    <label for="tahapan_id" class="form-label">Tahapan</label>
+                                    <select class="form-select" wire:model.live="tahapan_id" name="tahapan_id"
+                                        aria-label="Select Tahapan">
+                                        <option selected>Pilih Tahapan</option>
+                                        @foreach ($tahapans as $tahapan)
+                                            <option value="{{ $tahapan->id }}">
+                                                {{ $tahapan->urutan }} - {{ $tahapan->nama }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('tahapan_id')
+                                        <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                     @enderror
                                 </div>
+                            </div>
 
+                            <div class="row">
                                 <div class="col mb-3">
-                                    <label class="form-label" for="kec_tanah">Kecamatan</label>
-                                    <input type="text" class="form-control @error('kec_tanah') is-invalid @enderror"
-                                        wire:model="kec_tanah" id="kec_tanah" placeholder="Masukkan kecamatan" />
-                                    @error('kec_tanah')
-                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    <label for="penerima_id" class="form-label">Penerima Disposisi</label>
+                                    <select class="form-select" wire:model="penerima_id" name="penerima_id"
+                                        aria-label="Select Penerima">
+                                        <option selected>Pilih Penerima</option>
+                                        @foreach ($users as $user)
+                                            <option value="{{ $user->id }}">
+                                                {{ $user->name }} - {{ $user->role }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('penerima_id')
+                                        <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                     @enderror
                                 </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label class="form-label" for="jenis_bangunan">Jenis Bangunan</label>
-                                <input type="text" class="form-control @error('jenis_bangunan') is-invalid @enderror"
-                                    wire:model="jenis_bangunan" id="jenis_bangunan"
-                                    placeholder="Masukkan jenis bangunan" />
-                                @error('jenis_bangunan')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="status" class="form-label">Status</label>
-                                <select class="form-select" wire:model="status" id="status">
-                                    <option value="pending">Pending</option>
-                                    <option value="process">Process</option>
-                                    <option value="completed">Completed</option>
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="berkas_pemohon" class="form-label">Upload Berkas Pemohon</label>
-                                <input type="file" class="form-control" id="berkas_pemohon"
-                                    wire:model="berkas_pemohon">
-
-                                @if ($berkas_pemohon_lama)
-                                    <a href="{{ asset('storage/' . $berkas_pemohon_lama) }}" target="_blank">
-                                        Lihat Berkas
-                                    </a>
-                                @else
-                                    Belum ada file
-                                @endif
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label" for="keterangan">Keterangan</label>
-                                <textarea class="form-control" id="keterangan" wire:model="keterangan" rows="3"></textarea>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="catatan" class="form-label">Catatan Disposisi</label>
+                                    <textarea class="form-control" wire:model="catatan" name="catatan" rows="3"></textarea>
+                                </div>
                             </div>
 
                             <div class="mt-4">

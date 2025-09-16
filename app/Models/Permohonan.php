@@ -26,6 +26,7 @@ class Permohonan extends Model
         'berkas_ktp',
         'berkas_nib',
         'berkas_penguasaan',
+        'berkas_permohonan'
     ];
 
     public function layanan()

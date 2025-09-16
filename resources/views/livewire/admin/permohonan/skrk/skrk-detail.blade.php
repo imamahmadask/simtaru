@@ -167,8 +167,8 @@
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="jenis_bangunan">Jenis
-                                                    Bangunan</label>
+                                                <label class="col-sm-2 col-form-label" for="jenis_bangunan">
+                                                    Fungsi Bangunan</label>
                                                 <div class="col-sm-10">
                                                     <input type="text" id="jenis_bangunan" class="form-control"
                                                         value="{{ $skrk->permohonan->jenis_bangunan }}" readonly />

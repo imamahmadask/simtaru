@@ -27,7 +27,7 @@ class PermohonanCreate extends Component
     #[Validate('required')]
     public $registrasi_id, $layanan_id, $nama, $nik, $no_hp, $email, $alamat_pemohon, $alamat_tanah, $kel_tanah, $kec_tanah, $jenis_bangunan, $luas_tanah, $tahapan_id, $penerima_id;
 
-    public $npwp, $keterangan, $status, $pemberi_id, $catatan, $berkas_ktp, $berkas_nib, $berkas_penguasaan;
+    public $npwp, $keterangan, $status, $pemberi_id, $catatan, $berkas_ktp, $berkas_nib, $berkas_penguasaan, $berkas_permohonan;
 
     public function render()
     {
@@ -41,6 +41,7 @@ class PermohonanCreate extends Component
         $path_berkas_ktp = $this->uploadFile($this->berkas_ktp, 'berkas_ktp');
         $path_berkas_nib = $this->uploadFile($this->berkas_nib, 'berkas_nib');
         $path_berkas_penguasaan = $this->uploadFile($this->berkas_penguasaan, 'berkas_penguasaan');
+        $path_berkas_permohonan = $this->uploadFile($this->berkas_permohonan, 'berkas_permohonan');
 
         $permohonan = Permohonan::create([
             'registrasi_id' => $this->registrasi_id,
@@ -57,6 +58,7 @@ class PermohonanCreate extends Component
             'berkas_ktp' => $path_berkas_ktp,
             'berkas_nib' => $path_berkas_nib,
             'berkas_penguasaan' => $path_berkas_penguasaan,
+            'berkas_permohonan' => $path_berkas_permohonan,
             'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id
         ]);

@@ -145,7 +145,7 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
-                                        <label class="form-label" for="jenis_bangunan">Jenis Bangunan</label>
+                                        <label class="form-label" for="jenis_bangunan">Fungsi Bangunan</label>
                                         <input type="text" class="form-control" wire:model="jenis_bangunan"
                                             id="jenis_bangunan" placeholder="Masukkan Jenis Bangunan" />
                                         @error('jenis_bangunan')
@@ -167,21 +167,28 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="mb-3">
                                         <label for="berkas_ktp" class="form-label">Upload KTP</label>
                                         <input type="file" class="form-control" id="berkas_ktp"
                                             wire:model="berkas_ktp">
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
+                                    <div class="mb-3">
+                                        <label for="berkas_permohonan" class="form-label">Upload Permohonan</label>
+                                        <input type="file" class="form-control" id="berkas_permohonan"
+                                            wire:model="berkas_permohonan">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
                                     <div class="mb-3">
                                         <label for="berkas_nib" class="form-label">Upload NIB</label>
                                         <input type="file" class="form-control" id="berkas_nib"
                                             wire:model="berkas_nib">
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="mb-3">
                                         <label for="berkas_penguasaan" class="form-label">Upload Penguasaan
                                             Tanah</label>
@@ -193,7 +200,7 @@
 
                             <div class="mb-3">
                                 <label for="keterangan" class="form-label">Keterangan</label>
-                                <textarea class="form-control" id="keterangan" rows="3"></textarea>
+                                <textarea class="form-control" wire:model="keterangan" id="keterangan" rows="3"></textarea>
                             </div>
 
                             <h5 class="mt-5">Disposisi</h5>

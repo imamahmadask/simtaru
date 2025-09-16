@@ -160,8 +160,8 @@
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="jenis_bangunan">Jenis
-                                                    Bangunan</label>
+                                                <label class="col-sm-2 col-form-label" for="jenis_bangunan">
+                                                    Fungsi Bangunan</label>
                                                 <div class="col-sm-10">
                                                     <input type="text" id="jenis_bangunan" class="form-control"
                                                         value="{{ $permohonan->jenis_bangunan }}" readonly />
@@ -200,9 +200,12 @@
                                                 </span>
                                                 <div class="col-sm d-flex justify-content-around flex-wrap">
                                                     <a href="{{ asset('storage/' . $permohonan->berkas_ktp) }}"
-                                                        target="_blank" type="button" class="btn btn-primary m-1"
-                                                        id="berkas">
+                                                        target="_blank" type="button" class="btn btn-primary m-1">
                                                         KTP
+                                                    </a>
+                                                    <a href="{{ asset('storage/' . $permohonan->berkas_permohonan) }}"
+                                                        target="_blank" type="button" class="btn btn-primary m-1">
+                                                        Permohonan
                                                     </a>
                                                     <a href="{{ asset('storage/' . $permohonan->berkas_nib) }}"
                                                         target="_blank" type="button" class="btn btn-primary m-1">
