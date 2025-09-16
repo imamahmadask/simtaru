@@ -67,9 +67,9 @@
                 <div class="col-lg-8">
                     <img src="{{ asset('assets/img/logo/simtaru3.png') }}" alt="" width="150">
                     <h1 class="display-2 fw-bold text-dark mt-2">SIMTARU HARUM</h1>
-                    <h3>Spatial Planning Permit Application</h3>
+                    <h3>Sistem Informasi Tata Ruang Kota Mataram</h3>
                     <p class="lead text-muted mb-5">
-                        Sistem Informasi Tata Ruang Kota Mataram
+                        Dinas Pekerjaan Umum Dan Penataan Ruang Kota Mataram
                     </p>
                 </div>
             </div>
