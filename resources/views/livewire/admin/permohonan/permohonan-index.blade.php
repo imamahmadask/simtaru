@@ -15,6 +15,13 @@
                     <!-- Filter & Search -->
                     <div class="d-flex flex-wrap gap-2">
                         <div class="flex-fill" style="min-width: 150px;">
+                            <select wire:model.live="filterPrioritas" id="filterPrioritas" class="form-control">
+                                <option value="">Pilih Prioritas</option>
+                                <option value="1">Ya</option>
+                                <option value="0">Tidak</option>
+                            </select>
+                        </div>
+                        <div class="flex-fill" style="min-width: 150px;">
                             <select wire:model.live="filterStatus" id="filterStatus" class="form-control">
                                 <option value="">Pilih Status</option>
                                 <option value="pending">Pending</option>
@@ -43,6 +50,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Prioritas</th>
                             <th>Kode Registrasi</th>
                             <th>Nama Pemohon</th>
                             <th>Tgl Permohonan</th>
@@ -60,6 +68,11 @@
                                 <tr>
                                     <td>
                                         {{ $no++ }}
+                                    </td>
+                                    <td>
+                                        @if ($data->is_prioritas)
+                                            <i class="bx bx-star text-warning"></i>
+                                        @endif
                                     </td>
                                     <td>
                                         <strong>

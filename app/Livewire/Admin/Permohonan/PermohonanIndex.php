@@ -13,6 +13,7 @@ class PermohonanIndex extends Component
     public $search = '';
     public $filterLayanan = '';
     public $filterStatus = '';
+    public $filterPrioritas = '';
     public $layanans;
     public function render()
     {
@@ -24,8 +25,11 @@ class PermohonanIndex extends Component
                             $query->where('nama', 'like', '%' . $this->search . '%')
                                 ->orWhere('kode', 'like', '%' . $this->search . '%');
                         })
+                        ->where('is_prioritas', 'like', '%' . $this->filterPrioritas . '%')
                         ->where('status', 'like', '%' . $this->filterStatus . '%')
-                        ->orderBy('created_at', 'desc')->get();
+                        ->orderBy('is_prioritas', 'desc')
+                        ->orderBy('created_at', 'desc')
+                        ->get();
 
         return view('livewire.admin.permohonan.permohonan-index', [
             'permohonans' => $permohonans

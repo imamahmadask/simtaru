@@ -26,7 +26,11 @@ class Permohonan extends Model
         'berkas_ktp',
         'berkas_nib',
         'berkas_penguasaan',
-        'berkas_permohonan'
+        'berkas_permohonan',
+        'is_survey',
+        'is_analis',
+        'is_validate',
+        'is_prioritas'
     ];
 
     public function layanan()

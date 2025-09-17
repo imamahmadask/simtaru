@@ -30,6 +30,8 @@ class PermohonanEdit extends Component
 
     public $berkas_ktp_lama, $berkas_nib_lama, $berkas_penguasaan_lama, $berkas_permohonan_lama;
 
+   public $is_prioritas;
+
     public function mount($id)
     {
         $permohonan = Permohonan::findOrFail($id);
@@ -53,6 +55,7 @@ class PermohonanEdit extends Component
         $this->berkas_nib_lama = $permohonan->berkas_nib;
         $this->berkas_penguasaan_lama = $permohonan->berkas_penguasaan;
         $this->berkas_permohonan_lama = $permohonan->berkas_permohonan;
+        $this->is_prioritas = $permohonan->is_prioritas;
 
         $this->disposisi = Disposisi::where('permohonan_id', $permohonan->id)->first();
         $this->pemberi_id = $this->disposisi->pemberi_id;
@@ -98,6 +101,7 @@ class PermohonanEdit extends Component
             'berkas_nib' => $path_berkas_nib,
             'berkas_penguasaan' => $path_berkas_penguasaan,
             'berkas_permohonan' => $path_berkas_permohonan,
+            'is_prioritas' => $this->is_prioritas,
             'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id
         ]);

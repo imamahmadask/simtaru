@@ -20,10 +20,25 @@
                         @endif
 
                         <form wire:submit="updatePermohonan">
+                            @if (Auth::user()->role == 'superadmin')
+                                <div class="mb-3">
+                                    <label for="is_prioritas" class="form-label">Is Prioritas?</label>
+                                    <select class="form-select" wire:model.live="is_prioritas" id="is_prioritas"
+                                        aria-label="Prioritas select">
+                                        <option selected>Pilih Prioritas</option>
+                                        <option value="1">Ya</option>
+                                        <option value="0">Tidak</option>
+                                    </select>
+                                    @error('is_prioritas')
+                                        <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            @endif
+
                             <div class="mb-3">
                                 <label for="registrasi_id" class="form-label">Kode Registrasi</label>
                                 <select class="form-select" wire:model.live="registrasi_id" id="registrasi_id"
-                                    aria-label="Default select example">
+                                    aria-label="Default select example" disabled>
                                     <option value="" selected>Pilih Registrasi</option>
                                     @foreach ($registrasis as $data)
                                         <option value="{{ $data->id }}">{{ $data->kode }} - {{ $data->nama }}
