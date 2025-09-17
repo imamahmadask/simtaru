@@ -39,7 +39,12 @@ class Skrk extends Model
         'jml_lantai',
         'luas_lantai',
         'kedalaman_min',
-        'kedalaman_max'
+        'kedalaman_max',
+        'is_survey',
+        'is_analis',
+        'is_kajian',
+        'is_dokumen',
+        'is_validate'
     ];
 
     protected $casts = [

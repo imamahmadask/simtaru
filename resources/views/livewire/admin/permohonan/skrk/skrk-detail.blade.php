@@ -41,9 +41,9 @@
                         </li>
                         <li class="nav-item">
                             <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                data-bs-target="#navs-pills-top-dokumen" aria-controls="navs-pills-top-dokumen"
+                                data-bs-target="#navs-pills-top-berkas" aria-controls="navs-pills-top-berkas"
                                 aria-selected="false">
-                                Dokumen
+                                Berkas
                             </button>
                         </li>
                     </ul>
@@ -219,6 +219,10 @@
                                                         target="_blank" type="button" class="btn btn-primary m-1">
                                                         Penguasaan
                                                     </a>
+                                                    <a href="{{ asset('storage/' . $skrk->permohonan->berkas_permohonan) }}"
+                                                        target="_blank" type="button" class="btn btn-primary m-1">
+                                                        Permohonan
+                                                    </a>
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
@@ -238,11 +242,21 @@
 
                         <div class="tab-pane fade" id="navs-pills-top-survey" role="tabpanel">
                             <div class="mb-3">
-                                @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor' || Auth::user()->role == 'surveyor')
+                                @if (!$skrk->is_survey)
+                                    @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor' || Auth::user()->role == 'surveyor')
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#AddSurveyModal">
+                                            <i class="bx bx-plus"></i> Add Survey
+                                        </button>
+                                    @endif
+                                @else
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#AddSurveyModal">
-                                        <i class="bx bx-plus"></i> Data Survey
+                                        data-bs-target="#EditSurveyModal">
+                                        <i class="bx bx-edit"></i> Edit Survey
                                     </button>
+                                    @teleport('body')
+                                        @livewire('admin.permohonan.skrk.survey.skrk-survey-edit', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+                                    @endteleport
                                 @endif
                             </div>
 
@@ -258,34 +272,40 @@
                                                 <label class="col-sm-2 col-form-label" for="tgl_survey">
                                                     Tgl Survey
                                                 </label>
-                                                <div class="col-sm-10">
-                                                    <input id="tgl_survey" class="form-control"
-                                                        value="{{ date('d-m-Y', strtotime($skrk->tgl_survey)) }}"
-                                                        readonly>
-                                                </div>
+                                                @if ($skrk->is_survey)
+                                                    <div class="col-sm-10">
+                                                        <input id="tgl_survey" class="form-control"
+                                                            value="{{ date('d-m-Y', strtotime($skrk->tgl_survey)) }}"
+                                                            readonly>
+                                                    </div>
+                                                @endif
                                             </div>
                                             <div class="row mb-3">
                                                 <label class="col-sm-2 col-form-label" for="koordinat">
                                                     Koordinat
                                                 </label>
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>#</th>
-                                                            <th>X</th>
-                                                            <th>Y</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach ($skrk->koordinat as $i => $point)
-                                                            <tr>
-                                                                <td>{{ $i + 1 }}</td>
-                                                                <td>{{ $point['x'] }}</td>
-                                                                <td>{{ $point['y'] }}</td>
-                                                            </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
+                                                @if ($skrk->is_survey)
+                                                    <div class="table text-nowrap">
+                                                        <table class="table table-hover table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>#</th>
+                                                                    <th>X</th>
+                                                                    <th>Y</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($skrk->koordinat as $i => $point)
+                                                                    <tr>
+                                                                        <td>{{ $i + 1 }}</td>
+                                                                        <td>{{ $point['x'] }}</td>
+                                                                        <td>{{ $point['y'] }}</td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -312,7 +332,6 @@
                                     </div>
                                 </div>
 
-
                                 <div class="col-xl-6">
                                     @if ($skrk->foto_survey != null)
                                         @foreach (json_decode($skrk->foto_survey) as $item)
@@ -328,47 +347,79 @@
 
                         <div class="tab-pane fade" id="navs-pills-top-analisa" role="tabpanel">
                             <div class="mb-3">
-                                @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor' || Auth::user()->role == 'analis')
-                                    @if ($skrk->tgl_survey != null)
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#AddAnalisaModal">
-                                            <i class="bx bx-plus"></i> Tambah Analisa
-                                        </button>
+                                <div class="d-flex flex-wrap gap-3">
+                                    @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor' || Auth::user()->role == 'analis')
+                                        @if ($skrk->is_survey && !$skrk->is_kajian)
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#AddKajianAnalisaModal">
+                                                <i class="bx bx-plus"></i> Data Kajian
+                                            </button>
+                                        @elseif($skrk->is_kajian)
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#EditKajianAnalisaModal">
+                                                <i class="bx bx-edit"></i> Edit Data Kajian
+                                            </button>
+                                            @teleport('body')
+                                                @livewire('admin.permohonan.skrk.analis.skrk-kajian-analis-edit', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+                                            @endteleport
+                                        @endif
+
+                                        @if ($skrk->is_kajian && !$skrk->is_dokumen)
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#AddDokumenSkrkModal">
+                                                <i class="bx bx-plus"></i> Data Dokumen
+                                            </button>
+                                        @elseif($skrk->is_dokumen)
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#EditDokumenSkrkModal">
+                                                <i class="bx bx-edit"></i> Edit Data Dokumen
+                                            </button>
+                                            @teleport('body')
+                                                @livewire('admin.permohonan.skrk.analis.skrk-dokumen-analis-edit', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+                                            @endteleport
+                                        @endif
+
+                                        @if ($skrk->is_survey)
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#UploadBerkasAnalisaModal">
+                                                <i class="bx bx-cloud-upload"></i> Berkas Analisa
+                                            </button>
+                                        @endif
                                     @endif
-                                @endif
+                                </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-xl">
+                                <div class="col-xl-6">
                                     <div class="card mb-4">
                                         <div
                                             class="card-header d-flex align-items-center justify-content-between bg-secondary">
-                                            <h5 class="mb-0 text-white">Data Analisa</h5>
+                                            <h5 class="mb-0 text-white">Data Kajian Analisa</h5>
                                         </div>
                                         <div class="card-body mt-3">
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="luas_permohonan">
+                                                <label class="col-sm-4 col-form-label" for="luas_permohonan">
                                                     Luas Permohonan
                                                 </label>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-8">
                                                     <input id="luas_permohonan" class="form-control"
                                                         value="{{ $skrk->permohonan->luas_tanah }} m2" readonly>
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="penguasaan_tanah">
+                                                <label class="col-sm-4 col-form-label" for="penguasaan_tanah">
                                                     Informasi Penguasaan Tanah
                                                 </label>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-8">
                                                     <input id="penguasaan_tanah" class="form-control"
                                                         value="{{ $skrk->penguasaan_tanah }}" readonly>
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="ada_bangunan">
+                                                <label class="col-sm-4 col-form-label" for="ada_bangunan">
                                                     Ada Bangunan
                                                 </label>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-8">
                                                     <div class="input-group">
                                                         <input id="ada_bangunan" class="form-control"
                                                             value="{{ $skrk->ada_bangunan }}" readonly>
@@ -376,10 +427,10 @@
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="jml_bangunan">
+                                                <label class="col-sm-4 col-form-label" for="jml_bangunan">
                                                     Jumlah Bangunan
                                                 </label>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-8">
                                                     <div class="input-group">
                                                         <input id="jml_bangunan" class="form-control"
                                                             value="{{ $skrk->jml_bangunan }} Unit" readonly>
@@ -387,10 +438,10 @@
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="jml_lantai">
+                                                <label class="col-sm-4 col-form-label" for="jml_lantai">
                                                     Rencana Lantai Bangunan
                                                 </label>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-8">
                                                     <div class="input-group">
                                                         <input id="jml_lantai" class="form-control"
                                                             value="{{ $skrk->jml_lantai }} Lantai" readonly>
@@ -398,10 +449,10 @@
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="luas_lantai">
+                                                <label class="col-sm-4 col-form-label" for="luas_lantai">
                                                     Rencana Luas Lantai Bangunan
                                                 </label>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-8">
                                                     <div class="input-group">
                                                         <input id="luas_lantai" class="form-control"
                                                             value="{{ $skrk->luas_lantai }} m2" readonly>
@@ -409,10 +460,10 @@
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="kedalaman_min">
+                                                <label class="col-sm-4 col-form-label" for="kedalaman_min">
                                                     Kedalaman/Ketinggian Minimal
                                                 </label>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-8">
                                                     <div class="input-group">
                                                         <input id="kedalaman_min" class="form-control"
                                                             value="{{ $skrk->kedalaman_min }} Meter" readonly>
@@ -420,10 +471,10 @@
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="kedalaman_max">
+                                                <label class="col-sm-4 col-form-label" for="kedalaman_max">
                                                     Kedalaman/Ketinggian Maksimal
                                                 </label>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-8">
                                                     <div class="input-group">
                                                         <input id="kedalaman_max" class="form-control"
                                                             value="{{ $skrk->kedalaman_max }} Meter" readonly>
@@ -432,10 +483,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xl-6">
+
                                     <div class="card mb-4">
                                         <div
                                             class="card-header d-flex align-items-center justify-content-between bg-secondary">
@@ -469,16 +517,178 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="col-xl-6">
+                                    <div class="card mb-4">
+                                        <div
+                                            class="card-header d-flex align-items-center justify-content-between bg-secondary">
+                                            <h5 class="mb-0 text-white">Data Dokumen SKRK</h5>
+                                        </div>
+                                        <div class="card-body mt-3">
+                                            <div class="row mb-3">
+                                                <label class="col-sm-4 col-form-label" for="luas_disetujui">
+                                                    Luas Disetujui
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input id="luas_disetujui" class="form-control"
+                                                        value="{{ $skrk->luas_disetujui }} m2" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-4 col-form-label" for="pemanfaatan_ruang">
+                                                    Jenis Peruntukan Pemanfaatan Ruang
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input id="pemanfaatan_ruang" class="form-control"
+                                                        value="{{ $skrk->pemanfaatan_ruang }}" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-4 col-form-label" for="peraturan_zonasi">
+                                                    Peraturan Zonasi
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <input id="peraturan_zonasi" class="form-control"
+                                                            value="{{ $skrk->peraturan_zonasi }}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-4 col-form-label" for="kbli_diizinkan">
+                                                    Kode KBLI Diizinkan
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <input id="kbli_diizinkan" class="form-control"
+                                                            value="{{ $skrk->kbli_diizinkan }}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-4 col-form-label" for="kdb">
+                                                    Koefisien Dasar Bangunan (KDB) Maksimum
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <input id="kdb" class="form-control"
+                                                            value="{{ $skrk->kdb }}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-4 col-form-label" for="klb">
+                                                    Koefisien Lantai Bangunan (KLB)
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <input id="klb" class="form-control"
+                                                            value="{{ $skrk->klb }}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-4 col-form-label" for="gsb">
+                                                    Garis Sempadan Bangunan (GSB)
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <input id="gsb" class="form-control"
+                                                            value="{{ $skrk->gsb }} Meter" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-4 col-form-label" for="jba">
+                                                    Jarak Bebas Antar Bangunan (JBA) Minimum
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <input id="jba" class="form-control"
+                                                            value="{{ $skrk->jba }} Meter" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-4 col-form-label" for="jbb">
+                                                    Jarak Bebas Belakang (JBB) Minimum
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <input id="jbb" class="form-control"
+                                                            value="{{ $skrk->jbb }} Meter" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-4 col-form-label" for="kdh">
+                                                    Koefisien Dasar Hijau (KDH) Minimum
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <input id="kdh" class="form-control"
+                                                            value="{{ $skrk->kdh }}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-4 col-form-label" for="ktb">
+                                                    Koefisien Tapak Basement (KTB)
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <input id="ktb" class="form-control"
+                                                            value="{{ $skrk->ktb }}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-4 col-form-label" for="luas_kavling">
+                                                    Luas kavling Minimum
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <input id="luas_kavling" class="form-control"
+                                                            value="{{ $skrk->luas_kavling }} m2" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-4 col-form-label" for="jaringan_utilitas">
+                                                    Jaringan Utilitas Kota
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <input id="jaringan_utilitas" class="form-control"
+                                                            value="{{ $skrk->jaringan_utilitas }}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-4 col-form-label" for="persyaratan_pelaksanaan">
+                                                    Persyaratan Pelaksanaan Kegiatan Pemanfaatan Ruang
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <input id="persyaratan_pelaksanaan" class="form-control"
+                                                            value="{{ $skrk->persyaratan_pelaksanaan }}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="tab-pane fade" id="navs-pills-top-dokumen" role="tabpanel">
+                        <div class="tab-pane fade" id="navs-pills-top-berkas" role="tabpanel">
                             <div class="row">
                                 <div class="col-xl">
                                     <div class="card mb-4">
                                         <div
                                             class="card-header d-flex align-items-center justify-content-between bg-secondary">
-                                            <h5 class="mb-0 text-white">Dokumen</h5>
+                                            <h5 class="mb-0 text-white">Berkas</h5>
                                         </div>
                                         <div class="card-body mt-3">
                                             <div class="table-responsive text-nowrap">
@@ -520,21 +730,16 @@
         </div>
 
         @teleport('body')
-            @livewire('admin.permohonan.skrk.skrk-survey-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+            @livewire('admin.permohonan.skrk.survey.skrk-survey-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
         @endteleport
         @teleport('body')
-            @livewire('admin.permohonan.skrk.skrk-analis-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+            @livewire('admin.permohonan.skrk.analis.skrk-kajian-analis-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+        @endteleport
+        @teleport('body')
+            @livewire('admin.permohonan.skrk.analis.skrk-dokumen-analis-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+        @endteleport
+        @teleport('body')
+            @livewire('admin.permohonan.skrk.analis.upload-berkas', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
         @endteleport
     </div>
 </div>
-@push('scripts')
-    <script>
-        function copyToClipboard(element) {
-            var $temp = $("<input>");
-            $("body").append($temp);
-            $temp.val($(element).val()).select();
-            document.execCommand("copy");
-            $temp.remove();
-        }
-    </script>
-@endpush

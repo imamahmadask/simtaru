@@ -27,9 +27,6 @@ class Permohonan extends Model
         'berkas_nib',
         'berkas_penguasaan',
         'berkas_permohonan',
-        'is_survey',
-        'is_analis',
-        'is_validate',
         'is_prioritas'
     ];
 

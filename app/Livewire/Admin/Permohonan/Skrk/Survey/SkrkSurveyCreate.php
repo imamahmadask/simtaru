@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Admin\Permohonan\Skrk;
+namespace App\Livewire\Admin\Permohonan\Skrk\Survey;
 
 use App\Models\Disposisi;
 use App\Models\Permohonan;
@@ -40,7 +40,7 @@ class SkrkSurveyCreate extends Component
         $tahapan_id = $permohonan->layanan->tahapan->where('nama', 'Survey')->value('id');
         $persyaratan_berkas = $permohonan->persyaratanBerkas->where('tahapan_id', $tahapan_id);
 
-        return view('livewire.admin.permohonan.skrk.skrk-survey-create', [
+        return view('livewire.admin.permohonan.skrk.survey.skrk-survey-create', [
             'persyaratan_berkas' => $persyaratan_berkas
         ]);
     }
@@ -97,10 +97,16 @@ class SkrkSurveyCreate extends Component
             $foto_survey_path = null;
         }
 
+        // update tabel survey
         $skrk->update([
            'tgl_survey' => $this->tgl_survey,
            'koordinat' => $this->koordinat,
            'foto_survey' => $foto_survey_path
+        ]);
+
+        // update tabel permohonan
+        $permohonan->update([
+            'is_survey' => true
         ]);
 
         $this->createRiwayat($permohonan, 'Entry Data Survey');
