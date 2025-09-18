@@ -21,7 +21,9 @@ Route::get('/', function () {
 Route::middleware(['cekRole:superadmin,supervisor,analis,surveyor,cs,data-entry'])->group(function () {
     Route::get('admin/dashboard', DashboardIndex::class)->name('dashboard'); // dashboard
     Route::get('admin/registrasi', RegistrasiIndex::class)->name('registrasi.index'); // registrasi
+});
 
+Route::middleware(['cekRole:superadmin,supervisor,analis,surveyor,data-entry'])->group(function () {
     Route::get('admin/permohonan', PermohonanIndex::class)->name('permohonan.index'); // permohonan Index
     Route::get('admin/permohonan/create', PermohonanCreate::class)->name('permohonan.create'); // permohonan Create
     Route::get('admin/permohonan/{id}/edit', PermohonanEdit::class)->name('permohonan.edit'); // permohonan Edit

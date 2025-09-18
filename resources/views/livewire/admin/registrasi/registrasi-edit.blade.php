@@ -82,7 +82,7 @@
                             Close
                         </button>
                         <button type="submit" class="btn btn-primary">
-                            Edit
+                            Simpan
                         </button>
                     </div>
                 </form>

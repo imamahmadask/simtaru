@@ -4,7 +4,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">Add User
+                    <h5 class="modal-title" id="exampleModalLabel1">Tambah Data Registrasi
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -82,7 +82,7 @@
                             Close
                         </button>
                         <button type="submit" class="btn btn-primary">
-                            Create
+                            Submit
                         </button>
                     </div>
                 </form>
