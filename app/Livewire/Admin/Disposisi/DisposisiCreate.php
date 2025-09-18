@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Admin\Permohonan\Disposisi;
+namespace App\Livewire\Admin\Disposisi;
 
 use App\Models\Disposisi;
 use App\Models\Permohonan;
@@ -22,7 +22,7 @@ class DisposisiCreate extends Component
 
     public function render()
     {
-        return view('livewire.admin.permohonan.disposisi.disposisi-create');
+        return view('livewire.admin.disposisi.disposisi-create');
     }
 
     public function mount($permohonan_id)

@@ -31,12 +31,13 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="tahapan_id" class="form-label">Tahapan</label>
-                                <select class="form-select" wire:model.live="tahapan_id" name="tahapan_id"
+                                <select class="form-select" wire:model="tahapan_id" name="tahapan_id" id="tahapan_id"
                                     aria-label="Select Tahapan">
                                     <option selected>Pilih Tahapan</option>
                                     @foreach ($tahapans as $tahapan)
                                         <option value="{{ $tahapan->id }}">
-                                            {{ $tahapan->urutan }} - {{ $tahapan->nama }}
+                                            {{ $tahapan->layanan->nama }} - {{ $tahapan->urutan }} -
+                                            {{ $tahapan->nama }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -49,7 +50,7 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="penerima_id" class="form-label">Penerima Disposisi</label>
-                                <select class="form-select" wire:model="penerima_id" name="penerima_id"
+                                <select class="form-select" wire:model="penerima_id" name="penerima_id" id="penerima_id"
                                     aria-label="Select Penerima">
                                     <option selected>Pilih Penerima</option>
                                     @foreach ($users as $user)
@@ -67,7 +68,7 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="catatan" class="form-label">Catatan</label>
-                                <textarea class="form-control" wire:model="catatan" name="catatan" rows="3"></textarea>
+                                <textarea class="form-control" wire:model="catatan" name="catatan" id="catatan" rows="3"></textarea>
                             </div>
                         </div>
                     </div>
@@ -76,7 +77,7 @@
                             Close
                         </button>
                         <button type="submit" class="btn btn-primary">
-                            Create
+                            Simpan
                         </button>
                     </div>
                 </form>

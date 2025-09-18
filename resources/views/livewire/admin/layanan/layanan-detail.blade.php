@@ -96,12 +96,12 @@
                                                     <div class="d-flex gap-2">
                                                         <button
                                                             wire:click="$dispatch('tahapan-edit', { id: {{ $tahapan->id }} })"
-                                                            type="button" class="btn btn-primary btn-xs"
+                                                            type="button" class="btn btn-primary btn-sm"
                                                             data-bs-toggle="modal" data-bs-target="#editTahapanModal">
-                                                            <i class="bx bx-edit"></i>
+                                                            <i class="bx bx-edit"></i> Tahapan
                                                         </button>
 
-                                                        <button type="button" class="btn btn-primary btn-xs"
+                                                        <button type="button" class="btn btn-primary btn-sm"
                                                             wire:click="$dispatch('persyaratan-add', { tahapan_id: {{ $tahapan->id }}, layanan_id: {{ $layanan->id }} })"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#addPersyaratanModal">

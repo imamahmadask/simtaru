@@ -80,13 +80,12 @@
                                                 Edit
                                             </button>
                                         </div>
-                                        <!-- Modal -->
-                                        @teleport('body')
-                                            <!-- Edit  Regustrasi Modal -->
-                                            @livewire('admin.permohonan.disposisi.disposisi-edit')
-                                        @endteleport
                                     </td>
                                 </tr>
+                                @teleport('body')
+                                    <!-- Edit  Regustrasi Modal -->
+                                    @livewire('admin.disposisi.disposisi-edit', ['layanan_id' => $data->permohonan->layanan_id])
+                                @endteleport
                         @endforeach
                     </tbody>
                 </table>
@@ -95,9 +94,4 @@
         <!--/ Basic Bootstrap Table -->
     </div>
 
-    <!-- Modal -->
-    @teleport('body')
-        <!-- Edit  User Modal -->
-        @livewire('admin.registrasi.registrasi-create')
-    @endteleport
 </div>

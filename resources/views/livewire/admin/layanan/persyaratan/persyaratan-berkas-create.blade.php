@@ -13,8 +13,8 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="nama_berkas" class="form-label">Nama Berkas</label>
-                                <input type="text" wire:model="nama_berkas" name="nama_berkas" class="form-control"
-                                    placeholder="Masukkan Nama Berkas" />
+                                <input type="text" wire:model="nama_berkas" name="nama_berkas" id="nama_berkas"
+                                    class="form-control" placeholder="Masukkan Nama Berkas" />
                                 @error('nama_berkas')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
@@ -23,8 +23,8 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="kode" class="form-label">Kode Berkas</label>
-                                <input type="text" wire:model="kode" name="kode" class="form-control"
-                                    placeholder="Masukkan Nama Berkas" />
+                                <input type="text" wire:model="kode" name="kode" id="kode"
+                                    class="form-control" placeholder="Masukkan Nama Berkas" />
                                 @error('kode')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
@@ -33,7 +33,8 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="deskripsi" class="form-label">deskripsi</label>
-                                <textarea class="form-control" wire:model="deskripsi" name="deskripsi" rows="4" placeholder="Masukkan Deskripsi"></textarea>
+                                <textarea class="form-control" wire:model="deskripsi" name="deskripsi" id="deskripsi" rows="4"
+                                    placeholder="Masukkan Deskripsi"></textarea>
                                 @error('deskripsi')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
@@ -42,8 +43,14 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="urutan" class="form-label">Urutan</label>
-                                <input type="text" wire:model="urutan" name="urutan" class="form-control"
-                                    placeholder="Masukkan Urutan" />
+                                <select class="form-select" wire:model="urutan" name="urutan" id="urutan">
+                                    <option selected>Pilih Urutan</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
                                 @error('urutan')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror

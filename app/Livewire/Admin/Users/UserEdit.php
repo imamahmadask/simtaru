@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Users;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -19,6 +20,9 @@ class UserEdit extends Component
 
     #[Validate('required')]
     public $role;
+
+    public $password;
+
     public function render()
     {
         return view('livewire.admin.users.user-edit');
@@ -42,6 +46,7 @@ class UserEdit extends Component
         $user->update([
             'name' => $this->name,
             'email' => $this->email,
+            'password' => Hash::make($this->password),
             'role' => $this->role
         ]);
 

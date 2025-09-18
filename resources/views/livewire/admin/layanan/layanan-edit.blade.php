@@ -13,9 +13,9 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="nama" class="form-label">Nama Layanan</label>
-                                <input type="text" wire:model="nama" name="nama" class="form-control"
-                                    placeholder="Masukkan Nama Layanan" />
+                                <label for="edit-nama" class="form-label">Nama Layanan</label>
+                                <input type="text" id="edit-nama" wire:model="nama" name="nama"
+                                    class="form-control" placeholder="Masukkan Nama Layanan" />
                                 @error('nama')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
@@ -23,9 +23,9 @@
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="kode" class="form-label">Kode Layanan</label>
-                                <input type="text" wire:model="kode" name="kode" class="form-control"
-                                    placeholder="Masukkan Kode Layanan" />
+                                <label for="edit-kode" class="form-label">Kode Layanan</label>
+                                <input type="text" id="edit-kode" wire:model="kode" name="kode"
+                                    class="form-control" placeholder="Masukkan Kode Layanan" />
                                 @error('kode')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
@@ -33,9 +33,9 @@
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="keterangan" class="form-label">Keterangan</label>
-                                <input type="text" wire:model="keterangan" name="keterangan" class="form-control"
-                                    placeholder="Masukkan keterangan Jika ada" />
+                                <label for="edit-keterangan" class="form-label">Keterangan</label>
+                                <input type="text" id="edit-keterangan" wire:model="keterangan" name="keterangan"
+                                    class="form-control" placeholder="Masukkan keterangan jika ada" />
                             </div>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                             Close
                         </button>
                         <button type="submit" class="btn btn-primary">
-                            Edit
+                            Simpan
                         </button>
                     </div>
                 </form>

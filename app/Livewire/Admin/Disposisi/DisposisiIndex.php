@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Admin\Permohonan\Disposisi;
+namespace App\Livewire\Admin\Disposisi;
 
 use App\Models\Disposisi;
 use Livewire\Attributes\Title;
@@ -12,7 +12,7 @@ class DisposisiIndex extends Component
     public function render()
     {
         $disposisis = Disposisi::orderBy('created_at', 'desc')->get();
-        return view('livewire.admin.permohonan.disposisi.disposisi-index', [
+        return view('livewire.admin.disposisi.disposisi-index', [
             'disposisis' => $disposisis
         ]);
     }

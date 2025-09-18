@@ -13,9 +13,9 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="nama" class="form-label">Nama Urutan</label>
-                                <input type="text" wire:model="nama" name="nama" class="form-control"
-                                    placeholder="Masukkan Nama Urutan" />
+                                <label for="edit-nama" class="form-label">Nama Urutan</label>
+                                <input type="text" wire:model="nama" name="nama" id="edit-nama"
+                                    class="form-control" placeholder="Masukkan Nama Urutan" />
                                 @error('nama')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
@@ -23,9 +23,15 @@
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="urutan" class="form-label">Urutan</label>
-                                <input type="text" wire:model="urutan" name="urutan" class="form-control"
-                                    placeholder="Masukkan Urutan" />
+                                <label for="edit-urutan" class="form-label">Urutan</label>
+                                <select class="form-select" wire:model="urutan" name="urutan" id="edit-urutan">
+                                    <option selected>Pilih Urutan</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
                                 @error('urutan')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror

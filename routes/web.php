@@ -1,9 +1,9 @@
 <?php
 
 use App\Livewire\Admin\Dashboard\DashboardIndex;
+use App\Livewire\Admin\Disposisi\DisposisiIndex;
 use App\Livewire\Admin\Layanan\LayananDetail;
 use App\Livewire\Admin\Layanan\LayananIndex;
-use App\Livewire\Admin\Permohonan\Disposisi\DisposisiIndex;
 use App\Livewire\Admin\Permohonan\PermohonanCreate;
 use App\Livewire\Admin\Permohonan\PermohonanDetail;
 use App\Livewire\Admin\Permohonan\PermohonanEdit;

@@ -12,29 +12,52 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="name" class="form-label">Name</label>
-                                <input type="text" wire:model="name" name="name" class="form-control"
-                                    placeholder="Enter Name" />
+                                <label for="edit-name" class="form-label">Name</label>
+                                <input type="text" id="edit-name" wire:model="name" name="name"
+                                    class="form-control" placeholder="Enter Name" autocomplete="name" />
                                 @error('name')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="text" wire:model="email" name="email" class="form-control"
-                                    placeholder="xxxx@xxx.xx" />
+                                <label for="edit-email" class="form-label">Email</label>
+                                <input type="text" id="edit-email" wire:model="email" name="email"
+                                    class="form-control" placeholder="xxxx@xxx.xx" autocomplete="email" />
                                 @error('email')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="role" class="form-label">Role</label>
-                                <select class="form-select" wire:model="role" name="role" aria-label="Select Role">
-                                    <option selected>Pilih Role</option>
+                                <label class="form-label" for="password-{{ $user_id }}">Password</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="password-{{ $user_id }}"
+                                        wire:model="password" name="password" placeholder="**********" />
+                                    <span class="input-group-text cursor-pointer"
+                                        onclick="togglePassword('password-{{ $user_id }}')">
+                                        <!-- Eye open (tampil kalau password terlihat) -->
+                                        <i id="eye-open-{{ $user_id }}" class="bx bx-show d-none"></i>
+                                        <!-- Eye closed (tampil default) -->
+                                        <i id="eye-closed-{{ $user_id }}" class="bx bx-hide"></i>
+                                    </span>
+                                </div>
+                                @error('password')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="edit-role" class="form-label">Role</label>
+                                <select class="form-select" id="edit-role" wire:model="role" name="role"
+                                    aria-label="Select Role">
+                                    <option value="" selected>Pilih Role</option>
                                     <option value="superadmin">Super Admin</option>
                                     <option value="supervisor">Supervisor</option>
                                     <option value="surveyor">Surveyor</option>
@@ -48,15 +71,38 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                             Close
                         </button>
                         <button type="submit" class="btn btn-primary">
-                            Save changes</button>
+                            Simpan
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+@push('scripts')
+    <script>
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            const eyeOpen = document.getElementById('eye-open-' + id.split('-')[1]);
+            const eyeClosed = document.getElementById('eye-closed-' + id.split('-')[1]);
+
+            if (!input) return; // biar gak error kalau id tidak ada
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                eyeOpen.classList.remove('d-none');
+                eyeClosed.classList.add('d-none');
+            } else {
+                input.type = 'password';
+                eyeOpen.classList.add('d-none');
+                eyeClosed.classList.remove('d-none');
+            }
+        }
+    </script>
+@endpush

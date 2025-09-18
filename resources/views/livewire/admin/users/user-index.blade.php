@@ -37,48 +37,31 @@
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        @php
-                            $no = 1;
-                        @endphp
-                        @foreach ($users as $user)
-                            <div wire:key="{{ $user->id }}">
-                                <tr>
-                                    <td>
-                                        {{ $no++ }}
-                                    </td>
-                                    <td>
-                                        {{ $user->name }}
-                                    </td>
-                                    <td>
-                                        {{ $user->email }}
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-label-primary me-1">
-                                            {{ $user->role }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <div class="me-3">
-                                            <!-- Button trigger modal -->
-                                            <button wire:click="$dispatch('user-edit', { id: {{ $user->id }} })"
-                                                type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#editUserModal">
-                                                Edit
-                                            </button>
-                                            <button wire:click="deleteUser({{ $user->id }})"
-                                                wire:confirm="Are you sure you want to delete this User?"
-                                                class="btn btn-primary btn-sm">
-                                                Hapus
-                                            </button>
-                                        </div>
+                        @foreach ($users as $index => $user)
+                            <tr wire:key="user-{{ $user->id }}">
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>
+                                    <span class="badge bg-label-primary me-1">{{ $user->role }}</span>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        <!-- Button trigger modal -->
+                                        <button wire:click="$dispatch('user-edit', { id: {{ $user->id }} })"
+                                            type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#editUserModal">
+                                            Edit
+                                        </button>
 
-                                        <!-- Modal -->
-                                        @teleport('body')
-                                            <!-- Edit  User Modal -->
-                                            @livewire('admin.users.user-edit')
-                                        @endteleport
-                                    </td>
-                                </tr>
+                                        <button wire:click="deleteUser({{ $user->id }})"
+                                            wire:confirm="Are you sure you want to delete this User?"
+                                            class="btn btn-danger btn-sm">
+                                            Hapus
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
@@ -91,5 +74,9 @@
     @teleport('body')
         <!-- Edit  User Modal -->
         @livewire('admin.users.user-create')
+    @endteleport
+    @teleport('body')
+        <!-- Edit  User Modal -->
+        @livewire('admin.users.user-edit')
     @endteleport
 </div>

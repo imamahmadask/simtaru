@@ -14,8 +14,8 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="nama" class="form-label">Nama Layanan</label>
-                                <input type="text" wire:model="nama" name="nama" class="form-control"
-                                    placeholder="Masukkan Nama Layanan" />
+                                <input type="text" wire:model="nama" id="nama" name="nama"
+                                    class="form-control" placeholder="Masukkan Nama Layanan" />
                                 @error('nama')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
@@ -24,8 +24,8 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="kode" class="form-label">Kode Layanan</label>
-                                <input type="text" wire:model="kode" name="kode" class="form-control"
-                                    placeholder="Masukkan Kode Layanan" />
+                                <input type="text" wire:model="kode" name="kode" id="kode"
+                                    class="form-control" placeholder="Masukkan Kode Layanan" />
                                 @error('kode')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
@@ -34,8 +34,8 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="keterangan" class="form-label">Keterangan</label>
-                                <input type="text" wire:model="keterangan" name="keterangan" class="form-control"
-                                    placeholder="Masukkan keterangan Jika ada" />
+                                <input type="text" wire:model="keterangan" name="keterangan" id="keterangan"
+                                    class="form-control" placeholder="Masukkan keterangan Jika ada" />
                             </div>
                         </div>
                     </div>
