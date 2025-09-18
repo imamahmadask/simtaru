@@ -28,12 +28,7 @@ class SkrkKajianAnalisCreate extends Component
             'jml_lantai' => $this->jml_lantai,
             'luas_lantai' => $this->luas_lantai,
             'kedalaman_min' => $this->kedalaman_min,
-            'kedalaman_max' => $this->kedalaman_max
-        ]);
-
-        // update tabel permohonan
-        $this->permohonan->update([
-            'is_analis' => true,
+            'kedalaman_max' => $this->kedalaman_max,
             'is_kajian' => true
         ]);
 

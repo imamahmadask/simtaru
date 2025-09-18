@@ -33,11 +33,7 @@ class SkrkDokumenAnalisCreate extends Component
             'ktb' => $this->ktb,
             'luas_kavling' => $this->luas_kavling,
             'jaringan_utilitas' => $this->jaringan_utilitas,
-            'persyaratan_pelaksanaan' => $this->persyaratan_pelaksanaan
-        ]);
-
-         // update tabel permohonan
-        $this->permohonan->update([
+            'persyaratan_pelaksanaan' => $this->persyaratan_pelaksanaan,
             'is_dokumen' => true,
             'is_analis' => true
         ]);

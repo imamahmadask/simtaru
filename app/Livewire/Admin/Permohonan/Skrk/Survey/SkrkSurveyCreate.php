@@ -101,12 +101,8 @@ class SkrkSurveyCreate extends Component
         $skrk->update([
            'tgl_survey' => $this->tgl_survey,
            'koordinat' => $this->koordinat,
-           'foto_survey' => $foto_survey_path
-        ]);
-
-        // update tabel permohonan
-        $permohonan->update([
-            'is_survey' => true
+           'foto_survey' => $foto_survey_path,
+           'is_survey' => true
         ]);
 
         $this->createRiwayat($permohonan, 'Entry Data Survey');
