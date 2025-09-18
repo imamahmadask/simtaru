@@ -27,7 +27,10 @@ class Permohonan extends Model
         'berkas_nib',
         'berkas_penguasaan',
         'berkas_permohonan',
-        'is_prioritas'
+        'is_prioritas',
+        'status_modal',
+        'kbli',
+        'judul_kbli',
     ];
 
     public function layanan()

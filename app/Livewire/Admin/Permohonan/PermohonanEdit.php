@@ -26,7 +26,7 @@ class PermohonanEdit extends Component
     #[Validate('required')]
     public $registrasi_id, $layanan_id, $nama, $nik, $no_hp, $email, $alamat_pemohon, $alamat_tanah, $kel_tanah, $kec_tanah, $jenis_bangunan, $luas_tanah, $tahapan_id, $penerima_id;
 
-    public $npwp, $keterangan, $status, $pemberi_id, $catatan, $berkas_ktp, $berkas_nib, $berkas_penguasaan, $berkas_permohonan;
+    public $npwp, $keterangan, $status, $pemberi_id, $catatan, $berkas_ktp, $berkas_nib, $berkas_penguasaan, $berkas_permohonan, $status_modal, $kbli, $judul_kbli;
 
     public $berkas_ktp_lama, $berkas_nib_lama, $berkas_penguasaan_lama, $berkas_permohonan_lama;
 
@@ -56,6 +56,9 @@ class PermohonanEdit extends Component
         $this->berkas_penguasaan_lama = $permohonan->berkas_penguasaan;
         $this->berkas_permohonan_lama = $permohonan->berkas_permohonan;
         $this->is_prioritas = $permohonan->is_prioritas;
+        $this->status_modal = $permohonan->status_modal;
+        $this->kbli = $permohonan->kbli;
+        $this->judul_kbli = $permohonan->judul_kbli;
 
         $this->disposisi = Disposisi::where('permohonan_id', $permohonan->id)->first();
         $this->pemberi_id = $this->disposisi->pemberi_id;
@@ -95,6 +98,9 @@ class PermohonanEdit extends Component
             'kec_tanah' => $this->kec_tanah,
             'jenis_bangunan' => $this->jenis_bangunan,
             'luas_tanah' => $this->luas_tanah,
+            'status_modal' => $this->status_modal,
+            'kbli' => $this->kbli,
+            'judul_kbli' => $this->judul_kbli,
             'status' => 'process',
             'keterangan' => $this->keterangan,
             'berkas_ktp' => $path_berkas_ktp,

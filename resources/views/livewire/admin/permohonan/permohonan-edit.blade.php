@@ -156,8 +156,16 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="kec_tanah">Kecamatan Tanah</label>
-                                        <input type="text" class="form-control" wire:model="kec_tanah"
-                                            id="kec_tanah" placeholder="Masukkan Kecamatan Tanah" />
+                                        <select class="form-select" wire:model="kec_tanah" id="kec_tanah"
+                                            aria-label="Default select example">
+                                            <option value="" selected>Pilih Kecamatan</option>
+                                            <option value="Ampenan">Ampenan</option>
+                                            <option value="Mataram">Mataram</option>
+                                            <option value="Cakranegara">Cakranegara</option>
+                                            <option value="Sandubaya">Sandubaya</option>
+                                            <option value="Sekarbela">Sekarbela</option>
+                                            <option value="Selaparang">Selaparang</option>
+                                        </select>
                                         @error('kec_tanah')
                                             <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                         @enderror
@@ -183,6 +191,38 @@
                                             id="luas_tanah"
                                             placeholder="Masukkan Luas Tanah/persil yang dimohonkan" />
                                         @error('luas_tanah')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="status_modal">Status Modal</label>
+                                <select class="form-control" wire:model="status_modal" id="status_modal">
+                                    <option value="">Pilih Status Modal</option>
+                                    <option value="PMDN">PMDN</option>
+                                    <option value="PMA">PMA</option>
+                                </select>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="kbli">KBLI</label>
+                                        <input type="text" class="form-control" wire:model="kbli" id="kbli"
+                                            placeholder="Masukkan KBLI" />
+                                        @error('kbli')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="judul_kbli">Judul KBLI</label>
+                                        <input type="text" class="form-control" wire:model="judul_kbli"
+                                            id="judul_kbli" placeholder="Masukkan Judul KBLI" />
+                                        @error('judul_kbli')
                                             <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                         @enderror
                                     </div>

@@ -52,52 +52,53 @@
                                         </div>
                                         <div class="card-body mt-3">
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="nama">Nama</label>
-                                                <div class="col-sm-10">
+                                                <label class="col-sm-4 col-form-label" for="nama">Nama
+                                                    Pemohon</label>
+                                                <div class="col-sm-8">
                                                     <input type="text" class="form-control" id="nama"
                                                         value="{{ $permohonan->registrasi->nama }}" readonly />
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="nik">NIK</label>
-                                                <div class="col-sm-10">
+                                                <label class="col-sm-4 col-form-label" for="nik">NIK</label>
+                                                <div class="col-sm-8">
                                                     <input type="text" class="form-control" id="nik"
                                                         value="{{ Str::mask($permohonan->registrasi->nik, '*', 5, -1) }}"
                                                         readonly />
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="no_hp">
+                                                <label class="col-sm-4 col-form-label" for="no_hp">
                                                     No HP</label>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-8">
                                                     <input type="text" class="form-control" id="no_hp"
                                                         value="{{ $permohonan->registrasi->no_hp }}" readonly />
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="email">
+                                                <label class="col-sm-4 col-form-label" for="email">
                                                     Email
                                                 </label>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-8">
                                                     <input type="text" class="form-control" id="email"
                                                         value="{{ $permohonan->registrasi->email }}" autocomplete="off"
                                                         readonly />
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="npwp">
+                                                <label class="col-sm-4 col-form-label" for="npwp">
                                                     NPWP
                                                 </label>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-8">
                                                     <input type="text" class="form-control" id="npwp"
                                                         value="{{ $permohonan->npwp }}" readonly />
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="alamat_pemohon">
+                                                <label class="col-sm-4 col-form-label" for="alamat_pemohon">
                                                     Alamat Pemohon
                                                 </label>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-8">
                                                     <input type="text" class="form-control" id="alamat_pemohon"
                                                         value="{{ $permohonan->alamat_pemohon }}" readonly />
                                                 </div>
@@ -111,83 +112,111 @@
                                         </div>
                                         <div class="card-body mt-3">
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="kode">Kode
+                                                <label class="col-sm-4 col-form-label" for="kode">Kode
                                                     Registrasi</label>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-8">
                                                     <input type="text" class="form-control" id="kode"
                                                         value="{{ $permohonan->registrasi->kode }}" readonly />
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="layanan">Nama
+                                                <label class="col-sm-4 col-form-label" for="layanan">Nama
                                                     Layanan</label>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-8">
                                                     <input type="text" id="layanan" class="form-control"
                                                         value="{{ $permohonan->layanan->nama }}" readonly />
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="tanggal">Tanggal
+                                                <label class="col-sm-4 col-form-label" for="tanggal">Tanggal
                                                     Registrasi</label>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-8">
                                                     <input type="text" class="form-control" id="tanggal"
                                                         value="{{ date('d-m-Y', strtotime($permohonan->created_at)) }}"
                                                         readonly />
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="alamat_tanah">Alamat
+                                                <label class="col-sm-4 col-form-label" for="alamat_tanah">Alamat
                                                     Tanah</label>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-8">
                                                     <input type="text" id="alamat_tanah" class="form-control"
                                                         value="{{ $permohonan->alamat_tanah }}" readonly />
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label"
+                                                <label class="col-sm-4 col-form-label"
                                                     for="kel_tanah">Kelurahan</label>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-8">
                                                     <input type="text" id="kel_tanah" class="form-control"
                                                         value="{{ $permohonan->kel_tanah }}" readonly />
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label"
+                                                <label class="col-sm-4 col-form-label"
                                                     for="kec_tanah">Kecamatan</label>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-8">
                                                     <input type="text" id="kec_tanah" class="form-control"
                                                         value="{{ $permohonan->kec_tanah }}" readonly />
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="jenis_bangunan">
+                                                <label class="col-sm-4 col-form-label" for="jenis_bangunan">
                                                     Fungsi Bangunan</label>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-8">
                                                     <input type="text" id="jenis_bangunan" class="form-control"
                                                         value="{{ $permohonan->jenis_bangunan }}" readonly />
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="luas_tanah">
+                                                <label class="col-sm-4 col-form-label" for="luas_tanah">
                                                     Luas Tanah
                                                 </label>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-8">
                                                     <input type="text" id="luas_tanah" class="form-control"
                                                         value="{{ $permohonan->luas_tanah }} m2" readonly />
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="status">Status</label>
-                                                <div class="col-sm-10">
+                                                <label class="col-sm-4 col-form-label" for="status_modal">
+                                                    Status Permodalan
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="status_modal" class="form-control"
+                                                        value="{{ $permohonan->status_modal }}" readonly />
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-4 col-form-label" for="kbli">
+                                                    KBLI
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="kbli" class="form-control"
+                                                        value="{{ $permohonan->kbli }}" readonly />
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-4 col-form-label" for="judul_kbli">
+                                                    Judul KBLI
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="judul_kbli" class="form-control"
+                                                        value="{{ $permohonan->judul_kbli }}" readonly />
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-3">
+                                                <label class="col-sm-4 col-form-label" for="status">Status</label>
+                                                <div class="col-sm-8">
                                                     <input type="text" id="status" class="form-control"
                                                         value="{{ $permohonan->status }}" readonly />
                                                 </div>
                                             </div>
                                             @if ($permohonan->status == 'success')
                                                 <div class="row mb-3">
-                                                    <label class="col-sm-2 col-form-label" for="status">Tanggal
+                                                    <label class="col-sm-4 col-form-label" for="status">Tanggal
                                                         Selesai</label>
-                                                    <div class="col-sm-10">
+                                                    <div class="col-sm-8">
                                                         <input type="text" id="status" class="form-control"
                                                             value="{{ date('d-m-Y', strtotime($permohonan->tgl_selesai)) }}"
                                                             readonly />
@@ -195,10 +224,10 @@
                                                 </div>
                                             @endif
                                             <div class="row mb-3">
-                                                <span class="col-sm-2 col-form-label d-flex align-items-center">
+                                                <span class="col-sm-4 col-form-label d-flex align-items-center">
                                                     Berkas
                                                 </span>
-                                                <div class="col-sm d-flex justify-content-around flex-wrap">
+                                                <div class="col-sm-8 d-flex justify-content-around flex-wrap gap-1">
                                                     <a href="{{ asset('storage/' . $permohonan->berkas_ktp) }}"
                                                         target="_blank" type="button" class="btn btn-primary m-1">
                                                         KTP
@@ -218,8 +247,8 @@
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="keterangan">Ket.</label>
-                                                <div class="col-sm-10">
+                                                <label class="col-sm-4 col-form-label" for="keterangan">Ket.</label>
+                                                <div class="col-sm-8">
                                                     <textarea id="keterangan" class="form-control" aria-describedby="basic-icon-default-message2" readonly>{{ $permohonan->keterangan }}</textarea>
                                                 </div>
                                             </div>

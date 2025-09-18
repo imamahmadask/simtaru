@@ -27,7 +27,7 @@ class PermohonanCreate extends Component
     #[Validate('required')]
     public $registrasi_id, $layanan_id, $nama, $nik, $no_hp, $email, $alamat_pemohon, $alamat_tanah, $kel_tanah, $kec_tanah, $jenis_bangunan, $luas_tanah, $tahapan_id, $penerima_id;
 
-    public $npwp, $keterangan, $status, $pemberi_id, $catatan, $berkas_ktp, $berkas_nib, $berkas_penguasaan, $berkas_permohonan;
+    public $npwp, $keterangan, $status, $pemberi_id, $catatan, $berkas_ktp, $berkas_nib, $berkas_penguasaan, $berkas_permohonan, $status_modal, $kbli, $judul_kbli;
 
     public function render()
     {
@@ -53,6 +53,9 @@ class PermohonanCreate extends Component
             'kec_tanah' => $this->kec_tanah,
             'jenis_bangunan' => $this->jenis_bangunan,
             'luas_tanah' => $this->luas_tanah,
+            'status_modal' => $this->status_modal,
+            'kbli' => $this->kbli,
+            'judul_kbli' => $this->judul_kbli,
             'status' => 'process',
             'keterangan' => $this->keterangan,
             'berkas_ktp' => $path_berkas_ktp,
@@ -67,7 +70,7 @@ class PermohonanCreate extends Component
         if($layanan->kode == 'SKRK') {
             Skrk::create([
                 'permohonan_id' => $permohonan->id,
-                'layanan_id' => $this->layanan_id
+                'layanan_id' => $this->layanan_id,
             ]);
         }
 
