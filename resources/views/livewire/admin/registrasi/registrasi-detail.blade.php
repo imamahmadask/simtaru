@@ -89,7 +89,7 @@
                                             </small>
                                             <h5 class="fw-bold mb-1">{{ $riwayat->keterangan }}</h5>
                                             <p class="text-muted">
-                                                Ole h : {{ $riwayat->user->name }}
+                                                Oleh : {{ $riwayat->user->name }}
                                             </p>
                                         </li>
                                     @endforeach
