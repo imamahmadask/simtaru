@@ -121,8 +121,9 @@ class PermohonanEdit extends Component
             'updated_by' => Auth::user()->id
         ]);
 
-        $this->createRiwayat($permohonan, "Disposisi kepada {$this->users->where('id', $this->penerima_id)->first()->name} pada tahapan Survey Berkas");
-
+        if($this->disposisi->penerima_id != $this->penerima_id || $this->disposisi->catatan != $this->catatan) {
+            $this->editRiwayat($permohonan, "Update: Disposisi kepada {$this->users->where('id', $this->penerima_id)->first()->name} pada tahapan Survey Berkas");
+        }
 
         session()->flash('message', 'Permohonan berhasil diperbarui.');
 
@@ -134,7 +135,7 @@ class PermohonanEdit extends Component
         return view('livewire.admin.permohonan.permohonan-edit');
     }
 
-    private function createRiwayat(Permohonan $permohonan, string $keterangan)
+    private function editRiwayat(Permohonan $permohonan, string $keterangan)
     {
         RiwayatPermohonan::create([
             'registrasi_id' => $permohonan->registrasi_id,

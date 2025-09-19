@@ -274,7 +274,7 @@
         </div>
 
         @teleport('body')
-            @livewire('admin.permohonan.disposisi.disposisi-create', ['permohonan_id' => $permohonan->id])
+            @livewire('admin.disposisi.disposisi-create', ['permohonan_id' => $permohonan->id])
         @endteleport
     </div>
 </div>

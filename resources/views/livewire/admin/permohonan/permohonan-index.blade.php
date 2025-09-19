@@ -50,7 +50,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Prioritas</th>
+                            <th><i class="bx bx-star text-warning"></i></th>
                             <th>Kode Registrasi</th>
                             <th>Nama Pemohon</th>
                             <th>Tgl Permohonan</th>

@@ -336,7 +336,7 @@
                             </div>
 
                             <div class="mt-4">
-                                <button type="submit" class="btn btn-primary me-2">Simpan Perubahan</button>
+                                <button type="submit" class="btn btn-primary me-2">Simpan</button>
                                 <a href="{{ route('permohonan.index') }}" class="btn btn-outline-secondary">Batal</a>
                             </div>
                         </form>
