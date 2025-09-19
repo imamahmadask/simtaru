@@ -22,7 +22,7 @@
             <div class="col-4">
                 <button type="button" class="ms-4 mb-3 btn btn-primary" data-bs-toggle="modal"
                     data-bs-target="#AddRegistrasiModal">
-                    Create Registrasi
+                    Tambah Registrasi
                 </button>
             </div>
             <div class="table-responsive text-nowrap">
@@ -31,12 +31,11 @@
                         <tr>
                             <th>No</th>
                             <th>Kode Registrasi</th>
-                            <th>Nama</th>
+                            <th>Tanggal Registrasi</th>
+                            <th>Nama Pemohon</th>
                             <th>No Hp</th>
                             <th>Email</th>
-                            <th>NIK</th>
                             <th>Jenis Layanan</th>
-                            <th>Tanggal</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -55,6 +54,9 @@
                                         {{ $data->kode }}
                                     </td>
                                     <td>
+                                        {{ date('d-m-Y', strtotime($data->tanggal)) }}
+                                    </td>
+                                    <td>
                                         {{ $data->nama }}
                                     </td>
                                     <td>
@@ -64,13 +66,7 @@
                                         {{ $data->email }}
                                     </td>
                                     <td>
-                                        {{ Str::mask($data->nik, '*', 5, -1) }}
-                                    </td>
-                                    <td>
                                         {{ $data->layanan->nama }}
-                                    </td>
-                                    <td>
-                                        {{ date('d-m-Y', strtotime($data->tanggal)) }}
                                     </td>
                                     <td>
                                         <span class="badge bg-label-{{ $data->permohonan ? 'success' : 'danger' }}">
@@ -86,6 +82,12 @@
                                                 data-bs-target="#editRegistrasiModal">
                                                 Edit
                                             </button>
+                                            <button
+                                                wire:click="$dispatch('registrasi-detail', { id: {{ $data->id }} })"
+                                                type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#detailRegistrasiModal">
+                                                Detail
+                                            </button>
                                             @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor')
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     wire:click="deleteRegistrasi({{ $data->id }})"
@@ -94,11 +96,6 @@
                                                 </button>
                                             @endif
                                         </div>
-                                        <!-- Modal -->
-                                        @teleport('body')
-                                            <!-- Edit  Regustrasi Modal -->
-                                            @livewire('admin.registrasi.registrasi-edit')
-                                        @endteleport
                                     </td>
                                 </tr>
                             </div>
@@ -114,5 +111,14 @@
     @teleport('body')
         <!-- Edit  User Modal -->
         @livewire('admin.registrasi.registrasi-create')
+    @endteleport
+    <!-- Modal -->
+    @teleport('body')
+        <!-- Edit  Regustrasi Modal -->
+        @livewire('admin.registrasi.registrasi-edit')
+    @endteleport
+    @teleport('body')
+        <!-- Edit  User Modal -->
+        @livewire('admin.registrasi.registrasi-detail')
     @endteleport
 </div>

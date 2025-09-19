@@ -14,8 +14,8 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="nama" class="form-label">Nama</label>
-                                <input type="text" wire:model="nama" name="nama" class="form-control"
-                                    placeholder="Masukkan Nama Pemohon" />
+                                <input type="text" wire:model="nama" name="nama" id="nama"
+                                    class="form-control" placeholder="Masukkan Nama Pemohon" />
                                 @error('nama')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
@@ -24,8 +24,8 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="nik" class="form-label">NIK</label>
-                                <input type="text" wire:model="nik" name="nik" class="form-control"
-                                    placeholder="Masukkan NIK Pemohon" />
+                                <input type="text" wire:model="nik" name="nik" id="nik"
+                                    class="form-control" placeholder="Masukkan NIK Pemohon" />
                                 @error('nik')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
@@ -34,8 +34,8 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="no_hp" class="form-label">Nomor HP</label>
-                                <input type="text" wire:model="no_hp" name="no_hp" class="form-control"
-                                    placeholder="Masukkan nomor HP aktif pemohon" />
+                                <input type="text" wire:model="no_hp" name="no_hp" id="no_hp"
+                                    class="form-control" placeholder="Masukkan nomor HP aktif pemohon" />
                                 @error('no_hp')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
@@ -44,8 +44,8 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" wire:model="email" name="email" class="form-control"
-                                    placeholder="Masukkan Email pemohon" />
+                                <input type="email" wire:model="email" name="email" id="email"
+                                    class="form-control" placeholder="Masukkan Email pemohon" />
                                 @error('email')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
@@ -54,8 +54,8 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="tanggal" class="form-label">Tanggal Permohonan</label>
-                                <input type="date" wire:model="tanggal" name="tanggal" class="form-control"
-                                    placeholder="" />
+                                <input type="date" wire:model="tanggal" name="tanggal" id="tanggal"
+                                    class="form-control" placeholder="" />
                                 @error('tanggal')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
@@ -64,7 +64,7 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="layanan_id" class="form-label">Jenis Layanan</label>
-                                <select class="form-select" wire:model="layanan_id" name="layanan_id"
+                                <select class="form-select" wire:model="layanan_id" id="layanan_id" name="layanan_id"
                                     aria-label="Select Jenis Layanan">
                                     <option selected>Pilih Jenis Layanan</option>
                                     @foreach ($layanans as $layanan)
