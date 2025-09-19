@@ -13,17 +13,35 @@
             </div>
         @endif
 
-
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Registrasi /</span> Daftar Registrasi</h4>
 
         <!-- Basic Bootstrap Table -->
         <div class="card">
             <h5 class="card-header">List Data Registrasi</h5>
-            <div class="col-4">
-                <button type="button" class="ms-4 mb-3 btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#AddRegistrasiModal">
-                    Tambah Registrasi
-                </button>
+            <div class="row mx-3 mb-3">
+                <div class="col d-flex flex-wrap justify-content-between align-items-center gap-2">
+                    <!-- Tombol kiri -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#AddRegistrasiModal">
+                        Tambah Registrasi
+                    </button>
+
+                    <!-- Filter & Search -->
+                    <div class="d-flex flex-wrap gap-2">
+                        <div class="flex-fill" style="min-width: 150px;">
+                            <select wire:model.live="filterLayanan" id="filterLayanan" class="form-control">
+                                <option value="">Pilih Layanan</option>
+                                @foreach ($layanans as $layanan)
+                                    <option value="{{ $layanan->id }}">{{ $layanan->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="flex-fill" style="min-width: 150px;">
+                            <input class="form-control" type="search" wire:model.live="search" placeholder="Search"
+                                aria-label="Search">
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="table-responsive text-nowrap">
                 <table class="table">
@@ -31,7 +49,7 @@
                         <tr>
                             <th>No</th>
                             <th>Kode Registrasi</th>
-                            <th>Tanggal Registrasi</th>
+                            <th>Tanggal</th>
                             <th>Nama Pemohon</th>
                             <th>No Hp</th>
                             <th>Email</th>
@@ -51,7 +69,9 @@
                                         {{ $no++ }}
                                     </td>
                                     <td>
-                                        {{ $data->kode }}
+                                        <span class="fw-bold">
+                                            {{ $data->kode }}
+                                        </span>
                                     </td>
                                     <td>
                                         {{ date('d-m-Y', strtotime($data->tanggal)) }}
@@ -77,22 +97,22 @@
                                         <div class="me-3">
                                             <!-- Button trigger modal -->
                                             <button
-                                                wire:click="$dispatch('registrasi-edit', { id: {{ $data->id }} })"
-                                                type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#editRegistrasiModal">
-                                                Edit
-                                            </button>
-                                            <button
                                                 wire:click="$dispatch('registrasi-detail', { id: {{ $data->id }} })"
                                                 type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
                                                 data-bs-target="#detailRegistrasiModal">
-                                                Detail
+                                                <i class="bx bx-show"></i>
+                                            </button>
+                                            <button
+                                                wire:click="$dispatch('registrasi-edit', { id: {{ $data->id }} })"
+                                                type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#editRegistrasiModal">
+                                                <i class="bx bx-edit"></i>
                                             </button>
                                             @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor')
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     wire:click="deleteRegistrasi({{ $data->id }})"
                                                     wire:confirm="Are you sure you want to delete this Registrasi?">
-                                                    Hapus
+                                                    <i class="bx bx-trash"></i>
                                                 </button>
                                             @endif
                                         </div>
