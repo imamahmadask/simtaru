@@ -211,6 +211,14 @@
                                                         id="berkas">
                                                         KTP
                                                     </a>
+                                                    <a href="{{ asset('storage/' . $skrk->permohonan->berkas_permohonan) }}"
+                                                        target="_blank" type="button" class="btn btn-primary m-1">
+                                                        Permohonan
+                                                    </a>
+                                                    <a href="{{ asset('storage/' . $skrk->permohonan->berkas_kuasa) }}"
+                                                        target="_blank" type="button" class="btn btn-primary m-1">
+                                                        Surat Kuasa
+                                                    </a>
                                                     <a href="{{ asset('storage/' . $skrk->permohonan->berkas_nib) }}"
                                                         target="_blank" type="button" class="btn btn-primary m-1">
                                                         NIB
@@ -218,10 +226,6 @@
                                                     <a href="{{ asset('storage/' . $skrk->permohonan->berkas_penguasaan) }}"
                                                         target="_blank" type="button" class="btn btn-primary m-1">
                                                         Penguasaan
-                                                    </a>
-                                                    <a href="{{ asset('storage/' . $skrk->permohonan->berkas_permohonan) }}"
-                                                        target="_blank" type="button" class="btn btn-primary m-1">
-                                                        Permohonan
                                                     </a>
                                                 </div>
                                             </div>
@@ -269,11 +273,11 @@
                                         </div>
                                         <div class="card-body mt-3">
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="tgl_survey">
+                                                <label class="col-sm-4 col-form-label" for="tgl_survey">
                                                     Tgl Survey
                                                 </label>
                                                 @if ($skrk->is_survey)
-                                                    <div class="col-sm-10">
+                                                    <div class="col-sm-8">
                                                         <input id="tgl_survey" class="form-control"
                                                             value="{{ date('d-m-Y', strtotime($skrk->tgl_survey)) }}"
                                                             readonly>
@@ -281,7 +285,7 @@
                                                 @endif
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="koordinat">
+                                                <label class="col-sm-4 col-form-label" for="koordinat">
                                                     Koordinat
                                                 </label>
                                                 @if ($skrk->is_survey)

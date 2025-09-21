@@ -26,9 +26,8 @@ class PermohonanCreate extends Component
 
     #[Validate('required')]
     public $registrasi_id, $layanan_id, $nama, $nik, $no_hp, $email, $alamat_pemohon, $alamat_tanah, $kel_tanah, $kec_tanah, $jenis_bangunan, $luas_tanah, $tahapan_id, $penerima_id;
-
-    public $npwp, $keterangan, $status, $pemberi_id, $catatan, $berkas_ktp, $berkas_nib, $berkas_penguasaan, $berkas_permohonan, $status_modal, $kbli, $judul_kbli;
-
+    public $npwp, $keterangan, $status, $pemberi_id, $catatan, $status_modal, $kbli, $judul_kbli;
+    public $berkas_ktp, $berkas_nib, $berkas_penguasaan, $berkas_permohonan, $berkas_kuasa;
     public function render()
     {
         return view('livewire.admin.permohonan.permohonan-create');
@@ -42,6 +41,7 @@ class PermohonanCreate extends Component
         $path_berkas_nib = $this->uploadFile($this->berkas_nib, 'berkas_nib');
         $path_berkas_penguasaan = $this->uploadFile($this->berkas_penguasaan, 'berkas_penguasaan');
         $path_berkas_permohonan = $this->uploadFile($this->berkas_permohonan, 'berkas_permohonan');
+        $path_berkas_kuasa = $this->uploadFile($this->berkas_kuasa, 'berkas_kuasa');
 
         $permohonan = Permohonan::create([
             'registrasi_id' => $this->registrasi_id,
@@ -62,6 +62,7 @@ class PermohonanCreate extends Component
             'berkas_nib' => $path_berkas_nib,
             'berkas_penguasaan' => $path_berkas_penguasaan,
             'berkas_permohonan' => $path_berkas_permohonan,
+            'berkas_kuasa' => $path_berkas_kuasa,
             'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id
         ]);

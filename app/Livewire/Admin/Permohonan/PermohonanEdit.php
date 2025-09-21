@@ -25,10 +25,9 @@ class PermohonanEdit extends Component
 
     #[Validate('required')]
     public $registrasi_id, $layanan_id, $nama, $nik, $no_hp, $email, $alamat_pemohon, $alamat_tanah, $kel_tanah, $kec_tanah, $jenis_bangunan, $luas_tanah, $tahapan_id, $penerima_id;
-
-    public $npwp, $keterangan, $status, $pemberi_id, $catatan, $berkas_ktp, $berkas_nib, $berkas_penguasaan, $berkas_permohonan, $status_modal, $kbli, $judul_kbli;
-
-    public $berkas_ktp_lama, $berkas_nib_lama, $berkas_penguasaan_lama, $berkas_permohonan_lama;
+    public $npwp, $keterangan, $status, $pemberi_id, $catatan, $status_modal, $kbli, $judul_kbli;
+    public $berkas_ktp, $berkas_nib, $berkas_penguasaan, $berkas_permohonan, $berkas_kuasa;
+    public $berkas_ktp_lama, $berkas_nib_lama, $berkas_penguasaan_lama, $berkas_permohonan_lama, $berkas_kuasa_lama;
 
    public $is_prioritas;
 
@@ -55,6 +54,7 @@ class PermohonanEdit extends Component
         $this->berkas_nib_lama = $permohonan->berkas_nib;
         $this->berkas_penguasaan_lama = $permohonan->berkas_penguasaan;
         $this->berkas_permohonan_lama = $permohonan->berkas_permohonan;
+        $this->berkas_kuasa_lama = $permohonan->berkas_kuasa;
         $this->is_prioritas = $permohonan->is_prioritas;
         $this->status_modal = $permohonan->status_modal;
         $this->kbli = $permohonan->kbli;
@@ -87,6 +87,7 @@ class PermohonanEdit extends Component
         $path_berkas_nib = $this->uploadFile($this->berkas_nib, 'berkas_nib', $this->berkas_nib_lama);
         $path_berkas_penguasaan = $this->uploadFile($this->berkas_penguasaan, 'berkas_penguasaan', $this->berkas_penguasaan_lama);
         $path_berkas_permohonan = $this->uploadFile($this->berkas_permohonan, 'berkas_permohonan', $this->berkas_permohonan_lama);
+        $path_berkas_kuasa = $this->uploadFile($this->berkas_kuasa, 'berkas_kuasa', $this->berkas_kuasa_lama);
 
         $permohonan->update([
             'registrasi_id' => $this->registrasi_id,
@@ -107,6 +108,7 @@ class PermohonanEdit extends Component
             'berkas_nib' => $path_berkas_nib,
             'berkas_penguasaan' => $path_berkas_penguasaan,
             'berkas_permohonan' => $path_berkas_permohonan,
+            'berkas_kuasa' => $path_berkas_kuasa,
             'is_prioritas' => $this->is_prioritas,
             'updated_by' => Auth::user()->id
         ]);

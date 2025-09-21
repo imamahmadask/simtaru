@@ -207,31 +207,40 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <div class="mb-3">
                                         <label for="berkas_ktp" class="form-label">Upload KTP</label>
                                         <input type="file" class="form-control" id="berkas_ktp"
                                             wire:model="berkas_ktp">
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <div class="mb-3">
                                         <label for="berkas_permohonan" class="form-label">Upload Permohonan</label>
                                         <input type="file" class="form-control" id="berkas_permohonan"
                                             wire:model="berkas_permohonan">
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
+                                    <div class="mb-3">
+                                        <label for="berkas_kuasa" class="form-label">Surat Kuasa (Jika Ada)
+                                            Tanah</label>
+                                        <input type="file" class="form-control" id="berkas_kuasa"
+                                            wire:model="berkas_kuasa">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
                                     <div class="mb-3">
                                         <label for="berkas_nib" class="form-label">Upload NIB</label>
                                         <input type="file" class="form-control" id="berkas_nib"
                                             wire:model="berkas_nib">
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <div class="mb-3">
-                                        <label for="berkas_penguasaan" class="form-label">Upload Penguasaan
-                                            Tanah</label>
+                                        <label for="berkas_penguasaan" class="form-label">
+                                            Bukti Penguasaan Tanah
+                                        </label>
                                         <input type="file" class="form-control" id="berkas_penguasaan"
                                             wire:model="berkas_penguasaan">
                                     </div>

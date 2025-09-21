@@ -31,6 +31,7 @@ class Permohonan extends Model
         'status_modal',
         'kbli',
         'judul_kbli',
+        'berkas_kuasa',
     ];
 
     public function layanan()

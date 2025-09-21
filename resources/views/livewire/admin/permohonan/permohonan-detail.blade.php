@@ -236,6 +236,10 @@
                                                         target="_blank" type="button" class="btn btn-primary m-1">
                                                         Permohonan
                                                     </a>
+                                                    <a href="{{ asset('storage/' . $permohonan->berkas_kuasa) }}"
+                                                        target="_blank" type="button" class="btn btn-primary m-1">
+                                                        Surat Kuasa
+                                                    </a>
                                                     <a href="{{ asset('storage/' . $permohonan->berkas_nib) }}"
                                                         target="_blank" type="button" class="btn btn-primary m-1">
                                                         NIB
