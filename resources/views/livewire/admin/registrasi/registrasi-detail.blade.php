@@ -87,7 +87,7 @@
                                             <small class="text-muted">
                                                 {{ date('j F Y h:i:s', strtotime($riwayat->created_at)) }}
                                             </small>
-                                            <h5 class="fw-bold mb-1">{{ $riwayat->keterangan }}</h5>
+                                            <h5 class="fw-semibold fs-6 mb-1">{{ $riwayat->keterangan }}</h5>
                                             <p class="text-muted">
                                                 Oleh : {{ $riwayat->user->name }}
                                             </p>

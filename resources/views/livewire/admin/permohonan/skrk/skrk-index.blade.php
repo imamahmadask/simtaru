@@ -54,9 +54,10 @@
                                     </td>
                                     <td>
                                         <span
-                                            class="badge bg-label-{{ $data->permohonan->status == 'pending' ? 'danger' : ($data->permohonan->status == 'process' ? 'warning' : ($data->permohonan->status == 'completed' ? 'success' : 'secondary')) }} me-1">
-                                            {{ $data->permohonan->status }}
+                                            class="badge bg-label-{{ is_null($data->permohonan) ? 'danger' : ($data->permohonan->status === 'success' ? 'success' : 'warning') }}">
+                                            {{ is_null($data->permohonan) ? 'Belum Entry' : $data->permohonan->status }}
                                         </span>
+
                                     </td>
                                     <td>
                                         <a href="{{ route('skrk.detail', ['id' => $data->id]) }}" type="button"

@@ -39,7 +39,7 @@ class SkrkDokumenAnalisCreate extends Component
         ]);
 
         $this->permohonan->update([
-            'status' => 'Proses Verifikasi'
+            'status' => 'Proses Analisa'
         ]);
 
         $this->createRiwayat($this->permohonan, 'Entry Data Dokumen SKRK');

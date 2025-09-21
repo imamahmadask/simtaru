@@ -32,6 +32,10 @@ class SkrkKajianAnalisCreate extends Component
             'is_kajian' => true
         ]);
 
+        $this->permohonan->update([
+            'status' => 'Proses Analisa'
+        ]);
+
         $this->createRiwayat($this->permohonan, 'Entry Data Kajian Analisa');
 
         session()->flash('success', 'Data Kajian Analisa berhasil ditambahkan!');

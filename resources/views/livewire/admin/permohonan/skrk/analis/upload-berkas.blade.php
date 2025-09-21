@@ -29,18 +29,10 @@
 
                                     @if ($uploadedFile)
                                         <div class="mt-2">
-                                            {{-- Kalau file PDF, tampilkan link --}}
-                                            @if (Str::endsWith($uploadedFile, ['.pdf']))
-                                                <a href="{{ Storage::url($uploadedFile) }}" target="_blank"
-                                                    class="text-primary">
-                                                    📄 Lihat Berkas (PDF)
-                                                </a>
-                                            @else
-                                                {{-- Kalau gambar, tampilkan preview --}}
-                                                <img src="{{ Storage::url($uploadedFile) }}"
-                                                    alt="Preview {{ $item->nama_berkas }}" class="img-thumbnail mb-2"
-                                                    style="max-height: 150px;">
-                                            @endif
+                                            <a href="{{ Storage::url($uploadedFile) }}" target="_blank"
+                                                class="text-primary">
+                                                <i class="bx bx-file"></i> Lihat Berkas
+                                            </a>
                                         </div>
                                     @endif
                                 </div>

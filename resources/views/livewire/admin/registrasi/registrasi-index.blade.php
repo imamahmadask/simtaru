@@ -48,11 +48,10 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Kode Registrasi</th>
+                            <th>Kode</th>
                             <th>Tanggal</th>
                             <th>Nama Pemohon</th>
                             <th>No Hp</th>
-                            <th>Email</th>
                             <th>Jenis Layanan</th>
                             <th>Status</th>
                             <th>Actions</th>
@@ -83,15 +82,14 @@
                                         {{ $data->no_hp }}
                                     </td>
                                     <td>
-                                        {{ $data->email }}
-                                    </td>
-                                    <td>
                                         {{ $data->layanan->nama }}
                                     </td>
                                     <td>
-                                        <span class="badge bg-label-{{ $data->permohonan ? 'success' : 'danger' }}">
-                                            {{ $data->permohonan ? 'Sudah Entry' : 'Belum Entry' }}
+                                        <span
+                                            class="badge bg-label-{{ is_null($data->permohonan) ? 'danger' : ($data->permohonan->status === 'success' ? 'success' : 'warning') }}">
+                                            {{ is_null($data->permohonan) ? 'Belum Entry' : $data->permohonan->status }}
                                         </span>
+
                                     </td>
                                     <td>
                                         <div class="me-3">
