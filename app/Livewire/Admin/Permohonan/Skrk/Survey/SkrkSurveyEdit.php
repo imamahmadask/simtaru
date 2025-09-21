@@ -102,14 +102,12 @@ class SkrkSurveyEdit extends Component
         ]);
 
         // update tabel disposisi
-        if($this->disposisi) {
+        if($this->disposisi->penerima_id != $this->penerima_id || $this->disposisi->catatan != $this->catatan){
             $this->disposisi->update([
                 'penerima_id' => $this->penerima_id,
-                'catatan' => $this->catatan
+                'catatan' => $this->catatan,
+                'updated_by' => Auth::user()->id
             ]);
-            if($this->disposisi->penerima_id != $this->penerima_id){
-                $this->createRiwayat($this->permohonan, "Update Disposisi: kepada {$this->users->where('id', $this->penerima_id)->first()->name} pada tahapan Analis Berkas");
-            }
         }
 
         session()->flash('success', 'Data Survey berhasil diupdate!');
@@ -146,15 +144,6 @@ class SkrkSurveyEdit extends Component
             $this->catatan = $this->disposisi->catatan;
         }
 
-    }
-
-    private function createRiwayat(Permohonan $permohonan, string $keterangan)
-    {
-        RiwayatPermohonan::create([
-            'registrasi_id' => $permohonan->registrasi_id,
-            'user_id' => Auth::user()->id,
-            'keterangan' => $keterangan
-        ]);
     }
 
     public function addRow()

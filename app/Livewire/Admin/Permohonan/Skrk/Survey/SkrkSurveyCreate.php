@@ -105,6 +105,10 @@ class SkrkSurveyCreate extends Component
            'is_survey' => true
         ]);
 
+        $permohonan->update([
+            'status' => 'Proses Analisa'
+        ]);
+
         $this->createRiwayat($permohonan, 'Entry Data Survey');
 
         Disposisi::create([

@@ -56,7 +56,7 @@ class PermohonanCreate extends Component
             'status_modal' => $this->status_modal,
             'kbli' => $this->kbli,
             'judul_kbli' => $this->judul_kbli,
-            'status' => 'process',
+            'status' => 'Proses Survey',
             'keterangan' => $this->keterangan,
             'berkas_ktp' => $path_berkas_ktp,
             'berkas_nib' => $path_berkas_nib,

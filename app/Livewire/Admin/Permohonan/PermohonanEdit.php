@@ -108,7 +108,6 @@ class PermohonanEdit extends Component
             'berkas_penguasaan' => $path_berkas_penguasaan,
             'berkas_permohonan' => $path_berkas_permohonan,
             'is_prioritas' => $this->is_prioritas,
-            'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id
         ]);
 
@@ -117,7 +116,6 @@ class PermohonanEdit extends Component
             'penerima_id' => $this->penerima_id,
             'tahapan_id' => $this->tahapan_id,
             'catatan' => $this->catatan,
-            'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id
         ]);
 

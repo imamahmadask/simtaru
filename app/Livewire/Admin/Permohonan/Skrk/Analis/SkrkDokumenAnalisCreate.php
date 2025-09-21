@@ -38,6 +38,10 @@ class SkrkDokumenAnalisCreate extends Component
             'is_analis' => true
         ]);
 
+        $this->permohonan->update([
+            'status' => 'Proses Verifikasi'
+        ]);
+
         $this->createRiwayat($this->permohonan, 'Entry Data Dokumen SKRK');
 
         session()->flash('success', 'Data Dokumen SKRK berhasil disimpan!');

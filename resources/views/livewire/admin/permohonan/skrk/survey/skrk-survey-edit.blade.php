@@ -86,7 +86,7 @@
                                     </label>
 
                                     {{-- tampilkan file lama jika sudah ada --}}
-                                    @if ($item->permohonan_berkas->file_path)
+                                    @if ($item->permohonan_berkas)
                                         <div class="mb-2">
                                             <a href="{{ Storage::url($item->permohonan_berkas->file_path) }}"
                                                 target="_blank" class="btn btn-outline-primary btn-sm">

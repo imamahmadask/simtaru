@@ -32,6 +32,7 @@ class SkrkDetail extends Component
             'kel_tanah' => $permohonan->kel_tanah,
             'kec_tanah' => $permohonan->kec_tanah,
             'luas_tanah' => $permohonan->luas_tanah,
+            'jenis_bangunan' => $permohonan->jenis_bangunan,
         ];
 
         return $this->generateDocument('1A_Form_Survey_template.docx', $data);
