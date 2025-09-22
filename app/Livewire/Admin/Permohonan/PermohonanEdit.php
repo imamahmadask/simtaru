@@ -102,7 +102,6 @@ class PermohonanEdit extends Component
             'status_modal' => $this->status_modal,
             'kbli' => $this->kbli,
             'judul_kbli' => $this->judul_kbli,
-            'status' => 'process',
             'keterangan' => $this->keterangan,
             'berkas_ktp' => $path_berkas_ktp,
             'berkas_nib' => $path_berkas_nib,

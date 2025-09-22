@@ -34,8 +34,7 @@ class SkrkDokumenAnalisCreate extends Component
             'luas_kavling' => $this->luas_kavling,
             'jaringan_utilitas' => $this->jaringan_utilitas,
             'persyaratan_pelaksanaan' => $this->persyaratan_pelaksanaan,
-            'is_dokumen' => true,
-            'is_analis' => true
+            'is_dokumen' => true
         ]);
 
         $this->permohonan->update([

@@ -356,4 +356,14 @@
             </div>
         </div>
     </div>
+
+    @teleport('body')
+        @livewire('admin.permohonan.skrk.analis.skrk-kajian-analis-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+    @endteleport
+    @teleport('body')
+        @livewire('admin.permohonan.skrk.analis.skrk-dokumen-analis-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+    @endteleport
+    @teleport('body')
+        @livewire('admin.permohonan.skrk.analis.upload-berkas', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+    @endteleport
 </div>

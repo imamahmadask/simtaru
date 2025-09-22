@@ -1,6 +1,6 @@
 <div>
     <div class="mb-3">
-        @if (!$skrk->is_survey)
+        @if (!$skrk->tgl_survey)
             @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor' || Auth::user()->role == 'surveyor')
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddSurveyModal">
                     <i class="bx bx-plus"></i> Add Survey
@@ -9,6 +9,13 @@
         @else
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditSurveyModal">
                 <i class="bx bx-edit"></i> Edit Survey
+            </button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#UploadBerkasSurveyModal">
+                <i class="bx bx-cloud-upload"></i> Berkas Survey
+            </button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddDisposisiModal">
+                <i class="bx bx-plus"></i> Disposisi
             </button>
             @teleport('body')
                 @livewire('admin.permohonan.skrk.survey.skrk-survey-edit', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
@@ -27,39 +34,37 @@
                         <label class="col-sm-4 col-form-label" for="tgl_survey">
                             Tgl Survey
                         </label>
-                        @if ($skrk->is_survey)
-                            <div class="col-sm-8">
-                                <input id="tgl_survey" class="form-control"
-                                    value="{{ date('d-m-Y', strtotime($skrk->tgl_survey)) }}" readonly>
-                            </div>
-                        @endif
+                        <div class="col-sm-8">
+                            <input id="tgl_survey" class="form-control"
+                                value="{{ date('d-m-Y', strtotime($skrk->tgl_survey)) }}" readonly>
+                        </div>
                     </div>
                     <div class="row mb-3">
                         <label class="col-sm-4 col-form-label" for="koordinat">
                             Koordinat
                         </label>
-                        @if ($skrk->is_survey)
-                            <div class="table text-nowrap">
-                                <table class="table table-hover table-bordered">
-                                    <thead>
+
+                        <div class="table text-nowrap">
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>X</th>
+                                        <th>Y</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($skrk->koordinat as $i => $point)
                                         <tr>
-                                            <th>#</th>
-                                            <th>X</th>
-                                            <th>Y</th>
+                                            <td>{{ $i + 1 }}</td>
+                                            <td>{{ $point['x'] }}</td>
+                                            <td>{{ $point['y'] }}</td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($skrk->koordinat as $i => $point)
-                                            <tr>
-                                                <td>{{ $i + 1 }}</td>
-                                                <td>{{ $point['x'] }}</td>
-                                                <td>{{ $point['y'] }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        @endif
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -92,4 +97,15 @@
             @endif
         </div>
     </div>
+
+    @teleport('body')
+        @livewire('admin.permohonan.skrk.survey.skrk-survey-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+    @endteleport
+    @teleport('body')
+        @livewire('admin.permohonan.skrk.survey.upload-berkas', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+    @endteleport
+    @teleport('body')
+        @livewire('admin.disposisi.disposisi-create', ['permohonan_id' => $skrk->permohonan->id])
+    @endteleport
+
 </div>

@@ -22,21 +22,7 @@
                             <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
                                 data-bs-target="#navs-pills-top-general" aria-controls="navs-pills-top-general"
                                 aria-selected="true">
-                                Info
-                            </button>
-                        </li>
-                        <li class="nav-item">
-                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                data-bs-target="#navs-pills-top-survey" aria-controls="navs-pills-top-survey"
-                                aria-selected="false">
-                                Survey
-                            </button>
-                        </li>
-                        <li class="nav-item">
-                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                data-bs-target="#navs-pills-top-analisa" aria-controls="navs-pills-top-analisa"
-                                aria-selected="false">
-                                Analisa
+                                Informasi
                             </button>
                         </li>
                     </ul>
@@ -228,23 +214,23 @@
                                                     Berkas
                                                 </span>
                                                 <div class="col-sm-8 d-flex justify-content-around flex-wrap gap-1">
-                                                    <a href="{{ asset('storage/' . $permohonan->berkas_ktp) }}"
+                                                    <a href="{{ $permohonan->berkas_ktp ? asset('storage/' . $permohonan->berkas_ktp) : 'javascript:void(0)' }}"
                                                         target="_blank" type="button" class="btn btn-primary m-1">
                                                         KTP
                                                     </a>
-                                                    <a href="{{ asset('storage/' . $permohonan->berkas_permohonan) }}"
+                                                    <a href="{{ $permohonan->berkas_permohonan ? asset('storage/' . $permohonan->berkas_permohonan) : 'javascript:void(0)' }}"
                                                         target="_blank" type="button" class="btn btn-primary m-1">
                                                         Permohonan
                                                     </a>
-                                                    <a href="{{ asset('storage/' . $permohonan->berkas_kuasa) }}"
+                                                    <a href="{{ $permohonan->berkas_kuasa ? asset('storage/' . $permohonan->berkas_kuasa) : 'javascript:void(0)' }}"
                                                         target="_blank" type="button" class="btn btn-primary m-1">
                                                         Surat Kuasa
                                                     </a>
-                                                    <a href="{{ asset('storage/' . $permohonan->berkas_nib) }}"
+                                                    <a href="{{ $permohonan->berkas_nib ? asset('storage/' . $permohonan->berkas_nib) : 'javascript:void(0)' }}"
                                                         target="_blank" type="button" class="btn btn-primary m-1">
                                                         NIB
                                                     </a>
-                                                    <a href="{{ asset('storage/' . $permohonan->berkas_penguasaan) }}"
+                                                    <a href="{{ $permohonan->berkas_penguasaan ? asset('storage/' . $permohonan->berkas_penguasaan) : 'javascript:void(0)' }}"
                                                         target="_blank" type="button" class="btn btn-primary m-1">
                                                         Penguasaan
                                                     </a>
@@ -261,16 +247,62 @@
                                 </div>
                                 <div class="col-xl-6">
                                     @livewire('admin.permohonan.riwayat.riwayat-permohonan-index', ['permohonan' => $permohonan])
+
+                                    <div class="card mb-4">
+                                        <div
+                                            class="card-header d-flex align-items-center justify-content-between bg-secondary">
+                                            <h5 class="mb-0 text-white">Berkas</h5>
+                                        </div>
+                                        <div class="card-body mt-3">
+                                            <div class="table-responsive text-nowrap mb-3">
+                                                <table class="table table-hover table-bordered">
+                                                    <thead>
+                                                        <th>No</th>
+                                                        <th>Nama Berkas</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        @php
+                                                            $no = 1;
+                                                        @endphp
+                                                        @foreach ($permohonan->berkas as $item)
+                                                            <tr>
+                                                                <td>{{ $no++ }}</td>
+                                                                <td>{{ $item->file_path }}</td>
+                                                                <td class="text-capitalize">
+                                                                    @switch($item->status)
+                                                                        @case('menunggu')
+                                                                            <span
+                                                                                class="badge bg-label-warning">Menunggu</span>
+                                                                        @break
+
+                                                                        @case('ditolak')
+                                                                            <span class="badge bg-label-danger">Ditolak</span>
+                                                                        @break
+
+                                                                        @case('diterima')
+                                                                            <span
+                                                                                class="badge bg-label-primary">Diterima</span>
+                                                                        @break
+                                                                    @endswitch
+                                                                </td>
+                                                                <td>
+                                                                    <a href="{{ asset('storage/' . $item->file_path) }}"
+                                                                        class="btn btn-sm btn-primary"
+                                                                        target="_blank">
+                                                                        <i class="bx bx-show"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="tab-pane fade" id="navs-pills-top-survey" role="tabpanel">
-                            Survey
-                        </div>
-
-                        <div class="tab-pane fade" id="navs-pills-top-analisa" role="tabpanel">
-                            Analisa
                         </div>
                     </div>
                 </div>

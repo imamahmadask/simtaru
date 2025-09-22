@@ -230,41 +230,31 @@
                                                     Berkas
                                                 </span>
                                                 <div class="col-sm d-flex justify-content-around flex-wrap">
-                                                    @if (!is_null($skrk->permohonan->berkas_ktp))
-                                                        <a href="{{ asset('storage/' . $skrk->permohonan->berkas_ktp) }}"
-                                                            target="_blank" type="button"
-                                                            class="btn btn-primary m-1" id="berkas">
-                                                            KTP
-                                                        </a>
-                                                    @endif
-                                                    @if (!is_null($skrk->permohonan->berkas_permohonan))
-                                                        <a href="{{ asset('storage/' . $skrk->permohonan->berkas_permohonan) }}"
-                                                            target="_blank" type="button"
-                                                            class="btn btn-primary m-1">
-                                                            Permohonan
-                                                        </a>
-                                                    @endif
-                                                    @if (!is_null($skrk->permohonan->berkas_kuasa))
-                                                        <a href="{{ asset('storage/' . $skrk->permohonan->berkas_kuasa) }}"
-                                                            target="_blank" type="button"
-                                                            class="btn btn-primary m-1">
-                                                            Surat Kuasa
-                                                        </a>
-                                                    @endif
-                                                    @if (!is_null($skrk->permohonan->berkas_nib))
-                                                        <a href="{{ asset('storage/' . $skrk->permohonan->berkas_nib) }}"
-                                                            target="_blank" type="button"
-                                                            class="btn btn-primary m-1">
-                                                            NIB
-                                                        </a>
-                                                    @endif
-                                                    @if (!is_null($skrk->permohonan->berkas_penguasaan))
-                                                        <a href="{{ asset('storage/' . $skrk->permohonan->berkas_penguasaan) }}"
-                                                            target="_blank" type="button"
-                                                            class="btn btn-primary m-1">
-                                                            Penguasaan
-                                                        </a>
-                                                    @endif
+                                                    <a href="{{ $skrk->permohonan->berkas_ktp ? asset('storage/' . $skrk->permohonan->berkas_ktp) : 'javascript:void(0)' }}"
+                                                        target="_blank" type="button" class="btn btn-primary m-1"
+                                                        id="berkas">
+                                                        KTP
+                                                    </a>
+                                                    <a href="{{ $skrk->permohonan->berkas_permohonan ? asset('storage/' . $skrk->permohonan->berkas_permohonan) : 'javascript:void(0)' }}"
+                                                        target="_blank" type="button" class="btn btn-primary m-1">
+                                                        Permohonan
+                                                    </a>
+
+                                                    <a href="{{ $skrk->permohonan->berkas_kuasa ? asset('storage/' . $skrk->permohonan->berkas_kuasa) : 'javascript:void(0)' }}"
+                                                        target="_blank" type="button" class="btn btn-primary m-1">
+                                                        Surat Kuasa
+                                                    </a>
+
+                                                    <a href="{{ $skrk->permohonan->berkas_nib ? asset('storage/' . $skrk->permohonan->berkas_nib) : 'javascript:void(0)' }}"
+                                                        target="_blank" type="button" class="btn btn-primary m-1">
+                                                        NIB
+                                                    </a>
+
+                                                    <a href="{{ $skrk->permohonan->berkas_penguasaan ? asset('storage/' . $skrk->permohonan->berkas_penguasaan) : 'javascript:void(0)' }}"
+                                                        target="_blank" type="button" class="btn btn-primary m-1">
+                                                        Penguasaan
+                                                    </a>
+
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
@@ -376,18 +366,6 @@
             </div>
         </div>
 
-        @teleport('body')
-            @livewire('admin.permohonan.skrk.survey.skrk-survey-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
-        @endteleport
-        @teleport('body')
-            @livewire('admin.permohonan.skrk.analis.skrk-kajian-analis-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
-        @endteleport
-        @teleport('body')
-            @livewire('admin.permohonan.skrk.analis.skrk-dokumen-analis-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
-        @endteleport
-        @teleport('body')
-            @livewire('admin.permohonan.skrk.analis.upload-berkas', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
-        @endteleport
         @teleport('body')
             @livewire('admin.permohonan.skrk.spv.skrk-verifikasi', ['skrk_id' => $skrk->id])
         @endteleport
