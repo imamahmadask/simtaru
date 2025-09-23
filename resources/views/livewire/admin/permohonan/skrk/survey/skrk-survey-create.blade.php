@@ -56,11 +56,59 @@
                                 </button>
                             </div>
 
+                            <span class="fs-5 mb-1">
+                                Batas Administratif
+                            </span>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="batas_utara" class="form-label">Batas Utara</label>
+                                    <input type="text" class="form-control" wire:model="batas_utara"
+                                        id="batas_utara">
+                                    @error('batas_utara')
+                                        <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="batas_selatan" class="form-label">Batas Selatan</label>
+                                    <input type="text" class="form-control" wire:model="batas_selatan"
+                                        id="batas_selatan">
+                                    @error('batas_selatan')
+                                        <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="batas_timur" class="form-label">Batas Timur</label>
+                                    <input type="text" class="form-control" wire:model="batas_timur"
+                                        id="batas_timur">
+                                    @error('batas_timur')
+                                        <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="batas_barat" class="form-label">Batas Barat</label>
+                                    <input type="text" class="form-control" wire:model="batas_barat"
+                                        id="batas_barat">
+                                    @error('batas_barat')
+                                        <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div class="row">
                                 <div class="col mb-3">
                                     <label for="foto_survey" class="form-label">Upload Foto Survey</label>
                                     <input type="file" class="form-control" wire:model="foto_survey" id="foto_survey"
                                         multiple>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="gambar_peta" class="form-label">Upload Gambar Peta</label>
+                                    <input type="file" class="form-control" wire:model="gambar_peta"
+                                        id="gambar_peta">
                                 </div>
                             </div>
                         </div>

@@ -58,53 +58,42 @@
                             </div>
                         </div>
 
-                        {{-- @foreach ($persyaratan_berkas as $item)
-                            <div class="row">
-                                <div class="col mb-3">
-                                    <label for="file_.{{ $item->id }}" class="form-label">Upload
-                                        {{ $item->nama_berkas }}</label>
-                                    <input type="file" class="form-control" wire:model="file_.{{ $item->kode }}"
-                                        id="file_.{{ $item->id }}">
-                                </div>
-                            </div>
-                        @endforeach
-
+                        <span class="fs-5 mb-1">
+                            Batas Administratif
+                        </span>
                         <div class="row">
-                            <div class="col mb-3">
-                                <label for="foto_survey" class="form-label">Upload Foto Survey</label>
-                                <input type="file" class="form-control" wire:model="foto_survey" id="foto_survey"
-                                    multiple>
+                            <div class="col-md-6 mb-3">
+                                <label for="batas_utara" class="form-label">Batas Utara</label>
+                                <input type="text" class="form-control" wire:model="batas_utara" id="batas_utara">
+                                @error('batas_utara')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
-                        </div> --}}
-
-                        {{-- Persyaratan Berkas --}}
-                        @foreach ($persyaratan_berkas as $item)
-                            <div class="row">
-                                <div class="col mb-3">
-                                    <label for="file_.{{ $item->id }}" class="form-label">
-                                        Upload {{ $item->nama_berkas }}
-                                    </label>
-
-                                    {{-- tampilkan file lama jika sudah ada --}}
-                                    @if ($item->permohonan_berkas)
-                                        <div class="mb-2">
-                                            <a href="{{ Storage::url($item->permohonan_berkas->file_path) }}"
-                                                target="_blank" class="btn btn-outline-primary btn-sm">
-                                                📄 Lihat Berkas Lama
-                                            </a>
-                                        </div>
-                                    @endif
-
-                                    {{-- input file baru --}}
-                                    <input type="file" class="form-control" wire:model="file_.{{ $item->kode }}"
-                                        id="file_.{{ $item->id }}" accept="application/pdf">
-
-                                    @error('file_.' . $item->kode)
-                                        <span class="form-text text-xs text-danger"> {{ $message }} </span>
-                                    @enderror
-                                </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="batas_selatan" class="form-label">Batas Selatan</label>
+                                <input type="text" class="form-control" wire:model="batas_selatan"
+                                    id="batas_selatan">
+                                @error('batas_selatan')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
-                        @endforeach
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="batas_timur" class="form-label">Batas Timur</label>
+                                <input type="text" class="form-control" wire:model="batas_timur" id="batas_timur">
+                                @error('batas_timur')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="batas_barat" class="form-label">Batas Barat</label>
+                                <input type="text" class="form-control" wire:model="batas_barat" id="batas_barat">
+                                @error('batas_barat')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
 
                         {{-- Foto Survey --}}
                         <div class="row">
@@ -124,54 +113,23 @@
                                         @endforeach
                                     </div>
                                 @endif
-
-                            </div>
-                        </div>
-
-                        <h5 class="mt-3">Disposisi</h5>
-
-                        <div class="row">
-                            <div class="col mb-3">
-                                <label for="tahapan_id" class="form-label">Tahapan</label>
-                                <select class="form-select" wire:model.live="tahapan_id" name="tahapan_id"
-                                    aria-label="Select Tahapan">
-                                    <option selected>Pilih Tahapan</option>
-                                    @foreach ($tahapans as $tahapan)
-                                        <option value="{{ $tahapan->id }}">
-                                            {{ $tahapan->urutan }} - {{ $tahapan->nama }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('tahapan_id')
-                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
-                                @enderror
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="penerima_id" class="form-label">Penerima Disposisi</label>
-                                <select class="form-select" wire:model="penerima_id" name="penerima_id"
-                                    aria-label="Select Penerima">
-                                    <option selected>Pilih Penerima</option>
-                                    @foreach ($users as $user)
-                                        <option value="{{ $user->id }}">
-                                            {{ $user->name }} - {{ $user->role }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('penerima_id')
-                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
-                                @enderror
+                                <label for="gambar_peta" class="form-label">Upload Gambar Peta</label>
+                                <input type="file" class="form-control" wire:model="gambar_peta"
+                                    id="gambar_peta">
+                                @if (!empty($gambar_peta_lama))
+                                    <a href="{{ Storage::url($gambar_peta_lama) }}" target="_blank"
+                                        class="d-block mb-1">
+                                        📷 Lihat Gambar Peta
+                                    </a>
+                                @endif
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col mb-3">
-                                <label for="catatan" class="form-label">Catatan Disposisi</label>
-                                <textarea class="form-control" wire:model="catatan" name="catatan" rows="3"></textarea>
-                            </div>
-                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">

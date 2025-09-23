@@ -19,9 +19,10 @@ class SkrkSurveyCreate extends Component
 
     #[Validate(['foto_survey.*' => 'image|max:1024'])]
     public $foto_survey = [];
+    public $gambar_peta;
 
     #[Validate('required')]
-    public $tgl_survey;
+    public $tgl_survey, $batas_utara, $batas_selatan, $batas_timur, $batas_barat;
 
     public $koordinat = [];
 
@@ -50,11 +51,23 @@ class SkrkSurveyCreate extends Component
             $foto_survey_path = null;
         }
 
+        if($this->gambar_peta) {
+            $gambar_peta_filename = $no_reg . '_' . Str::random(5) . '.' . $this->gambar_peta->getClientOriginalExtension();
+            $gambar_peta_path = $this->gambar_peta->storeAs('skrk_gambar_peta', $gambar_peta_filename, 'public');
+        }
+
         // update tabel survey
         $skrk->update([
            'tgl_survey' => $this->tgl_survey,
            'koordinat' => $this->koordinat,
            'foto_survey' => $foto_survey_path,
+           'gambar_peta' => $gambar_peta_path,
+           'batas_administratif' => [
+                'utara' => $this->batas_utara,
+                'selatan' => $this->batas_selatan,
+                'timur' => $this->batas_timur,
+                'barat' => $this->batas_barat,
+            ],
         ]);
 
         $this->createRiwayat($permohonan, 'Entry Data Survey');
@@ -90,5 +103,14 @@ class SkrkSurveyCreate extends Component
             unset($this->koordinat[$index]);
             $this->koordinat = array_values($this->koordinat);
         }
+    }
+
+    private function createRiwayat(Permohonan $permohonan, string $keterangan)
+    {
+        RiwayatPermohonan::create([
+            'registrasi_id' => $permohonan->registrasi_id,
+            'user_id' => Auth::user()->id,
+            'keterangan' => $keterangan
+        ]);
     }
 }

@@ -1,26 +1,29 @@
 <div>
     <div class="mb-3">
-        @if (!$skrk->tgl_survey)
-            @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor' || Auth::user()->role == 'surveyor')
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddSurveyModal">
-                    <i class="bx bx-plus"></i> Add Survey
+        <div class="d-flex flex-wrap gap-3">
+            @if (!$skrk->tgl_survey)
+                @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor' || Auth::user()->role == 'surveyor')
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddSurveyModal">
+                        <i class="bx bx-plus"></i> Add Survey
+                    </button>
+                @endif
+            @else
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditSurveyModal">
+                    <i class="bx bx-edit"></i> Edit Survey
                 </button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#UploadBerkasSurveyModal">
+                    <i class="bx bx-cloud-upload"></i> Berkas Survey
+                </button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#AddDisposisiModal">
+                    <i class="bx bx-plus"></i> Disposisi
+                </button>
+                @teleport('body')
+                    @livewire('admin.permohonan.skrk.survey.skrk-survey-edit', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+                @endteleport
             @endif
-        @else
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditSurveyModal">
-                <i class="bx bx-edit"></i> Edit Survey
-            </button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                data-bs-target="#UploadBerkasSurveyModal">
-                <i class="bx bx-cloud-upload"></i> Berkas Survey
-            </button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddDisposisiModal">
-                <i class="bx bx-plus"></i> Disposisi
-            </button>
-            @teleport('body')
-                @livewire('admin.permohonan.skrk.survey.skrk-survey-edit', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
-            @endteleport
-        @endif
+        </div>
     </div>
 
     <div class="row">
@@ -30,21 +33,23 @@
                     <h5 class="mb-0 text-white">Data Survey SKRK</h5>
                 </div>
                 <div class="card-body mt-3">
-                    <div class="row mb-3">
+                    <div class="row">
                         <label class="col-sm-4 col-form-label" for="tgl_survey">
                             Tgl Survey
                         </label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-8  mb-3">
                             <input id="tgl_survey" class="form-control"
-                                value="{{ date('d-m-Y', strtotime($skrk->tgl_survey)) }}" readonly>
+                                value="{{ $skrk->tgl_survey ? \Carbon\Carbon::parse($skrk->tgl_survey)->format('d-m-Y') : '' }}"
+                                readonly>
                         </div>
                     </div>
-                    <div class="row mb-3">
+
+                    <div class="row">
                         <label class="col-sm-4 col-form-label" for="koordinat">
                             Koordinat
                         </label>
 
-                        <div class="table text-nowrap">
+                        <div class="table text-nowrap mb-3">
                             <table class="table table-hover table-bordered">
                                 <thead>
                                     <tr>
@@ -54,17 +59,58 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($skrk->koordinat as $i => $point)
-                                        <tr>
-                                            <td>{{ $i + 1 }}</td>
-                                            <td>{{ $point['x'] }}</td>
-                                            <td>{{ $point['y'] }}</td>
-                                        </tr>
-                                    @endforeach
+                                    @if ($skrk->koordinat)
+                                        @foreach ($skrk->koordinat as $i => $point)
+                                            <tr>
+                                                <td>{{ $i + 1 }}</td>
+                                                <td>{{ $point['x'] }}</td>
+                                                <td>{{ $point['y'] }}</td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
+                    </div>
 
+                    <div class="mb-3">
+                        <span class="fs-5">Batas Administratif</span>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-4 col-form-label" for="utara">
+                            Batas Utara
+                        </label>
+                        <div class="col-sm-8  mb-3">
+                            <input id="utara" class="form-control" value="{{ $skrk->batas_administratif['utara'] }}"
+                                readonly>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-4 col-form-label" for="selatan">
+                            Batas Selatan
+                        </label>
+                        <div class="col-sm-8  mb-3">
+                            <input id="selatan" class="form-control"
+                                value="{{ $skrk->batas_administratif['selatan'] }}" readonly>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-4 col-form-label" for="timur">
+                            Batas Timur
+                        </label>
+                        <div class="col-sm-8  mb-3">
+                            <input id="timur" class="form-control" value="{{ $skrk->batas_administratif['timur'] }}"
+                                readonly>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-4 col-form-label" for="barat">
+                            Batas Barat
+                        </label>
+                        <div class="col-sm-8  mb-3">
+                            <input id="barat" class="form-control" value="{{ $skrk->batas_administratif['barat'] }}"
+                                readonly>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -89,12 +135,19 @@
         </div>
 
         <div class="col-xl-6">
+            <h5>Foto Survey</h5>
             @if ($skrk->foto_survey != null)
                 @foreach (json_decode($skrk->foto_survey) as $item)
-                    <img src="{{ asset('storage/' . $item) }}" alt="" width="200px" class="mb-3">
+                    <img src="{{ asset('storage/' . $item) }}" alt="" width="200px" class="img-fluid mb-1">
                 @endforeach
-
             @endif
+
+            <h5 class="mt-5">Gambar Peta</h5>
+            @if ($skrk->gambar_peta != null)
+                <img src="{{ asset('storage/' . $skrk->gambar_peta) }}" alt="" width="500px"
+                    class="img-fluid mb-3">
+            @endif
+
         </div>
     </div>
 

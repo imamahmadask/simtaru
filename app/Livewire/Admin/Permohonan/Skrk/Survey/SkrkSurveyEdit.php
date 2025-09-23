@@ -19,29 +19,20 @@ class SkrkSurveyEdit extends Component
 {
     use WithFileUploads;
 
-    public $permohonan, $skrk, $tahapans, $users, $permohonan_id, $skrk_id, $catatan, $disposisi;
-    public $foto_survey_lama;
+    public $permohonan, $skrk, $tahapans, $users;
+    public $foto_survey_lama, $gambar_peta_lama;
 
     #[Validate('required')]
-    public $tahapan_id, $penerima_id;
-
-    #[Validate('required')]
-    public $tgl_survey;
+    public $tgl_survey, $batas_utara, $batas_selatan, $batas_timur, $batas_barat;
 
     #[Validate(['foto_survey.*' => 'image|max:1024'])]
     public $foto_survey = [];
-
-    public $file_ = [];
+    public $gambar_peta;
 
     public $koordinat = [];
     public function render()
     {
-        $tahapan_survey = $this->permohonan->layanan->tahapan->where('nama', 'Survey')->value('id');
-        $persyaratan_berkas = $this->permohonan->persyaratanBerkas->where('tahapan_id', $tahapan_survey);
-
-        return view('livewire.admin.permohonan.skrk.survey.skrk-survey-edit', [
-            'persyaratan_berkas' => $persyaratan_berkas
-        ]);
+        return view('livewire.admin.permohonan.skrk.survey.skrk-survey-edit');
     }
 
     public function EditSurvey()
@@ -49,38 +40,6 @@ class SkrkSurveyEdit extends Component
         $this->validate();
 
         $no_reg = $this->skrk->registrasi->kode;
-
-        foreach ($this->permohonan->persyaratanBerkas as $item) {
-            // cek apakah file untuk persyaratan ini diupload
-            if (!empty($this->file_[$item->kode])) {
-                $uploadedFile = $this->file_[$item->kode];
-
-                // buat nama file unik -> {no_reg}_{kode}.{ext}
-                $filename = $no_reg . '_' . $item->kode . '.' . $uploadedFile->getClientOriginalExtension();
-
-                // simpan file ke storage/app/public/skrk_form_survey
-                $path = $uploadedFile->storeAs(
-                    'skrk_form_survey/' . $no_reg, // folder per registrasi
-                    $filename,
-                    'public'
-                );
-
-                // simpan ke database
-                PermohonanBerkas::updateOrCreate(
-                    [
-                        'permohonan_id'        => $this->permohonan_id,
-                        'persyaratan_berkas_id'=> $item->id,
-                    ],
-                    [
-                        'file_path'           => $path,
-                        'uploaded_by'         => Auth::id(),
-                        'uploaded_at'         => now(),
-                        'status'              => 'menunggu',
-                        'catatan_verifikator' => null,
-                    ]
-                );
-            }
-        }
 
         if($this->foto_survey) {
             $foto_survey_path = [];
@@ -94,35 +53,38 @@ class SkrkSurveyEdit extends Component
             $foto_survey_path = $this->foto_survey_lama;
         }
 
+        if($this->gambar_peta) {
+            $gambar_peta_filename = $no_reg . '_' . Str::random(5) . '.' . $this->gambar_peta->getClientOriginalExtension();
+            $gambar_peta_path = $this->gambar_peta->storeAs('skrk_gambar_peta', $gambar_peta_filename, 'public');
+        }
+        else
+        {
+            $gambar_peta_path = $this->gambar_peta_lama;
+        }
+
         // update tabel survey
         $this->skrk->update([
            'tgl_survey' => $this->tgl_survey,
            'koordinat' => $this->koordinat,
-           'foto_survey' => $foto_survey_path
+           'foto_survey' => $foto_survey_path,
+           'gambar_peta' => $gambar_peta_path,
+           'batas_administratif' => [
+                'utara' => $this->batas_utara,
+                'selatan' => $this->batas_selatan,
+                'timur' => $this->batas_timur,
+                'barat' => $this->batas_barat,
+            ],
         ]);
-
-        // update tabel disposisi
-        if($this->disposisi->penerima_id != $this->penerima_id || $this->disposisi->catatan != $this->catatan){
-            $this->disposisi->update([
-                'penerima_id' => $this->penerima_id,
-                'catatan' => $this->catatan,
-                'updated_by' => Auth::user()->id
-            ]);
-        }
 
         session()->flash('success', 'Data Survey berhasil diupdate!');
 
-        return redirect()->route('skrk.detail', ['id' => $this->skrk_id]);
+        return redirect()->route('skrk.detail', ['id' => $this->skrk->id]);
     }
 
     public function mount($permohonan_id, $skrk_id)
     {
-        $this->permohonan_id = $permohonan_id;
-        $this->skrk_id = $skrk_id;
-        $this->skrk = Skrk::find($this->skrk_id);
-        $this->permohonan = Permohonan::findOrFail($this->permohonan_id);
-        $this->tahapans = Tahapan::where('layanan_id', $this->permohonan->layanan_id)->where('urutan', 2)->get();
-        $this->users = User::where('role', 'analis')->get();
+        $this->skrk = Skrk::find($skrk_id);
+        $this->permohonan = Permohonan::findOrFail($permohonan_id);
 
         $this->koordinat = $this->skrk->koordinat ?? [
             ['x' => '', 'y' => ''],
@@ -131,19 +93,15 @@ class SkrkSurveyEdit extends Component
             ['x' => '', 'y' => ''], // minimal 4
         ];
         $this->tgl_survey = $this->skrk->tgl_survey;
-         $this->foto_survey_lama = $this->skrk->foto_survey
+        $this->foto_survey_lama = $this->skrk->foto_survey
         ? json_decode($this->skrk->foto_survey, true)
         : [];
 
-        $tahapan_analis = Tahapan::where('nama', 'Analisis')->value('id');
-        $this->disposisi = $this->permohonan->disposisi->where('tahapan_id', $tahapan_analis)->first();
-
-        if($this->disposisi) {
-            $this->tahapan_id = $this->disposisi->tahapan_id;
-            $this->penerima_id = $this->disposisi->penerima_id;
-            $this->catatan = $this->disposisi->catatan;
-        }
-
+        $this->gambar_peta_lama = $this->skrk->gambar_peta;
+        $this->batas_barat = $this->skrk->batas_administratif['barat'];
+        $this->batas_selatan = $this->skrk->batas_administratif['selatan'];
+        $this->batas_timur = $this->skrk->batas_administratif['timur'];
+        $this->batas_utara = $this->skrk->batas_administratif['utara'];
     }
 
     public function addRow()

@@ -41,11 +41,13 @@ class Skrk extends Model
         'is_analis',
         'is_kajian',
         'is_dokumen',
-        'is_validate'
+        'is_validate',
+        'batas_administratif'
     ];
 
     protected $casts = [
         'koordinat' => 'array',
+        'batas_administratif' => 'array'
     ];
 
     public function permohonan()
