@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Permohonan\Skrk\Spv;
 
 use App\Models\PermohonanBerkas;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -22,9 +23,14 @@ class SkrkEditVerifikasi extends Component
     {
         $this->validate();
 
+        $verified_at = $this->status == 'diterima' ? now() : null;
+        $verified_by = $this->status == 'diterima' ? Auth::user()->id : null;
+
         $this->berkas->update([
             'status' => $this->status,
-            'catatan_verifikator' => $this->catatan
+            'catatan_verifikator' => $this->catatan,
+            'verified_by' => $verified_by,
+            'verified_at' => $verified_at
         ]);
 
         $message = $this->status == 'diterima'
