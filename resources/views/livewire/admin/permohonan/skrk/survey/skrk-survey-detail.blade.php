@@ -76,42 +76,44 @@
                     <div class="mb-3">
                         <span class="fs-5">Batas Administratif</span>
                     </div>
-                    <div class="row">
-                        <label class="col-sm-4 col-form-label" for="utara">
-                            Batas Utara
-                        </label>
-                        <div class="col-sm-8  mb-3">
-                            <input id="utara" class="form-control" value="{{ $skrk->batas_administratif['utara'] }}"
-                                readonly>
+                    @if ($skrk->batas_administratif)
+                        <div class="row">
+                            <label class="col-sm-4 col-form-label" for="utara">
+                                Batas Utara
+                            </label>
+                            <div class="col-sm-8  mb-3">
+                                <input id="utara" class="form-control"
+                                    value="{{ $skrk->batas_administratif['utara'] ?? '' }}" readonly>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <label class="col-sm-4 col-form-label" for="selatan">
-                            Batas Selatan
-                        </label>
-                        <div class="col-sm-8  mb-3">
-                            <input id="selatan" class="form-control"
-                                value="{{ $skrk->batas_administratif['selatan'] }}" readonly>
+                        <div class="row">
+                            <label class="col-sm-4 col-form-label" for="selatan">
+                                Batas Selatan
+                            </label>
+                            <div class="col-sm-8  mb-3">
+                                <input id="selatan" class="form-control"
+                                    value="{{ $skrk->batas_administratif['selatan'] ?? '' }}" readonly>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <label class="col-sm-4 col-form-label" for="timur">
-                            Batas Timur
-                        </label>
-                        <div class="col-sm-8  mb-3">
-                            <input id="timur" class="form-control" value="{{ $skrk->batas_administratif['timur'] }}"
-                                readonly>
+                        <div class="row">
+                            <label class="col-sm-4 col-form-label" for="timur">
+                                Batas Timur
+                            </label>
+                            <div class="col-sm-8  mb-3">
+                                <input id="timur" class="form-control"
+                                    value="{{ $skrk->batas_administratif['timur'] ?? '' }}" readonly>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <label class="col-sm-4 col-form-label" for="barat">
-                            Batas Barat
-                        </label>
-                        <div class="col-sm-8  mb-3">
-                            <input id="barat" class="form-control" value="{{ $skrk->batas_administratif['barat'] }}"
-                                readonly>
+                        <div class="row">
+                            <label class="col-sm-4 col-form-label" for="barat">
+                                Batas Barat
+                            </label>
+                            <div class="col-sm-8  mb-3">
+                                <input id="barat" class="form-control"
+                                    value="{{ $skrk->batas_administratif['barat'] ?? '' }}" readonly>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
 

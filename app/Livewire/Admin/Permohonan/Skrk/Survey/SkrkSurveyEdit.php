@@ -98,10 +98,10 @@ class SkrkSurveyEdit extends Component
         : [];
 
         $this->gambar_peta_lama = $this->skrk->gambar_peta;
-        $this->batas_barat = $this->skrk->batas_administratif['barat'];
-        $this->batas_selatan = $this->skrk->batas_administratif['selatan'];
-        $this->batas_timur = $this->skrk->batas_administratif['timur'];
-        $this->batas_utara = $this->skrk->batas_administratif['utara'];
+        $this->batas_barat = $this->skrk->batas_administratif['barat'] ?? '';
+        $this->batas_selatan = $this->skrk->batas_administratif['selatan'] ?? '';
+        $this->batas_timur = $this->skrk->batas_administratif['timur'] ?? '';
+        $this->batas_utara = $this->skrk->batas_administratif['utara'] ?? '';
     }
 
     public function addRow()
