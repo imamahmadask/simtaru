@@ -1,12 +1,12 @@
 <div>
-    <div wire:ignore.self class="modal fade" id="VerifikasiModal" tabindex="-1" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="EditVerifikasiModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Verifikasi Berkas</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                 </div>
-                <form wire:submit.prevent="addVerifikasi">
+                <form wire:submit.prevent="updateVerifikasi">
                     <div class="modal-body">
                         <p>Apakah Anda ingin <b>menerima</b> atau <b>menolak</b> berkas ini?</p>
                         <div class="row">
@@ -30,7 +30,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Edit</button>
                     </div>
                 </form>
             </div>

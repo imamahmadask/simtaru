@@ -59,9 +59,12 @@
                 @include('layouts.navbar')
 
                 <!-- Content wrapper -->
-                <main>
-                    {{ $slot }}
-                </main>
+                <div class="content-wrapper">
+                    <main>
+
+                        {{ $slot }}
+                    </main>
+                </div>
                 <!-- Content wrapper -->
 
             </div>
@@ -95,6 +98,17 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var toastEl = document.querySelector('.toast');
+            if (toastEl) {
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            }
+        });
+    </script>
+
     @stack('scripts')
 </body>
 

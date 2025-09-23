@@ -9,8 +9,8 @@
 
     <div class="container-xxl flex-grow-1 container-p-y">
         @if (session()->has('success'))
-            <div class="bs-toast toast fade show bg-primary top-0 end-0 m-2" role="alert" aria-role="alert"
-                aria-live="assertive" aria-atomic="true" data-delay="2000">
+            <div class="bs-toast toast bg-primary fade top-0 end-0 mb-2" role="alert" aria-live="assertive"
+                aria-atomic="true" data-bs-delay="3000" data-bs-autohide="true">
                 <div class="toast-header">
                     <i class="bx bx-bell me-2"></i>
                     <div class="me-auto fw-semibold">Message!</div>
@@ -20,8 +20,8 @@
                 <div class="toast-body">{{ session('success') }}</div>
             </div>
         @elseif(session()->has('error'))
-            <div class="bs-toast toast fade show bg-danger top-0 end-0 m-2" role="alert" aria-role="alert"
-                aria-live="assertive" aria-atomic="true" data-delay="2000">
+            <div class="bs-toast toast bg-danger fade top-0 end-0 m-2" role="alert" aria-live="assertive"
+                aria-atomic="true" data-bs-delay="3000" data-bs-autohide="true">
                 <div class="toast-header">
                     <i class="bx bx-bell me-2"></i>
                     <div class="me-auto fw-semibold">Message!</div>
@@ -295,6 +295,7 @@
                                                         <th>No</th>
                                                         <th>Nama Berkas</th>
                                                         <th>Status</th>
+                                                        <th>Catatan</th>
                                                         <th>Action</th>
                                                     </thead>
                                                     <tbody>
@@ -323,24 +324,33 @@
                                                                     @endswitch
                                                                 </td>
                                                                 <td>
+                                                                    {{ $item->catatan_verifikator }}
+                                                                </td>
+                                                                <td>
                                                                     <a href="{{ asset('storage/' . $item->file_path) }}"
                                                                         class="btn btn-sm btn-primary"
                                                                         target="_blank">
                                                                         <i class="bx bx-show"></i>
                                                                     </a>
                                                                     @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor')
-                                                                        @if ($skrk->is_analis && $item->status != 'diterima')
-                                                                            <button
-                                                                                wire:click="verifikasi({{ $item->id }}, 'diterima')"
-                                                                                class="btn btn-sm btn-success">
-                                                                                ✅ Terima
+                                                                        @if ($skrk->is_analis && $item->status == 'menunggu')
+                                                                            <button class="btn btn-sm btn-success"
+                                                                                data-bs-toggle="modal"
+                                                                                data-bs-target="#VerifikasiModal">
+                                                                                Verifikasi
                                                                             </button>
-
-                                                                            <button
-                                                                                wire:click="verifikasi({{ $item->id }}, 'ditolak')"
-                                                                                class="btn btn-sm btn-danger">
-                                                                                ❌ Tolak
+                                                                            @teleport('body')
+                                                                                @livewire('admin.permohonan.skrk.spv.skrk-verifikasi', ['skrk_id' => $skrk->id, 'berkas_id' => $item->id])
+                                                                            @endteleport
+                                                                        @elseif($skrk->is_analis && $item->status == 'ditolak')
+                                                                            <button class="btn btn-sm btn-success"
+                                                                                data-bs-toggle="modal"
+                                                                                data-bs-target="#EditVerifikasiModal">
+                                                                                Edit Verifikasi
                                                                             </button>
+                                                                            @teleport('body')
+                                                                                @livewire('admin.permohonan.skrk.spv.skrk-edit-verifikasi', ['skrk_id' => $skrk->id, 'berkas_id' => $item->id])
+                                                                            @endteleport
                                                                         @endif
                                                                     @endif
                                                                 </td>
@@ -365,10 +375,6 @@
                 </div>
             </div>
         </div>
-
-        @teleport('body')
-            @livewire('admin.permohonan.skrk.spv.skrk-verifikasi', ['skrk_id' => $skrk->id])
-        @endteleport
 
         <div wire:ignore.self class="modal fade" id="selesaiVerifikasiModal" data-bs-backdrop="static"
             tabindex="-1" aria-hidden="true">

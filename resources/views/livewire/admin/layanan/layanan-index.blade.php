@@ -1,20 +1,18 @@
 <div>
     <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Layanan /</span> Daftar Layanan</h4>
         @if (session()->has('success'))
-            <div class="bs-toast toast fade show bg-primary top-0 end-0 m-2" role="alert" aria-role="alert"
+            <div class="bs-toast toast fade bg-primary top-0 end-0 mb-2" role="alert" aria-role="alert"
                 aria-live="assertive" aria-atomic="true" data-delay="2000">
                 <div class="toast-header">
                     <i class="bx bx-bell me-2"></i>
-                    <div class="me-auto fw-semibold">Bootstrap</div>
-                    <small>1 sec ago</small>
+                    <div class="me-auto fw-semibold">Success!</div>
+                    <small>a moment ago</small>
                     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
                 <div class="toast-body">{{ session('success') }}</div>
             </div>
         @endif
-
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Layanan /</span> Daftar Layanan</h4>
-
         <!-- Basic Bootstrap Table -->
         <div class="card">
             <h5 class="card-header">List Data Layanan</h5>
