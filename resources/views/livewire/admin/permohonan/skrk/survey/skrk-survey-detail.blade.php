@@ -160,7 +160,7 @@
         @livewire('admin.permohonan.skrk.survey.upload-berkas', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
     @endteleport
     @teleport('body')
-        @livewire('admin.disposisi.disposisi-create', ['permohonan_id' => $skrk->permohonan->id])
+        @livewire('admin.disposisi.disposisi-create', ['permohonan_id' => $skrk->permohonan->id, 'pelayanan_id' => $skrk->id])
     @endteleport
 
 </div>

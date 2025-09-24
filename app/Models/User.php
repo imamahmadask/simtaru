@@ -65,4 +65,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+        // disposisi yang diberikan user ini
+    public function disposisiDiberikan()
+    {
+        return $this->hasMany(Disposisi::class, 'pemberi_id');
+    }
+
+    // disposisi yang diterima user ini
+    public function disposisiDiterima()
+    {
+        return $this->hasMany(Disposisi::class, 'penerima_id');
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Disposisi;
 
 use App\Models\Disposisi;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
@@ -11,7 +12,18 @@ class DisposisiIndex extends Component
 {
     public function render()
     {
-        $disposisis = Disposisi::orderBy('created_at', 'desc')->get();
+        if(Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor'){
+            $disposisis = Disposisi::with('layanan')->orderBy('created_at', 'desc')->get();
+        }
+        else
+        {
+            $disposisis = Disposisi::with('layanan')
+                        ->where('penerima_id', Auth::user()->id)
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+        }
+
+
         return view('livewire.admin.disposisi.disposisi-index', [
             'disposisis' => $disposisis
         ]);

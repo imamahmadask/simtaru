@@ -70,4 +70,9 @@ class Skrk extends Model
             'registrasi_id'      // FK di tabel permohonans
         );
     }
+
+    public function disposisis()
+    {
+        return $this->morphMany(Disposisi::class, 'layanan');
+    }
 }

@@ -308,9 +308,5 @@
                 </div>
             </div>
         </div>
-
-        @teleport('body')
-            @livewire('admin.disposisi.disposisi-create', ['permohonan_id' => $permohonan->id])
-        @endteleport
     </div>
 </div>

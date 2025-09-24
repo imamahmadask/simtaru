@@ -3,8 +3,10 @@
 namespace App\Livewire\Admin\Disposisi;
 
 use App\Models\Disposisi;
+use App\Models\Layanan;
 use App\Models\Permohonan;
 use App\Models\RiwayatPermohonan;
+use App\Models\Skrk;
 use App\Models\Tahapan;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +17,7 @@ use Livewire\Component;
 class DisposisiCreate extends Component
 {
     public $tahapans, $users;
-    public $permohonan, $catatan, $pemberi_id, $permohonan_id;
+    public $permohonan, $skrk, $catatan, $pemberi_id, $permohonan_id;
 
     #[Validate('required')]
     public $tahapan_id, $penerima_id;
@@ -25,7 +27,7 @@ class DisposisiCreate extends Component
         return view('livewire.admin.disposisi.disposisi-create');
     }
 
-    public function mount($permohonan_id)
+    public function mount($permohonan_id, $pelayanan_id)
     {
         $this->permohonan = Permohonan::findOrFail($permohonan_id);
         $this->tahapans = Tahapan::where('layanan_id', $this->permohonan->layanan_id)
@@ -35,31 +37,35 @@ class DisposisiCreate extends Component
                                           ->where('permohonan_id', $this->permohonan->id);
                                  })
                                  ->get();
+
         $this->users = User::where('role', '!=', 'superadmin')->where('role', '!=', 'supervisor')->get();
+        $this->skrk = Skrk::findOrFail($pelayanan_id);
     }
 
     public function createDisposisi()
     {
         $this->validate();
 
+        $layanan = Layanan::findOrFail($this->permohonan->layanan_id);
+
         $this->pemberi_id = Auth::user()->id;
 
-        Disposisi::create([
-            'permohonan_id' => $this->permohonan->id,
-            'tahapan_id' => $this->tahapan_id,
-            'pemberi_id' => $this->pemberi_id,
-            'penerima_id' => $this->penerima_id,
-            // 'tanggal_disposisi' => $this->tanggal_disposisi,
-            'catatan' => $this->catatan
-        ]);
+        if($layanan->nama == 'SKRK')
+        {
+            $this->skrk->disposisis()->create([
+                'permohonan_id' => $this->permohonan->id,
+                'tahapan_id' => $this->tahapan_id,
+                'pemberi_id' => $this->pemberi_id,
+                'penerima_id' => $this->penerima_id,
+                'tanggal_disposisi' => now(),
+                'catatan' => $this->catatan,
+            ]);
+        }
 
-         RiwayatPermohonan::create([
-            'registrasi_id' => $this->permohonan->registrasi_id,
-            'user_id' => Auth::user()->id,
-            'keterangan' => 'Disposisi kepada ' . $this->users->where('id', $this->penerima_id)->first()->name.' pada tahapan ' . $this->tahapans->where('id', $this->tahapan_id)->first()->nama
-        ]);
+        $this->createRiwayat($this->permohonan, "Disposisi kepada {$this->users->where('id', $this->penerima_id)->first()->name} pada tahapan ". $this->tahapans->where('id', $this->tahapan_id)->first()->nama);
 
         session()->flash('message', 'Disposisi berhasil ditambahkan.');
+
         $this->redirectRoute('permohonan.detail', ['id' => $this->permohonan_id]);
     }
 
@@ -76,5 +82,14 @@ class DisposisiCreate extends Component
             $this->users = User::where('role', '!=', 'superadmin')
                             ->where('role', '!=', 'supervisor')->get();
         }
+    }
+
+    private function createRiwayat(Permohonan $permohonan, string $keterangan)
+    {
+        RiwayatPermohonan::create([
+            'registrasi_id' => $permohonan->registrasi_id,
+            'user_id' => Auth::user()->id,
+            'keterangan' => $keterangan
+        ]);
     }
 }

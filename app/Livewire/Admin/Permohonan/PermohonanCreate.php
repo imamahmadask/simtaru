@@ -67,25 +67,26 @@ class PermohonanCreate extends Component
             'updated_by' => Auth::user()->id
         ]);
 
+        $this->createRiwayat($permohonan, 'Entry Permohonan');
+
         $layanan = Layanan::findOrFail($this->layanan_id);
+        $skrk = '';
         if($layanan->kode == 'SKRK') {
-            Skrk::create([
+            $skrk = Skrk::create([
                 'permohonan_id' => $permohonan->id,
                 'layanan_id' => $this->layanan_id,
             ]);
         }
 
-        $this->createRiwayat($permohonan, 'Entry Permohonan');
-
-        $this->pemberi_id = Auth::user()->id;
-
-        Disposisi::create([
-            'permohonan_id' => $permohonan->id,
-            'tahapan_id' => $this->tahapan_id,
-            'pemberi_id' => $this->pemberi_id,
-            'penerima_id' => $this->penerima_id,
-            'catatan' => $this->catatan
-        ]);
+        if($layanan->kode == 'SKRK'){
+            $skrk->disposisis()->create([
+                'permohonan_id' => $skrk->permohonan_id,
+                'tahapan_id' => $this->tahapan_id,
+                'pemberi_id' => Auth::user()->id,
+                'penerima_id' => $this->penerima_id,
+                'catatan' => $this->catatan,
+            ]);
+        }
 
         $this->createRiwayat($permohonan, "Disposisi kepada {$this->users->where('id', $this->penerima_id)->first()->name} pada tahapan Survey Berkas");
 

@@ -31,13 +31,13 @@ Route::middleware(['cekRole:superadmin,supervisor,analis,surveyor,data-entry'])-
 
     Route::get('admin/permohonan-skrk', SkrkIndex::class)->name('skrk.index');
     Route::get('admin/permohonan-skrk/{id}', SkrkDetail::class)->name('skrk.detail');
+
+    Route::get('admin/disposisi', DisposisiIndex::class)->name('disposisi.index'); // Disposisi
 });
 
 Route::middleware(['cekRole:superadmin,supervisor'])->group(function () {
     Route::get('admin/layanan', LayananIndex::class)->name('layanan.index'); // layanan
     Route::get('admin/layanan/{id}', LayananDetail::class)->name('layanan.detail'); // layanan
-
-    Route::get('admin/disposisi', DisposisiIndex::class)->name('disposisi.index'); // Disposisi
 });
 
 Route::middleware(['cekRole:superadmin'])->group(function () {

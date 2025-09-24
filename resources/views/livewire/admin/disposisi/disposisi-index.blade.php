@@ -73,12 +73,21 @@
                                     <td>
                                         <div class="me-3">
                                             <!-- Button trigger modal -->
-                                            <button
-                                                wire:click="$dispatch('disposisi-edit', { id: {{ $data->id }} })"
-                                                type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#editDisposisiModal">
-                                                Edit
-                                            </button>
+                                            @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor')
+                                                <button
+                                                    wire:click="$dispatch('disposisi-edit', { id: {{ $data->id }} })"
+                                                    type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#editDisposisiModal">
+                                                    Edit
+                                                </button>
+                                            @endif
+
+                                            @if ($data->layanan_type_name == 'Skrk')
+                                                <a href="{{ route(Str::lower($data->layanan_type_name) . '.detail', ['id' => $data->layanan_id]) }}"
+                                                    target="_blank" type="button" class="btn btn-primary btn-sm">
+                                                    Go To
+                                                </a>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
