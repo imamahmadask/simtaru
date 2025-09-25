@@ -14,7 +14,7 @@ class RegistrasiCreate extends Component
     public $layanans;
 
     #[Validate('required')]
-    public $nama, $no_hp, $layanan_id, $tanggal;
+    public $nama, $no_hp, $layanan_id, $tanggal, $fungsi_bangunan, $alamat_tanah, $kel_tanah, $kec_tanah;
 
     #[Validate('required|min:16,max:16|numeric')]
     public $nik;
@@ -39,6 +39,10 @@ class RegistrasiCreate extends Component
            'layanan_id' => $this->layanan_id,
            'created_by' => Auth::user()->id,
            'email' => $this->email,
+           'fungsi_bangunan' => $this->fungsi_bangunan,
+           'alamat_tanah' => $this->alamat_tanah,
+           'kel_tanah' => $this->kel_tanah,
+           'kec_tanah' => $this->kec_tanah
         ]);
         $registrasi = Registrasi::latest()->first();
 

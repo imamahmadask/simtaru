@@ -74,6 +74,22 @@
                                             <td>Layanan Permohonan</td>
                                             <td>{{ $layanan }}</td>
                                         </tr>
+                                        <tr>
+                                            <td>Fungsi Bangunan</td>
+                                            <td>{{ $fungsi_bangunan }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Alamat Tanah</td>
+                                            <td>{{ $alamat_tanah }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kelurahan Tanah</td>
+                                            <td>{{ $kel_tanah }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kecamatan Tanah</td>
+                                            <td>{{ $kec_tanah }}</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

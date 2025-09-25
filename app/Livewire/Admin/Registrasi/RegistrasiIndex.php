@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Registrasi;
 
 use App\Models\Layanan;
 use App\Models\Registrasi;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -50,4 +51,17 @@ class RegistrasiIndex extends Component
     {
         $this->layanans = Layanan::all();
     }
+
+    public function printRegistrasi($id)
+    {
+        $data = Registrasi::with('layanan')->find($id);
+
+        view()->share('data', $data);
+
+        $pdf = Pdf::loadView('pdf.bukti-regis');
+        return $pdf->download($data['kode'].'.pdf');
+        // return view('pdf.bukti-regis');
+    }
+
+
 }

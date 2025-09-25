@@ -76,6 +76,56 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="fungsi_bangunan" class="form-label">Fungsi Bangunan</label>
+                                <input type="text" wire:model="fungsi_bangunan" name="fungsi_bangunan"
+                                    id="fungsi_bangunan" class="form-control"
+                                    placeholder="Masukkan fungsi_bangunan pemohon" />
+                                @error('fungsi_bangunan')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="alamat_tanah" class="form-label">Alamat Tanah</label>
+                                <textarea name="alamat_tanah" wire:model="alamat_tanah" id="alamat_tanah" class="form-control"></textarea>
+                                @error('alamat_tanah')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" for="kel_tanah">Kelurahan Tanah</label>
+                                    <input type="text" class="form-control" wire:model="kel_tanah" id="kel_tanah"
+                                        placeholder="Masukkan Kelurahan Tanah" />
+                                    @error('kel_tanah')
+                                        <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" for="kec_tanah">Kecamatan Tanah</label>
+                                    <select class="form-select" wire:model="kec_tanah" id="kec_tanah"
+                                        aria-label="Default select example">
+                                        <option value="" selected>Pilih Kecamatan</option>
+                                        <option value="Ampenan">Ampenan</option>
+                                        <option value="Mataram">Mataram</option>
+                                        <option value="Cakranegara">Cakranegara</option>
+                                        <option value="Sandubaya">Sandubaya</option>
+                                        <option value="Sekarbela">Sekarbela</option>
+                                        <option value="Selaparang">Selaparang</option>
+                                    </select>
+                                    @error('kec_tanah')
+                                        <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">

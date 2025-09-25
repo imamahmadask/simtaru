@@ -127,7 +127,7 @@
                             <div class="mb-3">
                                 <label class="form-label" for="alamat_pemohon">Alamat Pemohon</label>
                                 <input type="text" class="form-control" wire:model="alamat_pemohon"
-                                    id="alamat_pemohon" placeholder="Masukkan Alamat Pemohon" />
+                                    id="alamat_pemohon" placeholder="Masukkan Alamat Pemohon" disabled />
                                 @error('alamat_pemohon')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
@@ -136,7 +136,7 @@
                             <div class="mb-3">
                                 <label class="form-label" for="alamat_tanah">Alamat Tanah</label>
                                 <input type="text" class="form-control" wire:model="alamat_tanah"
-                                    id="alamat_tanah" placeholder="Masukkan Alamat Tanah" />
+                                    id="alamat_tanah" placeholder="Masukkan Alamat Tanah" disabled />
                                 @error('alamat_tanah')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
@@ -147,7 +147,7 @@
                                     <div class="mb-3">
                                         <label class="form-label" for="kel_tanah">Kelurahan Tanah</label>
                                         <input type="text" class="form-control" wire:model="kel_tanah"
-                                            id="kel_tanah" placeholder="Masukkan Kelurahan Tanah" />
+                                            id="kel_tanah" placeholder="Masukkan Kelurahan Tanah" disabled />
                                         @error('kel_tanah')
                                             <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                         @enderror
@@ -157,7 +157,7 @@
                                     <div class="mb-3">
                                         <label class="form-label" for="kec_tanah">Kecamatan Tanah</label>
                                         <select class="form-select" wire:model="kec_tanah" id="kec_tanah"
-                                            aria-label="Default select example">
+                                            aria-label="Default select example" disabled>
                                             <option value="" selected>Pilih Kecamatan</option>
                                             <option value="Ampenan">Ampenan</option>
                                             <option value="Mataram">Mataram</option>
@@ -176,10 +176,10 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
-                                        <label class="form-label" for="jenis_bangunan">Fungsi Bangunan</label>
-                                        <input type="text" class="form-control" wire:model="jenis_bangunan"
-                                            id="jenis_bangunan" placeholder="Masukkan Fungsi Bangunan" />
-                                        @error('jenis_bangunan')
+                                        <label class="form-label" for="fungsi_bangunan">Fungsi Bangunan</label>
+                                        <input type="text" class="form-control" wire:model="fungsi_bangunan"
+                                            id="fungsi_bangunan" placeholder="Masukkan Fungsi Bangunan" disabled />
+                                        @error('fungsi_bangunan')
                                             <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                         @enderror
                                     </div>

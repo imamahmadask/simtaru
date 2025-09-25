@@ -16,6 +16,10 @@ class RegistrasiDetail extends Component
     public $email;
     public $layanan;
     public $tanggal;
+    public $fungsi_bangunan;
+    public $alamat_tanah;
+    public $kel_tanah;
+    public $kec_tanah;
     public $riwayats = [];
     public function render()
     {
@@ -33,6 +37,11 @@ class RegistrasiDetail extends Component
         $this->email = $this->registrasi->email;
         $this->layanan = $this->registrasi->layanan->nama;
         $this->tanggal = $this->registrasi->tanggal;
+        $this->fungsi_bangunan = $this->registrasi->fungsi_bangunan;
+        $this->alamat_tanah = $this->registrasi->alamat_tanah;
+        $this->kel_tanah = $this->registrasi->kel_tanah;
+        $this->kec_tanah = $this->registrasi->kec_tanah;
+
         $this->riwayats = $this->registrasi->riwayat;
 
     }

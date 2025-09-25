@@ -21,6 +21,7 @@ Route::get('/', function () {
 Route::middleware(['cekRole:superadmin,supervisor,analis,surveyor,cs,data-entry'])->group(function () {
     Route::get('admin/dashboard', DashboardIndex::class)->name('dashboard'); // dashboard
     Route::get('admin/registrasi', RegistrasiIndex::class)->name('registrasi.index'); // registrasi
+    Route::get('admin/registrasi/print/{id}', [RegistrasiIndex::class, 'printRegistrasi']);
 });
 
 Route::middleware(['cekRole:superadmin,supervisor,analis,surveyor,data-entry'])->group(function () {

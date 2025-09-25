@@ -13,7 +13,7 @@ class RegistrasiEdit extends Component
     public $registrasi_id, $layanans;
 
     #[Validate('required')]
-    public $nama, $no_hp, $layanan_id, $tanggal;
+    public $nama, $no_hp, $layanan_id, $tanggal, $fungsi_bangunan, $alamat_tanah, $kel_tanah, $kec_tanah;
 
     #[Validate('required|min:16,max:16|numeric')]
     public $nik;
@@ -37,6 +37,10 @@ class RegistrasiEdit extends Component
         $this->email = $registrasi->email;
         $this->layanan_id = $registrasi->layanan_id;
         $this->tanggal = $registrasi->tanggal;
+        $this->fungsi_bangunan = $registrasi->fungsi_bangunan;
+        $this->alamat_tanah = $registrasi->alamat_tanah;
+        $this->kel_tanah = $registrasi->kel_tanah;
+        $this->kec_tanah = $registrasi->kec_tanah;
     }
 
     public function editRegistrasi()
@@ -52,9 +56,13 @@ class RegistrasiEdit extends Component
             'email' => $this->email,
             'tanggal' => $this->tanggal,
             'layanan_id' => $this->layanan_id,
+            'fungsi_bangunan' => $this->fungsi_bangunan,
+            'alamat_tanah' => $this->alamat_tanah,
+            'kel_tanah' => $this->kel_tanah,
+            'kec_tanah' => $this->kec_tanah
         ]);
 
-        if($registrasi->permohonan->count() > 0){
+        if($registrasi->permohonan()->count() > 0){
             $registrasi->permohonan()->update([
                 'layanan_id' => $this->layanan_id,
             ]);

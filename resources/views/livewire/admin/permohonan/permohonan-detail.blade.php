@@ -127,7 +127,7 @@
                                                     Tanah</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" id="alamat_tanah" class="form-control"
-                                                        value="{{ $permohonan->alamat_tanah }}" readonly />
+                                                        value="{{ $permohonan->registrasi->alamat_tanah }}" readonly />
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
@@ -135,7 +135,7 @@
                                                     for="kel_tanah">Kelurahan</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" id="kel_tanah" class="form-control"
-                                                        value="{{ $permohonan->kel_tanah }}" readonly />
+                                                        value="{{ $permohonan->registrasi->kel_tanah }}" readonly />
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
@@ -143,15 +143,16 @@
                                                     for="kec_tanah">Kecamatan</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" id="kec_tanah" class="form-control"
-                                                        value="{{ $permohonan->kec_tanah }}" readonly />
+                                                        value="{{ $permohonan->registrasi->kec_tanah }}" readonly />
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-4 col-form-label" for="jenis_bangunan">
+                                                <label class="col-sm-4 col-form-label" for="fungsi_bangunan">
                                                     Fungsi Bangunan</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" id="jenis_bangunan" class="form-control"
-                                                        value="{{ $permohonan->jenis_bangunan }}" readonly />
+                                                    <input type="text" id="fungsi_bangunan" class="form-control"
+                                                        value="{{ $permohonan->registrasi->fungsi_bangunan }}"
+                                                        readonly />
                                                 </div>
                                             </div>
                                             <div class="row mb-3">

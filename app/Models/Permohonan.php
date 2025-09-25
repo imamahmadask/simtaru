@@ -11,10 +11,6 @@ class Permohonan extends Model
     protected $fillable = [
         'registrasi_id',
         'layanan_id',
-        'alamat_tanah',
-        'kel_tanah',
-        'kec_tanah',
-        'jenis_bangunan',
         'status',
         'keterangan',
         'created_by',

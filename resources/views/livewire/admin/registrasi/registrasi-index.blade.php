@@ -92,6 +92,10 @@
                                     <td>
                                         <div class="me-3">
                                             <!-- Button trigger modal -->
+                                            <a href="{{ url('admin/registrasi/print/' . $data->id) }}" type="button"
+                                                target="blank" class="btn btn-primary btn-sm">
+                                                <i class="bx bx-download"></i>
+                                            </a>
                                             <button
                                                 wire:click="$dispatch('registrasi-detail', { id: {{ $data->id }} })"
                                                 type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"

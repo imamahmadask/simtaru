@@ -24,7 +24,7 @@ class PermohonanEdit extends Component
     public $permohonan_id, $disposisi;
 
     #[Validate('required')]
-    public $registrasi_id, $layanan_id, $nama, $nik, $no_hp, $email, $alamat_pemohon, $alamat_tanah, $kel_tanah, $kec_tanah, $jenis_bangunan, $luas_tanah, $tahapan_id, $penerima_id;
+    public $registrasi_id, $layanan_id, $nama, $nik, $no_hp, $email, $alamat_pemohon, $alamat_tanah, $kel_tanah, $kec_tanah, $fungsi_bangunan, $luas_tanah, $tahapan_id, $penerima_id;
     public $npwp, $keterangan, $status, $pemberi_id, $catatan, $status_modal, $kbli, $judul_kbli;
     public $berkas_ktp, $berkas_nib, $berkas_penguasaan, $berkas_permohonan, $berkas_kuasa;
     public $berkas_ktp_lama, $berkas_nib_lama, $berkas_penguasaan_lama, $berkas_permohonan_lama, $berkas_kuasa_lama;
@@ -44,10 +44,10 @@ class PermohonanEdit extends Component
         $this->alamat_pemohon = $permohonan->alamat_pemohon;
         $this->npwp = $permohonan->npwp;
         $this->luas_tanah = $permohonan->luas_tanah;
-        $this->alamat_tanah = $permohonan->alamat_tanah;
-        $this->kel_tanah = $permohonan->kel_tanah;
-        $this->kec_tanah = $permohonan->kec_tanah;
-        $this->jenis_bangunan = $permohonan->jenis_bangunan;
+        $this->alamat_tanah = $permohonan->registrasi->alamat_tanah;
+        $this->kel_tanah = $permohonan->registrasi->kel_tanah;
+        $this->kec_tanah = $permohonan->registrasi->kec_tanah;
+        $this->fungsi_bangunan = $permohonan->registrasi->fungsi_bangunan;
         $this->keterangan = $permohonan->keterangan;
         $this->status = $permohonan->status;
         $this->berkas_ktp_lama = $permohonan->berkas_ktp;
@@ -97,7 +97,7 @@ class PermohonanEdit extends Component
             'alamat_tanah' => $this->alamat_tanah,
             'kel_tanah' => $this->kel_tanah,
             'kec_tanah' => $this->kec_tanah,
-            'jenis_bangunan' => $this->jenis_bangunan,
+            'fungsi_bangunan' => $this->fungsi_bangunan,
             'luas_tanah' => $this->luas_tanah,
             'status_modal' => $this->status_modal,
             'kbli' => $this->kbli,

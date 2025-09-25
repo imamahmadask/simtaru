@@ -25,7 +25,7 @@ class PermohonanCreate extends Component
     public $tahapans = [];
 
     #[Validate('required')]
-    public $registrasi_id, $layanan_id, $nama, $nik, $no_hp, $email, $alamat_pemohon, $alamat_tanah, $kel_tanah, $kec_tanah, $jenis_bangunan, $luas_tanah, $tahapan_id, $penerima_id;
+    public $registrasi_id, $layanan_id, $nama, $nik, $no_hp, $email, $alamat_pemohon, $alamat_tanah, $kel_tanah, $kec_tanah, $fungsi_bangunan, $luas_tanah, $tahapan_id, $penerima_id;
     public $npwp, $keterangan, $status, $pemberi_id, $catatan, $status_modal, $kbli, $judul_kbli;
     public $berkas_ktp, $berkas_nib, $berkas_penguasaan, $berkas_permohonan, $berkas_kuasa;
     public function render()
@@ -48,10 +48,6 @@ class PermohonanCreate extends Component
             'layanan_id' => $this->layanan_id,
             'alamat_pemohon' => $this->alamat_pemohon,
             'npwp' => $this->npwp,
-            'alamat_tanah' => $this->alamat_tanah,
-            'kel_tanah' => $this->kel_tanah,
-            'kec_tanah' => $this->kec_tanah,
-            'jenis_bangunan' => $this->jenis_bangunan,
             'luas_tanah' => $this->luas_tanah,
             'status_modal' => $this->status_modal,
             'kbli' => $this->kbli,
@@ -133,6 +129,10 @@ class PermohonanCreate extends Component
             $this->nik = $registrasi->nik;
             $this->no_hp = $registrasi->no_hp;
             $this->email = $registrasi->email;
+            $this->alamat_tanah = $registrasi->alamat_tanah;
+            $this->kel_tanah = $registrasi->kel_tanah;
+            $this->kec_tanah = $registrasi->kec_tanah;
+            $this->fungsi_bangunan = $registrasi->fungsi_bangunan;
             $this->tahapans = Tahapan::where('layanan_id', $this->layanan_id)->where('urutan', 1)->get();
         }
         else
@@ -142,6 +142,10 @@ class PermohonanCreate extends Component
             $this->nik = "";
             $this->no_hp = "";
             $this->email = "";
+            $this->alamat_tanah = "";
+            $this->kel_tanah = "";
+            $this->kec_tanah = "";
+            $this->fungsi_bangunan = "";
             $this->tahapans = [];
         }
     }
