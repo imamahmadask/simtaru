@@ -59,7 +59,7 @@
                         </div>
 
                         <span class="fs-5 mb-1">
-                            Batas Administratif
+                            Batas Persil
                         </span>
                         <div class="row">
                             <div class="col-md-6 mb-3">
