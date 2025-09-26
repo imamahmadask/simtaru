@@ -51,6 +51,7 @@ class SkrkSurveyCreate extends Component
             $foto_survey_path = null;
         }
 
+        $gambar_peta_path = null;
         if($this->gambar_peta) {
             $gambar_peta_filename = $no_reg . '_' . Str::random(5) . '.' . $this->gambar_peta->getClientOriginalExtension();
             $gambar_peta_path = $this->gambar_peta->storeAs('skrk_gambar_peta', $gambar_peta_filename, 'public');

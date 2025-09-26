@@ -82,12 +82,10 @@
                                                 </button>
                                             @endif
 
-                                            @if ($data->layanan_type_name == 'Skrk')
-                                                <a href="{{ route(Str::lower($data->layanan_type_name) . '.detail', ['id' => $data->layanan_id]) }}"
-                                                    target="_blank" type="button" class="btn btn-primary btn-sm">
-                                                    Go To
-                                                </a>
-                                            @endif
+                                            <a href="{{ route(Str::lower($data->layanan_type_name) . '.detail', ['id' => $data->layanan_id]) }}"
+                                                target="_blank" type="button" class="btn btn-primary btn-sm">
+                                                Go To
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>
