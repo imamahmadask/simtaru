@@ -34,21 +34,21 @@
                             <div class="col mb-3">
                                 <label for="jml_bangunan" class="form-label">Jumlah Bangunan</label>
                                 <input type="text" class="form-control" wire:model="jml_bangunan" id="jml_bangunan"
-                                    placeholder="Masukkan Rencana Lantai Bangunan">
+                                    placeholder="Masukkan Jumlah Bangunan">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="jml_lantai" class="form-label">Lantai Bangunan</label>
                                 <input type="text" class="form-control" wire:model="jml_lantai" id="jml_lantai"
-                                    placeholder="Masukkan Rencana Lantai Bangunan">
+                                    placeholder="Masukkan Jumlah Lantai Bangunan">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="luas_lantai" class="form-label">Luas Lantai Bangunan</label>
                                 <input type="text" class="form-control" wire:model="luas_lantai" id="luas_lantai"
-                                    placeholder="Masukkan Rencana Luas Lantai Bangunan">
+                                    placeholder="Masukkan Luas Lantai Bangunan">
                             </div>
                         </div>
                         <div class="row">

@@ -99,7 +99,7 @@
                     </div>
                     <div class="row mb-3">
                         <label class="col-sm-4 col-form-label" for="jml_lantai">
-                            Rencana Lantai Bangunan
+                            Rencana Jumlah Lantai Bangunan
                         </label>
                         <div class="col-sm-8">
                             <div class="input-group">
