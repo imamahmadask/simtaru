@@ -95,37 +95,50 @@
                             </div>
                         </div>
 
-                        {{-- Foto Survey --}}
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="foto_survey" class="form-label">Upload Foto Survey</label>
-                                {{-- input file baru --}}
+                                <label for="foto_survey" class="form-label">Upload Foto Survey (baru)</label>
                                 <input type="file" class="form-control" wire:model="foto_survey" id="foto_survey"
                                     multiple accept="image/*,application/pdf">
 
-                                {{-- tampilkan foto lama jika sudah ada --}}
+                                {{-- daftar gambar lama --}}
                                 @if (!empty($foto_survey_lama) && count($foto_survey_lama) > 0)
-                                    <div class="mb-2">
-                                        @foreach ($foto_survey_lama as $foto)
-                                            <a href="{{ Storage::url($foto) }}" target="_blank" class="d-block mb-1">
-                                                📷 Lihat Foto Survey
-                                            </a>
-                                        @endforeach
-                                    </div>
+                                    <p class="mt-3 fw-bold">Foto Survey Lama:</p>
+                                    @foreach ($foto_survey_lama as $foto)
+                                        <div class="form-check mb-2">
+                                            <input type="checkbox" class="form-check-input"
+                                                wire:model="foto_survey_selected" value="{{ $foto }}"
+                                                id="foto-{{ $loop->index }}">
+                                            <label class="form-check-label" for="foto-{{ $loop->index }}">
+                                                <img src="{{ Storage::url($foto) }}" alt="" width="100px">
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                    <small class="text-muted">Uncheck gambar jika ingin menghapusnya.</small>
                                 @endif
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="gambar_peta" class="form-label">Upload Gambar Peta</label>
-                                <input type="file" class="form-control" wire:model="gambar_peta"
-                                    id="gambar_peta">
-                                @if (!empty($gambar_peta_lama))
-                                    <a href="{{ Storage::url($gambar_peta_lama) }}" target="_blank"
-                                        class="d-block mb-1">
-                                        📷 Lihat Gambar Peta
-                                    </a>
+                                <label for="gambar_peta" class="form-label">Upload Gambar Peta (baru)</label>
+                                <input type="file" class="form-control" wire:model="gambar_peta" id="gambar_peta"
+                                    multiple accept="image/*,application/pdf">
+
+                                {{-- daftar gambar lama --}}
+                                @if (!empty($gambar_peta_lama) && count($gambar_peta_lama) > 0)
+                                    <p class="mt-3 fw-bold">Gambar Peta Lama:</p>
+                                    @foreach ($gambar_peta_lama as $foto)
+                                        <div class="form-check mb-2">
+                                            <input type="checkbox" class="form-check-input"
+                                                wire:model="gambar_peta_selected" value="{{ $foto }}"
+                                                id="foto-{{ $loop->index }}">
+                                            <label class="form-check-label" for="foto-{{ $loop->index }}">
+                                                <img src="{{ Storage::url($foto) }}" alt="" width="100px">
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                    <small class="text-muted">Uncheck gambar jika ingin menghapusnya.</small>
                                 @endif
                             </div>
                         </div>

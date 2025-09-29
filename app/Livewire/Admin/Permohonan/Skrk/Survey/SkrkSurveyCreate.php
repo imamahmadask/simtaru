@@ -19,7 +19,9 @@ class SkrkSurveyCreate extends Component
 
     #[Validate(['foto_survey.*' => 'image|max:1024'])]
     public $foto_survey = [];
-    public $gambar_peta;
+
+    #[Validate(['gambar_peta.*' => 'image|max:1024'])]
+    public $gambar_peta = [];
 
     #[Validate('required')]
     public $tgl_survey, $batas_utara, $batas_selatan, $batas_timur, $batas_barat;
@@ -51,10 +53,16 @@ class SkrkSurveyCreate extends Component
             $foto_survey_path = null;
         }
 
-        $gambar_peta_path = null;
         if($this->gambar_peta) {
-            $gambar_peta_filename = $no_reg . '_' . Str::random(5) . '.' . $this->gambar_peta->getClientOriginalExtension();
-            $gambar_peta_path = $this->gambar_peta->storeAs('skrk_gambar_peta', $gambar_peta_filename, 'public');
+            $gambar_peta_path = [];
+            foreach ($this->gambar_peta as $foto) {
+                $gambar_peta_filename = $no_reg . '_' . Str::random(5) . '.' . $foto->getClientOriginalExtension();
+                $gambar_peta_path[] = $foto->storeAs('skrk_gambar_peta', $gambar_peta_filename, 'public');
+            }
+        }
+        else
+        {
+            $gambar_peta_path = null;
         }
 
         // update tabel survey

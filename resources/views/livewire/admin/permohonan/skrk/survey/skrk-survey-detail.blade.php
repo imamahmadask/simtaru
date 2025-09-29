@@ -146,8 +146,9 @@
 
             <h5 class="mt-5">Gambar Peta</h5>
             @if ($skrk->gambar_peta != null)
-                <img src="{{ asset('storage/' . $skrk->gambar_peta) }}" alt="" width="500px"
-                    class="img-fluid mb-3">
+                @foreach (json_decode($skrk->gambar_peta) as $item)
+                    <img src="{{ asset('storage/' . $item) }}" alt="" width="200px" class="img-fluid mb-1">
+                @endforeach
             @endif
 
         </div>

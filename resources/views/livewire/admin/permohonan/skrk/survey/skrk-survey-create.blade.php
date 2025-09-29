@@ -108,7 +108,7 @@
                                 <div class="col mb-3">
                                     <label for="gambar_peta" class="form-label">Upload Gambar Peta</label>
                                     <input type="file" class="form-control" wire:model="gambar_peta"
-                                        id="gambar_peta">
+                                        id="gambar_peta" multiple>
                                 </div>
                             </div>
                         </div>

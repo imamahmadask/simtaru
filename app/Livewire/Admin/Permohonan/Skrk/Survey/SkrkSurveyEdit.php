@@ -10,6 +10,7 @@ use App\Models\Skrk;
 use App\Models\Tahapan;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -27,7 +28,12 @@ class SkrkSurveyEdit extends Component
 
     #[Validate(['foto_survey.*' => 'image|max:1024'])]
     public $foto_survey = [];
-    public $gambar_peta;
+
+    #[Validate(['gambar_peta.*' => 'image|max:1024'])]
+    public $gambar_peta = [];
+
+    public $gambar_peta_selected = [];
+    public $foto_survey_selected = [];
 
     public $koordinat = [];
     public function render()
@@ -38,28 +44,45 @@ class SkrkSurveyEdit extends Component
     public function EditSurvey()
     {
         $this->validate();
+        $foto_survey_path = [];
+        $gambar_peta_path = [];
 
         $no_reg = $this->skrk->registrasi->kode;
 
-        if($this->foto_survey) {
-            $foto_survey_path = [];
+        // Foto Survey
+        foreach ($this->foto_survey_lama as $foto) {
+            if (in_array($foto, $this->foto_survey_selected)) {
+                $foto_survey_path[] = $foto;
+            } else {
+                // hapus file dari storage jika user tidak pilih lagi
+                if (Storage::disk('public')->exists($foto)) {
+                    Storage::disk('public')->delete($foto);
+                }
+            }
+        }
+        if (!empty($this->foto_survey)) {
             foreach ($this->foto_survey as $foto) {
                 $foto_survey_filename = $no_reg . '_' . Str::random(5) . '.' . $foto->getClientOriginalExtension();
                 $foto_survey_path[] = $foto->storeAs('skrk_foto_survey', $foto_survey_filename, 'public');
             }
         }
-        else
-        {
-            $foto_survey_path = $this->foto_survey_lama;
-        }
 
-        if($this->gambar_peta) {
-            $gambar_peta_filename = $no_reg . '_' . Str::random(5) . '.' . $this->gambar_peta->getClientOriginalExtension();
-            $gambar_peta_path = $this->gambar_peta->storeAs('skrk_gambar_peta', $gambar_peta_filename, 'public');
+        // Gambar Peta
+        foreach ($this->gambar_peta_lama as $foto) {
+            if (in_array($foto, $this->gambar_peta_selected)) {
+                $gambar_peta_path[] = $foto;
+            } else {
+                // hapus file dari storage jika user tidak pilih lagi
+                if (Storage::disk('public')->exists($foto)) {
+                    Storage::disk('public')->delete($foto);
+                }
+            }
         }
-        else
-        {
-            $gambar_peta_path = $this->gambar_peta_lama;
+        if (!empty($this->gambar_peta)) {
+            foreach ($this->gambar_peta as $foto) {
+                $gambar_peta_filename = $no_reg . '_' . Str::random(5) . '.' . $foto->getClientOriginalExtension();
+                $gambar_peta_path[] = $foto->storeAs('skrk_gambar_peta', $gambar_peta_filename, 'public');
+            }
         }
 
         // update tabel survey
@@ -96,8 +119,11 @@ class SkrkSurveyEdit extends Component
         $this->foto_survey_lama = $this->skrk->foto_survey
         ? json_decode($this->skrk->foto_survey, true)
         : [];
+        $this->gambar_peta_lama = $this->skrk->gambar_peta
+        ? json_decode($this->skrk->gambar_peta, true)
+        : [];
+        $this->gambar_peta_selected = $this->gambar_peta_lama;
 
-        $this->gambar_peta_lama = $this->skrk->gambar_peta;
         $this->batas_barat = $this->skrk->batas_administratif['barat'] ?? '';
         $this->batas_selatan = $this->skrk->batas_administratif['selatan'] ?? '';
         $this->batas_timur = $this->skrk->batas_administratif['timur'] ?? '';
