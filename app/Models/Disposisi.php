@@ -46,7 +46,7 @@ class Disposisi extends Model
     }
 
     public function getLayananTypeNameAttribute()
-{
-    return class_basename($this->layanan_type);
-}
+    {
+        return class_basename($this->layanan_type);
+    }
 }

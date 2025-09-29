@@ -1,7 +1,7 @@
 <div>
     <div class="mb-3">
         <div class="d-flex flex-wrap gap-3">
-            @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor' || Auth::user()->role == 'analis')
+            @can('manageAnalis', $skrk->permohonan)
                 @if ($skrk->is_survey && !$skrk->is_kajian)
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                         data-bs-target="#AddKajianAnalisaModal">
@@ -46,7 +46,7 @@
                         <i class="bx bx-check"></i> Selesai Analisa
                     </button>
                 @endif
-            @endif
+            @endcan
         </div>
     </div>
 

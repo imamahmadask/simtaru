@@ -99,16 +99,22 @@
                             <div class="row">
                                 <div class="col mb-3">
                                     <label for="foto_survey" class="form-label">Upload Foto Survey</label>
-                                    <input type="file" class="form-control" wire:model="foto_survey" id="foto_survey"
-                                        multiple>
+                                    <input type="file" class="form-control" wire:model.live="foto_survey"
+                                        id="foto_survey" multiple>
+                                    @error('foto_survey')
+                                        <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                    @enderror
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col mb-3">
                                     <label for="gambar_peta" class="form-label">Upload Gambar Peta</label>
-                                    <input type="file" class="form-control" wire:model="gambar_peta"
+                                    <input type="file" class="form-control" wire:model.live="gambar_peta"
                                         id="gambar_peta" multiple>
+                                    @error('gambar_peta')
+                                        <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                    @enderror
                                 </div>
                             </div>
                         </div>

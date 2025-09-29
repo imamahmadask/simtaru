@@ -67,13 +67,13 @@ class User extends Authenticatable
     }
 
         // disposisi yang diberikan user ini
-    public function disposisiDiberikan()
+    public function pemberi_disposisi()
     {
         return $this->hasMany(Disposisi::class, 'pemberi_id');
     }
 
     // disposisi yang diterima user ini
-    public function disposisiDiterima()
+    public function penerima_disposisi()
     {
         return $this->hasMany(Disposisi::class, 'penerima_id');
     }

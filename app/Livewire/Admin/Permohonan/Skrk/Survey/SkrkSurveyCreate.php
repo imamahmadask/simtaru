@@ -36,7 +36,6 @@ class SkrkSurveyCreate extends Component
     public function createSurvey()
     {
         $this->validate();
-
         $permohonan = Permohonan::findOrFail($this->permohonan_id);
         $skrk = Skrk::findOrFail($this->skrk_id);
         $no_reg = $skrk->registrasi->kode;

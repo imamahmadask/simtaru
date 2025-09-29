@@ -1,28 +1,28 @@
 <div>
     <div class="mb-3">
         <div class="d-flex flex-wrap gap-3">
-            @if (!$skrk->tgl_survey)
-                @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor' || Auth::user()->role == 'surveyor')
+            @can('manageSurvey', $skrk->permohonan)
+                @if (!$skrk->tgl_survey)
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddSurveyModal">
                         <i class="bx bx-plus"></i> Add Survey
                     </button>
+                @else
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditSurveyModal">
+                        <i class="bx bx-edit"></i> Edit Survey
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#UploadBerkasSurveyModal">
+                        <i class="bx bx-cloud-upload"></i> Berkas Survey
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#AddDisposisiModal">
+                        <i class="bx bx-plus"></i> Disposisi
+                    </button>
+                    @teleport('body')
+                        @livewire('admin.permohonan.skrk.survey.skrk-survey-edit', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+                    @endteleport
                 @endif
-            @else
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditSurveyModal">
-                    <i class="bx bx-edit"></i> Edit Survey
-                </button>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#UploadBerkasSurveyModal">
-                    <i class="bx bx-cloud-upload"></i> Berkas Survey
-                </button>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#AddDisposisiModal">
-                    <i class="bx bx-plus"></i> Disposisi
-                </button>
-                @teleport('body')
-                    @livewire('admin.permohonan.skrk.survey.skrk-survey-edit', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
-                @endteleport
-            @endif
+            @endcan
         </div>
     </div>
 
