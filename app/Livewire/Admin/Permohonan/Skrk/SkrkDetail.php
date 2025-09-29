@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Admin\Permohonan\Skrk;
 
+use App\Models\Disposisi;
 use App\Models\Layanan;
 use App\Models\Permohonan;
 use App\Models\PermohonanBerkas;
 use App\Models\RiwayatPermohonan;
 use App\Models\Skrk;
+use App\Models\Tahapan;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
@@ -52,6 +54,17 @@ class SkrkDetail extends Component
 
                 $this->skrk->permohonan->update([
                     'status' => 'Cetak Dokumen'
+                ]);
+
+                $tahapan = Tahapan::where('layanan_id', $this->skrk->permohonan->layanan_id)->where('urutan', 3)->first();
+
+                $this->skrk->disposisis()->create([
+                    'permohonan_id' => $this->skrk->permohonan->id,
+                    'tahapan_id' => $tahapan->id,
+                    'pemberi_id' => Auth::user()->id,
+                    'penerima_id' => $this->skrk->permohonan->created_by,
+                    'tanggal_disposisi' => now(),
+                    'catatan' => 'Lanjutkan proses cetak Dokumen SKRK',
                 ]);
 
                 $this->createRiwayat($this->skrk->permohonan, 'Selesai Verifikasi Berkas SKRK');

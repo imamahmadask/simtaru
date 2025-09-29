@@ -17,7 +17,7 @@ use Livewire\Component;
 class DisposisiCreate extends Component
 {
     public $tahapans, $users;
-    public $permohonan, $skrk, $catatan, $pemberi_id, $permohonan_id;
+    public $permohonan, $pelayanan_id, $catatan, $pemberi_id, $permohonan_id;
 
     #[Validate('required')]
     public $tahapan_id, $penerima_id;
@@ -29,6 +29,7 @@ class DisposisiCreate extends Component
 
     public function mount($permohonan_id, $pelayanan_id)
     {
+        $this->pelayanan_id = $pelayanan_id;
         $this->permohonan = Permohonan::findOrFail($permohonan_id);
         $this->tahapans = Tahapan::where('layanan_id', $this->permohonan->layanan_id)
                                  ->whereNotIn('id', function($query) {
@@ -39,7 +40,6 @@ class DisposisiCreate extends Component
                                  ->get();
 
         $this->users = User::where('role', '!=', 'superadmin')->where('role', '!=', 'supervisor')->get();
-        $this->skrk = Skrk::findOrFail($pelayanan_id);
     }
 
     public function createDisposisi()
@@ -52,7 +52,8 @@ class DisposisiCreate extends Component
 
         if($layanan->nama == 'SKRK')
         {
-            $this->skrk->disposisis()->create([
+            $skrk = Skrk::find($this->pelayanan_id);
+            $skrk->disposisis()->create([
                 'permohonan_id' => $this->permohonan->id,
                 'tahapan_id' => $this->tahapan_id,
                 'pemberi_id' => $this->pemberi_id,

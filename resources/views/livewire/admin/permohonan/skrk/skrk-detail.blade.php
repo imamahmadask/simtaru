@@ -363,11 +363,16 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            @if (!$skrk->is_validate && $count_verifikasi > 0)
+
+                                            @if ($skrk->is_analis && !$skrk->is_validate && $count_verifikasi == 0)
                                                 <button type="button"
                                                     class="btn {{ $skrk->is_validate ? 'btn-primary' : 'btn-warning' }}"
                                                     data-bs-toggle="modal" data-bs-target="#selesaiVerifikasiModal">
                                                     <i class="bx bx-check"></i> Selesai Verifikasi Berkas
+                                                </button>
+                                            @elseif ($skrk->is_validate)
+                                                <button type="button" class="btn btn-primary" disabled>
+                                                    <i class="bx bx-check"></i> Semua Berkasi Sudah Diverifikasi
                                                 </button>
                                             @endif
                                         </div>
