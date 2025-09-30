@@ -25,6 +25,7 @@
                             <th>Tgl Permohonan</th>
                             <th>Layanan</th>
                             <th>Status</th>
+                            <th>Keterangan</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -57,7 +58,9 @@
                                             class="badge bg-label-{{ is_null($data->permohonan) ? 'danger' : ($data->permohonan->status === 'success' ? 'success' : 'warning') }}">
                                             {{ is_null($data->permohonan) ? 'Belum Entry' : $data->permohonan->status }}
                                         </span>
-
+                                    </td>
+                                    <td>
+                                        {{ $data->permohonan->keterangan }}
                                     </td>
                                     <td>
                                         <a href="{{ route('skrk.detail', ['id' => $data->id]) }}" type="button"

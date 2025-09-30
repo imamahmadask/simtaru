@@ -67,6 +67,7 @@
                             <th>Tgl Permohonan</th>
                             <th>Layanan</th>
                             <th>Status</th>
+                            <th>Keterangan</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -104,6 +105,9 @@
                                             class="badge bg-label-{{ $data->status == 'pending' ? 'danger' : ($data->status == 'process' ? 'warning' : ($data->status == 'completed' ? 'success' : 'secondary')) }} me-1">
                                             {{ $data->status }}
                                         </span>
+                                    </td>
+                                    <td>
+                                        {{ $data->keterangan }}
                                     </td>
                                     <td>
                                         <div class="me-3">
