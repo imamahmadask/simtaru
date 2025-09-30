@@ -23,9 +23,9 @@
                             <th>Kode Registrasi</th>
                             <th>Nama Pemohon</th>
                             <th>Tgl Permohonan</th>
-                            <th>Layanan</th>
-                            <th>Status</th>
+                            <th>Waktu Penyelesaian</th>
                             <th>Keterangan</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -51,7 +51,12 @@
                                         {{ date('d-m-Y', strtotime($data->registrasi->tanggal)) }}
                                     </td>
                                     <td>
-                                        {{ $data->layanan->nama }}
+                                        @if ($data->permohonan->is_done)
+                                            {{ $data->permohonan->waktu_pengerjaan }} Hari
+                                        @endif
+                                    </td>
+                                    <td>
+                                        {{ $data->permohonan->keterangan }}
                                     </td>
                                     <td>
                                         <span
@@ -60,12 +65,9 @@
                                         </span>
                                     </td>
                                     <td>
-                                        {{ $data->permohonan->keterangan }}
-                                    </td>
-                                    <td>
                                         <a href="{{ route('skrk.detail', ['id' => $data->id]) }}" type="button"
                                             class="btn btn-primary btn-sm">
-                                            Detail
+                                            <i class="bx bx-show"></i>
                                         </a>
                                     </td>
                                 </tr>

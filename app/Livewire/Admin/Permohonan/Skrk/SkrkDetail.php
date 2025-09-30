@@ -19,12 +19,8 @@ use PhpOffice\PhpWord\TemplateProcessor;
 #[Title('Detail SKRK')]
 class SkrkDetail extends Component
 {
-    use WithFileUploads;
-
     public $skrk;
     public $count_verifikasi;
-    public $persyaratan_berkas;
-    public $file_ = [];
 
     public function render()
     {
@@ -35,9 +31,6 @@ class SkrkDetail extends Component
     {
         $this->skrk = Skrk::findOrFail($id);
         $this->count_verifikasi = $this->skrk->permohonan->berkas->where('status', '!=', 'diterima')->count();
-
-        $tahapan_id = $this->skrk->permohonan->layanan->tahapan->where('nama', 'Cetak')->value('id');
-        $this->persyaratan_berkas = $this->skrk->permohonan->persyaratanBerkas->where('tahapan_id', $tahapan_id);
     }
 
     public function verifikasi($id, $status)
@@ -96,52 +89,5 @@ class SkrkDetail extends Component
             'user_id' => Auth::user()->id,
             'keterangan' => $keterangan
         ]);
-    }
-
-    public function uploadDokumenFix()
-    {
-        $no_reg = $this->skrk->registrasi->kode;
-
-        foreach ($this->skrk->permohonan->persyaratanBerkas as $item) {
-            // cek apakah file untuk persyaratan ini diupload
-            if (!empty($this->file_[$item->kode])) {
-                $uploadedFile = $this->file_[$item->kode];
-
-                // buat nama file unik -> {no_reg}_{kode}.{ext}
-                $filename = $no_reg . '_' . $item->kode . '.' . $uploadedFile->getClientOriginalExtension();
-
-                // simpan file ke storage/app/public/skrk_form_survey
-                $path = $uploadedFile->storeAs(
-                    'skrk/' . $no_reg, // folder per registrasi
-                    $filename,
-                    'public'
-                );
-
-                // simpan ke database
-                PermohonanBerkas::updateOrCreate(
-                    [
-                        'permohonan_id'        => $this->skrk->permohonan->id,
-                        'persyaratan_berkas_id'=> $item->id,
-                    ],
-                    [
-                        'file_path'           => $path,
-                        'uploaded_by'         => Auth::id(),
-                        'uploaded_at'         => now(),
-                        'status'              => 'menunggu',
-                        'catatan_verifikator' => null,
-                    ]
-                );
-            }
-        }
-
-        $this->skrk->permohonan->update([
-            'status' => 'Success',
-        ]);
-
-        $this->createRiwayat($this->skrk->permohonan, 'Dokumen SKRK selesai!');
-
-        session()->flash('success', 'Dokumen SKRK Fix berhasil ditambahkan!');
-
-        return redirect()->route('skrk.detail', ['id' => $this->skrk->id]);
     }
 }

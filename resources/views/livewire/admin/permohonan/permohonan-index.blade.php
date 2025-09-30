@@ -36,7 +36,9 @@
                             <select wire:model.live="filterStatus" id="filterStatus" class="form-control">
                                 <option value="">Pilih Status</option>
                                 <option value="pending">Pending</option>
-                                <option value="process">Process</option>
+                                <option value="Proses Survey">Proses Survey</option>
+                                <option value="Proses Analisa">Proses Analisa</option>
+                                <option value="Proses Verifikasi">Proses Verifikasi</option>
                                 <option value="completed">Completed</option>
                             </select>
                         </div>
@@ -62,12 +64,12 @@
                         <tr>
                             <th>No</th>
                             <th><i class="bx bx-star text-warning"></i></th>
+                            <th>Layanan</th>
                             <th>Kode Registrasi</th>
                             <th>Nama Pemohon</th>
-                            <th>Tgl Permohonan</th>
-                            <th>Layanan</th>
-                            <th>Status</th>
+                            <th>Waktu Penyelesaian</th>
                             <th>Keterangan</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -87,18 +89,27 @@
                                         @endif
                                     </td>
                                     <td>
+                                        {{ $data->layanan->nama }}
+                                    </td>
+                                    <td>
                                         <strong>
                                             {{ $data->registrasi->kode }}
                                         </strong>
+                                        <br>
+                                        <small class="text-muted fst-italic">
+                                            {{ date('d-m-Y', strtotime($data->registrasi->tanggal)) }}
+                                        </small>
                                     </td>
                                     <td>
                                         {{ $data->registrasi->nama }}
                                     </td>
                                     <td>
-                                        {{ date('d-m-Y', strtotime($data->registrasi->tanggal)) }}
+                                        @if ($data->is_done)
+                                            {{ $data->waktu_pengerjaan }} Hari
+                                        @endif
                                     </td>
                                     <td>
-                                        {{ $data->layanan->nama }}
+                                        {{ $data->keterangan }}
                                     </td>
                                     <td>
                                         <span
@@ -107,17 +118,14 @@
                                         </span>
                                     </td>
                                     <td>
-                                        {{ $data->keterangan }}
-                                    </td>
-                                    <td>
                                         <div class="me-3">
                                             <a href="{{ route('permohonan.edit', ['id' => $data->id]) }}"
                                                 type="button" class="btn btn-primary btn-sm">
-                                                Edit
+                                                <i class="bx bx-edit"></i>
                                             </a>
                                             <a href="{{ route('permohonan.detail', ['id' => $data->id]) }}"
                                                 type="button" class="btn btn-primary btn-sm">
-                                                Detail
+                                                <i class="bx bx-show"></i>
                                             </a>
 
                                         </div>

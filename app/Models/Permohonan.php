@@ -18,6 +18,8 @@ class Permohonan extends Model
         'alamat_pemohon',
         'npwp',
         'luas_tanah',
+        'no_dokumen',
+        'waktu_pengerjaan',
         'tgl_selesai',
         'berkas_ktp',
         'berkas_nib',
@@ -28,6 +30,7 @@ class Permohonan extends Model
         'kbli',
         'judul_kbli',
         'berkas_kuasa',
+        'is_done'
     ];
 
     public function layanan()
