@@ -78,7 +78,7 @@
     <div class="signature">
         <p>Yang Menerima</p>
         <br><br><br>
-        <p style="font-weight: bold">{{ $data['nama'] }}</p>
+        <p style="font-weight: bold">{{ Auth::user()->where('id', $data['created_by'])->first()->name }}</p>
     </div>
 </body>
 
