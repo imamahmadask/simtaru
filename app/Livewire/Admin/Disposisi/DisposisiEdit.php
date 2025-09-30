@@ -32,9 +32,9 @@ class DisposisiEdit extends Component
         $this->catatan = $this->disposisi->catatan;
     }
 
-    public function mount($layanan_id)
+    public function mount()
     {
-        $this->tahapans = Tahapan::where('layanan_id', $layanan_id)->get();
+        $this->tahapans = Tahapan::orderBy('layanan_id', 'asc')->orderBy('urutan', 'asc')->get();
         $this->users = User::whereNotIn('role', ['superadmin', 'supervisor'])->get();
     }
 

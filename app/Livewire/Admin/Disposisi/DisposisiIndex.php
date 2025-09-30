@@ -12,20 +12,29 @@ class DisposisiIndex extends Component
 {
     public function render()
     {
+        $disposisi_masuk = [];
+        $disposisi_keluar = [];
+
         if(Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor'){
-            $disposisis = Disposisi::with('layanan')->orderBy('created_at', 'desc')->get();
+            $disposisi_masuk = Disposisi::with('layanan')->orderBy('created_at', 'desc')->get();
         }
         else
         {
-            $disposisis = Disposisi::with('layanan')
+            $disposisi_masuk = Disposisi::with('layanan')
                         ->where('penerima_id', Auth::user()->id)
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+
+            $disposisi_keluar = Disposisi::with('layanan')
+                        ->where('pemberi_id', Auth::user()->id)
                         ->orderBy('created_at', 'desc')
                         ->get();
         }
 
 
         return view('livewire.admin.disposisi.disposisi-index', [
-            'disposisis' => $disposisis
+            'disposisi_masuk' => $disposisi_masuk,
+            'disposisi_keluar' => $disposisi_keluar,
         ]);
     }
 }
