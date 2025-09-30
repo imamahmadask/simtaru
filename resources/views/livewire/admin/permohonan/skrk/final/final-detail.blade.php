@@ -31,10 +31,14 @@
                                     <td>{{ $skrk->permohonan->no_dokumen }}</td>
                                     <td>{{ $skrk->permohonan->waktu_pengerjaan }} Hari</td>
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#editDataFinalModal">
-                                            <i class="bx bx-edit"></i>
-                                        </button>
+                                        @can('manageDataEntry', $skrk->permohonan)
+                                            @if ($skrk->is_validate && $skrk->permohonan->is_done)
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#editDataFinalModal">
+                                                    <i class="bx bx-edit"></i>
+                                                </button>
+                                            @endif
+                                        @endcan
                                     </td>
                                 </tr>
                             </tbody>
