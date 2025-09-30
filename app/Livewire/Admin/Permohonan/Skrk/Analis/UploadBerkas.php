@@ -43,9 +43,9 @@ class UploadBerkas extends Component
                 // buat nama file unik -> {no_reg}_{kode}.{ext}
                 $filename = $no_reg . '_' . $item->kode . '.' . $uploadedFile->getClientOriginalExtension();
 
-                // simpan file ke storage/app/public/skrk_form_survey
+                // simpan file ke storage/app/public/skrk
                 $path = $uploadedFile->storeAs(
-                    'skrk_form_survey/' . $no_reg, // folder per registrasi
+                    'skrk/' . $no_reg, // folder per registrasi
                     $filename,
                     'public'
                 );
