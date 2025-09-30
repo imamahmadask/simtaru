@@ -102,7 +102,7 @@
                                     </td>
                                     <td>
                                         <span
-                                            class="badge bg-label-{{ $data->status == 'pending' ? 'danger' : ($data->status == 'process' ? 'warning' : ($data->status == 'completed' ? 'success' : 'secondary')) }} me-1">
+                                            class="badge bg-label-{{ $data->status == 'completed' ? 'success' : 'warning' }} me-1">
                                             {{ $data->status }}
                                         </span>
                                     </td>

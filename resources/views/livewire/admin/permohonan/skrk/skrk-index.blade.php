@@ -55,7 +55,7 @@
                                     </td>
                                     <td>
                                         <span
-                                            class="badge bg-label-{{ is_null($data->permohonan) ? 'danger' : ($data->permohonan->status === 'success' ? 'success' : 'warning') }}">
+                                            class="badge bg-label-{{ $data->permohonan->status == 'completed' ? 'success' : 'warning' }} me-1">
                                             {{ is_null($data->permohonan) ? 'Belum Entry' : $data->permohonan->status }}
                                         </span>
                                     </td>
