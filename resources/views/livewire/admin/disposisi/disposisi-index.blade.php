@@ -37,13 +37,14 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Tanggal</th>
                             <th>Kode/Layanan</th>
                             <th>Pemohon</th>
                             <th>Tahapan</th>
                             <th>Pemberi</th>
                             <th>Penerima</th>
-                            <th>Tanggal</th>
                             <th>Catatan</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -51,11 +52,17 @@
                         @php
                             $no = 1;
                         @endphp
-                        @foreach ($disposisi_masuk as $data)
+                        @foreach ($disposisi as $data)
                             <div wire:key="{{ $data->id }}">
                                 <tr>
                                     <td>
                                         {{ $no++ }}
+                                    </td>
+                                    <td>
+                                        {{ date('d-m-Y', strtotime($data->tanggal_disposisi)) }} <br>
+                                        <small class="text-muted fst-italic">
+                                            {{ date('H:i:s', strtotime($data->tanggal_disposisi)) }}
+                                        </small>
                                     </td>
                                     <td>
                                         <span class="fw-bold">
@@ -78,14 +85,15 @@
                                     <td>
                                         {{ Auth::user()->where('id', $data->penerima_id)->first()->name ?? '-' }}
                                     </td>
-                                    <td>
-                                        {{ date('d-m-Y', strtotime($data->tanggal_disposisi)) }} <br>
-                                        <small class="text-muted fst-italic">
-                                            {{ date('H:i:s', strtotime($data->tanggal_disposisi)) }}
-                                        </small>
-                                    </td>
                                     <td class="scrollable-cell">
                                         {{ $data->catatan }}
+                                    </td>
+                                    <td>
+                                        @if ($data->is_done)
+                                            <span class="badge bg-label-success me-1">Selesai</span>
+                                        @else
+                                            <span class="badge bg-label-warning me-1">Belum</span>
+                                        @endif
                                     </td>
                                     <td>
                                         <div class="me-3">
@@ -104,7 +112,6 @@
                                                 Go To
                                             </a>
                                         </div>
-
                                     </td>
                                 </tr>
                         @endforeach
@@ -117,31 +124,37 @@
         @if (Auth::user()->role != 'superadmin')
             <!-- Basic Bootstrap Table -->
             <div class="card mt-5">
-                <h5 class="card-header">List Disposisi Keluar</h5>
+                <h5 class="card-header">List Disposisi Selesai</h5>
                 <div class="table-responsive text-nowrap">
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Tanggal</th>
                                 <th>Kode/Layanan</th>
                                 <th>Pemohon</th>
                                 <th>Tahapan</th>
                                 <th>Pemberi</th>
                                 <th>Penerima</th>
-                                <th>Tanggal</th>
+                                <th>Status</th>
                                 <th>Catatan</th>
-                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
                             @php
                                 $no = 1;
                             @endphp
-                            @foreach ($disposisi_keluar as $data)
+                            @foreach ($disposisi_selesai as $data)
                                 <div wire:key="{{ $data->id }}">
                                     <tr>
                                         <td>
                                             {{ $no++ }}
+                                        </td>
+                                        <td>
+                                            {{ date('d-m-Y', strtotime($data->tanggal_disposisi)) }} <br>
+                                            <small class="text-muted fst-italic">
+                                                {{ date('H:i:s', strtotime($data->tanggal_disposisi)) }}
+                                            </small>
                                         </td>
                                         <td>
                                             <span class="fw-bold">
@@ -165,29 +178,14 @@
                                             {{ Auth::user()->where('id', $data->penerima_id)->first()->name ?? '-' }}
                                         </td>
                                         <td>
-                                            {{ date('d-m-Y', strtotime($data->tanggal_disposisi)) }} <br>
-                                            <small class="text-muted fst-italic">
-                                                {{ date('H:i:s', strtotime($data->tanggal_disposisi)) }}
-                                            </small>
+                                            @if ($data->is_done)
+                                                <span class="badge bg-label-success me-1">Selesai</span>
+                                            @else
+                                                <span class="badge bg-label-warning me-1">Belum</span>
+                                            @endif
                                         </td>
                                         <td class="scrollable-cell">
                                             {{ $data->catatan }}
-                                        </td>
-                                        <td>
-                                            <div class="me-3">
-                                                <!-- Button trigger modal -->
-                                                <button
-                                                    wire:click="$dispatch('disposisi-edit', { id: {{ $data->id }}})"
-                                                    type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#editDisposisiModal">
-                                                    Edit
-                                                </button>
-
-                                                <a href="{{ route(Str::lower($data->layanan_type_name) . '.detail', ['id' => $data->layanan_id]) }}"
-                                                    target="_blank" type="button" class="btn btn-primary btn-sm">
-                                                    Go To
-                                                </a>
-                                            </div>
                                         </td>
                                     </tr>
                             @endforeach

@@ -18,6 +18,8 @@ class Disposisi extends Model
         'updated_by',
         'layanan_id',
         'layanan_type',
+        'is_done',
+        'tgl_selesai',
     ];
 
     public function permohonan()
