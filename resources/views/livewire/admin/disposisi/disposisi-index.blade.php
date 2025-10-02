@@ -44,7 +44,7 @@
                             <th>Pemberi</th>
                             <th>Penerima</th>
                             <th>Catatan</th>
-                            <th>Status</th>
+                            <th class="text-center">Selesai</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -73,7 +73,7 @@
                                             {{ $data->permohonan->layanan->nama }}
                                         </small>
                                     </td>
-                                    <td>
+                                    <td class="text-wrap">
                                         {{ $data->permohonan->registrasi->nama }}
                                     </td>
                                     <td>
@@ -86,13 +86,20 @@
                                         {{ Auth::user()->where('id', $data->penerima_id)->first()->name ?? '-' }}
                                     </td>
                                     <td class="scrollable-cell">
-                                        {{ $data->catatan }}
+                                        <button type="button" class="btn rounded-pill btn-icon btn-secondary btn-sm"
+                                            data-bs-toggle="modal" data-bs-target="#catatanModal{{ $data->id }}">
+                                            <i class="bx bx-show"></i>
+                                        </button>
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @if ($data->is_done)
-                                            <span class="badge bg-label-success me-1">Selesai</span>
+                                            <span class="badge badge-center bg-label-success me-1">
+                                                <i class="bx bx-check"></i>
+                                            </span>
                                         @else
-                                            <span class="badge bg-label-warning me-1">Belum</span>
+                                            <span class="badge badge-center bg-label-danger me-1">
+                                                <i class="bx bx-block"></i>
+                                            </span>
                                         @endif
                                     </td>
                                     <td>
@@ -103,13 +110,38 @@
                                                     wire:click="$dispatch('disposisi-edit', { id: {{ $data->id }} })"
                                                     type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
                                                     data-bs-target="#editDisposisiModal">
-                                                    Edit
+                                                    <i class="bx bx-edit"></i>
                                                 </button>
                                             @endif
 
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="catatanModal{{ $data->id }}" tabindex="-1"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="catatanModalLabel">Catatan
+                                                            </h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {{ $data->catatan }}
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-outline-secondary"
+                                                                data-bs-dismiss="modal">
+                                                                Tutup
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <a href="{{ route(Str::lower($data->layanan_type_name) . '.detail', ['id' => $data->layanan_id]) }}"
                                                 target="_blank" type="button" class="btn btn-primary btn-sm">
-                                                Go To
+                                                <i class="bx bx-link-external"></i>
                                             </a>
                                         </div>
                                     </td>
@@ -136,7 +168,7 @@
                                 <th>Tahapan</th>
                                 <th>Pemberi</th>
                                 <th>Penerima</th>
-                                <th>Status</th>
+                                <th class="text-center">Selesai</th>
                                 <th>Catatan</th>
                             </tr>
                         </thead>
@@ -177,11 +209,15 @@
                                         <td>
                                             {{ Auth::user()->where('id', $data->penerima_id)->first()->name ?? '-' }}
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             @if ($data->is_done)
-                                                <span class="badge bg-label-success me-1">Selesai</span>
+                                                <span class="badge badge-center bg-label-success me-1">
+                                                    <i class="bx bx-check"></i>
+                                                </span>
                                             @else
-                                                <span class="badge bg-label-warning me-1">Belum</span>
+                                                <span class="badge badge-center bg-label-danger me-1">
+                                                    <i class="bx bx-block"></i>
+                                                </span>
                                             @endif
                                         </td>
                                         <td class="scrollable-cell">

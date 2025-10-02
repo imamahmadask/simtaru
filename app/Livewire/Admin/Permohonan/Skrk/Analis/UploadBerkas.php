@@ -14,7 +14,7 @@ class UploadBerkas extends Component
 {
     use WithFileUploads;
 
-    public $permohonan, $skrk, $persyaratan_berkas;
+    public $permohonan, $skrk, $persyaratan_berkas, $tahapan_id;
     public $file_ = [];
 
     public function render()
@@ -27,8 +27,8 @@ class UploadBerkas extends Component
         $this->permohonan = Permohonan::findOrFail($permohonan_id);
         $this->skrk = Skrk::findOrFail($skrk_id);
 
-        $tahapan_id = $this->permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id');
-        $this->persyaratan_berkas = $this->permohonan->persyaratanBerkas->where('tahapan_id', $tahapan_id);
+        $this->tahapan_id = $this->permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id');
+        $this->persyaratan_berkas = $this->permohonan->persyaratanBerkas->where('tahapan_id', $this->tahapan_id);
     }
 
     public function uploadBerkas()
@@ -67,7 +67,12 @@ class UploadBerkas extends Component
             }
         }
 
-         $this->createRiwayat($this->permohonan, 'Upload Berkas Analisa');
+        $this->permohonan->disposisi()->where('penerima_id', Auth::user()->id)->update([
+            'is_done' => true,
+            'tgl_selesai' => now()
+        ]);
+
+        $this->createRiwayat($this->permohonan, 'Upload Berkas Analisa');
 
         session()->flash('success', 'Berkas Analisa berhasil ditambahkan!');
 

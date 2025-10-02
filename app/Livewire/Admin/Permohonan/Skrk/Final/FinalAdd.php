@@ -78,6 +78,11 @@ class FinalAdd extends Component
             'status' => 'completed',
         ]);
 
+        $this->permohonan->disposisi()->where('penerima_id', Auth::user()->id)->update([
+            'is_done' => true,
+            'tgl_selesai' => now()
+        ]);
+
         $this->createRiwayat($this->skrk->permohonan, 'Dokumen SKRK selesai!');
 
         session()->flash('success', 'Dokumen SKRK Fix berhasil ditambahkan!');

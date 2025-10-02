@@ -24,7 +24,9 @@
 
                                     {{-- Cek apakah sudah ada file yang tersimpan --}}
                                     @php
-                                        $uploadedFile = $item->permohonan_berkas->file_path ?? null; // misalnya kolom file_path
+                                        $uploadedFile =
+                                            $item->permohonan_berkas()->where('permohonan_id', $permohonan->id)->first()
+                                                ->file_path ?? null; // misalnya kolom file_path
                                     @endphp
 
                                     @if ($uploadedFile)

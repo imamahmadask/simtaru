@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('disposisis', function (Blueprint $table) {
-            $table->boolean('is_done')->nullable();
+            $table->boolean('is_done')->default(0);
             $table->date('tgl_selesai')->nullable();
         });
     }

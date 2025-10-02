@@ -67,6 +67,11 @@ class UploadBerkas extends Component
             'status' => 'Proses Analisa'
         ]);
 
+        $this->permohonan->disposisi()->where('penerima_id', Auth::user()->id)->update([
+            'is_done' => true,
+            'tgl_selesai' => now()
+        ]);
+
         $this->createRiwayat($this->permohonan, 'Upload Berkas Survey');
 
         session()->flash('success', 'Berkas Survey berhasil ditambahkan!');

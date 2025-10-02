@@ -19,6 +19,21 @@
                                         {{ $item->nama_berkas }}</label>
                                     <input type="file" class="form-control" wire:model="file_.{{ $item->kode }}"
                                         id="file_.{{ $item->id }}">
+
+                                    @php
+                                        $uploadedFile =
+                                            $item->permohonan_berkas()->where('permohonan_id', $permohonan->id)->first()
+                                                ->file_path ?? null; // misalnya kolom file_path
+                                    @endphp
+
+                                    @if ($uploadedFile)
+                                        <div class="mt-2">
+                                            <a href="{{ Storage::url($uploadedFile) }}" target="_blank"
+                                                class="text-primary">
+                                                <i class="bx bx-file"></i> Lihat Berkas
+                                            </a>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         @endforeach
