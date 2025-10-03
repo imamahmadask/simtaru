@@ -22,7 +22,7 @@ class PermohonanBerkas extends Model
 
     public function persyaratan()
     {
-        return $this->belongsTo(PersyaratanBerkas::class);
+        return $this->belongsTo(PersyaratanBerkas::class, 'persyaratan_berkas_id');
     }
 
     public function permohonan()

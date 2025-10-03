@@ -86,9 +86,9 @@
                                         {{ Auth::user()->where('id', $data->penerima_id)->first()->name ?? '-' }}
                                     </td>
                                     <td class="scrollable-cell">
-                                        <button type="button" class="btn rounded-pill btn-icon btn-secondary btn-sm"
+                                        <button type="button" class="btn btn-outline-primary btn-sm"
                                             data-bs-toggle="modal" data-bs-target="#catatanModal{{ $data->id }}">
-                                            <i class="bx bx-show"></i>
+                                            Lihat
                                         </button>
                                     </td>
                                     <td class="text-center">
