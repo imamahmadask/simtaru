@@ -271,7 +271,8 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="mb-3">
-                                        <label for="berkas_nib" class="form-label">Upload NIB</label>
+                                        <label for="berkas_nib" class="form-label">Upload NIB, KBLI, dan Pernyataan
+                                            Mandiri</label>
                                         <input type="file" class="form-control" id="berkas_nib"
                                             wire:model="berkas_nib">
                                         @if ($berkas_nib_lama)
