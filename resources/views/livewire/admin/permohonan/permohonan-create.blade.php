@@ -216,15 +216,15 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="mb-3">
-                                        <label for="berkas_permohonan" class="form-label">Upload Permohonan</label>
+                                        <label for="berkas_permohonan" class="form-label">Upload Formulir
+                                            Permohonan</label>
                                         <input type="file" class="form-control" id="berkas_permohonan"
                                             wire:model="berkas_permohonan">
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="mb-3">
-                                        <label for="berkas_kuasa" class="form-label">Surat Kuasa (Jika Ada)
-                                            Tanah</label>
+                                        <label for="berkas_kuasa" class="form-label">Surat Kuasa (Jika Ada)</label>
                                         <input type="file" class="form-control" id="berkas_kuasa"
                                             wire:model="berkas_kuasa">
                                     </div>
