@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class PermohonanBerkas extends Model
@@ -28,5 +29,10 @@ class PermohonanBerkas extends Model
     public function permohonan()
     {
         return $this->belongsTo(Permohonan::class);
+    }
+
+    public function verifiedBy()
+    {
+        return $this->belongsTo(User::class, 'verified_by');
     }
 }
