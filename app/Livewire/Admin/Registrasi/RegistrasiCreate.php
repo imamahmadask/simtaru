@@ -30,8 +30,18 @@ class RegistrasiCreate extends Component
     public function createRegistrasi(){
         $this->validate();
 
+        // Generate unique 'kode'
+        $year = date('Y');
+        $latestRegistrasi = Registrasi::whereYear('created_at', $year)->latest('id')->first();
+        $sequence = 1;
+        if ($latestRegistrasi) {
+            $lastSequence = (int) substr($latestRegistrasi->kode, -4);
+            $sequence = $lastSequence + 1;
+        }
+        $newKode = 'REG-' . $year . '-' . str_pad($sequence, 4, '0', STR_PAD_LEFT);
+
         Registrasi::create([
-           'kode' => 'REG-' . str_pad((Registrasi::count() + 1), 4, '0', STR_PAD_LEFT),
+           'kode' => $newKode,
            'nama' => $this->nama,
            'nik' => $this->nik,
            'no_hp' => $this->no_hp,
