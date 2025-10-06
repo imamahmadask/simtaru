@@ -68,7 +68,7 @@ class SkrkDetail extends Component
                     'catatan' => 'Lanjutkan proses cetak Dokumen SKRK',
                 ]);
 
-                $this->permohonan->disposisi()->where('penerima_id', Auth::user()->id)->update([
+                $this->skrk->permohonan->disposisi()->where('penerima_id', Auth::user()->id)->update([
                     'is_done' => true,
                     'tgl_selesai' => now()
                 ]);

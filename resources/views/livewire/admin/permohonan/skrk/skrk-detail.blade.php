@@ -307,6 +307,8 @@
                                                         <th>Nama Berkas</th>
                                                         <th>Status</th>
                                                         <th>Catatan</th>
+                                                        <th>Verifikasi Oleh</th>
+                                                        <th>Tgl Verifikasi</th>
                                                         <th>Action</th>
                                                     </thead>
                                                     <tbody>
@@ -336,6 +338,12 @@
                                                                 </td>
                                                                 <td>
                                                                     {{ $item->catatan_verifikator }}
+                                                                </td>
+                                                                <td>
+                                                                    {{ $item->verifiedBy->name ?? '-' }}
+                                                                </td>
+                                                                <td>
+                                                                    {{ $item->verified_at ? date('d-m-Y', strtotime($item->verified_at)) : '-' }}
                                                                 </td>
                                                                 <td>
                                                                     <a href="{{ asset('storage/' . $item->file_path) }}"
