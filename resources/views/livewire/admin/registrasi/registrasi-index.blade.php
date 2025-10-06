@@ -96,6 +96,10 @@
                                                 target="blank" class="btn btn-primary btn-sm">
                                                 <i class="bx bx-download"></i>
                                             </a>
+                                            {{-- <button class="btn btn-primary btn-sm"
+                                                wire:click='downloadTandaTerima({{ $data->id }})'>
+                                                <i class="bx bx-download"></i>
+                                            </button> --}}
                                             <button
                                                 wire:click="$dispatch('registrasi-detail', { id: {{ $data->id }} })"
                                                 type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"

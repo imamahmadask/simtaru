@@ -50,4 +50,9 @@ class Registrasi extends Model
             'id'                // PK di tabel permohonans
         );
     }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

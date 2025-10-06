@@ -21,14 +21,15 @@
                                         id="file_.{{ $item->id }}">
 
                                     @php
-                                        $uploadedFile =
-                                            $item->permohonan_berkas()->where('permohonan_id', $permohonan->id)->first()
-                                                ->file_path ?? null; // misalnya kolom file_path
+                                        // Find the uploaded file for this specific requirement and application
+                                        $uploadedFile = $permohonan->berkas
+                                            ->where('persyaratan_berkas_id', $item->id)
+                                            ->first();
                                     @endphp
 
                                     @if ($uploadedFile)
                                         <div class="mt-2">
-                                            <a href="{{ Storage::url($uploadedFile) }}" target="_blank"
+                                            <a href="{{ asset('storage/' . $uploadedFile->file_path) }}" target="_blank"
                                                 class="text-primary">
                                                 <i class="bx bx-file"></i> Lihat Berkas
                                             </a>

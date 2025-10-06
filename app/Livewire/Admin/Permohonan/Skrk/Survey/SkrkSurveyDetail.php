@@ -2,7 +2,10 @@
 
 namespace App\Livewire\Admin\Permohonan\Skrk\Survey;
 
+use App\Models\Permohonan;
+use App\Models\RiwayatPermohonan;
 use App\Models\Skrk;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use PhpOffice\PhpWord\TemplateProcessor;
 
@@ -63,5 +66,44 @@ class SkrkSurveyDetail extends Component
         $templateProcessor->saveAs($tempPath);
 
         return response()->download($tempPath)->deleteFileAfterSend(true);
+    }
+
+    public function selesaiSurvey()
+    {
+        if(Auth::user()->role == 'surveyor' || Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor') {
+            // update tabel survey
+            $this->skrk->update([
+            'is_survey' => true
+            ]);
+
+            // Find and update the disposisi for the 'Survey' stage
+            $tahapanSurveyId = $this->skrk->permohonan->layanan->tahapan->where('nama', 'Survey')->value('id');
+            if ($tahapanSurveyId) {
+                $this->skrk->permohonan->disposisi()->where('tahapan_id', $tahapanSurveyId)->update([
+                    'is_done' => true,
+                    'tgl_selesai' => now()
+                ]);
+            }
+
+            $this->skrk->permohonan->update([
+                'status' => 'Proses Analisa'
+            ]);
+
+            $this->createRiwayat($this->skrk->permohonan, 'Selesai Survey Data SKRK');
+            $this->createRiwayat($this->skrk->permohonan, 'Proses Analisa SKRK');
+        }
+
+        session()->flash('success', 'Data Survey selesai!');
+
+        return redirect()->route('skrk.detail', ['id' => $this->skrk->id]);
+    }
+
+    private function createRiwayat(Permohonan $permohonan, string $keterangan)
+    {
+        RiwayatPermohonan::create([
+            'registrasi_id' => $permohonan->registrasi_id,
+            'user_id' => Auth::user()->id,
+            'keterangan' => $keterangan
+        ]);
     }
 }

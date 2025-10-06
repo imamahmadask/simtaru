@@ -138,7 +138,7 @@ class SkrkAnalisDetail extends Component
 
     public function selesaiAnalisa()
     {
-        if(Auth::user()->role == 'analis' || Auth::user()->role == 'superadmin') {
+        if(Auth::user()->role == 'analis' || Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor') {
             $this->skrk->update([
                 'is_analis' => true
             ]);
@@ -146,6 +146,15 @@ class SkrkAnalisDetail extends Component
             $this->skrk->permohonan->update([
                 'status' => 'Proses Verifikasi'
             ]);
+
+            // Find and update the disposisi for the 'Analisis' stage
+            $tahapanAnalisId = $this->skrk->permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id');
+            if ($tahapanAnalisId) {
+                $this->skrk->permohonan->disposisi()->where('tahapan_id', $tahapanAnalisId)->update([
+                    'is_done' => true,
+                    'tgl_selesai' => now()
+                ]);
+            }
 
             $this->createRiwayat($this->skrk->permohonan, 'Selesai Analisa Data SKRK');
             $this->createRiwayat($this->skrk->permohonan, 'Proses Verifikasi Data SKRK');

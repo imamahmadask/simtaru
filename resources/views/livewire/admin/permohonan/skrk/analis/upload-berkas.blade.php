@@ -22,16 +22,17 @@
                                     <input type="file" class="form-control" wire:model="file_.{{ $item->kode }}"
                                         id="file_.{{ $item->id }}">
 
-                                    {{-- Cek apakah sudah ada file yang tersimpan --}}
                                     @php
-                                        $uploadedFile =
-                                            $item->permohonan_berkas()->where('permohonan_id', $permohonan->id)->first()
-                                                ->file_path ?? null; // misalnya kolom file_path
+                                        // Find the uploaded file for this specific requirement from the loaded relationship
+                                        $uploadedFile = $permohonan->berkas
+                                            ->where('persyaratan_berkas_id', $item->id)
+                                            ->first();
                                     @endphp
 
                                     @if ($uploadedFile)
                                         <div class="mt-2">
-                                            <a href="{{ Storage::url($uploadedFile) }}" target="_blank"
+                                            {{-- Use the asset() helper for public storage files --}}
+                                            <a href="{{ asset('storage/' . $uploadedFile->file_path) }}" target="_blank"
                                                 class="text-primary">
                                                 <i class="bx bx-file"></i> Lihat Berkas
                                             </a>

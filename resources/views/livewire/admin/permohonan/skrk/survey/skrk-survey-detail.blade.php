@@ -2,11 +2,8 @@
     <div class="mb-3">
         <div class="d-flex flex-wrap gap-3">
             @can('manageSurvey', $skrk->permohonan)
-                @if (!$skrk->tgl_survey)
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddSurveyModal">
-                        <i class="bx bx-plus"></i> Add Survey
-                    </button>
-                @else
+                @if ($skrk->tgl_survey)
+                    {{-- Actions available AFTER survey date is set --}}
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditSurveyModal">
                         <i class="bx bx-edit"></i> Edit Survey
                     </button>
@@ -18,10 +15,18 @@
                         data-bs-target="#AddDisposisiModal">
                         <i class="bx bx-plus"></i> Disposisi
                     </button>
-                    @teleport('body')
-                        @livewire('admin.permohonan.skrk.survey.skrk-survey-edit', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
-                    @endteleport
+                    <button type="button" class="btn {{ $skrk->is_survey ? 'btn-primary' : 'btn-warning' }}"
+                        wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiSurveyModal"
+                        {{ $skrk->is_survey || !$skrk->is_berkas_survey_uploaded ? 'disabled' : '' }}>
+                        <i class="bx bx-check"></i> Selesai Survey
+                    </button>
+                @else
+                    {{-- Action available BEFORE survey date is set --}}
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddSurveyModal">
+                        <i class="bx bx-plus"></i> Add Survey
+                    </button>
                 @endif
+
             @endcan
         </div>
     </div>
@@ -39,7 +44,7 @@
                         </label>
                         <div class="col-sm-8  mb-3">
                             <input id="tgl_survey" class="form-control"
-                                value="{{ $skrk->tgl_survey ? \Carbon\Carbon::parse($skrk->tgl_survey)->format('d-m-Y') : '' }}"
+                                value="{{ $skrk->tgl_survey ? date('d-m-Y', strtotime($skrk->tgl_survey)) : '' }}"
                                 readonly>
                         </div>
                     </div>
@@ -151,6 +156,32 @@
                 @endforeach
             @endif
 
+        </div>
+    </div>
+
+    <div wire:ignore.self class="modal fade" id="selesaiSurveyModal" data-bs-backdrop="static" tabindex="-1"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">
+                        Proses Survet Selesai
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Pastikan seluruh data dan berkas analisa sudah terunggah.
+                    Lanjutkan ke proses Analisa oleh Analis?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                        Tidak
+                    </button>
+                    <button type="button" class="btn btn-primary" wire:click="selesaiSurvey">
+                        Ya
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 

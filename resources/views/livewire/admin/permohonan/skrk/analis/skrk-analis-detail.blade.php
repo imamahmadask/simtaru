@@ -2,44 +2,45 @@
     <div class="mb-3">
         <div class="d-flex flex-wrap gap-3">
             @can('manageAnalis', $skrk->permohonan)
-                @if ($skrk->is_survey && !$skrk->is_kajian)
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#AddKajianAnalisaModal">
-                        <i class="bx bx-plus"></i> Data Kajian
-                    </button>
-                @elseif($skrk->is_kajian)
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#EditKajianAnalisaModal">
-                        <i class="bx bx-edit"></i> Edit Data Kajian
-                    </button>
-                    @teleport('body')
-                        @livewire('admin.permohonan.skrk.analis.skrk-kajian-analis-edit', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
-                    @endteleport
-                @endif
-
-                @if ($skrk->is_kajian && !$skrk->is_dokumen)
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#AddDokumenSkrkModal">
-                        <i class="bx bx-plus"></i> Data Dokumen
-                    </button>
-                @elseif($skrk->is_dokumen)
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#EditDokumenSkrkModal">
-                        <i class="bx bx-edit"></i> Edit Data Dokumen
-                    </button>
-                    @teleport('body')
-                        @livewire('admin.permohonan.skrk.analis.skrk-dokumen-analis-edit', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
-                    @endteleport
-                @endif
-
                 @if ($skrk->is_survey)
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#UploadBerkasAnalisaModal">
-                        <i class="bx bx-cloud-upload"></i> Berkas Analisa
-                    </button>
-                @endif
+                    @if (!$skrk->is_kajian)
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#AddKajianAnalisaModal">
+                            <i class="bx bx-plus"></i> Data Kajian
+                        </button>
+                    @else
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#EditKajianAnalisaModal">
+                            <i class="bx bx-edit"></i> Edit Data Kajian
+                        </button>
+                        @teleport('body')
+                            @livewire('admin.permohonan.skrk.analis.skrk-kajian-analis-edit', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+                        @endteleport
+                    @endif
+                @endif {{-- End of is_survey check --}}
 
-                @if ($skrk->is_dokumen)
+                @if ($skrk->is_kajian)
+                    @if (!$skrk->is_dokumen)
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#AddDokumenSkrkModal">
+                            <i class="bx bx-plus"></i> Data Dokumen
+                        </button>
+                    @else
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#EditDokumenSkrkModal">
+                            <i class="bx bx-edit"></i> Edit Data Dokumen
+                        </button>
+                        @teleport('body')
+                            @livewire('admin.permohonan.skrk.analis.skrk-dokumen-analis-edit', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+                        @endteleport
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#UploadBerkasAnalisaModal">
+                            <i class="bx bx-cloud-upload"></i> Berkas Analisa
+                        </button>
+                    @endif
+                @endif {{-- End of is_kajian check --}}
+
+                @if ($skrk->is_berkas_analis_uploaded)
                     <button type="button" class="btn {{ $skrk->is_analis ? 'btn-primary' : 'btn-warning' }}"
                         data-bs-toggle="modal" data-bs-target="#selesaiAnalisaModal"
                         {{ $skrk->is_analis ? 'disabled' : '' }}>

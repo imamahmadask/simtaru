@@ -67,10 +67,18 @@ class UploadBerkas extends Component
             }
         }
 
-        $this->permohonan->disposisi()->where('penerima_id', Auth::user()->id)->update([
-            'is_done' => true,
-            'tgl_selesai' => now()
-        ]);
+        // Check if all required analysis files are uploaded and update the flag
+        $requiredBerkas = $this->persyaratan_berkas->where('wajib', 1);
+        $requiredCount = $requiredBerkas->count();
+        $uploadedCount = PermohonanBerkas::where('permohonan_id', $this->permohonan->id)
+            ->whereIn('persyaratan_berkas_id', $requiredBerkas->pluck('id'))
+            ->count();
+
+        if ($requiredCount > 0 && $requiredCount === $uploadedCount) {
+            $this->skrk->update(['is_berkas_analis_uploaded' => true]);
+        } else {
+            $this->skrk->update(['is_berkas_analis_uploaded' => false]);
+        }
 
         $this->createRiwayat($this->permohonan, 'Upload Berkas Analisa');
 

@@ -8,6 +8,9 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Title;
 use Livewire\Component;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 #[Title('Registrasi')]
 class RegistrasiIndex extends Component
@@ -58,10 +61,42 @@ class RegistrasiIndex extends Component
 
         view()->share('data', $data);
 
+        // $pdf = Pdf::loadView('pdf.tanda-terima-regis');
         $pdf = Pdf::loadView('pdf.bukti-regis');
         return $pdf->download($data['kode'].'.pdf');
-        // return view('pdf.bukti-regis');
     }
 
+    public function downloadTandaTerima($id)
+    {
+        $data = Registrasi::with('layanan')->find($id);
+
+        $data = [
+            'kode_registrasi' => $data->kode,
+            'nama_pemohon' => $data->nama,
+            'alamat_tanah' => $data->alamat_tanah.', '.$data->kel_tanah.', '.$data->kec_tanah,
+            'fungsi_bangunan' => $data->fungsi_bangunan,
+            'tgl_permohonan' => date('d-m-Y', strtotime($data->tanggal)),
+            'jenis_layanan' => $data->layanan->nama,
+            'penerima' => $data->createdBy->name
+        ];
+
+        return $this->generateDocument('Tanda_terima_registrasi.docx', $data);
+    }
+
+    private function generateDocument($templatePath, $data)
+    {
+        $templateProcessor = new TemplateProcessor(storage_path('app/public/templates/skrk/'.$templatePath));
+
+        foreach ($data as $key => $value) {
+            $templateProcessor->setValue($key, $value);
+        }
+
+        $fileName = str_replace('.docx', '', basename($templatePath)).'_'.$data['nama_pemohon'].'.docx';
+        $tempPath = storage_path("app/public/{$fileName}");
+
+        $templateProcessor->saveAs($tempPath);
+
+        return response()->download($tempPath)->deleteFileAfterSend(true);
+    }
 
 }

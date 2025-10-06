@@ -58,19 +58,20 @@ class UploadBerkas extends Component
             }
         }
 
-        // update tabel survey
-        $this->skrk->update([
-           'is_survey' => true
-        ]);
+        // Check if all required survey files are uploaded and update the flag
+        $requiredCount = $this->persyaratan_berkas->count();
+        $requiredBerkas = $this->persyaratan_berkas->where('wajib', 1);
+        $requiredCount = $requiredBerkas->count();
+        $uploadedCount = PermohonanBerkas::where('permohonan_id', $this->permohonan->id)
+            ->whereIn('persyaratan_berkas_id', $this->persyaratan_berkas->pluck('id'))
+            ->whereIn('persyaratan_berkas_id', $requiredBerkas->pluck('id'))
+            ->count();
 
-        $this->permohonan->update([
-            'status' => 'Proses Analisa'
-        ]);
-
-        $this->permohonan->disposisi()->where('penerima_id', Auth::user()->id)->update([
-            'is_done' => true,
-            'tgl_selesai' => now()
-        ]);
+        if ($requiredCount > 0 && $requiredCount === $uploadedCount) {
+            $this->skrk->update(['is_berkas_survey_uploaded' => true]);
+        } else {
+            $this->skrk->update(['is_berkas_survey_uploaded' => false]);
+        }
 
         $this->createRiwayat($this->permohonan, 'Upload Berkas Survey');
 

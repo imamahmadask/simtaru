@@ -38,9 +38,11 @@ class Skrk extends Model
         'kedalaman_min',
         'kedalaman_max',
         'is_survey',
-        'is_analis',
+        'is_berkas_survey_uploaded',
         'is_kajian',
+        'is_analis',
         'is_dokumen',
+        'is_berkas_analis_uploaded',
         'is_validate',
         'batas_administratif'
     ];
