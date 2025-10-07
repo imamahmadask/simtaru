@@ -15,13 +15,15 @@
                         @foreach ($persyaratan_berkas as $item)
                             <div class="row">
                                 <div class="col mb-3">
-                                    <label for="file_.{{ $item->id }}" class="form-label">Upload
-                                        {{ $item->nama_berkas }}</label>
-                                    <input type="file" class="form-control" wire:model="file_.{{ $item->kode }}"
-                                        id="file_.{{ $item->id }}">
-
+                                    <label for="file_{{ $item->id }}" class="form-label">
+                                        Upload {{ $item->nama_berkas }}
+                                    </label>
+                                    <input type="file" class="form-control" id="file_{{ $item->id }}"
+                                        wire:model="file_.{{ $item->kode }}" accept="application/pdf">
+                                    @error('file_.' . $item->kode)
+                                        <span class="form-text text-xs text-danger">{{ $message }}</span>
+                                    @enderror
                                     @php
-                                        // Find the uploaded file for this specific requirement and application
                                         $uploadedFile = $permohonan->berkas
                                             ->where('persyaratan_berkas_id', $item->id)
                                             ->first();

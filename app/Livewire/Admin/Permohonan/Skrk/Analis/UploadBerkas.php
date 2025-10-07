@@ -38,6 +38,12 @@ class UploadBerkas extends Component
         foreach ($this->permohonan->persyaratanBerkas as $item) {
             // cek apakah file untuk persyaratan ini diupload
             if (!empty($this->file_[$item->kode])) {
+                // Check if a file already exists for this requirement
+                $existingBerkas = PermohonanBerkas::where('permohonan_id', $this->permohonan->id)
+                    ->where('persyaratan_berkas_id', $item->id)
+                    ->first();
+                $isUpdate = $existingBerkas && $existingBerkas->file_path;
+
                 $uploadedFile = $this->file_[$item->kode];
 
                 // buat nama file unik -> {no_reg}_{kode}.{ext}
@@ -64,6 +70,13 @@ class UploadBerkas extends Component
                         'catatan_verifikator' => null,
                     ]
                 );
+
+               if ($isUpdate) {
+                    session()->flash('success', 'Berkas Analisa berhasil diupdate!');
+                } else {
+                    $this->createRiwayat($this->permohonan, 'Upload Berkas Analisa');
+                    session()->flash('success', 'Berkas Analisa berhasil ditambahkan!');
+                }
             }
         }
 
@@ -79,10 +92,6 @@ class UploadBerkas extends Component
         } else {
             $this->skrk->update(['is_berkas_analis_uploaded' => false]);
         }
-
-        $this->createRiwayat($this->permohonan, 'Upload Berkas Analisa');
-
-        session()->flash('success', 'Berkas Analisa berhasil ditambahkan!');
 
         return redirect()->route('skrk.detail', ['id' => $this->skrk->id]);
     }

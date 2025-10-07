@@ -14,6 +14,13 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col mb-3">
+                                <label for="skala_usaha" class="form-label">Skala Usaha</label>
+                                <input type="text" class="form-control" wire:model="skala_usaha" id="skala_usaha"
+                                    placeholder="Masukkan Skala Usaha">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-3">
                                 <label for="luas_disetujui" class="form-label">Luas Tanah yang Disetujui</label>
                                 <input type="text" class="form-control" wire:model="luas_disetujui"
                                     id="luas_disetujui" placeholder="Masukkan Luas Tanah yang Disetujui">
@@ -119,7 +126,7 @@
                             Close
                         </button>
                         <button type="submit" class="btn btn-primary">
-                            Submit
+                            Simpan
                         </button>
                     </div>
                 </form>

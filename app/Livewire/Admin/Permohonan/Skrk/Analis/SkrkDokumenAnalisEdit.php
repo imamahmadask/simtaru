@@ -9,7 +9,7 @@ use Livewire\Component;
 class SkrkDokumenAnalisEdit extends Component
 {
     public $permohonan, $skrk;
-    public $luas_disetujui, $pemanfaatan_ruang, $peraturan_zonasi, $kbli_diizinkan, $kdb, $klb, $gsb, $jba, $jbb, $kdh, $ktb, $luas_kavling, $jaringan_utilitas, $persyaratan_pelaksanaan;
+    public $skala_usaha, $luas_disetujui, $pemanfaatan_ruang, $peraturan_zonasi, $kbli_diizinkan, $kdb, $klb, $gsb, $jba, $jbb, $kdh, $ktb, $luas_kavling, $jaringan_utilitas, $persyaratan_pelaksanaan;
 
     public function render()
     {
@@ -21,6 +21,7 @@ class SkrkDokumenAnalisEdit extends Component
         $this->skrk = Skrk::findOrFail($skrk_id);
         $this->permohonan = Permohonan::findOrFail($permohonan_id);
 
+        $this->skala_usaha = $this->skrk->skala_usaha;
         $this->luas_disetujui = $this->skrk->luas_disetujui;
         $this->pemanfaatan_ruang = $this->skrk->pemanfaatan_ruang;
         $this->peraturan_zonasi = $this->skrk->peraturan_zonasi;
@@ -40,6 +41,7 @@ class SkrkDokumenAnalisEdit extends Component
     public function editKajianAnalisa()
     {
         $this->skrk->update([
+            'skala_usaha' => $this->skala_usaha,
             'luas_disetujui' => $this->luas_disetujui,
             'pemanfaatan_ruang' => $this->pemanfaatan_ruang,
             'peraturan_zonasi' => $this->peraturan_zonasi,

@@ -71,29 +71,36 @@ class SkrkSurveyDetail extends Component
     public function selesaiSurvey()
     {
         if(Auth::user()->role == 'surveyor' || Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor') {
-            // update tabel survey
-            $this->skrk->update([
-            'is_survey' => true
-            ]);
-
-            // Find and update the disposisi for the 'Survey' stage
-            $tahapanSurveyId = $this->skrk->permohonan->layanan->tahapan->where('nama', 'Survey')->value('id');
-            if ($tahapanSurveyId) {
-                $this->skrk->permohonan->disposisi()->where('tahapan_id', $tahapanSurveyId)->update([
-                    'is_done' => true,
-                    'tgl_selesai' => now()
+            if ($this->skrk->is_survey || !$this->skrk->is_berkas_survey_uploaded) {
+                // You can abort, show an error, or just do nothing.
+                session()->flash('error', 'Aksi tidak diizinkan.');
+            }
+            else
+            {
+                // update tabel survey
+                $this->skrk->update([
+                    'is_survey' => true
                 ]);
+                // Find and update the disposisi for the 'Survey' stage
+                $tahapanSurveyId = $this->skrk->permohonan->layanan->tahapan->where('nama', 'Survey')->value('id');
+                if ($tahapanSurveyId) {
+                    $this->skrk->permohonan->disposisi()->where('tahapan_id', $tahapanSurveyId)->update([
+                        'is_done' => true,
+                        'tgl_selesai' => now()
+                    ]);
+                }
+
+                $this->skrk->permohonan->update([
+                    'status' => 'Proses Analisa'
+                ]);
+
+                $this->createRiwayat($this->skrk->permohonan, 'Selesai Survey Data SKRK');
+                $this->createRiwayat($this->skrk->permohonan, 'Proses Analisa SKRK');
+
+                session()->flash('success', 'Data Survey selesai!');
             }
 
-            $this->skrk->permohonan->update([
-                'status' => 'Proses Analisa'
-            ]);
-
-            $this->createRiwayat($this->skrk->permohonan, 'Selesai Survey Data SKRK');
-            $this->createRiwayat($this->skrk->permohonan, 'Proses Analisa SKRK');
         }
-
-        session()->flash('success', 'Data Survey selesai!');
 
         return redirect()->route('skrk.detail', ['id' => $this->skrk->id]);
     }

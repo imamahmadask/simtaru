@@ -44,7 +44,7 @@ class SkrkSurveyCreate extends Component
             $foto_survey_path = [];
             foreach ($this->foto_survey as $foto) {
                 $foto_survey_filename = $no_reg . '_' . Str::random(5) . '.' . $foto->getClientOriginalExtension();
-                $foto_survey_path[] = $foto->storeAs('skrk_foto_survey', $foto_survey_filename, 'public');
+                $foto_survey_path[] = $foto->storeAs('skrk/foto_survey', $foto_survey_filename, 'public');
             }
         }
         else
@@ -56,7 +56,7 @@ class SkrkSurveyCreate extends Component
             $gambar_peta_path = [];
             foreach ($this->gambar_peta as $foto) {
                 $gambar_peta_filename = $no_reg . '_' . Str::random(5) . '.' . $foto->getClientOriginalExtension();
-                $gambar_peta_path[] = $foto->storeAs('skrk_gambar_peta', $gambar_peta_filename, 'public');
+                $gambar_peta_path[] = $foto->storeAs('skrk/gambar_peta', $gambar_peta_filename, 'public');
             }
         }
         else

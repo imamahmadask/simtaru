@@ -28,7 +28,7 @@
 
     <div wire:ignore.self class="modal fade" id="detailRegistrasiModal" data-bs-backdrop="static" tabindex="-1"
         aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel1">
@@ -94,9 +94,9 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-md-6 col-lg-6 ps-md-5">
+                        <div class="col-md-6 col-lg-6 ps-md-5 mt-5 mt-md-0">
                             <h5 class="fw-bold">Riwayat Registrasi</h5>
-                            <section class="p-2 mt-2">
+                            <section class="p-2 mt-2" style="max-height: 470px; overflow-y: auto;">
                                 <ul class="timeline">
                                     @foreach ($riwayats as $riwayat)
                                         <li class="timeline-item mb-3">

@@ -14,7 +14,7 @@
                         <form wire:submit="addPermohonan">
                             <div class="mb-3">
                                 <label for="registrasi_id" class="form-label">Kode Registrasi</label>
-                                <select class="form-select" wire:model.live="registrasi_id" id="registrasi_id"
+                                <select class="form-select" wire:model.blur="registrasi_id" id="registrasi_id"
                                     aria-label="Default select example">
                                     <option value="" selected>Pilih Registrasi</option>
                                     @foreach ($registrasis as $data)
@@ -211,7 +211,11 @@
                                     <div class="mb-3">
                                         <label for="berkas_ktp" class="form-label">Upload KTP</label>
                                         <input type="file" class="form-control" id="berkas_ktp"
-                                            wire:model="berkas_ktp">
+                                            wire:model.blur="berkas_ktp" accept="application/pdf">
+                                        <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                        @error('berkas_ktp')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
@@ -219,14 +223,22 @@
                                         <label for="berkas_permohonan" class="form-label">Upload Formulir
                                             Permohonan</label>
                                         <input type="file" class="form-control" id="berkas_permohonan"
-                                            wire:model="berkas_permohonan">
+                                            wire:model.blur="berkas_permohonan" accept="application/pdf">
+                                        <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                        @error('berkas_permohonan')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="mb-3">
                                         <label for="berkas_kuasa" class="form-label">Surat Kuasa (Jika Ada)</label>
                                         <input type="file" class="form-control" id="berkas_kuasa"
-                                            wire:model="berkas_kuasa">
+                                            wire:model.blur="berkas_kuasa" accept="application/pdf">
+                                        <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                        @error('berkas_kuasa')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
@@ -234,7 +246,11 @@
                                         <label for="berkas_nib" class="form-label">Upload NIB, KBLI, dan Pernyataan
                                             Mandiri</label>
                                         <input type="file" class="form-control" id="berkas_nib"
-                                            wire:model="berkas_nib">
+                                            wire:model.blur="berkas_nib" accept="application/pdf">
+                                        <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                        @error('berkas_nib')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
@@ -243,7 +259,11 @@
                                             Bukti Penguasaan Tanah
                                         </label>
                                         <input type="file" class="form-control" id="berkas_penguasaan"
-                                            wire:model="berkas_penguasaan">
+                                            wire:model.blur="berkas_penguasaan" accept="application/pdf">
+                                        <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                        @error('berkas_penguasaan')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -258,7 +278,7 @@
                             <div class="row">
                                 <div class="col mb-3">
                                     <label for="tahapan_id" class="form-label">Tahapan</label>
-                                    <select class="form-select" wire:model.live="tahapan_id" name="tahapan_id"
+                                    <select class="form-select" wire:model.blur="tahapan_id" name="tahapan_id"
                                         aria-label="Select Tahapan">
                                         <option selected>Pilih Tahapan</option>
                                         @foreach ($tahapans as $tahapan)

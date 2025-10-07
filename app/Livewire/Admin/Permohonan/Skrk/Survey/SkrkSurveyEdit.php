@@ -2,14 +2,8 @@
 
 namespace App\Livewire\Admin\Permohonan\Skrk\Survey;
 
-use App\Models\Disposisi;
 use App\Models\Permohonan;
-use App\Models\PermohonanBerkas;
-use App\Models\RiwayatPermohonan;
 use App\Models\Skrk;
-use App\Models\Tahapan;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -63,7 +57,7 @@ class SkrkSurveyEdit extends Component
         if (!empty($this->foto_survey)) {
             foreach ($this->foto_survey as $foto) {
                 $foto_survey_filename = $no_reg . '_' . Str::random(5) . '.' . $foto->getClientOriginalExtension();
-                $foto_survey_path[] = $foto->storeAs('skrk_foto_survey', $foto_survey_filename, 'public');
+                $foto_survey_path[] = $foto->storeAs('skrk/foto_survey', $foto_survey_filename, 'public');
             }
         }
 
@@ -81,7 +75,7 @@ class SkrkSurveyEdit extends Component
         if (!empty($this->gambar_peta)) {
             foreach ($this->gambar_peta as $foto) {
                 $gambar_peta_filename = $no_reg . '_' . Str::random(5) . '.' . $foto->getClientOriginalExtension();
-                $gambar_peta_path[] = $foto->storeAs('skrk_gambar_peta', $gambar_peta_filename, 'public');
+                $gambar_peta_path[] = $foto->storeAs('skrk/gambar_peta', $gambar_peta_filename, 'public');
             }
         }
 
@@ -123,7 +117,7 @@ class SkrkSurveyEdit extends Component
         ? json_decode($this->skrk->gambar_peta, true)
         : [];
         $this->gambar_peta_selected = $this->gambar_peta_lama;
-
+        $this->foto_survey_selected = $this->foto_survey_lama;
         $this->batas_barat = $this->skrk->batas_administratif['barat'] ?? '';
         $this->batas_selatan = $this->skrk->batas_administratif['selatan'] ?? '';
         $this->batas_timur = $this->skrk->batas_administratif['timur'] ?? '';

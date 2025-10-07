@@ -11,7 +11,7 @@ use Livewire\Component;
 class SkrkDokumenAnalisCreate extends Component
 {
     public $permohonan, $skrk;
-    public $luas_disetujui, $pemanfaatan_ruang, $peraturan_zonasi, $kbli_diizinkan, $kdb, $klb, $gsb, $jba, $jbb, $kdh, $ktb, $luas_kavling, $jaringan_utilitas, $persyaratan_pelaksanaan;
+    public $skala_usaha, $luas_disetujui, $pemanfaatan_ruang, $peraturan_zonasi, $kbli_diizinkan, $kdb, $klb, $gsb, $jba, $jbb, $kdh, $ktb, $luas_kavling, $jaringan_utilitas, $persyaratan_pelaksanaan;
     public function render()
     {
         return view('livewire.admin.permohonan.skrk.analis.skrk-dokumen-analis-create');
@@ -20,6 +20,7 @@ class SkrkDokumenAnalisCreate extends Component
     public function createKajianAnalisa()
     {
         $this->skrk->update([
+            'skala_usaha' => $this->skala_usaha,
             'luas_disetujui' => $this->luas_disetujui,
             'pemanfaatan_ruang' => $this->pemanfaatan_ruang,
             'peraturan_zonasi' => $this->peraturan_zonasi,

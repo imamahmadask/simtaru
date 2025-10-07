@@ -40,13 +40,15 @@
                     @endif
                 @endif {{-- End of is_kajian check --}}
 
-                @if ($skrk->is_berkas_analis_uploaded)
-                    <button type="button" class="btn {{ $skrk->is_analis ? 'btn-primary' : 'btn-warning' }}"
-                        data-bs-toggle="modal" data-bs-target="#selesaiAnalisaModal"
-                        {{ $skrk->is_analis ? 'disabled' : '' }}>
+                <button type="button" class="btn {{ $skrk->is_analis ? 'btn-success' : 'btn-danger' }}"
+                    wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiAnalisaModal"
+                    {{ $skrk->is_analis || !$skrk->is_berkas_analis_uploaded ? 'disabled' : '' }}>
+                    @if ($skrk->is_analis)
                         <i class="bx bx-check"></i> Selesai Analisa
-                    </button>
-                @endif
+                    @else
+                        <i class="bx bx-x"></i> Belum Selesai Analisa
+                    @endif
+                </button>
             @endcan
         </div>
     </div>
@@ -137,8 +139,8 @@
                         </label>
                         <div class="col-sm-8">
                             <div class="input-group">
-                                <input id="kedalaman_max" class="form-control" value="{{ $skrk->kedalaman_max }} Meter"
-                                    readonly>
+                                <input id="kedalaman_max" class="form-control"
+                                    value="{{ $skrk->kedalaman_max }} Meter" readonly>
                             </div>
                         </div>
                     </div>
@@ -180,6 +182,14 @@
                     <h5 class="mb-0 text-white">Data Dokumen SKRK</h5>
                 </div>
                 <div class="card-body mt-3">
+                    <div class="row mb-3">
+                        <label class="col-sm-4 col-form-label" for="skala_usaha">
+                            Skala Usaha
+                        </label>
+                        <div class="col-sm-8">
+                            <input id="skala_usaha" class="form-control" value="{{ $skrk->skala_usaha }}" readonly>
+                        </div>
+                    </div>
                     <div class="row mb-3">
                         <label class="col-sm-4 col-form-label" for="luas_disetujui">
                             Luas Disetujui
@@ -343,7 +353,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Pastikan seluruh data dan berkas analisa sudah terunggah.
+                    Pastikan seluruh data dan berkas analisa sudah terunggah.<br>
                     Lanjutkan ke proses verifikasi oleh Supervisor?
                 </div>
                 <div class="modal-footer">

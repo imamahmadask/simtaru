@@ -98,9 +98,12 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="foto_survey" class="form-label">Upload Foto Survey (baru)</label>
-                                <input type="file" class="form-control" wire:model="foto_survey" id="foto_survey"
-                                    multiple accept="image/*,application/pdf">
-
+                                <input type="file" class="form-control" wire:model.blur="foto_survey"
+                                    id="foto_survey" multiple accept="image/*">
+                                <div class="form-text">Hanya format gambar yang diizinkan. Maks 1MB/file.</div>
+                                @error('foto_survey.*')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
                                 {{-- daftar gambar lama --}}
                                 @if (!empty($foto_survey_lama) && count($foto_survey_lama) > 0)
                                     <p class="mt-3 fw-bold">Foto Survey Lama:</p>
@@ -122,9 +125,12 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="gambar_peta" class="form-label">Upload Gambar Peta (baru)</label>
-                                <input type="file" class="form-control" wire:model="gambar_peta" id="gambar_peta"
-                                    multiple accept="image/*,application/pdf">
-
+                                <input type="file" class="form-control" wire:model.blur="gambar_peta"
+                                    id="gambar_peta" multiple accept="image/*">
+                                <div class="form-text">Hanya format gambar yang diizinkan. Maks 1MB/file.</div>
+                                @error('gambar_peta.*')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
                                 {{-- daftar gambar lama --}}
                                 @if (!empty($gambar_peta_lama) && count($gambar_peta_lama) > 0)
                                     <p class="mt-3 fw-bold">Gambar Peta Lama:</p>

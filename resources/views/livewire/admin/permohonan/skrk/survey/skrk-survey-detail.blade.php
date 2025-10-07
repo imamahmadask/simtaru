@@ -11,22 +11,27 @@
                         data-bs-target="#UploadBerkasSurveyModal">
                         <i class="bx bx-cloud-upload"></i> Berkas Survey
                     </button>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#AddDisposisiModal">
-                        <i class="bx bx-plus"></i> Disposisi
-                    </button>
-                    <button type="button" class="btn {{ $skrk->is_survey ? 'btn-primary' : 'btn-warning' }}"
-                        wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiSurveyModal"
-                        {{ $skrk->is_survey || !$skrk->is_berkas_survey_uploaded ? 'disabled' : '' }}>
-                        <i class="bx bx-check"></i> Selesai Survey
-                    </button>
                 @else
                     {{-- Action available BEFORE survey date is set --}}
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddSurveyModal">
                         <i class="bx bx-plus"></i> Add Survey
                     </button>
                 @endif
-
+                @if ($skrk->is_survey)
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#AddDisposisiModal">
+                        <i class="bx bx-plus"></i> Disposisi
+                    </button>
+                @endif
+                <button type="button" class="btn {{ $skrk->is_survey ? 'btn-success' : 'btn-danger' }}"
+                    wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiSurveyModal"
+                    {{ $skrk->is_survey || !$skrk->is_berkas_survey_uploaded ? 'disabled' : '' }}>
+                    @if ($skrk->is_survey)
+                        <i class="bx bx-check"></i> Selesai Survey
+                    @else
+                        <i class="bx bx-x"></i> Belum Selesai Survey
+                    @endif
+                </button>
             @endcan
         </div>
     </div>
@@ -165,13 +170,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel1">
-                        Proses Survet Selesai
+                        Proses Survey Selesai
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Pastikan seluruh data dan berkas analisa sudah terunggah.
-                    Lanjutkan ke proses Analisa oleh Analis?
+                    Pastikan seluruh data dan berkas Survey sudah terunggah.<br>
+                    Lanjutkan ke proses Analisa?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
@@ -187,6 +192,9 @@
 
     @teleport('body')
         @livewire('admin.permohonan.skrk.survey.skrk-survey-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+    @endteleport
+    @teleport('body')
+        @livewire('admin.permohonan.skrk.survey.skrk-survey-edit', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
     @endteleport
     @teleport('body')
         @livewire('admin.permohonan.skrk.survey.upload-berkas', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])

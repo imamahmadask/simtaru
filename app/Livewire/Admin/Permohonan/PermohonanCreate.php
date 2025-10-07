@@ -27,7 +27,10 @@ class PermohonanCreate extends Component
     #[Validate('required')]
     public $registrasi_id, $layanan_id, $nama, $nik, $no_hp, $email, $alamat_pemohon, $alamat_tanah, $kel_tanah, $kec_tanah, $fungsi_bangunan, $luas_tanah, $tahapan_id, $penerima_id;
     public $npwp, $keterangan, $status, $pemberi_id, $catatan, $status_modal, $kbli, $judul_kbli;
+
+    #[Validate('nullable|mimes:pdf|max:2000')]
     public $berkas_ktp, $berkas_nib, $berkas_penguasaan, $berkas_permohonan, $berkas_kuasa;
+
     public function render()
     {
         return view('livewire.admin.permohonan.permohonan-create');

@@ -7,6 +7,7 @@ use App\Models\PermohonanBerkas;
 use App\Models\RiwayatPermohonan;
 use App\Models\Skrk;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -16,7 +17,9 @@ class UploadBerkas extends Component
 
     public $persyaratan_berkas, $permohonan, $skrk;
 
+    #[Validate(['file_.*' => 'required|mimes:pdf|max:2000'])]
     public $file_ = [];
+
     public function render()
     {
         return view('livewire.admin.permohonan.skrk.survey.upload-berkas');
@@ -29,6 +32,12 @@ class UploadBerkas extends Component
         foreach ($this->permohonan->persyaratanBerkas as $item) {
             // cek apakah file untuk persyaratan ini diupload
             if (!empty($this->file_[$item->kode])) {
+                // Check if a file already exists for this requirement
+                $existingBerkas = PermohonanBerkas::where('permohonan_id', $this->permohonan->id)
+                    ->where('persyaratan_berkas_id', $item->id)
+                    ->first();
+                $isUpdate = $existingBerkas && $existingBerkas->file_path;
+
                 $uploadedFile = $this->file_[$item->kode];
 
                 // buat nama file unik -> {no_reg}_{kode}.{ext}
@@ -55,11 +64,17 @@ class UploadBerkas extends Component
                         'catatan_verifikator' => null,
                     ]
                 );
+
+                if ($isUpdate) {
+                    session()->flash('success', 'Berkas Survey berhasil diupdate!');
+                } else {
+                    $this->createRiwayat($this->permohonan, 'Upload Berkas Survey');
+                    session()->flash('success', 'Berkas Survey berhasil ditambahkan!');
+                }
             }
         }
 
         // Check if all required survey files are uploaded and update the flag
-        $requiredCount = $this->persyaratan_berkas->count();
         $requiredBerkas = $this->persyaratan_berkas->where('wajib', 1);
         $requiredCount = $requiredBerkas->count();
         $uploadedCount = PermohonanBerkas::where('permohonan_id', $this->permohonan->id)
@@ -73,9 +88,6 @@ class UploadBerkas extends Component
             $this->skrk->update(['is_berkas_survey_uploaded' => false]);
         }
 
-        $this->createRiwayat($this->permohonan, 'Upload Berkas Survey');
-
-        session()->flash('success', 'Berkas Survey berhasil ditambahkan!');
 
         return redirect()->route('skrk.detail', ['id' => $this->skrk->id]);
     }

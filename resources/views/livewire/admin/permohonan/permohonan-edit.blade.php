@@ -23,7 +23,7 @@
                             @if (Auth::user()->role == 'superadmin')
                                 <div class="mb-3">
                                     <label for="is_prioritas" class="form-label">Is Prioritas?</label>
-                                    <select class="form-select" wire:model.live="is_prioritas" id="is_prioritas"
+                                    <select class="form-select" wire:model.blur="is_prioritas" id="is_prioritas"
                                         aria-label="Prioritas select">
                                         <option selected>Pilih Prioritas</option>
                                         <option value="1">Ya</option>
@@ -37,7 +37,7 @@
 
                             <div class="mb-3">
                                 <label for="registrasi_id" class="form-label">Kode Registrasi</label>
-                                <select class="form-select" wire:model.live="registrasi_id" id="registrasi_id"
+                                <select class="form-select" wire:model.blur="registrasi_id" id="registrasi_id"
                                     aria-label="Default select example" disabled>
                                     <option value="" selected>Pilih Registrasi</option>
                                     @foreach ($registrasis as $data)
@@ -234,7 +234,11 @@
                                     <div class="mb-3">
                                         <label for="berkas_ktp" class="form-label">Upload KTP</label>
                                         <input type="file" class="form-control" id="berkas_ktp"
-                                            wire:model="berkas_ktp">
+                                            wire:model.blur="berkas_ktp" accept="application/pdf">
+                                        <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                        @error('berkas_ktp')
+                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                        @enderror
                                         @if ($berkas_ktp_lama)
                                             <a href="{{ asset('storage/' . $berkas_ktp_lama) }}"
                                                 class="btn btn-sm btn-primary my-2" target="_blank">
@@ -248,7 +252,8 @@
                                         <label for="berkas_permohonan" class="form-label">Upload Formulir
                                             Permohonan</label>
                                         <input type="file" class="form-control" id="berkas_permohonan"
-                                            wire:model="berkas_permohonan">
+                                            wire:model.blur="berkas_permohonan" accept="application/pdf">
+                                        <div class="form-text">Format file .pdf maks 2 Mb</div>
                                         @if ($berkas_permohonan_lama)
                                             <a href="{{ asset('storage/' . $berkas_permohonan_lama) }}"
                                                 class="btn btn-sm btn-primary my-2" target="_blank">
@@ -261,7 +266,8 @@
                                     <div class="mb-3">
                                         <label for="berkas_kuasa" class="form-label">Surat Kuasa (Jika Ada)</label>
                                         <input type="file" class="form-control" id="berkas_kuasa"
-                                            wire:model="berkas_kuasa">
+                                            wire:model.blur="berkas_kuasa" accept="application/pdf">
+                                        <div class="form-text">Format file .pdf maks 2 Mb</div>
                                         @if ($berkas_kuasa_lama)
                                             <a href="{{ asset('storage/' . $berkas_kuasa_lama) }}"
                                                 class="btn btn-sm btn-primary my-2" target="_blank">
@@ -275,7 +281,8 @@
                                         <label for="berkas_nib" class="form-label">Upload NIB, KBLI, dan Pernyataan
                                             Mandiri</label>
                                         <input type="file" class="form-control" id="berkas_nib"
-                                            wire:model="berkas_nib">
+                                            wire:model.blur="berkas_nib" accept="application/pdf">
+                                        <div class="form-text">Format file .pdf maks 2 Mb</div>
                                         @if ($berkas_nib_lama)
                                             <a href="{{ asset('storage/' . $berkas_nib_lama) }}"
                                                 class="btn btn-sm btn-primary my-2" target="_blank">
@@ -289,7 +296,8 @@
                                         <label for="berkas_penguasaan" class="form-label">Upload Penguasaan
                                             Tanah</label>
                                         <input type="file" class="form-control" id="berkas_penguasaan"
-                                            wire:model="berkas_penguasaan">
+                                            wire:model.blur="berkas_penguasaan" accept="application/pdf">
+                                        <div class="form-text">Format file .pdf maks 2 Mb</div>
                                         @if ($berkas_penguasaan_lama)
                                             <a href="{{ asset('storage/' . $berkas_penguasaan_lama) }}"
                                                 class="btn btn-sm btn-primary my-2" target="_blank">
@@ -310,7 +318,7 @@
                             <div class="row">
                                 <div class="col mb-3">
                                     <label for="tahapan_id" class="form-label">Tahapan</label>
-                                    <select class="form-select" wire:model.live="tahapan_id" name="tahapan_id"
+                                    <select class="form-select" wire:model.blur="tahapan_id" name="tahapan_id"
                                         aria-label="Select Tahapan">
                                         <option selected>Pilih Tahapan</option>
                                         @foreach ($tahapans as $tahapan)

@@ -50,7 +50,10 @@
                                     <label for="file_.{{ $item->id }}" class="form-label">Upload
                                         {{ $item->nama_berkas }}</label>
                                     <input type="file" class="form-control" wire:model="file_.{{ $item->kode }}"
-                                        id="file_.{{ $item->id }}">
+                                        id="file_.{{ $item->id }}" accept="application/pdf">
+                                    @error('file_.' . $item->kode)
+                                        <span class="form-text text-xs text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
                         @endforeach
