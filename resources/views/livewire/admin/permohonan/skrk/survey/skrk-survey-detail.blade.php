@@ -2,22 +2,24 @@
     <div class="mb-3">
         <div class="d-flex flex-wrap gap-3">
             @can('manageSurvey', $skrk->permohonan)
-                @if ($skrk->tgl_survey)
-                    {{-- Actions available AFTER survey date is set --}}
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditSurveyModal">
-                        <i class="bx bx-edit"></i> Edit Survey
-                    </button>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#UploadBerkasSurveyModal">
-                        <i class="bx bx-cloud-upload"></i> Berkas Survey
-                    </button>
-                @else
-                    {{-- Action available BEFORE survey date is set --}}
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddSurveyModal">
-                        <i class="bx bx-plus"></i> Add Survey
-                    </button>
-                @endif
-                @if ($skrk->is_survey)
+                @if (!$skrk->is_survey)
+                    @if ($skrk->tgl_survey)
+                        {{-- Actions available AFTER survey date is set --}}
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditSurveyModal">
+                            <i class="bx bx-edit"></i> Edit Survey
+                        </button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#UploadBerkasSurveyModal">
+                            <i class="bx bx-cloud-upload"></i> Berkas Survey
+                        </button>
+                    @else
+                        {{-- Action available BEFORE survey date is set --}}
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#AddSurveyModal">
+                            <i class="bx bx-plus"></i> Add Survey
+                        </button>
+                    @endif
+
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                         data-bs-target="#AddDisposisiModal">
                         <i class="bx bx-plus"></i> Disposisi
