@@ -3,8 +3,11 @@
 namespace App\Livewire\Admin\Permohonan\Skrk\Spv;
 
 use App\Models\Disposisi;
+use App\Models\Permohonan;
 use App\Models\PermohonanBerkas;
 use App\Models\PersyaratanBerkas;
+use App\Models\Skrk;
+use App\Models\Tahapan;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -13,7 +16,7 @@ use Livewire\Component;
 class SkrkVerifikasiCreate extends Component
 {
     public $berkas, $catatan, $persyaratan;
-    public $skrk_id;
+    public $skrk_id, $permohonan;
 
     #[Validate('required')]
     public $status;
@@ -39,18 +42,21 @@ class SkrkVerifikasiCreate extends Component
 
         if($this->status == 'ditolak')
         {
-            $disposisi = Disposisi::where('permohonan_id', $this->berkas->permohonan_id)
-                ->where('tahapan_id', $this->berkas->persyaratan->tahapan_id)
-                ->first();
+            $penerima_id = $this->berkas->uploaded_by;
+            $tahapan_id = $this->berkas->persyaratan->tahapan_id;
 
-            if ($disposisi) {
-                $disposisi->update([
-                    'is_done' => false,
-                    'tgl_selesai' => null,
-                    'updated_by' => Auth::user()->id,
-                    'catatan' => $this->catatan
-                ]);
-            }
+            $skrk = Skrk::find($this->skrk_id);
+            $skrk->disposisis()->create([
+                'permohonan_id' => $this->permohonan->id,
+                'tahapan_id' => $tahapan_id,
+                'pemberi_id' => Auth::user()->id,
+                'penerima_id' => $penerima_id,
+                'tanggal_disposisi' => now(),
+                'catatan' => $this->catatan,
+            ]);
+
+            $this->createRiwayat($this->permohonan, "Disposisi kepada {$this->users->where('id', $this->penerima_id)->first()->name} pada tahapan ". $this->tahapans->where('id', $this->tahapan_id)->first()->nama);
+
         }
 
         $message = $this->status == 'diterima'
@@ -66,6 +72,7 @@ class SkrkVerifikasiCreate extends Component
     {
         $this->skrk_id = $skrk_id;
         $this->berkas = PermohonanBerkas::find($berkas_id);
+        $this->permohonan = Permohonan::find($this->berkas->permohonan_id);
         // $this->persyaratan = PersyaratanBerkas::find($this->berkas->persyaratan_berkas_id);
 
     }

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Permohonan\Skrk\Spv;
 
+use App\Models\Disposisi;
 use App\Models\PermohonanBerkas;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
@@ -32,6 +33,22 @@ class SkrkVerifikasiEdit extends Component
             'verified_by' => $verified_by,
             'verified_at' => $verified_at
         ]);
+
+        if($this->status == 'ditolak')
+        {
+            $disposisi = Disposisi::where('permohonan_id', $this->berkas->permohonan_id)
+                ->where('tahapan_id', $this->berkas->persyaratan->tahapan_id)
+                ->first();
+
+            if ($disposisi) {
+                $disposisi->update([
+                    'is_done' => false,
+                    'tgl_selesai' => null,
+                    'updated_by' => Auth::user()->id,
+                    'catatan' => $this->catatan
+                ]);
+            }
+        }
 
         $message = $this->status == 'diterima'
             ? "Verifikasi : Berkas Diterima!"
