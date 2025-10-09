@@ -44,6 +44,8 @@ class SkrkVerifikasiCreate extends Component
         {
             $penerima_id = $this->berkas->uploaded_by;
             $tahapan_id = $this->berkas->persyaratan->tahapan_id;
+            $tahapan = Tahapan::find($tahapan_id);
+            $nama_tahapan = $tahapan->nama;
 
             $skrk = Skrk::find($this->skrk_id);
             $skrk->disposisis()->create([
@@ -55,8 +57,22 @@ class SkrkVerifikasiCreate extends Component
                 'catatan' => $this->catatan,
             ]);
 
-            $this->createRiwayat($this->permohonan, "Disposisi kepada {$this->users->where('id', $this->penerima_id)->first()->name} pada tahapan ". $this->tahapans->where('id', $this->tahapan_id)->first()->nama);
+            if($nama_tahapan == 'Survey')
+            {
+                $skrk->update([
+                    'is_survey' => false,
+                    'is_berkas_survey' => false,
+                ]);
+            }
+            elseif($nama_tahapan == 'Analisis')
+            {
+                $skrk->update([
+                    'is_berkas_analis' => false,
+                    'is_analis' => false,
+                ]);
+            }
 
+            $this->createRiwayat($this->skrk->permohonan, "Disposisi kepada {$this->users->where('id', $this->penerima_id)->first()->name} pada tahapan ". $this->tahapans->where('id', $this->tahapan_id)->first()->nama);
         }
 
         $message = $this->status == 'diterima'
