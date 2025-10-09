@@ -72,7 +72,7 @@ class SkrkVerifikasiCreate extends Component
                 ]);
             }
 
-            $this->createRiwayat($this->skrk->permohonan, "Disposisi kepada {$this->users->where('id', $this->penerima_id)->first()->name} pada tahapan ". $this->tahapans->where('id', $this->tahapan_id)->first()->nama);
+            $this->createRiwayat($skrk->permohonan, "Disposisi kepada {$this->users->where('id', $this->penerima_id)->first()->name} pada tahapan ". $this->tahapans->where('id', $this->tahapan_id)->first()->nama);
         }
 
         $message = $this->status == 'diterima'
