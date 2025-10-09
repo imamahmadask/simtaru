@@ -8,6 +8,7 @@ use App\Models\PermohonanBerkas;
 use App\Models\PersyaratanBerkas;
 use App\Models\Skrk;
 use App\Models\Tahapan;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -17,6 +18,7 @@ class SkrkVerifikasiCreate extends Component
 {
     public $berkas, $catatan, $persyaratan;
     public $skrk_id;
+    public $tahapans, $permohonan;
 
     #[Validate('required')]
     public $status;
@@ -46,6 +48,7 @@ class SkrkVerifikasiCreate extends Component
             $tahapan_id = $this->berkas->persyaratan->tahapan_id;
             $tahapan = Tahapan::find($tahapan_id);
             $nama_tahapan = $tahapan->nama;
+            $users = User::all();
 
             $skrk = Skrk::find($this->skrk_id);
             $skrk->disposisis()->create([
@@ -72,7 +75,7 @@ class SkrkVerifikasiCreate extends Component
                 ]);
             }
 
-            $this->createRiwayat($skrk->permohonan, "Disposisi kepada {$this->users->where('id', $this->penerima_id)->first()->name} pada tahapan ". $this->tahapans->where('id', $this->tahapan_id)->first()->nama);
+            $this->createRiwayat($skrk->permohonan, "Disposisi kepada {$users->where('id', $penerima_id)->first()->name} pada tahapan ". $this->tahapans->where('id', $tahapan_id)->first()->nama);
         }
 
         $message = $this->status == 'diterima'
@@ -88,6 +91,14 @@ class SkrkVerifikasiCreate extends Component
     {
         $this->skrk_id = $skrk_id;
         $this->berkas = PermohonanBerkas::find($berkas_id);
+        $this->permohonan = Permohonan::findOrFail($this->berkas->permohonan_id);
+        $this->tahapans = Tahapan::where('layanan_id', $this->permohonan->layanan_id)
+                                 ->whereNotIn('id', function($query) {
+                                    $query->select('tahapan_id')
+                                          ->from('disposisis')
+                                          ->where('permohonan_id', $this->permohonan->id);
+                                 })
+                                 ->get();
         // $this->persyaratan = PersyaratanBerkas::find($this->berkas->persyaratan_berkas_id);
 
     }
