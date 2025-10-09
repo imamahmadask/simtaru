@@ -16,7 +16,7 @@ use Livewire\Component;
 class SkrkVerifikasiCreate extends Component
 {
     public $berkas, $catatan, $persyaratan;
-    public $skrk_id, $permohonan;
+    public $skrk_id;
 
     #[Validate('required')]
     public $status;
@@ -47,7 +47,7 @@ class SkrkVerifikasiCreate extends Component
 
             $skrk = Skrk::find($this->skrk_id);
             $skrk->disposisis()->create([
-                'permohonan_id' => $this->permohonan->id,
+                'permohonan_id' => $skrk->permohonan->id,
                 'tahapan_id' => $tahapan_id,
                 'pemberi_id' => Auth::user()->id,
                 'penerima_id' => $penerima_id,
@@ -72,7 +72,6 @@ class SkrkVerifikasiCreate extends Component
     {
         $this->skrk_id = $skrk_id;
         $this->berkas = PermohonanBerkas::find($berkas_id);
-        $this->permohonan = Permohonan::find($this->berkas->permohonan_id);
         // $this->persyaratan = PersyaratanBerkas::find($this->berkas->persyaratan_berkas_id);
 
     }

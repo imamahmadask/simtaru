@@ -150,7 +150,9 @@ class SkrkAnalisDetail extends Component
             // Find and update the disposisi for the 'Analisis' stage
             $tahapanAnalisId = $this->skrk->permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id');
             if ($tahapanAnalisId) {
-                $this->skrk->permohonan->disposisi()->where('tahapan_id', $tahapanAnalisId)->update([
+                $this->skrk->permohonan->disposisi()->where('tahapan_id', $tahapanAnalisId)
+                ->where('is_done', false)
+                ->update([
                     'is_done' => true,
                     'tgl_selesai' => now()
                 ]);

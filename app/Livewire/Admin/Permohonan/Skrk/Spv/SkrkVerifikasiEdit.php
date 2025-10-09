@@ -4,6 +4,8 @@ namespace App\Livewire\Admin\Permohonan\Skrk\Spv;
 
 use App\Models\Disposisi;
 use App\Models\PermohonanBerkas;
+use App\Models\Skrk;
+use App\Models\Tahapan;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -36,16 +38,36 @@ class SkrkVerifikasiEdit extends Component
 
         if($this->status == 'ditolak')
         {
-            $disposisi = Disposisi::where('permohonan_id', $this->berkas->permohonan_id)
-                ->where('tahapan_id', $this->berkas->persyaratan->tahapan_id)
-                ->first();
+            $penerima_id = $this->berkas->uploaded_by;
+            $tahapan_id = $this->berkas->persyaratan->tahapan_id;
+            $tahapan = Tahapan::find($tahapan_id);
+            $nama_tahapan = $tahapan->nama;
 
-            if ($disposisi) {
-                $disposisi->update([
-                    'is_done' => false,
-                    'tgl_selesai' => null,
-                    'updated_by' => Auth::user()->id,
-                    'catatan' => $this->catatan
+            $skrk = Skrk::find($this->skrk_id);
+            $skrk->disposisis()->updateOrCreate(
+                [
+                    'permohonan_id' => $skrk->permohonan->id,
+                    'tahapan_id' => $tahapan_id,
+                    'is_done' => true
+                ],
+                [
+                    'pemberi_id' => Auth::user()->id,
+                    'penerima_id' => $penerima_id,
+                    'tanggal_disposisi' => now(),
+                    'catatan' => $this->catatan,
+                ]
+            );
+
+            if($nama_tahapan == 'Survey')
+            {
+                $skrk->update([
+                    'is_survey' => false
+                ]);
+            }
+            elseif($nama_tahapan == 'Analisis')
+            {
+                $skrk->update([
+                    'is_analis' => false
                 ]);
             }
         }

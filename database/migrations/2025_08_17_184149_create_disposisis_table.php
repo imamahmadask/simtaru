@@ -20,8 +20,6 @@ return new class extends Migration
             $table->text('catatan')->nullable();
             $table->timestamp('tanggal_disposisi')->useCurrent();
             $table->timestamps();
-
-            $table->unique(['permohonan_id', 'tahapan_id']); // 1 disposisi per tahapan untuk 1 permohonan
         });
     }
 
