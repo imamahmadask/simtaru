@@ -13,6 +13,31 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col mb-3">
+                                <label for="layanan_id" class="form-label">Jenis Layanan</label>
+                                <select class="form-select" wire:model="layanan_id" id="layanan_id" name="layanan_id"
+                                    aria-label="Select Jenis Layanan">
+                                    <option selected>Pilih Jenis Layanan</option>
+                                    @foreach ($layanans as $layanan)
+                                        <option value="{{ $layanan->id }}">{{ $layanan->nama }}</option>
+                                    @endforeach
+                                </select>
+                                @error('layanan_id')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="tanggal" class="form-label">Tanggal Permohonan</label>
+                                <input type="date" wire:model="tanggal" name="tanggal" id="tanggal"
+                                    class="form-control" placeholder="" />
+                                @error('tanggal')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-3">
                                 <label for="nama" class="form-label">Nama</label>
                                 <input type="text" wire:model="nama" name="nama" id="nama"
                                     class="form-control" placeholder="Masukkan Nama Pemohon" />
@@ -51,31 +76,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col mb-3">
-                                <label for="tanggal" class="form-label">Tanggal Permohonan</label>
-                                <input type="date" wire:model="tanggal" name="tanggal" id="tanggal"
-                                    class="form-control" placeholder="" />
-                                @error('tanggal')
-                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col mb-3">
-                                <label for="layanan_id" class="form-label">Jenis Layanan</label>
-                                <select class="form-select" wire:model="layanan_id" id="layanan_id" name="layanan_id"
-                                    aria-label="Select Jenis Layanan">
-                                    <option selected>Pilih Jenis Layanan</option>
-                                    @foreach ($layanans as $layanan)
-                                        <option value="{{ $layanan->id }}">{{ $layanan->nama }}</option>
-                                    @endforeach
-                                </select>
-                                @error('layanan_id')
-                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
-                                @enderror
-                            </div>
-                        </div>
+
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="fungsi_bangunan" class="form-label">Fungsi Bangunan</label>
