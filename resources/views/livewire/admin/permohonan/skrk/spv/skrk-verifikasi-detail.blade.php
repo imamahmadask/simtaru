@@ -55,7 +55,7 @@
                                                 <i class="bx bx-show"></i>
                                             </a>
                                             @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor')
-                                                @if ($skrk->is_analis && $item->status == 'menunggu')
+                                                @if ($item->status == 'menunggu')
                                                     <button class="btn btn-sm btn-success" data-bs-toggle="modal"
                                                         data-bs-target="#VerifikasiModal">
                                                         Verifikasi
@@ -63,7 +63,7 @@
                                                     @teleport('body')
                                                         @livewire('admin.permohonan.skrk.spv.skrk-verifikasi-create', ['skrk_id' => $skrk->id, 'berkas_id' => $item->id])
                                                     @endteleport
-                                                @elseif($skrk->is_analis && $item->status == 'ditolak')
+                                                @elseif($item->status == 'ditolak')
                                                     <button class="btn btn-sm btn-success" data-bs-toggle="modal"
                                                         data-bs-target="#EditVerifikasiModal">
                                                         Edit Verifikasi
