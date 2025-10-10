@@ -125,7 +125,7 @@ class PermohonanCreate extends Component
 
     public function updated($registrasi_id)
     {
-        if ($this->registrasi_id != "") {
+        if ($registrasi_id != "") {
             $registrasi = Registrasi::find($this->registrasi_id);
             $this->layanan_id = $registrasi->layanan_id;
             $this->nama = $registrasi->nama;

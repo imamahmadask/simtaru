@@ -8,6 +8,7 @@ use Livewire\Component;
 class FinalDetail extends Component
 {
     public $skrk;
+    public $berkas_final;
 
     public function render()
     {
@@ -17,5 +18,6 @@ class FinalDetail extends Component
     public function mount($skrk_id)
     {
         $this->skrk = Skrk::find($skrk_id);
+        $this->berkas_final = $this->skrk->permohonan->berkas->where('versi', 'final');
     }
 }

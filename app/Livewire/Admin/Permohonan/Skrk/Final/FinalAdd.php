@@ -8,6 +8,7 @@ use App\Models\RiwayatPermohonan;
 use App\Models\Skrk;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -18,8 +19,11 @@ class FinalAdd extends Component
     public $skrk;
     public $permohonan;
     public $persyaratan_berkas;
-    public $file_ = [];
     public $tgl_selesai, $no_dokumen, $waktu_pengerjaan;
+
+    #[Validate('mimes:pdf|max:2000')]
+    public $file_ = [];
+
     public function render()
     {
         return view('livewire.admin.permohonan.skrk.final.final-add');
@@ -30,15 +34,14 @@ class FinalAdd extends Component
         $this->skrk = Skrk::find($skrk_id);
         $this->permohonan = Permohonan::findOrFail($permohonan_id);
 
-        $tahapan_id = $this->skrk->permohonan->layanan->tahapan->where('nama', 'Cetak')->value('id');
-        $this->persyaratan_berkas = $this->skrk->permohonan->persyaratanBerkas->where('tahapan_id', $tahapan_id);
+        $this->persyaratan_berkas = $this->skrk->permohonan->persyaratanBerkas;
     }
 
     public function addFinal()
     {
         $no_reg = $this->skrk->registrasi->kode;
 
-        foreach ($this->skrk->permohonan->persyaratanBerkas as $item) {
+        foreach ($this->persyaratan_berkas as $item) {
             // cek apakah file untuk persyaratan ini diupload
             if (!empty($this->file_[$item->kode])) {
                 $uploadedFile = $this->file_[$item->kode];
@@ -58,6 +61,7 @@ class FinalAdd extends Component
                     [
                         'permohonan_id'        => $this->skrk->permohonan->id,
                         'persyaratan_berkas_id'=> $item->id,
+                        'versi'                => 'final',
                     ],
                     [
                         'file_path'           => $path,

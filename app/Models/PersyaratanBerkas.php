@@ -24,6 +24,6 @@ class PersyaratanBerkas extends Model
 
     public function permohonan_berkas()
     {
-        return $this->hasOne(PermohonanBerkas::class);
+        return $this->hasMany(PermohonanBerkas::class);
     }
 }

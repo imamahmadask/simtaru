@@ -31,8 +31,7 @@ class FinalEdit extends Component
         $this->skrk = Skrk::find($skrk_id);
         $this->permohonan = Permohonan::findOrFail($permohonan_id);
 
-        $tahapan_id = $this->skrk->permohonan->layanan->tahapan->where('nama', 'Cetak')->value('id');
-        $this->persyaratan_berkas = $this->skrk->permohonan->persyaratanBerkas->where('tahapan_id', $tahapan_id);
+        $this->persyaratan_berkas = $this->skrk->permohonan->persyaratanBerkas;
 
         $this->tgl_selesai = $this->permohonan->tgl_selesai;
         $this->no_dokumen = $this->permohonan->no_dokumen;
@@ -43,7 +42,7 @@ class FinalEdit extends Component
     {
         $no_reg = $this->skrk->registrasi->kode;
 
-        foreach ($this->skrk->permohonan->persyaratanBerkas as $item) {
+        foreach ($this->persyaratan_berkas as $item) {
             // cek apakah file untuk persyaratan ini diupload
             if (!empty($this->file_[$item->kode])) {
                 $uploadedFile = $this->file_[$item->kode];
@@ -63,6 +62,7 @@ class FinalEdit extends Component
                     [
                         'permohonan_id'        => $this->skrk->permohonan->id,
                         'persyaratan_berkas_id'=> $item->id,
+                        'versi'                => 'final',
                     ],
                     [
                         'file_path'           => $path,

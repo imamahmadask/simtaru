@@ -6,12 +6,22 @@
                     <h5 class="mb-0 text-white">Berkas SKRK</h5>
                 </div>
                 <div class="card-body mt-3">
+                    <div class="alert alert-primary" role="alert">
+                        <b>
+                            Berkas draft dari surveyor dan analis. <br>
+                        </b>
+                        <i>
+                            Note : Mohon melakukan verifikasi masing-masing berkas
+                            sebelum melanjutkan ke proses cetak dokumen.
+                        </i>
+                    </div>
                     <div class="table-responsive text-nowrap mb-3">
                         <table class="table table-hover table-bordered">
                             <thead>
                                 <th>No</th>
                                 <th>Nama Berkas</th>
                                 <th>Status</th>
+                                <th>Versi</th>
                                 <th>Catatan</th>
                                 <th>Verifikasi Oleh</th>
                                 <th>Tgl Verifikasi</th>
@@ -21,10 +31,10 @@
                                 @php
                                     $no = 1;
                                 @endphp
-                                @foreach ($skrk->permohonan->berkas as $item)
+                                @foreach ($berkas_draft as $item)
                                     <tr>
                                         <td>{{ $no++ }}</td>
-                                        <td>{{ $item->file_path }}</td>
+                                        <td>{{ $item->file_name }}</td>
                                         <td class="text-capitalize">
                                             @switch($item->status)
                                                 @case('menunggu')
@@ -36,9 +46,12 @@
                                                 @break
 
                                                 @case('diterima')
-                                                    <span class="badge bg-label-primary">Diterima</span>
+                                                    <span class="badge bg-label-success">Diterima</span>
                                                 @break
                                             @endswitch
+                                        </td>
+                                        <td>
+                                            {{ $item->versi }}
                                         </td>
                                         <td>
                                             {{ $item->catatan_verifikator }}

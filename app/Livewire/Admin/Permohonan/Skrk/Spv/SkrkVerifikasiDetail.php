@@ -14,6 +14,7 @@ class SkrkVerifikasiDetail extends Component
 {
     public $skrk;
     public $count_verifikasi;
+    public $berkas_draft;
 
     public function render()
     {
@@ -23,7 +24,9 @@ class SkrkVerifikasiDetail extends Component
     public function mount($skrk_id)
     {
         $this->skrk = Skrk::findOrFail($skrk_id);
-        $this->count_verifikasi = $this->skrk->permohonan->berkas->where('status', '!=', 'diterima')->count();
+        $this->count_verifikasi = $this->skrk->permohonan->berkas->where('status', '!=', 'diterima')->where('versi', 'draft')->count();
+        $this->berkas_draft = $this->skrk->permohonan->berkas->where('versi', 'draft');
+
     }
 
     public function selesaiVerifikasi()
@@ -48,11 +51,6 @@ class SkrkVerifikasiDetail extends Component
                     'penerima_id' => $this->skrk->permohonan->created_by,
                     'tanggal_disposisi' => now(),
                     'catatan' => 'Lanjutkan proses cetak Dokumen SKRK',
-                ]);
-
-                $this->skrk->permohonan->disposisi()->where('penerima_id', Auth::user()->id)->update([
-                    'is_done' => true,
-                    'tgl_selesai' => now()
                 ]);
 
                 $this->createRiwayat($this->skrk->permohonan, 'Selesai Verifikasi Berkas SKRK');

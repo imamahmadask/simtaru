@@ -7,6 +7,7 @@ use App\Models\PermohonanBerkas;
 use App\Models\RiwayatPermohonan;
 use App\Models\Skrk;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -15,6 +16,8 @@ class UploadBerkas extends Component
     use WithFileUploads;
 
     public $permohonan, $skrk, $persyaratan_berkas, $tahapan_id;
+
+    #[Validate(['file_.*' => 'mimes:.docx, .doc|max:2000'])]
     public $file_ = [];
 
     public function render()
@@ -41,6 +44,7 @@ class UploadBerkas extends Component
                 // Check if a file already exists for this requirement
                 $existingBerkas = PermohonanBerkas::where('permohonan_id', $this->permohonan->id)
                     ->where('persyaratan_berkas_id', $item->id)
+                    ->where('versi', 'draft')
                     ->first();
                 $isUpdate = $existingBerkas && $existingBerkas->file_path;
 
@@ -61,6 +65,7 @@ class UploadBerkas extends Component
                     [
                         'permohonan_id'        => $this->permohonan->id,
                         'persyaratan_berkas_id'=> $item->id,
+                        'versi'                => 'draft',
                     ],
                     [
                         'file_path'           => $path,

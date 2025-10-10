@@ -17,7 +17,7 @@ class UploadBerkas extends Component
 
     public $persyaratan_berkas, $permohonan, $skrk;
 
-    #[Validate(['file_.*' => 'required|mimes:pdf|max:2000'])]
+    #[Validate(['file_.*' => 'required|mimes:.docx, .doc|max:2000'])]
     public $file_ = [];
 
     public function render()
@@ -35,7 +35,9 @@ class UploadBerkas extends Component
                 // Check if a file already exists for this requirement
                 $existingBerkas = PermohonanBerkas::where('permohonan_id', $this->permohonan->id)
                     ->where('persyaratan_berkas_id', $item->id)
+                    ->where('versi', 'draft')
                     ->first();
+
                 $isUpdate = $existingBerkas && $existingBerkas->file_path;
 
                 $uploadedFile = $this->file_[$item->kode];
@@ -50,20 +52,33 @@ class UploadBerkas extends Component
                     'public'
                 );
 
-                // simpan ke database
-                PermohonanBerkas::updateOrCreate(
-                    [
-                        'permohonan_id'        => $this->permohonan->id,
-                        'persyaratan_berkas_id'=> $item->id,
-                    ],
-                    [
+                if($existingBerkas->status == 'ditolak')
+                {
+                    $existingBerkas->update([
                         'file_path'           => $path,
                         'uploaded_by'         => Auth::id(),
                         'uploaded_at'         => now(),
-                        'status'              => 'menunggu',
-                        'catatan_verifikator' => null,
-                    ]
-                );
+                    ]);
+                }
+                else
+                {
+                    // simpan ke database
+                    PermohonanBerkas::updateOrCreate(
+                        [
+                            'permohonan_id'        => $this->permohonan->id,
+                            'persyaratan_berkas_id'=> $item->id,
+                            'versi'                => 'draft',
+                        ],
+                        [
+                            'file_path'           => $path,
+                            'uploaded_by'         => Auth::id(),
+                            'uploaded_at'         => now(),
+                            'status'              => 'menunggu',
+                            'catatan_verifikator' => null,
+                        ]
+                    );
+                }
+
 
                 if ($isUpdate) {
                     session()->flash('success', 'Berkas Survey berhasil diupdate!');

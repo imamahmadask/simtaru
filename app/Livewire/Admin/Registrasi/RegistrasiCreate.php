@@ -32,13 +32,15 @@ class RegistrasiCreate extends Component
 
         // Generate unique 'kode'
         $year = date('Y');
+        $month = date('m');
         $latestRegistrasi = Registrasi::whereYear('created_at', $year)->latest('id')->first();
         $sequence = 1;
         if ($latestRegistrasi) {
             $lastSequence = (int) substr($latestRegistrasi->kode, -4);
             $sequence = $lastSequence + 1;
         }
-        $newKode = 'REG-' . $year . '-' . str_pad($sequence, 4, '0', STR_PAD_LEFT);
+        $layanan_kode = Layanan::findOrFail($this->layanan_id)->kode;
+        $newKode = 'REG-' .str_pad($sequence, 4, '0', STR_PAD_LEFT).'-'.$layanan_kode.'-'. $month .'-'. $year ;
 
         Registrasi::create([
            'kode' => $newKode,

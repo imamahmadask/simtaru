@@ -14,7 +14,7 @@
                         <form wire:submit="addPermohonan">
                             <div class="mb-3">
                                 <label for="registrasi_id" class="form-label">Kode Registrasi</label>
-                                <select class="form-select" wire:model.blur="registrasi_id" id="registrasi_id"
+                                <select class="form-select" wire:model.live="registrasi_id" id="registrasi_id"
                                     aria-label="Default select example">
                                     <option value="" selected>Pilih Registrasi</option>
                                     @foreach ($registrasis as $data)

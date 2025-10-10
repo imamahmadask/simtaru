@@ -50,16 +50,22 @@
                                     <label for="file_.{{ $item->id }}" class="form-label">Upload
                                         {{ $item->nama_berkas }}</label>
                                     <input type="file" class="form-control" wire:model="file_.{{ $item->kode }}"
-                                        id="file_.{{ $item->id }}">
-
+                                        id="file_.{{ $item->id }}" accept="application/pdf">
+                                    @error('file_.' . $item->kode)
+                                        <span class="form-text text-xs text-danger">{{ $message }}</span>
+                                    @enderror
                                     {{-- Cek apakah sudah ada file yang tersimpan --}}
                                     @php
-                                        $uploadedFile = $item->permohonan_berkas->file_path ?? null; // misalnya kolom file_path
+                                        // Cari berkas yang sesuai dengan persyaratan ini dan versinya 'final'
+                                        $uploadedFile = $permohonan->berkas
+                                            ->where('persyaratan_berkas_id', $item->id)
+                                            ->where('versi', 'final')
+                                            ->first();
                                     @endphp
 
                                     @if ($uploadedFile)
                                         <div class="mt-2">
-                                            <a href="{{ Storage::url($uploadedFile) }}" target="_blank"
+                                            <a href="{{ asset('storage/' . $uploadedFile->file_path) }}" target="_blank"
                                                 class="text-primary">
                                                 <i class="bx bx-file"></i> Lihat Berkas
                                             </a>

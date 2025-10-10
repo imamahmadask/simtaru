@@ -6,6 +6,7 @@ use App\Models\Disposisi;
 use App\Models\Permohonan;
 use App\Models\PermohonanBerkas;
 use App\Models\PersyaratanBerkas;
+use App\Models\RiwayatPermohonan;
 use App\Models\Skrk;
 use App\Models\Tahapan;
 use App\Models\User;
@@ -35,6 +36,15 @@ class SkrkVerifikasiCreate extends Component
         $verified_at = $this->status == 'diterima' ? now() : null;
         $verified_by = $this->status == 'diterima' ? Auth::user()->id : null;
 
+        $tahapan_id = $this->berkas->persyaratan->tahapan_id;
+        $tahapan = Tahapan::find($tahapan_id);
+        $nama_tahapan = $tahapan->nama;
+
+        $penerima_id = $this->berkas->uploaded_by;
+        $penerima_name = User::where('id', $penerima_id)->first()->name;
+
+        $skrk = Skrk::find($this->skrk_id);
+
         $this->berkas->update([
             'status' => $this->status,
             'catatan_verifikator' => $this->catatan,
@@ -44,13 +54,6 @@ class SkrkVerifikasiCreate extends Component
 
         if($this->status == 'ditolak')
         {
-            $penerima_id = $this->berkas->uploaded_by;
-            $tahapan_id = $this->berkas->persyaratan->tahapan_id;
-            $tahapan = Tahapan::find($tahapan_id);
-            $nama_tahapan = $tahapan->nama;
-            $users = User::all();
-
-            $skrk = Skrk::find($this->skrk_id);
             $skrk->disposisis()->create([
                 'permohonan_id' => $skrk->permohonan->id,
                 'tahapan_id' => $tahapan_id,
@@ -75,7 +78,7 @@ class SkrkVerifikasiCreate extends Component
                 ]);
             }
 
-            $this->createRiwayat($skrk->permohonan, "Disposisi kepada {$users->where('id', $penerima_id)->first()->name} pada tahapan ". $this->tahapans->where('id', $tahapan_id)->first()->nama);
+            $this->createRiwayat($skrk->permohonan, "Disposisi kembali kepada {$penerima_name} pada tahapan ". $nama_tahapan);
         }
 
         $message = $this->status == 'diterima'
@@ -92,14 +95,14 @@ class SkrkVerifikasiCreate extends Component
         $this->skrk_id = $skrk_id;
         $this->berkas = PermohonanBerkas::find($berkas_id);
         $this->permohonan = Permohonan::findOrFail($this->berkas->permohonan_id);
-        $this->tahapans = Tahapan::where('layanan_id', $this->permohonan->layanan_id)
-                                 ->whereNotIn('id', function($query) {
-                                    $query->select('tahapan_id')
-                                          ->from('disposisis')
-                                          ->where('permohonan_id', $this->permohonan->id);
-                                 })
-                                 ->get();
-        // $this->persyaratan = PersyaratanBerkas::find($this->berkas->persyaratan_berkas_id);
+    }
 
+    private function createRiwayat(Permohonan $permohonan, string $keterangan)
+    {
+        RiwayatPermohonan::create([
+            'registrasi_id' => $permohonan->registrasi_id,
+            'user_id' => Auth::user()->id,
+            'keterangan' => $keterangan
+        ]);
     }
 }

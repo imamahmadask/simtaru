@@ -18,7 +18,8 @@ class PermohonanBerkas extends Model
         'status',
         'catatan_verifikator',
         'verified_by',
-        'verified_at'
+        'verified_at',
+        'versi'
     ];
 
     public function persyaratan()
@@ -35,4 +36,15 @@ class PermohonanBerkas extends Model
     {
         return $this->belongsTo(User::class, 'verified_by');
     }
+
+    public function uploadedBy()
+    {
+        return $this->belongsTo(User::class, 'uploaded_by');
+    }
+
+    public function getFileNameAttribute()
+    {
+        return basename($this->file_path);
+    }
+
 }
