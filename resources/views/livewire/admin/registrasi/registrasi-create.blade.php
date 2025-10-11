@@ -81,8 +81,7 @@
                             <div class="col mb-3">
                                 <label for="fungsi_bangunan" class="form-label">Fungsi Bangunan</label>
                                 <input type="text" wire:model="fungsi_bangunan" name="fungsi_bangunan"
-                                    id="fungsi_bangunan" class="form-control"
-                                    placeholder="Masukkan fungsi_bangunan pemohon" />
+                                    id="fungsi_bangunan" class="form-control" placeholder="Masukkan Fungsi Bangunan" />
                                 @error('fungsi_bangunan')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
