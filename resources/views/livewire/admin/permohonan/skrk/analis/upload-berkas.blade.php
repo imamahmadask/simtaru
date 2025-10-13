@@ -18,17 +18,17 @@
                                     <div class="d-flex align-items-center">
                                         <label for="file_{{ $item->id }}" class="form-label mb-0 me-2">
                                             Upload {{ $item->nama_berkas }}
+                                            {{-- Spinner saat proses upload --}}
+                                            <div wire:loading wire:target="file_.{{ $item->kode }}"
+                                                class="spinner-border spinner-border-sm text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                            {{-- Tanda centang setelah upload selesai --}}
+                                            @if (!empty($file_[$item->kode]))
+                                                <i wire:loading.remove wire:target="file_.{{ $item->kode }}"
+                                                    class="bx bx-check-circle text-success"></i>
+                                            @endif
                                         </label>
-                                        {{-- Spinner saat proses upload --}}
-                                        <div wire:loading wire:target="file_.{{ $item->kode }}"
-                                            class="spinner-border spinner-border-sm text-primary" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
-                                        {{-- Tanda centang setelah upload selesai --}}
-                                        @if (!empty($file_[$item->kode]))
-                                            <i wire:loading.remove wire:target="file_.{{ $item->kode }}"
-                                                class="bx bx-check-circle text-success"></i>
-                                        @endif
                                     </div>
                                     <input type="file" class="form-control" wire:model="file_.{{ $item->kode }}"
                                         id="file_.{{ $item->id }}" accept="application/.docx, .docx">

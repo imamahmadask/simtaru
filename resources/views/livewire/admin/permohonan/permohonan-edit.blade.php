@@ -232,7 +232,18 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="mb-3">
-                                        <label for="berkas_ktp" class="form-label">Upload KTP</label>
+                                        <label for="berkas_ktp" class="form-label">
+                                            Upload KTP
+                                            <div wire:loading wire:target="berkas_ktp"
+                                                class="spinner-border spinner-border-sm text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                            {{-- Tanda centang setelah upload selesai --}}
+                                            @if (!empty($berkas_ktp))
+                                                <i wire:loading.remove wire:target="berkas_ktp"
+                                                    class="bx bx-check-circle text-success"></i>
+                                            @endif
+                                        </label>
                                         <input type="file" class="form-control" id="berkas_ktp"
                                             wire:model.blur="berkas_ktp" accept="application/pdf">
                                         <div class="form-text">Format file .pdf maks 2 Mb</div>
@@ -250,7 +261,17 @@
                                 <div class="col-sm-4">
                                     <div class="mb-3">
                                         <label for="berkas_permohonan" class="form-label">Upload Formulir
-                                            Permohonan</label>
+                                            Permohonan
+                                            <div wire:loading wire:target="berkas_permohonan"
+                                                class="spinner-border spinner-border-sm text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                            {{-- Tanda centang setelah upload selesai --}}
+                                            @if (!empty($berkas_permohonan))
+                                                <i wire:loading.remove wire:target="berkas_permohonan"
+                                                    class="bx bx-check-circle text-success"></i>
+                                            @endif
+                                        </label>
                                         <input type="file" class="form-control" id="berkas_permohonan"
                                             wire:model.blur="berkas_permohonan" accept="application/pdf">
                                         <div class="form-text">Format file .pdf maks 2 Mb</div>
@@ -264,7 +285,18 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="mb-3">
-                                        <label for="berkas_kuasa" class="form-label">Surat Kuasa (Jika Ada)</label>
+                                        <label for="berkas_kuasa" class="form-label">
+                                            Surat Kuasa (Jika Ada)
+                                            <div wire:loading wire:target="berkas_kuasa"
+                                                class="spinner-border spinner-border-sm text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                            {{-- Tanda centang setelah upload selesai --}}
+                                            @if (!empty($berkas_kuasa))
+                                                <i wire:loading.remove wire:target="berkas_kuasa"
+                                                    class="bx bx-check-circle text-success"></i>
+                                            @endif
+                                        </label>
                                         <input type="file" class="form-control" id="berkas_kuasa"
                                             wire:model.blur="berkas_kuasa" accept="application/pdf">
                                         <div class="form-text">Format file .pdf maks 2 Mb</div>
@@ -279,7 +311,17 @@
                                 <div class="col-sm-4">
                                     <div class="mb-3">
                                         <label for="berkas_nib" class="form-label">Upload NIB, KBLI, dan Pernyataan
-                                            Mandiri</label>
+                                            Mandiri
+                                            <div wire:loading wire:target="berkas_nib"
+                                                class="spinner-border spinner-border-sm text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                            {{-- Tanda centang setelah upload selesai --}}
+                                            @if (!empty($berkas_nib))
+                                                <i wire:loading.remove wire:target="berkas_nib"
+                                                    class="bx bx-check-circle text-success"></i>
+                                            @endif
+                                        </label>
                                         <input type="file" class="form-control" id="berkas_nib"
                                             wire:model.blur="berkas_nib" accept="application/pdf">
                                         <div class="form-text">Format file .pdf maks 2 Mb</div>
@@ -294,7 +336,17 @@
                                 <div class="col-sm-4">
                                     <div class="mb-3">
                                         <label for="berkas_penguasaan" class="form-label">Upload Penguasaan
-                                            Tanah</label>
+                                            Tanah
+                                            <div wire:loading wire:target="berkas_penguasaan"
+                                                class="spinner-border spinner-border-sm text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                            {{-- Tanda centang setelah upload selesai --}}
+                                            @if (!empty($berkas_penguasaan))
+                                                <i wire:loading.remove wire:target="berkas_penguasaan"
+                                                    class="bx bx-check-circle text-success"></i>
+                                            @endif
+                                        </label>
                                         <input type="file" class="form-control" id="berkas_penguasaan"
                                             wire:model.blur="berkas_penguasaan" accept="application/pdf">
                                         <div class="form-text">Format file .pdf maks 2 Mb</div>

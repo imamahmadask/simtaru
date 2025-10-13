@@ -97,7 +97,18 @@
 
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="foto_survey" class="form-label">Upload Foto Survey (baru)</label>
+                                <label for="foto_survey" class="form-label">
+                                    Upload Foto Survey (Baru)
+                                    <div wire:loading wire:target="foto_survey"
+                                        class="spinner-border spinner-border-sm text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    {{-- Tanda centang setelah upload selesai --}}
+                                    @if (!empty($foto_survey))
+                                        <i wire:loading.remove wire:target="foto_survey"
+                                            class="bx bx-check-circle text-success"></i>
+                                    @endif
+                                </label>
                                 <input type="file" class="form-control" wire:model.blur="foto_survey"
                                     id="foto_survey" multiple accept="image/*">
                                 <div class="form-text">Hanya format gambar yang diizinkan. Maks 1MB/file.</div>
@@ -124,7 +135,18 @@
 
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="gambar_peta" class="form-label">Upload Gambar Peta (baru)</label>
+                                <label for="gambar_peta" class="form-label">
+                                    Upload Gambar Peta (Baru)
+                                    <div wire:loading wire:target="gambar_peta"
+                                        class="spinner-border spinner-border-sm text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    {{-- Tanda centang setelah upload selesai --}}
+                                    @if (!empty($gambar_peta))
+                                        <i wire:loading.remove wire:target="gambar_peta"
+                                            class="bx bx-check-circle text-success"></i>
+                                    @endif
+                                </label>
                                 <input type="file" class="form-control" wire:model.blur="gambar_peta"
                                     id="gambar_peta" multiple accept="image/*">
                                 <div class="form-text">Hanya format gambar yang diizinkan. Maks 1MB/file.</div>
