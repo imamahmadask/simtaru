@@ -61,20 +61,34 @@ class UploadBerkas extends Component
                 );
 
                 // simpan ke database
-                PermohonanBerkas::updateOrCreate(
-                    [
-                        'permohonan_id'        => $this->permohonan->id,
-                        'persyaratan_berkas_id'=> $item->id,
-                        'versi'                => 'draft',
-                    ],
-                    [
-                        'file_path'           => $path,
-                        'uploaded_by'         => Auth::id(),
-                        'uploaded_at'         => now(),
-                        'status'              => 'menunggu',
-                        'catatan_verifikator' => null,
-                    ]
-                );
+                if($existingBerkas)
+                {
+                    if($existingBerkas->status == 'ditolak')
+                    {
+                        $existingBerkas->update([
+                            'file_path'           => $path,
+                            'uploaded_by'         => Auth::id(),
+                            'uploaded_at'         => now(),
+                        ]);
+                    }
+                }
+                else
+                {
+                    PermohonanBerkas::updateOrCreate(
+                        [
+                            'permohonan_id'        => $this->permohonan->id,
+                            'persyaratan_berkas_id'=> $item->id,
+                            'versi'                => 'draft',
+                        ],
+                        [
+                            'file_path'           => $path,
+                            'uploaded_by'         => Auth::id(),
+                            'uploaded_at'         => now(),
+                            'status'              => 'menunggu',
+                            'catatan_verifikator' => null,
+                        ]
+                    );
+                }
 
                if ($isUpdate) {
                     session()->flash('success', 'Berkas Analisa berhasil diupdate!');

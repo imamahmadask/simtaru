@@ -52,13 +52,16 @@ class UploadBerkas extends Component
                     'public'
                 );
 
-                if($existingBerkas->status == 'ditolak')
+                if($existingBerkas)
                 {
-                    $existingBerkas->update([
-                        'file_path'           => $path,
-                        'uploaded_by'         => Auth::id(),
-                        'uploaded_at'         => now(),
-                    ]);
+                    if($existingBerkas->status == 'ditolak')
+                    {
+                        $existingBerkas->update([
+                            'file_path'           => $path,
+                            'uploaded_by'         => Auth::id(),
+                            'uploaded_at'         => now(),
+                        ]);
+                    }
                 }
                 else
                 {
