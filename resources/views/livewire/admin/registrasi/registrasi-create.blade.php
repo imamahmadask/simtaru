@@ -89,7 +89,7 @@
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="alamat_tanah" class="form-label">Alamat Tanah</label>
+                                <label for="alamat_tanah" class="form-label">Alamat Persil</label>
                                 <textarea name="alamat_tanah" wire:model="alamat_tanah" id="alamat_tanah" class="form-control"></textarea>
                                 @error('alamat_tanah')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
@@ -99,7 +99,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
-                                    <label class="form-label" for="kel_tanah">Kelurahan Tanah</label>
+                                    <label class="form-label" for="kel_tanah">Kelurahan Persil</label>
                                     <input type="text" class="form-control" wire:model="kel_tanah" id="kel_tanah"
                                         placeholder="Masukkan Kelurahan Tanah" />
                                     @error('kel_tanah')
@@ -109,7 +109,7 @@
                             </div>
                             <div class="col">
                                 <div class="mb-3">
-                                    <label class="form-label" for="kec_tanah">Kecamatan Tanah</label>
+                                    <label class="form-label" for="kec_tanah">Kecamatan Persil</label>
                                     <select class="form-select" wire:model="kec_tanah" id="kec_tanah"
                                         aria-label="Default select example">
                                         <option value="" selected>Pilih Kecamatan</option>

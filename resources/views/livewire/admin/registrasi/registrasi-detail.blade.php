@@ -79,15 +79,15 @@
                                             <td>{{ $fungsi_bangunan }}</td>
                                         </tr>
                                         <tr>
-                                            <td>Alamat Tanah</td>
+                                            <td>Alamat Persil</td>
                                             <td>{{ $alamat_tanah }}</td>
                                         </tr>
                                         <tr>
-                                            <td>Kelurahan Tanah</td>
+                                            <td>Kelurahan Persil</td>
                                             <td>{{ $kel_tanah }}</td>
                                         </tr>
                                         <tr>
-                                            <td>Kecamatan Tanah</td>
+                                            <td>Kecamatan Persil</td>
                                             <td>{{ $kec_tanah }}</td>
                                         </tr>
                                     </tbody>
