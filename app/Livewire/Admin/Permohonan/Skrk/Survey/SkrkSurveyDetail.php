@@ -27,11 +27,11 @@ class SkrkSurveyDetail extends Component
         $permohonan = $this->skrk->permohonan;
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
-            'alamat_tanah' => $permohonan->alamat_tanah,
-            'kel_tanah' => $permohonan->kel_tanah,
-            'kec_tanah' => $permohonan->kec_tanah,
+            'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
+            'kel_tanah' => $permohonan->registrasi->kel_tanah,
+            'kec_tanah' => $permohonan->registrasi->kec_tanah,
             'luas_tanah' => $permohonan->luas_tanah,
-            'jenis_bangunan' => $permohonan->jenis_bangunan,
+            'fungsi_bangunan' => $permohonan->registrasi->fungsi_bangunan,
         ];
 
         return $this->generateDocument('1A_Form_Survey_template.docx', $data);
@@ -42,9 +42,9 @@ class SkrkSurveyDetail extends Component
         $permohonan = $this->skrk->permohonan;
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
-            'alamat_tanah' => $permohonan->alamat_tanah,
-            'kel_tanah' => $permohonan->kel_tanah,
-            'kec_tanah' => $permohonan->kec_tanah,
+            'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
+            'kel_tanah' => $permohonan->registrasi->kel_tanah,
+            'kec_tanah' => $permohonan->registrasi->kec_tanah,
             'luas_tanah' => $permohonan->luas_tanah,
             'ada_bangunan' => $this->skrk->ada_bangunan,
         ];
