@@ -36,7 +36,7 @@ class RegistrasiCreate extends Component
         $latestRegistrasi = Registrasi::whereYear('created_at', $year)->latest('id')->first();
         $sequence = 1;
         if ($latestRegistrasi) {
-            $lastSequence = (int) substr($latestRegistrasi->kode, -4);
+            $lastSequence = (int) explode('-', $latestRegistrasi->kode)[1];
             $sequence = $lastSequence + 1;
         }
         $layanan_kode = Layanan::findOrFail($this->layanan_id)->kode;
