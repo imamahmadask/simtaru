@@ -67,7 +67,12 @@ class DisposisiCreate extends Component
 
         session()->flash('message', 'Disposisi berhasil ditambahkan.');
 
-        $this->redirectRoute('permohonan.detail', ['id' => $this->permohonan_id]);
+        if($layanan->nama == 'SKRK') {
+            $skrk = Skrk::where('permohonan_id', $this->permohonan->id)->first();
+            return redirect()->route('skrk.detail', ['id' => $skrk->id]);
+        }
+
+        return $this->redirectRoute('permohonan.detail', ['id' => $this->permohonan_id]);
     }
 
     public function updatedTahapanId($value)
