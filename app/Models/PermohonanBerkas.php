@@ -19,7 +19,8 @@ class PermohonanBerkas extends Model
         'catatan_verifikator',
         'verified_by',
         'verified_at',
-        'versi'
+        'versi',
+        'catatan'
     ];
 
     public function persyaratan()

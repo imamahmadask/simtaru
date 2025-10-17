@@ -20,6 +20,8 @@ class UploadBerkas extends Component
     #[Validate(['file_.*' => 'required|mimes:.docx, .doc|max:2000'])]
     public $file_ = [];
 
+    public $catatan_ = [];
+
     public function render()
     {
         return view('livewire.admin.permohonan.skrk.survey.upload-berkas');
@@ -30,6 +32,7 @@ class UploadBerkas extends Component
         $no_reg = $this->skrk->registrasi->kode;
 
         foreach ($this->permohonan->persyaratanBerkas as $item) {
+
             // cek apakah file untuk persyaratan ini diupload
             if (!empty($this->file_[$item->kode])) {
                 // Check if a file already exists for this requirement
@@ -58,6 +61,7 @@ class UploadBerkas extends Component
                     {
                         $existingBerkas->update([
                             'file_path'           => $path,
+                            'catatan'             => $this->catatan_[$item->kode] ?? null,
                             'uploaded_by'         => Auth::id(),
                             'uploaded_at'         => now(),
                         ]);
@@ -78,6 +82,7 @@ class UploadBerkas extends Component
                             'uploaded_at'         => now(),
                             'status'              => 'menunggu',
                             'catatan_verifikator' => null,
+                            'catatan'             => $this->catatan_[$item->kode] ?? null,
                         ]
                     );
                 }

@@ -22,7 +22,8 @@
                                 <th>Nama Berkas</th>
                                 <th>Status</th>
                                 <th>Versi</th>
-                                <th>Catatan</th>
+                                <th>Catatan Surveyor/Analis</th>
+                                <th>Catatan Verifikator</th>
                                 <th>Verifikasi Oleh</th>
                                 <th>Tgl Verifikasi</th>
                                 <th>Action</th>
@@ -52,6 +53,9 @@
                                         </td>
                                         <td>
                                             {{ $item->versi }}
+                                        </td>
+                                        <td>
+                                            {{ $item->catatan ?? '-' }}
                                         </td>
                                         <td>
                                             {{ $item->catatan_verifikator }}

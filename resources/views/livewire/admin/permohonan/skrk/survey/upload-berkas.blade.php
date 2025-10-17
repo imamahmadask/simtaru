@@ -35,6 +35,7 @@
                                     @error('file_.' . $item->kode)
                                         <span class="form-text text-xs text-danger">{{ $message }}</span>
                                     @enderror
+
                                     @php
                                         $uploadedFile = $permohonan->berkas
                                             ->where('persyaratan_berkas_id', $item->id)
@@ -49,6 +50,18 @@
                                                 <i class="bx bx-file"></i> Lihat Berkas
                                             </a>
                                         </div>
+
+                                        @if ($uploadedFile->status == 'ditolak')
+                                            <div class="mt-2">
+                                                <label for="catatan_{{ $uploadedFile->id }}"
+                                                    class="form-label mb-0 me-2">
+                                                    Catatan {{ $item->nama_berkas }}
+                                                </label>
+                                                <textarea class="form-control" id="catatan_{{ $uploadedFile->id }}" wire:model="catatan_.{{ $uploadedFile->id }}"
+                                                    value="{{ $uploadedFile->catatan }}" rows="3">
+                                                </textarea>
+                                            </div>
+                                        @endif
                                     @endif
 
                                 </div>
