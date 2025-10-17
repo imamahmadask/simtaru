@@ -12,6 +12,7 @@ use PhpOffice\PhpWord\TemplateProcessor;
 class SkrkAnalisDetail extends Component
 {
     public $skrk;
+    public $koodinatTable = false;
     public function render()
     {
         return view('livewire.admin.permohonan.skrk.analis.skrk-analis-detail');
@@ -117,15 +118,39 @@ class SkrkAnalisDetail extends Component
             'jaringan_utilitas' => $this->skrk->jaringan_utilitas,
             'persyaratan_pelaksanaan' => $this->skrk->persyaratan_pelaksanaan,
         ];
-
+        $this->koodinatTable = true;
         return $this->generateDocument('4_dokumen_skrk.docx', $data);
     }
+
     private function generateDocument($templatePath, $data)
     {
         $templateProcessor = new TemplateProcessor(storage_path('app/public/templates/skrk/'.$templatePath));
 
         foreach ($data as $key => $value) {
             $templateProcessor->setValue($key, $value);
+        }
+
+        if($this->koodinatTable)
+        {
+            $koordinatList = $this->skrk->koordinat;
+            // 🧭 Jika ada data koordinat, isi ke tabel di Word
+            if (!empty($koordinatList)) {
+                // Clone baris berdasarkan placeholder 'x'
+                $templateProcessor->cloneRow('x', count($koordinatList));
+
+                foreach ($koordinatList as $i => $point) {
+                    $row = $i + 1;
+                    $templateProcessor->setValue("x#{$row}", $point['x']);
+                    $templateProcessor->setValue("y#{$row}", $point['y']);
+                }
+            }
+            else
+            {
+                // Jika tidak ada koordinat, tampilkan satu baris kosong
+                $templateProcessor->cloneRow('x', 1);
+                $templateProcessor->setValue('x#1', '-');
+                $templateProcessor->setValue('y#1', '-');
+            }
         }
 
         $fileName = str_replace('.docx', '', basename($templatePath)).'_'.$data['nama_pemohon'].'.docx';
