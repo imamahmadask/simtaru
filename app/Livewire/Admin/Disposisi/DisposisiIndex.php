@@ -16,8 +16,15 @@ class DisposisiIndex extends Component
         $disposisi_selesai = [];
         // $disposisi_belum = [];
 
-        if(Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor'){
-            $disposisi = Disposisi::with('layanan')->orderBy('created_at', 'desc')->get();
+        if(Auth::user()->role == 'superadmin'){
+                $disposisi = Disposisi::with(['layanan', 'permohonan.registrasi', 'tahapan', 'pemberi', 'penerima'])
+                ->whereIn('id', function ($query) {
+                    $query->selectRaw('max(id)')
+                        ->from('disposisis')
+                        ->groupBy('permohonan_id');
+                })
+                ->orderBy('created_at', 'desc')
+                ->get();
         }
         else
         {

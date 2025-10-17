@@ -42,7 +42,19 @@ class SkrkVerifikasiDetail extends Component
                     'status' => 'Cetak Dokumen'
                 ]);
 
-                $tahapan = Tahapan::where('layanan_id', $this->skrk->permohonan->layanan_id)->where('urutan', 3)->first();
+                // Find and update the disposisi for the 'Verifikasi' stage
+                $tahapanAnalisId = $this->skrk->permohonan->layanan->tahapan->where('nama', 'Verifikasi')->value('id');
+                if ($tahapanAnalisId) {
+                    $this->skrk->permohonan->disposisi()->where('tahapan_id', $tahapanAnalisId)
+                    ->where('is_done', false)
+                    ->update([
+                        'is_done' => true,
+                        'tgl_selesai' => now()
+                    ]);
+                    $this->createRiwayat($this->skrk->permohonan, 'Selesai Analisa Data SKRK');
+                }
+
+                $tahapan = Tahapan::where('layanan_id', $this->skrk->permohonan->layanan_id)->where('urutan', 4)->first();
 
                 $this->skrk->disposisis()->create([
                     'permohonan_id' => $this->skrk->permohonan->id,

@@ -5,6 +5,8 @@ namespace App\Livewire\Admin\Permohonan\Skrk\Analis;
 use App\Models\Permohonan;
 use App\Models\RiwayatPermohonan;
 use App\Models\Skrk;
+use App\Models\Tahapan;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -181,9 +183,26 @@ class SkrkAnalisDetail extends Component
                     'is_done' => true,
                     'tgl_selesai' => now()
                 ]);
+                $this->createRiwayat($this->skrk->permohonan, 'Selesai Analisa Data SKRK');
             }
 
-            $this->createRiwayat($this->skrk->permohonan, 'Selesai Analisa Data SKRK');
+            // Create disposisi to supervisor for 'Verifikasi' tahapan
+            $tahapanVerifikasi = Tahapan::where('layanan_id', $this->skrk->permohonan->layanan_id)
+                                        ->where('nama', 'Verifikasi')
+                                        ->first();
+            $supervisor = User::where('role', 'supervisor')->first();
+            $pemberi_id = $this->skrk->permohonan->disposisi()->where('tahapan_id', $tahapanAnalisId)->value('penerima_id') ?? Auth::user()->id;
+            if ($tahapanVerifikasi && $supervisor) {
+                $this->skrk->disposisis()->create([
+                    'permohonan_id' => $this->skrk->permohonan->id,
+                    'tahapan_id' => $tahapanVerifikasi->id,
+                    'pemberi_id' => $pemberi_id,
+                    'penerima_id' => $supervisor->id,
+                    'tanggal_disposisi' => now(),
+                    'catatan' => 'Mohon untuk melakukan verifikasi data hasil analisa.',
+                ]);
+            }
+
             $this->createRiwayat($this->skrk->permohonan, 'Proses Verifikasi Data SKRK');
         }
 

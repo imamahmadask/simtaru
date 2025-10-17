@@ -85,7 +85,7 @@
                                     <td>
                                         {{ Auth::user()->where('id', $data->penerima_id)->first()->name ?? '-' }}
                                     </td>
-                                    <td class="scrollable-cell">
+                                    <td>
                                         <button type="button" class="btn btn-outline-primary btn-sm"
                                             data-bs-toggle="modal" data-bs-target="#catatanModal{{ $data->id }}">
                                             Lihat
@@ -113,31 +113,6 @@
                                                     <i class="bx bx-edit"></i>
                                                 </button>
                                             @endif
-
-
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="catatanModal{{ $data->id }}" tabindex="-1"
-                                                aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="catatanModalLabel">Catatan
-                                                            </h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            {{ $data->catatan }}
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-outline-secondary"
-                                                                data-bs-dismiss="modal">
-                                                                Tutup
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
 
                                             <a href="{{ route(Str::lower($data->layanan_type_name) . '.detail', ['id' => $data->layanan_id]) }}"
                                                 target="_blank" type="button" class="btn btn-primary btn-sm">
@@ -168,8 +143,8 @@
                                 <th>Tahapan</th>
                                 <th>Pemberi</th>
                                 <th>Penerima</th>
-                                <th class="text-center">Selesai</th>
                                 <th>Catatan</th>
+                                <th class="text-center">Selesai</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
@@ -209,6 +184,13 @@
                                         <td>
                                             {{ Auth::user()->where('id', $data->penerima_id)->first()->name ?? '-' }}
                                         </td>
+                                        <td>
+                                            <button type="button" class="btn btn-outline-primary btn-sm"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#catatanModal{{ $data->id }}">
+                                                Lihat
+                                            </button>
+                                        </td>
                                         <td class="text-center">
                                             @if ($data->is_done)
                                                 <span class="badge badge-center bg-label-success me-1">
@@ -220,9 +202,6 @@
                                                 </span>
                                             @endif
                                         </td>
-                                        <td class="scrollable-cell">
-                                            {{ $data->catatan }}
-                                        </td>
                                     </tr>
                             @endforeach
                         </tbody>
@@ -232,6 +211,28 @@
             <!--/ Basic Bootstrap Table -->
         @endif
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="catatanModal{{ $data->id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="catatanModalLabel">Catatan
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ $data->catatan }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @teleport('body')
         <!-- Edit  Regustrasi Modal -->
         @livewire('admin.disposisi.disposisi-edit')
