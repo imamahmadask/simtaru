@@ -34,7 +34,7 @@
 
         @if (Auth::user()->role != 'cs')
             <li
-                class="menu-item {{ request()->routeIs('permohonan.*') || request()->routeIs('skrk.*') ? 'active open' : '' }}">
+                class="menu-item {{ request()->routeIs('permohonan.*') || request()->routeIs('skrk.*') || request()->routeIs('itr.*') ? 'active open' : '' }}">
                 <a href="javascript:void(0)" class="menu-link menu-toggle">
                     <i class="menu-icon tf-icons bx bx-file"></i>
                     <div data-i18n="Permohonan">Permohonan</div>
@@ -50,7 +50,7 @@
                             <div data-i18n="Text Divider">SKRK</div>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    <li class="menu-item {!! request()->routeIs('itr.*') ? 'active' : '' !!}">
                         <a href="{{ route('itr.index') }}" class="menu-link">
                             <div data-i18n="Text Divider">ITR</div>
                         </a>

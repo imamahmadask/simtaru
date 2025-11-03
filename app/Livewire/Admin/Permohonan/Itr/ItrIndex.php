@@ -23,6 +23,8 @@ class ItrIndex extends Component
             }))
             ->orderBy('created_at', 'desc')->get();
 
-        return view('livewire.admin.permohonan.itr.itr-index');
+        return view('livewire.admin.permohonan.itr.itr-index', [
+            'itr' => $itr
+        ]);
     }
 }

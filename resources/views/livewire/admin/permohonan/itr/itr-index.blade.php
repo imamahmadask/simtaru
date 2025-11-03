@@ -65,7 +65,7 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <a href="{{ route('skrk.detail', ['id' => $data->id]) }}" type="button"
+                                        <a href="{{ route('itr.detail', ['id' => $data->id]) }}" type="button"
                                             class="btn btn-primary btn-sm">
                                             <i class="bx bx-show"></i>
                                         </a>

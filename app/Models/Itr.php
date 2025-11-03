@@ -6,5 +6,66 @@ use Illuminate\Database\Eloquent\Model;
 
 class Itr extends Model
 {
-    //
+    protected $table = 'itr';
+    protected $fillable = [
+        'permohonan_id',
+        'layanan_id',
+        'penguasaan_tanah',
+        'pemanfaatan_ruang',
+        'peraturan_zonasi',
+        'judul_kbli',
+        'kdb',
+        'klb',
+        'gsb',
+        'jba',
+        'jbb',
+        'kdh',
+        'ktb',
+        'luas_kavling',
+        'jaringan_utilitas',
+        'persyaratan_pelaksanaan',
+        'tgl_survey',
+        'koordinat',
+        'gambar_peta',
+        'foto_survey',
+        'is_survey',
+        'is_berkas_survey_uploaded',
+        'is_kajian',
+        'is_analis',
+        'is_berkas_analis_uploaded',
+        'is_dokumen',
+        'is_validate',
+        'batas_persil'
+    ];
+
+    protected $casts = [
+        'koordinat' => 'array',
+        'batas_administratif' => 'array'
+    ];
+
+    public function permohonan()
+    {
+        return $this->belongsTo(Permohonan::class);
+    }
+
+    public function layanan()
+    {
+        return $this->belongsTo(Layanan::class);
+    }
+    public function registrasi()
+    {
+        return $this->hasOneThrough(
+            Registrasi::class,   // Model tujuan
+            Permohonan::class,   // Model perantara
+            'id',                // FK di tabel permohonans (id permohonan)
+            'id',                // FK di tabel registrasis
+            'permohonan_id',     // FK di tabel skrks
+            'registrasi_id'      // FK di tabel permohonans
+        );
+    }
+
+    public function disposisis()
+    {
+        return $this->morphMany(Disposisi::class, 'layanan');
+    }
 }
