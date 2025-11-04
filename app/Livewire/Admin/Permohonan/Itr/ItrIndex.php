@@ -15,7 +15,7 @@ class ItrIndex extends Component
     {
         $itr = Itr::with('layanan.permohonan.registrasi')
             ->whereHas('layanan', function($query) {
-                        $query->where('kode', 'SKRK');
+                        $query->where('kode', 'ITR');
             })
             ->whereHas('registrasi', (function($query) {
                 $query->where('kode', 'LIKE', '%'.$this->search.'%')

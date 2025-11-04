@@ -13,7 +13,6 @@ class Itr extends Model
         'penguasaan_tanah',
         'pemanfaatan_ruang',
         'peraturan_zonasi',
-        'judul_kbli',
         'kdb',
         'klb',
         'gsb',
@@ -40,7 +39,7 @@ class Itr extends Model
 
     protected $casts = [
         'koordinat' => 'array',
-        'batas_administratif' => 'array'
+        'batas_persil' => 'array'
     ];
 
     public function permohonan()

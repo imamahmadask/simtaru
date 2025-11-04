@@ -15,10 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('permohonan_id')->constrained('permohonan')->cascadeOnDelete();
             $table->foreignId('layanan_id')->constrained('layanan')->cascadeOnDelete();
-            $table->string('penguasaan tanah', 100)->nullable();
+            $table->string('penguasaan_tanah', 100)->nullable();
             $table->string('pemanfaatan_ruang', 100)->nullable();
             $table->string('peraturan_zonasi', 100)->nullable();
-            $table->string('judul_kbli', 100)->nullable();
             $table->string('kdb', 100)->nullable();
             $table->string('klb', 100)->nullable();
             $table->string('gsb', 100)->nullable();

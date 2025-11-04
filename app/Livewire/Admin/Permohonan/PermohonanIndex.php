@@ -15,6 +15,7 @@ class PermohonanIndex extends Component
     public $filterStatus = '';
     public $filterPrioritas = '';
     public $layanans;
+
     public function render()
     {
         $permohonans = Permohonan::with('layanan.registrasi')

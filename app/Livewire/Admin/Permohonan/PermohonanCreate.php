@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Permohonan;
 
 use App\Models\Disposisi;
+use App\Models\Itr;
 use App\Models\Layanan;
 use App\Models\Permohonan;
 use App\Models\Registrasi;
@@ -70,8 +71,16 @@ class PermohonanCreate extends Component
 
         $layanan = Layanan::findOrFail($this->layanan_id);
         $skrk = '';
+        $itr = '';
         if($layanan->kode == 'SKRK') {
             $skrk = Skrk::create([
+                'permohonan_id' => $permohonan->id,
+                'layanan_id' => $this->layanan_id,
+            ]);
+        }
+        elseif($layanan->kode == 'ITR')
+        {
+            $itr = Itr::create([
                 'permohonan_id' => $permohonan->id,
                 'layanan_id' => $this->layanan_id,
             ]);
@@ -80,6 +89,16 @@ class PermohonanCreate extends Component
         if($layanan->kode == 'SKRK'){
             $skrk->disposisis()->create([
                 'permohonan_id' => $skrk->permohonan_id,
+                'tahapan_id' => $this->tahapan_id,
+                'pemberi_id' => Auth::user()->id,
+                'penerima_id' => $this->penerima_id,
+                'catatan' => $this->catatan,
+            ]);
+        }
+        elseif($layanan->kode == 'ITR')
+        {
+            $itr->disposisis()->create([
+                'permohonan_id' => $itr->permohonan_id,
                 'tahapan_id' => $this->tahapan_id,
                 'pemberi_id' => Auth::user()->id,
                 'penerima_id' => $this->penerima_id,
