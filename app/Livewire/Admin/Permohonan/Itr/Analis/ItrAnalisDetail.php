@@ -86,7 +86,7 @@ class ItrAnalisDetail extends Component
 
     private function generateDocument($templatePath, $data)
     {
-        $templateProcessor = new TemplateProcessor(storage_path('app/public/templates/itr/'.$templatePath));
+        $templateProcessor = new TemplateProcessor(public_path('templates/itr/'.$templatePath));
 
         foreach ($data as $key => $value) {
             $templateProcessor->setValue($key, $value);

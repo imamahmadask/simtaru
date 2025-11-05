@@ -54,7 +54,7 @@ class SkrkSurveyDetail extends Component
 
     private function generateDocument($templatePath, $data)
     {
-        $templateProcessor = new TemplateProcessor(storage_path('app/public/templates/skrk/'.$templatePath));
+        $templateProcessor = new TemplateProcessor(public_path('templates/skrk/'.$templatePath));
 
         foreach ($data as $key => $value) {
             $templateProcessor->setValue($key, $value);
