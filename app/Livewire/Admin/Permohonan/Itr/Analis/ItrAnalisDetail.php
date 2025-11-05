@@ -14,7 +14,7 @@ use PhpOffice\PhpWord\TemplateProcessor;
 class ItrAnalisDetail extends Component
 {
     public $itr;
-    public $koodinatTable = false;
+    public $koordinatTable = false;
 
     public function render()
     {
@@ -26,31 +26,7 @@ class ItrAnalisDetail extends Component
         $this->itr = Itr::find($itr_id);
     }
 
-    public function download2a()
-    {
-        $permohonan = $this->itr->permohonan;
-        $data = [
-            'nama_pemohon' => $permohonan->registrasi->nama,
-            'alamat_tanah' => $permohonan->alamat_tanah,
-            'kel_tanah' => $permohonan->kel_tanah,
-            'kec_tanah' => $permohonan->kec_tanah,
-            'jenis_bangunan' => $permohonan->jenis_bangunan,
-        ];
-
-        return $this->generateDocument('2A_BA_rapat_fpr.docx', $data);
-    }
-
-    public function download2b()
-    {
-        $permohonan = $this->itr->permohonan;
-        $data = [
-            'nama_pemohon' => $permohonan->registrasi->nama,
-        ];
-
-        return $this->generateDocument('2B_notulensi_rapat_fpr.docx', $data);
-    }
-
-    public function download3()
+    public function download2()
     {
         $permohonan = $this->itr->permohonan;
         $textKoordinat = '';
@@ -68,35 +44,6 @@ class ItrAnalisDetail extends Component
             'nik' => $permohonan->registrasi->nik,
             'no_hp' => $permohonan->registrasi->no_hp,
             'email' => $permohonan->registrasi->email,
-            'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
-            'kel_tanah' => $permohonan->registrasi->kel_tanah,
-            'kec_tanah' => $permohonan->registrasi->kec_tanah,
-            'fungsi_bangunan' => $permohonan->registrasi->fungsi_bangunan,
-            'luas_tanah' => $permohonan->luas_tanah,
-            'ada_bangunan' => $this->itr->ada_bangunan,
-            'koordinat' => $textKoordinat,
-            'penguasaan_tanah' => $this->itr->penguasaan_tanah,
-            'jml_bangunan' => $this->itr->jml_bangunan,
-            'jml_lantai' => $this->itr->jml_lantai,
-            'luas_lantai' => $this->itr->luas_lantai,
-            'kedalaman_min' => $this->itr->kedalaman_min,
-            'kedalaman_max' => $this->itr->kedalaman_max,
-        ];
-
-        return $this->generateDocument('3_kajian_itr.docx', $data);
-    }
-
-    public function download4()
-    {
-        $permohonan = $this->itr->permohonan;
-        $data = [
-            'nama_pemohon' => $permohonan->registrasi->nama,
-            'alamat_pemohon' => $permohonan->alamat_pemohon,
-            'tanggal_regis' => date('d F Y', strtotime($permohonan->registrasi->tanggal)),
-            'kode_regis' => $permohonan->registrasi->kode,
-            'nik' => $permohonan->registrasi->nik,
-            'no_hp' => $permohonan->registrasi->no_hp,
-            'email' => $permohonan->registrasi->email,
             'npwp' => $permohonan->npwp,
             'status_modal' => $permohonan->status_modal,
             'kbli' => $permohonan->kbli,
@@ -106,6 +53,8 @@ class ItrAnalisDetail extends Component
             'kec_tanah' => $permohonan->registrasi->kec_tanah,
             'jenis_bangunan' => $permohonan->registrasi->fungsi_bangunan,
             'luas_tanah' => $permohonan->luas_tanah,
+            'koordinat' => $textKoordinat,
+            'penguasaan_tanah' => $this->itr->penguasaan_tanah,
             'skala_usaha' => $this->itr->skala_usaha,
             'luas_disetujui' => $this->itr->luas_disetujui,
             'pemanfaatan_ruang' => $this->itr->pemanfaatan_ruang,
@@ -122,8 +71,17 @@ class ItrAnalisDetail extends Component
             'jaringan_utilitas' => $this->itr->jaringan_utilitas,
             'persyaratan_pelaksanaan' => $this->itr->persyaratan_pelaksanaan,
         ];
-        $this->koodinatTable = true;
-        return $this->generateDocument('4_dokumen_itr.docx', $data);
+
+        $this->koordinatTable = true;
+
+        if($this->itr->jenis_itr == 'ITR')
+        {
+            return $this->generateDocument('3_template_itr.docx', $data);
+        }
+        elseif($this->itr->jenis_itr == 'ITR-KKPR')
+        {
+            return $this->generateDocument('3_template_itr_kkpr.docx', $data);
+        }
     }
 
     private function generateDocument($templatePath, $data)
@@ -134,7 +92,7 @@ class ItrAnalisDetail extends Component
             $templateProcessor->setValue($key, $value);
         }
 
-        if($this->koodinatTable)
+        if($this->koordinatTable)
         {
             $koordinatList = $this->itr->koordinat;
             // 🧭 Jika ada data koordinat, isi ke tabel di Word
@@ -185,7 +143,7 @@ class ItrAnalisDetail extends Component
                     'is_done' => true,
                     'tgl_selesai' => now()
                 ]);
-                $this->createRiwayat($this->itr->permohonan, 'Selesai Analisa Data itr');
+                $this->createRiwayat($this->itr->permohonan, 'Selesai Analisa Data ITR');
             }
 
             // Create disposisi to supervisor for 'Verifikasi' tahapan

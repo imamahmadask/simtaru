@@ -15,9 +15,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('permohonan_id')->constrained('permohonan')->cascadeOnDelete();
             $table->foreignId('layanan_id')->constrained('layanan')->cascadeOnDelete();
+            $table->string('jenis_itr', 100)->nullable();
+            $table->string('skala_usaha', 100)->nullable();
+            $table->string('luas_disetujui', 50)->nullable();
             $table->string('penguasaan_tanah', 100)->nullable();
             $table->string('pemanfaatan_ruang', 100)->nullable();
             $table->string('peraturan_zonasi', 100)->nullable();
+            $table->string('kbli_diizinkan', 100)->nullable();
             $table->string('kdb', 100)->nullable();
             $table->string('klb', 100)->nullable();
             $table->string('gsb', 100)->nullable();
@@ -34,7 +38,6 @@ return new class extends Migration
             $table->string('foto_survey')->nullable();
             $table->boolean('is_survey')->nullable();
             $table->boolean('is_berkas_survey_uploaded')->nullable();
-            $table->boolean('is_kajian')->nullable();
             $table->boolean('is_analis')->nullable();
             $table->boolean('is_berkas_analis_uploaded')->nullable();
             $table->boolean('is_dokumen')->nullable();

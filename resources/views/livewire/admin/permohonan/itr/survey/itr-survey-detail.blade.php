@@ -5,17 +5,18 @@
                 @if (!$itr->is_survey)
                     @if ($itr->tgl_survey)
                         {{-- Actions available AFTER survey date is set --}}
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditSurveyModal">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#EditSurveyItrModal">
                             <i class="bx bx-edit"></i> Edit Survey
                         </button>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#UploadBerkasSurveyModal">
+                            data-bs-target="#UploadBerkasSurveyItrModal">
                             <i class="bx bx-cloud-upload"></i> Berkas Survey
                         </button>
                     @else
                         {{-- Action available BEFORE survey date is set --}}
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#AddSurveyModal">
+                            data-bs-target="#AddSurveyItrModal">
                             <i class="bx bx-plus"></i> Add Survey
                         </button>
                     @endif

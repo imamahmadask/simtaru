@@ -2,44 +2,22 @@
     <div class="mb-3">
         <div class="d-flex flex-wrap gap-3">
             @can('manageAnalis', $itr->permohonan)
-                @if (!$itr->is_analis)
-                    @if ($itr->is_survey)
-                        @if (!$itr->is_kajian)
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#AddKajianAnalisaModal">
-                                <i class="bx bx-plus"></i> Data Kajian
-                            </button>
-                        @else
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#EditKajianAnalisaModal">
-                                <i class="bx bx-edit"></i> Edit Data Kajian
-                            </button>
-                            @teleport('body')
-                                @livewire('admin.permohonan.itr.analis.itr-kajian-analis-edit', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id])
-                            @endteleport
-                        @endif
-                    @endif {{-- End of is_survey check --}}
-
-                    @if ($itr->is_kajian)
-                        @if (!$itr->is_dokumen)
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#AddDokumenItrModal">
-                                <i class="bx bx-plus"></i> Data Dokumen
-                            </button>
-                        @else
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#EditDokumenItrModal">
-                                <i class="bx bx-edit"></i> Edit Data Dokumen
-                            </button>
-                            @teleport('body')
-                                @livewire('admin.permohonan.itr.analis.itr-dokumen-analis-edit', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id])
-                            @endteleport
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#UploadBerkasAnalisaModal">
-                                <i class="bx bx-cloud-upload"></i> Berkas Analisa
-                            </button>
-                        @endif
-                    @endif {{-- End of is_kajian check --}}
+                @if (!$itr->is_dokumen)
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddDokumenItrModal">
+                        <i class="bx bx-plus"></i> Data Analisa
+                    </button>
+                @else
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#EditDokumenItrModal">
+                        <i class="bx bx-edit"></i> Edit Data Dokumen
+                    </button>
+                    @teleport('body')
+                        @livewire('admin.permohonan.itr.analis.itr-dokumen-analis-edit', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id])
+                    @endteleport
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#UploadBerkasAnalisaItrModal">
+                        <i class="bx bx-cloud-upload"></i> Berkas Analisa
+                    </button>
                 @endif
                 <button type="button" class="btn {{ $itr->is_analis ? 'btn-success' : 'btn-danger' }}"
                     wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiAnalisaModal"
@@ -58,65 +36,43 @@
         <div class="col-xl-6">
             <div class="card mb-4">
                 <div class="card-header d-flex align-items-center justify-content-between bg-secondary">
-                    <h5 class="mb-0 text-white">Data Kajian Analisa ITR</h5>
+                    <h5 class="mb-0 text-white">Data Dokumen ITR</h5>
                 </div>
                 <div class="card-body mt-3">
                     <div class="row mb-3">
-                        <label class="col-sm-4 col-form-label" for="luas_permohonan">
-                            Luas Permohonan
+                        <label class="col-sm-4 col-form-label" for="jenis_itr">
+                            Jenis ITR
                         </label>
                         <div class="col-sm-8">
-                            <input id="luas_permohonan" class="form-control"
-                                value="{{ $itr->permohonan->luas_tanah }} m2" readonly>
+                            <input id="jenis_itr" class="form-control" value="{{ $itr->jenis_itr }}" readonly>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label class="col-sm-4 col-form-label" for="penguasaan_tanah">
-                            Informasi Penguasaan Tanah
+                            Penguasaan Tanah
                         </label>
                         <div class="col-sm-8">
                             <input id="penguasaan_tanah" class="form-control" value="{{ $itr->penguasaan_tanah }}"
                                 readonly>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <div class="card-header d-flex align-items-center justify-content-between bg-secondary">
-                    <h5 class="mb-0 text-white">Download Template Berkas</h5>
-                </div>
-                <div class="card-body mt-3">
                     <div class="row mb-3">
-                        <button type="button" class="btn btn-primary" wire:click="download2a">
-                            Template 2A (BA Rapat FPR)
-                        </button>
+                        <label class="col-sm-4 col-form-label" for="skala_usaha">
+                            Skala Usaha
+                        </label>
+                        <div class="col-sm-8">
+                            <input id="skala_usaha" class="form-control" value="{{ $itr->skala_usaha }}" readonly>
+                        </div>
                     </div>
                     <div class="row mb-3">
-                        <button type="button" class="btn btn-primary" wire:click="download2b">
-                            Template 2B (Notulensi Rapat FPR)
-                        </button>
+                        <label class="col-sm-4 col-form-label" for="luas_disetujui">
+                            Luas Disetujui
+                        </label>
+                        <div class="col-sm-8">
+                            <input id="luas_disetujui" class="form-control" value="{{ $itr->luas_disetujui }} m2"
+                                readonly>
+                        </div>
                     </div>
-                    <div class="row mb-3">
-                        <button type="button" class="btn btn-primary" wire:click="download3">
-                            Template 3 (Kajian ITR)
-                        </button>
-                    </div>
-                    <div class="row mb-3">
-                        <button type="button" class="btn btn-primary" wire:click="download4">
-                            Template 4 (Dokumen ITR)
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-6">
-            <div class="card mb-4">
-                <div class="card-header d-flex align-items-center justify-content-between bg-secondary">
-                    <h5 class="mb-0 text-white">Data Dokumen ITR</h5>
-                </div>
-                <div class="card-body mt-3">
                     <div class="row mb-3">
                         <label class="col-sm-4 col-form-label" for="pemanfaatan_ruang">
                             Jenis Peruntukan Pemanfaatan Ruang
@@ -163,8 +119,7 @@
                         </label>
                         <div class="col-sm-8">
                             <div class="input-group">
-                                <input id="gsb" class="form-control" value="{{ $itr->gsb }} Meter"
-                                    readonly>
+                                <input id="gsb" class="form-control" value="{{ $itr->gsb }} Meter" readonly>
                             </div>
                         </div>
                     </div>
@@ -247,6 +202,21 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header d-flex align-items-center justify-content-between bg-secondary">
+                    <h5 class="mb-0 text-white">Download Template Berkas</h5>
+                </div>
+                <div class="card-body mt-3">
+                    <div class="row mb-3">
+                        <button type="button" class="btn btn-primary" wire:click="download2">
+                            Template 2 (Dokumen ITR)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div wire:ignore.self class="modal fade" id="selesaiAnalisaModal" data-bs-backdrop="static" tabindex="-1"
@@ -275,9 +245,6 @@
         </div>
     </div>
 
-    @teleport('body')
-        @livewire('admin.permohonan.itr.analis.itr-kajian-analis-create', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id])
-    @endteleport
     @teleport('body')
         @livewire('admin.permohonan.itr.analis.itr-dokumen-analis-create', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id])
     @endteleport

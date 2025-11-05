@@ -1,5 +1,5 @@
 <div>
-    <div wire:ignore.self class="modal fade" id="EditSurveyModal" data-bs-backdrop="static" tabindex="-1"
+    <div wire:ignore.self class="modal fade" id="EditSurveyItrModal" data-bs-backdrop="static" tabindex="-1"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
