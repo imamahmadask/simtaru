@@ -7,11 +7,14 @@ use App\Models\RiwayatPermohonan;
 use App\Models\Itr;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class ItrDokumenAnalisCreate extends Component
 {
+    use WithFileUploads;
+
     public $permohonan, $itr;
-    public $jenis_itr, $skala_usaha, $luas_disetujui, $pemanfaatan_ruang, $peraturan_zonasi, $kbli_diizinkan, $kdb, $klb, $gsb, $jba, $jbb, $kdh, $ktb, $luas_kavling, $jaringan_utilitas, $persyaratan_pelaksanaan;
+    public $no_kkkpr, $dokumen_kkkpr, $jenis_itr, $skala_usaha, $luas_disetujui, $pemanfaatan_ruang, $peraturan_zonasi, $kbli_diizinkan, $kdb, $klb, $gsb, $jba, $jbb, $kdh, $ktb, $luas_kavling, $jaringan_utilitas, $persyaratan_pelaksanaan;
     public $penguasaan_tanah;
 
     public function render()
@@ -21,8 +24,20 @@ class ItrDokumenAnalisCreate extends Component
 
     public function createDokumenAnalisa()
     {
+
+        if ($this->dokumen_kkkpr) {
+            $filename = 'dokumen_kkkpr_' . time() . '.' . $this->dokumen_kkkpr->getClientOriginalExtension();
+            $path = $this->dokumen_kkkpr->storeAs(
+                'itr/' . $this->itr->registrasi->kode, // folder per registrasi
+                $filename,
+                'public'
+            );
+            $this->dokumen_kkkpr = $path;
+        }
         $this->itr->update([
             'jenis_itr' => $this->jenis_itr,
+            'no_kkkpr' => $this->no_kkkpr,
+            'dokumen_kkkpr' => $this->dokumen_kkkpr,
             'penguasaan_tanah' => $this->penguasaan_tanah,
             'skala_usaha' => $this->skala_usaha,
             'luas_disetujui' => $this->luas_disetujui,

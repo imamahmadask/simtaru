@@ -11,6 +11,8 @@ class Itr extends Model
         'permohonan_id',
         'layanan_id',
         'jenis_itr',
+        'no_kkkpr',
+        'dokumen_kkkpr',
         'skala_usaha',
         'luas_disetujui',
         'penguasaan_tanah',

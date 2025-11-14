@@ -47,158 +47,211 @@
                             <input id="jenis_itr" class="form-control" value="{{ $itr->jenis_itr }}" readonly>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-4 col-form-label" for="penguasaan_tanah">
-                            Penguasaan Tanah
-                        </label>
-                        <div class="col-sm-8">
-                            <input id="penguasaan_tanah" class="form-control" value="{{ $itr->penguasaan_tanah }}"
-                                readonly>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-4 col-form-label" for="skala_usaha">
-                            Skala Usaha
-                        </label>
-                        <div class="col-sm-8">
-                            <input id="skala_usaha" class="form-control" value="{{ $itr->skala_usaha }}" readonly>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-4 col-form-label" for="luas_disetujui">
-                            Luas Disetujui
-                        </label>
-                        <div class="col-sm-8">
-                            <input id="luas_disetujui" class="form-control" value="{{ $itr->luas_disetujui }} m2"
-                                readonly>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-4 col-form-label" for="pemanfaatan_ruang">
-                            Jenis Peruntukan Pemanfaatan Ruang
-                        </label>
-                        <div class="col-sm-8">
-                            <input id="pemanfaatan_ruang" class="form-control" value="{{ $itr->pemanfaatan_ruang }}"
-                                readonly>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-4 col-form-label" for="peraturan_zonasi">
-                            Peraturan Zonasi
-                        </label>
-                        <div class="col-sm-8">
-                            <div class="input-group">
-                                <input id="peraturan_zonasi" class="form-control" value="{{ $itr->peraturan_zonasi }}"
+                    @if ($itr->jenis_itr == 'ITR')
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label" for="penguasaan_tanah">
+                                Penguasaan Tanah
+                            </label>
+                            <div class="col-sm-8">
+                                <input id="penguasaan_tanah" class="form-control" value="{{ $itr->penguasaan_tanah }}"
                                     readonly>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-4 col-form-label" for="kdb">
-                            Koefisien Dasar Bangunan (KDB) Maksimum
-                        </label>
-                        <div class="col-sm-8">
-                            <div class="input-group">
-                                <input id="kdb" class="form-control" value="{{ $itr->kdb }}" readonly>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-4 col-form-label" for="klb">
-                            Koefisien Lantai Bangunan (KLB)
-                        </label>
-                        <div class="col-sm-8">
-                            <div class="input-group">
-                                <input id="klb" class="form-control" value="{{ $itr->klb }}" readonly>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-4 col-form-label" for="gsb">
-                            Garis Sempadan Bangunan (GSB)
-                        </label>
-                        <div class="col-sm-8">
-                            <div class="input-group">
-                                <input id="gsb" class="form-control" value="{{ $itr->gsb }} Meter" readonly>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-4 col-form-label" for="jba">
-                            Jarak Bebas Antar Bangunan (JBA) Minimum
-                        </label>
-                        <div class="col-sm-8">
-                            <div class="input-group">
-                                <input id="jba" class="form-control" value="{{ $itr->jba }} Meter"
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label" for="pemanfaatan_ruang">
+                                Jenis Peruntukan Pemanfaatan Ruang
+                            </label>
+                            <div class="col-sm-8">
+                                <input id="pemanfaatan_ruang" class="form-control" value="{{ $itr->pemanfaatan_ruang }}"
                                     readonly>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-4 col-form-label" for="jbb">
-                            Jarak Bebas Belakang (JBB) Minimum
-                        </label>
-                        <div class="col-sm-8">
-                            <div class="input-group">
-                                <input id="jbb" class="form-control" value="{{ $itr->jbb }} Meter"
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label" for="peraturan_zonasi">
+                                Peraturan Zonasi
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input id="peraturan_zonasi" class="form-control"
+                                        value="{{ $itr->peraturan_zonasi }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label" for="persyaratan_pelaksanaan">
+                                Persyaratan Pelaksanaan Kegiatan Pemanfaatan Ruang
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input id="persyaratan_pelaksanaan" class="form-control"
+                                        value="{{ $itr->persyaratan_pelaksanaan }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    @elseif($itr->jenis_itr == 'ITR-KKKPR')
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label" for="no_kkkpr">
+                                No KKKPR
+                            </label>
+                            <div class="col-sm-8">
+                                <input id="no_kkkpr" class="form-control" value="{{ $itr->no_kkkpr }}" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label" for="skala_usaha">
+                                Skala Usaha
+                            </label>
+                            <div class="col-sm-8">
+                                <input id="skala_usaha" class="form-control" value="{{ $itr->skala_usaha }}" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label" for="luas_disetujui">
+                                Luas Disetujui
+                            </label>
+                            <div class="col-sm-8">
+                                <input id="luas_disetujui" class="form-control" value="{{ $itr->luas_disetujui }} m2"
                                     readonly>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-4 col-form-label" for="kdh">
-                            Koefisien Dasar Hijau (KDH) Minimum
-                        </label>
-                        <div class="col-sm-8">
-                            <div class="input-group">
-                                <input id="kdh" class="form-control" value="{{ $itr->kdh }}" readonly>
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label" for="pemanfaatan_ruang">
+                                Jenis Peruntukan Pemanfaatan Ruang
+                            </label>
+                            <div class="col-sm-8">
+                                <input id="pemanfaatan_ruang" class="form-control"
+                                    value="{{ $itr->pemanfaatan_ruang }}" readonly>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-4 col-form-label" for="ktb">
-                            Koefisien Tapak Basement (KTB)
-                        </label>
-                        <div class="col-sm-8">
-                            <div class="input-group">
-                                <input id="ktb" class="form-control" value="{{ $itr->ktb }}" readonly>
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label" for="peraturan_zonasi">
+                                Peraturan Zonasi
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input id="peraturan_zonasi" class="form-control"
+                                        value="{{ $itr->peraturan_zonasi }}" readonly>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-4 col-form-label" for="luas_kavling">
-                            Luas kavling Minimum
-                        </label>
-                        <div class="col-sm-8">
-                            <div class="input-group">
-                                <input id="luas_kavling" class="form-control" value="{{ $itr->luas_kavling }} m2"
-                                    readonly>
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label" for="kdb">
+                                Koefisien Dasar Bangunan (KDB) Maksimum
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input id="kdb" class="form-control" value="{{ $itr->kdb }}" readonly>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-4 col-form-label" for="jaringan_utilitas">
-                            Jaringan Utilitas Kota
-                        </label>
-                        <div class="col-sm-8">
-                            <div class="input-group">
-                                <input id="jaringan_utilitas" class="form-control"
-                                    value="{{ $itr->jaringan_utilitas }}" readonly>
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label" for="klb">
+                                Koefisien Lantai Bangunan (KLB)
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input id="klb" class="form-control" value="{{ $itr->klb }}" readonly>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-4 col-form-label" for="persyaratan_pelaksanaan">
-                            Persyaratan Pelaksanaan Kegiatan Pemanfaatan Ruang
-                        </label>
-                        <div class="col-sm-8">
-                            <div class="input-group">
-                                <input id="persyaratan_pelaksanaan" class="form-control"
-                                    value="{{ $itr->persyaratan_pelaksanaan }}" readonly>
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label" for="gsb">
+                                Garis Sempadan Bangunan (GSB)
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input id="gsb" class="form-control" value="{{ $itr->gsb }} Meter"
+                                        readonly>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label" for="jba">
+                                Jarak Bebas Antar Bangunan (JBA) Minimum
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input id="jba" class="form-control" value="{{ $itr->jba }} Meter"
+                                        readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label" for="jbb">
+                                Jarak Bebas Belakang (JBB) Minimum
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input id="jbb" class="form-control" value="{{ $itr->jbb }} Meter"
+                                        readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label" for="kdh">
+                                Koefisien Dasar Hijau (KDH) Minimum
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input id="kdh" class="form-control" value="{{ $itr->kdh }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label" for="ktb">
+                                Koefisien Tapak Basement (KTB)
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input id="ktb" class="form-control" value="{{ $itr->ktb }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label" for="luas_kavling">
+                                Luas kavling Minimum
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input id="luas_kavling" class="form-control"
+                                        value="{{ $itr->luas_kavling }} m2" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label" for="jaringan_utilitas">
+                                Jaringan Utilitas Kota
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input id="jaringan_utilitas" class="form-control"
+                                        value="{{ $itr->jaringan_utilitas }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label" for="persyaratan_pelaksanaan">
+                                Persyaratan Pelaksanaan Kegiatan Pemanfaatan Ruang
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input id="persyaratan_pelaksanaan" class="form-control"
+                                        value="{{ $itr->persyaratan_pelaksanaan }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label" for="persyaratan_pelaksanaan">
+                                Dokumen KKKPR
+                            </label>
+                            <div class="col-sm-8">
+                                <a href="{{ $itr->dokumen_kkkpr ? asset('storage/' . $itr->dokumen_kkkpr) : 'javascript:void(0)' }}"
+                                    target="_blank" type="button" class="btn btn-primary m-1">
+                                    Lihat Dokumen
+                                </a>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

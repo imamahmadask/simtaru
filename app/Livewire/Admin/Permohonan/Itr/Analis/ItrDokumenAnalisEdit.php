@@ -5,11 +5,14 @@ namespace App\Livewire\Admin\Permohonan\Itr\Analis;
 use App\Models\Permohonan;
 use App\Models\Itr;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class ItrDokumenAnalisEdit extends Component
 {
+    use WithFileUploads;
+
     public $permohonan, $itr;
-    public $jenis_itr, $skala_usaha, $luas_disetujui, $pemanfaatan_ruang, $peraturan_zonasi, $kbli_diizinkan, $kdb, $klb, $gsb, $jba, $jbb, $kdh, $ktb, $luas_kavling, $jaringan_utilitas, $persyaratan_pelaksanaan;
+    public $no_kkkpr, $dokumen_kkkpr, $dokumen_kkkpr_old, $jenis_itr, $skala_usaha, $luas_disetujui, $pemanfaatan_ruang, $peraturan_zonasi, $kbli_diizinkan, $kdb, $klb, $gsb, $jba, $jbb, $kdh, $ktb, $luas_kavling, $jaringan_utilitas, $persyaratan_pelaksanaan;
     public $penguasaan_tanah;
 
     public function render()
@@ -26,9 +29,14 @@ class ItrDokumenAnalisEdit extends Component
         if($this->jenis_itr == 'ITR')
         {
             $this->penguasaan_tanah = $this->itr->penguasaan_tanah;
+            $this->pemanfaatan_ruang = $this->itr->pemanfaatan_ruang;
+            $this->peraturan_zonasi = $this->itr->peraturan_zonasi;
+            $this->persyaratan_pelaksanaan = $this->itr->persyaratan_pelaksanaan;
         }
-        elseif($this->jenis_itr == 'ITR-KKPR')
+        elseif($this->jenis_itr == 'ITR-KKKPR')
         {
+            $this->no_kkkpr = $this->itr->no_kkkpr;
+            $this->dokumen_kkkpr_old = $this->itr->dokumen_kkkpr;
             $this->skala_usaha = $this->itr->skala_usaha;
             $this->luas_disetujui = $this->itr->luas_disetujui;
             $this->pemanfaatan_ruang = $this->itr->pemanfaatan_ruang;
@@ -49,8 +57,22 @@ class ItrDokumenAnalisEdit extends Component
 
     public function editDokumenAnalisa()
     {
+        if ($this->dokumen_kkkpr && !is_string($this->dokumen_kkkpr)) {
+            $filename = 'dokumen_kkkpr_' . time() . '.' . $this->dokumen_kkkpr->getClientOriginalExtension();
+            $path = $this->dokumen_kkkpr->storeAs(
+                'itr/' . $this->itr->registrasi->kode, // folder per registrasi
+                $filename,
+                'public'
+            );
+            $this->dokumen_kkkpr = $path;
+        }else{
+            $this->dokumen_kkkpr = $this->dokumen_kkkpr_old;
+        }
+
         $this->itr->update([
             'jenis_itr' => $this->jenis_itr,
+            'no_kkkpr' => $this->no_kkkpr,
+            'dokumen_kkkpr' => $this->dokumen_kkkpr,
             'penguasaan_tanah' => $this->penguasaan_tanah,
             'skala_usaha' => $this->skala_usaha,
             'luas_disetujui' => $this->luas_disetujui,

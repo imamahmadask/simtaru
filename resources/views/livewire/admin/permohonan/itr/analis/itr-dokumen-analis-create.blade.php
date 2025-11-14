@@ -17,7 +17,7 @@
                             <select name="jenis_itr" wire:model.live="jenis_itr" id="jenis_itr" class="form-select">
                                 <option value="" selected>Pilih Jenis ITR</option>
                                 <option value="ITR">ITR</option>
-                                <option value="ITR-KKPR">ITR KKPR</option>
+                                <option value="ITR-KKKPR">ITR KKKPR</option>
                             </select>
                         </div>
                         @if ($jenis_itr == 'ITR')
@@ -28,12 +28,78 @@
                                         id="penguasaan_tanah" placeholder="Masukkan Informasi Penguasaan Tanah">
                                 </div>
                             </div>
-                        @elseif($jenis_itr == 'ITR-KKPR')
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="pemanfaatan_ruang" class="form-label">Jenis Pemanfaatan Ruang</label>
+                                    <input type="text" class="form-control" wire:model="pemanfaatan_ruang"
+                                        id="pemanfaatan_ruang" placeholder="Masukkan Jenis Pemanfaatan Ruang">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="peraturan_zonasi" class="form-label">Peraturan Zonasi</label>
+                                    <input type="text" class="form-control" wire:model="peraturan_zonasi"
+                                        id="peraturan_zonasi" placeholder="Masukkan Peraturan Zonasi">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="persyaratan_pelaksanaan" class="form-label">Persyaratan Pelaksanaan
+                                        Kegiatan Pemanfaatan Ruang</label>
+                                    <input type="text" class="form-control" wire:model="persyaratan_pelaksanaan"
+                                        id="persyaratan_pelaksanaan" placeholder="Masukkan Persyaratan Pelaksanaan">
+                                </div>
+                            </div>
+                        @elseif($jenis_itr == 'ITR-KKKPR')
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="no_kkkpr" class="form-label">No KKKPR</label>
+                                    <input type="text" class="form-control" wire:model="no_kkkpr" id="no_kkkpr"
+                                        placeholder="Masukkan Nomor KKKPR">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <label for="dokumen_kkkpr" class="form-label mb-0 me-2">
+                                            Upload Dokumen KKKPR
+                                            {{-- Spinner saat proses upload --}}
+                                            <div wire:loading wire:target="dokumen_kkkpr"
+                                                class="spinner-border spinner-border-sm text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                            {{-- Tanda centang setelah upload selesai --}}
+                                            @if (!empty($dokumen_kkkpr))
+                                                <i wire:loading.remove wire:target="dokumen_kkkpr"
+                                                    class="bx bx-check-circle text-success"></i>
+                                            @endif
+                                        </label>
+                                    </div>
+                                    <input type="file" class="form-control" wire:model="dokumen_kkkpr"
+                                        id="dokumen_kkkpr">
+                                    @if ($dokumen_kkkpr)
+                                        <div class="mt-2">
+                                            {{-- Use the asset() helper for public storage files --}}
+                                            <a href="{{ asset('storage/' . $dokumen_kkkpr->file_path) }}"
+                                                target="_blank" class="text-primary">
+                                                <i class="bx bx-file"></i> Lihat Berkas
+                                            </a>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="no_kkkpr" class="form-label">Skala Usaha</label>
+                                    <input type="text" class="form-control" wire:model="no_kkkpr" id="no_kkkpr"
+                                        placeholder="Masukkan Skala Usaha">
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col mb-3">
                                     <label for="skala_usaha" class="form-label">Skala Usaha</label>
-                                    <input type="text" class="form-control" wire:model="skala_usaha" id="skala_usaha"
-                                        placeholder="Masukkan Skala Usaha">
+                                    <input type="text" class="form-control" wire:model="skala_usaha"
+                                        id="skala_usaha" placeholder="Masukkan Skala Usaha">
                                 </div>
                             </div>
                             <div class="row">
