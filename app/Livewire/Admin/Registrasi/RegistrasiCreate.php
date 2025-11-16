@@ -70,6 +70,6 @@ class RegistrasiCreate extends Component
     }
 
     public function mount(){
-        $this->layanans = Layanan::all();
+        $this->layanans = Layanan::orderBy('nama', 'ASC')->get();
     }
 }

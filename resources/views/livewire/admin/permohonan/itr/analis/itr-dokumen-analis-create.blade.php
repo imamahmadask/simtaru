@@ -90,16 +90,9 @@
                             </div>
                             <div class="row">
                                 <div class="col mb-3">
-                                    <label for="no_kkkpr" class="form-label">Skala Usaha</label>
-                                    <input type="text" class="form-control" wire:model="no_kkkpr" id="no_kkkpr"
-                                        placeholder="Masukkan Skala Usaha">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col mb-3">
                                     <label for="skala_usaha" class="form-label">Skala Usaha</label>
-                                    <input type="text" class="form-control" wire:model="skala_usaha"
-                                        id="skala_usaha" placeholder="Masukkan Skala Usaha">
+                                    <input type="text" class="form-control" wire:model="skala_usaha" id="skala_usaha"
+                                        placeholder="Masukkan Skala Usaha">
                                 </div>
                             </div>
                             <div class="row">

@@ -6,7 +6,7 @@
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddDokumenItrModal">
                         <i class="bx bx-plus"></i> Data Analisa
                     </button>
-                @else
+                @elseif(!$itr->is_analis)
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                         data-bs-target="#EditDokumenItrModal">
                         <i class="bx bx-edit"></i> Edit Data Dokumen
