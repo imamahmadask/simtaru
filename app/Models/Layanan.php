@@ -22,7 +22,7 @@ class Layanan extends Model
 
     public function tahapan()
     {
-        return $this->hasMany(Tahapan::class);
+        return $this->hasMany(Tahapan::class)->orderBy('urutan', 'asc');
     }
 
     public function persyaratanBerkas()

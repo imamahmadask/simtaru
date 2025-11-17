@@ -21,7 +21,7 @@ class Tahapan extends Model
 
     public function persyaratanBerkas()
     {
-        return $this->hasMany(PersyaratanBerkas::class);
+        return $this->hasMany(PersyaratanBerkas::class)->orderBy('urutan', 'asc');
     }
 
     public function disposisi()
