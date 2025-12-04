@@ -18,7 +18,7 @@
 <body>
     <!-- Header -->
     <header class="container-fluid py-3">
-        <nav class="navbar navbar-expand-lg">
+        <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
             <div class="container">
                 <a class="navbar-brand fw-bold fs-3 text-primary" href="/">
                     <img src="{{ asset('assets/img/logo/simtaru2.png') }}" alt="SIMTARU Logo" class="d-inline-block"
@@ -33,10 +33,10 @@
                             <a class="nav-link text-muted hover-primary" href="#features">Fitur</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-muted hover-primary" href="#testimonials">Permohonan</a>
+                            <a class="nav-link text-muted hover-primary" href="#permohonan">Permohonan</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-muted hover-primary" href="#pricing">Dokumentasi</a>
+                            <a class="nav-link text-muted hover-primary" href="#regulasi">Regulasi</a>
                         </li>
                         @if (Route::has('login'))
                             @auth
@@ -47,11 +47,6 @@
                                 <li class="nav-item ms-3">
                                     <a href="{{ route('login') }}" class="btn btn-outline-primary">Login</a>
                                 </li>
-                                @if (Route::has('register'))
-                                    <li class="nav-item ms-3">
-                                        <a href="{{ route('register') }}" class="btn btn-outline-primary">Register</a>
-                                    </li>
-                                @endif
                             @endauth
                         @endif
                     </ul>
@@ -61,7 +56,7 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero-section py-5">
+    <section class="hero-section" style="padding-top: 5rem !important; padding-bottom: 5rem !important">
         <div class="container text-center">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
@@ -77,7 +72,7 @@
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="py-5">
+    <section id="features" style="padding-top: 5rem !important; padding-bottom: 5rem !important">
         <div class="container">
             <div class="row justify-content-center text-center mb-5">
                 <div class="col-lg-8">
@@ -134,7 +129,7 @@
     </section>
 
     <!-- Testimonials Section -->
-    <section id="testimonials" class="py-5 bg-light">
+    <section id="permohonan" class="bg-light" style="padding-top: 5rem !important; padding-bottom: 5rem !important">
         <div class="container">
             <div class="row justify-content-center text-center mb-5">
                 <div class="col-lg-8">
@@ -214,7 +209,7 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="py-5">
+    <section id="regulasi" style="padding-top: 5rem !important; padding-bottom: 5rem !important">
         <div class="container text-center">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
