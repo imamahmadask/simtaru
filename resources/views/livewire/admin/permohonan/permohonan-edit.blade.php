@@ -360,6 +360,79 @@
                                 </div>
                             </div>
 
+                            @if ($kode_layanan == 'KKPRNB')
+                                <hr class="mt-3">
+                                
+                                <h5 class="text-danger">KKPR Non Berusaha</h5>
+
+                                <div class="row">     
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="create-tgl-validasi">Tanggal Validasi Berkas</label>
+                                            <input type="date" class="form-control" wire:model="tgl_validasi"
+                                                id="create-tgl-validasi" placeholder="Masukkan Tanggal Validasi" />
+                                            @error('tgl_validasi')
+                                                <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                            @enderror
+                                        </div>
+                                    </div>                               
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="create-tgl-terima-ptp">Tanggal Penerimaan PTP</label>
+                                            <input type="date" class="form-control" wire:model="tgl_terima_ptp"
+                                                id="create-tgl-terima-ptp" placeholder="Masukkan Tanggal PTP" />
+                                            @error('tgl_terima_ptp')
+                                                <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="create-tgl-ptp">Tanggal Penerbitan PTP</label>
+                                            <input type="date" class="form-control" wire:model="tgl_ptp"
+                                                id="create-tgl-ptp" placeholder="Masukkan Tanggal PTP" />
+                                            @error('tgl_ptp')
+                                                <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="create-no-ptp">Nomor PTP</label>
+                                            <input type="text" class="form-control" wire:model="no_ptp"
+                                                id="create-no-ptp" placeholder="Masukkan Nomor PTP" />
+                                            @error('no_ptp')
+                                                <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label for="berkas_ptp" class="form-label">
+                                               Berkas PTP
+                                                <div wire:loading wire:target="berkas_ptp"
+                                                    class="spinner-border spinner-border-sm text-primary" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                                {{-- Tanda centang setelah upload selesai --}}
+                                                @if (!empty($berkas_ptp))
+                                                    <i wire:loading.remove wire:target="berkas_ptp"
+                                                        class="bx bx-check-circle text-success"></i>
+                                                @endif
+                                            </label>
+                                            <input type="file" class="form-control" id="berkas_ptp"
+                                                wire:model.blur="berkas_ptp" accept="application/pdf">
+                                            <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                            @error('berkas_ptp')
+                                                <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
                             <div class="mb-3">
                                 <label for="keterangan" class="form-label">Keterangan</label>
                                 <textarea class="form-control" wire:model="keterangan" id="keterangan" rows="3"></textarea>

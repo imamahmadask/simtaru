@@ -6,6 +6,8 @@ use App\Livewire\Admin\Layanan\LayananDetail;
 use App\Livewire\Admin\Layanan\LayananIndex;
 use App\Livewire\Admin\Permohonan\Itr\ItrDetail;
 use App\Livewire\Admin\Permohonan\Itr\ItrIndex;
+use App\Livewire\Admin\Permohonan\Kkprnb\KkprnbDetail;
+use App\Livewire\Admin\Permohonan\Kkprnb\KkprnbIndex;
 use App\Livewire\Admin\Permohonan\PermohonanCreate;
 use App\Livewire\Admin\Permohonan\PermohonanDetail;
 use App\Livewire\Admin\Permohonan\PermohonanEdit;
@@ -37,6 +39,9 @@ Route::middleware(['cekRole:superadmin,supervisor,analis,surveyor,data-entry'])-
 
     Route::get('admin/permohonan-itr', ItrIndex::class)->name('itr.index');
     Route::get('admin/permohonan-itr/{id}', ItrDetail::class)->name('itr.detail');
+
+    Route::get('admin/permohonan-kkprnb', KkprnbIndex::class)->name('kkprnb.index');
+    Route::get('admin/permohonan-kkprnb/{id}', KkprnbDetail::class)->name('kkprnb.detail');
 
 
     Route::get('admin/disposisi', DisposisiIndex::class)->name('disposisi.index'); // Disposisi

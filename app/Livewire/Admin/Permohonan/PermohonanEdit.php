@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Permohonan;
 
 use App\Models\Disposisi;
+use App\Models\Kkprnb;
 use App\Models\Layanan;
 use App\Models\Permohonan;
 use App\Models\Registrasi;
@@ -20,7 +21,7 @@ class PermohonanEdit extends Component
 {
     use WithFileUploads;
 
-    public $layanans, $registrasis, $tahapans, $users;
+    public $layanans, $registrasis, $tahapans, $users, $kode_layanan;
     public $permohonan_id, $disposisi;
 
     #[Validate('required')]
@@ -29,7 +30,13 @@ class PermohonanEdit extends Component
     public $berkas_ktp, $berkas_nib, $berkas_penguasaan, $berkas_permohonan, $berkas_kuasa;
     public $berkas_ktp_lama, $berkas_nib_lama, $berkas_penguasaan_lama, $berkas_permohonan_lama, $berkas_kuasa_lama;
 
-   public $is_prioritas;
+    public $is_prioritas;
+
+    // PTP
+    public $tgl_ptp, $tgl_terima_ptp, $tgl_validasi, $no_ptp, $berkas_ptp_lama;
+
+    #[Validate('nullable|mimes:pdf|max:2000')]
+    public $berkas_ptp;
 
     public function mount($id)
     {
@@ -65,6 +72,18 @@ class PermohonanEdit extends Component
         $this->penerima_id = $this->disposisi->penerima_id;
         $this->catatan = $this->disposisi->catatan;
         $this->tahapan_id = $this->disposisi->tahapan_id;
+        $layanans = Layanan::find($this->layanan_id);
+        $this->kode_layanan = $layanans->kode;  
+
+        if($this->kode_layanan == 'KKPRNB')
+        {
+            $kkprnb = Kkprnb::where('permohonan_id', $permohonan->id)->first();
+            $this->tgl_validasi = $kkprnb->tgl_validasi;
+            $this->tgl_terima_ptp = $kkprnb->tgl_terima_ptp;
+            $this->tgl_ptp = $kkprnb->tgl_ptp;
+            $this->no_ptp = $kkprnb->no_ptp;
+            $this->berkas_ptp_lama = $kkprnb->berkas_ptp;
+        }
 
         // $this->berkas_pemohon_lama = $permohonan->berkas_pemohon;
 
@@ -111,6 +130,18 @@ class PermohonanEdit extends Component
             'is_prioritas' => $this->is_prioritas,
             'updated_by' => Auth::user()->id
         ]);
+
+        if($this->kode_layanan == 'KKPRNB') {
+            $path_berkas_ptp = $this->uploadFile($this->berkas_ptp, 'berkas_ptp', $this->berkas_ptp_lama);
+            $kkprnb = Kkprnb::where('permohonan_id', $permohonan->id)->first();
+            $kkprnb->update([
+                'tgl_validasi' => $this->tgl_validasi,
+                'tgl_terima_ptp' => $this->tgl_terima_ptp,
+                'tgl_ptp' => $this->tgl_ptp,
+                'no_ptp' => $this->no_ptp,
+                'berkas_ptp' => $path_berkas_ptp,
+            ]);
+        }
 
         $this->disposisi->update([
             'pemberi_id' => $this->pemberi_id,

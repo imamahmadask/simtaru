@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Permohonan;
 
 use App\Models\Disposisi;
 use App\Models\Itr;
+use App\Models\Kkprnb;
 use App\Models\Layanan;
 use App\Models\Permohonan;
 use App\Models\Registrasi;
@@ -22,7 +23,7 @@ class PermohonanCreate extends Component
 {
     use WithFileUploads;
 
-    public $layanans, $registrasis, $users;
+    public $layanans, $registrasis, $users, $kode_layanan;
     public $tahapans = [];
 
     #[Validate('required')]
@@ -31,6 +32,12 @@ class PermohonanCreate extends Component
 
     #[Validate('nullable|mimes:pdf|max:2000')]
     public $berkas_ktp, $berkas_nib, $berkas_penguasaan, $berkas_permohonan, $berkas_kuasa;
+
+    // PTP
+    public $tgl_ptp, $tgl_terima_ptp, $tgl_validasi, $no_ptp;
+
+    #[Validate('nullable|mimes:pdf|max:2000')]
+    public $berkas_ptp;
 
     public function render()
     {
@@ -70,35 +77,34 @@ class PermohonanCreate extends Component
         $this->createRiwayat($permohonan, 'Entry Permohonan');
 
         $layanan = Layanan::findOrFail($this->layanan_id);
-        $skrk = '';
-        $itr = '';
-        if($layanan->kode == 'SKRK') {
-            $skrk = Skrk::create([
+        $serviceModel = null;
+
+        if ($layanan->kode == 'SKRK') {
+            $serviceModel = Skrk::create([
                 'permohonan_id' => $permohonan->id,
                 'layanan_id' => $this->layanan_id,
             ]);
-        }
-        elseif($layanan->kode == 'ITR')
-        {
-            $itr = Itr::create([
+        } elseif ($layanan->kode == 'ITR') {
+            $serviceModel = Itr::create([
                 'permohonan_id' => $permohonan->id,
                 'layanan_id' => $this->layanan_id,
+            ]);
+        } elseif ($layanan->kode == 'KKPRNB') {
+            $path_berkas_ptp = $this->uploadFile($this->berkas_ptp, 'berkas_ptp');
+            $serviceModel = Kkprnb::create([
+                'permohonan_id' => $permohonan->id,
+                'layanan_id' => $this->layanan_id,
+                'tgl_validasi' => $this->tgl_validasi,
+                'tgl_terima_ptp' => $this->tgl_terima_ptp,
+                'tgl_ptp' => $this->tgl_ptp,
+                'no_ptp' => $this->no_ptp,
+                'berkas_ptp' => $path_berkas_ptp,
             ]);
         }
 
-        if($layanan->kode == 'SKRK'){
-            $skrk->disposisis()->create([
-                'permohonan_id' => $skrk->permohonan_id,
-                'tahapan_id' => $this->tahapan_id,
-                'pemberi_id' => Auth::user()->id,
-                'penerima_id' => $this->penerima_id,
-                'catatan' => $this->catatan,
-            ]);
-        }
-        elseif($layanan->kode == 'ITR')
-        {
-            $itr->disposisis()->create([
-                'permohonan_id' => $itr->permohonan_id,
+        if ($serviceModel) {
+            $serviceModel->disposisis()->create([
+                'permohonan_id' => $permohonan->id,
                 'tahapan_id' => $this->tahapan_id,
                 'pemberi_id' => Auth::user()->id,
                 'penerima_id' => $this->penerima_id,
@@ -142,10 +148,10 @@ class PermohonanCreate extends Component
         $this->users = User::where('role', 'surveyor')->get();
     }
 
-    public function updated($registrasi_id)
-    {
-        if ($registrasi_id != "") {
-            $registrasi = Registrasi::find($this->registrasi_id);
+    public function updatedRegistrasiId($value)
+    {                
+        if ($value != "") {
+            $registrasi = Registrasi::find($value);
             $this->layanan_id = $registrasi->layanan_id;
             $this->nama = $registrasi->nama;
             $this->nik = $registrasi->nik;
@@ -156,6 +162,9 @@ class PermohonanCreate extends Component
             $this->kec_tanah = $registrasi->kec_tanah;
             $this->fungsi_bangunan = $registrasi->fungsi_bangunan;
             $this->tahapans = Tahapan::where('layanan_id', $this->layanan_id)->where('urutan', 1)->get();
+
+            $layanans = Layanan::find($this->layanan_id);
+            $this->kode_layanan = $layanans->kode;            
         }
         else
         {
