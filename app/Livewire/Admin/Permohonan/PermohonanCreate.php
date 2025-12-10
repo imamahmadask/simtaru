@@ -34,7 +34,7 @@ class PermohonanCreate extends Component
     public $berkas_ktp, $berkas_nib, $berkas_penguasaan, $berkas_permohonan, $berkas_kuasa;
 
     // PTP
-    public $tgl_ptp, $tgl_terima_ptp, $tgl_validasi, $no_ptp;
+    public $tgl_ptp, $tgl_terima_ptp, $tgl_validasi, $no_ptp, $rdtr_rtrw ;
 
     #[Validate('nullable|mimes:pdf|max:2000')]
     public $berkas_ptp;
@@ -99,6 +99,7 @@ class PermohonanCreate extends Component
                 'tgl_ptp' => $this->tgl_ptp,
                 'no_ptp' => $this->no_ptp,
                 'berkas_ptp' => $path_berkas_ptp,
+                'rdtr_rtrw' => $this->rdtr_rtrw,
             ]);
         }
 

@@ -33,7 +33,7 @@ class PermohonanEdit extends Component
     public $is_prioritas;
 
     // PTP
-    public $tgl_ptp, $tgl_terima_ptp, $tgl_validasi, $no_ptp, $berkas_ptp_lama;
+    public $tgl_ptp, $tgl_terima_ptp, $tgl_validasi, $no_ptp, $berkas_ptp_lama, $rdtr_rtrw;
 
     #[Validate('nullable|mimes:pdf|max:2000')]
     public $berkas_ptp;
@@ -65,7 +65,7 @@ class PermohonanEdit extends Component
         $this->is_prioritas = $permohonan->is_prioritas;
         $this->status_modal = $permohonan->status_modal;
         $this->kbli = $permohonan->kbli;
-        $this->judul_kbli = $permohonan->judul_kbli;
+        $this->judul_kbli = $permohonan->judul_kbli;        
 
         $this->disposisi = Disposisi::where('permohonan_id', $permohonan->id)->first();
         $this->pemberi_id = $this->disposisi->pemberi_id;
@@ -83,6 +83,7 @@ class PermohonanEdit extends Component
             $this->tgl_ptp = $kkprnb->tgl_ptp;
             $this->no_ptp = $kkprnb->no_ptp;
             $this->berkas_ptp_lama = $kkprnb->berkas_ptp;
+            $this->rdtr_rtrw = $kkprnb->rdtr_rtrw;
         }
 
         // $this->berkas_pemohon_lama = $permohonan->berkas_pemohon;
@@ -140,6 +141,7 @@ class PermohonanEdit extends Component
                 'tgl_ptp' => $this->tgl_ptp,
                 'no_ptp' => $this->no_ptp,
                 'berkas_ptp' => $path_berkas_ptp,
+                'rdtr_rtrw' => $this->rdtr_rtrw,
             ]);
         }
 

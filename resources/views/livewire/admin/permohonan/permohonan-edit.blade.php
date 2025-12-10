@@ -365,6 +365,22 @@
                                 
                                 <h5 class="text-danger">KKPR Non Berusaha</h5>
 
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="create-rdtr-rtrw">RDTR / RTRW</label>
+                                            <select class="form-control" wire:model="rdtr_rtrw" id="create-rdtr-rtrw">
+                                                <option value="">-- Pilih --</option>
+                                                <option value="RDTR">RDTR</option>
+                                                <option value="RTRW">RTRW</option>
+                                            </select>
+                                            @error('rdtr_rtrw')
+                                                <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                            @enderror
+                                        </div>
+                                    </div> 
+                                </div>
+
                                 <div class="row">     
                                     <div class="col">
                                         <div class="mb-3">

@@ -55,14 +55,14 @@
                             <div data-i18n="Text Divider">ITR</div>
                         </a>
                     </li>
-                    <li class="menu-item">
-                        <a href="#" class="menu-link">
-                            <div data-i18n="Text Divider">KKPR Berusaha</div>
-                        </a>
-                    </li>
                     <li class="menu-item {{ !! request()->routeIs('kkprnb.*') ? 'active' : '' }}">
                         <a href="{{ route('kkprnb.index') }}" class="menu-link">
                             <div data-i18n="Text Divider">KKPR Non Berusaha</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#" class="menu-link">
+                            <div data-i18n="Text Divider">KKPR Berusaha</div>
                         </a>
                     </li>
                 </ul>

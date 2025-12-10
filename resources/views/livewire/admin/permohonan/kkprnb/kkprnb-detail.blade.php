@@ -254,6 +254,16 @@
                                                         value="{{ $kkprnb->no_ptp }}" readonly />
                                                 </div>
                                             </div>
+                                            
+                                            <div class="row mb-3">
+                                                <label class="col-sm-4 col-form-label" for="rdtr_rtrw">
+                                                    RDTR / RTRW
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="rdtr_rtrw" class="form-control"
+                                                        value="{{ $kkprnb->rdtr_rtrw }}" readonly />
+                                                </div>
+                                            </div>
 
                                             <div class="row mb-3">
                                                 <label class="col-sm-4 col-form-label" for="status">Status</label>
@@ -329,7 +339,7 @@
                         </div>
 
                         <div class="tab-pane fade" id="navs-pills-top-analisa" role="tabpanel">
-                            {{-- @livewire('admin.permohonan.itr.analis.itr-analis-detail', ['itr_id' => $itr->id]) --}}
+                            @livewire('admin.permohonan.kkprnb.analis.kkprnb-analis-detail', ['kkprnb_id' => $kkprnb->id])
                         </div>
 
                         <div class="tab-pane fade" id="navs-pills-top-jafung" role="tabpanel">
