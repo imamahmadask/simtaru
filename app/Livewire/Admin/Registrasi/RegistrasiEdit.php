@@ -67,10 +67,16 @@ class RegistrasiEdit extends Component
                 'layanan_id' => $this->layanan_id,
             ]);
         }
+        
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Data registrasi berhasil diupdate!'
+        ]);
+        
+        $this->dispatch('refresh-registrasi-list');
 
-        session()->flash('success', 'Data registrasi berhasil diupdate!');
-
-        $this->redirectRoute('registrasi.index');
+        $this->dispatch('trigger-close-modal');
+        
     }
 
     public function mount(){

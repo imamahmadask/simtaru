@@ -64,9 +64,14 @@ class RegistrasiCreate extends Component
             'keterangan' => 'Entry Registrasi'
         ]);
 
-        session()->flash('success', 'Registrasi berhasil ditambahkan!');
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Data registrasi berhasil ditambahkan!'
+        ]);
+        
+        $this->dispatch('refresh-registrasi-list');
 
-        $this->redirectRoute('registrasi.index');
+        $this->dispatch('trigger-close-modal');
     }
 
     public function mount(){

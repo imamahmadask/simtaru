@@ -6,10 +6,9 @@ use App\Models\Layanan;
 use App\Models\Registrasi;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Component;
-use PhpOffice\PhpWord\IOFactory;
-use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\TemplateProcessor;
 
 #[Title('Registrasi')]
@@ -20,6 +19,10 @@ class RegistrasiIndex extends Component
     public $filterStatus = '';
     public $filterPrioritas = '';
     public $layanans;
+
+    #[On('refresh-registrasi-list')]
+    public function refresh()
+    {}
 
     public function render()
     {
