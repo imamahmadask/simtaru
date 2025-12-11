@@ -15,9 +15,7 @@ use PhpOffice\PhpWord\TemplateProcessor;
 class RegistrasiIndex extends Component
 {
     public $search = '';
-    public $filterLayanan = '';
-    public $filterStatus = '';
-    public $filterPrioritas = '';
+    public $filterLayanan = '';    
     public $layanans;
 
     #[On('refresh-registrasi-list')]
@@ -27,12 +25,19 @@ class RegistrasiIndex extends Component
     public function render()
     {
         $registrasis = Registrasi::with('layanan')
-                     ->whereHas('layanan', function($query) {
-                            $query->where('id', 'like', '%'.$this->filterLayanan.'%');
-                        })
-                    ->where('nama', 'like', '%' . $this->search . '%')
-                    ->orWhere('kode', 'like', '%' . $this->search . '%')
-                    ->orderBy('created_at', 'desc')->get();
+            ->when($this->filterLayanan, function ($query) {
+                $query->whereHas('layanan', function ($subQuery) {
+                    $subQuery->where('id', 'like', '%' . $this->filterLayanan . '%');
+                });
+            })
+            ->when($this->search, function ($query) {
+                $query->where(function ($subQuery) {
+                    $subQuery->where('nama', 'like', '%' . $this->search . '%')
+                             ->orWhere('kode', 'like', '%' . $this->search . '%');
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return view('livewire.admin.registrasi.registrasi-index', [
             'registrasis' => $registrasis
@@ -55,7 +60,7 @@ class RegistrasiIndex extends Component
 
     public function mount()
     {
-        $this->layanans = Layanan::all();
+        $this->layanans = Layanan::orderBy('nama', 'asc')->get();
     }
 
     public function printRegistrasi($id)
