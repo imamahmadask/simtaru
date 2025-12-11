@@ -301,7 +301,7 @@
                                     </div>
                                 </div>
                                 <div class="col-xl-6">
-                                    @livewire('admin.permohonan.riwayat.riwayat-permohonan-index', ['permohonan_id' => $permohonan->id])                                    
+                                    @livewire('admin.permohonan.riwayat.riwayat-permohonan-index', ['permohonan' => $permohonan])                                    
                                 </div>
                             </div>                            
                         </div>
