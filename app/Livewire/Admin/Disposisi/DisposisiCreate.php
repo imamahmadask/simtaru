@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Disposisi;
 
 use App\Models\Disposisi;
 use App\Models\Itr;
+use App\Models\Kkprnb;
 use App\Models\Layanan;
 use App\Models\Permohonan;
 use App\Models\RiwayatPermohonan;
@@ -51,7 +52,7 @@ class DisposisiCreate extends Component
 
         $this->pemberi_id = Auth::user()->id;
 
-        if($layanan->nama == 'SKRK')
+        if($layanan->kode == 'SKRK')
         {
             $skrk = Skrk::find($this->pelayanan_id);
             $skrk->disposisis()->create([
@@ -63,7 +64,7 @@ class DisposisiCreate extends Component
                 'catatan' => $this->catatan,
             ]);
         }
-        elseif($layanan->nama == 'ITR')
+        elseif($layanan->kode == 'ITR')
         {
             $itr = Itr::find($this->pelayanan_id);
             $itr->disposisis()->create([
@@ -75,22 +76,29 @@ class DisposisiCreate extends Component
                 'catatan' => $this->catatan,
             ]);
         }
-
-        $this->createRiwayat($this->permohonan, "Disposisi kepada {$this->users->where('id', $this->penerima_id)->first()->name} pada tahapan ". $this->tahapans->where('id', $this->tahapan_id)->first()->nama);
-
-        session()->flash('message', 'Disposisi berhasil ditambahkan.');
-
-        if($layanan->nama == 'SKRK') {
-            $skrk = Skrk::where('permohonan_id', $this->permohonan->id)->first();
-            return redirect()->route('skrk.detail', ['id' => $skrk->id]);
-        }
-        elseif($layanan->nama == 'ITR')
+        elseif($layanan->kode == 'KKPRNB')
         {
-            $itr = Itr::where('permohonan_id', $this->permohonan->id)->first();
-            return redirect()->route('itr.detail', ['id' => $itr->id]);
+            $kkprnb = Kkprnb::find($this->pelayanan_id);
+            $kkprnb->disposisis()->create([
+                'permohonan_id' => $this->permohonan->id,
+                'tahapan_id' => $this->tahapan_id,
+                'pemberi_id' => $this->pemberi_id,
+                'penerima_id' => $this->penerima_id,
+                'tanggal_disposisi' => now(),
+                'catatan' => $this->catatan,
+            ]);
         }
 
-        return $this->redirectRoute('permohonan.detail', ['id' => $this->permohonan_id]);
+        $this->createRiwayat($this->permohonan, "Disposisi kepada {$this->users->where('id', $this->penerima_id)->first()->name} pada tahapan ". $this->tahapans->where('id', $this->tahapan_id)->first()->nama);        
+
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Disposisi berhasil ditambahkan.'
+        ]);
+
+        $this->dispatch('refresh-disposisi-list');
+
+        $this->dispatch('trigger-close-modal');
     }
 
     public function updatedTahapanId($value)

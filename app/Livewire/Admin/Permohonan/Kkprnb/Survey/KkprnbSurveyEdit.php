@@ -101,9 +101,14 @@ class KkprnbSurveyEdit extends Component
             ],
         ]);
 
-        session()->flash('success', 'Data Survey berhasil diupdate!');
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Data Survey berhasil diupdate!'
+        ]);
 
-        return redirect()->route('kkprnb.detail', ['id' => $this->kkprnb->id]);
+        $this->dispatch('refresh-kkprnb-survey-list');
+
+        $this->dispatch('trigger-close-modal');
     }
 
     public function mount($permohonan_id, $kkprnb_id)

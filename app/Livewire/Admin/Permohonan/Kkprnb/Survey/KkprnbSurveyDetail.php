@@ -6,6 +6,7 @@ use App\Models\Kkprnb;
 use App\Models\Permohonan;
 use App\Models\RiwayatPermohonan;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use PhpOffice\PhpWord\TemplateProcessor;
 
@@ -17,6 +18,9 @@ class KkprnbSurveyDetail extends Component
     {
         return view('livewire.admin.permohonan.kkprnb.survey.kkprnb-survey-detail');
     }
+
+    #[On('refresh-kkprnb-survey-list')]
+    public function refresh() {}
 
     public function mount($kkprnb_id)
     {
@@ -87,14 +91,19 @@ class KkprnbSurveyDetail extends Component
                 ]);
 
                 $this->createRiwayat($this->kkprnb->permohonan, 'Selesai Survey Data ITR');
-                $this->createRiwayat($this->kkprnb->permohonan, 'Proses Analisa ITR');
-
-                session()->flash('success', 'Data Survey selesai!');
+                $this->createRiwayat($this->kkprnb->permohonan, 'Proses Analisa ITR');                
             }
 
         }
 
-        return redirect()->route('kkprnb.detail', ['id' => $this->kkprnb->id]);
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Data Survey selesai!'
+        ]);
+
+        $this->dispatch('refresh-kkprnb-survey-list');
+
+        $this->dispatch('trigger-close-modal');
     }
 
     private function createRiwayat(Permohonan $permohonan, string $keterangan)

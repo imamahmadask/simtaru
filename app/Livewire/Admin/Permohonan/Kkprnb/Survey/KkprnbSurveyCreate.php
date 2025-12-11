@@ -87,9 +87,14 @@ class KkprnbSurveyCreate extends Component
 
         $this->createRiwayat($permohonan, 'Entry Data Survey');
 
-        session()->flash('success', 'Data Survey berhasil ditambahkan!');
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Data Survey berhasil ditambahkan!'
+        ]);
 
-        return redirect()->route('kkprnb.detail', ['id' => $this->kkprnb_id]);
+        $this->dispatch('refresh-kkprnb-survey-list');
+
+        $this->dispatch('trigger-close-modal');
     }
 
     public function mount($permohonan_id, $kkprnb_id)

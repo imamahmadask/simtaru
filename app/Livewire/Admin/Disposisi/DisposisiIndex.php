@@ -4,12 +4,18 @@ namespace App\Livewire\Admin\Disposisi;
 
 use App\Models\Disposisi;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
 #[Title('Disposisi')]
 class DisposisiIndex extends Component
 {
+
+    #[On('refresh-disposisi-list')]
+    public function refresh()
+    {}
+
     public function render()
     {
         $disposisi = [];

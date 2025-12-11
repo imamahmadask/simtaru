@@ -46,7 +46,13 @@ class DisposisiEdit extends Component
             'catatan' => $this->catatan
         ]);
 
-        session()->flash('message', 'Disposisi berhasil diubah.');
-        return redirect()->route('disposisi.index');
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Disposisi berhasil diubah.'
+        ]);
+
+        $this->dispatch('refresh-disposisi-list');
+
+        $this->dispatch('trigger-close-modal');
     }
 }

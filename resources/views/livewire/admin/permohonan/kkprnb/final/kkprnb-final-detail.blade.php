@@ -31,7 +31,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{ date('d-m-Y', strtotime($kkprnb->permohonan->tgl_selesai)) }}</td>
+                                    <td>{{ $kkprnb->permohonan->tgl_selesai ? date('d-m-Y', strtotime($kkprnb->permohonan->tgl_selesai)) : '-' }}</td>
                                     <td>{{ $kkprnb->permohonan->no_dokumen }}</td>
                                     <td>{{ $kkprnb->permohonan->waktu_pengerjaan }} Hari</td>
                                     <td>

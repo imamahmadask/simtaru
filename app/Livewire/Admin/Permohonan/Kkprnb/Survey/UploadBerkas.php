@@ -111,8 +111,14 @@ class UploadBerkas extends Component
             $this->kkprnb->update(['is_berkas_survey_uploaded' => false]);
         }
 
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Berkas Survey berhasil diunggah!'
+        ]);
 
-        return redirect()->route('kkprnb.detail', ['id' => $this->kkprnb->id]);
+        $this->dispatch('refresh-kkprnb-survey-list');
+
+        $this->dispatch('trigger-close-modal');
     }
 
     public function mount($permohonan_id, $kkprnb_id)
