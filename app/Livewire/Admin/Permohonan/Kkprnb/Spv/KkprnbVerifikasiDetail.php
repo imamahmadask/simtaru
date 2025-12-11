@@ -53,7 +53,7 @@ class KkprnbVerifikasiDetail extends Component
                         'is_done' => true,
                         'tgl_selesai' => now()
                     ]);
-                    $this->createRiwayat($this->kkprnb->permohonan, 'Selesai Analisa Data SKRK');
+                    $this->createRiwayat($this->kkprnb->permohonan, 'Selesai Analisa Data KKPR Non Berusaha');
                 }
 
                 $tahapan = Tahapan::where('layanan_id', $this->kkprnb->permohonan->layanan_id)->where('urutan', 4)->first();
@@ -64,11 +64,11 @@ class KkprnbVerifikasiDetail extends Component
                     'pemberi_id' => Auth::user()->id,
                     'penerima_id' => $this->kkprnb->permohonan->created_by,
                     'tanggal_disposisi' => now(),
-                    'catatan' => 'Lanjutkan proses cetak Dokumen SKRK',
+                    'catatan' => 'Lanjutkan proses cetak Dokumen KKPR Non Berusaha',
                 ]);
 
-                $this->createRiwayat($this->kkprnb->permohonan, 'Selesai Verifikasi Berkas SKRK');
-                $this->createRiwayat($this->kkprnb->permohonan, 'Sedang Proses Cetak Dokumen SKRK');
+                $this->createRiwayat($this->kkprnb->permohonan, 'Selesai Verifikasi Berkas KKPR Non Berusaha');
+                $this->createRiwayat($this->kkprnb->permohonan, 'Sedang Proses Cetak Dokumen KKPR Non Berusaha');
 
                 $this->dispatch('toast', [
                     'type'    => 'success',

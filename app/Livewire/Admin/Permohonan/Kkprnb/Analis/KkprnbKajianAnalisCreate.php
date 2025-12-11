@@ -43,14 +43,10 @@ class KkprnbKajianAnalisCreate extends Component
         ]);
 
         $this->permohonan->update([
-            'status' => 'Proses Analisa'
+            'status' => 'Proses  Analisa'
         ]);
 
-        $this->createRiwayat($this->permohonan, 'Entry Data Kajian Analisa');
-
-        // session()->flash('success', 'Data Kajian KKPR Non Berusaha berhasil disimpan!');
-
-        // return redirect()->route('kkprnb.detail', ['id' => $this->kkprnb->id]);
+        $this->createRiwayat($this->permohonan, 'Entry Data Kajian KKPR Non Berusaha');
 
         $this->dispatch('toast', [
             'type'    => 'success',

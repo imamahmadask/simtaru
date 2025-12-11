@@ -245,9 +245,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-xl-6">
-                                    @livewire('admin.permohonan.riwayat.riwayat-permohonan-index', ['permohonan' => $permohonan])
 
                                     <div class="card mb-4">
                                         <div
@@ -277,11 +274,11 @@
                                                                             <span
                                                                                 class="badge bg-label-warning">Menunggu</span>
                                                                         @break
-
+    
                                                                         @case('ditolak')
                                                                             <span class="badge bg-label-danger">Ditolak</span>
                                                                         @break
-
+    
                                                                         @case('diterima')
                                                                             <span
                                                                                 class="badge bg-label-primary">Diterima</span>
@@ -303,7 +300,10 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                <div class="col-xl-6">
+                                    @livewire('admin.permohonan.riwayat.riwayat-permohonan-index', ['permohonan_id' => $permohonan->id])                                    
+                                </div>
+                            </div>                            
                         </div>
                     </div>
                 </div>

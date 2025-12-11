@@ -86,10 +86,6 @@ class KkprnbVerifikasiEdit extends Component
             ? "Verifikasi : Berkas Diterima!"
             : "Verifikasi : Berkas Ditolak!";
 
-        // session()->flash($this->status == 'diterima' ? 'success' : 'error', $message);
-
-        // redirect()->route('kkprnb.detail', ['id' => $this->kkprnb_id]);
-
         $this->dispatch('toast', [
             'type'    => $this->status == 'diterima' ? 'success' : 'error',
             'message' => $message

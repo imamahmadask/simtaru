@@ -49,9 +49,9 @@ class KkprnbFinalCreate extends Component
                 // buat nama file unik -> {no_reg}_{kode}.{ext}
                 $filename = $no_reg . '_' . $item->kode . '.' . $uploadedFile->getClientOriginalExtension();
 
-                // simpan file ke storage/app/public/skrk_form_survey
+                // simpan file ke storage/app/public/kkprnb_form_survey
                 $path = $uploadedFile->storeAs(
-                    'skrk/' . $no_reg, // folder per registrasi
+                    'kkprnb/' . $no_reg, // folder per registrasi
                     $filename,
                     'public'
                 );
@@ -87,15 +87,11 @@ class KkprnbFinalCreate extends Component
             'tgl_selesai' => now()
         ]);
 
-        $this->createRiwayat($this->kkprnb->permohonan, 'Dokumen SKRK selesai!');
-
-        // session()->flash('success', 'Dokumen SKRK Fix berhasil ditambahkan!');
-
-        // return redirect()->route('kkprnb.detail', ['id' => $this->kkprnb->id]);
+        $this->createRiwayat($this->kkprnb->permohonan, 'Dokumen KKPR Non Berusaha selesai!');       
         
         $this->dispatch('toast', [
             'type'    => 'success',
-            'message' => 'Dokumen SKRK Fix berhasil ditambahkan!'
+            'message' => 'Dokumen KKPR Non Berusaha berhasil ditambahkan!'
         ]);
         
         $this->dispatch('refresh-kkprnb-final-list');
