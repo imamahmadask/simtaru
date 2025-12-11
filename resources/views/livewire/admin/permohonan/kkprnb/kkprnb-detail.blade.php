@@ -343,11 +343,11 @@
                         </div>
 
                         <div class="tab-pane fade" id="navs-pills-top-jafung" role="tabpanel">
-                            {{-- @livewire('admin.permohonan.itr.spv.itr-verifikasi-detail', ['itr_id' => $itr->id]) --}}
+                            @livewire('admin.permohonan.kkprnb.spv.kkprnb-verifikasi-detail', ['kkprnb_id' => $kkprnb->id])
                         </div>
 
                         <div class="tab-pane fade" id="navs-pills-top-finalisasi" role="tabpanel">
-                            {{-- @livewire('admin.permohonan.itr.final.final-detail', ['itr_id' => $itr->id]) --}}
+                            @livewire('admin.permohonan.kkprnb.final.kkprnb-final-detail', ['kkprnb_id' => $kkprnb->id])
                         </div>
                     </div>
                 </div>
@@ -355,3 +355,36 @@
         </div>
     </div>
 </div>
+@script
+<script>
+    document.addEventListener('livewire:initialized', () => {
+        Livewire.on('toast', (event) => {
+            const { type = 'success', message = 'Berhasil!' } = event[0] || event;
+
+            // Pakai Bootstrap 5 Toast (atau SweetAlert2 kalau mau lebih cantik)
+            const toastEl = document.createElement('div');
+            toastEl.className = `bs-toast toast align-items-center text-white bg-${type === 'error' ? 'danger' : 'success'} bg-${type === 'error' ? 'danger' : 'success'} fade show position-fixed top-0 end-0 m-3`;
+            toastEl.style.zIndex = 9999;
+            toastEl.setAttribute('role', 'alert');
+            toastEl.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <strong>${type === 'success' ? 'Berhasil!' : 'Gagal!'}</strong><br>
+                        ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            `;
+
+            document.body.appendChild(toastEl);
+
+            // Init dan tampilkan
+            const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+            toast.show();
+
+            // Hapus dari DOM setelah selesai
+            toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
+        });
+    });
+</script>
+@endscript

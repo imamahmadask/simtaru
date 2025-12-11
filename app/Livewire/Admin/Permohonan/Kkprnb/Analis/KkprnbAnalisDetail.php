@@ -8,12 +8,16 @@ use App\Models\RiwayatPermohonan;
 use App\Models\Tahapan;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use PhpOffice\PhpWord\TemplateProcessor;
 
 class KkprnbAnalisDetail extends Component
 {
     public $kkprnb;
+
+    #[On('refresh-kkprnb-analis-list')]
+    public function refresh() {}
 
     public function render()
     {
@@ -182,35 +186,35 @@ class KkprnbAnalisDetail extends Component
     public function selesaiAnalisa()
     {
         if(Auth::user()->role == 'analis' || Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor') {
-            $this->itr->update([
+            $this->kkprnb->update([
                 'is_analis' => true
             ]);
 
-            $this->itr->permohonan->update([
+            $this->kkprnb->permohonan->update([
                 'status' => 'Proses Verifikasi'
             ]);
 
             // Find and update the disposisi for the 'Analisis' stage
-            $tahapanAnalisId = $this->itr->permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id');
+            $tahapanAnalisId = $this->kkprnb->permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id');
             if ($tahapanAnalisId) {
-                $this->itr->permohonan->disposisi()->where('tahapan_id', $tahapanAnalisId)
+                $this->kkprnb->permohonan->disposisi()->where('tahapan_id', $tahapanAnalisId)
                 ->where('is_done', false)
                 ->update([
                     'is_done' => true,
                     'tgl_selesai' => now()
                 ]);
-                $this->createRiwayat($this->itr->permohonan, 'Selesai Analisa Data ITR');
+                $this->createRiwayat($this->kkprnb->permohonan, 'Selesai Analisa Data KKPR Non Berusaha');
             }
 
             // Create disposisi to supervisor for 'Verifikasi' tahapan
-            $tahapanVerifikasi = Tahapan::where('layanan_id', $this->itr->permohonan->layanan_id)
+            $tahapanVerifikasi = Tahapan::where('layanan_id', $this->kkprnb->permohonan->layanan_id)
                                         ->where('nama', 'Verifikasi')
                                         ->first();
             $supervisor = User::where('role', 'supervisor')->first();
-            $pemberi_id = $this->itr->permohonan->disposisi()->where('tahapan_id', $tahapanAnalisId)->value('penerima_id') ?? Auth::user()->id;
+            $pemberi_id = $this->kkprnb->permohonan->disposisi()->where('tahapan_id', $tahapanAnalisId)->value('penerima_id') ?? Auth::user()->id;
             if ($tahapanVerifikasi && $supervisor) {
-                $this->itr->disposisis()->create([
-                    'permohonan_id' => $this->itr->permohonan->id,
+                $this->kkprnb->disposisis()->create([
+                    'permohonan_id' => $this->kkprnb->permohonan->id,
                     'tahapan_id' => $tahapanVerifikasi->id,
                     'pemberi_id' => $pemberi_id,
                     'penerima_id' => $supervisor->id,
@@ -219,12 +223,21 @@ class KkprnbAnalisDetail extends Component
                 ]);
             }
 
-            $this->createRiwayat($this->itr->permohonan, 'Proses Verifikasi Data ITR');
+            $this->createRiwayat($this->kkprnb->permohonan, 'Proses Verifikasi Data ITR');
         }
 
-        session()->flash('success', 'Data Analis selesai!');
+        // session()->flash('success', 'Data Analis selesai!');
 
-        return redirect()->route('itr.detail', ['id' => $this->itr->id]);
+        // return redirect()->route('kkprnb.detail', ['id' => $this->kkprnb->id]);
+
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Data Analis selesai!'
+        ]);
+
+        $this->dispatch('refresh-kkprnb-analis-list');
+
+        $this->dispatch('trigger-close-modal');
     }
 
     private function createRiwayat(Permohonan $permohonan, string $keterangan)

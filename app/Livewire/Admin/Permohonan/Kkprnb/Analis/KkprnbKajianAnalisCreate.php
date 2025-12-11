@@ -48,9 +48,18 @@ class KkprnbKajianAnalisCreate extends Component
 
         $this->createRiwayat($this->permohonan, 'Entry Data Kajian Analisa');
 
-        session()->flash('success', 'Data Kajian KKPR Non Berusaha berhasil disimpan!');
+        // session()->flash('success', 'Data Kajian KKPR Non Berusaha berhasil disimpan!');
 
-        return redirect()->route('kkprnb.detail', ['id' => $this->kkprnb->id]);
+        // return redirect()->route('kkprnb.detail', ['id' => $this->kkprnb->id]);
+
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Data Kajian KKPR Non Berusaha berhasil disimpan!'
+        ]);
+
+        $this->dispatch('refresh-kkprnb-analis-list');
+
+        $this->dispatch('trigger-close-modal');
     }
 
     public function mount($permohonan_id, $kkprnb_id)
