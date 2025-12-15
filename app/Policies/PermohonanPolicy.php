@@ -23,7 +23,7 @@ class PermohonanPolicy
 
         // cek disposisi untuk user ini
         if ($user->role === 'surveyor') {
-            $layanan = Str::ucfirst(Str::lower($permohonan->layanan->nama));
+            $layanan = Str::ucfirst(Str::lower($permohonan->layanan->kode));
             return $permohonan->disposisi()
                 ->where('penerima_id', $user->id)
                 ->get()
@@ -42,7 +42,7 @@ class PermohonanPolicy
 
         // cek disposisi untuk user ini
         if ($user->role === 'analis') {
-            $layanan = Str::ucfirst(Str::lower($permohonan->layanan->nama));
+            $layanan = Str::ucfirst(Str::lower($permohonan->layanan->kode));
             return $permohonan->disposisi()
                 ->where('penerima_id', $user->id)
                 ->get()
@@ -61,7 +61,7 @@ class PermohonanPolicy
 
         // cek disposisi untuk user ini
         if ($user->role === 'data-entry') {
-            $layanan = Str::ucfirst(Str::lower($permohonan->layanan->nama));
+            $layanan = Str::ucfirst(Str::lower($permohonan->layanan->kode));
             return $permohonan->disposisi()
                 ->where('penerima_id', $user->id)
                 ->get()
