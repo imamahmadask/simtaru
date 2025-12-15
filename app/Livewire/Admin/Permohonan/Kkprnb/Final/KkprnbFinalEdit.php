@@ -85,6 +85,8 @@ class KkprnbFinalEdit extends Component
 
         $this->createRiwayat($this->kkprnb->permohonan, 'Edit Dokumen KKPR Non Berusaha selesai!');
 
+        $this->reset('tgl_selesai', 'no_dokumen', 'waktu_pengerjaan', 'file_');
+
         $this->dispatch('toast', [
             'type'    => 'success',
             'message' => 'Dokumen KKPR Non Berusaha Fix berhasil diupdate!'

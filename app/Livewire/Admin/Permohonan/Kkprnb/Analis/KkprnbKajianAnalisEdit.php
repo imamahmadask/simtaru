@@ -63,7 +63,7 @@ class KkprnbKajianAnalisEdit extends Component
             'persyaratan_pelaksanaan' => $this->persyaratan_pelaksanaan
         ]);
 
-        $this->reset('penguasaan_tanah', 'ada_bangunan', 'jml_bangunan', 'jml_lantai', 'luas_lantai', 'kedalaman_min', 'kedalaman_max', 'kdb', 'klb', 'indikasi_program', 'gsb', 'jba', 'jbb', 'kdh', 'ktb', 'jaringan_utilitas', 'persyaratan_pelaksanaan');
+        $this->reset('penguasaan_tanah', 'jml_bangunan', 'jml_lantai', 'luas_lantai', 'kedalaman_min', 'kedalaman_max', 'kdb', 'klb', 'indikasi_program', 'gsb', 'jba', 'jbb', 'kdh', 'ktb', 'jaringan_utilitas', 'persyaratan_pelaksanaan');
 
         $this->dispatch('toast', [
             'type'    => 'success',

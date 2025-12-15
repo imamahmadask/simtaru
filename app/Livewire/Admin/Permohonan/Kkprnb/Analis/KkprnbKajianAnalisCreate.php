@@ -47,7 +47,7 @@ class KkprnbKajianAnalisCreate extends Component
 
         $this->createRiwayat($this->permohonan, 'Entry Data Kajian KKPR Non Berusaha');
 
-        $this->reset('penguasaan_tanah', 'ada_bangunan', 'jml_bangunan', 'jml_lantai', 'luas_lantai', 'kedalaman_min', 'kedalaman_max', 'kdb', 'klb', 'indikasi_program', 'gsb', 'jba', 'jbb', 'kdh', 'ktb', 'jaringan_utilitas', 'persyaratan_pelaksanaan');
+        $this->reset('penguasaan_tanah', 'jml_bangunan', 'jml_lantai', 'luas_lantai', 'kedalaman_min', 'kedalaman_max', 'kdb', 'klb', 'indikasi_program', 'gsb', 'jba', 'jbb', 'kdh', 'ktb', 'jaringan_utilitas', 'persyaratan_pelaksanaan');
 
         $this->dispatch('toast', [
             'type'    => 'success',

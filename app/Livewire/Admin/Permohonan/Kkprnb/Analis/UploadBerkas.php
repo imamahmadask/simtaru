@@ -112,6 +112,8 @@ class UploadBerkas extends Component
             $this->kkprnb->update(['is_berkas_analis_uploaded' => false]);
         }
 
+        $this->reset('file_');
+
         $this->dispatch('toast', [
             'type'    => 'success',
             'message' => 'Berkas Analisa berhasil ditambahkan!'

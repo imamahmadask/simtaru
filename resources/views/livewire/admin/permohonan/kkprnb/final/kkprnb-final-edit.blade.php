@@ -36,7 +36,7 @@
 
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="no_dokumen" class="form-label">Nomor Dokumen SKRK</label>
+                                <label for="no_dokumen" class="form-label">Nomor Dokumen KKPR Non Berusaha</label>
                                 <input type="text" class="form-control" wire:model="no_dokumen" id="no_dokumen">
                                 @error('no_dokumen')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>

@@ -21,7 +21,7 @@
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddKajianKkprnbModal">
                             <i class="bx bx-plus"></i> Data Kajian
                         </button>
-                    @elseif($kkprnb->is_kajian)
+                    @elseif($kkprnb->is_kajian && !$kkprnb->is_analis)
                         <button type="button" class="btn btn-primary" wire:click="$dispatch('kkprnb-kajian-edit', { permohonan_id: {{ $kkprnb->permohonan->id }}, kkprnb_id: {{ $kkprnb->id }} })" data-bs-toggle="modal"
                             data-bs-target="#EditKajianKkprnbModal">
                             <i class="bx bx-edit"></i> Edit Data Kajian

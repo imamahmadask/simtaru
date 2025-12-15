@@ -22,35 +22,35 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="create_jml_bangunan" class="form-label">Jumlah Bangunan Yang Direncanakan</label>
-                                <input type="text" class="form-control" wire:model="jml_bangunan" id="create_jml_bangunan"
+                                <input type="number" class="form-control" wire:model="jml_bangunan" id="create_jml_bangunan"
                                     placeholder="Masukkan Jumlah Bangunan Yang Direncanakan">
                             </div>
                         </div>   
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="create_jml_lantai" class="form-label">Rencana Lantai Bangunan</label>
-                                <input type="text" class="form-control" wire:model="jml_lantai" id="create_jml_lantai"
+                                <input type="number" class="form-control" wire:model="jml_lantai" id="create_jml_lantai"
                                     placeholder="Masukkan Rencana Lantai Bangunan">
                             </div>
                         </div>   
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="create_luas_lantai" class="form-label">Rencana Luas Lantai Bangunan</label>
-                                <input type="text" class="form-control" wire:model="luas_lantai" id="create_luas_lantai"
+                                <input type="number" class="form-control" wire:model="luas_lantai" id="create_luas_lantai"
                                     placeholder="Masukkan Rencana Luas Lantai Bangunan">
                             </div>
                         </div>   
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="create_kedalaman_min" class="form-label">Kedalaman/ketinggian Minimal</label>
-                                <input type="text" class="form-control" wire:model="kedalaman_min" id="create_kedalaman_min"
+                                <input type="number" class="form-control" wire:model="kedalaman_min" id="create_kedalaman_min"
                                     placeholder="Masukkan Kedalaman/ketinggian Minimal yang dimohon">
                             </div>
                         </div>   
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="create_kedalaman_max" class="form-label">Kedalaman/ketinggian Maksimal</label>
-                                <input type="text" class="form-control" wire:model="kedalaman_max" id="create_kedalaman_max"
+                                <input type="number" class="form-control" wire:model="kedalaman_max" id="create_kedalaman_max"
                                     placeholder="Masukkan Kedalaman/ketinggian Maksimal yang dimohon">
                             </div>
                         </div>   

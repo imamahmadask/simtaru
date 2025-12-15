@@ -225,11 +225,7 @@ class KkprnbAnalisDetail extends Component
 
             $this->createRiwayat($this->kkprnb->permohonan, 'Proses Verifikasi Data ITR');
         }
-
-        // session()->flash('success', 'Data Analis selesai!');
-
-        // return redirect()->route('kkprnb.detail', ['id' => $this->kkprnb->id]);
-
+        
         $this->dispatch('toast', [
             'type'    => 'success',
             'message' => 'Data Analis selesai!'

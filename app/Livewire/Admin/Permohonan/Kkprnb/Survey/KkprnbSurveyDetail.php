@@ -93,8 +93,9 @@ class KkprnbSurveyDetail extends Component
                 $this->createRiwayat($this->kkprnb->permohonan, 'Selesai Survey Data ITR');
                 $this->createRiwayat($this->kkprnb->permohonan, 'Proses Analisa ITR');                
             }
-
         }
+
+        
 
         $this->dispatch('toast', [
             'type'    => 'success',
