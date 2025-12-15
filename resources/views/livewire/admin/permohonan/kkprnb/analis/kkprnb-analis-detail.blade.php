@@ -1,15 +1,23 @@
 <div>
-    @if($kkprnb->no_ptp == null && $kkprnb->berkas_ptp == null)
-        <div class="alert alert-danger ">
-           <span class="fw-bold fs-5">Perhatian!</span><br>
-           Data Dokumen PTP belum diupload, harap upload terlebih dahulu untuk dapat melanjutkan ke proses Analis.
-        </div>
-    @endif
+    @if($kkprnb->rdtr_rtrw == 'RTRW')
+        @if($kkprnb->no_ptp == null && $kkprnb->berkas_ptp == null)
+            <div class="alert alert-danger ">
+            <span class="fw-bold fs-5">Perhatian!</span><br>
+            Data Dokumen PTP belum diupload, harap upload terlebih dahulu untuk dapat melanjutkan ke proses Analis.
+            </div>
+        @endif
+    @endif  
     <div class="mb-3">
         <div class="d-flex flex-wrap gap-3">
             @can('manageAnalis', $kkprnb->permohonan)
-                @if($kkprnb->no_ptp != null && $kkprnb->berkas_ptp != null)                
-                    @if (!$kkprnb->is_kajian)
+                @php
+                    $showButtons = true;
+                    if ($kkprnb->rdtr_rtrw == 'RTRW') {
+                        $showButtons = ($kkprnb->no_ptp != null && $kkprnb->berkas_ptp != null);
+                    }
+                @endphp
+                @if($showButtons)
+                    @if (!$kkprnb->is_kajian && $kkprnb->is_survey)
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddKajianKkprnbModal">
                             <i class="bx bx-plus"></i> Data Kajian
                         </button>

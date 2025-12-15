@@ -91,6 +91,8 @@ class DisposisiCreate extends Component
 
         $this->createRiwayat($this->permohonan, "Disposisi kepada {$this->users->where('id', $this->penerima_id)->first()->name} pada tahapan ". $this->tahapans->where('id', $this->tahapan_id)->first()->nama);        
 
+        $this->reset('tahapan_id', 'penerima_id', 'catatan');
+
         $this->dispatch('toast', [
             'type'    => 'success',
             'message' => 'Disposisi berhasil ditambahkan.'

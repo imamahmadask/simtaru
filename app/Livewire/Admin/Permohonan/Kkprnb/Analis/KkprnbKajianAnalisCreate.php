@@ -11,7 +11,7 @@ use Livewire\Component;
 class KkprnbKajianAnalisCreate extends Component
 {
     public $permohonan, $kkprnb;
-    public $penguasaan_tanah, $ada_bangunan, $jml_bangunan, $jml_lantai, $luas_lantai, $kedalaman_min, $kedalaman_max;
+    public $penguasaan_tanah, $jml_bangunan, $jml_lantai, $luas_lantai, $kedalaman_min, $kedalaman_max;
     public $kdb, $klb, $indikasi_program, $gsb, $jba, $jbb, $kdh, $ktb, $jaringan_utilitas, $persyaratan_pelaksanaan;
 
     public function render()
@@ -23,7 +23,6 @@ class KkprnbKajianAnalisCreate extends Component
     {
         $this->kkprnb->update([
             'penguasaan_tanah' => $this->penguasaan_tanah,
-            'ada_bangunan' => $this->ada_bangunan,
             'jml_bangunan' => $this->jml_bangunan,
             'jml_lantai' => $this->jml_lantai,
             'luas_lantai' => $this->luas_lantai,
@@ -47,6 +46,8 @@ class KkprnbKajianAnalisCreate extends Component
         ]);
 
         $this->createRiwayat($this->permohonan, 'Entry Data Kajian KKPR Non Berusaha');
+
+        $this->reset('penguasaan_tanah', 'ada_bangunan', 'jml_bangunan', 'jml_lantai', 'luas_lantai', 'kedalaman_min', 'kedalaman_max', 'kdb', 'klb', 'indikasi_program', 'gsb', 'jba', 'jbb', 'kdh', 'ktb', 'jaringan_utilitas', 'persyaratan_pelaksanaan');
 
         $this->dispatch('toast', [
             'type'    => 'success',

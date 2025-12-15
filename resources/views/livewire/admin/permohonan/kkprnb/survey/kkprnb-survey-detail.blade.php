@@ -5,10 +5,13 @@
                 @if (!$kkprnb->is_survey)
                     @if ($kkprnb->tgl_survey)
                         {{-- Actions available AFTER survey date is set --}}
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        <button type="button" wire:click="$dispatch('kkprnb-survey-edit', { permohonan_id: {{ $kkprnb->permohonan->id }}, kkprnb_id: {{ $kkprnb->id }} })" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#EditSurveyKkprnbModal">
                             <i class="bx bx-edit"></i> Edit Survey
                         </button>
+                        @teleport('body')
+                            @livewire('admin.permohonan.kkprnb.survey.kkprnb-survey-edit')
+                        @endteleport
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#UploadBerkasSurveyKkprnbModal">
                             <i class="bx bx-cloud-upload"></i> Berkas Survey
@@ -43,7 +46,7 @@
         <div class="col-xl">
             <div class="card mb-4">
                 <div class="card-header d-flex align-items-center justify-content-between bg-secondary">
-                    <h5 class="mb-0 text-white">Data Survey KPRNB</h5>
+                    <h5 class="mb-0 text-white">Data Survey KKPR Non Berusaha</h5>
                 </div>
                 <div class="card-body mt-3">
                     <div class="row">
@@ -249,10 +252,7 @@
 
     @teleport('body')
         @livewire('admin.permohonan.kkprnb.survey.kkprnb-survey-create', ['permohonan_id' => $kkprnb->permohonan->id, 'kkprnb_id' => $kkprnb->id])
-    @endteleport
-    @teleport('body')
-        @livewire('admin.permohonan.kkprnb.survey.kkprnb-survey-edit', ['permohonan_id' => $kkprnb->permohonan->id, 'kkprnb_id' => $kkprnb->id])
-    @endteleport
+    @endteleport    
     @teleport('body')
         @livewire('admin.permohonan.kkprnb.survey.upload-berkas', ['permohonan_id' => $kkprnb->permohonan->id, 'kkprnb_id' => $kkprnb->id])
     @endteleport

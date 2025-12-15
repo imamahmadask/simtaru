@@ -10,7 +10,7 @@ use Livewire\Component;
 class KkprnbKajianAnalisEdit extends Component
 {
     public $permohonan, $kkprnb;
-    public $penguasaan_tanah, $ada_bangunan, $jml_bangunan, $jml_lantai, $luas_lantai, $kedalaman_min, $kedalaman_max;
+    public $penguasaan_tanah, $jml_bangunan, $jml_lantai, $luas_lantai, $kedalaman_min, $kedalaman_max;
     public $kdb, $klb, $indikasi_program, $gsb, $jba, $jbb, $kdh, $ktb, $jaringan_utilitas, $persyaratan_pelaksanaan;
 
     public function render()
@@ -25,7 +25,6 @@ class KkprnbKajianAnalisEdit extends Component
         $this->permohonan = Permohonan::findOrFail($permohonan_id);
 
         $this->penguasaan_tanah = $this->kkprnb->penguasaan_tanah;
-        $this->ada_bangunan = $this->kkprnb->ada_bangunan;
         $this->jml_bangunan = $this->kkprnb->jml_bangunan;
         $this->jml_lantai = $this->kkprnb->jml_lantai;        
         $this->luas_lantai = $this->kkprnb->luas_lantai;        
@@ -47,7 +46,6 @@ class KkprnbKajianAnalisEdit extends Component
     {
         $this->kkprnb->update([
             'penguasaan_tanah' => $this->penguasaan_tanah,
-            'ada_bangunan' => $this->ada_bangunan,
             'jml_bangunan' => $this->jml_bangunan,
             'jml_lantai' => $this->jml_lantai,
             'luas_lantai' => $this->luas_lantai,
@@ -64,6 +62,8 @@ class KkprnbKajianAnalisEdit extends Component
             'jaringan_utilitas' => $this->jaringan_utilitas,
             'persyaratan_pelaksanaan' => $this->persyaratan_pelaksanaan
         ]);
+
+        $this->reset('penguasaan_tanah', 'ada_bangunan', 'jml_bangunan', 'jml_lantai', 'luas_lantai', 'kedalaman_min', 'kedalaman_max', 'kdb', 'klb', 'indikasi_program', 'gsb', 'jba', 'jbb', 'kdh', 'ktb', 'jaringan_utilitas', 'persyaratan_pelaksanaan');
 
         $this->dispatch('toast', [
             'type'    => 'success',

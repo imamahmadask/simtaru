@@ -46,6 +46,8 @@ class DisposisiEdit extends Component
             'catatan' => $this->catatan
         ]);
 
+        $this->reset('tahapan_id', 'penerima_id', 'catatan');
+
         $this->dispatch('toast', [
             'type'    => 'success',
             'message' => 'Disposisi berhasil diubah.'

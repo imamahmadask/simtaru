@@ -21,16 +21,6 @@
                         </div>    
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="create_ada_bangunan" class="form-label">Sudah Ada Bangunan</label>
-                                <select name="ada_bangunan" id="create_ada_bangunan" wire:model="ada_bangunan" class="form-control">
-                                    <option value="">Pilih</option>
-                                    <option value="Ada Bangunan">Ada Bangunan</option>
-                                    <option value="Tidak Ada Bangunan">Tidak Ada Bangunan</option>
-                                </select>
-                            </div>
-                        </div>    
-                        <div class="row">
-                            <div class="col mb-3">
                                 <label for="create_jml_bangunan" class="form-label">Jumlah Bangunan Yang Direncanakan</label>
                                 <input type="text" class="form-control" wire:model="jml_bangunan" id="create_jml_bangunan"
                                     placeholder="Masukkan Jumlah Bangunan Yang Direncanakan">

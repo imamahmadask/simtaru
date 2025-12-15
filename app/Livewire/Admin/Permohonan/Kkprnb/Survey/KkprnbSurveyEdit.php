@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use App\Models\Permohonan;
 use App\Models\Kkprnb;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 
 class KkprnbSurveyEdit extends Component
@@ -111,7 +112,8 @@ class KkprnbSurveyEdit extends Component
         $this->dispatch('trigger-close-modal');
     }
 
-    public function mount($permohonan_id, $kkprnb_id)
+    #[On('kkprnb-survey-edit')]
+    public function getSurvey($permohonan_id, $kkprnb_id)
     {
         $this->kkprnb = Kkprnb::find($kkprnb_id);
         $this->permohonan = Permohonan::findOrFail($permohonan_id);
