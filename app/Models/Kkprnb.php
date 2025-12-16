@@ -51,6 +51,11 @@ class Kkprnb extends Model
         'is_analis',
         'is_validate',
         'tgl_validate',
+        'tanggapan_1a',
+        'tanggapan_1b',
+        'tanggapan_2',
+        'ceklis',
+        'surat_pengantar_kelengkapan',
     ];
 
     protected $casts = [

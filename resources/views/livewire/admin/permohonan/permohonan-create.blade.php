@@ -174,37 +174,39 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label class="form-label" for="status_modal">Status Modal</label>
-                                <select class="form-control" wire:model="status_modal" id="status_modal">
-                                    <option value="">Pilih Status Modal</option>
-                                    <option value="PMDN">PMDN</option>
-                                    <option value="PMA">PMA</option>
-                                </select>
-                            </div>
+                            @if ($kode_layanan == 'SKRK' || $kode_layanan == 'ITR')
+                                <div class="mb-3">
+                                    <label class="form-label" for="status_modal">Status Modal</label>
+                                    <select class="form-control" wire:model="status_modal" id="status_modal">
+                                        <option value="">Pilih Status Modal</option>
+                                        <option value="PMDN">PMDN</option>
+                                        <option value="PMA">PMA</option>
+                                    </select>
+                                </div>
 
-                            <div class="row">
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="kbli">KBLI</label>
-                                        <input type="text" class="form-control" wire:model="kbli" id="kbli"
-                                            placeholder="Masukkan KBLI" />
-                                        @error('kbli')
-                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
-                                        @enderror
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="kbli">KBLI</label>
+                                            <input type="text" class="form-control" wire:model="kbli" id="kbli"
+                                                placeholder="Masukkan KBLI" />
+                                            @error('kbli')
+                                                <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="judul_kbli">Judul KBLI</label>
+                                            <input type="text" class="form-control" wire:model="judul_kbli"
+                                                id="judul_kbli" placeholder="Masukkan Judul KBLI" />
+                                            @error('judul_kbli')
+                                                <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                            @enderror
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="judul_kbli">Judul KBLI</label>
-                                        <input type="text" class="form-control" wire:model="judul_kbli"
-                                            id="judul_kbli" placeholder="Masukkan Judul KBLI" />
-                                        @error('judul_kbli')
-                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
+                            @endif
 
                             <div class="row">
                                 <div class="col-sm-4">
@@ -273,28 +275,32 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
-                                    <div class="mb-3">
-                                        <label for="berkas_nib" class="form-label">
-                                            Upload NIB, KBLI, dan Pernyataan Mandiri
-                                            <div wire:loading wire:target="berkas_nib"
-                                                class="spinner-border spinner-border-sm text-primary" role="status">
-                                                <span class="visually-hidden">Loading...</span>
-                                            </div>
-                                            {{-- Tanda centang setelah upload selesai --}}
-                                            @if (!empty($berkas_nib))
-                                                <i wire:loading.remove wire:target="berkas_nib"
-                                                    class="bx bx-check-circle text-success"></i>
-                                            @endif
-                                        </label>
-                                        <input type="file" class="form-control" id="berkas_nib"
-                                            wire:model.blur="berkas_nib" accept="application/pdf">
-                                        <div class="form-text">Format file .pdf maks 2 Mb</div>
-                                        @error('berkas_nib')
-                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
-                                        @enderror
+
+                                @if ($kode_layanan == 'SKRK' || $kode_layanan == 'ITR')
+                                    <div class="col-sm-4">
+                                        <div class="mb-3">
+                                            <label for="berkas_nib" class="form-label">
+                                                Upload NIB, KBLI, dan Pernyataan Mandiri
+                                                <div wire:loading wire:target="berkas_nib"
+                                                    class="spinner-border spinner-border-sm text-primary" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                                {{-- Tanda centang setelah upload selesai --}}
+                                                @if (!empty($berkas_nib))
+                                                    <i wire:loading.remove wire:target="berkas_nib"
+                                                        class="bx bx-check-circle text-success"></i>
+                                                @endif
+                                            </label>
+                                            <input type="file" class="form-control" id="berkas_nib"
+                                                wire:model.blur="berkas_nib" accept="application/pdf">
+                                            <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                            @error('berkas_nib')
+                                                <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                            @enderror
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
+
                                 <div class="col-sm-4">
                                     <div class="mb-3">
                                         <label for="berkas_penguasaan" class="form-label">
@@ -418,6 +424,178 @@
                                         </div>
                                     </div>
                                 @endif
+
+                                <div class="row">
+                                    <div class="col">
+                                        <ul>
+                                            <li>
+                                                <div class="mb-3">
+                                                    <label for="tanggapan_1a" class="form-label">
+                                                        Tanggapan 1A (Bila Ada)
+                                                        <div wire:loading wire:target="tanggapan_1a"
+                                                            class="spinner-border spinner-border-sm text-primary"
+                                                            role="status">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                        {{-- Tanda centang setelah upload selesai --}}
+                                                        @if (!empty($tanggapan_1a))
+                                                            <i wire:loading.remove wire:target="tanggapan_1a"
+                                                                class="bx bx-check-circle text-success"></i>
+                                                        @endif
+                                                    </label>
+                                                    <input type="file" class="form-control" id="tanggapan_1a"
+                                                        wire:model.blur="tanggapan_1a" accept="application/pdf">
+                                                    <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                                    @error('tanggapan_1a')
+                                                        <span class="form-text text-xs text-danger"> {{ $message }}
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="mb-3">
+                                                    <label for="tanggapan_1b" class="form-label">
+                                                        Tanggapan 1B
+                                                        <div wire:loading wire:target="tanggapan_1b"
+                                                            class="spinner-border spinner-border-sm text-primary"
+                                                            role="status">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                        {{-- Tanda centang setelah upload selesai --}}
+                                                        @if (!empty($tanggapan_1b))
+                                                            <i wire:loading.remove wire:target="tanggapan_1b"
+                                                                class="bx bx-check-circle text-success"></i>
+                                                        @endif
+                                                    </label>
+                                                    <input type="file" class="form-control" id="tanggapan_1b"
+                                                        wire:model.blur="tanggapan_1b" accept="application/pdf">
+                                                    <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                                    @error('tanggapan_1b')
+                                                        <span class="form-text text-xs text-danger"> {{ $message }}
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="mb-3">
+                                                    <label for="tanggapan_2" class="form-label">
+                                                        Tanggapan 2
+                                                        <div wire:loading wire:target="tanggapan_2"
+                                                            class="spinner-border spinner-border-sm text-primary"
+                                                            role="status">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                        {{-- Tanda centang setelah upload selesai --}}
+                                                        @if (!empty($tanggapan_2))
+                                                            <i wire:loading.remove wire:target="tanggapan_2"
+                                                                class="bx bx-check-circle text-success"></i>
+                                                        @endif
+                                                    </label>
+                                                    <input type="file" class="form-control" id="tanggapan_2"
+                                                        wire:model.blur="tanggapan_2" accept="application/pdf">
+                                                    <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                                    @error('tanggapan_2')
+                                                        <span class="form-text text-xs text-danger"> {{ $message }}
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="mb-3">
+                                                    <label for="surat_pengantar_kelengkapan" class="form-label">
+                                                        Surat Pengantar Tanggapan Kelengkapan Berkas
+                                                        <div wire:loading wire:target="surat_pengantar_kelengkapan"
+                                                            class="spinner-border spinner-border-sm text-primary"
+                                                            role="status">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                        {{-- Tanda centang setelah upload selesai --}}
+                                                        @if (!empty($surat_pengantar_kelengkapan))
+                                                            <i wire:loading.remove wire:target="surat_pengantar_kelengkapan"
+                                                                class="bx bx-check-circle text-success"></i>
+                                                        @endif
+                                                    </label>
+                                                    <input type="file" class="form-control" id="surat_pengantar_kelengkapan"
+                                                        wire:model.blur="surat_pengantar_kelengkapan" accept="application/pdf">
+                                                    <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                                    @error('surat_pengantar_kelengkapan')
+                                                        <span class="form-text text-xs text-danger"> {{ $message }}
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="mb-3">
+                                                    <label for="ceklis" class="form-label">
+                                                        Ceklis
+                                                        <div wire:loading wire:target="ceklis"
+                                                            class="spinner-border spinner-border-sm text-primary"
+                                                            role="status">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                        {{-- Tanda centang setelah upload selesai --}}
+                                                        @if (!empty($ceklis))
+                                                            <i wire:loading.remove wire:target="ceklis"
+                                                                class="bx bx-check-circle text-success"></i>
+                                                        @endif
+                                                    </label>
+                                                    <input type="file" class="form-control" id="ceklis"
+                                                        wire:model.blur="ceklis" accept="application/pdf">
+                                                    <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                                    @error('ceklis')
+                                                        <span class="form-text text-xs text-danger"> {{ $message }}
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>                                                                       
+                                    
+                                    <div class="col">
+                                        <div class="card mb-4">
+                                            <div class="card-header d-flex align-items-center justify-content-between bg-secondary">
+                                                <h5 class="mb-0 text-white">Download Template Berkas KKPR Non Berusaha</h5>
+                                            </div>
+                                            <div class="card-body mt-3">
+                                                <div class="row mb-3">
+                                                    <div class="col">
+                                                        <button type="button" class="btn btn-primary" wire:click="download1a">
+                                                            Template Tanggapan 1A
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col">
+                                                        <button type="button" class="btn btn-primary" wire:click="download1b">
+                                                            Template Tanggapan 1B
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col">
+                                                        <button type="button" class="btn btn-primary" wire:click="download2">
+                                                            Template Tanggapan 2
+                                                        </button>
+                                                    </div>     
+                                                </div>
+                                                <div class="row mb-3">   
+                                                    <div class="col">
+                                                        <button type="button" class="btn btn-primary" wire:click="downloadCeklis">
+                                                            Template Ceklis
+                                                        </button>
+                                                    </div>    
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col">
+                                                        <button type="button" class="btn btn-primary" wire:click="downloadSuratPengantarKelengkapan" @if(empty($rdtr_rtrw)) disabled @endif>
+                                                            Template Surat Pengantar Tanggapan Kelengkapan
+                                                        </button>
+                                                    </div>                                                                                                                                
+                                                </div>                                                                                                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                            
                             @endif
 
                             <div class="mb-3">
@@ -425,7 +603,8 @@
                                 <textarea class="form-control" wire:model="keterangan" id="keterangan" rows="3"></textarea>
                             </div>
 
-                            <h5 class="mt-5">Disposisi</h5>
+                            <hr class="mt-5">
+                            <h5 class="fw-bold">DISPOSISI</h5>
 
                             <div class="row">
                                 <div class="col mb-3">
