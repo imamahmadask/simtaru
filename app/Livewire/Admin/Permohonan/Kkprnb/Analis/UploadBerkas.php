@@ -93,7 +93,6 @@ class UploadBerkas extends Component
                if ($isUpdate) {
                     session()->flash('success', 'Berkas Analisa berhasil diupdate!');
                 } else {
-                    $this->createRiwayat($this->permohonan, 'Upload Berkas Analisa');
                     session()->flash('success', 'Berkas Analisa berhasil ditambahkan!');
                 }
             }
@@ -118,7 +117,7 @@ class UploadBerkas extends Component
             'type'    => 'success',
             'message' => 'Berkas Analisa berhasil ditambahkan!'
         ]);
-        
+
         $this->dispatch('refresh-kkprnb-analis-list');
 
         $this->dispatch('trigger-close-modal');

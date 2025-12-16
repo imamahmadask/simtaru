@@ -31,33 +31,33 @@ class KkprnbAnalisDetail extends Component
 
     public function download3b()
     {
-        $permohonan = $this->kkprnb->permohonan;        
+        $permohonan = $this->kkprnb->permohonan;
 
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
             'jenis_kegiatan' => $permohonan->registrasi->fungsi_bangunan,
             'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
             'kel_tanah' => $permohonan->registrasi->kel_tanah,
-            'kec_tanah' => $permohonan->registrasi->kec_tanah         
+            'kec_tanah' => $permohonan->registrasi->kec_tanah
         ];
 
         return $this->generateDocument('3B_BA_RAPAT_FPR_NON_BERUSAHA.docx', $data);
     }
-    
+
     public function download3c()
     {
-        $permohonan = $this->kkprnb->permohonan;        
+        $permohonan = $this->kkprnb->permohonan;
 
         $data = [
-            'nama_pemohon' => $permohonan->registrasi->nama,                
+            'nama_pemohon' => $permohonan->registrasi->nama,
         ];
 
         return $this->generateDocument('3C_NOTULENSI_RAPAT_FPR_NON_BERUSAHA.docx', $data);
     }
-    
+
     public function download3d()
     {
-        $permohonan = $this->kkprnb->permohonan;        
+        $permohonan = $this->kkprnb->permohonan;
 
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
@@ -86,49 +86,49 @@ class KkprnbAnalisDetail extends Component
 
         return $this->generateDocument('3D_KAJIAN_KKPR_NON_BERUSAHA.docx', $data);
     }
-    
+
     public function download4()
     {
-        $permohonan = $this->kkprnb->permohonan;        
+        $permohonan = $this->kkprnb->permohonan;
 
         $data = [
-            'nama_pemohon' => $permohonan->registrasi->nama,     
+            'nama_pemohon' => $permohonan->registrasi->nama,
             'jenis_kegiatan' => $permohonan->registrasi->fungsi_bangunan,
             'tgl_registrasi' => $permohonan->registrasi->tanggal,
             'no_registrasi' => $permohonan->kode,
-            'tgl_validasi' => $this->kkprnb->tgl_validasi,   
-            'tgl_survey' => $this->kkprnb->tgl_survey,   
-            'tgl_ptp' => $this->kkprnb->tgl_ptp,   
-            'tgl_terima_ptp' => $this->kkprnb->tgl_terima_ptp,   
-            'no_ptp' => $this->kkprnb->no_ptp,   
-            'alamat_pemohon' => $permohonan->alamat_pemohon,   
-            'no_hp' => $permohonan->registrasi->no_hp,   
-            'email' => $permohonan->registrasi->email,   
-            'alamat_tanah' => $permohonan->registrasi->alamat_tanah,   
-            'kel_tanah' => $permohonan->registrasi->kel_tanah,   
-            'kec_tanah' => $permohonan->registrasi->kec_tanah,   
-            'jenis_kegiatan' => $permohonan->registrasi->fungsi_bangunan,   
-            'luas_permohonan' => $permohonan->luas_tanah,   
-            'penguasaan_tanah' => $this->kkprnb->penguasaan_tanah,   
-            'ada_bangunan' => $this->kkprnb->ada_bangunan,   
-            'jml_bangunan' => $this->kkprnb->jml_bangunan,   
-            'jml_lantai' => $this->kkprnb->jml_lantai,   
-            'luas_lantai' => $this->kkprnb->luas_lantai,   
-            'kedalaman_min' => $this->kkprnb->kedalaman_min,   
-            'kedalaman_max' => $this->kkprnb->kedalaman_max   
+            'tgl_validasi' => $this->kkprnb->tgl_validasi,
+            'tgl_survey' => $this->kkprnb->tgl_survey,
+            'tgl_ptp' => $this->kkprnb->tgl_ptp,
+            'tgl_terima_ptp' => $this->kkprnb->tgl_terima_ptp,
+            'no_ptp' => $this->kkprnb->no_ptp,
+            'alamat_pemohon' => $permohonan->alamat_pemohon,
+            'no_hp' => $permohonan->registrasi->no_hp,
+            'email' => $permohonan->registrasi->email,
+            'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
+            'kel_tanah' => $permohonan->registrasi->kel_tanah,
+            'kec_tanah' => $permohonan->registrasi->kec_tanah,
+            'jenis_kegiatan' => $permohonan->registrasi->fungsi_bangunan,
+            'luas_permohonan' => $permohonan->luas_tanah,
+            'penguasaan_tanah' => $this->kkprnb->penguasaan_tanah,
+            'ada_bangunan' => $this->kkprnb->ada_bangunan,
+            'jml_bangunan' => $this->kkprnb->jml_bangunan,
+            'jml_lantai' => $this->kkprnb->jml_lantai,
+            'luas_lantai' => $this->kkprnb->luas_lantai,
+            'kedalaman_min' => $this->kkprnb->kedalaman_min,
+            'kedalaman_max' => $this->kkprnb->kedalaman_max
 
         ];
 
         return $this->generateDocument('4_NOTA_DINAS_KKPR_NON_BERUSAHA.docx', $data);
     }
-    
+
     public function download5()
     {
-        $permohonan = $this->kkprnb->permohonan;        
+        $permohonan = $this->kkprnb->permohonan;
 
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
-            'no_ptp' => $this->kkprnb->no_ptp,   
+            'no_ptp' => $this->kkprnb->no_ptp,
             'tgl_ptp' => $this->kkprnb->tgl_ptp,
         ];
 
@@ -137,7 +137,7 @@ class KkprnbAnalisDetail extends Component
 
     public function download6()
     {
-        $permohonan = $this->kkprnb->permohonan;        
+        $permohonan = $this->kkprnb->permohonan;
 
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
@@ -149,7 +149,7 @@ class KkprnbAnalisDetail extends Component
             'kec_tanah' => $permohonan->registrasi->kec_tanah,
             'jenis_kegiatan' => $permohonan->registrasi->fungsi_bangunan,
             'luas_permohonan' => $permohonan->luas_tanah,
-            'no_ptp' => $this->kkprnb->no_ptp,   
+            'no_ptp' => $this->kkprnb->no_ptp,
             'tgl_ptp' => $this->kkprnb->tgl_ptp,
             'kedalaman_min' => $this->kkprnb->kedalaman_min,
             'kedalaman_max' => $this->kkprnb->kedalaman_max,
@@ -223,9 +223,9 @@ class KkprnbAnalisDetail extends Component
                 ]);
             }
 
-            $this->createRiwayat($this->kkprnb->permohonan, 'Proses Verifikasi Data ITR');
+            $this->createRiwayat($this->kkprnb->permohonan, 'Proses Verifikasi Data KKPR NB');
         }
-        
+
         $this->dispatch('toast', [
             'type'    => 'success',
             'message' => 'Data Analis selesai!'

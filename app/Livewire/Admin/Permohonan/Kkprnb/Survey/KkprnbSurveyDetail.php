@@ -42,7 +42,7 @@ class KkprnbSurveyDetail extends Component
             'tipe_jalan' => $this->kkprnb->tipe_jalan,
             'fungsi_jalan' => $this->kkprnb->fungsi_jalan,
             'median_jalan' => $this->kkprnb->median_jalan,
-            'lebar_jalan' => $this->kkprnb->lebar_jalan,                        
+            'lebar_jalan' => $this->kkprnb->lebar_jalan,
         ];
 
         return $this->generateDocument('3A_BA_PEMERIKSAAN_LAPANGAN_NON_BERUSAHA.docx', $data);
@@ -90,12 +90,12 @@ class KkprnbSurveyDetail extends Component
                     'status' => 'Proses Analisa'
                 ]);
 
-                $this->createRiwayat($this->kkprnb->permohonan, 'Selesai Survey Data ITR');
-                $this->createRiwayat($this->kkprnb->permohonan, 'Proses Analisa ITR');                
+                $this->createRiwayat($this->kkprnb->permohonan, 'Selesai Survey Data KKPR Non Berusaha');
+                $this->createRiwayat($this->kkprnb->permohonan, 'Proses Analisa KKPR Non Berusaha');
             }
         }
 
-        
+
 
         $this->dispatch('toast', [
             'type'    => 'success',
