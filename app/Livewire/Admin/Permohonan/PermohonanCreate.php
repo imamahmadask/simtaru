@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Permohonan;
 
 use App\Models\Disposisi;
 use App\Models\Itr;
+use App\Models\Kkprb;
 use App\Models\Kkprnb;
 use App\Models\Layanan;
 use App\Models\Permohonan;
@@ -35,7 +36,7 @@ class PermohonanCreate extends Component
     public $berkas_ktp, $berkas_nib, $berkas_penguasaan, $berkas_permohonan, $berkas_kuasa;
 
     // PTP
-    public $tgl_ptp, $tgl_terima_ptp, $tgl_validasi, $no_ptp, $rdtr_rtrw ;
+    public $tgl_ptp, $tgl_terima_ptp, $tgl_validasi, $no_ptp, $rdtr_rtrw, $tgl_pnbp;
     public $kode_registrasi, $tgl_registrasi;
 
     #[Validate('nullable|mimes:pdf|max:2000')]
@@ -113,6 +114,17 @@ class PermohonanCreate extends Component
                 'surat_pengantar_kelengkapan' => $path_surat_pengantar_kelengkapan,
                 'rdtr_rtrw' => $this->rdtr_rtrw,
             ]);
+        } elseif($layanan->kode == 'KKPRB') {
+            $path_berkas_ptp = $this->uploadFile($this->berkas_ptp, 'kkprb/'.$permohonan->registrasi->kode.'/berkas_ptp');
+            $serviceModel = Kkprb::create([
+                'tgl_validasi' => $this->tgl_validasi,
+                'permohonan_id' => $permohonan->id,
+                'layanan_id' => $this->layanan_id,
+                'tgl_pnbp' => $this->tgl_pnbp,
+                'tgl_ptp' => $this->tgl_ptp,
+                'no_ptp' => $this->no_ptp,
+                'berkas_ptp' => $path_berkas_ptp,
+            ]);            
         }
 
         if ($serviceModel) {

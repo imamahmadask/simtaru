@@ -51,7 +51,7 @@ class KkprnbFinalCreate extends Component
 
                 // simpan file ke storage/app/public/kkprnb_form_survey
                 $path = $uploadedFile->storeAs(
-                    'kkprnb/' . $no_reg, // folder per registrasi
+                    'kkprnb/' . $no_reg.'_final_', // folder per registrasi
                     $filename,
                     'public'
                 );

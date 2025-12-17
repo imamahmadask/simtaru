@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Permohonan;
 
 use App\Models\Disposisi;
+use App\Models\Kkprb;
 use App\Models\Kkprnb;
 use App\Models\Layanan;
 use App\Models\Permohonan;
@@ -34,7 +35,7 @@ class PermohonanEdit extends Component
     public $is_prioritas;
 
     // PTP
-    public $tgl_ptp, $tgl_terima_ptp, $tgl_validasi, $no_ptp, $berkas_ptp_lama, $rdtr_rtrw;
+    public $tgl_ptp, $tgl_terima_ptp, $tgl_validasi, $no_ptp, $berkas_ptp_lama, $rdtr_rtrw, $tgl_pnbp;
     public $tanggapan_1a_lama, $tanggapan_1b_lama, $tanggapan_2_lama, $ceklis_lama, $surat_pengantar_kelengkapan_lama;
     public $kode_registrasi, $tgl_registrasi;
 
@@ -94,6 +95,16 @@ class PermohonanEdit extends Component
             $this->tanggapan_2_lama = $kkprnb->tanggapan_2;
             $this->ceklis_lama = $kkprnb->ceklis;
             $this->surat_pengantar_kelengkapan_lama = $kkprnb->surat_pengantar_kelengkapan;
+        }
+
+        if($this->kode_layanan == 'KKPRB')
+        {
+            $kkprb = Kkprb::where('permohonan_id', $permohonan->id)->first();
+            $this->tgl_validasi = $kkprb->tgl_validasi;
+            $this->tgl_pnbp = $kkprb->tgl_pnbp;
+            $this->tgl_ptp = $kkprb->tgl_ptp;
+            $this->no_ptp = $kkprb->no_ptp;
+            $this->berkas_ptp_lama = $kkprb->berkas_ptp;
         }
 
         // $this->berkas_pemohon_lama = $permohonan->berkas_pemohon;
