@@ -104,7 +104,7 @@
                         </button>
                     @elseif ($kkprnb->is_validate)
                         <button type="button" class="btn btn-success" disabled>
-                            <i class="bx bx-check"></i> Semua Berkasi Sudah Diverifikasi
+                            <i class="bx bx-check"></i> Semua Berkas Sudah Diverifikasi
                         </button>
                     @endif
                 </div>

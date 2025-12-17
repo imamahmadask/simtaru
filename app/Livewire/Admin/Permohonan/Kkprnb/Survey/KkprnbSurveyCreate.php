@@ -85,8 +85,6 @@ class KkprnbSurveyCreate extends Component
             ],
         ]);
 
-        $this->createRiwayat($permohonan, 'Entry Data Survey');
-
         $this->dispatch('toast', [
             'type'    => 'success',
             'message' => 'Data Survey berhasil ditambahkan!'

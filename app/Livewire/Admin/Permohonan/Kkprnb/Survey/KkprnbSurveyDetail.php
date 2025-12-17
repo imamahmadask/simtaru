@@ -89,22 +89,14 @@ class KkprnbSurveyDetail extends Component
                 $this->kkprnb->permohonan->update([
                     'status' => 'Proses Analisa'
                 ]);
-
-                $this->createRiwayat($this->kkprnb->permohonan, 'Selesai Survey Data KKPR Non Berusaha');
+                
                 $this->createRiwayat($this->kkprnb->permohonan, 'Proses Analisa KKPR Non Berusaha');
             }
+
+            session()->flash('success', 'Data Survey selesai!');
         }
 
-
-
-        $this->dispatch('toast', [
-            'type'    => 'success',
-            'message' => 'Data Survey selesai!'
-        ]);
-
-        $this->dispatch('refresh-kkprnb-survey-list');
-
-        $this->dispatch('trigger-close-modal');
+        return redirect()->route('kkprnb.detail', ['id' => $this->kkprnb->id]);
     }
 
     private function createRiwayat(Permohonan $permohonan, string $keterangan)

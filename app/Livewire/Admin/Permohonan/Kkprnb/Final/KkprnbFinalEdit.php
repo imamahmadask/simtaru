@@ -79,8 +79,6 @@ class KkprnbFinalEdit extends Component
             'tgl_selesai' => $this->tgl_selesai,
             'no_dokumen' => $this->no_dokumen,
             'waktu_pengerjaan' => $this->waktu_pengerjaan,
-            'is_done' => true,
-            'status' => 'completed',
         ]);
 
         $this->createRiwayat($this->kkprnb->permohonan, 'Edit Dokumen KKPR Non Berusaha selesai!');

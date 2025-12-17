@@ -17,7 +17,10 @@ class KkprnbVerifikasiDetail extends Component
     public $berkas_draft;
 
     #[On('refresh-kkprnb-verifikasi-list')]
-    public function refresh() {}
+    public function refresh()
+    {
+        $this->mount($this->kkprnb->id);
+    }
     
     public function render()
     {
@@ -70,25 +73,15 @@ class KkprnbVerifikasiDetail extends Component
                 $this->createRiwayat($this->kkprnb->permohonan, 'Selesai Verifikasi Berkas KKPR Non Berusaha');
                 $this->createRiwayat($this->kkprnb->permohonan, 'Sedang Proses Cetak Dokumen KKPR Non Berusaha');
 
-                $this->dispatch('toast', [
-                    'type'    => 'success',
-                    'message' => 'Data Verifikasi selesai!'
-                ]);
+                session()->flash('success', 'Data Verifikasi selesai!');
             }
             else
             {
-                $this->dispatch('toast', [
-                    'type'    => 'error',
-                    'message' => 'ERROR: Verifikasi belum selesai! Mohon cek kembali kelengkapan/validasi berkas!'
-                ]);
+                session()->flash('error', 'ERROR: Verifikasi belum selesai! Mohon cek kembali kelengkapan/validasi berkas!');
             }
         }
 
-        // return redirect()->route('kkprnb.detail', ['id' => $this->kkprnb->id]);
-
-        $this->dispatch('refresh-kkprnb-verifikasi-list');
-
-        $this->dispatch('trigger-close-modal');
+        return redirect()->route('kkprnb.detail', ['id' => $this->kkprnb->id]);
     }
 
     private function createRiwayat(Permohonan $permohonan, string $keterangan)

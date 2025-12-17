@@ -77,17 +77,8 @@ class KkprnbFinalCreate extends Component
         $this->kkprnb->permohonan->update([
             'tgl_selesai' => $this->tgl_selesai,
             'no_dokumen' => $this->no_dokumen,
-            'waktu_pengerjaan' => $this->waktu_pengerjaan,
-            'is_done' => true,
-            'status' => 'completed',
-        ]);
-
-        $this->permohonan->disposisi()->where('penerima_id', Auth::user()->id)->update([
-            'is_done' => true,
-            'tgl_selesai' => now()
-        ]);
-
-        $this->createRiwayat($this->kkprnb->permohonan, 'Dokumen KKPR Non Berusaha selesai!');       
+            'waktu_pengerjaan' => $this->waktu_pengerjaan,            
+        ]);             
         
         $this->reset('tgl_selesai', 'no_dokumen', 'waktu_pengerjaan', 'file_');
 

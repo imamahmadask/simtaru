@@ -224,16 +224,12 @@ class KkprnbAnalisDetail extends Component
             }
 
             $this->createRiwayat($this->kkprnb->permohonan, 'Proses Verifikasi Data KKPR NB');
+
+            session()->flash('success', 'Data Analis selesai!');
         }
 
-        $this->dispatch('toast', [
-            'type'    => 'success',
-            'message' => 'Data Analis selesai!'
-        ]);
 
-        $this->dispatch('refresh-kkprnb-analis-list');
-
-        $this->dispatch('trigger-close-modal');
+        return redirect()->route('kkprnb.detail', ['id' => $this->kkprnb->id]);
     }
 
     private function createRiwayat(Permohonan $permohonan, string $keterangan)

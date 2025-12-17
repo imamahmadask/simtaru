@@ -73,13 +73,13 @@ class KkprnbVerifikasiCreate extends Component
             {
                 $kkprnb->update([
                     'is_survey' => false,
-                    'is_berkas_survey' => false,
+                    'is_berkas_survey_uploaded' => false,
                 ]);
             }
             elseif($nama_tahapan == 'Analisis')
             {
                 $kkprnb->update([
-                    'is_berkas_analis' => false,
+                    'is_berkas_analis_uploaded' => false,
                     'is_analis' => false,
                 ]);
             }
@@ -99,8 +99,6 @@ class KkprnbVerifikasiCreate extends Component
         $this->dispatch('refresh-kkprnb-verifikasi-list');
 
         $this->dispatch('trigger-close-modal');
-
-
     }
 
     // public function mount($kkprnb_id, $berkas_id)
