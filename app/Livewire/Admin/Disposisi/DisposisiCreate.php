@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Disposisi;
 
 use App\Models\Disposisi;
 use App\Models\Itr;
+use App\Models\Kkprb;
 use App\Models\Kkprnb;
 use App\Models\Layanan;
 use App\Models\Permohonan;
@@ -88,6 +89,18 @@ class DisposisiCreate extends Component
                 'catatan' => $this->catatan,
             ]);
         }
+        elseif($layanan->kode == 'KKPRB')
+        {
+            $kkprb = Kkprb::find($this->pelayanan_id);
+            $kkprb->disposisis()->create([
+                'permohonan_id' => $this->permohonan->id,
+                'tahapan_id' => $this->tahapan_id,
+                'pemberi_id' => $this->pemberi_id,
+                'penerima_id' => $this->penerima_id,
+                'tanggal_disposisi' => now(),
+                'catatan' => $this->catatan,
+            ]);
+        }
 
         $this->createRiwayat($this->permohonan, "Disposisi kepada {$this->users->where('id', $this->penerima_id)->first()->name} pada tahapan ". $this->tahapans->where('id', $this->tahapan_id)->first()->nama);        
 
@@ -104,7 +117,7 @@ class DisposisiCreate extends Component
     }
 
     public function updatedTahapanId($value)
-    {
+    {        
         $tahapan = Tahapan::find($value);
 
         if($tahapan->nama == 'Analisis')

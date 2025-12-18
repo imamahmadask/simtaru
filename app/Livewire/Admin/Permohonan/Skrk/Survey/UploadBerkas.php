@@ -91,7 +91,7 @@ class UploadBerkas extends Component
                 if ($isUpdate) {
                     session()->flash('success', 'Berkas Survey berhasil diupdate!');
                 } else {
-                    $this->createRiwayat($this->permohonan, 'Upload Berkas Survey');
+                    // $this->createRiwayat($this->permohonan, 'Upload Berkas Survey');
                     session()->flash('success', 'Berkas Survey berhasil ditambahkan!');
                 }
             }

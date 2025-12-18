@@ -146,7 +146,7 @@
 @script
     <script>
         $wire.on('trigger-close-modal', () => {
-            const modal = bootstrap.Modal.getInstance(document.getElementById('selesaiAnalisaModal'));
+            const modal = bootstrap.Modal.getInstance(document.getElementById('selesaiFinalisasiModal'));
             if (modal) {
                 modal.hide();
             }

@@ -34,7 +34,7 @@
 
         @if (Auth::user()->role != 'cs')
             <li
-                class="menu-item {{ request()->routeIs('permohonan.*') || request()->routeIs('skrk.*') || request()->routeIs('itr.*') ? 'active open' : '' }}">
+                class="menu-item {{ request()->routeIs('permohonan.*') || request()->routeIs('skrk.*') || request()->routeIs('itr.*') || request()->routeIs('kkprnb.*') || request()->routeIs('kkprb.*') ? 'active open' : '' }}">
                 <a href="javascript:void(0)" class="menu-link menu-toggle">
                     <i class="menu-icon tf-icons bx bx-file"></i>
                     <div data-i18n="Permohonan">Permohonan</div>
@@ -60,8 +60,8 @@
                             <div data-i18n="Text Divider">KKPR Non Berusaha</div>
                         </a>
                     </li>
-                    <li class="menu-item">
-                        <a href="#" class="menu-link">
+                    <li class="menu-item {{ !! request()->routeIs('kkprb.*') ? 'active' : '' }}">
+                        <a href="{{ route('kkprb.index') }}" class="menu-link">
                             <div data-i18n="Text Divider">KKPR Berusaha</div>
                         </a>
                     </li>

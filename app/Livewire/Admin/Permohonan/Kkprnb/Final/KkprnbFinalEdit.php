@@ -5,7 +5,6 @@ namespace App\Livewire\Admin\Permohonan\Kkprnb\Final;
 use App\Models\Kkprnb;
 use App\Models\Permohonan;
 use App\Models\PermohonanBerkas;
-use App\Models\RiwayatPermohonan;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -80,9 +79,7 @@ class KkprnbFinalEdit extends Component
             'no_dokumen' => $this->no_dokumen,
             'waktu_pengerjaan' => $this->waktu_pengerjaan,
         ]);
-
-        $this->createRiwayat($this->kkprnb->permohonan, 'Edit Dokumen KKPR Non Berusaha selesai!');
-
+   
         $this->reset('tgl_selesai', 'no_dokumen', 'waktu_pengerjaan', 'file_');
 
         $this->dispatch('toast', [
@@ -100,14 +97,5 @@ class KkprnbFinalEdit extends Component
         $tgl_mulai = Carbon::parse($this->permohonan->registrasi->tanggal);
         $tgl_selesai = Carbon::parse($this->tgl_selesai);
         $this->waktu_pengerjaan = $tgl_mulai->diffInDays($tgl_selesai) + 1;
-    }
-
-    private function createRiwayat(Permohonan $permohonan, string $keterangan)
-    {
-        RiwayatPermohonan::create([
-            'registrasi_id' => $permohonan->registrasi_id,
-            'user_id' => Auth::user()->id,
-            'keterangan' => $keterangan
-        ]);
     }
 }
