@@ -40,7 +40,8 @@ class KkprnbVerifikasiDetail extends Component
 
             if($this->count_verifikasi == 0) {
                 $this->kkprnb->update([
-                    'is_validate' => true
+                    'is_validate' => true,
+                    'tgl_validate' => now()
                 ]);
 
                 $this->kkprnb->permohonan->update([
