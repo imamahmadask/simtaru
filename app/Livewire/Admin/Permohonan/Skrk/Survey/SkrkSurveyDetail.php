@@ -6,16 +6,21 @@ use App\Models\Permohonan;
 use App\Models\RiwayatPermohonan;
 use App\Models\Skrk;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use PhpOffice\PhpWord\TemplateProcessor;
 
 class SkrkSurveyDetail extends Component
 {
     public $skrk;
+    
     public function render()
     {
         return view('livewire.admin.permohonan.skrk.survey.skrk-survey-detail');
     }
+
+    #[On('refresh-skrk-survey-list')]
+    public function refresh() {}
 
     public function mount($skrk_id)
     {

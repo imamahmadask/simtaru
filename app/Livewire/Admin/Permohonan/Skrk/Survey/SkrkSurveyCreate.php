@@ -77,11 +77,15 @@ class SkrkSurveyCreate extends Component
             ],
         ]);
 
-        $this->createRiwayat($permohonan, 'Entry Data Survey');
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Data Survey berhasil ditambahkan!'
+        ]);
 
-        session()->flash('success', 'Data Survey berhasil ditambahkan!');
+        $this->dispatch('refresh-skrk-survey-list');
 
-        return redirect()->route('skrk.detail', ['id' => $this->skrk_id]);
+        $this->dispatch('trigger-close-modal');
+
     }
 
     public function mount($permohonan_id, $skrk_id)

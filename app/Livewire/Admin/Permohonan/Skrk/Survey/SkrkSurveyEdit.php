@@ -93,9 +93,14 @@ class SkrkSurveyEdit extends Component
             ],
         ]);
 
-        session()->flash('success', 'Data Survey berhasil diupdate!');
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Data Survey berhasil diupdate!'
+        ]);
 
-        return redirect()->route('skrk.detail', ['id' => $this->skrk->id]);
+        $this->dispatch('refresh-skrk-survey-list');
+
+        $this->dispatch('trigger-close-modal');
     }
 
     public function mount($permohonan_id, $skrk_id)

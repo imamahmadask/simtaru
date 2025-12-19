@@ -5,17 +5,17 @@
                 @if (!$skrk->is_survey)
                     @if ($skrk->tgl_survey)
                         {{-- Actions available AFTER survey date is set --}}
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditSurveyModal">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditSurveySkrkModal">
                             <i class="bx bx-edit"></i> Edit Survey
                         </button>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#UploadBerkasSurveyModal">
+                            data-bs-target="#UploadBerkasSurveySkrkModal">
                             <i class="bx bx-cloud-upload"></i> Berkas Survey
                         </button>
                     @else
                         {{-- Action available BEFORE survey date is set --}}
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#AddSurveyModal">
+                            data-bs-target="#AddSurveySkrkModal">
                             <i class="bx bx-plus"></i> Add Survey
                         </button>
                     @endif
@@ -26,7 +26,7 @@
                     </button>
                 @endif
                 <button type="button" class="btn {{ $skrk->is_survey ? 'btn-success' : 'btn-danger' }}"
-                    wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiSurveyModal"
+                    wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiSurveySkrkModal"
                     {{ $skrk->is_survey || !$skrk->is_berkas_survey_uploaded ? 'disabled' : '' }}>
                     @if ($skrk->is_survey)
                         <i class="bx bx-check"></i> Selesai Survey
@@ -166,7 +166,7 @@
         </div>
     </div>
 
-    <div wire:ignore.self class="modal fade" id="selesaiSurveyModal" data-bs-backdrop="static" tabindex="-1"
+    <div wire:ignore.self class="modal fade" id="selesaiSurveySkrkModal" data-bs-backdrop="static" tabindex="-1"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

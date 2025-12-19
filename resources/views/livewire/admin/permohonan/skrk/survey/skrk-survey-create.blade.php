@@ -1,5 +1,5 @@
 <div>
-    <div wire:ignore.self class="modal fade" id="AddSurveyModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="AddSurveySkrkModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -154,3 +154,13 @@
         </div>
     </div>
 </div>
+@script
+    <script>
+        $wire.on('trigger-close-modal', () => {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('AddSurveySkrkModal'));
+            if (modal) {
+                modal.hide();
+            }
+        });
+    </script>
+@endscript  

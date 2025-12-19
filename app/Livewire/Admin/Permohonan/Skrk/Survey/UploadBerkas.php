@@ -85,15 +85,7 @@ class UploadBerkas extends Component
                             'catatan'             => $this->catatan_[$item->kode] ?? null,
                         ]
                     );
-                }
-
-
-                if ($isUpdate) {
-                    session()->flash('success', 'Berkas Survey berhasil diupdate!');
-                } else {
-                    // $this->createRiwayat($this->permohonan, 'Upload Berkas Survey');
-                    session()->flash('success', 'Berkas Survey berhasil ditambahkan!');
-                }
+                }                
             }
         }
 
@@ -111,8 +103,23 @@ class UploadBerkas extends Component
             $this->skrk->update(['is_berkas_survey_uploaded' => false]);
         }
 
+        $this->reset('file_');
 
-        return redirect()->route('skrk.detail', ['id' => $this->skrk->id]);
+        if ($isUpdate) {
+            $this->dispatch('toast', [
+                'type'    => 'success',
+                'message' => 'Berkas Survey berhasil diupdate!'
+            ]);
+        } else {
+            $this->dispatch('toast', [
+                'type'    => 'success',
+                'message' => 'Berkas Survey berhasil ditambahkan!'
+            ]);
+        }
+
+        $this->dispatch('refresh-skrk-survey-list');
+
+        $this->dispatch('trigger-close-modal');
     }
 
     public function mount($permohonan_id, $skrk_id)
