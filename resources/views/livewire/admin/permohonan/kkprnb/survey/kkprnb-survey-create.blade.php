@@ -96,19 +96,19 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Koordinat</label>
+                            <label class="form-label" for="create_koordinat">Koordinat</label>
                             @foreach ($koordinat as $i => $point)
                                 <div class="row mb-2">
                                     <div class="col">
                                         <input type="text" class="form-control"
-                                            wire:model="koordinat.{{ $i }}.x" placeholder="X">
+                                            wire:model="koordinat.{{ $i }}.x" placeholder="X" id="create_koordinat.{{ $i }}.x">
                                         @error("koordinat.$i.x")
                                             <span class="form-text text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <div class="col">
                                         <input type="text" class="form-control"
-                                            wire:model="koordinat.{{ $i }}.y" placeholder="Y">
+                                            wire:model="koordinat.{{ $i }}.y" placeholder="Y" id="create_koordinat.{{ $i }}.y">
                                         @error("koordinat.$i.y")
                                             <span class="form-text text-danger">{{ $message }}</span>
                                         @enderror

@@ -11,8 +11,8 @@ use Livewire\Component;
 class KkprnbKajianAnalisCreate extends Component
 {
     public $permohonan, $kkprnb;
-    public $penguasaan_tanah, $jml_bangunan, $jml_lantai, $luas_lantai, $kedalaman_min, $kedalaman_max;
-    public $kdb, $klb, $indikasi_program, $gsb, $jba, $jbb, $kdh, $ktb, $jaringan_utilitas, $persyaratan_pelaksanaan;
+    public $penguasaan_tanah, $jml_bangunan, $jml_lantai, $luas_lantai, $kedalaman_min, $kedalaman_max, $jenis_kegiatan;
+    public $kdb, $klb, $indikasi_program, $gsb, $jba, $jbb, $kdh, $ktb, $jaringan_utilitas, $persyaratan_pelaksanaan, $luas_disetujui;
 
     public function render()
     {
@@ -26,8 +26,10 @@ class KkprnbKajianAnalisCreate extends Component
             'jml_bangunan' => $this->jml_bangunan,
             'jml_lantai' => $this->jml_lantai,
             'luas_lantai' => $this->luas_lantai,
+            'luas_disetujui' => $this->luas_disetujui,
             'kedalaman_min' => $this->kedalaman_min,
             'kedalaman_max' => $this->kedalaman_max,
+            'jenis_kegiatan' => $this->jenis_kegiatan,
             'kdb' => $this->kdb,
             'klb' => $this->klb,
             'indikasi_program' => $this->indikasi_program,

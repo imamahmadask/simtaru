@@ -56,11 +56,20 @@
                 </div>
                 <div class="card-body mt-3">
                     <div class="row mb-3">
-                        <label class="col-sm-4 col-form-label" for="rdtr_rtrw">
+                        <label class="col-sm-4 col-form-label" for="rdtr_rtrw_analis">
                             Jenis KKPRNB
                         </label>
                         <div class="col-sm-8">
-                            <input id="rdtr_rtrw" class="form-control" value="{{ $kkprnb->rdtr_rtrw }}" readonly>
+                            <input id="rdtr_rtrw_analis" class="form-control" value="{{ $kkprnb->rdtr_rtrw }}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-4 col-form-label" for="jenis_kegiatan_pemanfaatan">
+                            Jenis Kegiatan Pemanfaatan Ruang
+                        </label>
+                        <div class="col-sm-8">
+                            <input id="jenis_kegiatan_pemanfaatan" class="form-control" value="{{ $kkprnb->jenis_kegiatan }}" readonly>
                         </div>
                     </div>
                     
@@ -72,16 +81,7 @@
                             <input id="penguasaan_tanah" class="form-control" value="{{ $kkprnb->penguasaan_tanah }}"
                                 readonly>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-4 col-form-label" for="ada_bangunan">
-                            Ada Bangunan
-                        </label>
-                        <div class="col-sm-8">
-                            <input id="ada_bangunan" class="form-control" value="{{ $kkprnb->ada_bangunan }}"
-                                readonly>
-                        </div>
-                    </div>
+                    </div>                    
                     <div class="row mb-3">
                         <label class="col-sm-4 col-form-label" for="jml_bangunan">
                             Jumlah Bangunan
@@ -96,7 +96,7 @@
                             Jumlah Lantai
                         </label>
                         <div class="col-sm-8">
-                            <input id="jml_lantai" class="form-control" value="{{ $kkprnb->jml_lantai }}"
+                            <input id="jml_lantai" class="form-control" value="{{ $kkprnb->jml_lantai }} Lantai"
                                 readonly>
                         </div>
                     </div>
@@ -105,7 +105,16 @@
                             Luas Lantai
                         </label>
                         <div class="col-sm-8">
-                            <input id="luas_lantai" class="form-control" value="{{ $kkprnb->luas_lantai }}"
+                            <input id="luas_lantai" class="form-control" value="{{ $kkprnb->luas_lantai }} m2"
+                                readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-4 col-form-label" for="luas_disetujui">
+                            Luas Disetujui
+                        </label>
+                        <div class="col-sm-8">
+                            <input id="luas_disetujui" class="form-control" value="{{ $kkprnb->luas_disetujui }} m2"
                                 readonly>
                         </div>
                     </div>

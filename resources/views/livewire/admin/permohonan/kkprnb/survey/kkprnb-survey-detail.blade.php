@@ -136,7 +136,7 @@
                                 <tbody>
                                     @if ($kkprnb->koordinat)
                                         @foreach ($kkprnb->koordinat as $i => $point)
-                                            <tr>
+                                            <tr id="koordinat_{{ $i }}">
                                                 <td>{{ $i + 1 }}</td>
                                                 <td>{{ $point['x'] }}</td>
                                                 <td>{{ $point['y'] }}</td>

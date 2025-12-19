@@ -15,10 +15,12 @@ class KkprnbVerifikasiDetail extends Component
     public $kkprnb;
     public $count_verifikasi;
     public $berkas_draft;
+    public $kesimpulan;
 
     #[On('refresh-kkprnb-verifikasi-list')]
     public function refresh()
     {
+        $this->kkprnb->refresh();
         $this->mount($this->kkprnb->id);
     }
     
@@ -32,6 +34,28 @@ class KkprnbVerifikasiDetail extends Component
         $this->kkprnb = Kkprnb::findOrFail($kkprnb_id);
         $this->count_verifikasi = $this->kkprnb->permohonan->berkas->where('status', '!=', 'diterima')->where('versi', 'draft')->count();
         $this->berkas_draft = $this->kkprnb->permohonan->berkas->where('versi', 'draft');
+        $this->kesimpulan = $this->kkprnb->kesimpulan ?? '';
+    }
+
+    public function submitKesimpulan()
+    {
+        if(Auth::user()->role == 'supervisor' || Auth::user()->role == 'superadmin') {
+            
+            if($this->kesimpulan != '') {
+                $this->kkprnb->update([
+                    'kesimpulan' => $this->kesimpulan
+                ]);
+            }
+        }
+
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Kesimpulan berhasil disimpan'
+        ]);
+        
+        $this->dispatch('refresh-kkprnb-verifikasi-list');
+
+        $this->dispatch('trigger-close-modal');
     }
 
     public function selesaiVerifikasi()

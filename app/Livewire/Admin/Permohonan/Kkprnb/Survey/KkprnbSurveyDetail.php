@@ -30,8 +30,11 @@ class KkprnbSurveyDetail extends Component
     public function download3a()
     {
         $permohonan = $this->kkprnb->permohonan;
-
+        $batas = $this->kkprnb->batas_persil;
+        $surveyor = $permohonan->disposisi->where('tahapan_id', $permohonan->layanan->tahapan->where('nama', 'Survey')->value('id'))->first()->penerima->name;
+        
         $data = [
+            'nama_surveyor' => $surveyor,
             'nama_pemohon' => $permohonan->registrasi->nama,
             'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
             'kel_tanah' => $permohonan->registrasi->kel_tanah,
@@ -43,6 +46,11 @@ class KkprnbSurveyDetail extends Component
             'fungsi_jalan' => $this->kkprnb->fungsi_jalan,
             'median_jalan' => $this->kkprnb->median_jalan,
             'lebar_jalan' => $this->kkprnb->lebar_jalan,
+            'batas_barat' => $batas['barat'],
+            'batas_timur' => $batas['timur'],
+            'batas_utara' => $batas['utara'],
+            'batas_selatan' => $batas['selatan'],
+            
         ];
 
         return $this->generateDocument('3A_BA_PEMERIKSAAN_LAPANGAN_NON_BERUSAHA.docx', $data);

@@ -15,6 +15,7 @@ use PhpOffice\PhpWord\TemplateProcessor;
 class KkprnbAnalisDetail extends Component
 {
     public $kkprnb;
+    public $koordinatTable = false;
 
     #[On('refresh-kkprnb-analis-list')]
     public function refresh() {}
@@ -58,15 +59,21 @@ class KkprnbAnalisDetail extends Component
     public function download3d()
     {
         $permohonan = $this->kkprnb->permohonan;
+        $textKoordinat = '';
+        if($this->kkprnb->koordinat){
+            foreach ($this->kkprnb->koordinat as $i => $point) {
+                $textKoordinat .= "{$point['x']}, {$point['y']}\n";
+            }
+        }
 
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
-            'tgl_registrasi' => date('d F Y', strtotime($permohonan->registrasi->tanggal)),
-            'tgl_validasi' => date('d F Y', strtotime($this->kkprnb->tgl_validasi)),
-            'tgl_survey' => date('d F Y', strtotime($this->kkprnb->tgl_survey)),
-            'tgl_ptp' => date('d F Y', strtotime($this->kkprnb->tgl_ptp)),
-            'tgl_terima_ptp' => date('d F Y', strtotime($this->kkprnb->tgl_terima_ptp)),
-            'no_ptp' => $this->kkprnb->no_ptp,
+            'tgl_registrasi' => $permohonan->registrasi->tanggal ? date('d F Y', strtotime($permohonan->registrasi->tanggal)) : '-',
+            'tgl_validasi' => $this->kkprnb->tgl_validasi ? date('d F Y', strtotime($this->kkprnb->tgl_validasi)) : '-',
+            'tgl_survey' => $this->kkprnb->tgl_survey ? date('d F Y', strtotime($this->kkprnb->tgl_survey)) : '-',
+            'tgl_ptp' => $this->kkprnb->tgl_ptp ? date('d F Y', strtotime($this->kkprnb->tgl_ptp)) : '-',
+            'tgl_terima_ptp' => $this->kkprnb->tgl_terima_ptp ? date('d F Y', strtotime($this->kkprnb->tgl_terima_ptp)) : '-',
+            'no_ptp' => $this->kkprnb->no_ptp ?? '-',
             'alamat_pemohon' => $permohonan->alamat_pemohon,
             'no_hp' => $permohonan->registrasi->no_hp,
             'email' => $permohonan->registrasi->email,
@@ -74,14 +81,18 @@ class KkprnbAnalisDetail extends Component
             'kel_tanah' => $permohonan->registrasi->kel_tanah,
             'kec_tanah' => $permohonan->registrasi->kec_tanah,
             'jenis_kegiatan' => $permohonan->registrasi->fungsi_bangunan,
-            'luas_permohonan' => $permohonan->luas_tanah,
+            'luas_tanah' => $permohonan->luas_tanah,
             'penguasaan_tanah' => $this->kkprnb->penguasaan_tanah,
             'ada_bangunan' => $this->kkprnb->ada_bangunan,
             'jml_bangunan' => $this->kkprnb->jml_bangunan,
             'jml_lantai' => $this->kkprnb->jml_lantai,
             'luas_lantai' => $this->kkprnb->luas_lantai,
             'kedalaman_min' => $this->kkprnb->kedalaman_min,
-            'kedalaman_max' => $this->kkprnb->kedalaman_max
+            'kedalaman_max' => $this->kkprnb->kedalaman_max,
+            'koordinat' => $textKoordinat,
+            'kdb' => $this->kkprnb->kdb,
+            'klb' => $this->kkprnb->klb,
+            'kdh' => $this->kkprnb->kdh,
         ];
 
         return $this->generateDocument('3D_KAJIAN_KKPR_NON_BERUSAHA.docx', $data);
@@ -90,17 +101,22 @@ class KkprnbAnalisDetail extends Component
     public function download4()
     {
         $permohonan = $this->kkprnb->permohonan;
-
+        $textKoordinat = '';
+        if($this->kkprnb->koordinat){
+            foreach ($this->kkprnb->koordinat as $i => $point) {
+                $textKoordinat .= "{$point['x']}, {$point['y']}\n";
+            }
+        }
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
             'jenis_kegiatan' => $permohonan->registrasi->fungsi_bangunan,
-            'tgl_registrasi' => $permohonan->registrasi->tanggal,
-            'no_registrasi' => $permohonan->kode,
-            'tgl_validasi' => $this->kkprnb->tgl_validasi,
-            'tgl_survey' => $this->kkprnb->tgl_survey,
-            'tgl_ptp' => $this->kkprnb->tgl_ptp,
-            'tgl_terima_ptp' => $this->kkprnb->tgl_terima_ptp,
-            'no_ptp' => $this->kkprnb->no_ptp,
+            'tgl_registrasi' => $permohonan->registrasi->tanggal ? date('d F Y', strtotime($permohonan->registrasi->tanggal)) : '-',
+            'no_registrasi' => $permohonan->registrasi->kode,
+            'tgl_validasi' => $this->kkprnb->tgl_validasi ? date('d F Y', strtotime($this->kkprnb->tgl_validasi)) : '-',
+            'tgl_survey' => $this->kkprnb->tgl_survey ? date('d F Y', strtotime($this->kkprnb->tgl_survey)) : '-',
+            'tgl_ptp' => $this->kkprnb->tgl_ptp ? date('d F Y', strtotime($this->kkprnb->tgl_ptp)) : '-',
+            'tgl_terima_ptp' => $this->kkprnb->tgl_terima_ptp ? date('d F Y', strtotime($this->kkprnb->tgl_terima_ptp)) : '-',
+            'no_ptp' => $this->kkprnb->no_ptp ?? '-',
             'alamat_pemohon' => $permohonan->alamat_pemohon,
             'no_hp' => $permohonan->registrasi->no_hp,
             'email' => $permohonan->registrasi->email,
@@ -108,15 +124,15 @@ class KkprnbAnalisDetail extends Component
             'kel_tanah' => $permohonan->registrasi->kel_tanah,
             'kec_tanah' => $permohonan->registrasi->kec_tanah,
             'jenis_kegiatan' => $permohonan->registrasi->fungsi_bangunan,
-            'luas_permohonan' => $permohonan->luas_tanah,
+            'luas_tanah' => $permohonan->luas_tanah,
             'penguasaan_tanah' => $this->kkprnb->penguasaan_tanah,
             'ada_bangunan' => $this->kkprnb->ada_bangunan,
             'jml_bangunan' => $this->kkprnb->jml_bangunan,
             'jml_lantai' => $this->kkprnb->jml_lantai,
             'luas_lantai' => $this->kkprnb->luas_lantai,
             'kedalaman_min' => $this->kkprnb->kedalaman_min,
-            'kedalaman_max' => $this->kkprnb->kedalaman_max
-
+            'kedalaman_max' => $this->kkprnb->kedalaman_max,
+            'koordinat' => $textKoordinat,
         ];
 
         return $this->generateDocument('4_NOTA_DINAS_KKPR_NON_BERUSAHA.docx', $data);
@@ -148,6 +164,7 @@ class KkprnbAnalisDetail extends Component
             'kel_tanah' => $permohonan->registrasi->kel_tanah,
             'kec_tanah' => $permohonan->registrasi->kec_tanah,
             'jenis_kegiatan' => $permohonan->registrasi->fungsi_bangunan,
+            'jenis_kegiatan_pemanfaatan' => $this->kkprnb->jenis_kegiatan,
             'luas_permohonan' => $permohonan->luas_tanah,
             'no_ptp' => $this->kkprnb->no_ptp,
             'tgl_ptp' => $this->kkprnb->tgl_ptp,
@@ -164,6 +181,7 @@ class KkprnbAnalisDetail extends Component
             'jaringan_utilitas' => $this->kkprnb->jaringan_utilitas,
         ];
 
+        $this->koordinatTable = true;        
         return $this->generateDocument('6_FORMAT_PERSETUJUAN_KKPR_NON_BERUSAHA.docx', $data);
     }
 
@@ -173,6 +191,29 @@ class KkprnbAnalisDetail extends Component
 
         foreach ($data as $key => $value) {
             $templateProcessor->setValue($key, $value);
+        }
+
+        if($this->koordinatTable)
+        {
+            $koordinatList = $this->kkprnb->koordinat;
+            // 🧭 Jika ada data koordinat, isi ke tabel di Word
+            if (!empty($koordinatList)) {
+                // Clone baris berdasarkan placeholder 'x'
+                $templateProcessor->cloneRow('x', count($koordinatList));
+
+                foreach ($koordinatList as $i => $point) {
+                    $row = $i + 1;
+                    $templateProcessor->setValue("x#{$row}", $point['x']);
+                    $templateProcessor->setValue("y#{$row}", $point['y']);
+                }
+            }
+            else
+            {
+                // Jika tidak ada koordinat, tampilkan satu baris kosong
+                $templateProcessor->cloneRow('x', 1);
+                $templateProcessor->setValue('x#1', '-');
+                $templateProcessor->setValue('y#1', '-');
+            }
         }
 
         $fileName = str_replace('.docx', '', basename($templatePath)).'_'.$data['nama_pemohon'].'.docx';

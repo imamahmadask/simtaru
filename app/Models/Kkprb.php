@@ -56,6 +56,8 @@ class Kkprb extends Model
         'is_analis',
         'is_validate',
         'tgl_validate',
+        'jenis_kegiatan',
+        'kesimpulan',
     ];
 
     protected $casts = [

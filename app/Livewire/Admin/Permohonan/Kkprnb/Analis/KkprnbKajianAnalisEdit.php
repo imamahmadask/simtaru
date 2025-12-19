@@ -10,8 +10,8 @@ use Livewire\Component;
 class KkprnbKajianAnalisEdit extends Component
 {
     public $permohonan, $kkprnb;
-    public $penguasaan_tanah, $jml_bangunan, $jml_lantai, $luas_lantai, $kedalaman_min, $kedalaman_max;
-    public $kdb, $klb, $indikasi_program, $gsb, $jba, $jbb, $kdh, $ktb, $jaringan_utilitas, $persyaratan_pelaksanaan;
+    public $penguasaan_tanah, $jml_bangunan, $jml_lantai, $luas_lantai, $kedalaman_min, $kedalaman_max, $jenis_kegiatan;
+    public $kdb, $klb, $indikasi_program, $gsb, $jba, $jbb, $kdh, $ktb, $jaringan_utilitas, $persyaratan_pelaksanaan, $luas_disetujui, $kesimpulan;
 
     public function render()
     {
@@ -27,7 +27,9 @@ class KkprnbKajianAnalisEdit extends Component
         $this->penguasaan_tanah = $this->kkprnb->penguasaan_tanah;
         $this->jml_bangunan = $this->kkprnb->jml_bangunan;
         $this->jml_lantai = $this->kkprnb->jml_lantai;        
-        $this->luas_lantai = $this->kkprnb->luas_lantai;        
+        $this->luas_lantai = $this->kkprnb->luas_lantai;
+        $this->luas_disetujui = $this->kkprnb->luas_disetujui; 
+        $this->jenis_kegiatan = $this->kkprnb->jenis_kegiatan;       
         $this->kedalaman_min = $this->kkprnb->kedalaman_min;        
         $this->kedalaman_max = $this->kkprnb->kedalaman_max;        
         $this->kdb = $this->kkprnb->kdb;
@@ -51,6 +53,8 @@ class KkprnbKajianAnalisEdit extends Component
             'luas_lantai' => $this->luas_lantai,
             'kedalaman_min' => $this->kedalaman_min,
             'kedalaman_max' => $this->kedalaman_max,
+            'jenis_kegiatan' => $this->jenis_kegiatan,
+            'luas_disetujui' => $this->luas_disetujui,
             'kdb' => $this->kdb,
             'klb' => $this->klb,
             'gsb' => $this->gsb,

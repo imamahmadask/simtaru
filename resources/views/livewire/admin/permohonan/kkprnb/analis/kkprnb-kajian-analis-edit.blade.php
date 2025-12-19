@@ -14,6 +14,13 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col mb-3">
+                                <label for="edit_jenis_kegiatan" class="form-label">Jenis Kegiatan</label>
+                                <input type="text" class="form-control" wire:model="jenis_kegiatan" id="edit_jenis_kegiatan"
+                                    placeholder="Masukkan Jenis Kegiatan">
+                            </div>
+                        </div> 
+                        <div class="row">
+                            <div class="col mb-3">
                                 <label for="edit_penguasaan_tanah" class="form-label">Informasi Penguasaan Tanah</label>
                                 <input type="text" class="form-control" wire:model="penguasaan_tanah" id="edit_penguasaan_tanah"
                                     placeholder="Masukkan Informasi Penguasaan Tanah">
@@ -52,6 +59,13 @@
                                 <label for="edit_kedalaman_max" class="form-label">Kedalaman/ketinggian Maksimal</label>
                                 <input type="number" class="form-control" wire:model="kedalaman_max" id="edit_kedalaman_max"
                                     placeholder="Masukkan Kedalaman/ketinggian Maksimal yang dimohon">
+                            </div>
+                        </div>   
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="edit_luas_disetujui" class="form-label">Luas Disetujui</label>
+                                <input type="number" class="form-control" wire:model="luas_disetujui" id="edit_luas_disetujui"
+                                    placeholder="Masukkan Luas Disetujui">
                             </div>
                         </div>   
                         <div class="row">
@@ -124,8 +138,7 @@
                             <div class="col mb-3">
                                 <label for="edit_persyaratan_pelaksanaan" class="form-label">Persyaratan Pelaksanaan
                                     Kegiatan Pemanfaatan Ruang</label>
-                                <input type="text" class="form-control" wire:model="persyaratan_pelaksanaan"
-                                    id="edit_persyaratan_pelaksanaan" placeholder="Masukkan Persyaratan Pelaksanaan">
+                                <textarea class="form-control" wire:model="persyaratan_pelaksanaan" id="edit_persyaratan_pelaksanaan" rows="5"></textarea>
                             </div>
                         </div>
                     </div>

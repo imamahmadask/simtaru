@@ -14,7 +14,7 @@ use PhpOffice\PhpWord\TemplateProcessor;
 class SkrkAnalisDetail extends Component
 {
     public $skrk;
-    public $koodinatTable = false;
+    public $koordinatTable = false;
     public function render()
     {
         return view('livewire.admin.permohonan.skrk.analis.skrk-analis-detail');
@@ -120,7 +120,7 @@ class SkrkAnalisDetail extends Component
             'jaringan_utilitas' => $this->skrk->jaringan_utilitas,
             'persyaratan_pelaksanaan' => $this->skrk->persyaratan_pelaksanaan,
         ];
-        $this->koodinatTable = true;
+        $this->koordinatTable = true;
         return $this->generateDocument('4_dokumen_skrk.docx', $data);
     }
 
@@ -132,7 +132,7 @@ class SkrkAnalisDetail extends Component
             $templateProcessor->setValue($key, $value);
         }
 
-        if($this->koodinatTable)
+        if($this->koordinatTable)
         {
             $koordinatList = $this->skrk->koordinat;
             // 🧭 Jika ada data koordinat, isi ke tabel di Word
