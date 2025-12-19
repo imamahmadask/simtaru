@@ -16,7 +16,7 @@ class RegistrasiCreate extends Component
     #[Validate('required')]
     public $nama, $no_hp, $layanan_id, $tanggal, $fungsi_bangunan, $alamat_tanah, $kel_tanah, $kec_tanah;
 
-    #[Validate('required|min:16,max:16|numeric')]
+    #[Validate('required|min:0,max:16|numeric')]
     public $nik;
 
     #[Validate('required|email')]
