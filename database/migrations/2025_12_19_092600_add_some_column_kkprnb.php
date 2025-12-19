@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('kkprnb', function (Blueprint $table) {
-            $table->string('jenis_kegiatan')->nullable()->after('luas_disetujui');           
+            $table->string('luas_disetujui')->nullable()->after('luas_lantai');
+            $table->renameColumn('jenis_kegiatan', 'jenis_kkprnb');         
             $table->string('kesimpulan')->nullable();     
         });
     }
@@ -23,7 +24,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('kkprnb', function (Blueprint $table) {
-            $table->dropColumn('jenis_kegiatan');
+            $table->dropColumn('luas_disetujui');
+            $table->renameColumn('jenis_kkprnb', 'jenis_kegiatan');
             $table->dropColumn('kesimpulan');
         });
     }
