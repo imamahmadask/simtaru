@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('kkprnb', function (Blueprint $table) {
             $table->string('luas_disetujui')->nullable()->after('luas_lantai');
-            $table->renameColumn('jenis_kegiatan', 'jenis_kkprnb');         
+            $table->renameColumn('jenis_kkprnb', 'jenis_kegiatan');         
             $table->string('kesimpulan')->nullable();     
         });
     }
@@ -25,7 +25,7 @@ return new class extends Migration
     {
         Schema::table('kkprnb', function (Blueprint $table) {
             $table->dropColumn('luas_disetujui');
-            $table->renameColumn('jenis_kkprnb', 'jenis_kegiatan');
+            $table->renameColumn('jenis_kegiatan', 'jenis_kkprnb');
             $table->dropColumn('kesimpulan');
         });
     }
