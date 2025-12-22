@@ -87,6 +87,8 @@ class KkprnbVerifikasiCreate extends Component
             $this->createRiwayat($kkprnb->permohonan, "Disposisi kembali kepada {$penerima_name} pada tahapan ". $nama_tahapan);
         }
 
+        $this->reset('status', 'catatan', 'berkas', 'permohonan', 'kkprnb_id', 'tahapans');
+
         $message = $this->status == 'diterima'
             ? "Berkas berhasil diverifikasi sebagai : Diterima"
             : "Berkas : Ditolak";

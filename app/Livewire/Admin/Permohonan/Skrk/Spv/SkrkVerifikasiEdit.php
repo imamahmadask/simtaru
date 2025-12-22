@@ -72,6 +72,8 @@ class SkrkVerifikasiEdit extends Component
             }
         }
 
+        $this->reset('status', 'catatan', 'berkas', 'skrk_id');
+
         $message = $this->status == 'diterima'
             ? "Verifikasi : Berkas Diterima!"
             : "Verifikasi : Berkas Ditolak!";       

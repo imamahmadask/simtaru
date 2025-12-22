@@ -82,6 +82,8 @@ class KkprnbVerifikasiEdit extends Component
             }
         }
 
+        $this->reset('status', 'catatan', 'berkas', 'kkprnb_id');
+
         $message = $this->status == 'diterima'
             ? "Verifikasi : Berkas Diterima!"
             : "Verifikasi : Berkas Ditolak!";

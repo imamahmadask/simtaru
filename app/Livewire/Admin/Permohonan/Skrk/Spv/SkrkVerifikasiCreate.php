@@ -81,6 +81,8 @@ class SkrkVerifikasiCreate extends Component
             $this->createRiwayat($skrk->permohonan, "Disposisi kembali kepada {$penerima_name} pada tahapan ". $nama_tahapan);
         }
 
+        $this->reset('status', 'catatan', 'berkas', 'permohonan', 'skrk_id', 'tahapans');
+
         $message = $this->status == 'diterima'
             ? "Berkas berhasil diverifikasi sebagai : Diterima"
             : "Berkas : Ditolak";       
