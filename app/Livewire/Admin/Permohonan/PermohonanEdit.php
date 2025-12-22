@@ -289,7 +289,7 @@ class PermohonanEdit extends Component
             'nama_pemohon' => $this->nama,            
         ];
 
-        return $this->generateDocument('CEKLIS.docx', $data);
+        return $this->generateDocument('Ceklist.docx', $data);
     }   
 
     private function generateDocument($templatePath, $data)
