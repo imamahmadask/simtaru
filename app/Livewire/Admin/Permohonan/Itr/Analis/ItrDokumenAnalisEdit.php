@@ -91,8 +91,12 @@ class ItrDokumenAnalisEdit extends Component
             'persyaratan_pelaksanaan' => $this->persyaratan_pelaksanaan
         ]);
 
-        session()->flash('success', 'Data Dokumen ITR berhasil diupdate!');
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Data Dokumen Analisis ITR berhasil diupdate!'
+        ]);
 
-        return redirect()->route('itr.detail', ['id' => $this->itr->id]);
+        $this->dispatch('refresh-itr-analis-list');
+        $this->dispatch('trigger-close-modal');
     }
 }

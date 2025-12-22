@@ -7,6 +7,7 @@ use App\Models\Permohonan;
 use App\Models\RiwayatPermohonan;
 use App\Models\Tahapan;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ItrVerifikasiDetail extends Component
@@ -15,6 +16,13 @@ class ItrVerifikasiDetail extends Component
     public $count_verifikasi;
     public $berkas_draft;
 
+    #[On('refresh-itr-verifikasi-list')]
+    public function refresh()
+    {
+        $this->itr->refresh();
+        $this->mount($this->itr->id);
+    }
+    
     public function render()
     {
         return view('livewire.admin.permohonan.itr.spv.itr-verifikasi-detail');

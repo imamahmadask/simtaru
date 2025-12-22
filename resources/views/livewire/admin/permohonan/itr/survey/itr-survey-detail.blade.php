@@ -27,7 +27,7 @@
                     </button>
                 @endif
                 <button type="button" class="btn {{ $itr->is_survey ? 'btn-success' : 'btn-danger' }}"
-                    wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiSurveyModal"
+                    wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#SelesaiSurveyItrModal"
                     {{ $itr->is_survey || !$itr->is_berkas_survey_uploaded ? 'disabled' : '' }}>
                     @if ($itr->is_survey)
                         <i class="bx bx-check"></i> Selesai Survey
@@ -167,7 +167,7 @@
         </div>
     </div>
 
-    <div wire:ignore.self class="modal fade" id="selesaiSurveyModal" data-bs-backdrop="static" tabindex="-1"
+    <div wire:ignore.self class="modal fade" id="SelesaiSurveyItrModal" data-bs-backdrop="static" tabindex="-1"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

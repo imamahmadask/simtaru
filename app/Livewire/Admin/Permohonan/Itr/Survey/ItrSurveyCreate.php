@@ -78,11 +78,14 @@ class ItrSurveyCreate extends Component
             ],
         ]);
 
-        $this->createRiwayat($permohonan, 'Entry Data Survey');
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Data Survey berhasil ditambahkan!'
+        ]);
 
-        session()->flash('success', 'Data Survey berhasil ditambahkan!');
+        $this->dispatch('refresh-itr-survey-list');
 
-        return redirect()->route('itr.detail', ['id' => $this->itr_id]);
+        $this->dispatch('trigger-close-modal');
     }
 
     public function mount($permohonan_id, $itr_id)

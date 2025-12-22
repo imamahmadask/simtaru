@@ -6,6 +6,7 @@ use App\Models\Itr;
 use App\Models\Permohonan;
 use App\Models\RiwayatPermohonan;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use PhpOffice\PhpWord\TemplateProcessor;
 
@@ -17,6 +18,9 @@ class ItrSurveyDetail extends Component
     {
         return view('livewire.admin.permohonan.itr.survey.itr-survey-detail');
     }
+
+    #[On('refresh-itr-survey-list')]
+    public function refresh() {}
 
     public function mount($itr_id)
     {

@@ -57,11 +57,13 @@ class ItrDokumenAnalisCreate extends Component
             'is_dokumen' => true
         ]);
 
-        $this->createRiwayat($this->permohonan, 'Entry Data Dokumen ITR');
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Data Dokumen Analisis ITR berhasil disimpan!'
+        ]);
 
-        session()->flash('success', 'Data Dokumen ITR berhasil disimpan!');
-
-        return redirect()->route('itr.detail', ['id' => $this->itr->id]);
+        $this->dispatch('refresh-itr-analis-list');
+        $this->dispatch('trigger-close-modal');
     }
 
     public function mount($permohonan_id, $itr_id)

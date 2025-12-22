@@ -211,3 +211,13 @@
         </div>
     </div>
 </div>
+@script
+    <script>
+        $wire.on('trigger-close-modal', () => {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('EditDokumenItrModal'));
+            if (modal) {
+                modal.hide();
+            }
+        });
+    </script>
+@endscript

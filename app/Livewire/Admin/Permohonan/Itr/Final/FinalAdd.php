@@ -77,21 +77,19 @@ class FinalAdd extends Component
         $this->itr->permohonan->update([
             'tgl_selesai' => $this->tgl_selesai,
             'no_dokumen' => $this->no_dokumen,
-            'waktu_pengerjaan' => $this->waktu_pengerjaan,
-            'is_done' => true,
-            'status' => 'completed',
+            'waktu_pengerjaan' => $this->waktu_pengerjaan,            
+        ]);             
+        
+        $this->reset('tgl_selesai', 'no_dokumen', 'waktu_pengerjaan', 'file_');
+
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Dokumen ITR berhasil ditambahkan!'
         ]);
+        
+        $this->dispatch('refresh-itr-final-list');
 
-        $this->permohonan->disposisi()->where('penerima_id', Auth::user()->id)->update([
-            'is_done' => true,
-            'tgl_selesai' => now()
-        ]);
-
-        $this->createRiwayat($this->itr->permohonan, 'Dokumen ITR selesai!');
-
-        session()->flash('success', 'Dokumen ITR Fix berhasil ditambahkan!');
-
-        return redirect()->route('itr.detail', ['id' => $this->itr->id]);
+        $this->dispatch('trigger-close-modal');
     }
 
     public function updated($tgl_selesai)

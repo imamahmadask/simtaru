@@ -30,7 +30,7 @@ class UploadBerkas extends Component
     public function  uploadBerkas()
     {
         $no_reg = $this->itr->registrasi->kode;
-
+        $isUpdate = false;
         foreach ($this->permohonan->persyaratanBerkas as $item) {
 
             // cek apakah file untuk persyaratan ini diupload
@@ -111,8 +111,21 @@ class UploadBerkas extends Component
             $this->itr->update(['is_berkas_survey_uploaded' => false]);
         }
 
+        if ($isUpdate) {
+            $this->dispatch('toast', [
+                'type'    => 'success',
+                'message' => 'Berkas Survey berhasil diupdate!'
+            ]);
+        } else {
+            $this->dispatch('toast', [
+                'type'    => 'success',
+                'message' => 'Berkas Survey berhasil ditambahkan!'
+            ]);
+        }
 
-        return redirect()->route('itr.detail', ['id' => $this->itr->id]);
+        $this->dispatch('refresh-itr-survey-list');
+
+        $this->dispatch('trigger-close-modal');
     }
 
     public function mount($permohonan_id, $itr_id)

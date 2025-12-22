@@ -80,11 +80,16 @@ class ItrVerifikasiCreate extends Component
 
         $message = $this->status == 'diterima'
             ? "Berkas berhasil diverifikasi sebagai : Diterima"
-            : "Berkas : Ditolak";
+            : "Berkas : Ditolak";       
 
-        session()->flash($this->status == 'diterima' ? 'success' : 'error', $message);
+        $this->dispatch('toast', [
+            'type'    => $this->status == 'diterima' ? 'success' : 'error',
+            'message' => $message
+        ]);
+        
+        $this->dispatch('refresh-itr-verifikasi-list');
 
-        redirect()->route('itr.detail', ['id' => $this->itr_id]);
+        $this->dispatch('trigger-close-modal');
     }
 
     public function mount($itr_id, $berkas_id)

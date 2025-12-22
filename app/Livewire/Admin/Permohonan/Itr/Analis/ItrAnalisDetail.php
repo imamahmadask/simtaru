@@ -9,6 +9,7 @@ use App\Models\Itr;
 use App\Models\Tahapan;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use PhpOffice\PhpWord\TemplateProcessor;
 
 class ItrAnalisDetail extends Component
@@ -16,6 +17,12 @@ class ItrAnalisDetail extends Component
     public $itr;
     public $koordinatTable = false;
 
+    #[On('refresh-itr-analis-list')]
+    public function refresh()
+    {
+       
+    }
+    
     public function render()
     {
         return view('livewire.admin.permohonan.itr.analis.itr-analis-detail');

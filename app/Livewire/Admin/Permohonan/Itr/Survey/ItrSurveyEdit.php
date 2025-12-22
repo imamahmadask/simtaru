@@ -94,9 +94,14 @@ class ItrSurveyEdit extends Component
             ],
         ]);
 
-        session()->flash('success', 'Data Survey berhasil diupdate!');
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Data Survey berhasil diupdate!'
+        ]);
 
-        return redirect()->route('itr.detail', ['id' => $this->itr->id]);
+        $this->dispatch('refresh-itr-survey-list');
+
+        $this->dispatch('trigger-close-modal');
     }
 
     public function mount($permohonan_id, $itr_id)
