@@ -101,8 +101,8 @@
                     </div>
                     
                     <br>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kesimpulanPersetujuanModal">
-                        <i class="bx bx-check"></i> Kesimpulan
+                    <button type="button" class="btn {{ $kesimpulan ? 'btn-primary' : 'btn-danger' }}" data-bs-toggle="modal" data-bs-target="#kesimpulanPersetujuanModal">
+                        @if($kesimpulan) <i class="bx bx-check"></i> @else  <i class="bx bx-x"></i> @endif Kesimpulan
                     </button>
 
                     @if ($kkprnb->is_analis && !$kkprnb->is_validate && $count_verifikasi == 0)
@@ -134,7 +134,7 @@
                     <div class="modal-body">
                         <select class="form-select" name="kesimpulan" id="kesimpulan" wire:model="kesimpulan">
                             <option value="">--Pilih--</option>
-                            <option value="Disetujui">Disetujui Seluruhnya</option>
+                            <option value="Disetujui">Disetujui</option>
                             <option value="Disetujui Sebagian">Disetujui Sebagian</option>
                             <option value="Ditolak">Ditolak</option>
                         </select>

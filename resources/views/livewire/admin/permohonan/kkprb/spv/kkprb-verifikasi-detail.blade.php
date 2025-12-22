@@ -101,8 +101,8 @@
                     </div>
                     
                     <br>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kesimpulanPersetujuanModal">
-                        <i class="bx bx-check"></i> Kesimpulan
+button                     <button type="button" class="btn {{ $kkprb->kesimpulan ? 'btn-primary' : 'btn-danger' }}" data-bs-toggle="modal" data-bs-target="#kesimpulanPersetujuanModal">
+                        @if($kkprb->kesimpulan) <i class="bx bx-check"></i> @else  <i class="bx bx-x"></i> @endif Kesimpulan
                     </button>
 
                     @if ($kkprb->is_analis && !$kkprb->is_validate && $count_verifikasi == 0)
