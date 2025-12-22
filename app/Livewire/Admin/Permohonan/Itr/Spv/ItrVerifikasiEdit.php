@@ -72,7 +72,7 @@ class ItrVerifikasiEdit extends Component
             }
         }
 
-        $this->reset('status', 'catatan', 'berkas', 'itr_id');
+        $this->reset('status', 'catatan');
 
         $message = $this->status == 'diterima'
             ? "Verifikasi : Berkas Diterima!"

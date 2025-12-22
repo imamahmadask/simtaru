@@ -9,6 +9,7 @@ use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
 
 class SkrkSurveyEdit extends Component
 {
@@ -103,7 +104,8 @@ class SkrkSurveyEdit extends Component
         $this->dispatch('trigger-close-modal');
     }
 
-    public function mount($permohonan_id, $skrk_id)
+    #[On('skrk-survey-edit')]
+    public function getSurvey($permohonan_id, $skrk_id)
     {
         $this->skrk = Skrk::find($skrk_id);
         $this->permohonan = Permohonan::findOrFail($permohonan_id);

@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Permohonan\Skrk\Analis;
 
 use App\Models\Permohonan;
 use App\Models\Skrk;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class SkrkDokumenAnalisEdit extends Component
@@ -16,7 +17,8 @@ class SkrkDokumenAnalisEdit extends Component
         return view('livewire.admin.permohonan.skrk.analis.skrk-dokumen-analis-edit');
     }
 
-    public function mount($permohonan_id, $skrk_id)
+    #[On('skrk-analis-edit-dokumen')]
+    public function getDokumen($permohonan_id, $skrk_id)
     {
         $this->skrk = Skrk::findOrFail($skrk_id);
         $this->permohonan = Permohonan::findOrFail($permohonan_id);

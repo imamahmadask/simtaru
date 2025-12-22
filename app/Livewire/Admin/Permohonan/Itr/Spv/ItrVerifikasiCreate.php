@@ -78,7 +78,7 @@ class ItrVerifikasiCreate extends Component
             $this->createRiwayat($itr->permohonan, "Disposisi kembali kepada {$penerima_name} pada tahapan ". $nama_tahapan);
         }
 
-        $this->reset('status', 'catatan', 'berkas', 'permohonan', 'itr_id', 'tahapans');
+        $this->reset('status', 'catatan');
 
         $message = $this->status == 'diterima'
             ? "Berkas berhasil diverifikasi sebagai : Diterima"

@@ -27,7 +27,7 @@ class UploadBerkas extends Component
         return view('livewire.admin.permohonan.kkprnb.survey.upload-berkas');
     }
 
-    public function  uploadBerkas()
+    public function uploadBerkas()
     {
         $no_reg = $this->kkprnb->registrasi->kode;
 

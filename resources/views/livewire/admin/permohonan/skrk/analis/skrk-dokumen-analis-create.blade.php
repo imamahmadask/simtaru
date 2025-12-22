@@ -14,110 +14,110 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="skala_usaha" class="form-label">Skala Usaha</label>
-                                <input type="text" class="form-control" wire:model="skala_usaha" id="skala_usaha"
+                                <label for="create_skala_usaha" class="form-label">Skala Usaha</label>
+                                <input type="text" class="form-control" wire:model="skala_usaha" id="create_skala_usaha"
                                     placeholder="Masukkan Skala Usaha">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="luas_disetujui" class="form-label">Luas Tanah yang Disetujui</label>
+                                <label for="create_luas_disetujui" class="form-label">Luas Tanah yang Disetujui</label>
                                 <input type="text" class="form-control" wire:model="luas_disetujui"
-                                    id="luas_disetujui" placeholder="Masukkan Luas Tanah yang Disetujui">
+                                    id="create_luas_disetujui" placeholder="Masukkan Luas Tanah yang Disetujui">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="pemanfaatan_ruang" class="form-label">Jenis Pemanfaatan Ruang</label>
+                                <label for="create_pemanfaatan_ruang" class="form-label">Jenis Pemanfaatan Ruang</label>
                                 <input type="text" class="form-control" wire:model="pemanfaatan_ruang"
-                                    id="pemanfaatan_ruang" placeholder="Masukkan Jenis Pemanfaatan Ruang">
+                                    id="create_pemanfaatan_ruang" placeholder="Masukkan Jenis Pemanfaatan Ruang">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="peraturan_zonasi" class="form-label">Peraturan Zonasi</label>
+                                <label for="create_peraturan_zonasi" class="form-label">Peraturan Zonasi</label>
                                 <input type="text" class="form-control" wire:model="peraturan_zonasi"
-                                    id="peraturan_zonasi" placeholder="Masukkan Peraturan Zonasi">
+                                    id="create_peraturan_zonasi" placeholder="Masukkan Peraturan Zonasi">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="kbli_diizinkan" class="form-label">Kode KBLI Diizinkan</label>
+                                <label for="create_kbli_diizinkan" class="form-label">Kode KBLI Diizinkan</label>
                                 <input type="text" class="form-control" wire:model="kbli_diizinkan"
-                                    id="kbli_diizinkan" placeholder="Masukkan Kode KBLI Diizinkan">
+                                    id="create_kbli_diizinkan" placeholder="Masukkan Kode KBLI Diizinkan">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="kdb" class="form-label">Koefisien Dasar Bangunan (KDB) Maksimum</label>
-                                <input type="text" class="form-control" wire:model="kdb" id="kdb"
+                                <label for="create_kdb" class="form-label">Koefisien Dasar Bangunan (KDB) Maksimum</label>
+                                <input type="text" class="form-control" wire:model="kdb" id="create_kdb"
                                     placeholder="Masukkan Koefisien Dasar Bangunan">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="klb" class="form-label">Koefisien Lantai Bangunan (KLB)</label>
-                                <input type="text" class="form-control" wire:model="klb" id="klb"
+                                <label for="create_klb" class="form-label">Koefisien Lantai Bangunan (KLB)</label>
+                                <input type="text" class="form-control" wire:model="klb" id="create_klb"
                                     placeholder="Masukkan Koefisien Lantai Bangunan">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="gsb" class="form-label">Garis Sempadan Bangunan (GSB)</label>
-                                <input type="text" class="form-control" wire:model="gsb" id="gsb"
+                                <label for="create_gsb" class="form-label">Garis Sempadan Bangunan (GSB)</label>
+                                <input type="text" class="form-control" wire:model="gsb" id="create_gsb"
                                     placeholder="Masukkan Garis Sempadan Bangunan">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="jba" class="form-label">Jarak Bebas Antar Bangunan (JBA)
+                                <label for="create_jba" class="form-label">Jarak Bebas Antar Bangunan (JBA)
                                     Minimum</label>
-                                <input type="text" class="form-control" wire:model="jba" id="jba"
+                                <input type="text" class="form-control" wire:model="jba" id="create_jba"
                                     placeholder="Masukkan Jarak Bebas Antar Bangunan">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="jbb" class="form-label">Jarak Bebas Belakang (JBB) Minimum
+                                <label for="create_jbb" class="form-label">Jarak Bebas Belakang (JBB) Minimum
                                     Minimum</label>
-                                <input type="text" class="form-control" wire:model="jbb" id="jbb"
+                                <input type="text" class="form-control" wire:model="jbb" id="create_jbb"
                                     placeholder="Masukkan Jarak Bebas Belakang">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="kdh" class="form-label">Koefisien Dasar Hijau (KDH) Minimal</label>
-                                <input type="text" class="form-control" wire:model="kdh" id="kdh"
+                                <label for="create_kdh" class="form-label">Koefisien Dasar Hijau (KDH) Minimal</label>
+                                <input type="text" class="form-control" wire:model="kdh" id="create_kdh"
                                     placeholder="Masukkan Koefisien Dasar Hijau">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="ktb" class="form-label">Koefisien Tapak Basement (KTB)</label>
-                                <input type="text" class="form-control" wire:model="ktb" id="ktb"
+                                <label for="create_ktb" class="form-label">Koefisien Tapak Basement (KTB)</label>
+                                <input type="text" class="form-control" wire:model="ktb" id="create_ktb"
                                     placeholder="Masukkan Koefisien Tapak Basement">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="luas_kavling" class="form-label">Luas Kavling Minimum</label>
+                                <label for="create_luas_kavling" class="form-label">Luas Kavling Minimum</label>
                                 <input type="text" class="form-control" wire:model="luas_kavling"
-                                    id="luas_kavling" placeholder="Masukkan Luas Kavling Minimum (m2)">
+                                    id="create_luas_kavling" placeholder="Masukkan Luas Kavling Minimum (m2)">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="jaringan_utilitas" class="form-label">Jaringan Utilitas Kota</label>
+                                <label for="create_jaringan_utilitas" class="form-label">Jaringan Utilitas Kota</label>
                                 <input type="text" class="form-control" wire:model="jaringan_utilitas"
-                                    id="jaringan_utilitas" placeholder="Masukkan Jaringan Utilitas Kota">
+                                    id="create_jaringan_utilitas" placeholder="Masukkan Jaringan Utilitas Kota">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="persyaratan_pelaksanaan" class="form-label">Persyaratan Pelaksanaan
+                                <label for="create_persyaratan_pelaksanaan" class="form-label">Persyaratan Pelaksanaan
                                     Kegiatan Pemanfaatan Ruang</label>
                                 <input type="text" class="form-control" wire:model="persyaratan_pelaksanaan"
-                                    id="persyaratan_pelaksanaan" placeholder="Masukkan Persyaratan Pelaksanaan">
+                                    id="create_persyaratan_pelaksanaan" placeholder="Masukkan Persyaratan Pelaksanaan">
                             </div>
                         </div>
                     </div>

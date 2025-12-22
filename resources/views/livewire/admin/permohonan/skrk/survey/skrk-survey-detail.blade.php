@@ -5,13 +5,20 @@
                 @if (!$skrk->is_survey)
                     @if ($skrk->tgl_survey)
                         {{-- Actions available AFTER survey date is set --}}
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditSurveySkrkModal">
+                        <button type="button" wire:click="$dispatch('skrk-survey-edit', { permohonan_id: {{ $skrk->permohonan->id }}, skrk_id: {{ $skrk->id }} })" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditSurveySkrkModal">
                             <i class="bx bx-edit"></i> Edit Survey
                         </button>
+                        @teleport('body')
+                            @livewire('admin.permohonan.skrk.survey.skrk-survey-edit')
+                        @endteleport
+
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#UploadBerkasSurveySkrkModal">
                             <i class="bx bx-cloud-upload"></i> Berkas Survey
                         </button>
+                        @teleport('body')
+                            @livewire('admin.permohonan.skrk.survey.upload-berkas', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+                        @endteleport
                     @else
                         {{-- Action available BEFORE survey date is set --}}
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -194,13 +201,7 @@
 
     @teleport('body')
         @livewire('admin.permohonan.skrk.survey.skrk-survey-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
-    @endteleport
-    @teleport('body')
-        @livewire('admin.permohonan.skrk.survey.skrk-survey-edit', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
-    @endteleport
-    @teleport('body')
-        @livewire('admin.permohonan.skrk.survey.upload-berkas', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
-    @endteleport
+    @endteleport        
     @teleport('body')
         @livewire('admin.disposisi.disposisi-create', ['permohonan_id' => $skrk->permohonan->id, 'pelayanan_id' => $skrk->id])
     @endteleport
