@@ -8,6 +8,7 @@ use App\Models\Skrk;
 use App\Models\Tahapan;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use PhpOffice\PhpWord\TemplateProcessor;
 
@@ -15,10 +16,15 @@ class SkrkAnalisDetail extends Component
 {
     public $skrk;
     public $koordinatTable = false;
+
+    #[On('refresh-skrk-analis-list')]
+    public function refresh() {}
+
     public function render()
     {
         return view('livewire.admin.permohonan.skrk.analis.skrk-analis-detail');
     }
+
     public function mount($skrk_id)
     {
         $this->skrk = Skrk::find($skrk_id);
@@ -203,6 +209,7 @@ class SkrkAnalisDetail extends Component
                 ]);
             }
 
+            $this->createRiwayat($this->skrk->permohonan, 'Proses Analisa Dokumen SKRK Selesai!');
             $this->createRiwayat($this->skrk->permohonan, 'Proses Verifikasi Data SKRK');
         }
 

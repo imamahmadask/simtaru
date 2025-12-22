@@ -58,9 +58,14 @@ class SkrkDokumenAnalisEdit extends Component
             'persyaratan_pelaksanaan' => $this->persyaratan_pelaksanaan
         ]);
 
-        session()->flash('success', 'Data Dokumen SKRK berhasil diupdate!');
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Data Dokumen Analisa SKRK berhasil diupdate!'
+        ]);
 
-        return redirect()->route('skrk.detail', ['id' => $this->skrk->id]);
+        $this->dispatch('refresh-skrk-analis-list');
+
+        $this->dispatch('trigger-close-modal');
     }
 
 }

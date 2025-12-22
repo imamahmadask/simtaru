@@ -74,11 +74,16 @@ class SkrkVerifikasiEdit extends Component
 
         $message = $this->status == 'diterima'
             ? "Verifikasi : Berkas Diterima!"
-            : "Verifikasi : Berkas Ditolak!";
+            : "Verifikasi : Berkas Ditolak!";       
 
-        session()->flash($this->status == 'diterima' ? 'success' : 'error', $message);
+        $this->dispatch('toast', [
+            'type'    => $this->status == 'diterima' ? 'success' : 'error',
+            'message' => $message
+        ]);
+        
+        $this->dispatch('refresh-skrk-verifikasi-list');
 
-        redirect()->route('skrk.detail', ['id' => $this->skrk_id]);
+        $this->dispatch('trigger-close-modal');
     }
 
     public function mount($skrk_id, $berkas_id)

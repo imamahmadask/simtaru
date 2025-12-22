@@ -1,5 +1,5 @@
 <div>
-    <div wire:ignore.self class="modal fade" id="VerifikasiModal" tabindex="-1" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="AddVerifikasiSkrkModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -17,6 +17,9 @@
                                     <option value="diterima">Terima</option>
                                     <option value="ditolak">Tolak</option>
                                 </select>
+                                @error('status')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
                         </div>
                         @if ($status == 'ditolak')
@@ -37,3 +40,13 @@
         </div>
     </div>
 </div>
+@script
+    <script>
+        $wire.on('trigger-close-modal', () => {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('AddVerifikasiSkrkModal'));
+            if (modal) {
+                modal.hide();
+            }
+        });
+    </script>
+@endscript

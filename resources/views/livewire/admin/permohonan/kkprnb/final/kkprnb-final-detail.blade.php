@@ -129,7 +129,7 @@
                 </div>
                 <div class="modal-body">
                     Pastikan seluruh data dan berkas Finalisasi sudah terunggah.<br>
-                    Lanjutkan ke proses Analisa?
+                    Yakin sudah selesai finalisasi?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">

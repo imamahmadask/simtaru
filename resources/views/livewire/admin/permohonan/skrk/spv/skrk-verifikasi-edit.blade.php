@@ -1,5 +1,5 @@
 <div>
-    <div wire:ignore.self class="modal fade" id="EditVerifikasiModal" tabindex="-1" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="EditVerifikasiSkrkModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -37,3 +37,13 @@
         </div>
     </div>
 </div>
+@script
+    <script>
+        $wire.on('trigger-close-modal', () => {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('EditVerifikasiSkrkModal'));
+            if (modal) {
+                modal.hide();
+            }
+        });
+    </script>
+@endscript

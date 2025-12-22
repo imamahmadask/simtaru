@@ -74,7 +74,7 @@
                                             @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor')
                                                 @if ($item->status == 'menunggu')
                                                     <button class="btn btn-sm btn-success" data-bs-toggle="modal"
-                                                        data-bs-target="#VerifikasiModal">
+                                                        data-bs-target="#AddVerifikasiSkrkModal">
                                                         Verifikasi
                                                     </button>
                                                     @teleport('body')
@@ -82,7 +82,7 @@
                                                     @endteleport
                                                 @elseif($item->status == 'ditolak')
                                                     <button class="btn btn-sm btn-success" data-bs-toggle="modal"
-                                                        data-bs-target="#EditVerifikasiModal">
+                                                        data-bs-target="#EditVerifikasiSkrkModal">
                                                         Edit Verifikasi
                                                     </button>
                                                     @teleport('body')

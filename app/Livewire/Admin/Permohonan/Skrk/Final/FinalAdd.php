@@ -77,21 +77,21 @@ class FinalAdd extends Component
         $this->skrk->permohonan->update([
             'tgl_selesai' => $this->tgl_selesai,
             'no_dokumen' => $this->no_dokumen,
-            'waktu_pengerjaan' => $this->waktu_pengerjaan,
-            'is_done' => true,
-            'status' => 'completed',
+            'waktu_pengerjaan' => $this->waktu_pengerjaan,            
+        ]);             
+        
+        $this->reset('tgl_selesai', 'no_dokumen', 'waktu_pengerjaan', 'file_');
+
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Dokumen SKRK berhasil ditambahkan!'
         ]);
+        
+        $this->dispatch('refresh-skrk-final-list');
 
-        $this->permohonan->disposisi()->where('penerima_id', Auth::user()->id)->update([
-            'is_done' => true,
-            'tgl_selesai' => now()
-        ]);
+        $this->dispatch('trigger-close-modal');
 
-        $this->createRiwayat($this->skrk->permohonan, 'Dokumen SKRK selesai!');
-
-        session()->flash('success', 'Dokumen SKRK Fix berhasil ditambahkan!');
-
-        return redirect()->route('skrk.detail', ['id' => $this->skrk->id]);
+        
     }
 
     public function updated($tgl_selesai)

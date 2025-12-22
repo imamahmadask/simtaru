@@ -8,6 +8,7 @@ use App\Models\RiwayatPermohonan;
 use App\Models\Skrk;
 use App\Models\Tahapan;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class SkrkVerifikasiDetail extends Component
@@ -15,6 +16,14 @@ class SkrkVerifikasiDetail extends Component
     public $skrk;
     public $count_verifikasi;
     public $berkas_draft;
+
+    #[On('refresh-skrk-verifikasi-list')]
+    public function refresh()
+    {
+        $this->skrk->refresh();
+        $this->mount($this->skrk->id);
+    }
+    
 
     public function render()
     {

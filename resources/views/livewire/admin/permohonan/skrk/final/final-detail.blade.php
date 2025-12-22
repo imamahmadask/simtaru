@@ -2,11 +2,24 @@
     <div class="mb-3">
         <div class="d-flex flex-wrap gap-3">
             @can('manageDataEntry', $skrk->permohonan)
-                @if ($skrk->is_validate && !$skrk->permohonan->is_done)
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDataFinalModal">
+                @if ($skrk->is_validate && !$skrk->permohonan->no_dokumen)
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDataFinalSkrkModal">
                         <i class="bx bx-plus"></i> Data Final
                     </button>
+
+                    @teleport('body')
+                        @livewire('admin.permohonan.skrk.final.final-add', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+                    @endteleport
                 @endif
+                <button type="button" class="btn {{ $skrk->permohonan->is_done ? 'btn-success' : 'btn-danger' }}"
+                    wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiFinalisasiSkrkModal"
+                    {{ $skrk->permohonan->is_done ? 'disabled' : '' }}>
+                    @if ($skrk->permohonan->is_done)
+                        <i class="bx bx-check"></i> Selesai Finalisasi
+                    @else
+                        <i class="bx bx-x"></i> Belum Selesai Finalisasi
+                    @endif
+                </button>
             @endcan
         </div>
     </div>
@@ -32,11 +45,15 @@
                                     <td>{{ $skrk->permohonan->waktu_pengerjaan }} Hari</td>
                                     <td>
                                         @can('manageDataEntry', $skrk->permohonan)
-                                            @if ($skrk->is_validate && $skrk->permohonan->is_done)
+                                            @if ($skrk->is_validate && $skrk->permohonan->no_dokumen)
                                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                                    data-bs-target="#editDataFinalModal">
+                                                    data-bs-target="#editDataFinalSkrkModal" @if($skrk->permohonan->is_done) disabled @endif>
                                                     <i class="bx bx-edit"></i>
                                                 </button>
+
+                                                @teleport('body')
+                                                    @livewire('admin.permohonan.skrk.final.final-edit', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+                                                @endteleport     
                                             @endif
                                         @endcan
                                     </td>
@@ -94,10 +111,40 @@
             </div>
         </div>
     </div>
-    @teleport('body')
-        @livewire('admin.permohonan.skrk.final.final-edit', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
-    @endteleport
-    @teleport('body')
-        @livewire('admin.permohonan.skrk.final.final-add', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
-    @endteleport
+
+    <div wire:ignore.self class="modal fade" id="selesaiFinalisasiSkrkModal" data-bs-backdrop="static" tabindex="-1"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">
+                        Proses Finalisasi Selesai
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Pastikan seluruh data dan berkas Finalisasi sudah terunggah.<br>
+                    Yakin sudah selesai finalisasi?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                        Tidak
+                    </button>
+                    <button type="button" class="btn btn-primary" wire:click="selesaiFinalisasi">
+                        Ya
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>    
 </div>
+@script
+    <script>
+        $wire.on('trigger-close-modal', () => {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('selesaiFinalisasiSkrkModal'));
+            if (modal) {
+                modal.hide();
+            }
+        });
+    </script>
+@endscript

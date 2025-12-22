@@ -37,7 +37,7 @@ class UploadBerkas extends Component
     public function uploadBerkas()
     {
         $no_reg = $this->skrk->registrasi->kode;
-
+        $isUpdate = false;
         foreach ($this->permohonan->persyaratanBerkas as $item) {
             // cek apakah file untuk persyaratan ini diupload
             if (!empty($this->file_[$item->kode])) {
@@ -88,14 +88,7 @@ class UploadBerkas extends Component
                             'catatan_verifikator' => null,
                         ]
                     );
-                }
-
-               if ($isUpdate) {
-                    session()->flash('success', 'Berkas Analisa berhasil diupdate!');
-                } else {
-                    $this->createRiwayat($this->permohonan, 'Upload Berkas Analisa');
-                    session()->flash('success', 'Berkas Analisa berhasil ditambahkan!');
-                }
+                }               
             }
         }
 
@@ -112,7 +105,23 @@ class UploadBerkas extends Component
             $this->skrk->update(['is_berkas_analis_uploaded' => false]);
         }
 
-        return redirect()->route('skrk.detail', ['id' => $this->skrk->id]);
+        $this->reset('file_');
+
+        if ($isUpdate) {
+            $this->dispatch('toast', [
+                'type'    => 'success',
+                'message' => 'Berkas Analisa berhasil diupdate!'
+            ]);
+        } else {
+            $this->dispatch('toast', [
+                'type'    => 'success',
+                'message' => 'Berkas Analisa berhasil ditambahkan!'
+            ]);
+        }
+
+        $this->dispatch('refresh-skrk-analis-list');
+
+        $this->dispatch('trigger-close-modal');
     }
 
     private function createRiwayat(Permohonan $permohonan, string $keterangan)

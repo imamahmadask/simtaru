@@ -36,11 +36,16 @@ class SkrkKajianAnalisCreate extends Component
             'status' => 'Proses Analisa'
         ]);
 
-        $this->createRiwayat($this->permohonan, 'Entry Data Kajian Analisa');
+        // $this->createRiwayat($this->permohonan, 'Entry Data Kajian Analisa');
 
-        session()->flash('success', 'Data Kajian Analisa berhasil ditambahkan!');
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Data Kajian Analisa SKRK berhasil ditambahkan!'
+        ]);
 
-        return redirect()->route('skrk.detail', ['id' => $this->skrk_id]);
+        $this->dispatch('refresh-skrk-analis-list');
+
+        $this->dispatch('trigger-close-modal');
     }
 
     public function mount($permohonan_id, $skrk_id)

@@ -67,13 +67,13 @@ class SkrkVerifikasiCreate extends Component
             {
                 $skrk->update([
                     'is_survey' => false,
-                    'is_berkas_survey' => false,
+                    'is_berkas_survey_uploaded' => false,
                 ]);
             }
             elseif($nama_tahapan == 'Analisis')
             {
                 $skrk->update([
-                    'is_berkas_analis' => false,
+                    'is_berkas_analis_uploaded' => false,
                     'is_analis' => false,
                 ]);
             }
@@ -83,11 +83,16 @@ class SkrkVerifikasiCreate extends Component
 
         $message = $this->status == 'diterima'
             ? "Berkas berhasil diverifikasi sebagai : Diterima"
-            : "Berkas : Ditolak";
+            : "Berkas : Ditolak";       
 
-        session()->flash($this->status == 'diterima' ? 'success' : 'error', $message);
+        $this->dispatch('toast', [
+            'type'    => $this->status == 'diterima' ? 'success' : 'error',
+            'message' => $message
+        ]);
+        
+        $this->dispatch('refresh-skrk-verifikasi-list');
 
-        redirect()->route('skrk.detail', ['id' => $this->skrk_id]);
+        $this->dispatch('trigger-close-modal');
     }
 
     public function mount($skrk_id, $berkas_id)

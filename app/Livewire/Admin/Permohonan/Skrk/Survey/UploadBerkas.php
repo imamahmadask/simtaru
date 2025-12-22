@@ -30,7 +30,7 @@ class UploadBerkas extends Component
     public function  uploadBerkas()
     {
         $no_reg = $this->skrk->registrasi->kode;
-
+        $isUpdate = false;
         foreach ($this->permohonan->persyaratanBerkas as $item) {
 
             // cek apakah file untuk persyaratan ini diupload

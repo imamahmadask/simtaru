@@ -6,12 +6,12 @@
                     @if ($skrk->is_survey)
                         @if (!$skrk->is_kajian)
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#AddKajianAnalisaModal">
+                                data-bs-target="#AddKajianSkrkModal">
                                 <i class="bx bx-plus"></i> Data Kajian
                             </button>
                         @else
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#EditKajianAnalisaModal">
+                                data-bs-target="#EditKajianSkrkModal">
                                 <i class="bx bx-edit"></i> Edit Data Kajian
                             </button>
                             @teleport('body')
@@ -35,14 +35,14 @@
                                 @livewire('admin.permohonan.skrk.analis.skrk-dokumen-analis-edit', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
                             @endteleport
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#UploadBerkasAnalisaModal">
+                                data-bs-target="#UploadAnalisaSkrkModal">
                                 <i class="bx bx-cloud-upload"></i> Berkas Analisa
                             </button>
                         @endif
                     @endif {{-- End of is_kajian check --}}
                 @endif
                 <button type="button" class="btn {{ $skrk->is_analis ? 'btn-success' : 'btn-danger' }}"
-                    wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiAnalisaModal"
+                    wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiAnalisaSkrkModal"
                     {{ $skrk->is_analis || !$skrk->is_berkas_analis_uploaded ? 'disabled' : '' }}>
                     @if ($skrk->is_analis)
                         <i class="bx bx-check"></i> Selesai Analisa
@@ -343,7 +343,7 @@
         </div>
     </div>
 
-    <div wire:ignore.self class="modal fade" id="selesaiAnalisaModal" data-bs-backdrop="static" tabindex="-1"
+    <div wire:ignore.self class="modal fade" id="selesaiAnalisaSkrkModal" data-bs-backdrop="static" tabindex="-1"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

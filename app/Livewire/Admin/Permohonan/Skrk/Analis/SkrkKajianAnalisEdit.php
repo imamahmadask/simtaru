@@ -42,8 +42,13 @@ class SkrkKajianAnalisEdit extends Component
             'kedalaman_max' => $this->kedalaman_max
         ]);
 
-        session()->flash('success', 'Data Kajian Analisis berhasil diupdate!');
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Data Kajian Analisa SKRK berhasil diupdate!'
+        ]);
 
-        return redirect()->route('skrk.detail', ['id' => $this->skrk_id]);
+        $this->dispatch('refresh-skrk-analis-list');
+
+        $this->dispatch('trigger-close-modal');
     }
 }

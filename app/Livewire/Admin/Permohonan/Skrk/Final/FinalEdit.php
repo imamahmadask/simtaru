@@ -79,15 +79,18 @@ class FinalEdit extends Component
             'tgl_selesai' => $this->tgl_selesai,
             'no_dokumen' => $this->no_dokumen,
             'waktu_pengerjaan' => $this->waktu_pengerjaan,
-            'is_done' => true,
-            'status' => 'completed',
         ]);
+   
+        $this->reset('tgl_selesai', 'no_dokumen', 'waktu_pengerjaan', 'file_');
 
-        $this->createRiwayat($this->skrk->permohonan, 'Edit Dokumen SKRK selesai!');
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Dokumen SKRK Fix berhasil diupdate!'
+        ]);
+        
+        $this->dispatch('refresh-skrk-final-list');
 
-        session()->flash('success', 'Dokumen SKRK Fix berhasil diupdate!');
-
-        return redirect()->route('skrk.detail', ['id' => $this->skrk->id]);
+        $this->dispatch('trigger-close-modal');
     }
 
     public function updated($tgl_selesai)
