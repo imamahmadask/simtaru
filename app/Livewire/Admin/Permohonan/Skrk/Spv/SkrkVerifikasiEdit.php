@@ -7,6 +7,7 @@ use App\Models\PermohonanBerkas;
 use App\Models\Skrk;
 use App\Models\Tahapan;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -17,6 +18,16 @@ class SkrkVerifikasiEdit extends Component
 
     #[Validate('required')]
     public $status;
+
+    #[On('skrk-verifikasi-edit')]
+    public function getData($skrk_id, $berkas_id)
+    {
+        $this->skrk_id = $skrk_id;
+        $this->berkas = PermohonanBerkas::find($berkas_id);
+        $this->status = $this->berkas->status;
+        $this->catatan = $this->berkas->catatan_verifikator;
+    }
+
     public function render()
     {
         return view('livewire.admin.permohonan.skrk.spv.skrk-verifikasi-edit');
@@ -71,28 +82,22 @@ class SkrkVerifikasiEdit extends Component
                 ]);
             }
         }
-
-        $this->reset('status', 'catatan');
-
+        
         $message = $this->status == 'diterima'
-            ? "Verifikasi : Berkas Diterima!"
-            : "Verifikasi : Berkas Ditolak!";       
+        ? "Verifikasi : Berkas Diterima!"
+        : "Verifikasi : Berkas Ditolak!"; 
 
+        
         $this->dispatch('toast', [
             'type'    => $this->status == 'diterima' ? 'success' : 'error',
             'message' => $message
         ]);
         
+        $this->reset('status', 'catatan');
+        
         $this->dispatch('refresh-skrk-verifikasi-list');
+        $this->dispatch('refresh-skrk-analis-list');
 
         $this->dispatch('trigger-close-modal');
-    }
-
-    public function mount($skrk_id, $berkas_id)
-    {
-        $this->skrk_id = $skrk_id;
-        $this->berkas = PermohonanBerkas::find($berkas_id);
-        $this->status = $this->berkas->status;
-        $this->catatan = $this->berkas->catatan_verifikator;
-    }
+    }  
 }

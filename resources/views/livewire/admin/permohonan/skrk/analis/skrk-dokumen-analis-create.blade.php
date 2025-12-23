@@ -114,10 +114,10 @@
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="create_persyaratan_pelaksanaan" class="form-label">Persyaratan Pelaksanaan
-                                    Kegiatan Pemanfaatan Ruang</label>
-                                <input type="text" class="form-control" wire:model="persyaratan_pelaksanaan"
-                                    id="create_persyaratan_pelaksanaan" placeholder="Masukkan Persyaratan Pelaksanaan">
+                                <label for="edit_persyaratan_pelaksanaan" class="form-label">
+                                    Persyaratan Pelaksanaan Kegiatan Pemanfaatan Ruang</label>
+                                <textarea class="form-control" wire:model="persyaratan_pelaksanaan"
+                                    id="edit_persyaratan_pelaksanaan" placeholder="Masukkan Persyaratan Pelaksanaan" rows="5"></textarea>
                             </div>
                         </div>
                     </div>
