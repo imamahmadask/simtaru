@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Admin\Permohonan\Skrk\Final;
 
+use App\Models\Permohonan;
+use App\Models\RiwayatPermohonan;
 use App\Models\Skrk;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
@@ -43,7 +45,7 @@ class FinalDetail extends Component
                     $this->count_final++;
                 }
             }
-
+            
             if($this->count_final == 0) {
                 $this->skrk->permohonan->update([
                     'is_done' => true,
@@ -71,5 +73,14 @@ class FinalDetail extends Component
         }
 
         return redirect()->route('skrk.detail', ['id' => $this->skrk->id]);
+    }
+
+    private function createRiwayat(Permohonan $permohonan, string $keterangan)
+    {
+        RiwayatPermohonan::create([
+            'registrasi_id' => $permohonan->registrasi_id,
+            'user_id' => Auth::user()->id,
+            'keterangan' => $keterangan
+        ]);
     }
 }
