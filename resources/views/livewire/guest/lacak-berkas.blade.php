@@ -32,15 +32,15 @@
                 <i class="bi bi-search text-muted"></i>
             </span>
             <input type="text" wire:model="no_reg" class="form-control border-start-0 ps-0" 
-                placeholder="Masukkan Nomor Registrasi untuk melacak berkas..." 
+                placeholder="Masukkan nomor registrasi untuk melacak berkas..." 
                 aria-label="Nomor Registrasi">
             <button class="btn btn-primary px-4 fw-bold" type="submit" wire:loading.attr="disabled" 
-            data-bs-toggle="modal" data-bs-target="#showModalDetailRegistrasi">
+                data-bs-toggle="modal" data-bs-target="#showModalDetailRegistrasi">
                 Cari
-                <div wire:loading class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
             </button>
+            <div wire:loading class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
         </div>
     </form>
 
@@ -50,14 +50,19 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel1">
-                        Riwayat Berkas
+                        Riwayat Registrasi 
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-start">
                     <div class="row">                            
-                        <div class="col-md-12 col-lg-12 ps-md-5 mt-5 mt-md-0">                    
+                        <div class="col-md-12 col-lg-12 mt-5 mt-md-0">                    
                             @if($riwayats)
+                                Nomor Registrasi : <strong>{{ $berkas->kode }}</strong> <br>
+                                Nama Pemohon : <strong>{{ $berkas->nama }}</strong>
+
+                                <hr>
+
                                 <section class="p-2 mt-2" style="max-height: 470px; overflow-y: auto;">
                                     <ul class="timeline">
                                         @foreach ($riwayats as $riwayat)
