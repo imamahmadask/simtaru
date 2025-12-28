@@ -13,7 +13,7 @@ class KkprbAnalisCreate extends Component
     public $permohonan, $kkprb;
     public $tgl_oss, $oss_id, $id_proyek, $skala_usaha, $jenis_usaha, $penguasaan_tanah, $jml_bangunan, $jml_lantai, $luas_lantai, $kedalaman_min, $kedalaman_max;
     public $nib, $kdb, $klb, $indikasi_program, $kdh, $gsb, $luas_disetujui, $no_nota_dinas, $tgl_nota_dinas;
-    
+
     public function render()
     {
         return view('livewire.admin.permohonan.kkprb.analis.kkprb-analis-create');
@@ -56,7 +56,7 @@ class KkprbAnalisCreate extends Component
             'message' => 'Data Kajian KKPR Non Berusaha berhasil disimpan!'
         ]);
 
-        $this->dispatch('refresh-kkprnb-analis-list');
+        $this->dispatch('refresh-kkprb-analis-list');
 
         $this->dispatch('trigger-close-modal');
     }
@@ -67,5 +67,5 @@ class KkprbAnalisCreate extends Component
         $this->permohonan = Permohonan::findOrFail($permohonan_id);
     }
 
-    
+
 }

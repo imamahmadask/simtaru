@@ -33,10 +33,10 @@
                             <a class="nav-link text-muted hover-primary" href="#layanan">Layanan</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-muted hover-primary" href="#permohonan">Permohonan</a>
+                            <a class="nav-link text-muted hover-primary" href="#regulasi">Regulasi</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-muted hover-primary" href="#regulasi">Regulasi</a>
+                            <a class="nav-link text-muted hover-primary" href="#contact">Contact Us</a>
                         </li>
                         @if (Route::has('login'))
                             @auth
@@ -96,9 +96,21 @@
                                 <i class="bi bi-lightning-fill"></i>
                             </div>
                             <h3 class="h5 fw-semibold text-dark mb-3">SKRK</h3>
-                            <p class="text-muted">
-                               SKRK (Surat Keterangan Rencana Kota) adalah dokumen penting dari pemerintah daerah yang berisi informasi detail tentang peruntukan lahan, intensitas bangunan (KDB, KLB, GSB), dan syarat teknis lain untuk lokasi tertentu, menjadi prasyarat utama sebelum mengajukan Izin Mendirikan Bangunan (IMB/Persetujuan Bangunan Gedung), memastikan rencana pembangunan sesuai dengan tata ruang wilayah yang berlaku. 
+                            <p class="text-muted mb-1">
+                                SKRK (Surat Keterangan Rencana Kota) adalah dokumen penting dari pemerintah daerah yang
+                                berisi informasi detail tentang peruntukan lahan...
                             </p>
+                            <div class="collapse" id="collapseSKRK">
+                                <p class="text-muted">
+                                    intensitas bangunan (KDB, KLB, GSB), dan syarat teknis lain untuk lokasi tertentu,
+                                    menjadi prasyarat utama sebelum mengajukan Izin Mendirikan Bangunan (IMB/Persetujuan
+                                    Bangunan Gedung), memastikan rencana pembangunan sesuai dengan tata ruang wilayah
+                                    yang berlaku.
+                                </p>
+                            </div>
+                            <a href="#collapseSKRK" data-bs-toggle="collapse" role="button" aria-expanded="false"
+                                aria-controls="collapseSKRK" class="text-primary text-decoration-none small">Read
+                                More</a>
                         </div>
                     </div>
                 </div>
@@ -109,9 +121,20 @@
                                 <i class="bi bi-shield-check"></i>
                             </div>
                             <h3 class="h5 fw-semibold text-dark mb-3">ITR</h3>
-                            <p class="text-muted">
-                                ITR (Informasi Tata Ruang) adalah dokumen atau keterangan resmi yang menjelaskan kesesuaian peruntukan lahan, tanah, kegiatan, atau investasi terhadap rencana tata ruang wilayah (RTRW) yang berlaku, menjadi syarat awal sebelum mengurus izin mendirikan bangunan (IMB) atau izin lainnya untuk memastikan pembangunan sesuai aturan pemerintah.
+                            <p class="text-muted mb-1">
+                                ITR (Informasi Tata Ruang) adalah dokumen atau keterangan resmi yang menjelaskan
+                                kesesuaian peruntukan lahan...
                             </p>
+                            <div class="collapse" id="collapseITR">
+                                <p class="text-muted">
+                                    tanah, kegiatan, atau investasi terhadap rencana tata ruang wilayah (RTRW) yang
+                                    berlaku, menjadi syarat awal sebelum mengurus izin mendirikan bangunan (IMB) atau
+                                    izin lainnya untuk memastikan pembangunan sesuai aturan pemerintah.
+                                </p>
+                            </div>
+                            <a href="#collapseITR" data-bs-toggle="collapse" role="button" aria-expanded="false"
+                                aria-controls="collapseITR" class="text-primary text-decoration-none small">Read
+                                More</a>
                         </div>
                     </div>
                 </div>
@@ -122,9 +145,22 @@
                                 <i class="bi bi-people-fill"></i>
                             </div>
                             <h3 class="h5 fw-semibold text-dark mb-3">KKPR Berusaha</h3>
-                            <p class="text-muted">
-                                KKPR Berusaha (Kesesuaian Kegiatan Pemanfaatan Ruang untuk Berusaha) adalah izin dasar yang memastikan rencana kegiatan usaha Anda sesuai dengan Rencana Tata Ruang Wilayah (RTRW) setempat, menjadi syarat penting untuk memulai usaha, melindungi dari masalah tata ruang, dan bisa diajukan secara online melalui sistem OSS RBA (<i>oss.go.id</i>) untuk mendapatkan Nomor Induk Berusaha (NIB) dan perizinan lainnya, meliputi KKPR untuk Usaha Mikro Kecil (UMK) dan non-UMK
+                            <p class="text-muted mb-1">
+                                KKPR Berusaha (Kesesuaian Kegiatan Pemanfaatan Ruang untuk Berusaha) adalah izin dasar
+                                yang memastikan rencana kegiatan usaha Anda...
                             </p>
+                            <div class="collapse" id="collapseKKPRBerusaha">
+                                <p class="text-muted">
+                                    sesuai dengan Rencana Tata Ruang Wilayah (RTRW) setempat, menjadi syarat penting
+                                    untuk memulai usaha, melindungi dari masalah tata ruang, dan bisa diajukan secara
+                                    online melalui sistem OSS RBA (<i>oss.go.id</i>) untuk mendapatkan Nomor Induk
+                                    Berusaha (NIB) dan perizinan lainnya, meliputi KKPR untuk Usaha Mikro Kecil (UMK)
+                                    dan non-UMK
+                                </p>
+                            </div>
+                            <a href="#collapseKKPRBerusaha" data-bs-toggle="collapse" role="button"
+                                aria-expanded="false" aria-controls="collapseKKPRBerusaha"
+                                class="text-primary text-decoration-none small">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -135,9 +171,21 @@
                                 <i class="bi bi-people-fill"></i>
                             </div>
                             <h3 class="h5 fw-semibold text-dark mb-3">KKPR Non Berusaha</h3>
-                            <p class="text-muted">
-                               KKPR Non Berusaha adalah Persetujuan Kesesuaian Kegiatan Pemanfaatan Ruang untuk kegiatan yang bukan komersial, seperti pembangunan rumah tinggal pribadi, tempat ibadah, atau yayasan sosial/keagamaan/pendidikan, yang memastikan pemanfaatan lahan sesuai dengan Rencana Tata Ruang (RTR) wilayah, dan menjadi syarat awal perizinan bangunan atau tanah sebelum izin lain diterbitkan.
+                            <p class="text-muted mb-1">
+                                KKPR Non Berusaha adalah Persetujuan Kesesuaian Kegiatan Pemanfaatan Ruang untuk
+                                kegiatan yang bukan komersial...
                             </p>
+                            <div class="collapse" id="collapseKKPRNonBerusaha">
+                                <p class="text-muted">
+                                    seperti pembangunan rumah tinggal pribadi, tempat ibadah, atau yayasan
+                                    sosial/keagamaan/pendidikan, yang memastikan pemanfaatan lahan sesuai dengan Rencana
+                                    Tata Ruang (RTR) wilayah, dan menjadi syarat awal perizinan bangunan atau tanah
+                                    sebelum izin lain diterbitkan.
+                                </p>
+                            </div>
+                            <a href="#collapseKKPRNonBerusaha" data-bs-toggle="collapse" role="button"
+                                aria-expanded="false" aria-controls="collapseKKPRNonBerusaha"
+                                class="text-primary text-decoration-none small">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -146,78 +194,48 @@
     </section>
 
     <!-- Testimonials Section -->
-    <section id="permohonan" class="bg-light" style="padding-top: 5rem !important; padding-bottom: 5rem !important">
+    <section id="regulasi" class="bg-light" style="padding-top: 5rem !important; padding-bottom: 5rem !important">
         <div class="container">
             <div class="row justify-content-center text-center mb-5">
                 <div class="col-lg-8">
-                    <h2 class="display-4 fw-bold text-dark mb-4">Permohonan</h2>
-                    <p class="lead text-muted">See what our community has to say about their experience.</p>
+                    <h2 class="display-4 fw-bold text-dark mb-4">Regulasi</h2>
+                    <p class="lead text-muted">Regulasi & Dasar Hukum pelaksanaan Tata Ruang di Kota Mataram</p>
                 </div>
             </div>
             <div class="row g-4">
                 <div class="col-md-6 col-lg-4">
                     <div class="card h-100 border-0 shadow-lg">
                         <div class="card-body p-4">
-                            <div class="mb-3">
-                                <i class="bi bi-star-fill text-primary"></i>
-                                <i class="bi bi-star-fill text-primary"></i>
-                                <i class="bi bi-star-fill text-primary"></i>
-                                <i class="bi bi-star-fill text-primary"></i>
-                                <i class="bi bi-star-fill text-primary"></i>
-                            </div>
-                            <p class="text-muted mb-4">"This platform has completely transformed how our team
-                                collaborates. The results speak for themselves."</p>
-                            <div class="d-flex align-items-center">
-                                <div class="avatar bg-danger-subtle me-3"></div>
-                                <div>
-                                    <div class="fw-semibold text-dark">Sarah Johnson</div>
-                                    <small class="text-muted">Product Manager</small>
-                                </div>
-                            </div>
+                            <p class="text-muted fw-bold mb-4">
+                                Peraturan Daerah Kota Mataram No. 1 Tahun 2021 Tentang
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="btn btn-success">Lihat Regulasi</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4">
                     <div class="card h-100 border-0 shadow-lg">
                         <div class="card-body p-4">
-                            <div class="mb-3">
-                                <i class="bi bi-star-fill text-primary"></i>
-                                <i class="bi bi-star-fill text-primary"></i>
-                                <i class="bi bi-star-fill text-primary"></i>
-                                <i class="bi bi-star-fill text-primary"></i>
-                                <i class="bi bi-star-fill text-primary"></i>
-                            </div>
-                            <p class="text-muted mb-4">"I've tried many solutions, but nothing comes close to the
-                                simplicity and power of this platform."</p>
-                            <div class="d-flex align-items-center">
-                                <div class="avatar bg-info-subtle me-3"></div>
-                                <div>
-                                    <div class="fw-semibold text-dark">Michael Chen</div>
-                                    <small class="text-muted">Startup Founder</small>
-                                </div>
-                            </div>
+                            <p class="text-muted fw-bold mb-4">
+                                Peraturan Daerah Kota Mataram No. 1 Tahun 2024 Tentang
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="btn btn-success">Lihat Regulasi</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4">
                     <div class="card h-100 border-0 shadow-lg">
                         <div class="card-body p-4">
-                            <div class="mb-3">
-                                <i class="bi bi-star-fill text-primary"></i>
-                                <i class="bi bi-star-fill text-primary"></i>
-                                <i class="bi bi-star-fill text-primary"></i>
-                                <i class="bi bi-star-fill text-primary"></i>
-                                <i class="bi bi-star-fill text-primary"></i>
-                            </div>
-                            <p class="text-muted mb-4">"The user experience is incredible. It's intuitive, fast, and
-                                exactly what I needed for my projects."</p>
-                            <div class="d-flex align-items-center">
-                                <div class="avatar bg-success-subtle me-3"></div>
-                                <div>
-                                    <div class="fw-semibold text-dark">Emily Rodriguez</div>
-                                    <small class="text-muted">Designer</small>
-                                </div>
-                            </div>
+                            <p class="text-muted fw-bold mb-4">
+                                Peraturan Wali Kota Mataram No. 12 Tentang
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="btn btn-success">Lihat Regulasi</a>
                         </div>
                     </div>
                 </div>
@@ -226,18 +244,56 @@
     </section>
 
     <!-- CTA Section -->
-    <section id="regulasi" style="padding-top: 5rem !important; padding-bottom: 5rem !important">
+    <section id="contact" style="padding-top: 5rem !important; padding-bottom: 5rem !important">
         <div class="container text-center">
-            <div class="row justify-content-center">
+            <div class="row justify-content-center mb-5">
                 <div class="col-lg-8">
-                    <h2 class="display-4 fw-bold text-dark mb-4">Ready to get started?</h2>
-                    <p class="lead text-muted mb-5">
-                        Join thousands of users who have already transformed their workflow. Start your free trial
-                        today, no credit card required.
+                    <h2 class="display-4 fw-bold text-dark mb-4">Hubungi Kami</h2>
+                    <p class="lead text-muted">
+                        Silahkan hubungi kami untuk informasi lebih lanjut mengenai layanan tata ruang di Kota Mataram.
                     </p>
-                    <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
-                        <button class="btn btn-primary btn-lg px-4">Start Free Trial</button>
-                        <button class="btn btn-outline-secondary btn-lg px-4">Contact Sales</button>
+                </div>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="mb-3 text-primary">
+                                <i class="bi bi-geo-alt fs-1"></i>
+                            </div>
+                            <h5 class="card-title fw-bold">Alamat</h5>
+                            <p class="card-text text-muted small">
+                                Dinas PUPR Kota Mataram<br>
+                                Jl. Semanggi No. 19, Kota Mataram
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="mb-3 text-primary">
+                                <i class="bi bi-globe fs-1"></i>
+                            </div>
+                            <h5 class="card-title fw-bold">Website</h5>
+                            <p class="card-text text-muted small">
+                                <a href="https://pupr.mataramkota.go.id/" class="text-decoration-none text-muted"
+                                    target="_blank">pupr.mataramkota.go.id</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="mb-3 text-primary">
+                                <i class="bi bi-whatsapp fs-1"></i>
+                            </div>
+                            <h5 class="card-title fw-bold">Layanan Tata Ruang</h5>
+                            <p class="card-text text-muted small">
+                                0895-3267-53064
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -276,6 +332,18 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelectorAll('.collapse').forEach(el => {
+            el.addEventListener('show.bs.collapse', () => {
+                const toggler = document.querySelector(`a[href="#${el.id}"]`);
+                if (toggler) toggler.textContent = 'Read Less';
+            });
+            el.addEventListener('hide.bs.collapse', () => {
+                const toggler = document.querySelector(`a[href="#${el.id}"]`);
+                if (toggler) toggler.textContent = 'Read More';
+            });
+        });
+    </script>
 </body>
 
 </html>

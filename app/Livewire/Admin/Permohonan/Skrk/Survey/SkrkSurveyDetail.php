@@ -13,7 +13,7 @@ use PhpOffice\PhpWord\TemplateProcessor;
 class SkrkSurveyDetail extends Component
 {
     public $skrk;
-    
+
     public function render()
     {
         return view('livewire.admin.permohonan.skrk.survey.skrk-survey-detail');
@@ -30,6 +30,7 @@ class SkrkSurveyDetail extends Component
     public function download1a()
     {
         $permohonan = $this->skrk->permohonan;
+        $batas = $this->skrk->batas_persil;
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
             'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
@@ -37,6 +38,10 @@ class SkrkSurveyDetail extends Component
             'kec_tanah' => $permohonan->registrasi->kec_tanah,
             'luas_tanah' => $permohonan->luas_tanah,
             'fungsi_bangunan' => $permohonan->registrasi->fungsi_bangunan,
+            'batas_barat' => $batas['barat'],
+            'batas_timur' => $batas['timur'],
+            'batas_utara' => $batas['utara'],
+            'batas_selatan' => $batas['selatan'],
         ];
 
         return $this->generateDocument('1A_Form_Survey_template.docx', $data);
@@ -45,13 +50,20 @@ class SkrkSurveyDetail extends Component
     public function download1b()
     {
         $permohonan = $this->skrk->permohonan;
+        $batas = $this->skrk->batas_persil;
+        $surveyor = $permohonan->disposisi->where('tahapan_id', $permohonan->layanan->tahapan->where('nama', 'Survey')->value('id'))->first()->penerima->name;
         $data = [
+            'nama_surveyor' => $surveyor,
             'nama_pemohon' => $permohonan->registrasi->nama,
             'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
             'kel_tanah' => $permohonan->registrasi->kel_tanah,
             'kec_tanah' => $permohonan->registrasi->kec_tanah,
             'luas_tanah' => $permohonan->luas_tanah,
             'ada_bangunan' => $this->skrk->ada_bangunan,
+            'batas_barat' => $batas['barat'],
+            'batas_timur' => $batas['timur'],
+            'batas_utara' => $batas['utara'],
+            'batas_selatan' => $batas['selatan'],
         ];
 
         return $this->generateDocument('1B_BA_survey_template.docx', $data);

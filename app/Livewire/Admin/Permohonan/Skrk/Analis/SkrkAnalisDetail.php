@@ -85,6 +85,9 @@ class SkrkAnalisDetail extends Component
             'luas_lantai' => $this->skrk->luas_lantai,
             'kedalaman_min' => $this->skrk->kedalaman_min,
             'kedalaman_max' => $this->skrk->kedalaman_max,
+            'kdb' => $this->skrk->kdb,
+            'klb' => $this->skrk->klb,
+            'kdh' => $this->skrk->kdh,
         ];
 
         return $this->generateDocument('3_kajian_skrk.docx', $data);

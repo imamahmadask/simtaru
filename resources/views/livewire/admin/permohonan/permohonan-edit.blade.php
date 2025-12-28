@@ -5,8 +5,7 @@
         @if (session()->has('message'))
             <div class="alert alert-success alert-dismissible" role="alert">
                 {{ session('message') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                    aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 
@@ -18,7 +17,7 @@
                         <h5 class="mb-0">Form Edit Permohonan</h5>
                         <small class="text-muted float-end"></small>
                     </div>
-                    <div class="card-body">                        
+                    <div class="card-body">
                         <form wire:submit="updatePermohonan">
                             @if (Auth::user()->role == 'superadmin')
                                 <div class="mb-3">
@@ -127,7 +126,7 @@
                             <div class="mb-3">
                                 <label class="form-label" for="alamat_pemohon">Alamat Pemohon</label>
                                 <input type="text" class="form-control" wire:model="alamat_pemohon"
-                                    id="alamat_pemohon" placeholder="Masukkan Alamat Pemohon" disabled />
+                                    id="alamat_pemohon" placeholder="Masukkan Alamat Pemohon" />
                                 @error('alamat_pemohon')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
@@ -211,8 +210,8 @@
                                     <div class="col">
                                         <div class="mb-3">
                                             <label class="form-label" for="kbli">KBLI</label>
-                                            <input type="text" class="form-control" wire:model="kbli" id="kbli"
-                                                placeholder="Masukkan KBLI" />
+                                            <input type="text" class="form-control" wire:model="kbli"
+                                                id="kbli" placeholder="Masukkan KBLI" />
                                             @error('kbli')
                                                 <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                             @enderror
@@ -229,7 +228,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endif  
+                            @endif
 
                             <div class="row">
                                 <div class="col-sm-4">
@@ -310,14 +309,16 @@
                                         @endif
                                     </div>
                                 </div>
-                                
+
                                 @if ($kode_layanan != 'KKPRNB')
                                     <div class="col-sm-4">
                                         <div class="mb-3">
-                                            <label for="berkas_nib" class="form-label">Upload NIB, KBLI, dan Pernyataan
+                                            <label for="berkas_nib" class="form-label">Upload NIB, KBLI, dan
+                                                Pernyataan
                                                 Mandiri
                                                 <div wire:loading wire:target="berkas_nib"
-                                                    class="spinner-border spinner-border-sm text-primary" role="status">
+                                                    class="spinner-border spinner-border-sm text-primary"
+                                                    role="status">
                                                     <span class="visually-hidden">Loading...</span>
                                                 </div>
                                                 {{-- Tanda centang setelah upload selesai --}}
@@ -368,14 +369,15 @@
 
                             @if ($kode_layanan == 'KKPRNB')
                                 <hr class="mt-3">
-                                
+
                                 <h5 class="text-danger">KKPR Non Berusaha</h5>
 
                                 <div class="row">
                                     <div class="col">
                                         <div class="mb-3">
                                             <label class="form-label" for="create-rdtr-rtrw">RDTR / RTRW</label>
-                                            <select class="form-control" wire:model.live="rdtr_rtrw" id="create-rdtr-rtrw">
+                                            <select class="form-control" wire:model.live="rdtr_rtrw"
+                                                id="create-rdtr-rtrw">
                                                 <option value="">-- Pilih --</option>
                                                 <option value="RDTR">RDTR</option>
                                                 <option value="RTRW">RTRW</option>
@@ -384,38 +386,44 @@
                                                 <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                             @enderror
                                         </div>
-                                    </div> 
+                                    </div>
                                     <div class="col">
                                         <div class="mb-3">
-                                            <label class="form-label" for="create-tgl-validasi">Tanggal Validasi Berkas</label>
+                                            <label class="form-label" for="create-tgl-validasi">Tanggal Validasi
+                                                Berkas</label>
                                             <input type="date" class="form-control" wire:model="tgl_validasi"
                                                 id="create-tgl-validasi" placeholder="Masukkan Tanggal Validasi" />
                                             @error('tgl_validasi')
                                                 <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                             @enderror
                                         </div>
-                                    </div>  
+                                    </div>
                                 </div>
 
-                                @if($rdtr_rtrw == 'RTRW')
-                                    <div class="row">                                                                      
+                                @if ($rdtr_rtrw == 'RTRW')
+                                    <div class="row">
                                         <div class="col">
                                             <div class="mb-3">
-                                                <label class="form-label" for="create-tgl-terima-ptp">Tanggal Penerimaan PTP</label>
-                                                <input type="date" class="form-control" wire:model="tgl_terima_ptp"
-                                                    id="create-tgl-terima-ptp" placeholder="Masukkan Tanggal PTP" />
+                                                <label class="form-label" for="create-tgl-terima-ptp">Tanggal
+                                                    Penerimaan PTP</label>
+                                                <input type="date" class="form-control"
+                                                    wire:model="tgl_terima_ptp" id="create-tgl-terima-ptp"
+                                                    placeholder="Masukkan Tanggal PTP" />
                                                 @error('tgl_terima_ptp')
-                                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                                    <span class="form-text text-xs text-danger"> {{ $message }}
+                                                    </span>
                                                 @enderror
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="mb-3">
-                                                <label class="form-label" for="create-tgl-ptp">Tanggal Penerbitan PTP</label>
+                                                <label class="form-label" for="create-tgl-ptp">Tanggal Penerbitan
+                                                    PTP</label>
                                                 <input type="date" class="form-control" wire:model="tgl_ptp"
                                                     id="create-tgl-ptp" placeholder="Masukkan Tanggal PTP" />
                                                 @error('tgl_ptp')
-                                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                                    <span class="form-text text-xs text-danger"> {{ $message }}
+                                                    </span>
                                                 @enderror
                                             </div>
                                         </div>
@@ -427,16 +435,18 @@
                                                 <input type="text" class="form-control" wire:model="no_ptp"
                                                     id="create-no-ptp" placeholder="Masukkan Nomor PTP" />
                                                 @error('no_ptp')
-                                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                                    <span class="form-text text-xs text-danger"> {{ $message }}
+                                                    </span>
                                                 @enderror
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="mb-3">
                                                 <label for="berkas_ptp" class="form-label">
-                                                Berkas PTP
+                                                    Berkas PTP
                                                     <div wire:loading wire:target="berkas_ptp"
-                                                        class="spinner-border spinner-border-sm text-primary" role="status">
+                                                        class="spinner-border spinner-border-sm text-primary"
+                                                        role="status">
                                                         <span class="visually-hidden">Loading...</span>
                                                     </div>
                                                     {{-- Tanda centang setelah upload selesai --}}
@@ -449,7 +459,8 @@
                                                     wire:model.blur="berkas_ptp" accept="application/pdf">
                                                 <div class="form-text">Format file .pdf maks 2 Mb</div>
                                                 @error('berkas_ptp')
-                                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                                    <span class="form-text text-xs text-danger"> {{ $message }}
+                                                    </span>
                                                 @enderror
                                             </div>
                                         </div>
@@ -565,8 +576,10 @@
                                                         class="bx bx-check-circle text-success"></i>
                                                 @endif
                                             </label>
-                                            <input type="file" class="form-control" id="surat_pengantar_kelengkapan"
-                                                wire:model.blur="surat_pengantar_kelengkapan" accept="application/pdf">
+                                            <input type="file" class="form-control"
+                                                id="surat_pengantar_kelengkapan"
+                                                wire:model.blur="surat_pengantar_kelengkapan"
+                                                accept="application/pdf">
                                             <div class="form-text">Format file .pdf maks 2 Mb</div>
                                             @error('surat_pengantar_kelengkapan')
                                                 <span class="form-text text-xs text-danger"> {{ $message }}
@@ -611,7 +624,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="row">
                                     <div class="col">
                                         <div class="card mb-4">
@@ -619,42 +632,49 @@
                                                 data-bs-toggle="collapse" data-bs-target="#templateDownloadCollapse"
                                                 aria-expanded="false" aria-controls="templateDownloadCollapse"
                                                 style="cursor: pointer;">
-                                                <h5 class="mb-0 text-white">Download Template Berkas KKPR Non Berusaha</h5>
+                                                <h5 class="mb-0 text-white">Download Template Berkas KKPR Non Berusaha
+                                                </h5>
                                                 <i class="bx bx-chevron-down text-white"></i>
                                             </div>
                                             <div class="collapse" id="templateDownloadCollapse">
                                                 <div class="card-body mt-3">
                                                     <div class="row mb-3">
                                                         <div class="col">
-                                                            <button type="button" class="btn btn-primary" wire:click="download1a">
+                                                            <button type="button" class="btn btn-primary"
+                                                                wire:click="download1a">
                                                                 Template Tanggapan 1A
                                                             </button>
                                                         </div>
                                                     </div>
                                                     <div class="row mb-3">
                                                         <div class="col">
-                                                            <button type="button" class="btn btn-primary" wire:click="download1b">
+                                                            <button type="button" class="btn btn-primary"
+                                                                wire:click="download1b">
                                                                 Template Tanggapan 1B
                                                             </button>
                                                         </div>
                                                     </div>
                                                     <div class="row mb-3">
                                                         <div class="col">
-                                                            <button type="button" class="btn btn-primary" wire:click="download2">
+                                                            <button type="button" class="btn btn-primary"
+                                                                wire:click="download2">
                                                                 Template Tanggapan 2
                                                             </button>
                                                         </div>
                                                     </div>
                                                     <div class="row mb-3">
                                                         <div class="col">
-                                                            <button type="button" class="btn btn-primary" wire:click="downloadCeklis">
+                                                            <button type="button" class="btn btn-primary"
+                                                                wire:click="downloadCeklis">
                                                                 Template Ceklis
                                                             </button>
                                                         </div>
                                                     </div>
                                                     <div class="row mb-3">
                                                         <div class="col">
-                                                            <button type="button" class="btn btn-primary" wire:click="downloadSuratPengantarKelengkapan" @if(empty($rdtr_rtrw)) disabled @endif>
+                                                            <button type="button" class="btn btn-primary"
+                                                                wire:click="downloadSuratPengantarKelengkapan"
+                                                                @if (empty($rdtr_rtrw)) disabled @endif>
                                                                 Template Surat Pengantar Tanggapan Kelengkapan
                                                             </button>
                                                         </div>
@@ -666,12 +686,12 @@
                                 </div>
                             @endif
 
-                            @if($kode_layanan == 'KKPRB')
+                            @if ($kode_layanan == 'KKPRB')
                                 <hr class="mt-3">
-                                
-                                <h5 class="text-danger">KKPR Berusaha</h5>  
 
-                                <div class="row">                                                                      
+                                <h5 class="text-danger">KKPR Berusaha</h5>
+
+                                <div class="row">
                                     <div class="col">
                                         <div class="mb-3">
                                             <label class="form-label" for="create-tgl-validasi">Tanggal Validasi
@@ -685,7 +705,8 @@
                                     </div>
                                     <div class="col">
                                         <div class="mb-3">
-                                            <label class="form-label" for="create-tgl-pnbp">Tanggal Pembayaran PNBP</label>
+                                            <label class="form-label" for="create-tgl-pnbp">Tanggal Pembayaran
+                                                PNBP</label>
                                             <input type="date" class="form-control" wire:model="tgl_pnbp"
                                                 id="create-tgl-pnbp" placeholder="Masukkan Tanggal Pembayaran PNBP" />
                                             @error('tgl_pnbp')
@@ -695,7 +716,8 @@
                                     </div>
                                     <div class="col">
                                         <div class="mb-3">
-                                            <label class="form-label" for="create-tgl-ptp">Tanggal Penerbitan PTP</label>
+                                            <label class="form-label" for="create-tgl-ptp">Tanggal Penerbitan
+                                                PTP</label>
                                             <input type="date" class="form-control" wire:model="tgl_ptp"
                                                 id="create-tgl-ptp" placeholder="Masukkan Tanggal PTP" />
                                             @error('tgl_ptp')
@@ -718,9 +740,10 @@
                                     <div class="col">
                                         <div class="mb-3">
                                             <label for="berkas_ptp" class="form-label">
-                                            Berkas PTP
+                                                Berkas PTP
                                                 <div wire:loading wire:target="berkas_ptp"
-                                                    class="spinner-border spinner-border-sm text-primary" role="status">
+                                                    class="spinner-border spinner-border-sm text-primary"
+                                                    role="status">
                                                     <span class="visually-hidden">Loading...</span>
                                                 </div>
                                                 {{-- Tanda centang setelah upload selesai --}}
@@ -736,14 +759,14 @@
                                                 <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                             @enderror
                                             @if ($berkas_ptp_lama)
-                                            <a href="{{ asset('storage/' . $berkas_ptp_lama) }}"
-                                                class="btn btn-sm btn-primary my-2" target="_blank">
-                                                <i class="bx bx-show"></i> PTP
-                                            </a>
-                                        @endif
+                                                <a href="{{ asset('storage/' . $berkas_ptp_lama) }}"
+                                                    class="btn btn-sm btn-primary my-2" target="_blank">
+                                                    <i class="bx bx-show"></i> PTP
+                                                </a>
+                                            @endif
                                         </div>
                                     </div>
-                                </div>                                
+                                </div>
                             @endif
 
                             <div class="mb-3">

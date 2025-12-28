@@ -82,22 +82,23 @@ class SkrkVerifikasiEdit extends Component
                 ]);
             }
         }
-        
+
         $message = $this->status == 'diterima'
         ? "Verifikasi : Berkas Diterima!"
-        : "Verifikasi : Berkas Ditolak!"; 
+        : "Verifikasi : Berkas Ditolak!";
 
-        
+
         $this->dispatch('toast', [
             'type'    => $this->status == 'diterima' ? 'success' : 'error',
             'message' => $message
         ]);
-        
+
         $this->reset('status', 'catatan');
-        
+
         $this->dispatch('refresh-skrk-verifikasi-list');
         $this->dispatch('refresh-skrk-analis-list');
+        $this->dispatch('refresh-skrk-survey-list');
 
         $this->dispatch('trigger-close-modal');
-    }  
+    }
 }

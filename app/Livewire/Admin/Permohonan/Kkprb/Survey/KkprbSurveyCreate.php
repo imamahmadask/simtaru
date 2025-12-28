@@ -14,7 +14,7 @@ use Livewire\WithFileUploads;
 class KkprbSurveyCreate extends Component
 {
     use WithFileUploads;
-    
+
     public $permohonan_id, $kkprb_id, $tahapan_id;
     public $ada_bangunan, $status_jalan, $fungsi_jalan, $tipe_jalan, $median_jalan, $lebar_jalan;
 
@@ -28,7 +28,7 @@ class KkprbSurveyCreate extends Component
     public $tgl_survey, $batas_utara, $batas_selatan, $batas_timur, $batas_barat;
 
     public $koordinat = [];
-    
+
     public function render()
     {
         return view('livewire.admin.permohonan.kkprb.survey.kkprb-survey-create');
@@ -92,7 +92,7 @@ class KkprbSurveyCreate extends Component
             'message' => 'Data Survey berhasil ditambahkan!'
         ]);
 
-        $this->dispatch('refresh-kkprnb-survey-list');
+        $this->dispatch('refresh-kkprb-survey-list');
 
         $this->dispatch('trigger-close-modal');
     }

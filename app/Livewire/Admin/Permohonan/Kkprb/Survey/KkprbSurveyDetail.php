@@ -30,8 +30,10 @@ class KkprbSurveyDetail extends Component
     public function download1()
     {
         $permohonan = $this->kkprb->permohonan;
-
+        $surveyor = $permohonan->disposisi->where('tahapan_id', $permohonan->layanan->tahapan->where('nama', 'Survey')->value('id'))->first()->penerima->name;
+        $batas = $this->skrk->batas_persil;
         $data = [
+            'nama_surveyor' => $surveyor,
             'nama_pemohon' => $permohonan->registrasi->nama,
             'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
             'kel_tanah' => $permohonan->registrasi->kel_tanah,
@@ -44,7 +46,11 @@ class KkprbSurveyDetail extends Component
             'fungsi_jalan' => $this->kkprb->fungsi_jalan,
             'tipe_jalan' => $this->kkprb->tipe_jalan,
             'median_jalan' => $this->kkprb->median_jalan,
-            'lebar_jalan' => $this->kkprb->lebar_jalan,            
+            'lebar_jalan' => $this->kkprb->lebar_jalan,
+            'batas_barat' => $batas['barat'],
+            'batas_timur' => $batas['timur'],
+            'batas_utara' => $batas['utara'],
+            'batas_selatan' => $batas['selatan'],
         ];
 
         return $this->generateDocument('1_BA_PEMERIKSAAN_LAPANGAN.docx', $data);
@@ -91,7 +97,7 @@ class KkprbSurveyDetail extends Component
                 $this->kkprb->permohonan->update([
                     'status' => 'Proses Analisa'
                 ]);
-                
+
                 $this->createRiwayat($this->kkprb->permohonan, 'Proses Survey KKPR Berusaha Selesai!');
                 $this->createRiwayat($this->kkprb->permohonan, 'Proses Analisa KKPR Berusaha');
             }

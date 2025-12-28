@@ -15,6 +15,7 @@ use PhpOffice\PhpWord\TemplateProcessor;
 class KkprbAnalisDetail extends Component
 {
     public $kkprb;
+    public $koordinatTable = false;
 
     #[On('refresh-kkprb-analis-list')]
     public function refresh() {}
@@ -51,7 +52,7 @@ class KkprbAnalisDetail extends Component
         $permohonan = $this->kkprb->permohonan;
 
         $data = [
-            'nama_pemohon' => $permohonan->registrasi->nama,            
+            'nama_pemohon' => $permohonan->registrasi->nama,
         ];
 
         return $this->generateDocument('2B_NOTULENSI_RAPAT_FPR.docx', $data);
@@ -72,7 +73,7 @@ class KkprbAnalisDetail extends Component
             'tgl_ptp' => date('d F Y', strtotime($this->kkprb->tgl_ptp)),
             'no_ptp' => $this->kkprb->no_ptp,
             'tgl_survey' => date('d F Y', strtotime($this->kkprb->tgl_survey)),
-            'proyek_id' => $this->kkprb->proyek_id,
+            'proyek_id' => $this->kkprb->id_proyek,
             'skala_usaha' => $this->kkprb->skala_usaha,
             'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
             'kel_tanah' => $permohonan->registrasi->kel_tanah,
@@ -82,7 +83,7 @@ class KkprbAnalisDetail extends Component
             'status_modal' => $permohonan->status_modal,
             'luas_tanah' => $permohonan->luas_tanah,
             'luas_bangunan' => $permohonan->luas_bangunan,
-            'jml_lantai' => $permohonan->jml_lantai,            
+            'jml_lantai' => $permohonan->jml_lantai,
             'penguasaan_tanah' => $this->kkprb->penguasaan_tanah,
             'jenis_usaha' => $this->kkprb->jenis_usaha,
             'ada_bangunan' => $this->kkprb->ada_bangunan,
@@ -123,8 +124,9 @@ class KkprbAnalisDetail extends Component
             'ada_bangunan' => $this->kkprb->ada_bangunan,
             'jml_bangunan' => $this->kkprb->jml_bangunan,
             'jml_lantai' => $this->kkprb->jml_lantai,
-            'luas_lantai' => $this->kkprb->luas_lantai,         
-            'luas_disetujui' => $this->kkprb->luas_disetujui,         
+            'luas_lantai' => $this->kkprb->luas_lantai,
+            'luas_disetujui' => $this->kkprb->luas_disetujui,
+            'tgl_survey' => $this->kkprb->tgl_survey
         ];
 
         return $this->generateDocument('4_NOTA_DINAS_KAJIAN_KKPRB.docx', $data);
@@ -137,7 +139,7 @@ class KkprbAnalisDetail extends Component
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
             'no_ptp' => $this->kkprb->no_ptp,
-            'tgl_ptp' => $this->kkprb->tgl_ptp,
+            'tgl_ptp' => date('d F Y', strtotime($this->kkprb->tgl_ptp)),
             'no_nota_dinas' => $this->kkprb->no_nota_dinas,
             'tgl_nota_dinas' => $this->kkprb->tgl_nota_dinas,
         ];
@@ -151,15 +153,15 @@ class KkprbAnalisDetail extends Component
 
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
-            'fungsi_bangunan' => $permohonan->registrasi->fungsi_bangunan,
+            'jenis_kegiatan' => $this->kkprb->jenis_kegiatan,
             'no_ptp' => $this->kkprb->no_ptp,
-            'tgl_ptp' => $this->kkprb->tgl_ptp,
+            'tgl_ptp' => date('d F Y', strtotime($this->kkprb->tgl_ptp)),
             'kdb' => $this->kkprb->kdb,
             'klb' => $this->kkprb->klb,
             'kdh' => $this->kkprb->kdh,
             'gsb' => $this->kkprb->gsb,
         ];
-
+        $this->koordinatTable = true;
         return $this->generateDocument('6_FORMAT_PERSETUJUAN_KKPRB.docx', $data);
     }
 
@@ -169,6 +171,29 @@ class KkprbAnalisDetail extends Component
 
         foreach ($data as $key => $value) {
             $templateProcessor->setValue($key, $value);
+        }
+
+        if($this->koordinatTable)
+        {
+            $koordinatList = $this->kkprb->koordinat;
+            // 🧭 Jika ada data koordinat, isi ke tabel di Word
+            if (!empty($koordinatList)) {
+                // Clone baris berdasarkan placeholder 'x'
+                $templateProcessor->cloneRow('x', count($koordinatList));
+
+                foreach ($koordinatList as $i => $point) {
+                    $row = $i + 1;
+                    $templateProcessor->setValue("x#{$row}", $point['x']);
+                    $templateProcessor->setValue("y#{$row}", $point['y']);
+                }
+            }
+            else
+            {
+                // Jika tidak ada koordinat, tampilkan satu baris kosong
+                $templateProcessor->cloneRow('x', 1);
+                $templateProcessor->setValue('x#1', '-');
+                $templateProcessor->setValue('y#1', '-');
+            }
         }
 
         $fileName = str_replace('.docx', '', basename($templatePath)).'_'.$data['nama_pemohon'].'.docx';
