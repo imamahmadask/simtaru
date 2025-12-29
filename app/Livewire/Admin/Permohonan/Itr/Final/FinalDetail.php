@@ -3,6 +3,8 @@
 namespace App\Livewire\Admin\Permohonan\Itr\Final;
 
 use App\Models\Itr;
+use App\Models\Permohonan;
+use App\Models\RiwayatPermohonan;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -71,5 +73,14 @@ class FinalDetail extends Component
         }
 
         return redirect()->route('itr.detail', ['id' => $this->itr->id]);
+    }
+
+    private function createRiwayat(Permohonan $permohonan, string $keterangan)
+    {
+        RiwayatPermohonan::create([
+            'registrasi_id' => $permohonan->registrasi_id,
+            'user_id' => Auth::user()->id,
+            'keterangan' => $keterangan
+        ]);
     }
 }
