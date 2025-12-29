@@ -31,7 +31,7 @@ class KkprbSurveyDetail extends Component
     {
         $permohonan = $this->kkprb->permohonan;
         $surveyor = $permohonan->disposisi->where('tahapan_id', $permohonan->layanan->tahapan->where('nama', 'Survey')->value('id'))->first()->penerima->name;
-        $batas = $this->skrk->batas_persil;
+        $batas = $this->kkprb->batas_persil;
         $data = [
             'nama_surveyor' => $surveyor,
             'nama_pemohon' => $permohonan->registrasi->nama,
