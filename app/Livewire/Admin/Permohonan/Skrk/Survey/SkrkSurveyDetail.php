@@ -30,7 +30,7 @@ class SkrkSurveyDetail extends Component
     public function download1a()
     {
         $permohonan = $this->skrk->permohonan;
-        $batas = $this->skrk->batas_persil;
+        $batas = $this->skrk->batas_administratif;
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
             'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
@@ -50,7 +50,7 @@ class SkrkSurveyDetail extends Component
     public function download1b()
     {
         $permohonan = $this->skrk->permohonan;
-        $batas = $this->skrk->batas_persil;
+        $batas = $this->skrk->batas_administratif;
         $surveyor = $permohonan->disposisi->where('tahapan_id', $permohonan->layanan->tahapan->where('nama', 'Survey')->value('id'))->first()->penerima->name;
         $data = [
             'nama_surveyor' => $surveyor,
