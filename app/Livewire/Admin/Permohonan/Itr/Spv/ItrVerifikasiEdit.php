@@ -70,9 +70,7 @@ class ItrVerifikasiEdit extends Component
                     'is_analis' => false
                 ]);
             }
-        }
-
-        $this->reset('status', 'catatan');
+        }        
 
         $message = $this->status == 'diterima'
             ? "Verifikasi : Berkas Diterima!"
@@ -82,6 +80,8 @@ class ItrVerifikasiEdit extends Component
             'type'    => $this->status == 'diterima' ? 'success' : 'error',
             'message' => $message
         ]);
+
+        $this->reset('status', 'catatan');
         
         $this->dispatch('refresh-itr-verifikasi-list');
 

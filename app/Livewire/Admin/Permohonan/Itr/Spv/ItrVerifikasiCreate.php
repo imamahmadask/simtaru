@@ -78,16 +78,17 @@ class ItrVerifikasiCreate extends Component
             $this->createRiwayat($itr->permohonan, "Disposisi kembali kepada {$penerima_name} pada tahapan ". $nama_tahapan);
         }
 
-        $this->reset('status', 'catatan');
-
+        
         $message = $this->status == 'diterima'
-            ? "Berkas berhasil diverifikasi sebagai : Diterima"
-            : "Berkas : Ditolak";       
-
+        ? "Berkas berhasil diverifikasi sebagai : Diterima"
+        : "Berkas : Ditolak";       
+        
         $this->dispatch('toast', [
             'type'    => $this->status == 'diterima' ? 'success' : 'error',
             'message' => $message
         ]);
+        
+        $this->reset('status', 'catatan');
         
         $this->dispatch('refresh-itr-verifikasi-list');
 
