@@ -16,6 +16,7 @@ class SkrkVerifikasiDetail extends Component
     public $skrk;
     public $count_verifikasi;
     public $berkas_draft;
+    public $kesimpulan;
 
     #[On('refresh-skrk-verifikasi-list')]
     public function refresh()
@@ -36,6 +37,27 @@ class SkrkVerifikasiDetail extends Component
         $this->count_verifikasi = $this->skrk->permohonan->berkas->where('status', '!=', 'diterima')->where('versi', 'draft')->count();
         $this->berkas_draft = $this->skrk->permohonan->berkas->where('versi', 'draft');
 
+    }
+
+    public function submitKesimpulan()
+    {
+        if(Auth::user()->role == 'supervisor' || Auth::user()->role == 'superadmin') {
+            
+            if($this->kesimpulan != '') {
+                $this->skrk->update([
+                    'kesimpulan' => $this->kesimpulan
+                ]);
+            }
+        }
+
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Kesimpulan berhasil disimpan'
+        ]);
+        
+        $this->dispatch('refresh-skrk-verifikasi-list');
+
+        $this->dispatch('trigger-close-modal');
     }
 
     public function selesaiVerifikasi()

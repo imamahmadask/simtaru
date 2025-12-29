@@ -96,6 +96,14 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="alert alert-info" role="alert">
+                        <b>Kesimpulan Persetujuan Kesesuaian Kegiatan Pemanfaatan Ruang (KKPR) : {{ $skrk->kesimpulan }}</b> 
+                    </div>
+                    
+                    <br>
+                    <button type="button" class="btn {{ $skrk->kesimpulan ? 'btn-primary' : 'btn-danger' }}" data-bs-toggle="modal" data-bs-target="#kesimpulanPersetujuanSkrkModal">
+                        @if($skrk->kesimpulan) <i class="bx bx-check"></i> @else  <i class="bx bx-x"></i> @endif Kesimpulan
+                    </button>
 
                     @if ($skrk->is_analis && !$skrk->is_validate && $count_verifikasi == 0)
                         <button type="button" class="btn {{ $skrk->is_validate ? 'btn-primary' : 'btn-warning' }}"
@@ -112,7 +120,39 @@
         </div>
     </div>
 
-    <div wire:ignore.self class="modal fade" id="selesaiVerifikasiModal" data-bs-backdrop="static" tabindex="-1"
+    <div wire:ignore.self class="modal fade" id="kesimpulanPersetujuanSkrkModal" data-bs-backdrop="static" tabindex="-1"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">
+                        Kesimpulan Persetujuan Kesesuaian Kegiatan Pemanfaatan Ruang (KKPR) 
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form wire:submit.prevent="submitKesimpulan">
+                    <div class="modal-body">
+                        <select class="form-select" name="kesimpulan" id="kesimpulan" wire:model="kesimpulan">
+                            <option value="">--Pilih--</option>
+                            <option value="Disetujui">Disetujui</option>
+                            <option value="Disetujui Sebagian">Disetujui Sebagian</option>
+                            <option value="Ditolak">Ditolak</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div wire:ignore.self class="modal fade" id="selesaiVerifikasiSkrkModal" data-bs-backdrop="static" tabindex="-1"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -138,3 +178,19 @@
         </div>
     </div>
 </div>
+@script
+    <script>
+        Livewire.on('trigger-close-modal', () => {
+            const modalIds = ['selesaiVerifikasiSkrkModal', 'kesimpulanPersetujuanSkrkModal'];
+            modalIds.forEach(id => {
+                const modalElement = document.getElementById(id);
+                if (modalElement) {
+                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    if (modalInstance) {
+                        modalInstance.hide();
+                    }
+                }
+            });
+        });
+</script>
+@endscript
