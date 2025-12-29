@@ -198,7 +198,15 @@
                                         id="persyaratan_pelaksanaan" placeholder="Masukkan Persyaratan Pelaksanaan">
                                 </div>
                             </div>
+
                         @endif
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="keterangan" class="form-label">Keterangan</label>
+                                <textarea class="form-control" wire:model="keterangan" id="keterangan"
+                                    placeholder="Masukkan Keterangan"></textarea>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">

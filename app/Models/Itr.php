@@ -39,7 +39,8 @@ class Itr extends Model
         'is_berkas_analis_uploaded',
         'is_dokumen',
         'is_validate',
-        'batas_persil'
+        'batas_persil',
+        'keterangan'
     ];
 
     protected $casts = [

@@ -15,7 +15,7 @@ class ItrDokumenAnalisCreate extends Component
 
     public $permohonan, $itr;
     public $no_kkkpr, $dokumen_kkkpr, $jenis_itr, $skala_usaha, $luas_disetujui, $pemanfaatan_ruang, $peraturan_zonasi, $kbli_diizinkan, $kdb, $klb, $gsb, $jba, $jbb, $kdh, $ktb, $luas_kavling, $jaringan_utilitas, $persyaratan_pelaksanaan;
-    public $penguasaan_tanah;
+    public $penguasaan_tanah, $keterangan;
 
     public function render()
     {
@@ -54,6 +54,7 @@ class ItrDokumenAnalisCreate extends Component
             'luas_kavling' => $this->luas_kavling,
             'jaringan_utilitas' => $this->jaringan_utilitas,
             'persyaratan_pelaksanaan' => $this->persyaratan_pelaksanaan,
+            'keterangan' => $this->keterangan,
             'is_dokumen' => true
         ]);
 
