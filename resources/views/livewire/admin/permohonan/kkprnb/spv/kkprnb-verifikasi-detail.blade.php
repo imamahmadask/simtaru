@@ -101,7 +101,7 @@
                     </div>
                     
                     <br>
-                    <button type="button" class="btn {{ $kesimpulan ? 'btn-primary' : 'btn-danger' }}" data-bs-toggle="modal" data-bs-target="#kesimpulanPersetujuanModal">
+                    <button type="button" class="btn {{ $kesimpulan ? 'btn-primary' : 'btn-danger' }}" data-bs-toggle="modal" data-bs-target="#kesimpulanPersetujuanKkprnbModal">
                         @if($kesimpulan) <i class="bx bx-check"></i> @else  <i class="bx bx-x"></i> @endif Kesimpulan
                     </button>
 
@@ -120,7 +120,7 @@
         </div>
     </div>
 
-    <div wire:ignore.self class="modal fade" id="kesimpulanPersetujuanModal" data-bs-backdrop="static" tabindex="-1"
+    <div wire:ignore.self class="modal fade" id="kesimpulanPersetujuanKkprnbModal" data-bs-backdrop="static" tabindex="-1"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -152,7 +152,7 @@
         </div>
     </div>
     
-    <div wire:ignore.self class="modal fade" id="selesaiVerifikasiModal" data-bs-backdrop="static" tabindex="-1"
+    <div wire:ignore.self class="modal fade" id="selesaiVerifikasiKkprnbModal" data-bs-backdrop="static" tabindex="-1"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -181,7 +181,7 @@
 @script
     <script>
         Livewire.on('trigger-close-modal', () => {
-            const modalIds = ['selesaiVerifikasiModal', 'kesimpulanPersetujuanModal'];
+            const modalIds = ['selesaiVerifikasiKkprnbModal', 'kesimpulanPersetujuanKkprnbModal'];
             modalIds.forEach(id => {
                 const modalElement = document.getElementById(id);
                 if (modalElement) {
