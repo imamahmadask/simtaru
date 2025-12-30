@@ -62,7 +62,6 @@ class SkrkVerifikasiDetail extends Component
 
     public function selesaiVerifikasi()
     {
-        dd('tes');
         if(Auth::user()->role == 'supervisor' || Auth::user()->role == 'superadmin') {
 
             if($this->count_verifikasi == 0) {
