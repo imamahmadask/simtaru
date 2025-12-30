@@ -50,6 +50,7 @@ class ItrSurveyDetail extends Component
     public function download1b()
     {
         $permohonan = $this->itr->permohonan;
+        $batas = $this->itr->batas_persil;
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
             'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
@@ -57,6 +58,10 @@ class ItrSurveyDetail extends Component
             'kec_tanah' => $permohonan->registrasi->kec_tanah,
             'luas_tanah' => $permohonan->luas_tanah,
             'ada_bangunan' => $this->itr->ada_bangunan,
+            'batas_utara' => $batas['utara'],
+            'batas_selatan' => $batas['selatan'],
+            'batas_timur' => $batas['timur'],
+            'batas_barat' => $batas['barat'],
         ];
 
         return $this->generateDocument('1B_BA_survey_template.docx', $data);
