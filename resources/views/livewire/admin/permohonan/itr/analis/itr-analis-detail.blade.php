@@ -252,6 +252,14 @@
                             </div>
                         </div>
                     @endif
+                    <div class="row mb-3">
+                            <label class="col-sm-4 col-form-label" for="keterangan">
+                               Keterangan
+                            </label>
+                            <div class="col-sm-8">
+                                <input id="keterangan" class="form-control" value="{{ $itr->keterangan }}" readonly>
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>
