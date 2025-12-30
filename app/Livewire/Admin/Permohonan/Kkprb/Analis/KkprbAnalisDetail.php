@@ -244,7 +244,7 @@ class KkprbAnalisDetail extends Component
                 ]);
             }
 
-            $this->createRiwayat($this->kkprb->permohonan, 'Proses Verifikasi Data KKPR NB');
+            $this->createRiwayat($this->kkprb->permohonan, 'Proses Verifikasi Data KKPR Berusaha');
 
             session()->flash('success', 'Data Analis selesai!');
         }
