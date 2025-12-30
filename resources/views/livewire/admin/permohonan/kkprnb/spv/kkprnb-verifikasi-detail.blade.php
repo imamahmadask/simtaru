@@ -107,7 +107,7 @@
 
                     @if ($kkprnb->is_analis && !$kkprnb->is_validate && $count_verifikasi == 0)
                         <button type="button" class="btn {{ $kkprnb->is_validate ? 'btn-primary' : 'btn-warning' }}"
-                            data-bs-toggle="modal" data-bs-target="#selesaiVerifikasiModal">
+                            data-bs-toggle="modal" data-bs-target="#selesaiVerifikasiKkprnbModal">
                             <i class="bx bx-check"></i> Selesai Verifikasi Berkas
                         </button>
                     @elseif ($kkprnb->is_validate)
@@ -134,7 +134,7 @@
                     <div class="modal-body">
                         <select class="form-select" name="kesimpulan" id="kesimpulan" wire:model="kesimpulan">
                             <option value="">--Pilih--</option>
-                            <option value="Disetujui">Disetujui</option>
+                            <option value="Disetujui Seluruhnya">Disetujui Seluruhnya</option>
                             <option value="Disetujui Sebagian">Disetujui Sebagian</option>
                             <option value="Ditolak">Ditolak</option>
                         </select>

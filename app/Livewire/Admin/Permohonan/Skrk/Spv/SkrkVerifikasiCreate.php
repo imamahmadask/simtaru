@@ -99,7 +99,8 @@ class SkrkVerifikasiCreate extends Component
         $this->dispatch('trigger-close-modal');
     }
 
-    public function mount($skrk_id, $berkas_id)
+    #[On('skrk-verifikasi-create')]
+    public function getBerkas($skrk_id, $berkas_id)
     {
         $this->skrk_id = $skrk_id;
         $this->berkas = PermohonanBerkas::find($berkas_id);

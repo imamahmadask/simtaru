@@ -73,12 +73,12 @@
                                             </a>
                                             @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor')
                                                 @if ($item->status == 'menunggu')
-                                                    <button class="btn btn-sm btn-success" data-bs-toggle="modal"
+                                                    <button class="btn btn-sm btn-success" wire:click="$dispatch('skrk-verifikasi-create', { skrk_id: {{ $skrk->id }}, berkas_id: {{ $item->id }} })" data-bs-toggle="modal"
                                                         data-bs-target="#AddVerifikasiSkrkModal">
                                                         Verifikasi
                                                     </button>
                                                     @teleport('body')
-                                                        @livewire('admin.permohonan.skrk.spv.skrk-verifikasi-create', ['skrk_id' => $skrk->id, 'berkas_id' => $item->id])
+                                                        @livewire('admin.permohonan.skrk.spv.skrk-verifikasi-create')
                                                     @endteleport
                                                 @elseif($item->status == 'ditolak')
                                                     <button class="btn btn-sm btn-success" wire:click="$dispatch('skrk-verifikasi-edit', { skrk_id: {{ $skrk->id }}, berkas_id: {{ $item->id }} })" data-bs-toggle="modal"
@@ -107,7 +107,7 @@
 
                     @if ($skrk->is_analis && !$skrk->is_validate && $count_verifikasi == 0)
                         <button type="button" class="btn {{ $skrk->is_validate ? 'btn-primary' : 'btn-warning' }}"
-                            data-bs-toggle="modal" data-bs-target="#selesaiVerifikasiModal">
+                            data-bs-toggle="modal" data-bs-target="#selesaiVerifikasiSkrkModal">
                             <i class="bx bx-check"></i> Selesai Verifikasi Berkas
                         </button>
                     @elseif ($skrk->is_validate)
@@ -134,7 +134,7 @@
                     <div class="modal-body">
                         <select class="form-select" name="kesimpulan" id="kesimpulan" wire:model="kesimpulan">
                             <option value="">--Pilih--</option>
-                            <option value="Disetujui">Disetujui</option>
+                            <option value="Disetujui Seluruhnya">Disetujui Seluruhnya</option>
                             <option value="Disetujui Sebagian">Disetujui Sebagian</option>
                             <option value="Ditolak">Ditolak</option>
                         </select>

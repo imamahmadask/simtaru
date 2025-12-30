@@ -101,13 +101,13 @@
                     </div>
                     
                     <br>
-                    <button type="button" class="btn {{ $kkprb->kesimpulan ? 'btn-primary' : 'btn-danger' }}" data-bs-toggle="modal" data-bs-target="#kesimpulanPersetujuanModal">
+                    <button type="button" class="btn {{ $kkprb->kesimpulan ? 'btn-primary' : 'btn-danger' }}" data-bs-toggle="modal" data-bs-target="#kesimpulanPersetujuanKkprbModal">
                         @if($kkprb->kesimpulan) <i class="bx bx-check"></i> @else  <i class="bx bx-x"></i> @endif Kesimpulan
                     </button>
 
                     @if ($kkprb->is_analis && !$kkprb->is_validate && $count_verifikasi == 0)
                         <button type="button" class="btn {{ $kkprb->is_validate ? 'btn-primary' : 'btn-warning' }}"
-                            data-bs-toggle="modal" data-bs-target="#selesaiVerifikasiModal">
+                            data-bs-toggle="modal" data-bs-target="#selesaiVerifikasiKkprbModal">
                             <i class="bx bx-check"></i> Selesai Verifikasi Berkas
                         </button>
                     @elseif ($kkprb->is_validate)
@@ -120,7 +120,7 @@
         </div>
     </div>
 
-    <div wire:ignore.self class="modal fade" id="kesimpulanPersetujuanModal" data-bs-backdrop="static" tabindex="-1"
+    <div wire:ignore.self class="modal fade" id="kesimpulanPersetujuanKkprbModal" data-bs-backdrop="static" tabindex="-1"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -134,7 +134,7 @@
                     <div class="modal-body">
                         <select class="form-select" name="kesimpulan" id="kesimpulan" wire:model="kesimpulan">
                             <option value="">--Pilih--</option>
-                            <option value="Disetujui">Disetujui Seluruhnya</option>
+                            <option value="Disetujui Seluruhnya">Disetujui Seluruhnya</option>
                             <option value="Disetujui Sebagian">Disetujui Sebagian</option>
                             <option value="Ditolak">Ditolak</option>
                         </select>
@@ -152,7 +152,7 @@
         </div>
     </div>
 
-    <div wire:ignore.self class="modal fade" id="selesaiVerifikasiModal" data-bs-backdrop="static" tabindex="-1"
+    <div wire:ignore.self class="modal fade" id="selesaiVerifikasiKkprbModal" data-bs-backdrop="static" tabindex="-1"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -181,7 +181,7 @@
 @script
     <script>
         Livewire.on('trigger-close-modal', () => {
-            const modalIds = ['selesaiVerifikasiModal', 'kesimpulanPersetujuanModal'];
+            const modalIds = ['selesaiVerifikasiKkprbModal', 'kesimpulanPersetujuanKkprbModal'];
             modalIds.forEach(id => {
                 const modalElement = document.getElementById(id);
                 if (modalElement) {

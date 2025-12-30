@@ -138,3 +138,13 @@
         </div>
     </div>
 </div>
+@script
+    <script>
+        $wire.on('trigger-close-modal', () => {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('selesaiVerifikasiItrModal'));
+            if (modal) {
+                modal.hide();
+            }
+        });
+    </script>
+@endscript
