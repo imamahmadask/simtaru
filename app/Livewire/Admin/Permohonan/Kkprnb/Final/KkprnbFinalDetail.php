@@ -69,7 +69,7 @@ class KkprnbFinalDetail extends Component
 
     public function selesaiFinalisasi()
     {
-        if(Auth::user()->role == 'supervisor' || Auth::user()->role == 'superadmin') {
+        if(Auth::user()->role == 'supervisor' || Auth::user()->role == 'superadmin' || Auth::user()->role == 'data-entry') {
             
             $persyaratan = $this->kkprnb->permohonan->persyaratanBerkas->where('wajib', true);
             $this->count_final = 0;
