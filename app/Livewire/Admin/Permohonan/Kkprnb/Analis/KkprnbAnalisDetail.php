@@ -69,6 +69,7 @@ class KkprnbAnalisDetail extends Component
 
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
+            'nik_pemohon' => $permohonan->registrasi->nik,
             'tgl_registrasi' => $permohonan->registrasi->tanggal ? date('d F Y', strtotime($permohonan->registrasi->tanggal)) : '-',
             'tgl_validasi' => $this->kkprnb->tgl_validasi ? date('d F Y', strtotime($this->kkprnb->tgl_validasi)) : '-',
             'tgl_survey' => $this->kkprnb->tgl_survey ? date('d F Y', strtotime($this->kkprnb->tgl_survey)) : '-',
