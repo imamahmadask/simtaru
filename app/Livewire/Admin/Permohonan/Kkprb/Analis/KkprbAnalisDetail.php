@@ -43,7 +43,7 @@ class KkprbAnalisDetail extends Component
             'kel_tanah' => $permohonan->registrasi->kel_tanah,
             'kec_tanah' => $permohonan->registrasi->kec_tanah,
         ];
-
+        $this->koordinatTable = false;
         return $this->generateDocument('2A_BA_RAPAT_FPR.docx', $data);
     }
 
@@ -54,7 +54,7 @@ class KkprbAnalisDetail extends Component
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
         ];
-
+        $this->koordinatTable = false;
         return $this->generateDocument('2B_NOTULENSI_RAPAT_FPR.docx', $data);
     }
 
@@ -98,7 +98,7 @@ class KkprbAnalisDetail extends Component
             'klb' => $this->kkprb->klb,
             'kdh' => $this->kkprb->kdh,
         ];
-
+        $this->koordinatTable = false;
         return $this->generateDocument('3_KAJIAN_KKPRB.docx', $data);
     }
 
@@ -130,7 +130,7 @@ class KkprbAnalisDetail extends Component
             'luas_disetujui' => $this->kkprb->luas_disetujui,
             'tgl_survey' => $this->kkprb->tgl_survey
         ];
-
+        $this->koordinatTable = false;
         return $this->generateDocument('4_NOTA_DINAS_KAJIAN_KKPRB.docx', $data);
     }
 
@@ -143,7 +143,7 @@ class KkprbAnalisDetail extends Component
             'no_ptp' => $this->kkprb->no_ptp,
             'tgl_ptp' => $this->kkprb->tgl_ptp ? date('d F Y', strtotime($this->kkprb->tgl_ptp)) : '-',            
         ];
-
+        $this->koordinatTable = false;
         return $this->generateDocument('5_REKOMENDASI_KKPRB.docx', $data);
     }
 

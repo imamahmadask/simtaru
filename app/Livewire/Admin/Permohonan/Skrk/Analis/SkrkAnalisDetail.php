@@ -40,7 +40,7 @@ class SkrkAnalisDetail extends Component
             'kec_tanah' => $permohonan->kec_tanah,
             'jenis_bangunan' => $permohonan->jenis_bangunan,
         ];
-
+        $this->koordinatTable = false;
         return $this->generateDocument('2A_BA_rapat_fpr.docx', $data);
     }
 
@@ -50,7 +50,7 @@ class SkrkAnalisDetail extends Component
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
         ];
-
+        $this->koordinatTable = false;
         return $this->generateDocument('2B_notulensi_rapat_fpr.docx', $data);
     }
 
@@ -90,6 +90,7 @@ class SkrkAnalisDetail extends Component
             'kdh' => $this->skrk->kdh,
         ];
 
+        $this->koordinatTable = false;
         return $this->generateDocument('3_kajian_skrk.docx', $data);
     }
 

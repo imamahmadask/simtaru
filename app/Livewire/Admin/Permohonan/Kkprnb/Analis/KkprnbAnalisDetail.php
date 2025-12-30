@@ -41,6 +41,7 @@ class KkprnbAnalisDetail extends Component
             'kel_tanah' => $permohonan->registrasi->kel_tanah,
             'kec_tanah' => $permohonan->registrasi->kec_tanah
         ];
+        $this->koordinatTable = false;
 
         return $this->generateDocument('3B_BA_RAPAT_FPR_NON_BERUSAHA.docx', $data);
     }
@@ -52,7 +53,7 @@ class KkprnbAnalisDetail extends Component
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
         ];
-
+        $this->koordinatTable = false;
         return $this->generateDocument('3C_NOTULENSI_RAPAT_FPR_NON_BERUSAHA.docx', $data);
     }
 
@@ -94,7 +95,7 @@ class KkprnbAnalisDetail extends Component
             'klb' => $this->kkprnb->klb,
             'kdh' => $this->kkprnb->kdh,
         ];
-
+        $this->koordinatTable = false;
         return $this->generateDocument('3D_KAJIAN_KKPR_NON_BERUSAHA.docx', $data);
     }
 
@@ -134,7 +135,7 @@ class KkprnbAnalisDetail extends Component
             'kedalaman_max' => $this->kkprnb->kedalaman_max,
             'koordinat' => $textKoordinat,
         ];
-
+        $this->koordinatTable = false;
         return $this->generateDocument('4_NOTA_DINAS_KKPR_NON_BERUSAHA.docx', $data);
     }
 
@@ -147,7 +148,7 @@ class KkprnbAnalisDetail extends Component
             'no_ptp' => $this->kkprnb->no_ptp,
             'tgl_ptp' => $this->kkprnb->tgl_ptp,
         ];
-
+        $this->koordinatTable = false;
         return $this->generateDocument('5_REKOMENDASI_KKPR_NON_BERUSAHA.docx', $data);
     }
 
