@@ -18,11 +18,20 @@ use App\Livewire\Admin\Permohonan\Skrk\SkrkDetail;
 use App\Livewire\Admin\Permohonan\Skrk\SkrkIndex;
 use App\Livewire\Admin\Registrasi\RegistrasiIndex;
 use App\Livewire\Admin\Users\UserIndex;
+use App\Livewire\Guest\Layanan\ItrGuest;
+use App\Livewire\Guest\Layanan\KkprbGuest;
+use App\Livewire\Guest\Layanan\KkprnbGuest;
+use App\Livewire\Guest\Layanan\SkrkGuest;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('layanan/skrk', SkrkGuest::class)->name('layanan.skrk');
+Route::get('layanan/itr', ItrGuest::class)->name('layanan.itr');
+Route::get('layanan/kkprnb', KkprnbGuest::class)->name('layanan.kkprnb');
+Route::get('layanan/kkprb', KkprbGuest::class)->name('layanan.kkprb');
 
 Route::middleware(['cekRole:superadmin,supervisor,analis,surveyor,cs,data-entry'])->group(function () {
     Route::get('admin/dashboard', DashboardIndex::class)->name('dashboard'); // dashboard

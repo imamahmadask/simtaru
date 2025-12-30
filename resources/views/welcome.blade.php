@@ -92,10 +92,12 @@
                 <div class="col-md-6 col-lg-3">
                     <div class="card h-100 border-0 shadow-lg feature-card">
                         <div class="card-body text-center p-4">
-                            <div class="feature-icon bg-primary-subtle text-primary mb-4 mx-auto">
-                                <i class="bi bi-lightning-fill"></i>
-                            </div>
-                            <h3 class="h5 fw-semibold text-dark mb-3">SKRK</h3>
+                            <a href="{{ route('layanan.skrk') }}" class="text-decoration-none" target="_blank">
+                                <div class="feature-icon bg-primary-subtle text-primary mb-4 mx-auto">
+                                    <i class="bi bi-lightning-fill"></i>
+                                </div>
+                                <h3 class="h5 fw-semibold text-dark mb-3">SKRK</h3>
+                            </a>
                             <p class="text-muted mb-1">
                                 SKRK (Surat Keterangan Rencana Kota) adalah dokumen penting dari pemerintah daerah yang
                                 berisi informasi detail tentang peruntukan lahan...
@@ -117,10 +119,12 @@
                 <div class="col-md-6 col-lg-3">
                     <div class="card h-100 border-0 shadow-lg feature-card">
                         <div class="card-body text-center p-4">
-                            <div class="feature-icon bg-info-subtle text-info mb-4 mx-auto">
-                                <i class="bi bi-shield-check"></i>
-                            </div>
-                            <h3 class="h5 fw-semibold text-dark mb-3">ITR</h3>
+                            <a href="{{ route('layanan.itr') }}" class="text-decoration-none" target="_blank">
+                                <div class="feature-icon bg-info-subtle text-info mb-4 mx-auto">
+                                    <i class="bi bi-shield-check"></i>
+                                </div>
+                                <h3 class="h5 fw-semibold text-dark mb-3">ITR</h3>
+                            </a>
                             <p class="text-muted mb-1">
                                 ITR (Informasi Tata Ruang) adalah dokumen atau keterangan resmi yang menjelaskan
                                 kesesuaian peruntukan lahan...
@@ -141,10 +145,12 @@
                 <div class="col-md-6 col-lg-3">
                     <div class="card h-100 border-0 shadow-lg feature-card">
                         <div class="card-body text-center p-4">
-                            <div class="feature-icon bg-success-subtle text-success mb-4 mx-auto">
-                                <i class="bi bi-people-fill"></i>
-                            </div>
-                            <h3 class="h5 fw-semibold text-dark mb-3">KKPR Berusaha</h3>
+                            <a href="{{ route('layanan.kkprb') }}" class="text-decoration-none" target="_blank">
+                                <div class="feature-icon bg-success-subtle text-success mb-4 mx-auto">
+                                    <i class="bi bi-people-fill"></i>
+                                </div>
+                                <h3 class="h5 fw-semibold text-dark mb-3">KKPR Berusaha</h3>
+                            </a>
                             <p class="text-muted mb-1">
                                 KKPR Berusaha (Kesesuaian Kegiatan Pemanfaatan Ruang untuk Berusaha) adalah izin dasar
                                 yang memastikan rencana kegiatan usaha Anda...
@@ -167,10 +173,12 @@
                 <div class="col-md-6 col-lg-3">
                     <div class="card h-100 border-0 shadow-lg feature-card">
                         <div class="card-body text-center p-4">
-                            <div class="feature-icon bg-success-subtle text-success mb-4 mx-auto">
-                                <i class="bi bi-people-fill"></i>
-                            </div>
-                            <h3 class="h5 fw-semibold text-dark mb-3">KKPR Non Berusaha</h3>
+                            <a href="{{ route('layanan.kkprnb') }}" class="text-decoration-none" target="_blank">
+                                <div class="feature-icon bg-success-subtle text-success mb-4 mx-auto">
+                                    <i class="bi bi-people-fill"></i>
+                                </div>
+                                <h3 class="h5 fw-semibold text-dark mb-3">KKPR Non Berusaha</h3>
+                            </a>
                             <p class="text-muted mb-1">
                                 KKPR Non Berusaha adalah Persetujuan Kesesuaian Kegiatan Pemanfaatan Ruang untuk
                                 kegiatan yang bukan komersial...
