@@ -44,32 +44,35 @@
                             </div>
                         </div>
 
-                        @foreach ($persyaratan_berkas as $item)
-                            <div class="row">
-                                <div class="col mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <label for="file_.{{ $item->id }}" class="form-label">
-                                            Upload {{ $item->nama_berkas }}
-                                            {{-- Spinner saat proses upload --}}
-                                            <div wire:loading wire:target="file_.{{ $item->kode }}"
-                                                class="spinner-border spinner-border-sm text-primary" role="status">
-                                                <span class="visually-hidden">Loading...</span>
-                                            </div>
-                                            {{-- Tanda centang setelah upload selesai --}}
-                                            @if (!empty($file_[$item->kode]))
-                                                <i wire:loading.remove wire:target="file_.{{ $item->kode }}"
-                                                    class="bx bx-check-circle text-success"></i>
-                                            @endif
-                                        </label>
+                        @if ($persyaratan_berkas)
+                            @foreach ($persyaratan_berkas as $item)
+                                <div class="row">
+                                    <div class="col mb-3">
+                                        <div class="d-flex align-items-center">
+                                            <label for="file_.{{ $item->id }}" class="form-label">
+                                                Upload {{ $item->nama_berkas }}
+                                                {{-- Spinner saat proses upload --}}
+                                                <div wire:loading wire:target="file_.{{ $item->kode }}"
+                                                    class="spinner-border spinner-border-sm text-primary" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                                {{-- Tanda centang setelah upload selesai --}}
+                                                @if (!empty($file_[$item->kode]))
+                                                    <i wire:loading.remove wire:target="file_.{{ $item->kode }}"
+                                                        class="bx bx-check-circle text-success"></i>
+                                                @endif
+                                            </label>
+                                        </div>
+                                        <input type="file" class="form-control"
+                                            wire:model="file_.{{ $item->kode }}" id="file_.{{ $item->id }}"
+                                            accept="application/pdf">
+                                        @error('file_.' . $item->kode)
+                                            <span class="form-text text-xs text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
-                                    <input type="file" class="form-control" wire:model="file_.{{ $item->kode }}"
-                                        id="file_.{{ $item->id }}" accept="application/pdf">
-                                    @error('file_.' . $item->kode)
-                                        <span class="form-text text-xs text-danger">{{ $message }}</span>
-                                    @enderror
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        @endif
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">

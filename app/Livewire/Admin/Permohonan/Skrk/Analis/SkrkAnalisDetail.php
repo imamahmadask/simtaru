@@ -192,8 +192,7 @@ class SkrkAnalisDetail extends Component
                 ->update([
                     'is_done' => true,
                     'tgl_selesai' => now()
-                ]);
-                $this->createRiwayat($this->skrk->permohonan, 'Selesai Analisa Data SKRK');
+                ]);                
             }
 
             // Create disposisi to supervisor for 'Verifikasi' tahapan

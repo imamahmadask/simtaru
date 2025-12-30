@@ -8,6 +8,7 @@ use App\Models\RiwayatPermohonan;
 use App\Models\Skrk;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -26,7 +27,8 @@ class FinalEdit extends Component
         return view('livewire.admin.permohonan.skrk.final.final-edit');
     }
 
-    public function mount($permohonan_id, $skrk_id)
+    #[On('skrk-final-edit')]
+    public function getDataFinal($permohonan_id, $skrk_id)
     {
         $this->skrk = Skrk::find($skrk_id);
         $this->permohonan = Permohonan::findOrFail($permohonan_id);

@@ -8,6 +8,7 @@ use App\Models\RiwayatPermohonan;
 use App\Models\Skrk;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -29,13 +30,14 @@ class FinalAdd extends Component
         return view('livewire.admin.permohonan.skrk.final.final-add');
     }
 
-    public function mount($permohonan_id, $skrk_id)
+    #[On('skrk-final-create')]
+    public function getDataFinal($permohonan_id, $skrk_id)
     {
         $this->skrk = Skrk::find($skrk_id);
         $this->permohonan = Permohonan::findOrFail($permohonan_id);
 
         $this->persyaratan_berkas = $this->skrk->permohonan->persyaratanBerkas;
-    }
+    }    
 
     public function addFinal()
     {

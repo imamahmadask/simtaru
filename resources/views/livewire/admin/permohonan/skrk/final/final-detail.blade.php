@@ -3,13 +3,14 @@
         <div class="d-flex flex-wrap gap-3">
             @can('manageDataEntry', $skrk->permohonan)
                 @if ($skrk->is_validate && !$skrk->permohonan->no_dokumen)
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDataFinalSkrkModal">
+                    <button type="button" class="btn btn-primary" wire:click="$dispatch('skrk-final-create', { permohonan_id: {{ $skrk->permohonan->id }}, skrk_id: {{ $skrk->id }} })" data-bs-toggle="modal" 
+                    data-bs-target="#addDataFinalSkrkModal">
                         <i class="bx bx-plus"></i> Data Final
                     </button>
-
                     @teleport('body')
-                        @livewire('admin.permohonan.skrk.final.final-add', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+                        @livewire('admin.permohonan.skrk.final.final-add')
                     @endteleport
+
                 @endif
                 <button type="button" class="btn {{ $skrk->permohonan->is_done ? 'btn-success' : 'btn-danger' }}"
                     wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiFinalisasiSkrkModal"
@@ -46,13 +47,13 @@
                                     <td>
                                         @can('manageDataEntry', $skrk->permohonan)
                                             @if ($skrk->is_validate && $skrk->permohonan->no_dokumen)
-                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" wire:click="$dispatch('skrk-final-edit', { permohonan_id: {{ $skrk->permohonan->id }}, skrk_id: {{ $skrk->id }} })"
                                                     data-bs-target="#editDataFinalSkrkModal" @if($skrk->permohonan->is_done) disabled @endif>
                                                     <i class="bx bx-edit"></i>
                                                 </button>
 
                                                 @teleport('body')
-                                                    @livewire('admin.permohonan.skrk.final.final-edit', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+                                                    @livewire('admin.permohonan.skrk.final.final-edit')
                                                 @endteleport     
                                             @endif
                                         @endcan
