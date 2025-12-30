@@ -12,7 +12,7 @@ class KkprbAnalisCreate extends Component
 {
     public $permohonan, $kkprb;
     public $tgl_oss, $oss_id, $id_proyek, $skala_usaha, $jenis_usaha, $penguasaan_tanah, $jml_bangunan, $jml_lantai, $luas_lantai, $kedalaman_min, $kedalaman_max;
-    public $nib, $kdb, $klb, $indikasi_program, $kdh, $gsb, $luas_disetujui, $no_nota_dinas, $tgl_nota_dinas;
+    public $nib, $kdb, $klb, $indikasi_program, $kdh, $gsb, $luas_disetujui, $ketinggian_min, $ketinggian_max;
 
     public function render()
     {
@@ -34,14 +34,14 @@ class KkprbAnalisCreate extends Component
             'luas_lantai' => $this->luas_lantai,
             'kedalaman_min' => $this->kedalaman_min,
             'kedalaman_max' => $this->kedalaman_max,
+            'ketinggian_min' => $this->ketinggian_min,
+            'ketinggian_max' => $this->ketinggian_max,
             'indikasi_program' => $this->indikasi_program,
             'kdb' => $this->kdb,
             'klb' => $this->klb,
             'kdh' => $this->kdh,
             'gsb' => $this->gsb,
             'luas_disetujui' => $this->luas_disetujui,
-            'no_nota_dinas' => $this->no_nota_dinas,
-            'tgl_nota_dinas' => $this->tgl_nota_dinas,
             'is_kajian' => true,
         ]);
 
@@ -49,7 +49,7 @@ class KkprbAnalisCreate extends Component
             'status' => 'Proses  Analisa'
         ]);
 
-        $this->reset('tgl_oss', 'oss_id', 'id_proyek', 'skala_usaha', 'nib', 'penguasaan_tanah', 'jml_bangunan', 'jml_lantai', 'luas_lantai', 'kedalaman_min', 'kedalaman_max', 'kdb', 'klb', 'indikasi_program', 'kdh', 'gsb', 'luas_disetujui', 'no_nota_dinas', 'tgl_nota_dinas');
+        $this->reset('tgl_oss', 'oss_id', 'id_proyek', 'skala_usaha', 'nib', 'penguasaan_tanah', 'jml_bangunan', 'jml_lantai', 'luas_lantai', 'kedalaman_min', 'kedalaman_max', 'ketinggian_min', 'ketinggian_max', 'kdb', 'klb', 'indikasi_program', 'kdh', 'gsb', 'luas_disetujui');
 
         $this->dispatch('toast', [
             'type'    => 'success',

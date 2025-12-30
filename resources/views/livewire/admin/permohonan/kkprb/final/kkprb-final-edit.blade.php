@@ -5,7 +5,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel1">
-                        Upload Dokumen KKPR Non Berusaha Final
+                        Upload Dokumen KKPR Berusaha Final
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -36,7 +36,7 @@
 
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="no_dokumen" class="form-label">Nomor Dokumen KKPR Non Berusaha</label>
+                                <label for="no_dokumen" class="form-label">Nomor Dokumen KKPR Berusaha</label>
                                 <input type="text" class="form-control" wire:model="no_dokumen" id="no_dokumen">
                                 @error('no_dokumen')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>

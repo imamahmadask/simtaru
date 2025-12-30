@@ -82,7 +82,7 @@ class KkprbFinalCreate extends Component
 
         $this->dispatch('toast', [
             'type'    => 'success',
-            'message' => 'Dokumen KKPR Non Berusaha berhasil ditambahkan!'
+            'message' => 'Dokumen KKPR Berusaha berhasil ditambahkan!'
         ]);
         
         $this->dispatch('refresh-kkprb-final-list');

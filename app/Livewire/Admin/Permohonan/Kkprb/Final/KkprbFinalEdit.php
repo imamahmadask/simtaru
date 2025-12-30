@@ -85,7 +85,7 @@ class KkprbFinalEdit extends Component
 
         $this->dispatch('toast', [
             'type'    => 'success',
-            'message' => 'Dokumen KKPR Non Berusaha Fix berhasil diupdate!'
+            'message' => 'Dokumen KKPR Berusaha Fix berhasil diupdate!'
         ]);
         
         $this->dispatch('refresh-kkprb-final-list');

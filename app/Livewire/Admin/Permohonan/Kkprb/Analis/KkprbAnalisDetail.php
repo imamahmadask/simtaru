@@ -67,12 +67,12 @@ class KkprbAnalisDetail extends Component
             'alamat_pemohon' => $permohonan->alamat_pemohon,
             'no_hp' => $permohonan->registrasi->no_hp,
             'email' => $permohonan->registrasi->email,
-            'tgl_oss' => date('d F Y', strtotime($this->kkprb->tgl_oss)),
-            'tgl_validasi' => date('d F Y', strtotime($this->kkprb->tgl_validasi)),
-            'tgl_pnbp' => date('d F Y', strtotime($this->kkprb->pnbp)),
-            'tgl_ptp' => date('d F Y', strtotime($this->kkprb->tgl_ptp)),
+            'tgl_oss' =>  $this->kkprb->tgl_oss ? date('d F Y', strtotime($this->kkprb->tgl_oss)) : '-',
+            'tgl_validasi' => $this->kkprb->tgl_validasi ? date('d F Y', strtotime($this->kkprb->tgl_validasi)) : '-',
+            'tgl_pnbp' => $this->kkprb->pnbp ? date('d F Y', strtotime($this->kkprb->pnbp)) : '-',
+            'tgl_ptp' => $this->kkprb->tgl_ptp ? date('d F Y', strtotime($this->kkprb->tgl_ptp)) : '-',
             'no_ptp' => $this->kkprb->no_ptp,
-            'tgl_survey' => date('d F Y', strtotime($this->kkprb->tgl_survey)),
+            'tgl_survey' => $this->kkprb->tgl_survey ? date('d F Y', strtotime($this->kkprb->tgl_survey)) : '-',
             'proyek_id' => $this->kkprb->id_proyek,
             'skala_usaha' => $this->kkprb->skala_usaha,
             'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
@@ -92,6 +92,8 @@ class KkprbAnalisDetail extends Component
             'luas_lantai' => $this->kkprb->luas_lantai,
             'kedalaman_min' => $this->kkprb->kedalaman_min,
             'kedalaman_max' => $this->kkprb->kedalaman_max,
+            'ketinggian_min' => $this->kkprb->ketinggian_min,
+            'ketinggian_max' => $this->kkprb->ketinggian_max,
             'kdb' => $this->kkprb->kdb,
             'klb' => $this->kkprb->klb,
             'kdh' => $this->kkprb->kdh,
@@ -108,10 +110,10 @@ class KkprbAnalisDetail extends Component
             'nama_pemohon' => $permohonan->registrasi->nama,
             'kbli' => $permohonan->kbli,
             'judul_kbli' => $permohonan->judul_kbli,
-            'tgl_oss' => date('d F Y', strtotime($this->kkprb->tgl_oss)),
-            'tgl_validasi' => date('d F Y', strtotime($this->kkprb->tgl_validasi)),
-            'tgl_pnbp' => date('d F Y', strtotime($this->kkprb->pnbp)),
-            'tgl_ptp' => date('d F Y', strtotime($this->kkprb->tgl_ptp)),
+            'tgl_oss' => $this->kkprb->tgl_oss ? date('d F Y', strtotime($this->kkprb->tgl_oss)) : '-',
+            'tgl_validasi' => $this->kkprb->tgl_validasi ? date('d F Y', strtotime($this->kkprb->tgl_validasi)) : '-',
+            'tgl_pnbp' => $this->kkprb->pnbp ? date('d F Y', strtotime($this->kkprb->pnbp)) : '-',
+            'tgl_ptp' => $this->kkprb->tgl_ptp ? date('d F Y', strtotime($this->kkprb->tgl_ptp)) : '-',
             'no_ptp' => $this->kkprb->no_ptp,
             'proyek_id' => $this->kkprb->proyek_id,
             'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
@@ -139,9 +141,7 @@ class KkprbAnalisDetail extends Component
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
             'no_ptp' => $this->kkprb->no_ptp,
-            'tgl_ptp' => date('d F Y', strtotime($this->kkprb->tgl_ptp)),
-            'no_nota_dinas' => $this->kkprb->no_nota_dinas,
-            'tgl_nota_dinas' => $this->kkprb->tgl_nota_dinas,
+            'tgl_ptp' => $this->kkprb->tgl_ptp ? date('d F Y', strtotime($this->kkprb->tgl_ptp)) : '-',            
         ];
 
         return $this->generateDocument('5_REKOMENDASI_KKPRB.docx', $data);
@@ -155,7 +155,7 @@ class KkprbAnalisDetail extends Component
             'nama_pemohon' => $permohonan->registrasi->nama,
             'jenis_kegiatan' => $this->kkprb->jenis_kegiatan,
             'no_ptp' => $this->kkprb->no_ptp,
-            'tgl_ptp' => date('d F Y', strtotime($this->kkprb->tgl_ptp)),
+            'tgl_ptp' => $this->kkprb->tgl_ptp ? date('d F Y', strtotime($this->kkprb->tgl_ptp)) : '-',
             'kdb' => $this->kkprb->kdb,
             'klb' => $this->kkprb->klb,
             'kdh' => $this->kkprb->kdh,
@@ -224,7 +224,7 @@ class KkprbAnalisDetail extends Component
                     'is_done' => true,
                     'tgl_selesai' => now()
                 ]);
-                $this->createRiwayat($this->kkprb->permohonan, 'Selesai Analisa Data KKPR Non Berusaha');
+                $this->createRiwayat($this->kkprb->permohonan, 'Selesai Analisa Data KKPR Berusaha');
             }
 
             // Create disposisi to supervisor for 'Verifikasi' tahapan

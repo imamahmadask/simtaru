@@ -14,9 +14,9 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="edit_tgl_oss" class="form-label">Tanggal OSS</label>
+                                <label for="edit_tgl_oss" class="form-label">Tanggal Permohonan Masuk OSS</label>
                                 <input type="date" class="form-control" wire:model="tgl_oss" id="edit_tgl_oss"
-                                    placeholder="Masukkan Tanggal OSS">
+                                    placeholder="Masukkan Tanggal Permohonan Masuk OSS">
                             </div>
                         </div>
                         <div class="row">
@@ -36,24 +36,10 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="edit_luas_disetujui" class="form-label">Luas Disetujui</label>
-                                <input type="number" class="form-control" wire:model="luas_disetujui" id="edit_luas_disetujui"
+                                <input type="text" class="form-control" wire:model="luas_disetujui" id="edit_luas_disetujui"
                                     placeholder="Masukkan Luas Disetujui">
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col mb-3">
-                                <label for="edit_no_nota_dinas" class="form-label">No Nota Dinas</label>
-                                <input type="text" class="form-control" wire:model="no_nota_dinas" id="edit_no_nota_dinas"
-                                    placeholder="Masukkan No Nota Dinas">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col mb-3">
-                                <label for="edit_tgl_nota_dinas" class="form-label">Tanggal Nota Dinas</label>
-                                <input type="date" class="form-control" wire:model="tgl_nota_dinas" id="edit_tgl_nota_dinas"
-                                    placeholder="Masukkan Tanggal Nota Dinas">
-                            </div>
-                        </div>
+                        </div>                        
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="edit_skala_usaha" class="form-label">Skala Usaha</label>
@@ -85,36 +71,50 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="edit_jml_bangunan" class="form-label">Jumlah Bangunan Yang Direncanakan</label>
-                                <input type="number" class="form-control" wire:model="jml_bangunan" id="edit_jml_bangunan"
+                                <input type="text" class="form-control" wire:model="jml_bangunan" id="edit_jml_bangunan"
                                     placeholder="Masukkan Jumlah Bangunan Yang Direncanakan">
                             </div>
                         </div>   
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="edit_jml_lantai" class="form-label">Rencana Lantai Bangunan</label>
-                                <input type="number" class="form-control" wire:model="jml_lantai" id="edit_jml_lantai"
+                                <input type="text" class="form-control" wire:model="jml_lantai" id="edit_jml_lantai"
                                     placeholder="Masukkan Rencana Lantai Bangunan">
                             </div>
                         </div>   
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="edit_luas_lantai" class="form-label">Rencana Luas Lantai Bangunan</label>
-                                <input type="number" class="form-control" wire:model="luas_lantai" id="edit_luas_lantai"
+                                <input type="text" class="form-control" wire:model="luas_lantai" id="edit_luas_lantai"
                                     placeholder="Masukkan Rencana Luas Lantai Bangunan">
                             </div>
                         </div>   
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="edit_kedalaman_min" class="form-label">Kedalaman/ketinggian Minimal</label>
-                                <input type="number" class="form-control" wire:model="kedalaman_min" id="edit_kedalaman_min"
-                                    placeholder="Masukkan Kedalaman/ketinggian Minimal yang dimohon">
+                                <label for="edit_kedalaman_min" class="form-label">Kedalaman Minimal</label>
+                                <input type="text" class="form-control" wire:model="kedalaman_min" id="edit_kedalaman_min"
+                                    placeholder="Masukkan Kedalaman Minimal yang dimohon">
                             </div>
                         </div>   
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="edit_kedalaman_max" class="form-label">Kedalaman/ketinggian Maksimal</label>
-                                <input type="number" class="form-control" wire:model="kedalaman_max" id="edit_kedalaman_max"
-                                    placeholder="Masukkan Kedalaman/ketinggian Maksimal yang dimohon">
+                                <label for="edit_kedalaman_max" class="form-label">Kedalaman Maksimal</label>
+                                <input type="text" class="form-control" wire:model="kedalaman_max" id="edit_kedalaman_max"
+                                    placeholder="Masukkan Kedalaman Maksimal yang dimohon">
+                            </div>
+                        </div>   
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="edit_ketinggian_min" class="form-label">Ketinggian Minimal</label>
+                                <input type="text" class="form-control" wire:model="ketinggian_min" id="edit_ketinggian_min"
+                                    placeholder="Masukkan Ketinggian Minimal yang dimohon">
+                            </div>
+                        </div>   
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="edit_ketinggian_max" class="form-label">Ketinggian Maksimal</label>
+                                <input type="text" class="form-control" wire:model="ketinggian_max" id="edit_ketinggian_max"
+                                    placeholder="Masukkan Ketinggian Maksimal yang dimohon">
                             </div>
                         </div>   
                         <div class="row">

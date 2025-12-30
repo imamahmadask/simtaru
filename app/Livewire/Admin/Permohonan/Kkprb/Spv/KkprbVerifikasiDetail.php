@@ -80,7 +80,7 @@ class KkprbVerifikasiDetail extends Component
                         'is_done' => true,
                         'tgl_selesai' => now()
                     ]);
-                    $this->createRiwayat($this->kkprb->permohonan, 'Selesai Analisa Data KKPR Non Berusaha');
+                    $this->createRiwayat($this->kkprb->permohonan, 'Selesai Analisa Data KKPR Berusaha');
                 }
 
                 $tahapan = Tahapan::where('layanan_id', $this->kkprb->permohonan->layanan_id)->where('urutan', 4)->first();
@@ -91,11 +91,11 @@ class KkprbVerifikasiDetail extends Component
                     'pemberi_id' => Auth::user()->id,
                     'penerima_id' => $this->kkprb->permohonan->created_by,
                     'tanggal_disposisi' => now(),
-                    'catatan' => 'Lanjutkan proses cetak Dokumen KKPR Non Berusaha',
+                    'catatan' => 'Lanjutkan proses cetak Dokumen KKPR Berusaha',
                 ]);
 
-                $this->createRiwayat($this->kkprb->permohonan, 'Selesai Verifikasi Berkas KKPR Non Berusaha');
-                $this->createRiwayat($this->kkprb->permohonan, 'Sedang Proses Cetak Dokumen KKPR Non Berusaha');
+                $this->createRiwayat($this->kkprb->permohonan, 'Selesai Verifikasi Berkas KKPR Berusaha');
+                $this->createRiwayat($this->kkprb->permohonan, 'Sedang Proses Cetak Dokumen KKPR Berusaha');
 
                 session()->flash('success', 'Data Verifikasi selesai!');
             }

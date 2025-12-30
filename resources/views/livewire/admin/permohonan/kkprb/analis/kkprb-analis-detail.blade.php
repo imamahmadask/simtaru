@@ -44,15 +44,15 @@
         <div class="col-xl-6">
             <div class="card mb-4">
                 <div class="card-header d-flex align-items-center justify-content-between bg-secondary">
-                    <h5 class="mb-0 text-white">Data Dokumen KKPR Non Berusaha</h5>
+                    <h5 class="mb-0 text-white">Data Analisa KKPR Berusaha</h5>
                 </div>
                 <div class="card-body mt-3">                    
                     <div class="row mb-3">
                         <label class="col-sm-4 col-form-label" for="tgl_oss">
-                            Tanggal OSS
+                            Tanggal Permohonan Masuk OSS
                         </label>
                         <div class="col-sm-8">
-                            <input id="tgl_oss" class="form-control" value="{{ $kkprb->tgl_oss }}"
+                            <input id="tgl_oss" class="form-control" value="{{ $kkprb->tgl_oss ? date('d-m-Y', strtotime($kkprb->tgl_oss)) : '' }}"
                                 readonly>
                         </div>
                     </div>
@@ -82,25 +82,7 @@
                             <input id="luas_disetujui" class="form-control" value="{{ $kkprb->luas_disetujui }}"
                                 readonly>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-4 col-form-label" for="no_nota_dinas">
-                            No Nota Dinas
-                        </label>
-                        <div class="col-sm-8">
-                            <input id="no_nota_dinas" class="form-control" value="{{ $kkprb->no_nota_dinas }}"
-                                readonly>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-4 col-form-label" for="tgl_nota_dinas">
-                            Tanggal Nota Dinas
-                        </label>
-                        <div class="col-sm-8">
-                            <input id="tgl_nota_dinas" class="form-control" value="{{ $kkprb->tgl_nota_dinas }}"
-                                readonly>
-                        </div>
-                    </div>                    
+                    </div>                                       
                     <div class="row mb-3">
                         <label class="col-sm-4 col-form-label" for="skala_usaha">
                             Skala Usaha
@@ -166,7 +148,7 @@
                     </div>
                     <div class="row mb-3">
                         <label class="col-sm-4 col-form-label" for="kedalaman_min">
-                            Kedalaman/Ketinggian Minimum
+                            Kedalaman Minimum
                         </label>
                         <div class="col-sm-8">
                             <input id="kedalaman_min" class="form-control" value="{{ $kkprb->kedalaman_min }}"
@@ -175,10 +157,28 @@
                     </div>
                     <div class="row mb-3">
                         <label class="col-sm-4 col-form-label" for="kedalaman_max">
-                            Kedalaman/Ketinggian Maximum
+                            Kedalaman Maximum
                         </label>
                         <div class="col-sm-8">
                             <input id="kedalaman_max" class="form-control" value="{{ $kkprb->kedalaman_max }}"
+                                readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-4 col-form-label" for="ketinggian_min">
+                            Ketinggian Minimum
+                        </label>
+                        <div class="col-sm-8">
+                            <input id="ketinggian_min" class="form-control" value="{{ $kkprb->ketinggian_min }}"
+                                readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-4 col-form-label" for="ketinggian_max">
+                            Ketinggian Maximum
+                        </label>
+                        <div class="col-sm-8">
+                            <input id="ketinggian_max" class="form-control" value="{{ $kkprb->ketinggian_max }}"
                                 readonly>
                         </div>
                     </div>

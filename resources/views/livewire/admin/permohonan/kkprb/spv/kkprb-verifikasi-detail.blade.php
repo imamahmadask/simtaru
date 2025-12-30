@@ -164,7 +164,7 @@
                 </div>
                 <div class="modal-body">
                     Pastikan seluruh data dan berkas sudah terverifikasi dengan baik.
-                    Lanjutkan ke proses cetak dokumen KKPR Non Berusaha?
+                    Lanjutkan ke proses cetak dokumen KKPR Berusaha?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">

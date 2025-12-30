@@ -82,16 +82,17 @@ class KkprbVerifikasiEdit extends Component
             }
         }
 
-        $this->reset('status', 'catatan');
-
+        
         $message = $this->status == 'diterima'
-            ? "Verifikasi : Berkas Diterima!"
-            : "Verifikasi : Berkas Ditolak!";
-
+        ? "Verifikasi : Berkas Diterima!"
+        : "Verifikasi : Berkas Ditolak!";
+        
         $this->dispatch('toast', [
             'type'    => $this->status == 'diterima' ? 'success' : 'error',
             'message' => $message
         ]);
+        
+        $this->reset('status', 'catatan');
         
         $this->dispatch('refresh-kkprb-verifikasi-list');
 
