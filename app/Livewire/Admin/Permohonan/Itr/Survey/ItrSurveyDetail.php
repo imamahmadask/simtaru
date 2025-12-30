@@ -51,7 +51,9 @@ class ItrSurveyDetail extends Component
     {
         $permohonan = $this->itr->permohonan;
         $batas = $this->itr->batas_persil;
+        $surveyor = $permohonan->disposisi->where('tahapan_id', $permohonan->layanan->tahapan->where('nama', 'Survey')->value('id'))->first()->penerima->name;
         $data = [
+            'nama_surveyor' => $surveyor,
             'nama_pemohon' => $permohonan->registrasi->nama,
             'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
             'kel_tanah' => $permohonan->registrasi->kel_tanah,
