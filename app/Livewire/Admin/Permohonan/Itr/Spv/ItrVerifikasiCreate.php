@@ -11,6 +11,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\On;
 
 class ItrVerifikasiCreate extends Component
 {
@@ -41,7 +43,7 @@ class ItrVerifikasiCreate extends Component
         $penerima_name = User::where('id', $penerima_id)->first()->name;
 
         $itr = Itr::find($this->itr_id);
-
+        
         $this->berkas->update([
             'status' => $this->status,
             'catatan_verifikator' => $this->catatan,
@@ -76,8 +78,12 @@ class ItrVerifikasiCreate extends Component
             }
 
             $this->createRiwayat($itr->permohonan, "Disposisi kembali kepada {$penerima_name} pada tahapan ". $nama_tahapan);
+
+            $this->dispatch('refresh-itr-survey-list');
+            $this->dispatch('refresh-itr-analis-list');
         }
 
+        Log::info("Verifikasi berkas dengan ID: " . $this->berkas->id);
         
         $message = $this->status == 'diterima'
         ? "Berkas berhasil diverifikasi sebagai : Diterima"
@@ -90,14 +96,13 @@ class ItrVerifikasiCreate extends Component
         
         $this->reset('status', 'catatan');
         
-        $this->dispatch('refresh-itr-verifikasi-list');
-        $this->dispatch('refresh-itr-survey-list');
-        $this->dispatch('refresh-itr-analis-list');
+        $this->dispatch('refresh-itr-verifikasi-list');        
 
         $this->dispatch('trigger-close-modal');
     }
 
-    public function mount($itr_id, $berkas_id)
+    #[On('itr-verifikasi-create')]
+    public function itrVerifikasiCreate($itr_id, $berkas_id)
     {
         $this->itr_id = $itr_id;
         $this->berkas = PermohonanBerkas::find($berkas_id);

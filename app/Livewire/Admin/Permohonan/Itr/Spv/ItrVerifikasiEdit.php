@@ -6,6 +6,7 @@ use App\Models\PermohonanBerkas;
 use App\Models\Itr;
 use App\Models\Tahapan;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -88,7 +89,8 @@ class ItrVerifikasiEdit extends Component
         $this->dispatch('trigger-close-modal');
     }
 
-    public function mount($itr_id, $berkas_id)
+    #[On('itr-verifikasi-edit')]
+    public function itrVerifikasiEdit($itr_id, $berkas_id)
     {
         $this->itr_id = $itr_id;
         $this->berkas = PermohonanBerkas::find($berkas_id);
