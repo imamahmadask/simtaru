@@ -6,6 +6,8 @@ use App\Models\Layanan;
 use App\Models\Registrasi;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -50,12 +52,103 @@ class RegistrasiIndex extends Component
             abort(403);
         }
 
-        $registrasi->permohonan()->delete();
-        $registrasi->delete();
+        try {
+            DB::beginTransaction();
 
-        session()->flash('message', 'Registrasi berhasil dihapus');
+            // Get permohonan if exists
+            $permohonan = $registrasi->permohonan;
 
-        return redirect()->route('registrasi.index');
+            if ($permohonan) {
+                // 1. Delete files and records from PermohonanBerkas
+                $permohonanBerkas = $permohonan->berkas;
+                foreach ($permohonanBerkas as $berkas) {
+                    if ($berkas->file_path && Storage::disk('public')->exists($berkas->file_path)) {
+                        Storage::disk('public')->delete($berkas->file_path);
+                    }
+                }
+                $permohonan->berkas()->delete();
+
+                // 2. Delete files and records from service-specific tables
+                // SKRK
+                $skrks = $permohonan->skrk;
+                foreach ($skrks as $skrk) {
+                    $this->deleteFileIfExists($skrk->gambar_peta);
+                    $this->deleteFileIfExists($skrk->foto_survey);
+                }
+                $permohonan->skrk()->delete();
+
+                // KKPRB
+                $kkprbs = \App\Models\Kkprb::where('permohonan_id', $permohonan->id)->get();
+                foreach ($kkprbs as $kkprb) {
+                    $this->deleteFileIfExists($kkprb->berkas_ptp);
+                    $this->deleteFileIfExists($kkprb->gambar_peta);
+                    $this->deleteFileIfExists($kkprb->foto_survey);
+                }
+                \App\Models\Kkprb::where('permohonan_id', $permohonan->id)->delete();
+
+                // KKPRNB
+                $kkprnbs = \App\Models\Kkprnb::where('permohonan_id', $permohonan->id)->get();
+                foreach ($kkprnbs as $kkprnb) {
+                    $this->deleteFileIfExists($kkprnb->berkas_ptp);
+                    $this->deleteFileIfExists($kkprnb->gambar_peta);
+                    $this->deleteFileIfExists($kkprnb->foto_survey);
+                    $this->deleteFileIfExists($kkprnb->ceklis);
+                    $this->deleteFileIfExists($kkprnb->surat_pengantar_kelengkapan);
+                    $this->deleteFileIfExists($kkprnb->tanggapan_1a);
+                    $this->deleteFileIfExists($kkprnb->tanggapan_1b);
+                    $this->deleteFileIfExists($kkprnb->tanggapan_2);
+                }
+                \App\Models\Kkprnb::where('permohonan_id', $permohonan->id)->delete();
+
+                // ITR
+                $itrs = \App\Models\Itr::where('permohonan_id', $permohonan->id)->get();
+                foreach ($itrs as $itr) {
+                    $this->deleteFileIfExists($itr->dokumen_kkkpr);
+                    $this->deleteFileIfExists($itr->gambar_peta);
+                    $this->deleteFileIfExists($itr->foto_survey);
+                }
+                \App\Models\Itr::where('permohonan_id', $permohonan->id)->delete();
+
+                // 3. Delete Disposisi records
+                $permohonan->disposisi()->delete();
+
+                // 4. Delete files from Permohonan fields
+                $this->deleteFileIfExists($permohonan->berkas_ktp);
+                $this->deleteFileIfExists($permohonan->berkas_nib);
+                $this->deleteFileIfExists($permohonan->berkas_penguasaan);
+                $this->deleteFileIfExists($permohonan->berkas_permohonan);
+                $this->deleteFileIfExists($permohonan->berkas_kuasa);
+
+                // 5. Delete Permohonan record
+                $permohonan->delete();
+            }
+
+            // 6. Delete RiwayatPermohonan records
+            $registrasi->riwayat()->delete();
+
+            // 7. Delete Registrasi record
+            $registrasi->delete();
+
+            DB::commit();
+
+            session()->flash('success', 'Registrasi dan semua data terkait berhasil dihapus');
+
+            return redirect()->route('registrasi.index');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            
+            session()->flash('error', 'Gagal menghapus registrasi: ' . $e->getMessage());
+            
+            return redirect()->route('registrasi.index');
+        }
+    }
+
+    private function deleteFileIfExists($filePath)
+    {
+        if ($filePath && Storage::disk('public')->exists($filePath)) {
+            Storage::disk('public')->delete($filePath);
+        }
     }
 
     public function mount()

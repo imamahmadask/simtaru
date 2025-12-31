@@ -1,6 +1,19 @@
 <div>
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Registrasi /</span> Daftar Registrasi</h4>
+        @if (session()->has('success'))
+            <div class="bs-toast toast bg-primary fade top-0 end-0 mb-2" role="alert" aria-live="assertive"
+                aria-atomic="true" data-bs-delay="3000" data-bs-autohide="true">
+                <div class="toast-header">
+                    <i class="bx bx-bell me-2"></i>
+                    <div class="me-auto fw-semibold">Message!</div>
+                    <small>a moment ago</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">{{ session('success') }}</div>
+            </div>
+        @endif
+        
         <!-- Basic Bootstrap Table -->
         <div class="card">
             <h5 class="card-header">List Data Registrasi</h5>
