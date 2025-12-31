@@ -91,6 +91,8 @@ class ItrVerifikasiCreate extends Component
         $this->reset('status', 'catatan');
         
         $this->dispatch('refresh-itr-verifikasi-list');
+        $this->dispatch('refresh-itr-survey-list');
+        $this->dispatch('refresh-itr-analis-list');
 
         $this->dispatch('trigger-close-modal');
     }
