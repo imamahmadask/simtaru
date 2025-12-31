@@ -31,10 +31,10 @@ class ItrSurveyDetail extends Component
     {
         $permohonan = $this->itr->permohonan;
         $batas = $this->itr->batas_persil;
-        $hari_survey = $this->itr->tgl_survey ? \Carbon\Carbon::parse($this->itr->tgl_survey)->locale('id')->isoFormat('dddd') : null;
-        $tgl_survey = $this->itr->tgl_survey ? ucwords((new \NumberFormatter('id', \NumberFormatter::SPELLOUT))->format(\Carbon\Carbon::parse($this->itr->tgl_survey)->day)) : null;
-        $bulan_survey = $this->itr->tgl_survey ? \Carbon\Carbon::parse($this->itr->tgl_survey)->locale('id')->isoFormat('MMMM') : null;
-        $tahun_survey = $this->itr->tgl_survey ? ucwords((new \NumberFormatter('id', \NumberFormatter::SPELLOUT))->format(\Carbon\Carbon::parse($this->itr->tgl_survey)->year)) : null;
+        $hari_survey = $this->itr->tgl_survey ? \Carbon\Carbon::parse($this->itr->tgl_survey)->locale('id')->isoFormat('dddd') : '______';
+        $tgl_survey = $this->itr->tgl_survey ? ucwords((new \NumberFormatter('id', \NumberFormatter::SPELLOUT))->format(\Carbon\Carbon::parse($this->itr->tgl_survey)->day)) : '______';
+        $bulan_survey = $this->itr->tgl_survey ? \Carbon\Carbon::parse($this->itr->tgl_survey)->locale('id')->isoFormat('MMMM') : '______';
+        $tahun_survey = $this->itr->tgl_survey ? ucwords((new \NumberFormatter('id', \NumberFormatter::SPELLOUT))->format(\Carbon\Carbon::parse($this->itr->tgl_survey)->year)) : '______';
        
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
@@ -61,11 +61,11 @@ class ItrSurveyDetail extends Component
         $permohonan = $this->itr->permohonan;
         $batas = $this->itr->batas_persil;
         $surveyor = $permohonan->disposisi->where('tahapan_id', $permohonan->layanan->tahapan->where('nama', 'Survey')->value('id'))->first()->penerima->name;
-        $hari_survey = $this->itr->tgl_survey ? \Carbon\Carbon::parse($this->itr->tgl_survey)->locale('id')->isoFormat('dddd') : null;
-        $tgl_survey = $this->itr->tgl_survey ? ucwords((new \NumberFormatter('id', \NumberFormatter::SPELLOUT))->format(\Carbon\Carbon::parse($this->itr->tgl_survey)->day)) : null;
-        $bulan_survey = $this->itr->tgl_survey ? \Carbon\Carbon::parse($this->itr->tgl_survey)->locale('id')->isoFormat('MMMM') : null;
-        $tahun_survey = $this->itr->tgl_survey ? ucwords((new \NumberFormatter('id', \NumberFormatter::SPELLOUT))->format(\Carbon\Carbon::parse($this->itr->tgl_survey)->year)) : null;
-        $tahun_number_survey = $this->itr->tgl_survey ? \Carbon\Carbon::parse($this->itr->tgl_survey)->locale('id')->isoFormat('YYYY') : null;
+        $hari_survey = $this->itr->tgl_survey ? \Carbon\Carbon::parse($this->itr->tgl_survey)->locale('id')->isoFormat('dddd') : '______';
+        $tgl_survey = $this->itr->tgl_survey ? ucwords((new \NumberFormatter('id', \NumberFormatter::SPELLOUT))->format(\Carbon\Carbon::parse($this->itr->tgl_survey)->day)) : '______';
+        $bulan_survey = $this->itr->tgl_survey ? \Carbon\Carbon::parse($this->itr->tgl_survey)->locale('id')->isoFormat('MMMM') : '______';
+        $tahun_survey = $this->itr->tgl_survey ? ucwords((new \NumberFormatter('id', \NumberFormatter::SPELLOUT))->format(\Carbon\Carbon::parse($this->itr->tgl_survey)->year)) : '______';
+        $tahun_number_survey = $this->itr->tgl_survey ? \Carbon\Carbon::parse($this->itr->tgl_survey)->locale('id')->isoFormat('YYYY') : '______';
 
         $data = [
             'nama_surveyor' => $surveyor,
