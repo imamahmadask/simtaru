@@ -72,7 +72,6 @@ class ItrVerifikasiDetail extends Component
                     'catatan' => 'Lanjutkan proses cetak Dokumen ITR',
                 ]);
 
-                $this->createRiwayat($this->itr->permohonan, 'Selesai Verifikasi Berkas ITR');
                 $this->createRiwayat($this->itr->permohonan, 'Sedang Proses Cetak Dokumen ITR');
 
                 session()->flash('success', 'Data Verifikasi selesai!');

@@ -128,7 +128,7 @@ class KkprbAnalisDetail extends Component
             'jml_lantai' => $this->kkprb->jml_lantai,
             'luas_lantai' => $this->kkprb->luas_lantai,
             'luas_disetujui' => $this->kkprb->luas_disetujui,
-            'tgl_survey' => $this->kkprb->tgl_survey
+            'tgl_survey' => $this->kkprb->tgl_survey ? date('d F Y', strtotime($this->kkprb->tgl_survey)) : '-',
         ];
         $this->koordinatTable = false;
         return $this->generateDocument('4_NOTA_DINAS_KAJIAN_KKPRB.docx', $data);

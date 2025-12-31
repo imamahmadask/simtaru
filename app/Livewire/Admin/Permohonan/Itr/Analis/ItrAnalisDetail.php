@@ -46,7 +46,7 @@ class ItrAnalisDetail extends Component
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
             'alamat_pemohon' => $permohonan->alamat_pemohon,
-            'tanggal_regis' => date('d F Y', strtotime($permohonan->registrasi->tanggal)),
+            'tanggal_regis' => $permohonan->registrasi->tanggal ? date('d F Y', strtotime($permohonan->registrasi->tanggal)) : '-',
             'kode_regis' => $permohonan->registrasi->kode,
             'nik' => $permohonan->registrasi->nik,
             'no_hp' => $permohonan->registrasi->no_hp,

@@ -40,7 +40,7 @@ class KkprbSurveyDetail extends Component
             'kec_tanah' => $permohonan->registrasi->kec_tanah,
             'luas_tanah' => $permohonan->luas_tanah,
             'no_ptp' => $this->kkprb->no_ptp,
-            'tgl_ptp' => $this->kkprb->tgl_ptp,
+            'tgl_ptp' => $this->kkprb->tgl_ptp ? date('d F Y', strtotime($this->kkprb->tgl_ptp)) : '-',
             'ada_bangunan' => $this->kkprb->ada_bangunan,
             'status_jalan' => $this->kkprb->status_jalan,
             'fungsi_jalan' => $this->kkprb->fungsi_jalan,

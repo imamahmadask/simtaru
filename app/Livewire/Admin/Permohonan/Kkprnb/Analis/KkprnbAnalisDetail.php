@@ -147,7 +147,7 @@ class KkprnbAnalisDetail extends Component
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
             'no_ptp' => $this->kkprnb->no_ptp,
-            'tgl_ptp' => $this->kkprnb->tgl_ptp,
+            'tgl_ptp' => $this->kkprnb->tgl_ptp ? date('d F Y', strtotime($this->kkprnb->tgl_ptp)) : '-',
         ];
         $this->koordinatTable = false;
         return $this->generateDocument('5_REKOMENDASI_KKPR_NON_BERUSAHA.docx', $data);
@@ -169,7 +169,7 @@ class KkprnbAnalisDetail extends Component
             'jenis_kegiatan_pemanfaatan' => $this->kkprnb->jenis_kegiatan,
             'luas_permohonan' => $permohonan->luas_tanah,
             'no_ptp' => $this->kkprnb->no_ptp,
-            'tgl_ptp' => $this->kkprnb->tgl_ptp,
+            'tgl_ptp' => $this->kkprnb->tgl_ptp ? date('d F Y', strtotime($this->kkprnb->tgl_ptp)) : '-',
             'kedalaman_min' => $this->kkprnb->kedalaman_min,
             'kedalaman_max' => $this->kkprnb->kedalaman_max,
             'kdb' => $this->kkprnb->kdb,
