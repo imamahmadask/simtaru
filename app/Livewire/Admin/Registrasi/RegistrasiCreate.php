@@ -40,7 +40,7 @@ class RegistrasiCreate extends Component
             $sequence = $lastSequence + 1;
         }
         $layanan_kode = Layanan::findOrFail($this->layanan_id)->kode;
-        $newKode = 'REG-' .str_pad($sequence, 4, '0', STR_PAD_LEFT).'-'.$layanan_kode.'-'. $month .'-'. $year ;
+        $newKode = str_pad($sequence, 4, '0', STR_PAD_LEFT).'-'.$layanan_kode.'-'. $month .'-'. $year ;
 
         Registrasi::create([
            'kode' => $newKode,
