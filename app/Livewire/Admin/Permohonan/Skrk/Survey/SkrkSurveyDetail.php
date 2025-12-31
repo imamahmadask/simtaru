@@ -31,6 +31,11 @@ class SkrkSurveyDetail extends Component
     {
         $permohonan = $this->skrk->permohonan;
         $batas = $this->skrk->batas_administratif;
+        $hari_survey = $this->skrk->tgl_survey ? \Carbon\Carbon::parse($this->skrk->tgl_survey)->locale('id')->isoFormat('dddd') : null;
+        $tgl_survey = $this->skrk->tgl_survey ? ucwords((new \NumberFormatter('id', \NumberFormatter::SPELLOUT))->format(\Carbon\Carbon::parse($this->skrk->tgl_survey)->day)) : null;
+        $bulan_survey = $this->skrk->tgl_survey ? \Carbon\Carbon::parse($this->skrk->tgl_survey)->locale('id')->isoFormat('MMMM') : null;
+        $tahun_survey = $this->skrk->tgl_survey ? ucwords((new \NumberFormatter('id', \NumberFormatter::SPELLOUT))->format(\Carbon\Carbon::parse($this->skrk->tgl_survey)->year)) : null;
+       
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
             'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
@@ -42,6 +47,10 @@ class SkrkSurveyDetail extends Component
             'batas_timur' => $batas['timur'],
             'batas_utara' => $batas['utara'],
             'batas_selatan' => $batas['selatan'],
+            'hari_survey' => $hari_survey,
+            'tgl_survey' => $tgl_survey,
+            'bulan_survey' => $bulan_survey,
+            'tahun_survey' => $tahun_survey,
         ];
 
         return $this->generateDocument('1A_Form_Survey_template.docx', $data);
@@ -52,6 +61,11 @@ class SkrkSurveyDetail extends Component
         $permohonan = $this->skrk->permohonan;
         $batas = $this->skrk->batas_administratif;
         $surveyor = $permohonan->disposisi->where('tahapan_id', $permohonan->layanan->tahapan->where('nama', 'Survey')->value('id'))->first()->penerima->name;
+        $hari_survey = $this->skrk->tgl_survey ? \Carbon\Carbon::parse($this->skrk->tgl_survey)->locale('id')->isoFormat('dddd') : null;
+        $tgl_survey = $this->skrk->tgl_survey ? ucwords((new \NumberFormatter('id', \NumberFormatter::SPELLOUT))->format(\Carbon\Carbon::parse($this->skrk->tgl_survey)->day)) : null;
+        $bulan_survey = $this->skrk->tgl_survey ? \Carbon\Carbon::parse($this->skrk->tgl_survey)->locale('id')->isoFormat('MMMM') : null;
+        $tahun_survey = $this->skrk->tgl_survey ? ucwords((new \NumberFormatter('id', \NumberFormatter::SPELLOUT))->format(\Carbon\Carbon::parse($this->skrk->tgl_survey)->year)) : null;
+        $tahun_number_survey = $this->skrk->tgl_survey ? \Carbon\Carbon::parse($this->skrk->tgl_survey)->locale('id')->isoFormat('YYYY') : null;
         $data = [
             'nama_surveyor' => $surveyor,
             'nama_pemohon' => $permohonan->registrasi->nama,
@@ -64,6 +78,11 @@ class SkrkSurveyDetail extends Component
             'batas_timur' => $batas['timur'],
             'batas_utara' => $batas['utara'],
             'batas_selatan' => $batas['selatan'],
+            'hari_survey' => $hari_survey,
+            'tgl_survey' => $tgl_survey,
+            'bulan_survey' => $bulan_survey,
+            'tahun_survey' => $tahun_survey,
+            'tahun_number_survey' => $tahun_number_survey,
         ];
 
         return $this->generateDocument('1B_BA_survey_template.docx', $data);
