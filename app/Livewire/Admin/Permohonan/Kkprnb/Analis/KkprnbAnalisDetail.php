@@ -181,6 +181,7 @@ class KkprnbAnalisDetail extends Component
             'kdh' => $this->kkprnb->kdh,
             'ktb' => $this->kkprnb->ktb,
             'jaringan_utilitas' => $this->kkprnb->jaringan_utilitas,
+            'luas_disetujui' => $this->kkprnb->luas_disetujui,
         ];
 
         $this->koordinatTable = true;        
