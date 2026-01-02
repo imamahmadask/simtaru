@@ -9,7 +9,7 @@ use Livewire\Component;
 #[Title('ITR')]
 class ItrGuest extends Component
 {
-    #[Layout('layouts.guest')]
+    #[Layout('layouts.guest-onepage')]
     public function render()
     {
         return view('livewire.guest.layanan.itr-guest');
