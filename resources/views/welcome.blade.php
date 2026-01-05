@@ -214,36 +214,45 @@
                 <div class="col-md-6 col-lg-4">
                     <div class="card h-100 border-0 shadow-lg">
                         <div class="card-body p-4">
+                            <div class="float-end ms-3">
+                                <i class="bi bi-file-earmark-pdf text-danger" style="font-size: 3rem;"></i>
+                            </div>
                             <p class="text-muted fw-bold mb-4">
-                                Peraturan Daerah Kota Mataram No. 1 Tahun 2021 Tentang
+                                Peraturan Pemerintah Nomor 21 Tahun 2021 Tentang Penyelenggaraan Penataan Ruang
                             </p>
                         </div>
                         <div class="card-footer">
-                            <a href="#" class="btn btn-success">Lihat Regulasi</a>
+                            <a href="https://drive.google.com/file/d/1GH392IHUDvIEYlOghJ3GJhc8YpGtYaiA/view?usp=sharing" class="btn btn-success" target="_blank">Lihat Regulasi</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4">
                     <div class="card h-100 border-0 shadow-lg">
                         <div class="card-body p-4">
+                            <div class="float-end ms-3">
+                                <i class="bi bi-file-earmark-pdf text-danger" style="font-size: 3rem;"></i>
+                            </div>
                             <p class="text-muted fw-bold mb-4">
-                                Peraturan Daerah Kota Mataram No. 1 Tahun 2024 Tentang
+                                Peraturan Daerah Kota Mataram No. 5 Tahun 2019 Tentang Perubahan Atas Peraturan Daerah Nomor 12 Tahun 2011 Tentang Rencana Tata Ruang Wilayah Kota Mataram Tahun 2011-2031
                             </p>
                         </div>
                         <div class="card-footer">
-                            <a href="#" class="btn btn-success">Lihat Regulasi</a>
+                            <a href="https://drive.google.com/file/d/1WHFiIhchQ9MZLwNk63G8XHg1TenL1Ytj/view?usp=sharing" class="btn btn-success" target="_blank">Lihat Regulasi</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4">
                     <div class="card h-100 border-0 shadow-lg">
                         <div class="card-body p-4">
+                            <div class="float-end ms-3">
+                                <i class="bi bi-file-earmark-pdf text-danger" style="font-size: 3rem;"></i>
+                            </div>
                             <p class="text-muted fw-bold mb-4">
-                                Peraturan Wali Kota Mataram No. 12 Tentang
+                                Peraturan Wali Kota Mataram No. 19 Tahun 2024 Tentang Rencana Detail Tata Ruang Kecamatan Ampenan, Kecamatan Sekarbela, Kecamatan Mataram dan Kecamatan Selaparang.
                             </p>
                         </div>
                         <div class="card-footer">
-                            <a href="#" class="btn btn-success">Lihat Regulasi</a>
+                            <a href="https://drive.google.com/file/d/1jT6UeaAre6iZ60yCHeVGqGhT7V-4az6F/view?usp=sharing" class="btn btn-success" target="_blank">Lihat Regulasi</a>
                         </div>
                     </div>
                 </div>
