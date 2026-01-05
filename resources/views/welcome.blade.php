@@ -99,20 +99,8 @@
                                 <h3 class="h5 fw-semibold text-dark mb-3">SKRK</h3>
                             </a>
                             <p class="text-muted mb-1">
-                                SKRK (Surat Keterangan Rencana Kota) adalah dokumen penting dari pemerintah daerah yang
-                                berisi informasi detail tentang peruntukan lahan...
-                            </p>
-                            <div class="collapse" id="collapseSKRK">
-                                <p class="text-muted">
-                                    intensitas bangunan (KDB, KLB, GSB), dan syarat teknis lain untuk lokasi tertentu,
-                                    menjadi prasyarat utama sebelum mengajukan Izin Mendirikan Bangunan (IMB/Persetujuan
-                                    Bangunan Gedung), memastikan rencana pembangunan sesuai dengan tata ruang wilayah
-                                    yang berlaku.
-                                </p>
-                            </div>
-                            <a href="#collapseSKRK" data-bs-toggle="collapse" role="button" aria-expanded="false"
-                                aria-controls="collapseSKRK" class="text-primary text-decoration-none small">Read
-                                More</a>
+                                SKRK (Surat Keterangan Rencana Kota) adalah surat dari pemerintah daerah yang menjelaskan peruntukan lahan dan ketentuan bangunan pada suatu lokasi sebagai syarat sebelum mengurus IMB/PBG.
+                            </p>                            
                         </div>
                     </div>
                 </div>
@@ -126,19 +114,8 @@
                                 <h3 class="h5 fw-semibold text-dark mb-3">ITR</h3>
                             </a>
                             <p class="text-muted mb-1">
-                                ITR (Informasi Tata Ruang) adalah dokumen atau keterangan resmi yang menjelaskan
-                                kesesuaian peruntukan lahan...
-                            </p>
-                            <div class="collapse" id="collapseITR">
-                                <p class="text-muted">
-                                    tanah, kegiatan, atau investasi terhadap rencana tata ruang wilayah (RTRW) yang
-                                    berlaku, menjadi syarat awal sebelum mengurus izin mendirikan bangunan (IMB) atau
-                                    izin lainnya untuk memastikan pembangunan sesuai aturan pemerintah.
-                                </p>
-                            </div>
-                            <a href="#collapseITR" data-bs-toggle="collapse" role="button" aria-expanded="false"
-                                aria-controls="collapseITR" class="text-primary text-decoration-none small">Read
-                                More</a>
+                               ITR (Informasi Tata Ruang) adalah keterangan yang berisi informasi resmi mengenai kesesuaian peruntukan lahan dan kegiatan dengan rencana tata ruang yang berlaku.
+                            </p>                            
                         </div>
                     </div>
                 </div>
@@ -152,21 +129,8 @@
                                 <h3 class="h5 fw-semibold text-dark mb-3">KKPR Berusaha</h3>
                             </a>
                             <p class="text-muted mb-1">
-                                KKPR Berusaha (Kesesuaian Kegiatan Pemanfaatan Ruang untuk Berusaha) adalah izin dasar
-                                yang memastikan rencana kegiatan usaha Anda...
-                            </p>
-                            <div class="collapse" id="collapseKKPRBerusaha">
-                                <p class="text-muted">
-                                    sesuai dengan Rencana Tata Ruang Wilayah (RTRW) setempat, menjadi syarat penting
-                                    untuk memulai usaha, melindungi dari masalah tata ruang, dan bisa diajukan secara
-                                    online melalui sistem OSS RBA (<i>oss.go.id</i>) untuk mendapatkan Nomor Induk
-                                    Berusaha (NIB) dan perizinan lainnya, meliputi KKPR untuk Usaha Mikro Kecil (UMK)
-                                    dan non-UMK
-                                </p>
-                            </div>
-                            <a href="#collapseKKPRBerusaha" data-bs-toggle="collapse" role="button"
-                                aria-expanded="false" aria-controls="collapseKKPRBerusaha"
-                                class="text-primary text-decoration-none small">Read More</a>
+                                KKPR Berusaha adalah izin dasar yang menyatakan kesesuaian rencana kegiatan usaha dengan rencana tata ruang sebagai syarat perizinan berusaha.
+                            </p>                                                        
                         </div>
                     </div>
                 </div>
@@ -180,20 +144,8 @@
                                 <h3 class="h5 fw-semibold text-dark mb-3">KKPR Non Berusaha</h3>
                             </a>
                             <p class="text-muted mb-1">
-                                KKPR Non Berusaha adalah Persetujuan Kesesuaian Kegiatan Pemanfaatan Ruang untuk
-                                kegiatan yang bukan komersial...
-                            </p>
-                            <div class="collapse" id="collapseKKPRNonBerusaha">
-                                <p class="text-muted">
-                                    seperti pembangunan rumah tinggal pribadi, tempat ibadah, atau yayasan
-                                    sosial/keagamaan/pendidikan, yang memastikan pemanfaatan lahan sesuai dengan Rencana
-                                    Tata Ruang (RTR) wilayah, dan menjadi syarat awal perizinan bangunan atau tanah
-                                    sebelum izin lain diterbitkan.
-                                </p>
-                            </div>
-                            <a href="#collapseKKPRNonBerusaha" data-bs-toggle="collapse" role="button"
-                                aria-expanded="false" aria-controls="collapseKKPRNonBerusaha"
-                                class="text-primary text-decoration-none small">Read More</a>
+                                KKPR Non Berusaha adalah persetujuan kesesuaian pemanfaatan ruang untuk kegiatan nonkomersial sesuai dengan rencana tata ruang sebagai dasar perizinan.
+                            </p>                            
                         </div>
                     </div>
                 </div>
