@@ -8,6 +8,7 @@ use App\Models\RiwayatPermohonan;
 use App\Models\Itr;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -18,8 +19,10 @@ class FinalEdit extends Component
     public $itr;
     public $permohonan;
     public $persyaratan_berkas;
-    public $file_ = [];
     public $tgl_selesai, $no_dokumen, $waktu_pengerjaan;
+    
+    #[Validate('mimes:pdf|max:10240')]
+    public $file_ = [];
 
     public function render()
     {

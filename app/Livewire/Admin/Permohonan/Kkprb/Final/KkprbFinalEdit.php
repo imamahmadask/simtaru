@@ -7,6 +7,7 @@ use App\Models\Permohonan;
 use App\Models\PermohonanBerkas;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -18,8 +19,10 @@ class KkprbFinalEdit extends Component
     public $kkprb;
     public $permohonan;
     public $persyaratan_berkas;
-    public $file_ = [];
     public $tgl_selesai, $no_dokumen, $waktu_pengerjaan;
+    
+    #[Validate('mimes:pdf|max:10240')]
+    public $file_ = [];
     
     public function render()
     {

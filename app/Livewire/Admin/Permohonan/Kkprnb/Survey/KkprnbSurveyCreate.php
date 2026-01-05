@@ -18,10 +18,10 @@ class KkprnbSurveyCreate extends Component
     public $permohonan_id, $kkprnb_id, $tahapan_id;
     public $ada_bangunan, $status_jalan, $fungsi_jalan, $tipe_jalan, $median_jalan, $lebar_jalan;
 
-    #[Validate(['foto_survey.*' => 'image|max:1024'])]
+    #[Validate(['foto_survey.*' => 'image|max:10240'])]
     public $foto_survey = [];
 
-    #[Validate(['gambar_peta.*' => 'image|max:1024'])]
+    #[Validate(['gambar_peta.*' => 'image|max:10240'])]
     public $gambar_peta = [];
 
     #[Validate('required')]

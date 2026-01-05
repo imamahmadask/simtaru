@@ -32,14 +32,14 @@ class PermohonanCreate extends Component
     public $registrasi_id, $layanan_id, $nama, $nik, $no_hp, $email, $alamat_pemohon, $alamat_tanah, $kel_tanah, $kec_tanah, $fungsi_bangunan, $luas_tanah, $tahapan_id, $penerima_id;
     public $npwp, $keterangan, $status, $pemberi_id, $catatan, $status_modal, $kbli, $judul_kbli;
 
-    #[Validate('nullable|mimes:pdf|max:2000')]
+    #[Validate('nullable|mimes:pdf|max:10240')]
     public $berkas_ktp, $berkas_nib, $berkas_penguasaan, $berkas_permohonan, $berkas_kuasa;
 
     // PTP
     public $tgl_ptp, $tgl_terima_ptp, $tgl_validasi, $no_ptp, $rdtr_rtrw, $tgl_pnbp;
     public $kode_registrasi, $tgl_registrasi;
 
-    #[Validate('nullable|mimes:pdf|max:2000')]
+    #[Validate('nullable|mimes:pdf|max:10240')]
     public $berkas_ptp, $tanggapan_1a, $tanggapan_1b, $tanggapan_2, $ceklis, $surat_pengantar_kelengkapan;
 
     public function render()

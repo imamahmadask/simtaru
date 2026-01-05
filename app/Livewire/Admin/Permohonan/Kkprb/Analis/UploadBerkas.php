@@ -16,7 +16,7 @@ class UploadBerkas extends Component
 
     public $permohonan, $kkprb, $persyaratan_berkas, $tahapan_id;
 
-    #[Validate(['file_.*' => 'mimes:.docx, .doc|max:2000'])]
+    #[Validate(['file_.*' => 'mimes:.docx, .doc|max:10240'])]
     public $file_ = [];
     
     public function render()

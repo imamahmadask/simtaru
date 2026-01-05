@@ -247,7 +247,7 @@
                                         </label>
                                         <input type="file" class="form-control" id="berkas_ktp"
                                             wire:model.blur="berkas_ktp" accept="application/pdf">
-                                        <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                        <div class="form-text">Format file .pdf maks 10 mb</div>
                                         @error('berkas_ktp')
                                             <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                         @enderror
@@ -275,7 +275,7 @@
                                         </label>
                                         <input type="file" class="form-control" id="berkas_permohonan"
                                             wire:model.blur="berkas_permohonan" accept="application/pdf">
-                                        <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                        <div class="form-text">Format file .pdf maks 10 mb</div>
                                         @if ($berkas_permohonan_lama)
                                             <a href="{{ asset('storage/' . $berkas_permohonan_lama) }}"
                                                 class="btn btn-sm btn-primary my-2" target="_blank">
@@ -300,7 +300,7 @@
                                         </label>
                                         <input type="file" class="form-control" id="berkas_kuasa"
                                             wire:model.blur="berkas_kuasa" accept="application/pdf">
-                                        <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                        <div class="form-text">Format file .pdf maks 10 mb</div>
                                         @if ($berkas_kuasa_lama)
                                             <a href="{{ asset('storage/' . $berkas_kuasa_lama) }}"
                                                 class="btn btn-sm btn-primary my-2" target="_blank">
@@ -329,7 +329,7 @@
                                             </label>
                                             <input type="file" class="form-control" id="berkas_nib"
                                                 wire:model.blur="berkas_nib" accept="application/pdf">
-                                            <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                            <div class="form-text">Format file .pdf maks 10 mb</div>
                                             @if ($berkas_nib_lama)
                                                 <a href="{{ asset('storage/' . $berkas_nib_lama) }}"
                                                     class="btn btn-sm btn-primary my-2" target="_blank">
@@ -356,7 +356,7 @@
                                         </label>
                                         <input type="file" class="form-control" id="berkas_penguasaan"
                                             wire:model.blur="berkas_penguasaan" accept="application/pdf">
-                                        <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                        <div class="form-text">Format file .pdf maks 10 mb</div>
                                         @if ($berkas_penguasaan_lama)
                                             <a href="{{ asset('storage/' . $berkas_penguasaan_lama) }}"
                                                 class="btn btn-sm btn-primary my-2" target="_blank">
@@ -457,7 +457,7 @@
                                                 </label>
                                                 <input type="file" class="form-control" id="berkas_ptp"
                                                     wire:model.blur="berkas_ptp" accept="application/pdf">
-                                                <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                                <div class="form-text">Format file .pdf maks 10 mb</div>
                                                 @error('berkas_ptp')
                                                     <span class="form-text text-xs text-danger"> {{ $message }}
                                                     </span>
@@ -485,7 +485,7 @@
                                             </label>
                                             <input type="file" class="form-control" id="tanggapan_1a"
                                                 wire:model.blur="tanggapan_1a" accept="application/pdf">
-                                            <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                            <div class="form-text">Format file .pdf maks 10 mb</div>
                                             @error('tanggapan_1a')
                                                 <span class="form-text text-xs text-danger"> {{ $message }}
                                                 </span>
@@ -515,7 +515,7 @@
                                             </label>
                                             <input type="file" class="form-control" id="tanggapan_1b"
                                                 wire:model.blur="tanggapan_1b" accept="application/pdf">
-                                            <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                            <div class="form-text">Format file .pdf maks 10 mb</div>
                                             @error('tanggapan_1b')
                                                 <span class="form-text text-xs text-danger"> {{ $message }}
                                                 </span>
@@ -545,7 +545,7 @@
                                             </label>
                                             <input type="file" class="form-control" id="tanggapan_2"
                                                 wire:model.blur="tanggapan_2" accept="application/pdf">
-                                            <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                            <div class="form-text">Format file .pdf maks 10 mb</div>
                                             @error('tanggapan_2')
                                                 <span class="form-text text-xs text-danger"> {{ $message }}
                                                 </span>
@@ -580,7 +580,7 @@
                                                 id="surat_pengantar_kelengkapan"
                                                 wire:model.blur="surat_pengantar_kelengkapan"
                                                 accept="application/pdf">
-                                            <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                            <div class="form-text">Format file .pdf maks 10 mb</div>
                                             @error('surat_pengantar_kelengkapan')
                                                 <span class="form-text text-xs text-danger"> {{ $message }}
                                                 </span>
@@ -610,7 +610,7 @@
                                             </label>
                                             <input type="file" class="form-control" id="ceklis"
                                                 wire:model.blur="ceklis" accept="application/pdf">
-                                            <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                            <div class="form-text">Format file .pdf maks 10 mb</div>
                                             @error('ceklis')
                                                 <span class="form-text text-xs text-danger"> {{ $message }}
                                                 </span>
@@ -754,7 +754,7 @@
                                             </label>
                                             <input type="file" class="form-control" id="berkas_ptp"
                                                 wire:model.blur="berkas_ptp" accept="application/pdf">
-                                            <div class="form-text">Format file .pdf maks 2 Mb</div>
+                                            <div class="form-text">Format file .pdf maks 10 mb</div>
                                             @error('berkas_ptp')
                                                 <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                             @enderror

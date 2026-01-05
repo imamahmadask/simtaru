@@ -17,10 +17,10 @@ class ItrSurveyCreate extends Component
     use WithFileUploads;
     public $permohonan_id, $itr_id, $tahapan_id;
 
-    #[Validate(['foto_survey.*' => 'image|max:1024'])]
+    #[Validate(['foto_survey.*' => 'image|max:10240'])]
     public $foto_survey = [];
 
-    #[Validate(['gambar_peta.*' => 'image|max:1024'])]
+    #[Validate(['gambar_peta.*' => 'image|max:10240'])]
     public $gambar_peta = [];
 
     #[Validate('required')]

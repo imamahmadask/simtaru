@@ -20,7 +20,7 @@ class KkprbFinalCreate extends Component
     public $persyaratan_berkas;
     public $tgl_selesai, $no_dokumen, $waktu_pengerjaan;
 
-    #[Validate('mimes:pdf|max:2000')]
+    #[Validate('mimes:pdf|max:10240')]
     public $file_ = [];
 
     public function render()

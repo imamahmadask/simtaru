@@ -39,7 +39,7 @@ class PermohonanEdit extends Component
     public $tanggapan_1a_lama, $tanggapan_1b_lama, $tanggapan_2_lama, $ceklis_lama, $surat_pengantar_kelengkapan_lama;
     public $kode_registrasi, $tgl_registrasi;
 
-    #[Validate('nullable|mimes:pdf|max:2000')]
+    #[Validate('nullable|mimes:pdf|max:10240')]
     public $berkas_ptp, $tanggapan_1a, $tanggapan_1b, $tanggapan_2, $ceklis, $surat_pengantar_kelengkapan;
 
     public function mount($id)

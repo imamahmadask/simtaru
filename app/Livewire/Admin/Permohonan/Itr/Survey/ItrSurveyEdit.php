@@ -20,10 +20,10 @@ class ItrSurveyEdit extends Component
     #[Validate('required')]
     public $tgl_survey, $batas_utara, $batas_selatan, $batas_timur, $batas_barat;
 
-    #[Validate(['foto_survey.*' => 'image|max:1024'])]
+    #[Validate(['foto_survey.*' => 'image|max:10240'])]
     public $foto_survey = [];
 
-    #[Validate(['gambar_peta.*' => 'image|max:1024'])]
+    #[Validate(['gambar_peta.*' => 'image|max:10240'])]
     public $gambar_peta = [];
 
     public $gambar_peta_selected = [];
