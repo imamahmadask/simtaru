@@ -58,6 +58,8 @@ class Kkprnb extends Model
         'tanggapan_2',
         'ceklis',
         'surat_pengantar_kelengkapan',
+        'akta_pendirian',
+        'gambar_teknis'
     ];
 
     protected $casts = [

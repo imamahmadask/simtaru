@@ -324,6 +324,82 @@
                                         @enderror
                                     </div>
                                 </div>
+
+                                @if($kode_layanan == 'KKPRNB' || $kode_layanan == 'SKRK')                                    
+                                    <div class="col-sm-4">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="create-akta-pendirian">Akta Pendirian/SK Pelantikan
+                                                <div wire:loading wire:target="akta_pendirian"
+                                                class="spinner-border spinner-border-sm text-primary" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                                {{-- Tanda centang setelah upload selesai --}}
+                                                @if (!empty($akta_pendirian))
+                                                    <i wire:loading.remove wire:target="akta_pendirian"
+                                                        class="bx bx-check-circle text-success"></i>
+                                                @endif
+
+                                            </label>
+                                            <input type="file" class="form-control" id="create-akta_pendirian"
+                                                wire:model.blur="akta_pendirian" accept="application/pdf">
+                                            <div class="form-text">Format file .pdf maks 10 Mb</div>
+                                            @error('akta_pendirian')
+                                                <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                            @enderror
+                                        </div>
+                                    </div>                                                                            
+                                @endif
+
+                                @if($kode_layanan == 'KKPRNB')
+                                    <div class="col-sm-4">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="create-gambar-tekni">Gambar Teknis Bangunan
+                                                <div wire:loading wire:target="gambar_teknis"
+                                                class="spinner-border spinner-border-sm text-primary" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                                {{-- Tanda centang setelah upload selesai --}}
+                                                @if (!empty($gambar_teknis))
+                                                    <i wire:loading.remove wire:target="gambar_teknis"
+                                                        class="bx bx-check-circle text-success"></i>
+                                                @endif
+
+                                            </label>
+                                            <input type="file" class="form-control" id="create-gambar_tekni"
+                                                wire:model.blur="gambar_teknis" accept="application/jpeg, application/jpg">
+                                            <div class="form-text">Format file .pdf maks 10 Mb</div>
+                                            @error('gambar_teknis')
+                                                <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                @endif
+
+                                @if($kode_layanan == 'SKRK')
+                                    <div class="row">                                        
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="create-sket-lokasi">Sket Lokasi/Denah
+                                                    <div wire:loading wire:target="sket_lokasi"
+                                                    class="spinner-border spinner-border-sm text-primary" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                    {{-- Tanda centang setelah upload selesai --}}
+                                                    @if (!empty($sket_lokasi))
+                                                        <i wire:loading.remove wire:target="sket_lokasi"
+                                                            class="bx bx-check-circle text-success"></i>
+                                                    @endif
+                                                </label>
+                                                <input type="file" class="form-control" id="create-sket_lokasi"
+                                                    wire:model.blur="sket_lokasi" accept="application/pdf">
+                                                <div class="form-text">Format file .pdf maks 10 Mb</div>
+                                                @error('sket_lokasi')
+                                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
 
                             @if ($kode_layanan == 'KKPRNB')

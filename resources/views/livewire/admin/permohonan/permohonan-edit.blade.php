@@ -342,7 +342,7 @@
 
                                 <div class="col-sm-4">
                                     <div class="mb-3">
-                                        <label for="berkas_penguasaan" class="form-label">Upload Penguasaan
+                                        <label for="edit-berkas_penguasaan" class="form-label">Upload Penguasaan
                                             Tanah
                                             <div wire:loading wire:target="berkas_penguasaan"
                                                 class="spinner-border spinner-border-sm text-primary" role="status">
@@ -354,7 +354,7 @@
                                                     class="bx bx-check-circle text-success"></i>
                                             @endif
                                         </label>
-                                        <input type="file" class="form-control" id="berkas_penguasaan"
+                                        <input type="file" class="form-control" id="edit-berkas_penguasaan"
                                             wire:model.blur="berkas_penguasaan" accept="application/pdf">
                                         <div class="form-text">Format file .pdf maks 10 mb</div>
                                         @if ($berkas_penguasaan_lama)
@@ -365,6 +365,100 @@
                                         @endif
                                     </div>
                                 </div>
+
+                                @if($kode_layanan == 'KKPRNB' || $kode_layanan == 'SKRK')                                    
+                                    <div class="col-sm-4">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="edit-akta-pendirian">Akta Pendirian/SK Pelantikan
+                                                <div wire:loading wire:target="akta_pendirian"
+                                                class="spinner-border spinner-border-sm text-primary" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                                {{-- Tanda centang setelah upload selesai --}}
+                                                @if (!empty($akta_pendirian))
+                                                    <i wire:loading.remove wire:target="akta_pendirian"
+                                                        class="bx bx-check-circle text-success"></i>
+                                                @endif
+
+                                            </label>
+                                            <input type="file" class="form-control" id="edit-akta_pendirian"
+                                                wire:model.blur="akta_pendirian" accept="application/pdf">
+                                            <div class="form-text">Format file .pdf maks 10 Mb</div>
+                                            @if ($akta_pendirian_lama)
+                                                <a href="{{ asset('storage/' . $akta_pendirian_lama) }}"
+                                                    class="btn btn-sm btn-primary my-2" target="_blank">
+                                                    <i class="bx bx-show"></i> Akta Pendirian
+                                                </a>
+                                            @endif
+                                            @error('akta_pendirian')
+                                                <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                            @enderror
+                                        </div>
+                                    </div>                                                                            
+                                @endif
+
+                                @if($kode_layanan == 'KKPRNB')
+                                    <div class="col-sm-4">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="edit-gambar-tekni">Gambar Teknis Bangunan
+                                                <div wire:loading wire:target="gambar_teknis"
+                                                class="spinner-border spinner-border-sm text-primary" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                                {{-- Tanda centang setelah upload selesai --}}
+                                                @if (!empty($gambar_teknis))
+                                                    <i wire:loading.remove wire:target="gambar_teknis"
+                                                        class="bx bx-check-circle text-success"></i>
+                                                @endif
+
+                                            </label>
+                                            <input type="file" class="form-control" id="edit-gambar_tekni"
+                                                wire:model.blur="gambar_teknis" accept="application/jpeg, application/jpg">
+                                            <div class="form-text">Format file .pdf maks 10 Mb</div>
+                                            @if ($gambar_teknis_lama)
+                                                <a href="{{ asset('storage/' . $gambar_teknis_lama) }}"
+                                                    class="btn btn-sm btn-primary my-2" target="_blank">
+                                                    <i class="bx bx-show"></i> Gambar Teknis
+                                                </a>
+                                            @endif
+                                            @error('gambar_teknis')
+                                                <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                @endif
+
+                                @if($kode_layanan == 'SKRK')
+                                    <div class="row">                                        
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="edit-sket-lokasi">Sket Lokasi/Denah
+                                                    <div wire:loading wire:target="sket_lokasi"
+                                                    class="spinner-border spinner-border-sm text-primary" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                    {{-- Tanda centang setelah upload selesai --}}
+                                                    @if (!empty($sket_lokasi))
+                                                        <i wire:loading.remove wire:target="sket_lokasi"
+                                                            class="bx bx-check-circle text-success"></i>
+                                                    @endif
+                                                </label>
+                                                <input type="file" class="form-control" id="edit-sket_lokasi"
+                                                    wire:model.blur="sket_lokasi" accept="application/pdf">
+                                                <div class="form-text">Format file .pdf maks 10 Mb</div>
+                                                @if ($sket_lokasi_lama)
+                                                    <a href="{{ asset('storage/' . $sket_lokasi_lama) }}"
+                                                        class="btn btn-sm btn-primary my-2" target="_blank">
+                                                        <i class="bx bx-show"></i> Sket Lokasi
+                                                    </a>
+                                                @endif
+                                                @error('sket_lokasi')
+                                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
 
                             @if ($kode_layanan == 'KKPRNB')
@@ -375,9 +469,9 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="mb-3">
-                                            <label class="form-label" for="create-rdtr-rtrw">RDTR / RTRW</label>
+                                            <label class="form-label" for="edit-rdtr-rtrw">RDTR / RTRW</label>
                                             <select class="form-control" wire:model.live="rdtr_rtrw"
-                                                id="create-rdtr-rtrw">
+                                                id="edit-rdtr-rtrw">
                                                 <option value="">-- Pilih --</option>
                                                 <option value="RDTR">RDTR</option>
                                                 <option value="RTRW">RTRW</option>
@@ -389,10 +483,10 @@
                                     </div>
                                     <div class="col">
                                         <div class="mb-3">
-                                            <label class="form-label" for="create-tgl-validasi">Tanggal Validasi
+                                            <label class="form-label" for="edit-tgl-validasi">Tanggal Validasi
                                                 Berkas</label>
                                             <input type="date" class="form-control" wire:model="tgl_validasi"
-                                                id="create-tgl-validasi" placeholder="Masukkan Tanggal Validasi" />
+                                                id="edit-tgl-validasi" placeholder="Masukkan Tanggal Validasi" />
                                             @error('tgl_validasi')
                                                 <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                             @enderror
@@ -404,10 +498,10 @@
                                     <div class="row">
                                         <div class="col">
                                             <div class="mb-3">
-                                                <label class="form-label" for="create-tgl-terima-ptp">Tanggal
+                                                <label class="form-label" for="edit-tgl-terima-ptp">Tanggal
                                                     Penerimaan PTP</label>
                                                 <input type="date" class="form-control"
-                                                    wire:model="tgl_terima_ptp" id="create-tgl-terima-ptp"
+                                                    wire:model="tgl_terima_ptp" id="edit-tgl-terima-ptp"
                                                     placeholder="Masukkan Tanggal PTP" />
                                                 @error('tgl_terima_ptp')
                                                     <span class="form-text text-xs text-danger"> {{ $message }}
@@ -417,10 +511,10 @@
                                         </div>
                                         <div class="col">
                                             <div class="mb-3">
-                                                <label class="form-label" for="create-tgl-ptp">Tanggal Penerbitan
+                                                <label class="form-label" for="edit-tgl-ptp">Tanggal Penerbitan
                                                     PTP</label>
                                                 <input type="date" class="form-control" wire:model="tgl_ptp"
-                                                    id="create-tgl-ptp" placeholder="Masukkan Tanggal PTP" />
+                                                    id="edit-tgl-ptp" placeholder="Masukkan Tanggal PTP" />
                                                 @error('tgl_ptp')
                                                     <span class="form-text text-xs text-danger"> {{ $message }}
                                                     </span>
@@ -431,9 +525,9 @@
                                     <div class="row">
                                         <div class="col">
                                             <div class="mb-3">
-                                                <label class="form-label" for="create-no-ptp">Nomor PTP</label>
+                                                <label class="form-label" for="edit-no-ptp">Nomor PTP</label>
                                                 <input type="text" class="form-control" wire:model="no_ptp"
-                                                    id="create-no-ptp" placeholder="Masukkan Nomor PTP" />
+                                                    id="edit-no-ptp" placeholder="Masukkan Nomor PTP" />
                                                 @error('no_ptp')
                                                     <span class="form-text text-xs text-danger"> {{ $message }}
                                                     </span>
@@ -694,10 +788,10 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="mb-3">
-                                            <label class="form-label" for="create-tgl-validasi">Tanggal Validasi
+                                            <label class="form-label" for="edit-tgl-validasi">Tanggal Validasi
                                                 Berkas</label>
                                             <input type="date" class="form-control" wire:model="tgl_validasi"
-                                                id="create-tgl-validasi" placeholder="Masukkan Tanggal Validasi" />
+                                                id="edit-tgl-validasi" placeholder="Masukkan Tanggal Validasi" />
                                             @error('tgl_validasi')
                                                 <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                             @enderror
@@ -705,10 +799,10 @@
                                     </div>
                                     <div class="col">
                                         <div class="mb-3">
-                                            <label class="form-label" for="create-tgl-pnbp">Tanggal Pembayaran
+                                            <label class="form-label" for="edit-tgl-pnbp">Tanggal Pembayaran
                                                 PNBP</label>
                                             <input type="date" class="form-control" wire:model="tgl_pnbp"
-                                                id="create-tgl-pnbp" placeholder="Masukkan Tanggal Pembayaran PNBP" />
+                                                id="edit-tgl-pnbp" placeholder="Masukkan Tanggal Pembayaran PNBP" />
                                             @error('tgl_pnbp')
                                                 <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                             @enderror
@@ -716,10 +810,10 @@
                                     </div>
                                     <div class="col">
                                         <div class="mb-3">
-                                            <label class="form-label" for="create-tgl-ptp">Tanggal Penerbitan
+                                            <label class="form-label" for="edit-tgl-ptp">Tanggal Penerbitan
                                                 PTP</label>
                                             <input type="date" class="form-control" wire:model="tgl_ptp"
-                                                id="create-tgl-ptp" placeholder="Masukkan Tanggal PTP" />
+                                                id="edit-tgl-ptp" placeholder="Masukkan Tanggal PTP" />
                                             @error('tgl_ptp')
                                                 <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                             @enderror
@@ -729,9 +823,9 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="mb-3">
-                                            <label class="form-label" for="create-no-ptp">Nomor PTP</label>
+                                            <label class="form-label" for="edit-no-ptp">Nomor PTP</label>
                                             <input type="text" class="form-control" wire:model="no_ptp"
-                                                id="create-no-ptp" placeholder="Masukkan Nomor PTP" />
+                                                id="edit-no-ptp" placeholder="Masukkan Nomor PTP" />
                                             @error('no_ptp')
                                                 <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                             @enderror

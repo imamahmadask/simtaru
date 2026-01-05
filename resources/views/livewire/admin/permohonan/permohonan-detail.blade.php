@@ -214,7 +214,7 @@
                                                 <span class="col-sm-4 col-form-label d-flex align-items-center">
                                                     Berkas
                                                 </span>
-                                                <div class="col-sm-8 d-flex justify-content-around flex-wrap gap-1">
+                                                <div class="col-sm-8 d-flex justify-content-around flex-wrap gap-0">
                                                     <a href="{{ $permohonan->berkas_ktp ? asset('storage/' . $permohonan->berkas_ktp) : 'javascript:void(0)' }}"
                                                         target="_blank" type="button" class="btn btn-primary m-1">
                                                         KTP
@@ -235,6 +235,25 @@
                                                         target="_blank" type="button" class="btn btn-primary m-1">
                                                         Penguasaan
                                                     </a>
+                                                    @if ($permohonan->layanan->kode == 'SKRK' && $permohonan->skrk->first())
+                                                        <a href="{{ $permohonan->skrk->first()->akta_pendirian ? asset('storage/' . $permohonan->skrk->first()->akta_pendirian) : 'javascript:void(0)' }}"
+                                                            target="_blank" type="button" class="btn btn-primary m-1">
+                                                            Akta Pendirian/SK Pelantikan
+                                                        </a>
+                                                        <a href="{{ $permohonan->skrk->first()->sket_lokasi ? asset('storage/' . $permohonan->skrk->first()->sket_lokasi) : 'javascript:void(0)' }}"
+                                                            target="_blank" type="button" class="btn btn-primary m-1">
+                                                            Sket Lokasi/Denah
+                                                        </a>
+                                                    @elseif($permohonan->layanan->kode == 'KKPRNB' && $permohonan->kkprnb->first())
+                                                        <a href="{{ $permohonan->kkprnb->first()->akta_pendirian ? asset('storage/' . $permohonan->kkprnb->first()->akta_pendirian) : 'javascript:void(0)' }}"
+                                                            target="_blank" type="button" class="btn btn-primary m-1">
+                                                            Akta Pendirian/SK Pelantikan
+                                                        </a>
+                                                        <a href="{{ $permohonan->kkprnb->first()->gambar_teknis ? asset('storage/' . $permohonan->kkprnb->first()->gambar_teknis) : 'javascript:void(0)' }}"
+                                                            target="_blank" type="button" class="btn btn-primary m-1">
+                                                            Gambar Teknis
+                                                        </a>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="row mb-3">

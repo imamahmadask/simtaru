@@ -40,7 +40,7 @@ class PermohonanCreate extends Component
     public $kode_registrasi, $tgl_registrasi;
 
     #[Validate('nullable|mimes:pdf|max:10240')]
-    public $berkas_ptp, $tanggapan_1a, $tanggapan_1b, $tanggapan_2, $ceklis, $surat_pengantar_kelengkapan;
+    public $berkas_ptp, $tanggapan_1a, $tanggapan_1b, $tanggapan_2, $ceklis, $surat_pengantar_kelengkapan, $akta_pendirian, $gambar_teknis, $sket_lokasi;
 
     public function render()
     {
@@ -83,9 +83,13 @@ class PermohonanCreate extends Component
         $serviceModel = null;
 
         if ($layanan->kode == 'SKRK') {
+            $path_akta_pendirian = $this->uploadFile($this->akta_pendirian, 'skrk/'.$permohonan->registrasi->kode.'/akta_pendirian');
+            $path_sket_lokasi = $this->uploadFile($this->sket_lokasi, 'skrk/'.$permohonan->registrasi->kode.'/sket_lokasi');
             $serviceModel = Skrk::create([
                 'permohonan_id' => $permohonan->id,
                 'layanan_id' => $this->layanan_id,
+                'akta_pendirian' => $path_akta_pendirian,
+                'sket_lokasi' => $path_sket_lokasi,
             ]);
         } elseif ($layanan->kode == 'ITR') {
             $serviceModel = Itr::create([
@@ -99,6 +103,8 @@ class PermohonanCreate extends Component
             $path_tanggapan_1b = $this->uploadFile($this->tanggapan_1b, 'kkprnb/'.$permohonan->registrasi->kode.'/tanggapan_1b');
             $path_tanggapan_2 = $this->uploadFile($this->tanggapan_2, 'kkprnb/'.$permohonan->registrasi->kode.'/tanggapan_2');
             $path_surat_pengantar_kelengkapan = $this->uploadFile($this->surat_pengantar_kelengkapan, 'kkprnb/'.$permohonan->registrasi->kode.'/surat_pengantar_kelengkapan');
+            $path_akta_pendirian = $this->uploadFile($this->akta_pendirian, 'kkprnb/'.$permohonan->registrasi->kode.'/akta_pendirian');
+            $path_gambar_teknis = $this->uploadFile($this->gambar_teknis, 'kkprnb/'.$permohonan->registrasi->kode.'/gambar_teknis');
             $serviceModel = Kkprnb::create([
                 'permohonan_id' => $permohonan->id,
                 'layanan_id' => $this->layanan_id,
@@ -112,6 +118,8 @@ class PermohonanCreate extends Component
                 'tanggapan_1b' => $path_tanggapan_1b,
                 'tanggapan_2' => $path_tanggapan_2,
                 'surat_pengantar_kelengkapan' => $path_surat_pengantar_kelengkapan,
+                'akta_pendirian' => $path_akta_pendirian,
+                'gambar_teknis' => $path_gambar_teknis,
                 'rdtr_rtrw' => $this->rdtr_rtrw,
             ]);
         } elseif($layanan->kode == 'KKPRB') {

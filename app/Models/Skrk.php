@@ -45,7 +45,9 @@ class Skrk extends Model
         'is_berkas_analis_uploaded',
         'is_validate',
         'batas_administratif',
-        'kesimpulan'
+        'kesimpulan',
+        'akta_pendirian',
+        'sket_lokasi'
     ];
 
     protected $casts = [
