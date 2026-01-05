@@ -36,12 +36,12 @@ class RegistrasiCreate extends Component
         $latestRegistrasi = Registrasi::whereYear('created_at', $year)->latest('id')->first();
         $sequence = 1;
         if ($latestRegistrasi) {
-            $lastSequence = (int) explode('-', $latestRegistrasi->kode)[1];
+            $lastSequence = (int) explode('-', $latestRegistrasi->kode)[0];
             $sequence = $lastSequence + 1;
         }
         $layanan_kode = Layanan::findOrFail($this->layanan_id)->kode;
         $newKode = str_pad($sequence, 4, '0', STR_PAD_LEFT).'-'.$layanan_kode.'-'. $month .'-'. $year ;
-
+        
         Registrasi::create([
            'kode' => $newKode,
            'nama' => $this->nama,
@@ -68,6 +68,8 @@ class RegistrasiCreate extends Component
             'type'    => 'success',
             'message' => 'Data registrasi berhasil ditambahkan!'
         ]);
+
+        $this->reset('nama', 'nik', 'no_hp', 'email', 'tanggal', 'layanan_id', 'fungsi_bangunan', 'alamat_tanah', 'kel_tanah', 'kec_tanah');
         
         $this->dispatch('refresh-registrasi-list');
 

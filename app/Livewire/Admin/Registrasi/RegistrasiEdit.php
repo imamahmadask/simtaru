@@ -72,6 +72,8 @@ class RegistrasiEdit extends Component
             'type'    => 'success',
             'message' => 'Data registrasi berhasil diupdate!'
         ]);
+
+        $this->reset('nama', 'nik', 'no_hp', 'email', 'tanggal', 'layanan_id', 'fungsi_bangunan', 'alamat_tanah', 'kel_tanah', 'kec_tanah');
         
         $this->dispatch('refresh-registrasi-list');
 
