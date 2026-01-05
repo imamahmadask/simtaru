@@ -267,7 +267,7 @@
                 <div class="col-lg-8">
                     <h2 class="display-4 fw-bold text-dark mb-4">Hubungi Kami</h2>
                     <p class="lead text-muted">
-                        Silahkan hubungi kami untuk informasi lebih lanjut mengenai layanan tata ruang di Kota Mataram.
+                        Silahkan hubungi kami untuk informasi lebih lanjut mengenai Layanan Tata Ruang di Kota Mataram.
                     </p>
                 </div>
             </div>
@@ -292,10 +292,12 @@
                             <div class="mb-3 text-primary">
                                 <i class="bi bi-globe fs-1"></i>
                             </div>
-                            <h5 class="card-title fw-bold">Website</h5>
+                            <h5 class="card-title fw-bold">Website & Instagram</h5>
                             <p class="card-text text-muted small">
-                                <a href="https://pupr.mataramkota.go.id/" class="text-decoration-none text-muted"
-                                    target="_blank">pupr.mataramkota.go.id</a>
+                                <a href="https://pupr.mataramkota.go.id/" class="text-decoration-none text-primary"
+                                    target="_blank">pupr.mataramkota.go.id</a><br>
+                                <a href="https://www.instagram.com/puprmataram/" class="text-decoration-none text-primary"
+                                    target="_blank">@puprmataram</a>
                             </p>
                         </div>
                     </div>
@@ -306,9 +308,10 @@
                             <div class="mb-3 text-primary">
                                 <i class="bi bi-whatsapp fs-1"></i>
                             </div>
-                            <h5 class="card-title fw-bold">Layanan Tata Ruang</h5>
+                            <h5 class="card-title fw-bold">Kontak Kami</h5>
                             <p class="card-text text-muted small">
-                                0895-3267-53064
+                                Layanan Tata Ruang : <a href="https://wa.me/0895326753064" class="text-decoration-none text-primary" target="_blank">0895326753064</a><br>
+                                Pengaduan Pelanggaran Tata Ruang : <a href="https://wa.me/081775232485" class="text-decoration-none text-primary" target="_blank">081775232485</a>
                             </p>
                         </div>
                     </div>
