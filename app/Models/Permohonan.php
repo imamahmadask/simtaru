@@ -54,19 +54,19 @@ class Permohonan extends Model
     }
 
     public function skrk() {
-        return $this->hasMany(Skrk::class);
+        return $this->hasOne(Skrk::class);
     }
 
     public function kkprnb() {
-        return $this->hasMany(Kkprnb::class);
+        return $this->hasOne(Kkprnb::class);
     }
 
     public function kkprb() {
-        return $this->hasMany(Kkprb::class);
+        return $this->hasOne(Kkprb::class);
     }
 
     public function itr() {
-        return $this->hasMany(Itr::class);
+        return $this->hasOne(Itr::class);
     }
 
     public function persyaratanBerkas()

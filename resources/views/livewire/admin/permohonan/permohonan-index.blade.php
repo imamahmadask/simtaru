@@ -13,6 +13,18 @@
                 <div class="toast-body">{{ session('success') }}</div>
             </div>
         @endif
+        @if (session()->has('error'))
+            <div class="bs-toast toast bg-danger fade top-0 end-0 mb-2" role="alert" aria-live="assertive"
+                aria-atomic="true" data-bs-delay="3000" data-bs-autohide="true">
+                <div class="toast-header">
+                    <i class="bx bx-bell me-2"></i>
+                    <div class="me-auto fw-semibold">Message!</div>
+                    <small>a moment ago</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">{{ session('error') }}</div>
+            </div>
+        @endif
         <!-- Basic Bootstrap Table -->
         <div class="card">
             <h5 class="card-header">List Data Permohonan</h5>
@@ -127,7 +139,13 @@
                                                 type="button" class="btn btn-primary btn-sm">
                                                 <i class="bx bx-show"></i>
                                             </a>
-
+                                            @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'data-entry')
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    wire:click="deletePermohonan({{ $data->id }})"
+                                                    wire:confirm="Are you sure you want to delete this Permohonan?">
+                                                    <i class="bx bx-trash"></i>
+                                                </button>
+                                            @endif
                                         </div>
 
                                     </td>
