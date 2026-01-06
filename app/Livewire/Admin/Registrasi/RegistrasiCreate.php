@@ -30,16 +30,31 @@ class RegistrasiCreate extends Component
     public function createRegistrasi(){
         $this->validate();
 
-        // Generate unique 'kode'
+        // Generate unique 'kode' with gap reuse
         $year = date('Y');
         $month = date('m');
-        $latestRegistrasi = Registrasi::whereYear('created_at', $year)->latest('id')->first();
-        $sequence = 1;
-        if ($latestRegistrasi) {
-            $lastSequence = (int) explode('-', $latestRegistrasi->kode)[0];
-            $sequence = $lastSequence + 1;
-        }
         $layanan_kode = Layanan::findOrFail($this->layanan_id)->kode;
+
+        // Get all existing registrations for current year
+        $existingRegistrasi = Registrasi::whereYear('created_at', $year)->pluck('kode');
+
+        // Extract sequence numbers from existing codes
+        $usedSequences = $existingRegistrasi->map(function($kode) {
+            return (int) explode('-', $kode)[0];
+        })->sort()->values()->toArray();
+
+        // Find the smallest available sequence number
+        $sequence = 1;
+        if (!empty($usedSequences)) {
+            // Check for gaps in the sequence
+            for ($i = 1; $i <= max($usedSequences) + 1; $i++) {
+                if (!in_array($i, $usedSequences)) {
+                    $sequence = $i;
+                    break;
+                }
+            }
+        }
+
         $newKode = str_pad($sequence, 4, '0', STR_PAD_LEFT).'-'.$layanan_kode.'-'. $month .'-'. $year ;
         
         Registrasi::create([
