@@ -50,6 +50,42 @@ class Registrasi extends Model
             'id'                // PK di tabel permohonans
         );
     }
+    
+    public function itr()
+    {
+        return $this->hasManyThrough(
+            Itr::class,        // Model tujuan
+            Permohonan::class,  // Model perantara
+            'registrasi_id',    // FK di tabel permohonans yang mengacu ke registrasi
+            'permohonan_id',    // FK di tabel itr yang mengacu ke permohonan
+            'id',               // PK di tabel registrasis
+            'id'                // PK di tabel permohonans
+        );
+    }
+    
+    public function kkprb()
+    {
+        return $this->hasManyThrough(
+            Kkprb::class,        // Model tujuan
+            Permohonan::class,  // Model perantara
+            'registrasi_id',    // FK di tabel permohonans yang mengacu ke registrasi
+            'permohonan_id',    // FK di tabel kkprb yang mengacu ke permohonan
+            'id',               // PK di tabel registrasis
+            'id'                // PK di tabel permohonans
+        );
+    }
+    
+    public function kkprnb()
+    {
+        return $this->hasManyThrough(
+            Kkprnb::class,        // Model tujuan
+            Permohonan::class,  // Model perantara
+            'registrasi_id',    // FK di tabel permohonans yang mengacu ke registrasi
+            'permohonan_id',    // FK di tabel kkprnb yang mengacu ke permohonan
+            'id',               // PK di tabel registrasis
+            'id'                // PK di tabel permohonans
+        );
+    }
 
     public function createdBy()
     {

@@ -10,7 +10,7 @@ use Livewire\Component;
 
 class RegistrasiEdit extends Component
 {
-    public $registrasi_id, $layanans;
+    public $registrasi_id, $layanans, $count_permohonan;
 
     #[Validate('required')]
     public $nama, $no_hp, $layanan_id, $tanggal, $fungsi_bangunan, $alamat_tanah, $kel_tanah, $kec_tanah;
@@ -41,6 +41,7 @@ class RegistrasiEdit extends Component
         $this->alamat_tanah = $registrasi->alamat_tanah;
         $this->kel_tanah = $registrasi->kel_tanah;
         $this->kec_tanah = $registrasi->kec_tanah;
+        $this->count_permohonan = $registrasi->permohonan()->count();
     }
 
     public function editRegistrasi()
@@ -49,24 +50,32 @@ class RegistrasiEdit extends Component
 
         $registrasi = Registrasi::find($this->registrasi_id);
 
+        if($registrasi->permohonan()->count() == 0){
+            if($registrasi->layanan_id != $this->layanan_id){
+                $year = date('Y');
+                $month = date('m');
+                $lastSequence = (int) explode('-', $registrasi->kode)[0];
+                $layanan_kode = Layanan::findOrFail($this->layanan_id)->kode;
+                $newKode = str_pad($lastSequence, 4, '0', STR_PAD_LEFT).'-'.$layanan_kode.'-'. $month .'-'. $year ;
+                
+                $registrasi->update([
+                    'kode' => $newKode
+                ]);
+            }            
+        }
+        
         $registrasi->update([
+            'layanan_id' => $this->layanan_id,
             'nama' => $this->nama,
             'nik' => $this->nik,
             'no_hp' => $this->no_hp,
             'email' => $this->email,
             'tanggal' => $this->tanggal,
-            'layanan_id' => $this->layanan_id,
             'fungsi_bangunan' => $this->fungsi_bangunan,
             'alamat_tanah' => $this->alamat_tanah,
             'kel_tanah' => $this->kel_tanah,
             'kec_tanah' => $this->kec_tanah
-        ]);
-
-        if($registrasi->permohonan()->count() > 0){
-            $registrasi->permohonan()->update([
-                'layanan_id' => $this->layanan_id,
-            ]);
-        }
+        ]);      
         
         $this->dispatch('toast', [
             'type'    => 'success',
