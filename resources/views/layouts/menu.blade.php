@@ -1,6 +1,6 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
-        <a href="{{ route('dashboard') }}" class="app-brand-link mb-3">
+        <a href="/" class="app-brand-link mb-3">
             <img src="{{ asset('assets/img/logo/simtaru2.png') }}" alt="" width="200">
         </a>
 

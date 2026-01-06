@@ -287,11 +287,9 @@
                 <div class="col-md-6 col-lg-3">
                     <h6 class="mb-3">Main Menu</h6>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="text-light text-decoration-none hover-white">Features</a></li>
-                        <li><a href="#" class="text-light text-decoration-none hover-white">Permohonan</a></li>
-                        <li><a href="#" class="text-light text-decoration-none hover-white">Lacak</a></li>
-                        <li><a href="#" class="text-light text-decoration-none hover-white">Documentation</a>
-                        </li>
+                        <li><a href="#layanan" class="text-light text-decoration-none hover-white">Layanan</a></li>
+                        <li><a href="#regulasi" class="text-light text-decoration-none hover-white">Regulasi</a></li>
+                        <li><a href="#contact" class="text-light text-decoration-none hover-white">Contact Us</a></li>
                     </ul>
                 </div>
             </div>
