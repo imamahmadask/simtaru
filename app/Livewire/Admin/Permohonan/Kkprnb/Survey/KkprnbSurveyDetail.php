@@ -6,6 +6,7 @@ use App\Models\Kkprnb;
 use App\Models\Permohonan;
 use App\Models\RiwayatPermohonan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Number;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -33,11 +34,11 @@ class KkprnbSurveyDetail extends Component
         $batas = $this->kkprnb->batas_persil;
         $surveyor = $permohonan->disposisi->where('tahapan_id', $permohonan->layanan->tahapan->where('nama', 'Survey')->value('id'))->first()->penerima->name;
         $hari_survey = $this->kkprnb->tgl_survey ? \Carbon\Carbon::parse($this->kkprnb->tgl_survey)->locale('id')->isoFormat('dddd') : '______';
-        $tgl_survey = $this->kkprnb->tgl_survey ? ucwords((new \NumberFormatter('id', \NumberFormatter::SPELLOUT))->format(\Carbon\Carbon::parse($this->kkprnb->tgl_survey)->day)) : '______';
+        $tgl_survey = $this->kkprnb->tgl_survey ? ucwords(Number::spell(\Carbon\Carbon::parse($this->kkprnb->tgl_survey)->locale('id')->isoFormat('D'), 'id')) : '______';        
         $bulan_survey = $this->kkprnb->tgl_survey ? \Carbon\Carbon::parse($this->kkprnb->tgl_survey)->locale('id')->isoFormat('MMMM') : '______';
-        $tahun_survey = $this->kkprnb->tgl_survey ? ucwords((new \NumberFormatter('id', \NumberFormatter::SPELLOUT))->format(\Carbon\Carbon::parse($this->kkprnb->tgl_survey)->year)) : '______';
+        $tahun_survey = $this->kkprnb->tgl_survey ? ucwords(Number::spell(\Carbon\Carbon::parse($this->kkprnb->tgl_survey)->locale('id')->isoFormat('YYYY'), 'id')) : '______';
         $tahun_number_survey = $this->kkprnb->tgl_survey ? \Carbon\Carbon::parse($this->kkprnb->tgl_survey)->locale('id')->isoFormat('YYYY') : '______';
-
+        
         $data = [
             'nama_surveyor' => $surveyor,
             'nama_pemohon' => $permohonan->registrasi->nama,
@@ -51,10 +52,10 @@ class KkprnbSurveyDetail extends Component
             'fungsi_jalan' => $this->kkprnb->fungsi_jalan,
             'median_jalan' => $this->kkprnb->median_jalan,
             'lebar_jalan' => $this->kkprnb->lebar_jalan,
-            'batas_barat' => $batas['barat'],
-            'batas_timur' => $batas['timur'],
-            'batas_utara' => $batas['utara'],
-            'batas_selatan' => $batas['selatan'],
+            'batas_barat' => $batas ? $batas['barat'] : '______',
+            'batas_timur' => $batas ? $batas['timur'] : '______',
+            'batas_utara' => $batas ? $batas['utara'] : '______',
+            'batas_selatan' => $batas ? $batas['selatan'] : '______',
             'hari_survey' => $hari_survey,
             'tgl_survey' => $tgl_survey,
             'bulan_survey' => $bulan_survey,

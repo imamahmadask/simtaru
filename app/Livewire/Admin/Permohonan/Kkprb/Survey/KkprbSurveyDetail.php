@@ -6,6 +6,7 @@ use App\Models\Kkprb;
 use App\Models\Permohonan;
 use App\Models\RiwayatPermohonan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Number;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -33,9 +34,9 @@ class KkprbSurveyDetail extends Component
         $surveyor = $permohonan->disposisi->where('tahapan_id', $permohonan->layanan->tahapan->where('nama', 'Survey')->value('id'))->first()->penerima->name;
         $batas = $this->kkprb->batas_persil;
         $hari_survey = $this->kkprb->tgl_survey ? \Carbon\Carbon::parse($this->kkprb->tgl_survey)->locale('id')->isoFormat('dddd') : '______';
-        $tgl_survey = $this->kkprb->tgl_survey ? ucwords((new \NumberFormatter('id', \NumberFormatter::SPELLOUT))->format(\Carbon\Carbon::parse($this->kkprb->tgl_survey)->day)) : '______';
+        $tgl_survey = $this->kkprb->tgl_survey ? ucwords(Number::spell(\Carbon\Carbon::parse($this->kkprb->tgl_survey)->locale('id')->isoFormat('D'), 'id')) : '______';        
         $bulan_survey = $this->kkprb->tgl_survey ? \Carbon\Carbon::parse($this->kkprb->tgl_survey)->locale('id')->isoFormat('MMMM') : '______';
-        $tahun_survey = $this->kkprb->tgl_survey ? ucwords((new \NumberFormatter('id', \NumberFormatter::SPELLOUT))->format(\Carbon\Carbon::parse($this->kkprb->tgl_survey)->year)) : '______';
+        $tahun_survey = $this->kkprb->tgl_survey ? ucwords(Number::spell(\Carbon\Carbon::parse($this->kkprb->tgl_survey)->locale('id')->isoFormat('YYYY'), 'id')) : '______';
         $tahun_number_survey = $this->kkprb->tgl_survey ? \Carbon\Carbon::parse($this->kkprb->tgl_survey)->locale('id')->isoFormat('YYYY') : '______';
         $data = [
             'nama_surveyor' => $surveyor,
