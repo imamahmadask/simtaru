@@ -53,8 +53,9 @@
                                 Penguasaan Tanah
                             </label>
                             <div class="col-sm-8">
-                                <input id="penguasaan_tanah" class="form-control" value="{{ $itr->penguasaan_tanah }}"
+                                <textarea id="penguasaan_tanah" class="form-control" value="{{ $itr->penguasaan_tanah }}" rows="5"
                                     readonly>
+                                </textarea>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -82,9 +83,9 @@
                                 Persyaratan Pelaksanaan Kegiatan Pemanfaatan Ruang
                             </label>
                             <div class="col-sm-8">
-                                <div class="input-group">
-                                    <input id="persyaratan_pelaksanaan" class="form-control"
-                                        value="{{ $itr->persyaratan_pelaksanaan }}" readonly>
+                                <div class="input-group">                                    
+                                    <textarea id="persyaratan_pelaksanaan" class="form-control"
+                                    value="{{ $itr->persyaratan_pelaksanaan }}" rows="5" readonly></textarea>
                                 </div>
                             </div>
                         </div>
