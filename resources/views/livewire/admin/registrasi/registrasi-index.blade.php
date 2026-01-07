@@ -41,7 +41,7 @@
                     </div>
                 </div>
             </div>
-            <div class="table-responsive text-nowrap">
+            <div class="table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
@@ -65,21 +65,21 @@
                                     <td>
                                         {{ $no++ }}
                                     </td>
-                                    <td>
+                                    <td class="text-nowrap">
                                         <span class="fw-bold">
                                             {{ $data->kode }}
                                         </span>
                                     </td>
-                                    <td>
+                                    <td class="text-nowrap">
                                         {{ date('d-m-Y', strtotime($data->tanggal)) }}
                                     </td>
-                                    <td>
+                                    <td class="text-wrap">
                                         {{ $data->nama }}
                                     </td>
                                     <td>
                                         {{ $data->no_hp }}
                                     </td>
-                                    <td>
+                                    <td class="text-nowrap">
                                         {{ $data->layanan->nama }}
                                     </td>
                                     <td>
@@ -89,7 +89,7 @@
                                         </span>
 
                                     </td>
-                                    <td>
+                                    <td class="text-nowrap">
                                         <div class="me-3">
                                             <!-- Button trigger modal -->
                                             <a href="{{ url('admin/registrasi/print/' . $data->id) }}" type="button"

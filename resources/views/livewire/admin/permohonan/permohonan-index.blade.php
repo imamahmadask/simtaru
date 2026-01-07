@@ -70,7 +70,7 @@
                 </div>
             </div>
 
-            <div class="table-responsive text-nowrap">
+            <div class="table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
@@ -100,10 +100,10 @@
                                             <i class="bx bx-star text-warning"></i>
                                         @endif
                                     </td>
-                                    <td>
+                                    <td class="text-nowrap">
                                         {{ $data->layanan->nama }}
                                     </td>
-                                    <td>
+                                    <td class="text-nowrap">
                                         <strong>
                                             {{ $data->registrasi->kode }}
                                         </strong>
@@ -112,7 +112,7 @@
                                             {{ date('d-m-Y', strtotime($data->registrasi->tanggal)) }}
                                         </small>
                                     </td>
-                                    <td>
+                                    <td class="text-wrap">
                                         {{ $data->registrasi->nama }}
                                     </td>
                                     <td>
@@ -129,7 +129,7 @@
                                             {{ $data->status }}
                                         </span>
                                     </td>
-                                    <td>
+                                    <td class="text-nowrap">
                                         <div class="me-3">
                                             <a href="{{ route('permohonan.edit', ['id' => $data->id]) }}"
                                                 type="button" class="btn btn-primary btn-sm">
