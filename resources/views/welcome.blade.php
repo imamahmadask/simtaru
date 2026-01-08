@@ -35,6 +35,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-muted hover-primary" href="#regulasi">Regulasi</a>
                         </li>
+                        {{-- <li class="nav-item">
+                            <a class="nav-link text-muted hover-primary" href="#map">Peta</a>
+                        </li> --}}
                         <li class="nav-item">
                             <a class="nav-link text-muted hover-primary" href="#kontak">Kontak</a>
                         </li>
@@ -221,6 +224,129 @@
             </div>
         </div>
     </section>
+
+    <!-- Map Section -->
+    {{-- <section id="map" style="padding-top: 5rem !important; padding-bottom: 5rem !important">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <h2 class="display-4 fw-bold text-dark mb-4">Peta Digital</h2>
+                    <p class="lead text-muted">
+                        Visualisasi interaktif Rencana Tata Ruang Wilayah Kota Mataram
+                    </p>
+                </div>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="row justify-content-center mb-4 g-3">
+                <div class="col-md-4">
+                    <div class="input-group shadow-sm">
+                        <span class="input-group-text bg-white border-end-0"><i
+                                class="bi bi-geo-alt text-primary"></i></span>
+                        <select class="form-select border-start-0" aria-label="Filter Kecamatan">
+                            <option selected>Semua Kecamatan</option>
+                            <option value="Ampenan">Ampenan</option>
+                            <option value="Cakranegara">Cakranegara</option>
+                            <option value="Mataram">Mataram</option>
+                            <option value="Sandubaya">Sandubaya</option>
+                            <option value="Sekarbela">Sekarbela</option>
+                            <option value="Selaparang">Selaparang</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group shadow-sm">
+                        <span class="input-group-text bg-white border-end-0"><i
+                                class="bi bi-layers text-primary"></i></span>
+                        <select class="form-select border-start-0" aria-label="Filter Pemanfaatan Ruang">
+                            <option selected>Semua Pemanfaatan Ruang</option>
+                            <option value="Kawasan Lindung">Kawasan Lindung</option>
+                            <option value="Kawasan Budidaya">Kawasan Budidaya</option>
+                            <option value="RTH">Ruang Terbuka Hijau</option>
+                            <option value="Perumahan">Perumahan</option>
+                            <option value="Perdagangan">Perdagangan & Jasa</option>
+                            <option value="Perkantoran">Perkantoran</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary w-100 shadow-sm">
+                        <i class="bi bi-filter me-2"></i>Filter
+                    </button>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <!-- Map Placeholder -->
+                    <div
+                        class="ratio ratio-16x9 bg-dark rounded shadow-lg d-flex align-items-center justify-content-center overflow-hidden position-relative">
+                        <div class="position-absolute w-100 h-100 opacity-50"
+                            style="background: linear-gradient(45deg, #2c3e50, #3498db);"></div>
+                        <div class="position-relative z-1 text-white text-center">
+                            <i class="bi bi-map-fill display-1 mb-3"></i>
+                            <h4>Peta Interaktif</h4>
+                            <p class="mb-4">Klik tombol di bawah untuk melihat peta selengkapnya</p>
+                            <button class="btn btn-light btn-lg">
+                                <i class="bi bi-arrows-fullscreen me-2"></i>Buka Peta Fullscreen
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <!-- Dummy Data / Stats -->
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body p-4">
+
+
+                            <h4 class="fw-bold mb-4">Statistik Wilayah</h4>
+
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span class="text-muted">Kawasan Lindung</span>
+                                    <span class="fw-bold text-success">1,240 Ha</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 30%"></div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span class="text-muted">Kawasan Budidaya</span>
+                                    <span class="fw-bold text-primary">4,850 Ha</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 70%"></div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span class="text-muted">Ruang Terbuka Hijau</span>
+                                    <span class="fw-bold text-info">850 Ha</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: 25%"></div>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <h5 class="fw-bold mb-3">Layer Tersedia</h5>
+                            <div class="d-flex flex-wrap gap-2">
+                                <span class="badge bg-light text-dark border">Administrasi</span>
+                                <span class="badge bg-light text-dark border">Pola Ruang</span>
+                                <span class="badge bg-light text-dark border">Jaringan Jalan</span>
+                                <span class="badge bg-light text-dark border">Drainase</span>
+                                <span class="badge bg-light text-dark border">Fasilitas Umum</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> --}}
 
     <!-- CTA Section -->
     <section id="kontak" style="padding-top: 5rem !important; padding-bottom: 5rem !important">
