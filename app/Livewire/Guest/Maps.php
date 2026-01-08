@@ -17,6 +17,56 @@ class Maps extends Component
         return view('livewire.guest.maps');
     }
 
+    /**
+     * Convert DMS (Degrees Minutes Seconds) to Decimal Degrees
+     * Example: "8°36'46,648\"S" => -8.612958
+     * Example: "116°6'26,406\"E" => 116.107335
+     */
+    private function dmsToDecimal($dms)
+    {
+        if (empty($dms)) {
+            return null;
+        }
+
+        // Remove spaces and normalize
+        $dms = trim($dms);
+        
+        // Extract direction (N, S, E, W)
+        $direction = '';
+        if (preg_match('/[NSEW]$/i', $dms, $matches)) {
+            $direction = strtoupper($matches[0]);
+            $dms = rtrim($dms, $direction);
+        }
+
+        // Replace comma with dot for decimal separator
+        $dms = str_replace(',', '.', $dms);
+        
+        // Parse degrees, minutes, seconds
+        // Pattern: 8°36'46.648"
+        if (preg_match('/(\d+)°(\d+)\'([\d.]+)"?/', $dms, $matches)) {
+            $degrees = (float) $matches[1];
+            $minutes = (float) $matches[2];
+            $seconds = (float) $matches[3];
+            
+            // Convert to decimal
+            $decimal = $degrees + ($minutes / 60) + ($seconds / 3600);
+            
+            // Apply direction (S and W are negative)
+            if ($direction === 'S' || $direction === 'W') {
+                $decimal = -$decimal;
+            }
+            
+            return $decimal;
+        }
+        
+        // If already decimal, return as is
+        if (is_numeric($dms)) {
+            return (float) $dms;
+        }
+        
+        return null;
+    }
+
     public function filterMap()
     {
         if($this->kecamatan != '')
@@ -42,8 +92,8 @@ class Maps extends Component
                     $firstCoord = $koordinatArray[0];                    
                     $coords[] = [
                         'name' => 'Kode Registrasi: ' . $permohonan->registrasi->kode,
-                        'lat' => $firstCoord['x'] ?? null,
-                        'lng' => $firstCoord['y'] ?? null,
+                        'lng' => $this->dmsToDecimal($firstCoord['x'] ?? null),
+                        'lat' => $this->dmsToDecimal($firstCoord['y'] ?? null),
                         'info' => 'Status : ' . ($permohonan->status ?? 'Tidak ada deskripsi'),
                         'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
                         'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
@@ -53,29 +103,39 @@ class Maps extends Component
             }
 
             // Ambil dari Itr jika ada
-            if ($permohonan->itr && $permohonan->itr->lat && $permohonan->itr->lng) {
-                $coords[] = [
-                    'name' => 'Kode Registrasi: ' . $permohonan->registrasi->kode,
-                    'lat' => $permohonan->itr->lat,
-                    'lng' => $permohonan->itr->lng,
-                    'info' => 'Status : ' . ($permohonan->status ?? 'Tidak ada deskripsi'),
-                    'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
-                    'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
-                    'kecamatan' => 'Kecamatan : ' . $permohonan->registrasi->kec_tanah,
-                ];
+            if ($permohonan->itr && $permohonan->itr->koordinat) {
+                $koordinatArray = $permohonan->itr->koordinat;
+                // Get first coordinate if array is not empty
+                if (!empty($koordinatArray) && isset($koordinatArray[0])) {
+                    $firstCoord = $koordinatArray[0];                    
+                    $coords[] = [
+                        'name' => 'Kode Registrasi: ' . $permohonan->registrasi->kode,
+                        'lng' => $this->dmsToDecimal($firstCoord['x'] ?? null),
+                        'lat' => $this->dmsToDecimal($firstCoord['y'] ?? null),
+                        'info' => 'Status : ' . ($permohonan->status ?? 'Tidak ada deskripsi'),
+                        'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
+                        'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
+                        'kecamatan' => 'Kecamatan : ' . $permohonan->registrasi->kec_tanah,
+                    ];
+                }
             }
 
             // Ambil dari Kkprb jika ada
             if ($permohonan->kkprb && $permohonan->kkprb->koordinat) {
-                $coords[] = [
-                    'name' => 'Kode Registrasi: ' . $permohonan->registrasi->kode,
-                    'lat' => $permohonan->kkprb->lat,
-                    'lng' => $permohonan->kkprb->lng,
-                    'info' => 'Status : ' . ($permohonan->status ?? 'Tidak ada deskripsi'),
-                    'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
-                    'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
-                    'kecamatan' => 'Kecamatan : ' . $permohonan->registrasi->kec_tanah,
-                ];
+                $koordinatArray = $permohonan->kkprb->koordinat;
+                // Get first coordinate if array is not empty
+                if (!empty($koordinatArray) && isset($koordinatArray[0])) {
+                    $firstCoord = $koordinatArray[0];                    
+                    $coords[] = [
+                        'name' => 'Kode Registrasi: ' . $permohonan->registrasi->kode,
+                        'lng' => $this->dmsToDecimal($firstCoord['x'] ?? null),
+                        'lat' => $this->dmsToDecimal($firstCoord['y'] ?? null),
+                        'info' => 'Status : ' . ($permohonan->status ?? 'Tidak ada deskripsi'),
+                        'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
+                        'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
+                        'kecamatan' => 'Kecamatan : ' . $permohonan->registrasi->kec_tanah,
+                    ];
+                }   
             }
 
             // Ambil dari Kkprnb jika ada
@@ -86,8 +146,8 @@ class Maps extends Component
                     $firstCoord = $koordinatArray[0];                    
                     $coords[] = [
                         'name' => 'Kode Registrasi: ' . $permohonan->registrasi->kode,
-                        'lat' => $firstCoord['x'] ?? null,
-                        'lng' => $firstCoord['y'] ?? null,
+                        'lng' => $this->dmsToDecimal($firstCoord['x'] ?? null),
+                        'lat' => $this->dmsToDecimal($firstCoord['y'] ?? null),
                         'info' => 'Status : ' . ($permohonan->status ?? 'Tidak ada deskripsi'),
                         'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
                         'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
@@ -119,8 +179,8 @@ class Maps extends Component
                     $firstCoord = $koordinatArray[0];                    
                     $coords[] = [
                         'name' => 'Kode Registrasi: ' . $permohonan->registrasi->kode,
-                        'lat' => $firstCoord['x'] ?? null,
-                        'lng' => $firstCoord['y'] ?? null,
+                        'lng' => $this->dmsToDecimal($firstCoord['x'] ?? null),
+                        'lat' => $this->dmsToDecimal($firstCoord['y'] ?? null),
                         'info' => 'Status : ' . ($permohonan->status ?? 'Tidak ada deskripsi'),
                         'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
                         'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
@@ -137,8 +197,8 @@ class Maps extends Component
                     $firstCoord = $koordinatArray[0];                    
                     $coords[] = [
                         'name' => 'Kode Registrasi: ' . $permohonan->registrasi->kode,
-                        'lat' => $firstCoord['x'] ?? null,
-                        'lng' => $firstCoord['y'] ?? null,
+                        'lng' => $this->dmsToDecimal($firstCoord['x'] ?? null),
+                        'lat' => $this->dmsToDecimal($firstCoord['y'] ?? null),
                         'info' => 'Status : ' . ($permohonan->status ?? 'Tidak ada deskripsi'),
                         'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
                         'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
@@ -155,8 +215,8 @@ class Maps extends Component
                     $firstCoord = $koordinatArray[0];                    
                     $coords[] = [
                         'name' => 'Kode Registrasi: ' . $permohonan->registrasi->kode,
-                        'lat' => $firstCoord['x'] ?? null,
-                        'lng' => $firstCoord['y'] ?? null,
+                        'lng' => $this->dmsToDecimal($firstCoord['x'] ?? null),
+                        'lat' => $this->dmsToDecimal($firstCoord['y'] ?? null),
                         'info' => 'Status : ' . ($permohonan->status ?? 'Tidak ada deskripsi'),
                         'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
                         'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
@@ -173,8 +233,8 @@ class Maps extends Component
                     $firstCoord = $koordinatArray[0];                    
                     $coords[] = [
                         'name' => 'Kode Registrasi: ' . $permohonan->registrasi->kode,
-                        'lat' => $firstCoord['x'] ?? null,
-                        'lng' => $firstCoord['y'] ?? null,
+                        'lng' => $this->dmsToDecimal($firstCoord['x'] ?? null),
+                        'lat' => $this->dmsToDecimal($firstCoord['y'] ?? null),
                         'info' => 'Status : ' . ($permohonan->status ?? 'Tidak ada deskripsi'),
                         'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
                         'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
