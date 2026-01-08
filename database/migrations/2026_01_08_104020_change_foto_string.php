@@ -12,19 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('skrk', function (Blueprint $table) {
-            $table->text('foto_survey')->change();
+            $table->text('foto_survey')->nullable()->change();
         });
 
         Schema::table('itr', function (Blueprint $table) {
-            $table->text('foto_survey')->change();
+            $table->text('foto_survey')->nullable()->change();
         });
 
         Schema::table('kkprb', function (Blueprint $table) {
-            $table->text('foto_survey')->change();
+            $table->text('foto_survey')->nullable()->change();
         });
 
         Schema::table('kkprnb', function (Blueprint $table) {
-            $table->text('foto_survey')->change();
+            $table->text('foto_survey')->nullable()->change();
         });
     }
 
@@ -34,19 +34,19 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('skrk', function (Blueprint $table) {
-            $table->string('foto_survey')->change();
+            $table->string('foto_survey')->nullable()->change();
         });
 
         Schema::table('itr', function (Blueprint $table) {
-            $table->string('foto_survey')->change();
+            $table->string('foto_survey')->nullable()->change();
         });
 
         Schema::table('kkprb', function (Blueprint $table) {
-            $table->string('foto_survey')->change();
+            $table->string('foto_survey')->nullable()->change();
         });
 
         Schema::table('kkprnb', function (Blueprint $table) {
-            $table->string('foto_survey')->change();
+            $table->string('foto_survey')->nullable()->change();
         });
 
 
