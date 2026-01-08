@@ -5,9 +5,11 @@
             <div class="row align-items-center">
                 <div class="col-lg-8 mx-auto text-center">
                     <h1 class="display-4 fw-bold mb-3">KKPR Berusaha</h1>
-                    <p class="lead mb-4">Kesesuaian Kegiatan Pemanfaatan Ruang untuk Berusaha - Izin dasar yang memastikan rencana kegiatan usaha Anda sesuai dengan tata ruang dan peraturan zonasi yang berlaku</p>
+                    <p class="lead mb-4">Kesesuaian Kegiatan Pemanfaatan Ruang untuk Berusaha - Izin dasar yang
+                        memastikan rencana kegiatan usaha Anda sesuai dengan tata ruang dan peraturan zonasi yang
+                        berlaku</p>
                     <div class="d-flex gap-3 justify-content-center">
-                        <button wire:click="$emit('startApplication')" class="btn btn-dark btn-lg px-4">
+                        <button wire:click="#" class="btn btn-dark btn-lg px-4">
                             <i class="bi bi-file-earmark-plus me-2"></i>Ajukan Sekarang
                         </button>
                         <a href="#info" class="btn btn-outline-dark btn-lg px-4">
@@ -20,15 +22,16 @@
     </section>
 
     <!-- Overview Section -->
-    <section id="info" class="py-5 bg-light">
+    <section id="info" class="bg-light" style="padding-top: 4rem !important; padding-bottom: 3rem !important;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 mx-auto">
                     <div class="text-center mb-5">
                         <h2 class="fw-bold mb-3">Apa itu KKPR Berusaha?</h2>
-                        <p class="text-muted">Informasi lengkap tentang Kesesuaian Kegiatan Pemanfaatan Ruang untuk Berusaha</p>
+                        <p class="text-muted">Informasi lengkap tentang Kesesuaian Kegiatan Pemanfaatan Ruang untuk
+                            Berusaha</p>
                     </div>
-                    
+
                     <div class="card shadow-sm border-0 mb-4">
                         <div class="card-body p-4">
                             <div class="row align-items-center">
@@ -38,7 +41,11 @@
                                 <div class="col-md-10">
                                     <h5 class="card-title fw-bold">Definisi</h5>
                                     <p class="card-text text-muted mb-0">
-                                        KKPR Berusaha adalah Persetujuan Kesesuaian Kegiatan Pemanfaatan Ruang yang diperlukan untuk kegiatan usaha atau komersial. Dokumen ini memastikan bahwa rencana kegiatan usaha Anda sesuai dengan rencana tata ruang, peraturan zonasi, dan standar teknis yang berlaku. KKPR Berusaha merupakan persyaratan penting dalam proses perizinan berusaha melalui sistem OSS (Online Single Submission).
+                                        KKPR Berusaha adalah Persetujuan Kesesuaian Kegiatan Pemanfaatan Ruang yang
+                                        diperlukan untuk kegiatan usaha atau komersial. Dokumen ini memastikan bahwa
+                                        rencana kegiatan usaha Anda sesuai dengan rencana tata ruang, peraturan zonasi,
+                                        dan standar teknis yang berlaku. KKPR Berusaha merupakan persyaratan penting
+                                        dalam proses perizinan berusaha melalui sistem OSS (Online Single Submission).
                                     </p>
                                 </div>
                             </div>
@@ -327,7 +334,9 @@
 
                     <div class="alert alert-warning mt-4" role="alert">
                         <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                        <strong>Penting:</strong> Semua dokumen harus dalam format PDF atau gambar (JPG/PNG) dengan ukuran maksimal 2MB per file. Pastikan data perusahaan dan lokasi usaha sudah sesuai dengan dokumen resmi.
+                        <strong>Penting:</strong> Semua dokumen harus dalam format PDF atau gambar (JPG/PNG) dengan
+                        ukuran maksimal 2MB per file. Pastikan data perusahaan dan lokasi usaha sudah sesuai dengan
+                        dokumen resmi.
                     </div>
                 </div>
             </div>
@@ -348,7 +357,8 @@
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-warning text-dark rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <div class="bg-warning text-dark rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                        style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">1</h3>
                                     </div>
                                     <h5 class="fw-bold">Pendaftaran NIB</h5>
@@ -359,7 +369,8 @@
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-warning text-dark rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <div class="bg-warning text-dark rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                        style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">2</h3>
                                     </div>
                                     <h5 class="fw-bold">Isi Formulir</h5>
@@ -370,7 +381,8 @@
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-warning text-dark rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <div class="bg-warning text-dark rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                        style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">3</h3>
                                     </div>
                                     <h5 class="fw-bold">Upload Dokumen</h5>
@@ -381,7 +393,8 @@
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                        style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">4</h3>
                                     </div>
                                     <h5 class="fw-bold">Verifikasi Administrasi</h5>
@@ -392,7 +405,8 @@
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                        style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">5</h3>
                                     </div>
                                     <h5 class="fw-bold">Verifikasi Teknis</h5>
@@ -403,7 +417,8 @@
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                        style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">6</h3>
                                     </div>
                                     <h5 class="fw-bold">Survei Lapangan</h5>
@@ -414,7 +429,8 @@
                         <div class="col-md-6">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                        style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">7</h3>
                                     </div>
                                     <h5 class="fw-bold">Pembahasan Teknis</h5>
@@ -425,7 +441,8 @@
                         <div class="col-md-6">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                        style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">8</h3>
                                     </div>
                                     <h5 class="fw-bold">Penerbitan KKPR</h5>
@@ -471,7 +488,7 @@
                         <div class="col-md-6 col-lg-3">
                             <div class="text-center">
                                 <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
-                                    <i class="bi bi-building text-success" style="font-size: 2.5rem;"></i>
+                                    <i class="bi bi-building-fill text-success" style="font-size: 2.5rem;"></i>
                                 </div>
                                 <h5 class="fw-bold">Syarat IMB</h5>
                                 <p class="text-muted small">Dokumen pendukung untuk Izin Mendirikan Bangunan</p>
@@ -505,84 +522,107 @@
                     <div class="accordion" id="faqAccordion">
                         <div class="accordion-item border-0 shadow-sm mb-3">
                             <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#faq1">
                                     <i class="bi bi-question-circle me-2 text-warning"></i>
                                     Apa perbedaan KKPR Berusaha dengan KKPR Non Berusaha?
                                 </button>
                             </h2>
-                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div id="faq1" class="accordion-collapse collapse show"
+                                data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    <strong>KKPR Berusaha</strong> diperuntukkan bagi kegiatan usaha atau komersial yang bertujuan mencari keuntungan (seperti toko, pabrik, hotel), sedangkan <strong>KKPR Non Berusaha</strong> untuk kegiatan non-komersial seperti rumah tinggal, tempat ibadah, atau fasilitas sosial.
+                                    <strong>KKPR Berusaha</strong> diperuntukkan bagi kegiatan usaha atau komersial yang
+                                    bertujuan mencari keuntungan (seperti toko, pabrik, hotel), sedangkan <strong>KKPR
+                                        Non Berusaha</strong> untuk kegiatan non-komersial seperti rumah tinggal, tempat
+                                    ibadah, atau fasilitas sosial.
                                 </div>
                             </div>
                         </div>
 
                         <div class="accordion-item border-0 shadow-sm mb-3">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#faq2">
                                     <i class="bi bi-question-circle me-2 text-warning"></i>
                                     Berapa lama proses penerbitan KKPR Berusaha?
                                 </button>
                             </h2>
                             <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    Proses penerbitan KKPR Berusaha memakan waktu sekitar <strong>7-10 hari kerja</strong> setelah semua dokumen lengkap dan terverifikasi. Waktu dapat lebih lama jika diperlukan survei lapangan atau klarifikasi tambahan.
+                                    Proses penerbitan KKPR Berusaha memakan waktu sekitar <strong>7-10 hari
+                                        kerja</strong> setelah semua dokumen lengkap dan terverifikasi. Waktu dapat
+                                    lebih lama jika diperlukan survei lapangan atau klarifikasi tambahan.
                                 </div>
                             </div>
                         </div>
 
                         <div class="accordion-item border-0 shadow-sm mb-3">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#faq3">
                                     <i class="bi bi-question-circle me-2 text-warning"></i>
                                     Apakah KKPR Berusaha wajib untuk semua jenis usaha?
                                 </button>
                             </h2>
                             <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    Ya, KKPR Berusaha <strong>wajib untuk semua kegiatan usaha</strong> yang memerlukan perizinan berusaha melalui sistem OSS. Dokumen ini memastikan bahwa lokasi dan jenis kegiatan usaha Anda sesuai dengan peraturan tata ruang yang berlaku.
+                                    Ya, KKPR Berusaha <strong>wajib untuk semua kegiatan usaha</strong> yang memerlukan
+                                    perizinan berusaha melalui sistem OSS. Dokumen ini memastikan bahwa lokasi dan jenis
+                                    kegiatan usaha Anda sesuai dengan peraturan tata ruang yang berlaku.
                                 </div>
                             </div>
                         </div>
 
                         <div class="accordion-item border-0 shadow-sm mb-3">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#faq4">
                                     <i class="bi bi-question-circle me-2 text-warning"></i>
                                     Bagaimana jika lokasi usaha saya tidak sesuai dengan zonasi?
                                 </button>
                             </h2>
                             <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    Jika lokasi tidak sesuai dengan zonasi yang berlaku, permohonan KKPR Berusaha akan <strong>ditolak</strong>. Anda perlu mencari lokasi alternatif yang sesuai dengan jenis kegiatan usaha, atau mengubah jenis kegiatan usaha agar sesuai dengan zonasi lokasi tersebut.
+                                    Jika lokasi tidak sesuai dengan zonasi yang berlaku, permohonan KKPR Berusaha akan
+                                    <strong>ditolak</strong>. Anda perlu mencari lokasi alternatif yang sesuai dengan
+                                    jenis kegiatan usaha, atau mengubah jenis kegiatan usaha agar sesuai dengan zonasi
+                                    lokasi tersebut.
                                 </div>
                             </div>
                         </div>
 
                         <div class="accordion-item border-0 shadow-sm mb-3">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#faq5">
                                     <i class="bi bi-question-circle me-2 text-warning"></i>
                                     Apakah bisa mengajukan KKPR Berusaha tanpa NIB?
                                 </button>
                             </h2>
                             <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    <strong>Tidak bisa</strong>. NIB (Nomor Induk Berusaha) merupakan <strong>persyaratan wajib</strong> untuk mengajukan KKPR Berusaha. Anda harus terlebih dahulu mendaftar dan mendapatkan NIB melalui sistem OSS sebelum mengajukan KKPR Berusaha.
+                                    <strong>Tidak bisa</strong>. NIB (Nomor Induk Berusaha) merupakan
+                                    <strong>persyaratan wajib</strong> untuk mengajukan KKPR Berusaha. Anda harus
+                                    terlebih dahulu mendaftar dan mendapatkan NIB melalui sistem OSS sebelum mengajukan
+                                    KKPR Berusaha.
                                 </div>
                             </div>
                         </div>
 
                         <div class="accordion-item border-0 shadow-sm mb-3">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#faq6">
                                     <i class="bi bi-question-circle me-2 text-warning"></i>
                                     Apakah KKPR Berusaha perlu diperpanjang?
                                 </button>
                             </h2>
                             <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    KKPR Berusaha <strong>berlaku selama izin usaha masih aktif</strong> dan tidak ada perubahan pada lokasi atau jenis kegiatan usaha. Jika ada perubahan lokasi, perluasan area, atau perubahan jenis kegiatan, Anda perlu mengajukan KKPR Berusaha yang baru.
+                                    KKPR Berusaha <strong>berlaku selama izin usaha masih aktif</strong> dan tidak ada
+                                    perubahan pada lokasi atau jenis kegiatan usaha. Jika ada perubahan lokasi,
+                                    perluasan area, atau perubahan jenis kegiatan, Anda perlu mengajukan KKPR Berusaha
+                                    yang baru.
                                 </div>
                             </div>
                         </div>
@@ -598,12 +638,14 @@
             <div class="row">
                 <div class="col-lg-8 mx-auto text-center">
                     <h2 class="fw-bold mb-3">Siap Mengajukan KKPR Berusaha?</h2>
-                    <p class="lead mb-4">Pastikan kegiatan usaha Anda sesuai dengan regulasi tata ruang yang berlaku</p>
+                    <p class="lead mb-4">Pastikan kegiatan usaha Anda sesuai dengan regulasi tata ruang yang berlaku
+                    </p>
                     <div class="d-flex gap-3 justify-content-center flex-wrap">
                         <button wire:click="$emit('startApplication')" class="btn btn-dark btn-lg px-5">
                             <i class="bi bi-rocket-takeoff me-2"></i>Mulai Pengajuan Sekarang
                         </button>
-                        <a href="#info" class="btn btn-outline-dark btn-lg px-5">
+                        <a href="https://wa.me/62895326753064" target="_blank"
+                            class="btn btn-outline-dark btn-lg px-5">
                             <i class="bi bi-telephone me-2"></i>Hubungi Kami
                         </a>
                     </div>
@@ -628,11 +670,11 @@
                 </div>
                 <div class="col-md-4">
                     <i class="bi bi-telephone-fill text-warning mb-2" style="font-size: 1.5rem;"></i>
-                    <p class="mb-0 small">(0370) 1234567</p>
+                    <p class="mb-0 small">0895 32675 3064</p>
                 </div>
                 <div class="col-md-4">
                     <i class="bi bi-envelope-fill text-warning mb-2" style="font-size: 1.5rem;"></i>
-                    <p class="mb-0 small">ptsp@mataramkota.go.id</p>
+                    <p class="mb-0 small">bidangtataruangmataram@gmail.com</p>
                 </div>
             </div>
         </div>

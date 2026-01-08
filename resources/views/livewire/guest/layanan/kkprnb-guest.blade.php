@@ -5,9 +5,11 @@
             <div class="row align-items-center">
                 <div class="col-lg-8 mx-auto text-center">
                     <h1 class="display-4 fw-bold mb-3">KKPR Non Berusaha</h1>
-                    <p class="lead mb-4">Kesesuaian Kegiatan Pemanfaatan Ruang untuk Non Berusaha - Persetujuan untuk kegiatan non-komersial seperti rumah tinggal, tempat ibadah, dan fasilitas sosial yang sesuai dengan tata ruang</p>
+                    <p class="lead mb-4">Kesesuaian Kegiatan Pemanfaatan Ruang untuk Non Berusaha - Persetujuan untuk
+                        kegiatan non-komersial seperti rumah tinggal, tempat ibadah, dan fasilitas sosial yang sesuai
+                        dengan tata ruang</p>
                     <div class="d-flex gap-3 justify-content-center">
-                        <button wire:click="$emit('startApplication')" class="btn btn-light btn-lg px-4">
+                        <button wire:click="#" class="btn btn-light btn-lg px-4">
                             <i class="bi bi-file-earmark-plus me-2"></i>Ajukan Sekarang
                         </button>
                         <a href="#info" class="btn btn-outline-light btn-lg px-4">
@@ -20,15 +22,16 @@
     </section>
 
     <!-- Overview Section -->
-    <section id="info" class="py-5 bg-light">
+    <section id="info" class="bg-light" style="padding-top: 4rem !important; padding-bottom: 3rem !important;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 mx-auto">
                     <div class="text-center mb-5">
                         <h2 class="fw-bold mb-3">Apa itu KKPR Non Berusaha?</h2>
-                        <p class="text-muted">Informasi lengkap tentang Kesesuaian Kegiatan Pemanfaatan Ruang untuk Non Berusaha</p>
+                        <p class="text-muted">Informasi lengkap tentang Kesesuaian Kegiatan Pemanfaatan Ruang untuk Non
+                            Berusaha</p>
                     </div>
-                    
+
                     <div class="card shadow-sm border-0 mb-4">
                         <div class="card-body p-4">
                             <div class="row align-items-center">
@@ -38,7 +41,11 @@
                                 <div class="col-md-10">
                                     <h5 class="card-title fw-bold">Definisi</h5>
                                     <p class="card-text text-muted mb-0">
-                                        KKPR Non Berusaha adalah Persetujuan Kesesuaian Kegiatan Pemanfaatan Ruang yang diperlukan untuk kegiatan non-komersial atau tidak berorientasi pada keuntungan. Dokumen ini memastikan bahwa rencana kegiatan seperti pembangunan rumah tinggal, tempat ibadah, fasilitas sosial, dan kegiatan non-profit lainnya sesuai dengan rencana tata ruang dan peraturan zonasi yang berlaku di Kota Mataram.
+                                        KKPR Non Berusaha adalah Persetujuan Kesesuaian Kegiatan Pemanfaatan Ruang yang
+                                        diperlukan untuk kegiatan non-komersial atau tidak berorientasi pada keuntungan.
+                                        Dokumen ini memastikan bahwa rencana kegiatan seperti pembangunan rumah tinggal,
+                                        tempat ibadah, fasilitas sosial, dan kegiatan non-profit lainnya sesuai dengan
+                                        rencana tata ruang dan peraturan zonasi yang berlaku di Kota Mataram.
                                     </p>
                                 </div>
                             </div>
@@ -92,7 +99,8 @@
                 <div class="col-lg-10 mx-auto">
                     <div class="text-center mb-5">
                         <h2 class="fw-bold mb-3">Jenis Kegiatan Non Berusaha</h2>
-                        <p class="text-muted">Berbagai jenis kegiatan non-komersial yang memerlukan KKPR Non Berusaha</p>
+                        <p class="text-muted">Berbagai jenis kegiatan non-komersial yang memerlukan KKPR Non Berusaha
+                        </p>
                     </div>
 
                     <div class="row g-4">
@@ -183,7 +191,8 @@
                         <div class="col-md-6">
                             <div class="card border-warning h-100 shadow-sm">
                                 <div class="card-header bg-warning text-dark">
-                                    <h5 class="mb-0"><i class="bi bi-building-add me-2"></i>Fasilitas Umum Lainnya</h5>
+                                    <h5 class="mb-0"><i class="bi bi-building-add me-2"></i>Fasilitas Umum Lainnya
+                                    </h5>
                                 </div>
                                 <div class="card-body">
                                     <ul class="list-group list-group-flush">
@@ -283,7 +292,8 @@
                         <div class="col-md-12">
                             <div class="card border-success">
                                 <div class="card-header bg-success text-white">
-                                    <h5 class="mb-0"><i class="bi bi-file-earmark-text me-2"></i>Dokumen Teknis & Pendukung</h5>
+                                    <h5 class="mb-0"><i class="bi bi-file-earmark-text me-2"></i>Dokumen Teknis &
+                                        Pendukung</h5>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
@@ -327,7 +337,9 @@
 
                     <div class="alert alert-info mt-4" role="alert">
                         <i class="bi bi-info-circle-fill me-2"></i>
-                        <strong>Catatan:</strong> Semua dokumen harus dalam format PDF atau gambar (JPG/PNG) dengan ukuran maksimal 2MB per file. Pastikan kegiatan yang diajukan benar-benar bersifat non-komersial.
+                        <strong>Catatan:</strong> Semua dokumen harus dalam format PDF atau gambar (JPG/PNG) dengan
+                        ukuran maksimal 2MB per file. Pastikan kegiatan yang diajukan benar-benar bersifat
+                        non-komersial.
                     </div>
                 </div>
             </div>
@@ -348,7 +360,8 @@
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                        style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">1</h3>
                                     </div>
                                     <h5 class="fw-bold">Pendaftaran & Login</h5>
@@ -359,7 +372,8 @@
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                        style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">2</h3>
                                     </div>
                                     <h5 class="fw-bold">Isi Formulir</h5>
@@ -370,7 +384,8 @@
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                        style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">3</h3>
                                     </div>
                                     <h5 class="fw-bold">Upload Dokumen</h5>
@@ -381,7 +396,8 @@
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                        style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">4</h3>
                                     </div>
                                     <h5 class="fw-bold">Verifikasi Administrasi</h5>
@@ -392,7 +408,8 @@
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                        style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">5</h3>
                                     </div>
                                     <h5 class="fw-bold">Verifikasi Teknis</h5>
@@ -403,7 +420,8 @@
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                        style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">6</h3>
                                     </div>
                                     <h5 class="fw-bold">Survei Lapangan</h5>
@@ -414,7 +432,8 @@
                         <div class="col-md-6">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                        style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">7</h3>
                                     </div>
                                     <h5 class="fw-bold">Pembahasan & Persetujuan</h5>
@@ -425,7 +444,8 @@
                         <div class="col-md-6">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                        style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">8</h3>
                                     </div>
                                     <h5 class="fw-bold">Penerbitan KKPR</h5>
@@ -505,84 +525,106 @@
                     <div class="accordion" id="faqAccordion">
                         <div class="accordion-item border-0 shadow-sm mb-3">
                             <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#faq1">
                                     <i class="bi bi-question-circle me-2 text-info"></i>
                                     Apa perbedaan KKPR Non Berusaha dengan KKPR Berusaha?
                                 </button>
                             </h2>
-                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div id="faq1" class="accordion-collapse collapse show"
+                                data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    <strong>KKPR Non Berusaha</strong> diperuntukkan bagi kegiatan non-komersial yang tidak berorientasi pada keuntungan (seperti rumah tinggal, tempat ibadah, fasilitas sosial), sedangkan <strong>KKPR Berusaha</strong> untuk kegiatan usaha atau komersial yang bertujuan mencari keuntungan.
+                                    <strong>KKPR Non Berusaha</strong> diperuntukkan bagi kegiatan non-komersial yang
+                                    tidak berorientasi pada keuntungan (seperti rumah tinggal, tempat ibadah, fasilitas
+                                    sosial), sedangkan <strong>KKPR Berusaha</strong> untuk kegiatan usaha atau
+                                    komersial yang bertujuan mencari keuntungan.
                                 </div>
                             </div>
                         </div>
 
                         <div class="accordion-item border-0 shadow-sm mb-3">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#faq2">
                                     <i class="bi bi-question-circle me-2 text-info"></i>
                                     Berapa lama proses penerbitan KKPR Non Berusaha?
                                 </button>
                             </h2>
                             <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    Proses penerbitan KKPR Non Berusaha memakan waktu sekitar <strong>5-7 hari kerja</strong> setelah semua dokumen lengkap dan terverifikasi. Waktu proses lebih cepat dibanding KKPR Berusaha karena persyaratan yang lebih sederhana.
+                                    Proses penerbitan KKPR Non Berusaha memakan waktu sekitar <strong>5-7 hari
+                                        kerja</strong> setelah semua dokumen lengkap dan terverifikasi. Waktu proses
+                                    lebih cepat dibanding KKPR Berusaha karena persyaratan yang lebih sederhana.
                                 </div>
                             </div>
                         </div>
 
                         <div class="accordion-item border-0 shadow-sm mb-3">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#faq3">
                                     <i class="bi bi-question-circle me-2 text-info"></i>
                                     Apakah rumah tinggal wajib memiliki KKPR Non Berusaha?
                                 </button>
                             </h2>
                             <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    Ya, KKPR Non Berusaha <strong>wajib untuk pembangunan rumah tinggal baru</strong> sebagai salah satu persyaratan untuk mengurus Izin Mendirikan Bangunan (IMB). Dokumen ini memastikan rumah Anda dibangun sesuai dengan peraturan zonasi yang berlaku.
+                                    Ya, KKPR Non Berusaha <strong>wajib untuk pembangunan rumah tinggal baru</strong>
+                                    sebagai salah satu persyaratan untuk mengurus Izin Mendirikan Bangunan (IMB).
+                                    Dokumen ini memastikan rumah Anda dibangun sesuai dengan peraturan zonasi yang
+                                    berlaku.
                                 </div>
                             </div>
                         </div>
 
                         <div class="accordion-item border-0 shadow-sm mb-3">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#faq4">
                                     <i class="bi bi-question-circle me-2 text-info"></i>
                                     Bagaimana jika saya menyewa tanah/bangunan?
                                 </button>
                             </h2>
                             <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    Jika Anda menyewa, Anda tetap dapat mengajukan KKPR Non Berusaha dengan melampirkan <strong>surat perjanjian sewa/kontrak yang sah</strong> dan surat persetujuan dari pemilik tanah/bangunan. Pastikan masa sewa masih berlaku saat pengajuan.
+                                    Jika Anda menyewa, Anda tetap dapat mengajukan KKPR Non Berusaha dengan melampirkan
+                                    <strong>surat perjanjian sewa/kontrak yang sah</strong> dan surat persetujuan dari
+                                    pemilik tanah/bangunan. Pastikan masa sewa masih berlaku saat pengajuan.
                                 </div>
                             </div>
                         </div>
 
                         <div class="accordion-item border-0 shadow-sm mb-3">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#faq5">
                                     <i class="bi bi-question-circle me-2 text-info"></i>
                                     Apakah renovasi rumah perlu KKPR Non Berusaha baru?
                                 </button>
                             </h2>
                             <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    Untuk <strong>renovasi kecil</strong> tidak perlu KKPR baru. Namun untuk <strong>renovasi besar yang mengubah struktur, menambah luas bangunan, atau mengubah fungsi bangunan</strong>, Anda perlu mengajukan KKPR Non Berusaha yang baru.
+                                    Untuk <strong>renovasi kecil</strong> tidak perlu KKPR baru. Namun untuk
+                                    <strong>renovasi besar yang mengubah struktur, menambah luas bangunan, atau mengubah
+                                        fungsi bangunan</strong>, Anda perlu mengajukan KKPR Non Berusaha yang baru.
                                 </div>
                             </div>
                         </div>
 
                         <div class="accordion-item border-0 shadow-sm mb-3">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#faq6">
                                     <i class="bi bi-question-circle me-2 text-info"></i>
                                     Apakah tempat ibadah perlu KKPR Non Berusaha?
                                 </button>
                             </h2>
                             <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    Ya, <strong>pembangunan tempat ibadah wajib memiliki KKPR Non Berusaha</strong>. Selain itu, tempat ibadah juga memerlukan rekomendasi dari RT/RW setempat dan memenuhi persyaratan khusus sesuai peraturan yang berlaku mengenai pendirian rumah ibadah.
+                                    Ya, <strong>pembangunan tempat ibadah wajib memiliki KKPR Non Berusaha</strong>.
+                                    Selain itu, tempat ibadah juga memerlukan rekomendasi dari RT/RW setempat dan
+                                    memenuhi persyaratan khusus sesuai peraturan yang berlaku mengenai pendirian rumah
+                                    ibadah.
                                 </div>
                             </div>
                         </div>
@@ -603,7 +645,8 @@
                         <button wire:click="$emit('startApplication')" class="btn btn-light btn-lg px-5">
                             <i class="bi bi-rocket-takeoff me-2"></i>Mulai Pengajuan Sekarang
                         </button>
-                        <a href="#info" class="btn btn-outline-light btn-lg px-5">
+                        <a href="https://wa.me/62895326753064" target="_blank"
+                            class="btn btn-outline-light btn-lg px-5">
                             <i class="bi bi-telephone me-2"></i>Hubungi Kami
                         </a>
                     </div>
@@ -628,11 +671,11 @@
                 </div>
                 <div class="col-md-4">
                     <i class="bi bi-telephone-fill text-info mb-2" style="font-size: 1.5rem;"></i>
-                    <p class="mb-0 small">(0370) 1234567</p>
+                    <p class="mb-0 small">0895 32675 3064</p>
                 </div>
                 <div class="col-md-4">
                     <i class="bi bi-envelope-fill text-info mb-2" style="font-size: 1.5rem;"></i>
-                    <p class="mb-0 small">simtaru@mataramkota.go.id</p>
+                    <p class="mb-0 small">bidangtataruangmataram@gmail.com</p>
                 </div>
             </div>
         </div>
