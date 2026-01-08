@@ -36,7 +36,7 @@
                             <a class="nav-link text-muted hover-primary" href="#regulasi">Regulasi</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-muted hover-primary" href="#contact">Contact Us</a>
+                            <a class="nav-link text-muted hover-primary" href="#kontak">Kontak</a>
                         </li>
                         @if (Route::has('login'))
                             @auth
@@ -223,7 +223,7 @@
     </section>
 
     <!-- CTA Section -->
-    <section id="contact" style="padding-top: 5rem !important; padding-bottom: 5rem !important">
+    <section id="kontak" style="padding-top: 5rem !important; padding-bottom: 5rem !important">
         <div class="container text-center">
             <div class="row justify-content-center mb-5">
                 <div class="col-lg-8">
