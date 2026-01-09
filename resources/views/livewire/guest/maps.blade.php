@@ -8,7 +8,7 @@
             height: 550px;
             width: 100%;
             border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
     </style>
 
@@ -21,65 +21,55 @@
                 const mapElement = document.getElementById('map');
                 if (!mapElement || mapInstance) return;
 
-                // Inisialisasi peta
-                mapInstance = L.map('map').setView([-8.58261111508778, 116.10517768762094], 5);
+                // Pusat Kota Mataram sebagai default
+                mapInstance = L.map('map').setView([-8.5826, 116.1051], 13);
 
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors'
                 }).addTo(mapInstance);
 
                 markersLayer = L.layerGroup().addTo(mapInstance);
-                addMarkers(); // Tambah marker awal
+                addMarkers(@js($locations));
             };
 
-            const addMarkers = () => {
-                if (!markersLayer) return;
-                markersLayer.clearLayers(); // Hapus marker lama
+            const addMarkers = (locations) => {
+                if (!markersLayer || !locations) return;
 
-                const locations = @js($locations); // Data dari Livewire
+                markersLayer.clearLayers();
+
+                if (locations.length === 0) return;
 
                 locations.forEach(loc => {
-                    L.marker([loc.lat, loc.lng])
-                        .addTo(markersLayer)
-                        .bindPopup(`<b>${loc.name}</b><br>${loc.info}<br>${loc.alamat}<br>${loc.kelurahan}<br>${loc.kecamatan}`);
+                    if (loc.lat && loc.lng) {
+                        L.marker([loc.lat, loc.lng])
+                            .addTo(markersLayer)
+                            .bindPopup(
+                                `<b>${loc.name}</b><br>${loc.info}<br>${loc.alamat}<br>${loc.kecamatan}`
+                            );
+                    }
                 });
 
-                // Opsional: Zoom ke semua marker
-                if (locations.length > 0) {
-                    const group = new L.featureGroup(markersLayer.getLayers());
-                    mapInstance.fitBounds(group.getBounds().pad(0.5));
+                // LOGIKA ZOOM OTOMATIS
+                const group = new L.featureGroup(markersLayer.getLayers());
+                if (markersLayer.getLayers().length > 0) {
+                    // fitBounds akan menyesuaikan layar agar semua marker terlihat
+                    mapInstance.fitBounds(group.getBounds().pad(0.2));
+
+                    // Jika hanya ada 1 marker, set zoom level secara manual agar tidak terlalu dekat
+                    if (markersLayer.getLayers().length === 1) {
+                        mapInstance.setZoom(16);
+                    }
                 }
             };
-
-            // Hook Livewire untuk update setelah render ulang
-            Livewire.hook('morph.updated', ({ el, component }) => {
-                if (el.id === 'map' || component.id === @js($this->getId())) {
-                    addMarkers(); // Update marker saja, tanpa rebuild peta
-                }
-            });
 
             // Inisialisasi awal
             initMap();
 
-            // Listen to Livewire event for map refresh
+            // Listen event dari Livewire
             Livewire.on('refresh-map', () => {
-                // Re-fetch locations from the updated component
-                const updatedLocations = @this.locations;                
-                
-                if (!markersLayer) return;
-                markersLayer.clearLayers(); // Clear old markers
-                
-                updatedLocations.forEach(loc => {
-                    L.marker([loc.lat, loc.lng])
-                        .addTo(markersLayer)
-                        .bindPopup(`<b>${loc.name}</b><br>${loc.info}<br>${loc.alamat}<br>${loc.kelurahan}<br>${loc.kecamatan}`);
-                });
-                
-                // Zoom to fit all markers
-                if (updatedLocations.length > 0) {
-                    const group = new L.featureGroup(markersLayer.getLayers());
-                    mapInstance.fitBounds(group.getBounds().pad(0.5));
-                }
+                // Ambil data terbaru langsung dari properti Livewire
+                const updatedLocations = @this.locations;
+                addMarkers(updatedLocations);
             });
         });
     </script>
