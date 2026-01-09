@@ -54,6 +54,10 @@ class DisposisiEdit extends Component
         ]);
 
         $this->dispatch('refresh-disposisi-list');
+        $this->dispatch('refresh-skrk-survey-list');
+        $this->dispatch('refresh-itr-survey-list');
+        $this->dispatch('refresh-kkprnb-survey-list');
+        $this->dispatch('refresh-kkprb-survey-list');
 
         $this->dispatch('trigger-close-modal');
     }

@@ -102,7 +102,7 @@ class DisposisiCreate extends Component
             ]);
         }
 
-        $this->createRiwayat($this->permohonan, "Disposisi kepada {$this->users->where('id', $this->penerima_id)->first()->name} pada tahapan ". $this->tahapans->where('id', $this->tahapan_id)->first()->nama);        
+        $this->createRiwayat($this->permohonan, "Disposisi kepada {$this->users->where('id', $this->penerima_id)->first()->name} pada tahapan ". $this->tahapans->where('id', $this->tahapan_id)->first()->nama);
 
         $this->reset('tahapan_id', 'penerima_id', 'catatan');
 
@@ -112,12 +112,16 @@ class DisposisiCreate extends Component
         ]);
 
         $this->dispatch('refresh-disposisi-list');
+        $this->dispatch('refresh-skrk-survey-list');
+        $this->dispatch('refresh-itr-survey-list');
+        $this->dispatch('refresh-kkprnb-survey-list');
+        $this->dispatch('refresh-kkprb-survey-list');
 
         $this->dispatch('trigger-close-modal');
     }
 
     public function updatedTahapanId($value)
-    {        
+    {
         $tahapan = Tahapan::find($value);
 
         if($tahapan->nama == 'Analisis')
