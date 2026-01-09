@@ -11,12 +11,8 @@
                                 <div class="card-body">
                                     <h5 class="card-title text-primary">Halo, {{ Auth::user()->name }}! 🎉</h5>
                                     <p class="mb-4">
-                                        You have done <span class="fw-bold">72%</span> more sales today. Check your new
-                                        badge in
-                                        your profile.
+                                        Apa kabarmu hari ini? Semoga sehat dan bahagia selalu.
                                     </p>
-
-                                    <a href="javascript:;" class="btn btn-sm btn-outline-primary">View Badges</a>
                                 </div>
                             </div>
                             <div class="col-sm-5 text-center text-sm-left">
@@ -37,7 +33,8 @@
                                 <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
                                     <div class="card-title">
                                         <h5 class="text-nowrap mb-2">Rekap Permohonan</h5>
-                                        <span class="badge bg-label-warning rounded-pill">Year 2025</span>
+                                        <span class="badge bg-label-warning rounded-pill">Year
+                                            {{ $year }}</span>
                                     </div>
                                     <div class="mt-sm-auto">
                                         <h3 class="mb-0">{{ $this->rekap['count_permohonan'] }} Berkas</h3>
@@ -68,16 +65,13 @@
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                                                <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                                                <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                                                <a class="dropdown-item" href="{{ route('registrasi.index') }}">View
+                                                    More</a>
                                             </div>
                                         </div>
                                     </div>
                                     <span>Registrasi</span>
                                     <h3 class="card-title text-nowrap">{{ $this->rekap['count_registrasi'] }}</h3>
-                                    <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i>
-                                        +72.80%
-                                    </small>
                                 </div>
                             </div>
                         </div>
@@ -95,16 +89,13 @@
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
-                                                <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                                                <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                                                <a class="dropdown-item" href="{{ route('permohonan.index') }}">View
+                                                    More</a>
                                             </div>
                                         </div>
                                     </div>
                                     <span>Permohonan</span>
                                     <h3 class="card-title text-nowrap">{{ $this->rekap['count_permohonan'] }}</h3>
-                                    <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i>
-                                        +28.42%
-                                    </small>
                                 </div>
                             </div>
                         </div>
@@ -121,16 +112,10 @@
                                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
-                                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
-                                                <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                                                <a class="dropdown-item" href="javascript:void(0);">Delete</a>
-                                            </div>
                                         </div>
                                     </div>
                                     <span class="d-block">Layanan</span>
                                     <h3 class="card-title text-nowrap">{{ $this->rekap['count_layanan'] }}</h3>
-                                    <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i>
-                                        -14.82%</small>
                                 </div>
                             </div>
                         </div>
@@ -147,16 +132,14 @@
                                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
-                                            <div class="dropdown-menu" aria-labelledby="cardOpt1">
-                                                <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                                                <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
+                                                <a class="dropdown-item" href="{{ route('disposisi.index') }}">View
+                                                    More</a>
                                             </div>
                                         </div>
                                     </div>
-                                    <span>Pending</span>
-                                    <h3 class="card-title text-nowrap">{{ $this->rekap['count_pending'] }}</h3>
-                                    <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i>
-                                        +28.14%</small>
+                                    <span>Disposisi</span>
+                                    <h3 class="card-title text-nowrap">{{ $this->rekap['count_disposisi'] }}</h3>
                                 </div>
                             </div>
                         </div>
