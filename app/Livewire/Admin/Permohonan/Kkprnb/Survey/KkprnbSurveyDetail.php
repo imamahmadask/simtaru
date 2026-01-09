@@ -14,14 +14,22 @@ use PhpOffice\PhpWord\TemplateProcessor;
 class KkprnbSurveyDetail extends Component
 {
     public $kkprnb;
+    public $cek_disposisi = false;
 
     public function render()
     {
+        $this->cek_disposisi = $this->kkprnb->permohonan->disposisi()
+            ->where('tahapan_id', $this->kkprnb->permohonan->layanan->tahapan
+            ->where('nama', 'Analisis')->value('id'))->first();
+
         return view('livewire.admin.permohonan.kkprnb.survey.kkprnb-survey-detail');
     }
 
     #[On('refresh-kkprnb-survey-list')]
-    public function refresh() {}
+    public function refresh()
+    {
+        $this->cek_disposisi = $this->kkprnb->permohonan->disposisi()->where('tahapan_id', $this->kkprnb->permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id'))->first();
+    }
 
     public function mount($kkprnb_id)
     {
@@ -34,11 +42,11 @@ class KkprnbSurveyDetail extends Component
         $batas = $this->kkprnb->batas_persil;
         $surveyor = $permohonan->disposisi->where('tahapan_id', $permohonan->layanan->tahapan->where('nama', 'Survey')->value('id'))->first()->penerima->name;
         $hari_survey = $this->kkprnb->tgl_survey ? \Carbon\Carbon::parse($this->kkprnb->tgl_survey)->locale('id')->isoFormat('dddd') : '______';
-        $tgl_survey = $this->kkprnb->tgl_survey ? ucwords(Number::spell(\Carbon\Carbon::parse($this->kkprnb->tgl_survey)->locale('id')->isoFormat('D'), 'id')) : '______';        
+        $tgl_survey = $this->kkprnb->tgl_survey ? ucwords(Number::spell(\Carbon\Carbon::parse($this->kkprnb->tgl_survey)->locale('id')->isoFormat('D'), 'id')) : '______';
         $bulan_survey = $this->kkprnb->tgl_survey ? \Carbon\Carbon::parse($this->kkprnb->tgl_survey)->locale('id')->isoFormat('MMMM') : '______';
         $tahun_survey = $this->kkprnb->tgl_survey ? ucwords(Number::spell(\Carbon\Carbon::parse($this->kkprnb->tgl_survey)->locale('id')->isoFormat('YYYY'), 'id')) : '______';
         $tahun_number_survey = $this->kkprnb->tgl_survey ? \Carbon\Carbon::parse($this->kkprnb->tgl_survey)->locale('id')->isoFormat('YYYY') : '______';
-        
+
         $data = [
             'nama_surveyor' => $surveyor,
             'nama_pemohon' => $permohonan->registrasi->nama,
@@ -107,8 +115,8 @@ class KkprnbSurveyDetail extends Component
                 $this->kkprnb->permohonan->update([
                     'status' => 'Proses Analisa'
                 ]);
-                
-                $this->createRiwayat($this->kkprnb->permohonan, 'Proses Analisa KKPR Non Berusaha');
+
+                $this->createRiwayat($this->kkprnb->permohonan, 'Proses Survey KKPR Non Berusaha selesai');
             }
 
             session()->flash('success', 'Data Survey selesai!');

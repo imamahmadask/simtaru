@@ -184,7 +184,7 @@ class KkprnbAnalisDetail extends Component
             'luas_disetujui' => $this->kkprnb->luas_disetujui,
         ];
 
-        $this->koordinatTable = true;        
+        $this->koordinatTable = true;
         return $this->generateDocument('6_FORMAT_PERSETUJUAN_KKPR_NON_BERUSAHA.docx', $data);
     }
 
@@ -254,8 +254,11 @@ class KkprnbAnalisDetail extends Component
             $tahapanVerifikasi = Tahapan::where('layanan_id', $this->kkprnb->permohonan->layanan_id)
                                         ->where('nama', 'Verifikasi')
                                         ->first();
+
             $supervisor = User::where('role', 'supervisor')->first();
+
             $pemberi_id = $this->kkprnb->permohonan->disposisi()->where('tahapan_id', $tahapanAnalisId)->value('penerima_id') ?? Auth::user()->id;
+
             if ($tahapanVerifikasi && $supervisor) {
                 $this->kkprnb->disposisis()->create([
                     'permohonan_id' => $this->kkprnb->permohonan->id,
@@ -267,7 +270,7 @@ class KkprnbAnalisDetail extends Component
                 ]);
             }
 
-            $this->createRiwayat($this->kkprnb->permohonan, 'Proses Verifikasi Data KKPR NB');
+            $this->createRiwayat($this->kkprnb->permohonan, 'Proses Verifikasi Data KKPR Non Berusaha');
 
             session()->flash('success', 'Data Analis selesai!');
         }

@@ -5,8 +5,9 @@
                 @if (!$kkprnb->is_survey)
                     @if ($kkprnb->tgl_survey)
                         {{-- Actions available AFTER survey date is set --}}
-                        <button type="button" wire:click="$dispatch('kkprnb-survey-edit', { permohonan_id: {{ $kkprnb->permohonan->id }}, kkprnb_id: {{ $kkprnb->id }} })" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#EditSurveyKkprnbModal">
+                        <button type="button"
+                            wire:click="$dispatch('kkprnb-survey-edit', { permohonan_id: {{ $kkprnb->permohonan->id }}, kkprnb_id: {{ $kkprnb->id }} })"
+                            class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditSurveyKkprnbModal">
                             <i class="bx bx-edit"></i> Edit Survey
                         </button>
                         @teleport('body')
@@ -24,20 +25,33 @@
                         </button>
                     @endif
 
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#AddDisposisiModal">
-                        <i class="bx bx-plus"></i> Disposisi
+                    @if ($cek_disposisi)
+                        <button type="button" wire:click="$dispatch('disposisi-edit', { id: {{ $cek_disposisi->id }} })"
+                            class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editDisposisiModal">
+                            <i class="bx bx-edit"></i> Disposisi
+                        </button>
+                        @teleport('body')
+                            @livewire('admin.disposisi.disposisi-edit')
+                        @endteleport
+                    @else
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#AddDisposisiModal">
+                            <i class="bx bx-plus"></i> Disposisi
+                        </button>
+                    @endif
+                @endif
+
+                @if ($cek_disposisi)
+                    <button type="button" class="btn {{ $kkprnb->is_survey ? 'btn-success' : 'btn-danger' }}"
+                        wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiSurveyModal"
+                        {{ $kkprnb->is_survey || !$kkprnb->is_berkas_survey_uploaded ? 'disabled' : '' }}>
+                        @if ($kkprnb->is_survey)
+                            <i class="bx bx-check"></i> Selesai Survey
+                        @else
+                            <i class="bx bx-x"></i> Belum Selesai Survey
+                        @endif
                     </button>
                 @endif
-                <button type="button" class="btn {{ $kkprnb->is_survey ? 'btn-success' : 'btn-danger' }}"
-                    wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiSurveyModal"
-                    {{ $kkprnb->is_survey || !$kkprnb->is_berkas_survey_uploaded ? 'disabled' : '' }}>
-                    @if ($kkprnb->is_survey)
-                        <i class="bx bx-check"></i> Selesai Survey
-                    @else
-                        <i class="bx bx-x"></i> Belum Selesai Survey
-                    @endif
-                </button>
             @endcan
         </div>
     </div>
@@ -64,8 +78,7 @@
                             Ada Bangunan
                         </label>
                         <div class="col-sm-8  mb-3">
-                            <input id="ada_bangunan" class="form-control"
-                                value="{{ $kkprnb->ada_bangunan }}" readonly>
+                            <input id="ada_bangunan" class="form-control" value="{{ $kkprnb->ada_bangunan }}" readonly>
                         </div>
                     </div>
 
@@ -74,8 +87,7 @@
                             Status Jalan
                         </label>
                         <div class="col-sm-8  mb-3">
-                            <input id="status_jalan" class="form-control"
-                                value="{{ $kkprnb->status_jalan }}" readonly>
+                            <input id="status_jalan" class="form-control" value="{{ $kkprnb->status_jalan }}" readonly>
                         </div>
                     </div>
 
@@ -84,8 +96,7 @@
                             Fungsi Jalan
                         </label>
                         <div class="col-sm-8  mb-3">
-                            <input id="fungsi_jalan" class="form-control"
-                                value="{{ $kkprnb->fungsi_jalan }}" readonly>
+                            <input id="fungsi_jalan" class="form-control" value="{{ $kkprnb->fungsi_jalan }}" readonly>
                         </div>
                     </div>
 
@@ -94,8 +105,7 @@
                             Tipe Jalan
                         </label>
                         <div class="col-sm-8  mb-3">
-                            <input id="tipe_jalan" class="form-control"
-                                value="{{ $kkprnb->tipe_jalan }}" readonly>
+                            <input id="tipe_jalan" class="form-control" value="{{ $kkprnb->tipe_jalan }}" readonly>
                         </div>
                     </div>
 
@@ -104,8 +114,7 @@
                             Median Jalan
                         </label>
                         <div class="col-sm-8  mb-3">
-                            <input id="median_jalan" class="form-control"
-                                value="{{ $kkprnb->median_jalan }}" readonly>
+                            <input id="median_jalan" class="form-control" value="{{ $kkprnb->median_jalan }}" readonly>
                         </div>
                     </div>
 
@@ -114,8 +123,8 @@
                             Lebar Jalan
                         </label>
                         <div class="col-sm-8  mb-3">
-                            <input id="lebar_jalan" class="form-control"
-                                value="{{ $kkprnb->lebar_jalan }} m2" readonly>
+                            <input id="lebar_jalan" class="form-control" value="{{ $kkprnb->lebar_jalan }} m2"
+                                readonly>
                         </div>
                     </div>
 
@@ -201,7 +210,7 @@
                         <button type="button" class="btn btn-primary" wire:click="download3a">
                             Template 3A (BA Survey KKPR Non Berusaha)
                         </button>
-                    </div>                    
+                    </div>
                 </div>
             </div>
         </div>
@@ -210,14 +219,16 @@
             <h5>Foto Survey</h5>
             @if ($kkprnb->foto_survey != null)
                 @foreach (json_decode($kkprnb->foto_survey) as $item)
-                    <img src="{{ asset('storage/' . $item) }}" alt="" width="200px" class="img-fluid mb-1">
+                    <img src="{{ asset('storage/' . $item) }}" alt="" width="200px"
+                        class="img-fluid mb-1">
                 @endforeach
             @endif
 
             <h5 class="mt-5">Gambar Peta</h5>
             @if ($kkprnb->gambar_peta != null)
                 @foreach (json_decode($kkprnb->gambar_peta) as $item)
-                    <img src="{{ asset('storage/' . $item) }}" alt="" width="200px" class="img-fluid mb-1">
+                    <img src="{{ asset('storage/' . $item) }}" alt="" width="200px"
+                        class="img-fluid mb-1">
                 @endforeach
             @endif
 
@@ -252,7 +263,7 @@
 
     @teleport('body')
         @livewire('admin.permohonan.kkprnb.survey.kkprnb-survey-create', ['permohonan_id' => $kkprnb->permohonan->id, 'kkprnb_id' => $kkprnb->id])
-    @endteleport    
+    @endteleport
     @teleport('body')
         @livewire('admin.permohonan.kkprnb.survey.upload-berkas', ['permohonan_id' => $kkprnb->permohonan->id, 'kkprnb_id' => $kkprnb->id])
     @endteleport
@@ -272,11 +283,14 @@
     <script>
         document.addEventListener('livewire:initialized', () => {
             Livewire.on('toast', (event) => {
-                const { type = 'success', message = 'Berhasil!' } = event[0] || event;
+                const {
+                    type = 'success', message = 'Berhasil!'
+                } = event[0] || event;
 
                 // Pakai Bootstrap 5 Toast (atau SweetAlert2 kalau mau lebih cantik)
                 const toastEl = document.createElement('div');
-                toastEl.className = `bs-toast toast align-items-center text-white bg-${type === 'error' ? 'danger' : 'success'} bg-${type === 'error' ? 'danger' : 'success'} fade show position-fixed top-0 end-0 m-3`;
+                toastEl.className =
+                    `bs-toast toast align-items-center text-white bg-${type === 'error' ? 'danger' : 'success'} bg-${type === 'error' ? 'danger' : 'success'} fade show position-fixed top-0 end-0 m-3`;
                 toastEl.style.zIndex = 9999;
                 toastEl.setAttribute('role', 'alert');
                 toastEl.innerHTML = `
@@ -292,12 +306,14 @@
                 document.body.appendChild(toastEl);
 
                 // Init dan tampilkan
-                const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+                const toast = new bootstrap.Toast(toastEl, {
+                    delay: 4000
+                });
                 toast.show();
 
                 // Hapus dari DOM setelah selesai
                 toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
             });
         });
-    </script>    
+    </script>
 @endscript

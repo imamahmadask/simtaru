@@ -5,7 +5,9 @@
                 @if (!$skrk->is_survey)
                     @if ($skrk->tgl_survey)
                         {{-- Actions available AFTER survey date is set --}}
-                        <button type="button" wire:click="$dispatch('skrk-survey-edit', { permohonan_id: {{ $skrk->permohonan->id }}, skrk_id: {{ $skrk->id }} })" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditSurveySkrkModal">
+                        <button type="button"
+                            wire:click="$dispatch('skrk-survey-edit', { permohonan_id: {{ $skrk->permohonan->id }}, skrk_id: {{ $skrk->id }} })"
+                            class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditSurveySkrkModal">
                             <i class="bx bx-edit"></i> Edit Survey
                         </button>
                         @teleport('body')
@@ -27,20 +29,33 @@
                         </button>
                     @endif
 
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#AddDisposisiModal">
-                        <i class="bx bx-plus"></i> Disposisi
+                    @if ($cek_disposisi)
+                        <button type="button" wire:click="$dispatch('disposisi-edit', { id: {{ $cek_disposisi->id }} })"
+                            class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editDisposisiModal">
+                            <i class="bx bx-edit"></i> Disposisi
+                        </button>
+                        @teleport('body')
+                            @livewire('admin.disposisi.disposisi-edit')
+                        @endteleport
+                    @else
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#AddDisposisiModal">
+                            <i class="bx bx-plus"></i> Disposisi
+                        </button>
+                    @endif
+                @endif
+
+                @if ($cek_disposisi)
+                    <button type="button" class="btn {{ $skrk->is_survey ? 'btn-success' : 'btn-danger' }}"
+                        wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiSurveySkrkModal"
+                        {{ $skrk->is_survey || !$skrk->is_berkas_survey_uploaded ? 'disabled' : '' }}>
+                        @if ($skrk->is_survey)
+                            <i class="bx bx-check"></i> Selesai Survey
+                        @else
+                            <i class="bx bx-x"></i> Belum Selesai Survey
+                        @endif
                     </button>
                 @endif
-                <button type="button" class="btn {{ $skrk->is_survey ? 'btn-success' : 'btn-danger' }}"
-                    wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiSurveySkrkModal"
-                    {{ $skrk->is_survey || !$skrk->is_berkas_survey_uploaded ? 'disabled' : '' }}>
-                    @if ($skrk->is_survey)
-                        <i class="bx bx-check"></i> Selesai Survey
-                    @else
-                        <i class="bx bx-x"></i> Belum Selesai Survey
-                    @endif
-                </button>
             @endcan
         </div>
     </div>
@@ -166,7 +181,8 @@
             <h5 class="mt-5">Gambar Peta</h5>
             @if ($skrk->gambar_peta != null)
                 @foreach (json_decode($skrk->gambar_peta) as $item)
-                    <img src="{{ asset('storage/' . $item) }}" alt="" width="200px" class="img-fluid mb-1">
+                    <img src="{{ asset('storage/' . $item) }}" alt="" width="200px"
+                        class="img-fluid mb-1">
                 @endforeach
             @endif
 
@@ -201,7 +217,7 @@
 
     @teleport('body')
         @livewire('admin.permohonan.skrk.survey.skrk-survey-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
-    @endteleport        
+    @endteleport
     @teleport('body')
         @livewire('admin.disposisi.disposisi-create', ['permohonan_id' => $skrk->permohonan->id, 'pelayanan_id' => $skrk->id])
     @endteleport

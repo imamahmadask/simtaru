@@ -14,14 +14,22 @@ use PhpOffice\PhpWord\TemplateProcessor;
 class ItrSurveyDetail extends Component
 {
     public $itr;
+    public $cek_disposisi = false;
 
     public function render()
     {
+        $this->cek_disposisi = $this->itr->permohonan->disposisi()
+            ->where('tahapan_id', $this->itr->permohonan->layanan->tahapan
+            ->where('nama', 'Analisis')->value('id'))->first();
+
         return view('livewire.admin.permohonan.itr.survey.itr-survey-detail');
     }
 
     #[On('refresh-itr-survey-list')]
-    public function refresh() {}
+    public function refresh()
+    {
+        $this->cek_disposisi = $this->itr->permohonan->disposisi()->where('tahapan_id', $this->itr->permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id'))->first();
+    }
 
     public function mount($itr_id)
     {
@@ -33,10 +41,10 @@ class ItrSurveyDetail extends Component
         $permohonan = $this->itr->permohonan;
         $batas = $this->itr->batas_persil;
         $hari_survey = $this->itr->tgl_survey ? \Carbon\Carbon::parse($this->itr->tgl_survey)->locale('id')->isoFormat('dddd') : '______';
-        $tgl_survey = $this->itr->tgl_survey ? ucwords(Number::spell(\Carbon\Carbon::parse($this->itr->tgl_survey)->locale('id')->isoFormat('D'), 'id')) : '______';        
+        $tgl_survey = $this->itr->tgl_survey ? ucwords(Number::spell(\Carbon\Carbon::parse($this->itr->tgl_survey)->locale('id')->isoFormat('D'), 'id')) : '______';
         $bulan_survey = $this->itr->tgl_survey ? \Carbon\Carbon::parse($this->itr->tgl_survey)->locale('id')->isoFormat('MMMM') : '______';
         $tahun_survey = $this->itr->tgl_survey ? ucwords(Number::spell(\Carbon\Carbon::parse($this->itr->tgl_survey)->locale('id')->isoFormat('YYYY'), 'id')) : '______';
-       
+
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
             'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
@@ -63,7 +71,7 @@ class ItrSurveyDetail extends Component
         $batas = $this->itr->batas_persil;
         $surveyor = $permohonan->disposisi->where('tahapan_id', $permohonan->layanan->tahapan->where('nama', 'Survey')->value('id'))->first()->penerima->name;
         $hari_survey = $this->itr->tgl_survey ? \Carbon\Carbon::parse($this->itr->tgl_survey)->locale('id')->isoFormat('dddd') : '______';
-        $tgl_survey = $this->itr->tgl_survey ? ucwords(Number::spell(\Carbon\Carbon::parse($this->itr->tgl_survey)->locale('id')->isoFormat('D'), 'id')) : '______';                
+        $tgl_survey = $this->itr->tgl_survey ? ucwords(Number::spell(\Carbon\Carbon::parse($this->itr->tgl_survey)->locale('id')->isoFormat('D'), 'id')) : '______';
         $bulan_survey = $this->itr->tgl_survey ? \Carbon\Carbon::parse($this->itr->tgl_survey)->locale('id')->isoFormat('MMMM') : '______';
         $tahun_survey = $this->itr->tgl_survey ? ucwords(Number::spell(\Carbon\Carbon::parse($this->itr->tgl_survey)->locale('id')->isoFormat('YYYY'), 'id')) : '______';
         $tahun_number_survey = $this->itr->tgl_survey ? \Carbon\Carbon::parse($this->itr->tgl_survey)->locale('id')->isoFormat('YYYY') : '______';
