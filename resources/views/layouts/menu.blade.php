@@ -1,6 +1,6 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
-        <a href="/" class="app-brand-link mb-3">
+        <a href="/" class="app-brand-link mb-3" target="_blank">
             <img src="{{ asset('assets/img/logo/simtaru2.png') }}" alt="" width="200">
         </a>
 
@@ -55,12 +55,12 @@
                             <div data-i18n="Text Divider">ITR</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ !! request()->routeIs('kkprnb.*') ? 'active' : '' }}">
+                    <li class="menu-item {{ !!request()->routeIs('kkprnb.*') ? 'active' : '' }}">
                         <a href="{{ route('kkprnb.index') }}" class="menu-link">
                             <div data-i18n="Text Divider">KKPR Non Berusaha</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ !! request()->routeIs('kkprb.*') ? 'active' : '' }}">
+                    <li class="menu-item {{ !!request()->routeIs('kkprb.*') ? 'active' : '' }}">
                         <a href="{{ route('kkprb.index') }}" class="menu-link">
                             <div data-i18n="Text Divider">KKPR Berusaha</div>
                         </a>
