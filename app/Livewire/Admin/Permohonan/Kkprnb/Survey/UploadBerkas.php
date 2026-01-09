@@ -21,7 +21,7 @@ class UploadBerkas extends Component
     public $file_ = [];
 
     public $catatan_ = [];
-    
+
     public function render()
     {
         return view('livewire.admin.permohonan.kkprnb.survey.upload-berkas');
@@ -118,6 +118,7 @@ class UploadBerkas extends Component
         ]);
 
         $this->dispatch('refresh-kkprnb-survey-list');
+        $this->dispatch('refresh-kkprnb-verifikasi-list');
 
         $this->dispatch('trigger-close-modal');
     }

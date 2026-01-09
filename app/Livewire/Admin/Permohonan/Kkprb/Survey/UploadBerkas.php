@@ -124,6 +124,7 @@ class UploadBerkas extends Component
         ]);
 
         $this->dispatch('refresh-kkprb-survey-list');
+        $this->dispatch('refresh-kkprb-verifikasi-list');
 
         $this->dispatch('trigger-close-modal');
     }

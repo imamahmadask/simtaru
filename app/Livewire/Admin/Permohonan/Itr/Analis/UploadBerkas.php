@@ -89,7 +89,7 @@ class UploadBerkas extends Component
                             'catatan_verifikator' => null,
                         ]
                     );
-                }               
+                }
             }
         }
 
@@ -121,6 +121,7 @@ class UploadBerkas extends Component
         }
 
         $this->dispatch('refresh-itr-analis-list');
+        $this->dispatch('refresh-itr-verifikasi-list');
 
         $this->dispatch('trigger-close-modal');
     }

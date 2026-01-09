@@ -123,6 +123,7 @@ class UploadBerkas extends Component
         }
 
         $this->dispatch('refresh-itr-survey-list');
+        $this->dispatch('refresh-itr-verifikasi-list');
 
         $this->dispatch('trigger-close-modal');
     }

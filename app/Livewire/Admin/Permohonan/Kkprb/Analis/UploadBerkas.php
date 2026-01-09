@@ -18,7 +18,7 @@ class UploadBerkas extends Component
 
     #[Validate(['file_.*' => 'mimes:.docx, .doc|max:10240'])]
     public $file_ = [];
-    
+
     public function render()
     {
         return view('livewire.admin.permohonan.kkprb.analis.upload-berkas');
@@ -118,7 +118,8 @@ class UploadBerkas extends Component
         ]);
 
         $this->dispatch('refresh-kkprb-analis-list');
+        $this->dispatch('refresh-kkprb-verifikasi-list');
 
         $this->dispatch('trigger-close-modal');
-    }    
+    }
 }

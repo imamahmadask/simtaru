@@ -85,7 +85,7 @@ class UploadBerkas extends Component
                             'catatan'             => $this->catatan_[$item->kode] ?? null,
                         ]
                     );
-                }                
+                }
             }
         }
 
@@ -118,6 +118,7 @@ class UploadBerkas extends Component
         }
 
         $this->dispatch('refresh-skrk-survey-list');
+        $this->dispatch('refresh-skrk-verifikasi-list');
 
         $this->dispatch('trigger-close-modal');
     }
