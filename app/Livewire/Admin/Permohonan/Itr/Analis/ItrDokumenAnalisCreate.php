@@ -58,6 +58,8 @@ class ItrDokumenAnalisCreate extends Component
             'is_dokumen' => true
         ]);
 
+        $this->createRiwayat($this->itr->permohonan, 'Proses Analisa ITR');
+
         $this->dispatch('toast', [
             'type'    => 'success',
             'message' => 'Data Dokumen Analisis ITR berhasil disimpan!'

@@ -36,7 +36,7 @@ class SkrkKajianAnalisCreate extends Component
             'status' => 'Proses Analisa'
         ]);
 
-        // $this->createRiwayat($this->permohonan, 'Entry Data Kajian Analisa');
+        $this->createRiwayat($this->skrk->permohonan, 'Proses Analisa SKRK');
 
         $this->dispatch('toast', [
             'type'    => 'success',

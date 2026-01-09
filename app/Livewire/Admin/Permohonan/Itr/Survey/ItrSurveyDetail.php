@@ -141,7 +141,6 @@ class ItrSurveyDetail extends Component
                 ]);
 
                 $this->createRiwayat($this->itr->permohonan, 'Selesai Survey Data ITR');
-                $this->createRiwayat($this->itr->permohonan, 'Proses Analisa ITR');
 
                 session()->flash('success', 'Data Survey selesai!');
             }

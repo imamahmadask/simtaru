@@ -42,8 +42,6 @@ class SkrkDokumenAnalisCreate extends Component
             'status' => 'Proses Analisa'
         ]);
 
-        // $this->createRiwayat($this->permohonan, 'Entry Data Dokumen SKRK');
-
         $this->dispatch('toast', [
             'type'    => 'success',
             'message' => 'Data Dokumen Analisa SKRK berhasil ditambahkan!'

@@ -117,8 +117,7 @@ class KkprbSurveyDetail extends Component
                     'status' => 'Proses Analisa'
                 ]);
 
-                $this->createRiwayat($this->kkprb->permohonan, 'Proses Survey KKPR Berusaha Selesai!');
-                $this->createRiwayat($this->kkprb->permohonan, 'Proses Analisa KKPR Berusaha');
+                $this->createRiwayat($this->kkprb->permohonan, 'Selesai Survey KKPR Berusaha');
             }
 
             session()->flash('success', 'Data Survey selesai!');

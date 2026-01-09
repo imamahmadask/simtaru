@@ -140,7 +140,6 @@ class SkrkSurveyDetail extends Component
                 ]);
 
                 $this->createRiwayat($this->skrk->permohonan, 'Selesai Survey Data SKRK');
-                $this->createRiwayat($this->skrk->permohonan, 'Proses Analisa SKRK');
 
                 session()->flash('success', 'Data Survey selesai!');
             }
