@@ -78,6 +78,8 @@ class ItrSurveyCreate extends Component
             ],
         ]);
 
+        $this->reset('tgl_survey', 'koordinat', 'foto_survey', 'gambar_peta', 'batas_utara', 'batas_selatan', 'batas_timur', 'batas_barat');
+
         $this->dispatch('toast', [
             'type'    => 'success',
             'message' => 'Data Survey berhasil ditambahkan!'

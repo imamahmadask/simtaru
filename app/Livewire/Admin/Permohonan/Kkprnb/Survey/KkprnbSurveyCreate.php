@@ -85,6 +85,8 @@ class KkprnbSurveyCreate extends Component
             ],
         ]);
 
+        $this->reset('tgl_survey', 'ada_bangunan', 'status_jalan', 'fungsi_jalan', 'tipe_jalan', 'median_jalan', 'lebar_jalan', 'koordinat', 'foto_survey', 'gambar_peta', 'batas_utara', 'batas_selatan', 'batas_timur', 'batas_barat');
+
         $this->dispatch('toast', [
             'type'    => 'success',
             'message' => 'Data Survey berhasil ditambahkan!'
