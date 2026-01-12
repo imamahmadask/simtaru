@@ -21,6 +21,9 @@ class RegistrasiDetail extends Component
     public $kel_tanah;
     public $kec_tanah;
     public $riwayats = [];
+    public $status;
+    public $permohonan;
+    
     public function render()
     {
         return view('livewire.admin.registrasi.registrasi-detail');
@@ -41,7 +44,8 @@ class RegistrasiDetail extends Component
         $this->alamat_tanah = $this->registrasi->alamat_tanah;
         $this->kel_tanah = $this->registrasi->kel_tanah;
         $this->kec_tanah = $this->registrasi->kec_tanah;
-
+        $this->status = $this->registrasi->status;
+        $this->permohonan = $this->registrasi->permohonan;
         $this->riwayats = $this->registrasi->riwayat;
 
     }

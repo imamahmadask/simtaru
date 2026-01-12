@@ -127,6 +127,21 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" for="status">Status Berkas</label>
+                                    <select class="form-select" wire:model="status" id="status"
+                                        aria-label="Default select example">
+                                        <option value="" selected>Pilih Status</option>
+                                        <option value="Berkas Dicabut">Berkas Dicabut</option>                                        
+                                    </select>
+                                    @error('status')
+                                        <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">

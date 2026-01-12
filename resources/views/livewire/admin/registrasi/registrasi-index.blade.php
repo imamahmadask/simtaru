@@ -83,11 +83,14 @@
                                         {{ $data->layanan->nama }}
                                     </td>
                                     <td>
-                                        <span
-                                            class="badge bg-label-{{ is_null($data->permohonan) ? 'danger' : ($data->permohonan->status === 'completed' ? 'success' : 'warning') }}">
-                                            {{ is_null($data->permohonan) ? 'Belum Entry' : $data->permohonan->status }}
-                                        </span>
-
+                                        @if($data->status == 'Berkas Dicabut')
+                                            <span class="badge bg-label-danger">{{ $data->status }}</span>
+                                        @else
+                                            <span
+                                                class="badge bg-label-{{ is_null($data->permohonan) ? 'danger' : ($data->permohonan->status === 'completed' ? 'success' : 'warning') }}">
+                                                {{ is_null($data->permohonan) ? 'Belum Entry' : $data->permohonan->status }}
+                                            </span>
+                                        @endif
                                     </td>
                                     <td class="text-nowrap">
                                         <div class="me-3">

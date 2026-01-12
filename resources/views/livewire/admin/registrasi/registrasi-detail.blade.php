@@ -90,6 +90,24 @@
                                             <td>Kecamatan Persil</td>
                                             <td>{{ $kec_tanah }}</td>
                                         </tr>
+                                        @if($status == 'Berkas Dicabut')
+                                            <tr>
+                                                <td>Status Berkas</td>
+                                                <td>
+                                                    <span class="badge bg-label-danger">{{ $status }}</span>
+                                                </td>
+                                            </tr>
+                                        @elseif($permohonan != NULL)
+                                            <tr>
+                                                <td>Status</td>
+                                                <td>
+                                                    <span
+                                                        class="badge bg-label-{{ is_null($permohonan) ? 'danger' : ($permohonan->status === 'completed' ? 'success' : 'warning') }}">
+                                                        {{ is_null($permohonan) ? 'Belum Entry' : $permohonan->status }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
