@@ -77,9 +77,9 @@
     <div wire:ignore class="container">
         <div class="row justify-content-center text-center">
             <div class="col-lg-8">
-                <h2 class="display-4 fw-bold text-dark mb-4">Peta Digital</h2>
+                <h2 class="display-4 fw-bold text-dark mb-4">Peta Digital Interaktif</h2>
                 <p class="lead text-muted">
-                    Visualisasi interaktif Rencana Tata Ruang Wilayah Kota Mataram
+                    Peta Informasi Perizinan Pemanfaatan Ruang Kota Mataram
                 </p>
             </div>
         </div>
