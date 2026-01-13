@@ -81,10 +81,13 @@ class KkprnbSurveyDetail extends Component
         foreach ($data as $key => $value) {
             $templateProcessor->setValue($key, $value);
         }
-
-        $fileName = str_replace('.docx', '', basename($templatePath)).'_'.$data['nama_pemohon'].'.docx';
-        $tempPath = storage_path("app/public/{$fileName}");
-
+        
+        // Sanitize filename by removing special characters
+        $baseName = str_replace('.docx', '', basename($templatePath));
+        $sanitizedName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $data['nama_pemohon']);
+        $fileName = $baseName . '_' . $sanitizedName . '.docx';
+        $tempPath = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $fileName);
+        
         $templateProcessor->saveAs($tempPath);
 
         return response()->download($tempPath)->deleteFileAfterSend(true);
