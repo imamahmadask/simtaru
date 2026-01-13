@@ -159,6 +159,7 @@ class KkprnbAnalisDetail extends Component
 
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
+            'nik' => $permohonan->registrasi->nik,
             'alamat_pemohon' => $permohonan->alamat_pemohon,
             'no_hp' => $permohonan->registrasi->no_hp,
             'email' => $permohonan->registrasi->email,
@@ -185,7 +186,7 @@ class KkprnbAnalisDetail extends Component
         ];
 
         $this->koordinatTable = true;
-        return $this->generateDocument('FORMAT_PERSETUJUAN_KKPR_NB.docx', $data);
+        return $this->generateDocument('FORMAT_PERSETUJUAN_KKPR_NONBERUSAHA.docx', $data);
     }
 
     private function generateDocument($templatePath, $data)
