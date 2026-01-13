@@ -186,6 +186,7 @@ class KkprnbAnalisDetail extends Component
         ];
 
         $this->koordinatTable = true;
+        // return $this->generateDocument('FORMAT_PERSETUJUAN_KKPR_NB.docx', $data);
         return $this->generateDocument('FORMAT_PERSETUJUAN_KKPR_NONBERUSAHA.docx', $data);
     }
 
@@ -227,6 +228,8 @@ class KkprnbAnalisDetail extends Component
         $tempPath = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $fileName);
 
         $templateProcessor->saveAs($tempPath);
+
+        if (ob_get_contents()) ob_end_clean();
 
         return response()->download($tempPath)->deleteFileAfterSend(true);
     }
