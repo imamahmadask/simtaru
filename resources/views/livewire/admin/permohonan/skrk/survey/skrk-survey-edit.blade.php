@@ -14,8 +14,8 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="tgl_survey" class="form-label">Tanggal Survey</label>
-                                <input type="date" class="form-control" wire:model="tgl_survey" id="tgl_survey">
+                                <label for="edit_tgl_survey" class="form-label">Tanggal Survey</label>
+                                <input type="date" class="form-control" wire:model="tgl_survey" id="edit_tgl_survey">
                                 @error('tgl_survey')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
@@ -63,16 +63,16 @@
                         </span>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="batas_utara" class="form-label">Batas Utara</label>
-                                <input type="text" class="form-control" wire:model="batas_utara" id="batas_utara">
+                                <label for="edit_batas_utara" class="form-label">Batas Utara</label>
+                                <input type="text" class="form-control" wire:model="batas_utara" id="edit_batas_utara">
                                 @error('batas_utara')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="batas_selatan" class="form-label">Batas Selatan</label>
+                                <label for="edit_batas_selatan" class="form-label">Batas Selatan</label>
                                 <input type="text" class="form-control" wire:model="batas_selatan"
-                                    id="batas_selatan">
+                                    id="edit_batas_selatan">
                                 @error('batas_selatan')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
@@ -80,16 +80,78 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="batas_timur" class="form-label">Batas Timur</label>
-                                <input type="text" class="form-control" wire:model="batas_timur" id="batas_timur">
+                                <label for="edit_batas_timur" class="form-label">Batas Timur</label>
+                                <input type="text" class="form-control" wire:model="batas_timur" id="edit_batas_timur">
                                 @error('batas_timur')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="batas_barat" class="form-label">Batas Barat</label>
-                                <input type="text" class="form-control" wire:model="batas_barat" id="batas_barat">
+                                <label for="edit_batas_barat" class="form-label">Batas Barat</label>
+                                <input type="text" class="form-control" wire:model="batas_barat" id="edit_batas_barat">
                                 @error('batas_barat')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
+                        
+                        <div class="row">                            
+                            <div class="col mb-3">
+                                <label for="edit_status_jalan" class="form-label">Status Jalan</label>
+                                <select class="form-select" wire:model="status_jalan" id="edit_status_jalan">
+                                    <option value="">Pilih</option>
+                                    <option value="Jalan Nasional">Jalan Nasional</option>
+                                    <option value="Jalan Provinsi">Jalan Provinsi</option>
+                                    <option value="Jalan Kota">Jalan Kota</option>                                    
+                                </select>
+                                @error('status_jalan')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                            <div class="col mb-3">
+                                <label for="edit_fungsi_jalan" class="form-label">Fungsi Jalan</label>
+                                <select class="form-select" wire:model="fungsi_jalan" id="edit_fungsi_jalan">
+                                    <option value="">Pilih</option>
+                                    <option value="Kolektor Primer">Kolektor Primer</option>                                    
+                                    <option value="Kolektor Sekunder">Kolektor Sekunder</option>                                    
+                                    <option value="Lokal Primer">Lokal Primer</option>
+                                    <option value="Lokal Sekunder">Lokal Sekunder</option>
+                                    <option value="Lingkungan">Lingkungan</option>
+                                </select>
+                                @error('fungsi_jalan')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row">                            
+                            <div class="col mb-3">
+                                <label for="edit_tipe_jalan" class="form-label">Tipe Jalan</label>
+                                <select class="form-select" wire:model="tipe_jalan" id="edit_tipe_jalan">
+                                    <option value="">Pilih</option>
+                                    <option value="Satu Arah">Satu Arah</option>
+                                    <option value="Dua Arah">Dua Arah</option>                                   
+                                </select>
+                                @error('tipe_jalan')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                            <div class="col mb-3">
+                                <label for="edit_median_jalan" class="form-label">Median Jalan</label>
+                                <select class="form-select" wire:model="median_jalan" id="edit_median_jalan">
+                                    <option value="">Pilih</option>
+                                    <option value="Dengan Median">Dengan Median</option>
+                                    <option value="Tanpa Median">Tanpa Median</option>                                    
+                                </select>
+                                @error('median_jalan')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="edit_lebar_jalan" class="form-label">Lebar Jalan</label>
+                                <input type="number" class="form-control" wire:model="lebar_jalan" id="edit_lebar_jalan">
+                                @error('lebar_jalan')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
                             </div>
@@ -97,7 +159,7 @@
 
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="foto_survey" class="form-label">
+                                <label for="edit_foto_survey" class="form-label">
                                     Upload Foto Survey (Baru)
                                     <div wire:loading wire:target="foto_survey"
                                         class="spinner-border spinner-border-sm text-primary" role="status">
@@ -110,7 +172,7 @@
                                     @endif
                                 </label>
                                 <input type="file" class="form-control" wire:model.blur="foto_survey"
-                                    id="foto_survey" multiple accept="image/*">
+                                    id="edit_foto_survey" multiple accept="image/*">
                                 <div class="form-text">Hanya format gambar yang diizinkan. Maks 1MB/file.</div>
                                 @error('foto_survey.*')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
@@ -122,8 +184,8 @@
                                         <div class="form-check mb-2">
                                             <input type="checkbox" class="form-check-input"
                                                 wire:model="foto_survey_selected" value="{{ $foto }}"
-                                                id="foto-{{ $loop->index }}">
-                                            <label class="form-check-label" for="foto-{{ $loop->index }}">
+                                                id="edit-foto-{{ $loop->index }}">
+                                            <label class="form-check-label" for="edit-foto-{{ $loop->index }}">
                                                 <img src="{{ Storage::url($foto) }}" alt="" width="100px">
                                             </label>
                                         </div>

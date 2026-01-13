@@ -26,6 +26,8 @@ class SkrkSurveyEdit extends Component
 
     #[Validate(['gambar_peta.*' => 'image|max:10240'])]
     public $gambar_peta = [];
+   
+    public $status_jalan, $fungsi_jalan, $tipe_jalan, $median_jalan, $lebar_jalan;
 
     public $gambar_peta_selected = [];
     public $foto_survey_selected = [];
@@ -92,9 +94,14 @@ class SkrkSurveyEdit extends Component
                 'timur' => $this->batas_timur,
                 'barat' => $this->batas_barat,
             ],
+            'status_jalan' => $this->status_jalan,
+            'fungsi_jalan' => $this->fungsi_jalan,
+            'tipe_jalan' => $this->tipe_jalan,
+            'median_jalan' => $this->median_jalan,
+            'lebar_jalan' => $this->lebar_jalan
         ]);
 
-        $this->reset('tgl_survey', 'koordinat', 'foto_survey', 'gambar_peta', 'batas_utara', 'batas_selatan', 'batas_timur', 'batas_barat');
+        $this->reset('tgl_survey', 'koordinat', 'foto_survey', 'gambar_peta', 'batas_utara', 'batas_selatan', 'batas_timur', 'batas_barat', 'status_jalan', 'fungsi_jalan', 'tipe_jalan', 'median_jalan', 'lebar_jalan');
 
         $this->dispatch('toast', [
             'type'    => 'success',
@@ -131,6 +138,11 @@ class SkrkSurveyEdit extends Component
         $this->batas_selatan = $this->skrk->batas_administratif['selatan'] ?? '';
         $this->batas_timur = $this->skrk->batas_administratif['timur'] ?? '';
         $this->batas_utara = $this->skrk->batas_administratif['utara'] ?? '';
+        $this->status_jalan = $this->skrk->status_jalan ?? '';
+        $this->fungsi_jalan = $this->skrk->fungsi_jalan ?? '';
+        $this->tipe_jalan = $this->skrk->tipe_jalan ?? '';
+        $this->median_jalan = $this->skrk->median_jalan ?? '';
+        $this->lebar_jalan = $this->skrk->lebar_jalan ?? '';
     }
 
     public function addRow()

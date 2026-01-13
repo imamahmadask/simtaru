@@ -47,7 +47,12 @@ class Skrk extends Model
         'batas_administratif',
         'kesimpulan',
         'akta_pendirian',
-        'sket_lokasi'
+        'sket_lokasi',
+        'status_jalan',
+        'fungsi_jalan',
+        'tipe_jalan',
+        'median_jalan',
+        'lebar_jalan'
     ];
 
     protected $casts = [

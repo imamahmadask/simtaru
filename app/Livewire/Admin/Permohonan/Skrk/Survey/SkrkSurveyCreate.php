@@ -25,6 +25,8 @@ class SkrkSurveyCreate extends Component
     #[Validate('required')]
     public $tgl_survey, $batas_utara, $batas_selatan, $batas_timur, $batas_barat;
 
+    public $status_jalan, $fungsi_jalan, $tipe_jalan, $median_jalan, $lebar_jalan;
+
     public $koordinat = [];
 
     public function render()
@@ -35,7 +37,6 @@ class SkrkSurveyCreate extends Component
     public function createSurvey()
     {
         $this->validate();
-        $permohonan = Permohonan::findOrFail($this->permohonan_id);
         $skrk = Skrk::findOrFail($this->skrk_id);
         $no_reg = $skrk->registrasi->kode;
 
@@ -75,9 +76,14 @@ class SkrkSurveyCreate extends Component
                 'timur' => $this->batas_timur,
                 'barat' => $this->batas_barat,
             ],
+            'status_jalan' => $this->status_jalan,
+            'fungsi_jalan' => $this->fungsi_jalan,
+            'tipe_jalan' => $this->tipe_jalan,
+            'median_jalan' => $this->median_jalan,
+            'lebar_jalan' => $this->lebar_jalan
         ]);
 
-        $this->reset('tgl_survey', 'koordinat', 'foto_survey', 'gambar_peta', 'batas_utara', 'batas_selatan', 'batas_timur', 'batas_barat');
+        $this->reset('tgl_survey', 'koordinat', 'foto_survey', 'gambar_peta', 'batas_utara', 'batas_selatan', 'batas_timur', 'batas_barat', 'status_jalan', 'fungsi_jalan', 'tipe_jalan', 'median_jalan', 'lebar_jalan');
 
         $this->dispatch('toast', [
             'type'    => 'success',

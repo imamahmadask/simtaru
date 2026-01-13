@@ -79,6 +79,52 @@
                     </div>
 
                     <div class="row">
+                        <label class="col-sm-4 col-form-label" for="status_jalan">
+                            Status Jalan
+                        </label>
+                        <div class="col-sm-8  mb-3">
+                            <input id="status_jalan" class="form-control" value="{{ $skrk->status_jalan }}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label class="col-sm-4 col-form-label" for="fungsi_jalan">
+                            Fungsi Jalan
+                        </label>
+                        <div class="col-sm-8  mb-3">
+                            <input id="fungsi_jalan" class="form-control" value="{{ $skrk->fungsi_jalan }}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label class="col-sm-4 col-form-label" for="tipe_jalan">
+                            Tipe Jalan
+                        </label>
+                        <div class="col-sm-8  mb-3">
+                            <input id="tipe_jalan" class="form-control" value="{{ $skrk->tipe_jalan }}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label class="col-sm-4 col-form-label" for="median_jalan">
+                            Median Jalan
+                        </label>
+                        <div class="col-sm-8  mb-3">
+                            <input id="median_jalan" class="form-control" value="{{ $skrk->median_jalan }}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label class="col-sm-4 col-form-label" for="lebar_jalan">
+                            Lebar Jalan
+                        </label>
+                        <div class="col-sm-8  mb-3">
+                            <input id="lebar_jalan" class="form-control" value="{{ $skrk->lebar_jalan }} m2"
+                                readonly>
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <label class="col-sm-4 col-form-label" for="koordinat">
                             Koordinat
                         </label>
@@ -147,7 +193,7 @@
                                     value="{{ $skrk->batas_administratif['barat'] ?? '' }}" readonly>
                             </div>
                         </div>
-                    @endif
+                    @endif                    
                 </div>
             </div>
 

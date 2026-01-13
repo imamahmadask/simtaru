@@ -63,8 +63,11 @@ class SkrkAnalisDetail extends Component
                 $textKoordinat .= "{$point['x']}, {$point['y']}\n";
             }
         }
+        $batas = $this->skrk->batas_administratif;
+        $analis = $permohonan->disposisi->where('tahapan_id', $permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id'))->first()->penerima->name;
 
         $data = [
+            'nama_analis' => $analis,
             'nama_pemohon' => $permohonan->registrasi->nama,
             'alamat_pemohon' => $permohonan->alamat_pemohon,
             'tanggal_regis' => date('d F Y', strtotime($permohonan->registrasi->tanggal)),
@@ -79,6 +82,15 @@ class SkrkAnalisDetail extends Component
             'luas_tanah' => $permohonan->luas_tanah,
             'ada_bangunan' => $this->skrk->ada_bangunan,
             'koordinat' => $textKoordinat,
+            'batas_barat' => $batas['barat'] ?? '______',
+            'batas_timur' => $batas['timur'] ?? '______',
+            'batas_utara' => $batas['utara'] ?? '______',
+            'batas_selatan' => $batas['selatan'] ?? '______',
+            'status_jalan' => $this->skrk->status_jalan,
+            'fungsi_jalan' => $this->skrk->fungsi_jalan,
+            'tipe_jalan' => $this->skrk->tipe_jalan,
+            'median_jalan' => $this->skrk->median_jalan,
+            'lebar_jalan' => $this->skrk->lebar_jalan,
             'penguasaan_tanah' => $this->skrk->penguasaan_tanah,
             'jml_bangunan' => $this->skrk->jml_bangunan,
             'jml_lantai' => $this->skrk->jml_lantai,
@@ -88,10 +100,16 @@ class SkrkAnalisDetail extends Component
             'kdb' => $this->skrk->kdb,
             'klb' => $this->skrk->klb,
             'kdh' => $this->skrk->kdh,
+            'gsb' => $this->skrk->gsb,
+            'jba' => $this->skrk->jba,
+            'jbb' => $this->skrk->jbb,
+            'ktb' => $this->skrk->ktb,
+            'persyaratan_pelaksanaan' => $this->skrk->persyaratan_pelaksanaan,
         ];
 
         $this->koordinatTable = false;
-        return $this->generateDocument('3_kajian_skrk.docx', $data);
+        // return $this->generateDocument('3_kajian_skrk.docx', $data);
+        return $this->generateDocument('3_kajian_skrk_fixed.docx', $data);
     }
 
     public function download4()
