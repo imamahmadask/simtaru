@@ -36,7 +36,10 @@
                             <a class="nav-link text-muted hover-primary" href="/#regulasi">Regulasi</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-muted hover-primary" href="/#contact">Contact Us</a>
+                            <a class="nav-link text-muted hover-primary" href="/#maps">Peta</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted hover-primary" href="/#kontak">Kontak</a>
                         </li>
                         @if (Route::has('login'))
                             @auth
