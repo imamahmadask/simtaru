@@ -185,7 +185,7 @@ class KkprnbAnalisDetail extends Component
         ];
 
         $this->koordinatTable = true;
-        return $this->generateDocument('6_FORMAT_PERSETUJUAN_KKPR_NON_BERUSAHA.docx', $data);
+        return $this->generateDocument('format_persetujuan.docx', $data);
     }
 
     private function generateDocument($templatePath, $data)
