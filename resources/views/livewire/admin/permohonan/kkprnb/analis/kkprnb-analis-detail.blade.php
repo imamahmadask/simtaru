@@ -78,8 +78,7 @@
                             Penguasaan Tanah
                         </label>
                         <div class="col-sm-8">
-                            <textarea id="penguasaan_tanah" class="form-control" value="{{ $kkprnb->penguasaan_tanah }}" rows="5"
-                                readonly></textarea>
+                            <textarea id="penguasaan_tanah" class="form-control" rows="5" readonly>{{ $kkprnb->penguasaan_tanah }}</textarea>
                         </div>
                     </div>                    
                     <div class="row mb-3">
@@ -235,8 +234,7 @@
                         </label>
                         <div class="col-sm-8">
                             <div class="input-group">
-                                <textarea id="persyaratan_pelaksanaan" class="form-control"
-                                    value="{{ $kkprnb->persyaratan_pelaksanaan }}" rows="5" readonly></textarea>
+                                <textarea id="persyaratan_pelaksanaan" class="form-control" rows="10" readonly>{{ $kkprnb->persyaratan_pelaksanaan }}</textarea>
                             </div>
                         </div>
                     </div>                               

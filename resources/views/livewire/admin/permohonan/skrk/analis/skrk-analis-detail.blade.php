@@ -75,8 +75,8 @@
                             Informasi Penguasaan Tanah
                         </label>
                         <div class="col-sm-8">
-                            <textarea id="penguasaan_tanah" class="form-control" value="{{ $skrk->penguasaan_tanah }}" rows="5"
-                                readonly></textarea>
+                            <textarea id="penguasaan_tanah" class="form-control" rows="5"
+                                readonly>{{ $skrk->penguasaan_tanah }}</textarea>
                         </div>
                     </div>
                     <div class="row mb-3">

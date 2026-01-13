@@ -58,7 +58,8 @@
                                                     Catatan {{ $item->nama_berkas }}
                                                 </label>
                                                 <textarea class="form-control" id="catatan_{{ $uploadedFile->id }}" wire:model="catatan_.{{ $uploadedFile->id }}"
-                                                    value="{{ $uploadedFile->catatan }}" rows="3">
+                                                    rows="3">
+                                                    {{ $uploadedFile->catatan }}
                                                 </textarea>
                                             </div>
                                         @endif
