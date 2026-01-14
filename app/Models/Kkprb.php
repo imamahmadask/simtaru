@@ -60,6 +60,7 @@ class Kkprb extends Model
         'tgl_validate',
         'jenis_kegiatan',
         'kesimpulan',
+        'pola_ruang',
     ];
 
     protected $casts = [

@@ -40,7 +40,8 @@ class Itr extends Model
         'is_dokumen',
         'is_validate',
         'batas_persil',
-        'keterangan'
+        'keterangan',
+        'pola_ruang',
     ];
 
     protected $casts = [

@@ -60,7 +60,7 @@ class Kkprnb extends Model
         'surat_pengantar_kelengkapan',
         'akta_pendirian',
         'gambar_teknis',
-        'pola_ruang'
+        'pola_ruang',
     ];
 
     protected $casts = [

@@ -52,7 +52,8 @@ class Skrk extends Model
         'fungsi_jalan',
         'tipe_jalan',
         'median_jalan',
-        'lebar_jalan'
+        'lebar_jalan',
+        'pola_ruang',
     ];
 
     protected $casts = [
