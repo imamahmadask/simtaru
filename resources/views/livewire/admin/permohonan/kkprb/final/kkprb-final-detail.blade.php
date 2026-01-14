@@ -11,15 +11,17 @@
                         @livewire('admin.permohonan.kkprb.final.kkprb-final-create', ['permohonan_id' => $kkprb->permohonan->id, 'kkprb_id' => $kkprb->id])
                     @endteleport
                 @endif
-                <button type="button" class="btn {{ $kkprb->permohonan->is_done ? 'btn-success' : 'btn-danger' }}"
-                    wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiFinalisasiModal"
-                    {{ $kkprb->permohonan->is_done ? 'disabled' : '' }}>
-                    @if ($kkprb->permohonan->is_done)
-                        <i class="bx bx-check"></i> Selesai Finalisasi
-                    @else
-                        <i class="bx bx-x"></i> Belum Selesai Finalisasi
-                    @endif
-                </button>
+                @if ($kkprb->permohonan->is_done)
+                    <button type="button" class="btn {{ $kkprb->permohonan->is_done ? 'btn-success' : 'btn-danger' }}"
+                        wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiFinalisasiModal"
+                        {{ $kkprb->permohonan->is_done ? 'disabled' : '' }}>
+                        @if ($kkprb->permohonan->is_done)
+                            <i class="bx bx-check"></i> Selesai Finalisasi
+                        @else
+                            <i class="bx bx-x"></i> Belum Selesai Finalisasi
+                        @endif
+                    </button>
+                @endif
             @endcan
         </div>
     </div>

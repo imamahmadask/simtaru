@@ -72,15 +72,16 @@ class KkprbVerifikasiDetail extends Component
                 ]);
 
                 // Find and update the disposisi for the 'Verifikasi' stage
-                $tahapanAnalisId = $this->kkprb->permohonan->layanan->tahapan->where('nama', 'Verifikasi')->value('id');
-                if ($tahapanAnalisId) {
-                    $this->kkprb->permohonan->disposisi()->where('tahapan_id', $tahapanAnalisId)
+                $tahapanVerifikasiId = $this->kkprb->permohonan->layanan->tahapan->where('nama', 'Verifikasi')->value('id');
+                if ($tahapanVerifikasiId) {
+                    $this->kkprb->permohonan->disposisi()->where('tahapan_id', $tahapanVerifikasiId)
                     ->where('is_done', false)
                     ->update([
                         'is_done' => true,
                         'tgl_selesai' => now()
                     ]);
-                    $this->createRiwayat($this->kkprb->permohonan, 'Selesai Analisa Data KKPR Berusaha');
+
+                    $this->createRiwayat($this->kkprb->permohonan, 'Selesai Verifikasi Data KKPR Berusaha', Auth::user()->id);
                 }
 
                 $tahapan = Tahapan::where('layanan_id', $this->kkprb->permohonan->layanan_id)->where('urutan', 4)->first();
@@ -94,8 +95,7 @@ class KkprbVerifikasiDetail extends Component
                     'catatan' => 'Lanjutkan proses cetak Dokumen KKPR Berusaha',
                 ]);
 
-                $this->createRiwayat($this->kkprb->permohonan, 'Selesai Verifikasi Berkas KKPR Berusaha');
-                $this->createRiwayat($this->kkprb->permohonan, 'Sedang Proses Cetak Dokumen KKPR Berusaha');
+                $this->createRiwayat($this->kkprb->permohonan, 'Sedang Proses Cetak Dokumen KKPR Berusaha', $this->kkprb->permohonan->created_by);
 
                 session()->flash('success', 'Data Verifikasi selesai!');
             }
@@ -108,11 +108,11 @@ class KkprbVerifikasiDetail extends Component
         return redirect()->route('kkprb.detail', ['id' => $this->kkprb->id]);
     }
 
-    private function createRiwayat(Permohonan $permohonan, string $keterangan)
+    private function createRiwayat(Permohonan $permohonan, string $keterangan, int $user_id)
     {
         RiwayatPermohonan::create([
             'registrasi_id' => $permohonan->registrasi_id,
-            'user_id' => Auth::user()->id,
+            'user_id' => $user_id,
             'keterangan' => $keterangan
         ]);
     }

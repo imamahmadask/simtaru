@@ -12,15 +12,17 @@
                         @livewire('admin.permohonan.itr.final.final-add', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id])
                     @endteleport
                 @endif
-                <button type="button" class="btn {{ $itr->permohonan->is_done ? 'btn-success' : 'btn-danger' }}"
-                    wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiFinalisasiItrModal"
-                    {{ $itr->permohonan->is_done ? 'disabled' : '' }}>
-                    @if ($itr->permohonan->is_done)
-                        <i class="bx bx-check"></i> Selesai Finalisasi
-                    @else
-                        <i class="bx bx-x"></i> Belum Selesai Finalisasi
-                    @endif
-                </button>
+                @if ($itr->permohonan->no_dokumen)
+                    <button type="button" class="btn {{ $itr->permohonan->is_done ? 'btn-success' : 'btn-danger' }}"
+                        wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiFinalisasiItrModal"
+                        {{ $itr->permohonan->is_done ? 'disabled' : '' }}>
+                        @if ($itr->permohonan->is_done)
+                            <i class="bx bx-check"></i> Selesai Finalisasi
+                        @else
+                            <i class="bx bx-x"></i> Belum Selesai Finalisasi
+                        @endif
+                    </button>
+                @endif
             @endcan
         </div>
     </div>

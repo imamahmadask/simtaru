@@ -212,7 +212,9 @@ class SkrkAnalisDetail extends Component
                 ->update([
                     'is_done' => true,
                     'tgl_selesai' => now()
-                ]);                
+                ]);          
+                
+                 $this->createRiwayat($this->skrk->permohonan, 'Proses Analisa Dokumen SKRK Selesai!', Auth::user()->id);
             }
 
             // Create disposisi to supervisor for 'Verifikasi' tahapan
@@ -230,10 +232,9 @@ class SkrkAnalisDetail extends Component
                     'tanggal_disposisi' => now(),
                     'catatan' => 'Mohon untuk melakukan verifikasi data hasil analisa.',
                 ]);
-            }
 
-            $this->createRiwayat($this->skrk->permohonan, 'Proses Analisa Dokumen SKRK Selesai!');
-            $this->createRiwayat($this->skrk->permohonan, 'Proses Verifikasi Data SKRK');
+                $this->createRiwayat($this->skrk->permohonan, 'Proses Verifikasi Data SKRK', $supervisor->id);
+            }        
         }
 
         session()->flash('success', 'Data Analis selesai!');
@@ -241,11 +242,11 @@ class SkrkAnalisDetail extends Component
         return redirect()->route('skrk.detail', ['id' => $this->skrk->id]);
     }
 
-    private function createRiwayat(Permohonan $permohonan, string $keterangan)
+    private function createRiwayat(Permohonan $permohonan, string $keterangan, $user_id)
     {
         RiwayatPermohonan::create([
             'registrasi_id' => $permohonan->registrasi_id,
-            'user_id' => Auth::user()->id,
+            'user_id' => $user_id,
             'keterangan' => $keterangan
         ]);
     }

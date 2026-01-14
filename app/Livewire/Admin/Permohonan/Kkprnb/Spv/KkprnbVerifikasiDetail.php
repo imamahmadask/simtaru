@@ -6,6 +6,7 @@ use App\Models\Kkprnb;
 use App\Models\Permohonan;
 use App\Models\RiwayatPermohonan;
 use App\Models\Tahapan;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -73,15 +74,15 @@ class KkprnbVerifikasiDetail extends Component
                 ]);
 
                 // Find and update the disposisi for the 'Verifikasi' stage
-                $tahapanAnalisId = $this->kkprnb->permohonan->layanan->tahapan->where('nama', 'Verifikasi')->value('id');
-                if ($tahapanAnalisId) {
-                    $this->kkprnb->permohonan->disposisi()->where('tahapan_id', $tahapanAnalisId)
+                $tahapanSpvId = $this->kkprnb->permohonan->layanan->tahapan->where('nama', 'Verifikasi')->value('id');
+                if ($tahapanSpvId) {
+                    $this->kkprnb->permohonan->disposisi()->where('tahapan_id', $tahapanSpvId)
                     ->where('is_done', false)
                     ->update([
                         'is_done' => true,
                         'tgl_selesai' => now()
                     ]);
-                    $this->createRiwayat($this->kkprnb->permohonan, 'Selesai Analisa Data KKPR Non Berusaha');
+                    $this->createRiwayat($this->kkprnb->permohonan, 'Selesai Verifikasi Data KKPR Non Berusaha', Auth::user()->id);
                 }
 
                 $tahapan = Tahapan::where('layanan_id', $this->kkprnb->permohonan->layanan_id)->where('urutan', 4)->first();
@@ -94,9 +95,9 @@ class KkprnbVerifikasiDetail extends Component
                     'tanggal_disposisi' => now(),
                     'catatan' => 'Lanjutkan proses cetak Dokumen KKPR Non Berusaha',
                 ]);
-
-                $this->createRiwayat($this->kkprnb->permohonan, 'Selesai Verifikasi Berkas KKPR Non Berusaha');
-                $this->createRiwayat($this->kkprnb->permohonan, 'Sedang Proses Cetak Dokumen KKPR Non Berusaha');
+                
+                $data_entry = User::where('role', 'data-entry')->first()->id;
+                $this->createRiwayat($this->kkprnb->permohonan, 'Proses Cetak Dokumen Data KKPR Non Berusaha', $data_entry);
 
                 session()->flash('success', 'Data Verifikasi selesai!');
             }
@@ -109,11 +110,11 @@ class KkprnbVerifikasiDetail extends Component
         return redirect()->route('kkprnb.detail', ['id' => $this->kkprnb->id]);
     }
 
-    private function createRiwayat(Permohonan $permohonan, string $keterangan)
+    private function createRiwayat(Permohonan $permohonan, string $keterangan, $user_id)
     {
         RiwayatPermohonan::create([
             'registrasi_id' => $permohonan->registrasi_id,
-            'user_id' => Auth::user()->id,
+            'user_id' => $user_id,
             'keterangan' => $keterangan
         ]);
     }

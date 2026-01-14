@@ -10,17 +10,18 @@
                     @teleport('body')
                         @livewire('admin.permohonan.skrk.final.final-add')
                     @endteleport
-
                 @endif
-                <button type="button" class="btn {{ $skrk->permohonan->is_done ? 'btn-success' : 'btn-danger' }}"
-                    wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiFinalisasiSkrkModal"
-                    {{ $skrk->permohonan->is_done ? 'disabled' : '' }}>
-                    @if ($skrk->permohonan->is_done)
-                        <i class="bx bx-check"></i> Selesai Finalisasi
-                    @else
-                        <i class="bx bx-x"></i> Belum Selesai Finalisasi
-                    @endif
-                </button>
+                @if ($skrk->permohonan->no_dokumen)
+                    <button type="button" class="btn {{ $skrk->permohonan->is_done ? 'btn-success' : 'btn-danger' }}"
+                        wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiFinalisasiSkrkModal"
+                        {{ $skrk->permohonan->is_done ? 'disabled' : '' }}>
+                        @if ($skrk->permohonan->is_done)
+                            <i class="bx bx-check"></i> Selesai Finalisasi
+                        @else
+                            <i class="bx bx-x"></i> Belum Selesai Finalisasi
+                        @endif
+                    </button>
+                @endif
             @endcan
         </div>
     </div>

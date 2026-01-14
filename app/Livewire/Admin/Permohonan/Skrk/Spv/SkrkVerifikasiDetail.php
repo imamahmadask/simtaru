@@ -7,6 +7,7 @@ use App\Models\PermohonanBerkas;
 use App\Models\RiwayatPermohonan;
 use App\Models\Skrk;
 use App\Models\Tahapan;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -74,30 +75,30 @@ class SkrkVerifikasiDetail extends Component
                 ]);
 
                 // Find and update the disposisi for the 'Verifikasi' stage
-                $tahapanAnalisId = $this->skrk->permohonan->layanan->tahapan->where('nama', 'Verifikasi')->value('id');
-                if ($tahapanAnalisId) {
-                    $this->skrk->permohonan->disposisi()->where('tahapan_id', $tahapanAnalisId)
+                $tahapanSpvId = $this->skrk->permohonan->layanan->tahapan->where('nama', 'Verifikasi')->value('id');
+                if ($tahapanSpvId) {
+                    $this->skrk->permohonan->disposisi()->where('tahapan_id', $tahapanSpvId)
                     ->where('is_done', false)
                     ->update([
                         'is_done' => true,
                         'tgl_selesai' => now()
                     ]);
-                    $this->createRiwayat($this->skrk->permohonan, 'Selesai Analisa Data SKRK');
+                    
+                    $this->createRiwayat($this->skrk->permohonan, 'Selesai Verifikasi Berkas SKRK', Auth::user()->id);
                 }
 
-                $tahapan = Tahapan::where('layanan_id', $this->skrk->permohonan->layanan_id)->where('urutan', 4)->first();
+                $tahapanCetak = Tahapan::where('layanan_id', $this->skrk->permohonan->layanan_id)->where('urutan', 4)->first();
 
                 $this->skrk->disposisis()->create([
                     'permohonan_id' => $this->skrk->permohonan->id,
-                    'tahapan_id' => $tahapan->id,
+                    'tahapan_id' => $tahapanCetak->id,
                     'pemberi_id' => Auth::user()->id,
                     'penerima_id' => $this->skrk->permohonan->created_by,
                     'tanggal_disposisi' => now(),
                     'catatan' => 'Lanjutkan proses cetak Dokumen SKRK',
                 ]);
-
-                $this->createRiwayat($this->skrk->permohonan, 'Selesai Verifikasi Berkas SKRK');
-                $this->createRiwayat($this->skrk->permohonan, 'Sedang Proses Cetak Dokumen SKRK');
+                               
+                $this->createRiwayat($this->skrk->permohonan, 'Sedang Proses Cetak Dokumen SKRK', $this->skrk->permohonan->created_by);
 
                 session()->flash('success', 'Data Verifikasi selesai!');
             }
@@ -110,11 +111,11 @@ class SkrkVerifikasiDetail extends Component
         return redirect()->route('skrk.detail', ['id' => $this->skrk->id]);
     }
 
-    private function createRiwayat(Permohonan $permohonan, string $keterangan)
+    private function createRiwayat(Permohonan $permohonan, string $keterangan, int $user_id)
     {
         RiwayatPermohonan::create([
             'registrasi_id' => $permohonan->registrasi_id,
-            'user_id' => Auth::user()->id,
+            'user_id' => $user_id,
             'keterangan' => $keterangan
         ]);
     }

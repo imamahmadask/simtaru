@@ -53,9 +53,9 @@ class FinalDetail extends Component
                 ]);                 
 
                 // Find and update the disposisi for the 'Verifikasi' stage
-                $tahapanAnalisId = $this->skrk->permohonan->layanan->tahapan->where('nama', 'Cetak')->value('id');
-                if ($tahapanAnalisId) {
-                    $this->skrk->permohonan->disposisi()->where('tahapan_id', $tahapanAnalisId)
+                $tahapanCetakId = $this->skrk->permohonan->layanan->tahapan->where('nama', 'Cetak')->value('id');
+                if ($tahapanCetakId) {
+                    $this->skrk->permohonan->disposisi()->where('tahapan_id', $tahapanCetakId)
                     ->where('is_done', false)
                     ->update([
                         'is_done' => true,

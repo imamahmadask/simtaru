@@ -54,9 +54,9 @@ class KkprbFinalDetail extends Component
                 ]);                 
 
                 // Find and update the disposisi for the 'Verifikasi' stage
-                $tahapanAnalisId = $this->kkprb->permohonan->layanan->tahapan->where('nama', 'Cetak')->value('id');
-                if ($tahapanAnalisId) {
-                    $this->kkprb->permohonan->disposisi()->where('tahapan_id', $tahapanAnalisId)
+                $tahapanCetakId = $this->kkprb->permohonan->layanan->tahapan->where('nama', 'Cetak')->value('id');
+                if ($tahapanCetakId) {
+                    $this->kkprb->permohonan->disposisi()->where('tahapan_id', $tahapanCetakId)
                     ->where('is_done', false)
                     ->update([
                         'is_done' => true,

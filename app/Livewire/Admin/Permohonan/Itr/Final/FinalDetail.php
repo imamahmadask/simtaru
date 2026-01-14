@@ -52,10 +52,10 @@ class FinalDetail extends Component
                     'status' => 'completed',
                 ]);                 
 
-                // Find and update the disposisi for the 'Verifikasi' stage
-                $tahapanAnalisId = $this->itr->permohonan->layanan->tahapan->where('nama', 'Cetak')->value('id');
-                if ($tahapanAnalisId) {
-                    $this->itr->permohonan->disposisi()->where('tahapan_id', $tahapanAnalisId)
+                // Find and update the disposisi for the 'Cetak' stage
+                $tahapanCetakId = $this->itr->permohonan->layanan->tahapan->where('nama', 'Cetak')->value('id');
+                if ($tahapanCetakId) {
+                    $this->itr->permohonan->disposisi()->where('tahapan_id', $tahapanCetakId)
                     ->where('is_done', false)
                     ->update([
                         'is_done' => true,

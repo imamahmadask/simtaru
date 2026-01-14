@@ -266,7 +266,7 @@ class KkprnbAnalisDetail extends Component
                     'is_done' => true,
                     'tgl_selesai' => now()
                 ]);
-                $this->createRiwayat($this->kkprnb->permohonan, 'Selesai Analisa Data KKPR Non Berusaha');
+                $this->createRiwayat($this->kkprnb->permohonan, 'Selesai Analisa Data KKPR Non Berusaha', Auth::user()->id);
             }
 
             // Create disposisi to supervisor for 'Verifikasi' tahapan
@@ -287,9 +287,10 @@ class KkprnbAnalisDetail extends Component
                     'tanggal_disposisi' => now(),
                     'catatan' => 'Mohon untuk melakukan verifikasi data hasil analisa.',
                 ]);
+                
+                $this->createRiwayat($this->kkprnb->permohonan, 'Proses Verifikasi Data KKPR Non Berusaha', $supervisor->id);
             }
 
-            $this->createRiwayat($this->kkprnb->permohonan, 'Proses Verifikasi Data KKPR Non Berusaha');
 
             session()->flash('success', 'Data Analis selesai!');
         }
@@ -298,11 +299,11 @@ class KkprnbAnalisDetail extends Component
         return redirect()->route('kkprnb.detail', ['id' => $this->kkprnb->id]);
     }
 
-    private function createRiwayat(Permohonan $permohonan, string $keterangan)
+    private function createRiwayat(Permohonan $permohonan, string $keterangan, $user_id)
     {
         RiwayatPermohonan::create([
             'registrasi_id' => $permohonan->registrasi_id,
-            'user_id' => Auth::user()->id,
+            'user_id' => $user_id,
             'keterangan' => $keterangan
         ]);
     }

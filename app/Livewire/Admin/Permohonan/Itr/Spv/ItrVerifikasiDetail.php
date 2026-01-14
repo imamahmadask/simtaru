@@ -50,15 +50,15 @@ class ItrVerifikasiDetail extends Component
                 ]);
 
                 // Find and update the disposisi for the 'Verifikasi' stage
-                $tahapanAnalisId = $this->itr->permohonan->layanan->tahapan->where('nama', 'Verifikasi')->value('id');
-                if ($tahapanAnalisId) {
-                    $this->itr->permohonan->disposisi()->where('tahapan_id', $tahapanAnalisId)
+                $tahapanVerifikasiId = $this->itr->permohonan->layanan->tahapan->where('nama', 'Verifikasi')->value('id');
+                if ($tahapanVerifikasiId) {
+                    $this->itr->permohonan->disposisi()->where('tahapan_id', $tahapanVerifikasiId)
                     ->where('is_done', false)
                     ->update([
                         'is_done' => true,
                         'tgl_selesai' => now()
                     ]);
-                    $this->createRiwayat($this->itr->permohonan, 'Selesai Verifikasi Data ITR');
+                    $this->createRiwayat($this->itr->permohonan, 'Selesai Verifikasi Data ITR', Auth::user()->id);
                 }
 
                 $tahapan = Tahapan::where('layanan_id', $this->itr->permohonan->layanan_id)->where('urutan', 4)->first();
@@ -72,7 +72,7 @@ class ItrVerifikasiDetail extends Component
                     'catatan' => 'Lanjutkan proses cetak Dokumen ITR',
                 ]);
 
-                $this->createRiwayat($this->itr->permohonan, 'Sedang Proses Cetak Dokumen ITR');
+                $this->createRiwayat($this->itr->permohonan, 'Sedang Proses Cetak Dokumen ITR', $this->itr->permohonan->created_by);
 
                 session()->flash('success', 'Data Verifikasi selesai!');
             }
@@ -85,11 +85,11 @@ class ItrVerifikasiDetail extends Component
         return redirect()->route('itr.detail', ['id' => $this->itr->id]);
     }
 
-    private function createRiwayat(Permohonan $permohonan, string $keterangan)
+    private function createRiwayat(Permohonan $permohonan, string $keterangan, int $user_id)
     {
         RiwayatPermohonan::create([
             'registrasi_id' => $permohonan->registrasi_id,
-            'user_id' => Auth::user()->id,
+            'user_id' => $user_id,
             'keterangan' => $keterangan
         ]);
     }

@@ -153,7 +153,8 @@ class ItrAnalisDetail extends Component
                     'is_done' => true,
                     'tgl_selesai' => now()
                 ]);
-                $this->createRiwayat($this->itr->permohonan, 'Selesai Analisa Data ITR');
+
+                $this->createRiwayat($this->itr->permohonan, 'Selesai Analisa Data ITR', Auth::user()->id);
             }
 
             // Create disposisi to supervisor for 'Verifikasi' tahapan
@@ -171,9 +172,10 @@ class ItrAnalisDetail extends Component
                     'tanggal_disposisi' => now(),
                     'catatan' => 'Mohon untuk melakukan verifikasi data hasil analisa.',
                 ]);
+
+                $this->createRiwayat($this->itr->permohonan, 'Proses Verifikasi Data ITR', $supervisor->id);
             }
 
-            $this->createRiwayat($this->itr->permohonan, 'Proses Verifikasi Data ITR');
         }
 
         session()->flash('success', 'Data Analis selesai!');
@@ -181,11 +183,11 @@ class ItrAnalisDetail extends Component
         return redirect()->route('itr.detail', ['id' => $this->itr->id]);
     }
 
-    private function createRiwayat(Permohonan $permohonan, string $keterangan)
+    private function createRiwayat(Permohonan $permohonan, string $keterangan, int $user_id)
     {
         RiwayatPermohonan::create([
             'registrasi_id' => $permohonan->registrasi_id,
-            'user_id' => Auth::user()->id,
+            'user_id' => $user_id,
             'keterangan' => $keterangan
         ]);
     }
