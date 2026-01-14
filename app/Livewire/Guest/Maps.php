@@ -98,6 +98,7 @@ class Maps extends Component
                         'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
                         'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
                         'kecamatan' => 'Kecamatan : ' . $permohonan->registrasi->kec_tanah,
+                        'jenis_kegiatan' => 'Jenis Kegiatan : ' . $permohonan->registrasi->fungsi_bangunan,
                     ];
                 }
             }
@@ -116,6 +117,7 @@ class Maps extends Component
                         'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
                         'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
                         'kecamatan' => 'Kecamatan : ' . $permohonan->registrasi->kec_tanah,
+                        'jenis_kegiatan' => 'Jenis Kegiatan : ' . $permohonan->registrasi->fungsi_bangunan,
                     ];
                 }
             }
@@ -134,6 +136,7 @@ class Maps extends Component
                         'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
                         'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
                         'kecamatan' => 'Kecamatan : ' . $permohonan->registrasi->kec_tanah,
+                        'jenis_kegiatan' => 'Jenis Kegiatan : ' . $permohonan->registrasi->fungsi_bangunan,                        
                     ];
                 }   
             }
@@ -152,6 +155,7 @@ class Maps extends Component
                         'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
                         'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
                         'kecamatan' => 'Kecamatan : ' . $permohonan->registrasi->kec_tanah,
+                        'jenis_kegiatan' => 'Jenis Kegiatan : ' . $permohonan->registrasi->fungsi_bangunan,
                     ];
                 }
             }
@@ -185,6 +189,7 @@ class Maps extends Component
                         'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
                         'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
                         'kecamatan' => 'Kecamatan : ' . $permohonan->registrasi->kec_tanah,
+                        'jenis_kegiatan' => 'Jenis Kegiatan : ' . $permohonan->registrasi->fungsi_bangunan,
                     ];
                 }
             }
@@ -203,6 +208,7 @@ class Maps extends Component
                         'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
                         'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
                         'kecamatan' => 'Kecamatan : ' . $permohonan->registrasi->kec_tanah,
+                        'jenis_kegiatan' => 'Jenis Kegiatan : ' . $permohonan->registrasi->fungsi_bangunan,
                     ];
                 }
             }
@@ -221,6 +227,7 @@ class Maps extends Component
                         'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
                         'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
                         'kecamatan' => 'Kecamatan : ' . $permohonan->registrasi->kec_tanah,
+                        'jenis_kegiatan' => 'Jenis Kegiatan : ' . $permohonan->registrasi->fungsi_bangunan,
                     ];
                 }
             }
@@ -239,6 +246,7 @@ class Maps extends Component
                         'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
                         'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
                         'kecamatan' => 'Kecamatan : ' . $permohonan->registrasi->kec_tanah,
+                        'jenis_kegiatan' => 'Jenis Kegiatan : ' . $permohonan->registrasi->fungsi_bangunan,
                     ];
                 }
             }

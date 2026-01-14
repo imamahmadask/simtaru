@@ -44,7 +44,7 @@
                         L.marker([loc.lat, loc.lng])
                             .addTo(markersLayer)
                             .bindPopup(
-                                `<b>${loc.name}</b><br>${loc.info}<br>${loc.alamat}<br>${loc.kelurahan}<br>${loc.kecamatan}`
+                                `<b>${loc.name}</b><br>${loc.info}<br>${loc.alamat}<br>${loc.kelurahan}<br>${loc.kecamatan}<br>${loc.jenis_kegiatan}`
                             );
                     }
                 });
@@ -108,9 +108,11 @@
                     <select class="form-select border-start-0" aria-label="Filter Pemanfaatan Ruang">
                         <option selected>Semua Pemanfaatan Ruang</option>
                         <option value="Rumah Tinggal">Rumah Tinggal</option>
-                        <option value="Perumahan">Perumahan</option>
-                        <option value="Perdagangan">Perdagangan</option>
+                        <option value="Perdagangan & Jasa">Perdagangan & Jasa</option>
+                        <option value="Rumah Kost">Rumah Kost</option>
                         <option value="Perkantoran">Perkantoran</option>
+                        <option value="Sekolah/Yayasan">Sekolah/Yayasan</option>
+                        <option value="Lainnya">Lainnya</option>
                     </select>
                 </div>
             </div>
