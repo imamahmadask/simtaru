@@ -17,7 +17,7 @@ class KkprnbSurveyEdit extends Component
 
     public $permohonan, $kkprnb, $tahapans, $users;
     public $foto_survey_lama, $gambar_peta_lama;
-    public $ada_bangunan, $status_jalan, $fungsi_jalan, $tipe_jalan, $median_jalan, $lebar_jalan;
+    public $ada_bangunan, $status_jalan, $fungsi_jalan, $tipe_jalan, $median_jalan, $lebar_jalan, $pola_ruang;
 
     #[Validate('required')]
     public $tgl_survey, $batas_utara, $batas_selatan, $batas_timur, $batas_barat;
@@ -100,9 +100,10 @@ class KkprnbSurveyEdit extends Component
                 'timur' => $this->batas_timur,
                 'barat' => $this->batas_barat,
             ],
+            'pola_ruang' => $this->pola_ruang,
         ]);
 
-        $this->reset('tgl_survey', 'ada_bangunan', 'status_jalan', 'fungsi_jalan', 'tipe_jalan', 'median_jalan', 'lebar_jalan', 'koordinat', 'foto_survey', 'gambar_peta', 'batas_utara', 'batas_selatan', 'batas_timur', 'batas_barat');
+        $this->reset('tgl_survey', 'ada_bangunan', 'status_jalan', 'fungsi_jalan', 'tipe_jalan', 'median_jalan', 'lebar_jalan', 'koordinat', 'foto_survey', 'gambar_peta', 'batas_utara', 'batas_selatan', 'batas_timur', 'batas_barat', 'pola_ruang');
 
         $this->dispatch('toast', [
             'type'    => 'success',
@@ -145,6 +146,7 @@ class KkprnbSurveyEdit extends Component
         $this->tipe_jalan = $this->kkprnb->tipe_jalan;
         $this->median_jalan = $this->kkprnb->median_jalan;
         $this->lebar_jalan = $this->kkprnb->lebar_jalan;
+        $this->pola_ruang = $this->kkprnb->pola_ruang;
     }
 
     public function addRow()

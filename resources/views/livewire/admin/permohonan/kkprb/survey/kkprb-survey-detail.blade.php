@@ -127,6 +127,16 @@
                     </div>
 
                     <div class="row">
+                        <label class="col-sm-4 col-form-label" for="pola_ruang">
+                            Pola Ruang
+                        </label>
+                        <div class="col-sm-8  mb-3">
+                            <input id="pola_ruang" class="form-control" value="{{ $kkprb->pola_ruang }}"
+                                readonly>
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <label class="col-sm-4 col-form-label" for="koordinat">
                             Koordinat
                         </label>

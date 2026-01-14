@@ -16,7 +16,7 @@ class KkprbSurveyCreate extends Component
     use WithFileUploads;
 
     public $permohonan_id, $kkprb_id, $tahapan_id;
-    public $ada_bangunan, $status_jalan, $fungsi_jalan, $tipe_jalan, $median_jalan, $lebar_jalan;
+    public $ada_bangunan, $status_jalan, $fungsi_jalan, $tipe_jalan, $median_jalan, $lebar_jalan, $pola_ruang;
 
     #[Validate(['foto_survey.*' => 'image|max:10240'])]
     public $foto_survey = [];
@@ -83,9 +83,10 @@ class KkprbSurveyCreate extends Component
                 'timur' => $this->batas_timur,
                 'barat' => $this->batas_barat,
             ],
+            'pola_ruang' => $this->pola_ruang,
         ]);
 
-        $this->reset('tgl_survey', 'ada_bangunan', 'status_jalan', 'fungsi_jalan', 'tipe_jalan', 'median_jalan', 'lebar_jalan', 'koordinat', 'foto_survey', 'gambar_peta', 'batas_utara', 'batas_selatan', 'batas_timur', 'batas_barat');
+        $this->reset('tgl_survey', 'ada_bangunan', 'status_jalan', 'fungsi_jalan', 'tipe_jalan', 'median_jalan', 'lebar_jalan', 'koordinat', 'foto_survey', 'gambar_peta', 'batas_utara', 'batas_selatan', 'batas_timur', 'batas_barat', 'pola_ruang');
 
         $this->dispatch('toast', [
             'type'    => 'success',

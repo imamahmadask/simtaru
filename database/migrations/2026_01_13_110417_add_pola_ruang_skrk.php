@@ -11,7 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::table('skrk', function (Blueprint $table) {
+            $table->string('pola_ruang')->nullable();
+        });
+
+        Schema::table('itr', function (Blueprint $table) {
+            $table->string('pola_ruang')->nullable();
+        });
+
+        Schema::table('kkprb', function (Blueprint $table) {
+            $table->string('pola_ruang')->nullable();
+        });
+
+        Schema::table('kkprnb', function (Blueprint $table) {
+            $table->string('pola_ruang')->nullable();
+        });
     }
 
     /**
@@ -19,6 +33,20 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('skrk', function (Blueprint $table) {
+            $table->dropColumn('pola_ruang');
+        });
+
+        Schema::table('itr', function (Blueprint $table) {
+            $table->dropColumn('pola_ruang');
+        });
+
+        Schema::table('kkprb', function (Blueprint $table) {
+            $table->dropColumn('pola_ruang');
+        });
+
+        Schema::table('kkprnb', function (Blueprint $table) {
+            $table->dropColumn('pola_ruang');
+        });
     }
 };

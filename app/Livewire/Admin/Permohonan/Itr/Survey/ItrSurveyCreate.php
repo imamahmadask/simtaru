@@ -28,6 +28,8 @@ class ItrSurveyCreate extends Component
 
     public $koordinat = [];
 
+    public $pola_ruang;
+
     public function render()
     {
         return view('livewire.admin.permohonan.itr.survey.itr-survey-create');
@@ -76,9 +78,10 @@ class ItrSurveyCreate extends Component
                 'timur' => $this->batas_timur,
                 'barat' => $this->batas_barat,
             ],
+            'pola_ruang' => $this->pola_ruang,
         ]);
 
-        $this->reset('tgl_survey', 'koordinat', 'foto_survey', 'gambar_peta', 'batas_utara', 'batas_selatan', 'batas_timur', 'batas_barat');
+        $this->reset('tgl_survey', 'koordinat', 'foto_survey', 'gambar_peta', 'batas_utara', 'batas_selatan', 'batas_timur', 'batas_barat', 'pola_ruang');
 
         $this->dispatch('toast', [
             'type'    => 'success',

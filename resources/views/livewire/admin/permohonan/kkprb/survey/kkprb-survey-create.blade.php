@@ -95,6 +95,15 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="create_pola_ruang" class="form-label">Pola Ruang</label>
+                                <input type="text" class="form-control" wire:model="pola_ruang" id="create_pola_ruang">
+                                @error('pola_ruang')
+                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="mb-3">
                             <label class="form-label">Koordinat</label>
                             @foreach ($koordinat as $i => $point)
