@@ -8,12 +8,12 @@
                     </button>
 
                     @teleport('body')
-                        @livewire('admin.permohonan.kkprnb.final.kkprnb-final-create', ['permohonan_id' => $kkprnb->permohonan->id, 'kkprnb_id' => $kkprnb->id])
+                        @livewire('admin.permohonan.kkprnb.final.kkprnb-final-create', ['permohonan_id' => $kkprnb->permohonan->id, 'kkprnb_id' => $kkprnb->id], key('kkprnb-final-create-'.$kkprnb->id))
                     @endteleport
                 @endif
                 @if ($kkprnb->permohonan->no_dokumen)
                     <button type="button" class="btn {{ $kkprnb->permohonan->is_done ? 'btn-success' : 'btn-danger' }}"
-                        wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiFinalisasiModal"
+                        wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiFinalisasiKkprnbModal"
                         {{ $kkprnb->permohonan->is_done ? 'disabled' : '' }}>
                         @if ($kkprnb->permohonan->is_done)
                             <i class="bx bx-check"></i> Selesai Finalisasi
@@ -49,12 +49,12 @@
                                         @can('manageDataEntry', $kkprnb->permohonan)
                                             @if ($kkprnb->is_validate && $kkprnb->permohonan->no_dokumen)
                                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                                    data-bs-target="#editDataFinalModal" @if($kkprnb->permohonan->is_done) disabled @endif>
+                                                    data-bs-target="#editDataFinalKkprnbModal" @if($kkprnb->permohonan->is_done) disabled @endif>
                                                     <i class="bx bx-edit"></i>
                                                 </button>
 
                                                 @teleport('body')
-                                                    @livewire('admin.permohonan.kkprnb.final.kkprnb-final-edit', ['permohonan_id' => $kkprnb->permohonan->id, 'kkprnb_id' => $kkprnb->id])
+                                                    @livewire('admin.permohonan.kkprnb.final.kkprnb-final-edit', ['permohonan_id' => $kkprnb->permohonan->id, 'kkprnb_id' => $kkprnb->id], key('kkprnb-final-edit-'.$kkprnb->id))
                                                 @endteleport   
                                             @endif
                                         @endcan
@@ -88,7 +88,7 @@
                                 <th>Versi</th>
                                 <th>Uploaded At</th>
                                 <th>Uploaded By</th>
-                                <th>Show</th>
+                                <th>Action</th>
                             </thead>
                             <tbody>
                                 @php
@@ -104,6 +104,19 @@
                                         </td>
                                         <td>{{ $berkas->uploadedBy->name }}</td>
                                         <td>
+                                            @can('manageDataEntry', $kkprnb->permohonan)
+                                                <button type="button" class="btn btn-sm btn-outline-danger me-1 border-0"
+                                                    wire:click="deleteBerkas({{ $berkas->id }})"
+                                                    wire:confirm="Apakah Anda yakin ingin menghapus berkas ini?"
+                                                    wire:loading.attr="disabled"
+                                                    wire:target="deleteBerkas({{ $berkas->id }})"
+                                                    @if($kkprnb->permohonan->is_done) disabled @endif>
+                                                    <i class="bx bx-trash" wire:loading.remove
+                                                        wire:target="deleteBerkas({{ $berkas->id }})"></i>
+                                                    <span wire:loading wire:target="deleteBerkas({{ $berkas->id }})"
+                                                        class="spinner-border spinner-border-sm" role="status"></span>
+                                                </button>
+                                            @endcan
                                             <a href="{{ asset('storage/' . $berkas->file_path) }}"
                                                 class="btn btn-sm btn-primary" target="_blank">
                                                 <i class="bx bx-show"></i>
@@ -119,7 +132,7 @@
         </div>
     </div>  
     
-    <div wire:ignore.self class="modal fade" id="selesaiFinalisasiModal" data-bs-backdrop="static" tabindex="-1"
+    <div wire:ignore.self class="modal fade" id="selesaiFinalisasiKkprnbModal" data-bs-backdrop="static" tabindex="-1"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -148,7 +161,7 @@
 @script
     <script>
         $wire.on('trigger-close-modal', () => {
-            const modal = bootstrap.Modal.getInstance(document.getElementById('selesaiFinalisasiModal'));
+            const modal = bootstrap.Modal.getInstance(document.getElementById('selesaiFinalisasiKkprnbModal'));
             if (modal) {
                 modal.hide();
             }

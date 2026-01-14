@@ -27,7 +27,7 @@
                             <i class="bx bx-edit"></i> Disposisi
                         </button>
                         @teleport('body')
-                            @livewire('admin.disposisi.disposisi-edit')
+                            @livewire('admin.disposisi.disposisi-edit', [], key('disposisi-edit-itr-'.$itr->id))
                         @endteleport
                     @else
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -218,16 +218,16 @@
     </div>
 
     @teleport('body')
-        @livewire('admin.permohonan.itr.survey.itr-survey-create', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id])
+        @livewire('admin.permohonan.itr.survey.itr-survey-create', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id], key('itr-survey-create-'.$itr->id))
     @endteleport
     @teleport('body')
-        @livewire('admin.permohonan.itr.survey.itr-survey-edit', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id])
+        @livewire('admin.permohonan.itr.survey.itr-survey-edit', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id], key('itr-survey-edit-'.$itr->id))
     @endteleport
     @teleport('body')
-        @livewire('admin.permohonan.itr.survey.upload-berkas', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id])
+        @livewire('admin.permohonan.itr.survey.upload-berkas', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id], key('itr-survey-upload-berkas-'.$itr->id))
     @endteleport
     @teleport('body')
-        @livewire('admin.disposisi.disposisi-create', ['permohonan_id' => $itr->permohonan->id, 'pelayanan_id' => $itr->id])
+        @livewire('admin.disposisi.disposisi-create', ['permohonan_id' => $itr->permohonan->id, 'pelayanan_id' => $itr->id], key('disposisi-create-itr-'.$itr->id))
     @endteleport
 
 </div>

@@ -12,7 +12,7 @@
                         <i class="bx bx-edit"></i> Edit Data Dokumen
                     </button>
                     @teleport('body')
-                        @livewire('admin.permohonan.itr.analis.itr-dokumen-analis-edit', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id])
+                        @livewire('admin.permohonan.itr.analis.itr-dokumen-analis-edit', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id], key('itr-dokumen-edit-'.$itr->id))
                     @endteleport
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                         data-bs-target="#UploadBerkasAnalisaItrModal">
@@ -307,9 +307,9 @@
     </div>
 
     @teleport('body')
-        @livewire('admin.permohonan.itr.analis.itr-dokumen-analis-create', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id])
+        @livewire('admin.permohonan.itr.analis.itr-dokumen-analis-create', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id], key('itr-dokumen-create-'.$itr->id))
     @endteleport
     @teleport('body')
-        @livewire('admin.permohonan.itr.analis.upload-berkas', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id])
+        @livewire('admin.permohonan.itr.analis.upload-berkas', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id], key('itr-analis-upload-berkas-'.$itr->id))
     @endteleport
 </div>

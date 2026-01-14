@@ -8,7 +8,7 @@
                     </button>
 
                     @teleport('body')
-                        @livewire('admin.permohonan.kkprb.final.kkprb-final-create', ['permohonan_id' => $kkprb->permohonan->id, 'kkprb_id' => $kkprb->id])
+                        @livewire('admin.permohonan.kkprb.final.kkprb-final-create', ['permohonan_id' => $kkprb->permohonan->id, 'kkprb_id' => $kkprb->id], key('kkprb-final-create-'.$kkprb->id))
                     @endteleport
                 @endif
                 @if ($kkprb->permohonan->is_done)
@@ -54,7 +54,7 @@
                                                 </button>
 
                                                 @teleport('body')
-                                                    @livewire('admin.permohonan.kkprb.final.kkprb-final-edit', ['permohonan_id' => $kkprb->permohonan->id, 'kkprb_id' => $kkprb->id])
+                                                    @livewire('admin.permohonan.kkprb.final.kkprb-final-edit', ['permohonan_id' => $kkprb->permohonan->id, 'kkprb_id' => $kkprb->id], key('kkprb-final-edit-'.$kkprb->id))
                                                 @endteleport   
                                             @endif
                                         @endcan
@@ -83,7 +83,7 @@
                                 <th>Versi</th>
                                 <th>Uploaded At</th>
                                 <th>Uploaded By</th>
-                                <th>Show</th>
+                                <th>Action</th>
                             </thead>
                             <tbody>
                                 @php
@@ -99,6 +99,19 @@
                                         </td>
                                         <td>{{ $berkas->uploadedBy->name }}</td>
                                         <td>
+                                            @can('manageDataEntry', $kkprb->permohonan)
+                                                <button type="button" class="btn btn-sm btn-outline-danger me-1 border-0"
+                                                    wire:click="deleteBerkas({{ $berkas->id }})"
+                                                    wire:confirm="Apakah Anda yakin ingin menghapus berkas ini?"
+                                                    wire:loading.attr="disabled"
+                                                    wire:target="deleteBerkas({{ $berkas->id }})"
+                                                    @if($kkprb->permohonan->is_done) disabled @endif>
+                                                    <i class="bx bx-trash" wire:loading.remove
+                                                        wire:target="deleteBerkas({{ $berkas->id }})"></i>
+                                                    <span wire:loading wire:target="deleteBerkas({{ $berkas->id }})"
+                                                        class="spinner-border spinner-border-sm" role="status"></span>
+                                                </button>
+                                            @endcan
                                             <a href="{{ asset('storage/' . $berkas->file_path) }}"
                                                 class="btn btn-sm btn-primary" target="_blank">
                                                 <i class="bx bx-show"></i>

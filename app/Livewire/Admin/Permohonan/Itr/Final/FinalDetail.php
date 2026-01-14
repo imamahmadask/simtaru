@@ -6,6 +6,7 @@ use App\Models\Itr;
 use App\Models\Permohonan;
 use App\Models\RiwayatPermohonan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -31,6 +32,24 @@ class FinalDetail extends Component
     {
         $this->itr = Itr::find($itr_id);
         $this->berkas_final = $this->itr->permohonan->berkas->where('versi', 'final');
+    }
+
+    public function deleteBerkas($berkas_id)
+    {
+        $berkas = \App\Models\PermohonanBerkas::findOrFail($berkas_id);
+
+        if ($berkas->file_path && Storage::disk('public')->exists($berkas->file_path)) {
+            Storage::disk('public')->delete($berkas->file_path);
+        }
+
+        $berkas->delete();
+
+        $this->refresh();
+
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Berkas berhasil dihapus!'
+        ]);
     }
 
     public function selesaiFinalisasi()

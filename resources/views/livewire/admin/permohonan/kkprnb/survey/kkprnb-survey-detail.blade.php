@@ -11,7 +11,7 @@
                             <i class="bx bx-edit"></i> Edit Survey
                         </button>
                         @teleport('body')
-                            @livewire('admin.permohonan.kkprnb.survey.kkprnb-survey-edit')
+                            @livewire('admin.permohonan.kkprnb.survey.kkprnb-survey-edit', ['permohonan_id' => $kkprnb->permohonan->id, 'kkprnb_id' => $kkprnb->id], key('kkprnb-survey-edit-'.$kkprnb->id))
                         @endteleport
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#UploadBerkasSurveyKkprnbModal">
@@ -31,7 +31,7 @@
                             <i class="bx bx-edit"></i> Disposisi
                         </button>
                         @teleport('body')
-                            @livewire('admin.disposisi.disposisi-edit')
+                            @livewire('admin.disposisi.disposisi-edit', [], key('disposisi-edit-kkprnb-'.$kkprnb->id))
                         @endteleport
                     @else
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -272,13 +272,13 @@
     </div>
 
     @teleport('body')
-        @livewire('admin.permohonan.kkprnb.survey.kkprnb-survey-create', ['permohonan_id' => $kkprnb->permohonan->id, 'kkprnb_id' => $kkprnb->id])
+        @livewire('admin.permohonan.kkprnb.survey.kkprnb-survey-create', ['permohonan_id' => $kkprnb->permohonan->id, 'kkprnb_id' => $kkprnb->id], key('kkprnb-survey-create-'.$kkprnb->id))
     @endteleport
     @teleport('body')
-        @livewire('admin.permohonan.kkprnb.survey.upload-berkas', ['permohonan_id' => $kkprnb->permohonan->id, 'kkprnb_id' => $kkprnb->id])
+        @livewire('admin.permohonan.kkprnb.survey.upload-berkas', ['permohonan_id' => $kkprnb->permohonan->id, 'kkprnb_id' => $kkprnb->id], key('kkprnb-survey-upload-berkas-'.$kkprnb->id))
     @endteleport
     @teleport('body')
-        @livewire('admin.disposisi.disposisi-create', ['permohonan_id' => $kkprnb->permohonan->id, 'pelayanan_id' => $kkprnb->id])
+        @livewire('admin.disposisi.disposisi-create', ['permohonan_id' => $kkprnb->permohonan->id, 'pelayanan_id' => $kkprnb->id], key('disposisi-create-kkprnb-'.$kkprnb->id))
     @endteleport
 </div>
 @script

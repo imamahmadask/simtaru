@@ -41,12 +41,22 @@
                                     @endphp
 
                                     @if ($uploadedFile)
-                                        <div class="mt-2">
+                                        <div class="mt-2 d-flex align-items-center">
                                             {{-- Use the asset() helper for public storage files --}}
                                             <a href="{{ asset('storage/' . $uploadedFile->file_path) }}" target="_blank"
-                                                class="text-primary">
+                                                class="text-primary me-3">
                                                 <i class="bx bx-file"></i> Lihat Berkas
                                             </a>
+                                            <button type="button" class="btn btn-sm btn-outline-danger border-0"
+                                                wire:click="deleteBerkas({{ $uploadedFile->id }})"
+                                                wire:confirm="Apakah Anda yakin ingin menghapus berkas ini?"
+                                                wire:loading.attr="disabled"
+                                                wire:target="deleteBerkas({{ $uploadedFile->id }})">
+                                                <i class="bx bx-trash" wire:loading.remove
+                                                    wire:target="deleteBerkas({{ $uploadedFile->id }})"></i>
+                                                <span wire:loading wire:target="deleteBerkas({{ $uploadedFile->id }})"
+                                                    class="spinner-border spinner-border-sm" role="status"></span>
+                                            </button>
                                         </div>
                                     @endif
                                 </div>

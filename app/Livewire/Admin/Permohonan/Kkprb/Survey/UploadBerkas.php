@@ -6,6 +6,7 @@ use App\Models\Kkprb;
 use App\Models\Permohonan;
 use App\Models\PermohonanBerkas;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -102,19 +103,7 @@ class UploadBerkas extends Component
             }
         }
 
-        // Check if all required survey files are uploaded and update the flag
-        $requiredBerkas = $this->persyaratan_berkas->where('wajib', 1);
-        $requiredCount = $requiredBerkas->count();
-        $uploadedCount = PermohonanBerkas::where('permohonan_id', $this->permohonan->id)
-            ->whereIn('persyaratan_berkas_id', $this->persyaratan_berkas->pluck('id'))
-            ->whereIn('persyaratan_berkas_id', $requiredBerkas->pluck('id'))
-            ->count();
-
-        if ($requiredCount > 0 && $requiredCount === $uploadedCount) {
-            $this->kkprb->update(['is_berkas_survey_uploaded' => true]);
-        } else {
-            $this->kkprb->update(['is_berkas_survey_uploaded' => false]);
-        }
+        $this->updateBerkasStatus();
 
         $this->reset('file_');
 
@@ -127,5 +116,44 @@ class UploadBerkas extends Component
         $this->dispatch('refresh-kkprb-verifikasi-list');
 
         $this->dispatch('trigger-close-modal');
+    }
+
+    public function deleteBerkas($berkas_id)
+    {
+        $berkas = PermohonanBerkas::findOrFail($berkas_id);
+
+        // Delete file from storage
+        if ($berkas->file_path && Storage::disk('public')->exists($berkas->file_path)) {
+            Storage::disk('public')->delete($berkas->file_path);
+        }
+
+        // Delete from database
+        $berkas->delete();
+
+        // Update is_berkas_survey_uploaded flag
+        $this->updateBerkasStatus();
+
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Berkas berhasil dihapus!'
+        ]);
+
+        $this->dispatch('refresh-kkprb-survey-list');
+        $this->dispatch('refresh-kkprb-verifikasi-list');
+    }
+
+    private function updateBerkasStatus()
+    {
+        $requiredBerkas = $this->persyaratan_berkas->where('wajib', 1);
+        $requiredCount = $requiredBerkas->count();
+        $uploadedCount = PermohonanBerkas::where('permohonan_id', $this->permohonan->id)
+            ->whereIn('persyaratan_berkas_id', $requiredBerkas->pluck('id'))
+            ->count();
+
+        if ($requiredCount > 0 && $requiredCount === $uploadedCount) {
+            $this->kkprb->update(['is_berkas_survey_uploaded' => true]);
+        } else {
+            $this->kkprb->update(['is_berkas_survey_uploaded' => false]);
+        }
     }
 }

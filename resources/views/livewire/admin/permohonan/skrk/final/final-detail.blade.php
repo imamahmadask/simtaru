@@ -8,7 +8,7 @@
                         <i class="bx bx-plus"></i> Data Final
                     </button>
                     @teleport('body')
-                        @livewire('admin.permohonan.skrk.final.final-add')
+                        @livewire('admin.permohonan.skrk.final.final-add', [], key('skrk-final-add-'.$skrk->id))
                     @endteleport
                 @endif
                 @if ($skrk->permohonan->no_dokumen)
@@ -54,7 +54,7 @@
                                                 </button>
 
                                                 @teleport('body')
-                                                    @livewire('admin.permohonan.skrk.final.final-edit')
+                                                    @livewire('admin.permohonan.skrk.final.final-edit', [], key('skrk-final-edit-'.$skrk->id))
                                                 @endteleport     
                                             @endif
                                         @endcan
@@ -83,7 +83,7 @@
                                 <th>Versi</th>
                                 <th>Uploaded At</th>
                                 <th>Uploaded By</th>
-                                <th>Show</th>
+                                <th>Action</th>
                             </thead>
                             <tbody>
                                 @php
@@ -99,6 +99,19 @@
                                         </td>
                                         <td>{{ $berkas->uploadedBy->name }}</td>
                                         <td>
+                                            @can('manageDataEntry', $skrk->permohonan)
+                                                <button type="button" class="btn btn-sm btn-outline-danger me-1 border-0"
+                                                    wire:click="deleteBerkas({{ $berkas->id }})"
+                                                    wire:confirm="Apakah Anda yakin ingin menghapus berkas ini?"
+                                                    wire:loading.attr="disabled"
+                                                    wire:target="deleteBerkas({{ $berkas->id }})"
+                                                    @if($skrk->permohonan->is_done) disabled @endif>
+                                                    <i class="bx bx-trash" wire:loading.remove
+                                                        wire:target="deleteBerkas({{ $berkas->id }})"></i>
+                                                    <span wire:loading wire:target="deleteBerkas({{ $berkas->id }})"
+                                                        class="spinner-border spinner-border-sm" role="status"></span>
+                                                </button>
+                                            @endcan
                                             <a href="{{ asset('storage/' . $berkas->file_path) }}"
                                                 class="btn btn-sm btn-primary" target="_blank">
                                                 <i class="bx bx-show"></i>

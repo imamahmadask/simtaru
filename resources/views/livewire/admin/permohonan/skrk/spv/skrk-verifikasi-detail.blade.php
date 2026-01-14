@@ -77,17 +77,11 @@
                                                         data-bs-target="#AddVerifikasiSkrkModal">
                                                         Verifikasi
                                                     </button>
-                                                    @teleport('body')
-                                                        @livewire('admin.permohonan.skrk.spv.skrk-verifikasi-create')
-                                                    @endteleport
                                                 @elseif($item->status == 'ditolak')
                                                     <button class="btn btn-sm btn-success" wire:click="$dispatch('skrk-verifikasi-edit', { skrk_id: {{ $skrk->id }}, berkas_id: {{ $item->id }} })" data-bs-toggle="modal"
                                                         data-bs-target="#EditVerifikasiSkrkModal">
                                                         Edit Verifikasi
                                                     </button>
-                                                    @teleport('body')
-                                                        @livewire('admin.permohonan.skrk.spv.skrk-verifikasi-edit')
-                                                    @endteleport
                                                 @endif
                                             @endif
                                         </td>
@@ -177,6 +171,13 @@
             </div>
         </div>
     </div>
+
+    @teleport('body')
+        @livewire('admin.permohonan.skrk.spv.skrk-verifikasi-create', [], key('skrk-verifikasi-create-'.$skrk->id))
+    @endteleport
+    @teleport('body')
+        @livewire('admin.permohonan.skrk.spv.skrk-verifikasi-edit', [], key('skrk-verifikasi-edit-'.$skrk->id))
+    @endteleport
 </div>
 @script
     <script>

@@ -7,6 +7,7 @@ use App\Models\Permohonan;
 use App\Models\PermohonanBerkas;
 use App\Models\PersyaratanBerkas;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -56,6 +57,25 @@ class UploadBerkas extends Component
         $this->reset('file');
         $this->setNextBerkas();
         session()->flash('message', 'Berkas berhasil diupload!');
+    }
+
+    public function deleteBerkas($id)
+    {
+        $berkas = PermohonanBerkas::findOrFail($id);
+
+        if ($berkas->file_path && Storage::disk('public')->exists($berkas->file_path)) {
+            Storage::disk('public')->delete($berkas->file_path);
+        }
+
+        $berkas->update([
+            'file_path' => null,
+            'uploaded_by' => null,
+            'uploaded_at' => null,
+            'status' => 'menunggu',
+        ]);
+
+        $this->setNextBerkas();
+        session()->flash('message', 'Berkas berhasil dihapus!');
     }
 
     public function render()

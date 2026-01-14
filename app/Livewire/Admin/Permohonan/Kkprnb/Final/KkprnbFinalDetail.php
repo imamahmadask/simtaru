@@ -7,6 +7,7 @@ use App\Models\Permohonan;
 use App\Models\RiwayatPermohonan;
 use App\Models\Tahapan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -68,6 +69,26 @@ class KkprnbFinalDetail extends Component
         $templateProcessor->saveAs($tempPath);
 
         return response()->download($tempPath)->deleteFileAfterSend(true);
+    }
+
+    public function deleteBerkas($berkas_id)
+    {
+        $berkas = \App\Models\PermohonanBerkas::findOrFail($berkas_id);
+
+        // Delete file from storage
+        if ($berkas->file_path && Storage::disk('public')->exists($berkas->file_path)) {
+            Storage::disk('public')->delete($berkas->file_path);
+        }
+
+        // Delete from database
+        $berkas->delete();
+
+        $this->refresh();
+
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Berkas berhasil dihapus!'
+        ]);
     }
 
     public function selesaiFinalisasi()

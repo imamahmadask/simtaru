@@ -7,6 +7,7 @@ use App\Models\PermohonanBerkas;
 use App\Models\RiwayatPermohonan;
 use App\Models\Skrk;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -92,18 +93,7 @@ class UploadBerkas extends Component
             }
         }
 
-        // Check if all required analysis files are uploaded and update the flag
-        $requiredBerkas = $this->persyaratan_berkas->where('wajib', 1);
-        $requiredCount = $requiredBerkas->count();
-        $uploadedCount = PermohonanBerkas::where('permohonan_id', $this->permohonan->id)
-            ->whereIn('persyaratan_berkas_id', $requiredBerkas->pluck('id'))
-            ->count();
-
-        if ($requiredCount > 0 && $requiredCount === $uploadedCount) {
-            $this->skrk->update(['is_berkas_analis_uploaded' => true]);
-        } else {
-            $this->skrk->update(['is_berkas_analis_uploaded' => false]);
-        }
+        $this->updateBerkasStatus();
 
         $this->reset('file_');
 
@@ -123,6 +113,45 @@ class UploadBerkas extends Component
         $this->dispatch('refresh-skrk-verifikasi-list');
 
         $this->dispatch('trigger-close-modal');
+    }
+
+    public function deleteBerkas($berkas_id)
+    {
+        $berkas = PermohonanBerkas::findOrFail($berkas_id);
+
+        // Delete file from storage
+        if ($berkas->file_path && Storage::disk('public')->exists($berkas->file_path)) {
+            Storage::disk('public')->delete($berkas->file_path);
+        }
+
+        // Delete from database
+        $berkas->delete();
+
+        // Update is_berkas_analis_uploaded flag
+        $this->updateBerkasStatus();
+
+        $this->dispatch('toast', [
+            'type'    => 'success',
+            'message' => 'Berkas berhasil dihapus!'
+        ]);
+
+        $this->dispatch('refresh-skrk-analis-list');
+        $this->dispatch('refresh-skrk-verifikasi-list');
+    }
+
+    private function updateBerkasStatus()
+    {
+        $requiredBerkas = $this->persyaratan_berkas->where('wajib', 1);
+        $requiredCount = $requiredBerkas->count();
+        $uploadedCount = PermohonanBerkas::where('permohonan_id', $this->permohonan->id)
+            ->whereIn('persyaratan_berkas_id', $requiredBerkas->pluck('id'))
+            ->count();
+
+        if ($requiredCount > 0 && $requiredCount === $uploadedCount) {
+            $this->skrk->update(['is_berkas_analis_uploaded' => true]);
+        } else {
+            $this->skrk->update(['is_berkas_analis_uploaded' => false]);
+        }
     }
 
     private function createRiwayat(Permohonan $permohonan, string $keterangan)

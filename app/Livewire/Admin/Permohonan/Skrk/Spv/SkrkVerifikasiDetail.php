@@ -23,7 +23,8 @@ class SkrkVerifikasiDetail extends Component
     public function refresh()
     {
         $this->skrk->refresh();
-        $this->mount($this->skrk->id);
+        $this->skrk->load(['permohonan.berkas']);
+        $this->loadData();
     }
     
 
@@ -35,9 +36,13 @@ class SkrkVerifikasiDetail extends Component
     public function mount($skrk_id)
     {
         $this->skrk = Skrk::findOrFail($skrk_id);
+        $this->loadData();
+    }
+
+    public function loadData()
+    {
         $this->count_verifikasi = $this->skrk->permohonan->berkas->where('status', '!=', 'diterima')->where('versi', 'draft')->count();
         $this->berkas_draft = $this->skrk->permohonan->berkas->where('versi', 'draft');
-
     }
 
     public function submitKesimpulan()

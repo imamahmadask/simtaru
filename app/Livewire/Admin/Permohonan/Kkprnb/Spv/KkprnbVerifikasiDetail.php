@@ -22,7 +22,8 @@ class KkprnbVerifikasiDetail extends Component
     public function refresh()
     {
         $this->kkprnb->refresh();
-        $this->mount($this->kkprnb->id);
+        $this->kkprnb->load(['permohonan.berkas']);
+        $this->loadData();
     }
     
     public function render()
@@ -33,6 +34,11 @@ class KkprnbVerifikasiDetail extends Component
     public function mount($kkprnb_id)
     {
         $this->kkprnb = Kkprnb::findOrFail($kkprnb_id);
+        $this->loadData();
+    }
+
+    public function loadData()
+    {
         $this->count_verifikasi = $this->kkprnb->permohonan->berkas->where('status', '!=', 'diterima')->where('versi', 'draft')->count();
         $this->berkas_draft = $this->kkprnb->permohonan->berkas->where('versi', 'draft');
         $this->kesimpulan = $this->kkprnb->kesimpulan ?? '';

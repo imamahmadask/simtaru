@@ -370,12 +370,12 @@
     </div>
 
     @teleport('body')
-        @livewire('admin.permohonan.skrk.analis.skrk-kajian-analis-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+        @livewire('admin.permohonan.skrk.analis.skrk-kajian-analis-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id], key('skrk-kajian-create-'.$skrk->id))
     @endteleport
     @teleport('body')
-        @livewire('admin.permohonan.skrk.analis.skrk-dokumen-analis-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+        @livewire('admin.permohonan.skrk.analis.skrk-dokumen-analis-create', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id], key('skrk-dokumen-create-'.$skrk->id))
     @endteleport
     @teleport('body')
-        @livewire('admin.permohonan.skrk.analis.upload-berkas', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id])
+        @livewire('admin.permohonan.skrk.analis.upload-berkas', ['permohonan_id' => $skrk->permohonan->id, 'skrk_id' => $skrk->id], key('skrk-upload-berkas-'.$skrk->id))
     @endteleport
 </div>

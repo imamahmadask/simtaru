@@ -27,7 +27,7 @@
                             <i class="bx bx-edit"></i> Edit Data Kajian
                         </button>
                         @teleport('body')
-                            @livewire('admin.permohonan.kkprnb.analis.kkprnb-kajian-analis-edit')
+                            @livewire('admin.permohonan.kkprnb.analis.kkprnb-kajian-analis-edit', [], key('kkprnb-kajian-edit-'.$kkprnb->id))
                         @endteleport
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#UploadBerkasAnalisaKkprnbModal">
@@ -310,10 +310,10 @@
     </div>
 
     @teleport('body')
-        @livewire('admin.permohonan.kkprnb.analis.kkprnb-kajian-analis-create', ['permohonan_id' => $kkprnb->permohonan->id, 'kkprnb_id' => $kkprnb->id])
+        @livewire('admin.permohonan.kkprnb.analis.kkprnb-kajian-analis-create', ['permohonan_id' => $kkprnb->permohonan->id, 'kkprnb_id' => $kkprnb->id], key('kkprnb-kajian-create-'.$kkprnb->id))
     @endteleport
     @teleport('body')
-        @livewire('admin.permohonan.kkprnb.analis.upload-berkas', ['permohonan_id' => $kkprnb->permohonan->id, 'kkprnb_id' => $kkprnb->id])
+        @livewire('admin.permohonan.kkprnb.analis.upload-berkas', ['permohonan_id' => $kkprnb->permohonan->id, 'kkprnb_id' => $kkprnb->id], key('kkprnb-analis-upload-berkas-'.$kkprnb->id))
     @endteleport
 </div>
 @script

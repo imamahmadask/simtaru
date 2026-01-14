@@ -77,17 +77,11 @@
                                                         data-bs-target="#VerifikasiModal">
                                                         Verifikasi
                                                     </button>
-                                                    @teleport('body')
-                                                        @livewire('admin.permohonan.kkprnb.spv.kkprnb-verifikasi-create')
-                                                    @endteleport
                                                 @elseif($item->status == 'ditolak')
                                                     <button class="btn btn-sm btn-success" data-bs-toggle="modal" wire:click="$dispatch('kkprnb-verifikasi-edit', { kkprnb_id: {{ $kkprnb->id }}, berkas_id: {{ $item->id }} })"
                                                         data-bs-target="#EditVerifikasiModal">
                                                         Edit Verifikasi
                                                     </button>
-                                                    @teleport('body')
-                                                        @livewire('admin.permohonan.kkprnb.spv.kkprnb-verifikasi-edit')
-                                                    @endteleport
                                                 @endif
                                             @endif
                                         </td>
@@ -177,6 +171,13 @@
             </div>
         </div>
     </div>
+
+    @teleport('body')
+        @livewire('admin.permohonan.kkprnb.spv.kkprnb-verifikasi-create', [], key('kkprnb-verifikasi-create-'.$kkprnb->id))
+    @endteleport
+    @teleport('body')
+        @livewire('admin.permohonan.kkprnb.spv.kkprnb-verifikasi-edit', [], key('kkprnb-verifikasi-edit-'.$kkprnb->id))
+    @endteleport
 </div>
 @script
     <script>

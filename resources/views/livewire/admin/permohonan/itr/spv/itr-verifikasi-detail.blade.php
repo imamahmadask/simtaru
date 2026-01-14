@@ -78,18 +78,12 @@
                                                         data-bs-target="#VerifikasiItrModal">
                                                         Verifikasi
                                                     </button>
-                                                    @teleport('body')
-                                                        @livewire('admin.permohonan.itr.spv.itr-verifikasi-create')
-                                                    @endteleport
                                                 @elseif($item->status == 'ditolak')
                                                     <button class="btn btn-sm btn-success" data-bs-toggle="modal"
                                                         wire:click="$dispatch('itr-verifikasi-edit', { itr_id: {{ $itr->id }}, berkas_id: {{ $item->id }} })"
                                                         data-bs-target="#EditVerifikasiItrModal">
                                                         Edit Verifikasi
                                                     </button>
-                                                    @teleport('body')
-                                                        @livewire('admin.permohonan.itr.spv.itr-verifikasi-edit')
-                                                    @endteleport
                                                 @endif
                                             @endif
                                         </td>
@@ -139,6 +133,13 @@
             </div>
         </div>
     </div>
+
+    @teleport('body')
+        @livewire('admin.permohonan.itr.spv.itr-verifikasi-create', [], key('itr-verifikasi-create-'.$itr->id))
+    @endteleport
+    @teleport('body')
+        @livewire('admin.permohonan.itr.spv.itr-verifikasi-edit', [], key('itr-verifikasi-edit-'.$itr->id))
+    @endteleport
 </div>
 @script
     <script>

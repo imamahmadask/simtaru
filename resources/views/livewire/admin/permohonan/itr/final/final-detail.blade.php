@@ -9,7 +9,7 @@
                     </button>
 
                     @teleport('body')
-                        @livewire('admin.permohonan.itr.final.final-add', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id])
+                        @livewire('admin.permohonan.itr.final.final-add', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id], key('itr-final-add-'.$itr->id))
                     @endteleport
                 @endif
                 @if ($itr->permohonan->no_dokumen)
@@ -55,7 +55,7 @@
                                                 </button>
 
                                                 @teleport('body')
-                                                    @livewire('admin.permohonan.itr.final.final-edit', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id])
+                                                    @livewire('admin.permohonan.itr.final.final-edit', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id], key('itr-final-edit-'.$itr->id))
                                                 @endteleport
                                             @endif
                                         @endcan
@@ -84,7 +84,7 @@
                                 <th>Versi</th>
                                 <th>Uploaded At</th>
                                 <th>Uploaded By</th>
-                                <th>Show</th>
+                                <th>Action</th>
                             </thead>
                             <tbody>
                                 @php
@@ -100,6 +100,19 @@
                                         </td>
                                         <td>{{ $berkas->uploadedBy->name }}</td>
                                         <td>
+                                            @can('manageDataEntry', $itr->permohonan)
+                                                <button type="button" class="btn btn-sm btn-outline-danger me-1 border-0"
+                                                    wire:click="deleteBerkas({{ $berkas->id }})"
+                                                    wire:confirm="Apakah Anda yakin ingin menghapus berkas ini?"
+                                                    wire:loading.attr="disabled"
+                                                    wire:target="deleteBerkas({{ $berkas->id }})"
+                                                    @if($itr->permohonan->is_done) disabled @endif>
+                                                    <i class="bx bx-trash" wire:loading.remove
+                                                        wire:target="deleteBerkas({{ $berkas->id }})"></i>
+                                                    <span wire:loading wire:target="deleteBerkas({{ $berkas->id }})"
+                                                        class="spinner-border spinner-border-sm" role="status"></span>
+                                                </button>
+                                            @endcan
                                             <a href="{{ asset('storage/' . $berkas->file_path) }}"
                                                 class="btn btn-sm btn-primary" target="_blank">
                                                 <i class="bx bx-show"></i>
