@@ -23,6 +23,7 @@ class RegistrasiDetail extends Component
     public $riwayats = [];
     public $status;
     public $permohonan;
+    public $alasan_dicabut;    
     
     public function render()
     {
@@ -47,6 +48,7 @@ class RegistrasiDetail extends Component
         $this->status = $this->registrasi->status;
         $this->permohonan = $this->registrasi->permohonan;
         $this->riwayats = $this->registrasi->riwayat;
+        $this->alasan_dicabut = $this->registrasi->alasan_dicabut;
 
     }
 }

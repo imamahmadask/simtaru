@@ -138,8 +138,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <span>Disposisi</span>
-                                    <h3 class="card-title text-nowrap">{{ $this->rekap['count_disposisi'] }}</h3>
+                                    <span>Berkas Dicabut</span>
+                                    <h3 class="card-title text-nowrap">{{ $this->rekap['count_dicabut'] }}</h3>
                                 </div>
                             </div>
                         </div>

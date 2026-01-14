@@ -22,6 +22,7 @@ class Registrasi extends Model
         'kel_tanah',
         'kec_tanah',
         'status',
+        'alasan_dicabut',
     ];
 
     public function layanan()

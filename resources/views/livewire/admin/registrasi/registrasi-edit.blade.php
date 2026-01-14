@@ -14,9 +14,9 @@
                         @if ($count_permohonan == 0)
                             <div class="row">
                                 <div class="col mb-3">
-                                    <label for="layanan_id" class="form-label">Jenis Layanan</label>
+                                    <label for="edit_layanan_id" class="form-label">Jenis Layanan</label>
                                     <select class="form-select" wire:model="layanan_id" name="layanan_id"
-                                        id="edit-layanan_id" aria-label="Select Jenis Layanan">
+                                        id="edit_layanan_id" aria-label="Select Jenis Layanan">
                                         <option selected>Pilih Jenis Layanan</option>
                                         @foreach ($layanans as $layanan)
                                             <option value="{{ $layanan->id }}">{{ $layanan->nama }}</option>
@@ -30,8 +30,8 @@
                         @endif
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="tanggal" class="form-label">Tanggal Permohonan</label>
-                                <input type="date" wire:model="tanggal" name="tanggal" id="edit-tanggal"
+                                <label for="edit_tanggal" class="form-label">Tanggal Permohonan</label>
+                                <input type="date" wire:model="tanggal" name="tanggal" id="edit_tanggal"
                                     class="form-control" placeholder="" />
                                 @error('tanggal')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
@@ -40,8 +40,8 @@
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="nama" class="form-label">Nama</label>
-                                <input type="text" wire:model="nama" name="nama" id="edit-nama"
+                                <label for="edit_nama" class="form-label">Nama</label>
+                                <input type="text" wire:model="nama" name="nama" id="edit_nama"
                                     class="form-control" placeholder="Masukkan Nama Pemohon" />
                                 @error('nama')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
@@ -50,8 +50,8 @@
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="nik" class="form-label">NIK</label>
-                                <input type="text" wire:model="nik" name="nik" id="edit-nik"
+                                <label for="edit_nik" class="form-label">NIK</label>
+                                <input type="text" wire:model="nik" name="nik" id="edit_nik"
                                     class="form-control" placeholder="Masukkan NIK Pemohon" />
                                 @error('nik')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
@@ -60,8 +60,8 @@
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="no_hp" class="form-label">Nomor HP</label>
-                                <input type="text" wire:model="no_hp" name="no_hp" id="edit-no_hp"
+                                <label for="edit_no_hp" class="form-label">Nomor HP</label>
+                                <input type="text" wire:model="no_hp" name="no_hp" id="edit_no_hp"
                                     class="form-control" placeholder="Masukkan nomor HP aktif pemohon" />
                                 @error('no_hp')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
@@ -70,8 +70,8 @@
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" wire:model="email" name="email" id="edit-email"
+                                <label for="edit_email" class="form-label">Email</label>
+                                <input type="email" wire:model="email" name="email" id="edit_email"
                                     class="form-control" placeholder="Masukkan Email pemohon" />
                                 @error('email')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
@@ -80,9 +80,9 @@
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="fungsi_bangunan" class="form-label">Fungsi Bangunan</label>
+                                <label for="edit_fungsi_bangunan" class="form-label">Fungsi Bangunan</label>
                                 <input type="text" wire:model="fungsi_bangunan" name="fungsi_bangunan"
-                                    id="fungsi_bangunan" class="form-control" placeholder="Masukkan Fungsi Bangunan" />
+                                    id="edit_fungsi_bangunan" class="form-control" placeholder="Masukkan Fungsi Bangunan" />
                                 @error('fungsi_bangunan')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
@@ -90,8 +90,8 @@
                         </div>
                         <div class="row">
                             <div class="col mb-3">
-                                <label for="alamat_tanah" class="form-label">Alamat Persil</label>
-                                <textarea name="alamat_tanah" wire:model="alamat_tanah" id="alamat_tanah" class="form-control"></textarea>
+                                <label for="edit_alamat_tanah" class="form-label">Alamat Persil</label>
+                                <textarea name="alamat_tanah" wire:model="alamat_tanah" id="edit_alamat_tanah" class="form-control"></textarea>
                                 @error('alamat_tanah')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
@@ -100,8 +100,8 @@
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
-                                    <label class="form-label" for="kel_tanah">Kelurahan Persil</label>
-                                    <input type="text" class="form-control" wire:model="kel_tanah" id="kel_tanah"
+                                    <label class="form-label" for="edit_kel_tanah">Kelurahan Persil</label>
+                                    <input type="text" class="form-control" wire:model="kel_tanah" id="edit_kel_tanah"
                                         placeholder="Masukkan Kelurahan Tanah" />
                                     @error('kel_tanah')
                                         <span class="form-text text-xs text-danger"> {{ $message }} </span>
@@ -110,8 +110,8 @@
                             </div>
                             <div class="col">
                                 <div class="mb-3">
-                                    <label class="form-label" for="kec_tanah">Kecamatan Persil</label>
-                                    <select class="form-select" wire:model="kec_tanah" id="kec_tanah"
+                                    <label class="form-label" for="edit_kec_tanah">Kecamatan Persil</label>
+                                    <select class="form-select" wire:model="kec_tanah" id="edit_kec_tanah"
                                         aria-label="Default select example">
                                         <option value="" selected>Pilih Kecamatan</option>
                                         <option value="Ampenan">Ampenan</option>
@@ -130,8 +130,8 @@
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
-                                    <label class="form-label" for="status">Status Berkas</label>
-                                    <select class="form-select" wire:model="status" id="status"
+                                    <label class="form-label" for="edit_status">Status Berkas</label>
+                                    <select class="form-select" wire:model="status" id="edit_status"
                                         aria-label="Default select example">
                                         <option value="" selected>Pilih Status</option>
                                         <option value="Berkas Dicabut">Berkas Dicabut</option>                                        
@@ -142,6 +142,19 @@
                                 </div>
                             </div>
                         </div>
+                        @if($status == 'Berkas Dicabut')
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" for="edit_alasan_dicabut">Alasan Dicabut</label>
+                                    <textarea name="alasan_dicabut" wire:model="alasan_dicabut" id="edit_alasan_dicabut" class="form-control"></textarea>
+                                    @error('alasan_dicabut')
+                                        <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        @endif
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">

@@ -20,13 +20,13 @@ class DashboardIndex extends Component
         $count_registrasi = Registrasi::count();
         $count_permohonan = Permohonan::count();
         $count_layanan = Layanan::count();
-        $count_disposisi = Disposisi::count();
+        $count_dicabut = Registrasi::where('status', 'Berkas Dicabut')->count();
 
         $this->rekap = [
             'count_registrasi' => $count_registrasi,
             'count_permohonan' => $count_permohonan,
             'count_layanan' => $count_layanan,
-            'count_disposisi' => $count_disposisi
+            'count_dicabut' => $count_dicabut
         ];
 
         return view('livewire.admin.dashboard.dashboard-index',

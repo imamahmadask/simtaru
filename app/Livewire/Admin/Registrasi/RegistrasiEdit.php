@@ -10,7 +10,7 @@ use Livewire\Component;
 
 class RegistrasiEdit extends Component
 {
-    public $registrasi_id, $layanans, $count_permohonan, $status;
+    public $registrasi_id, $layanans, $count_permohonan, $status, $alasan_dicabut;
 
     #[Validate('required')]
     public $nama, $no_hp, $layanan_id, $tanggal, $fungsi_bangunan, $alamat_tanah, $kel_tanah, $kec_tanah;
@@ -42,6 +42,7 @@ class RegistrasiEdit extends Component
         $this->kel_tanah = $registrasi->kel_tanah;
         $this->kec_tanah = $registrasi->kec_tanah;
         $this->status = $registrasi->status;
+        $this->alasan_dicabut = $registrasi->alasan_dicabut;
         $this->count_permohonan = $registrasi->permohonan()->count();
     }
 
@@ -76,7 +77,8 @@ class RegistrasiEdit extends Component
             'alamat_tanah' => $this->alamat_tanah,
             'kel_tanah' => $this->kel_tanah,
             'kec_tanah' => $this->kec_tanah,
-            'status' => $this->status
+            'status' => $this->status,
+            'alasan_dicabut' => $this->alasan_dicabut
         ]);      
         
         $this->dispatch('toast', [
@@ -84,7 +86,7 @@ class RegistrasiEdit extends Component
             'message' => 'Data registrasi berhasil diupdate!'
         ]);
 
-        $this->reset('nama', 'nik', 'no_hp', 'email', 'tanggal', 'layanan_id', 'fungsi_bangunan', 'alamat_tanah', 'kel_tanah', 'kec_tanah', 'status');
+        $this->reset('nama', 'nik', 'no_hp', 'email', 'tanggal', 'layanan_id', 'fungsi_bangunan', 'alamat_tanah', 'kel_tanah', 'kec_tanah', 'status', 'alasan_dicabut');
         
         $this->dispatch('refresh-registrasi-list');
 

@@ -97,6 +97,10 @@
                                                     <span class="badge bg-label-danger">{{ $status }}</span>
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                <td>Alasan Dicabut</td>
+                                                <td>{{ $alasan_dicabut }}</td>
+                                            </tr>
                                         @elseif($permohonan != NULL)
                                             <tr>
                                                 <td>Status</td>
