@@ -40,7 +40,7 @@ class KkprnbSurveyDetail extends Component
     {
         $permohonan = $this->kkprnb->permohonan;
         $batas = $this->kkprnb->batas_persil;
-        $surveyor = $permohonan->disposisi->where('tahapan_id', $permohonan->layanan->tahapan->where('nama', 'Survey')->value('id'))->first()->penerima->name;
+        $surveyor = $permohonan->disposisi->where('tahapan_id', $permohonan->layanan->tahapan->where('nama', 'Survey')->value('id'))->first()->penerima->name ?? '-';
         $hari_survey = $this->kkprnb->tgl_survey ? \Carbon\Carbon::parse($this->kkprnb->tgl_survey)->locale('id')->isoFormat('dddd') : '______';
         $tgl_survey = $this->kkprnb->tgl_survey ? ucwords(Number::spell(\Carbon\Carbon::parse($this->kkprnb->tgl_survey)->locale('id')->isoFormat('D'), 'id')) : '______';
         $bulan_survey = $this->kkprnb->tgl_survey ? \Carbon\Carbon::parse($this->kkprnb->tgl_survey)->locale('id')->isoFormat('MMMM') : '______';

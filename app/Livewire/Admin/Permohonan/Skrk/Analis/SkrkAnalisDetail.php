@@ -64,7 +64,7 @@ class SkrkAnalisDetail extends Component
             }
         }
         $batas = $this->skrk->batas_administratif;
-        $analis = $permohonan->disposisi->where('tahapan_id', $permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id'))->first()->penerima->name;
+        $analis = $permohonan->disposisi->where('tahapan_id', $permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id'))->first()->penerima->name ?? '-';
 
         $data = [
             'nama_analis' => $analis,
@@ -104,12 +104,11 @@ class SkrkAnalisDetail extends Component
             'jba' => $this->skrk->jba,
             'jbb' => $this->skrk->jbb,
             'ktb' => $this->skrk->ktb,
-            'persyaratan_pelaksanaan' => $this->skrk->persyaratan_pelaksanaan,
+            // 'persyaratan_pelaksanaan' => $this->skrk->persyaratan_pelaksanaan,
         ];
 
         $this->koordinatTable = false;
-        // return $this->generateDocument('3_kajian_skrk.docx', $data);
-        return $this->generateDocument('3_kajian_skrk_fixed.docx', $data);
+        return $this->generateDocument('3_kajian_skrk.docx', $data);
     }
 
     public function download4()
@@ -146,7 +145,7 @@ class SkrkAnalisDetail extends Component
             'ktb' => $this->skrk->ktb,
             'luas_kavling' => $this->skrk->luas_kavling,
             'jaringan_utilitas' => $this->skrk->jaringan_utilitas,
-            'persyaratan_pelaksanaan' => $this->skrk->persyaratan_pelaksanaan,
+            // 'persyaratan_pelaksanaan' => $this->skrk->persyaratan_pelaksanaan,
         ];
         $this->koordinatTable = true;
         return $this->generateDocument('4_dokumen_skrk.docx', $data);

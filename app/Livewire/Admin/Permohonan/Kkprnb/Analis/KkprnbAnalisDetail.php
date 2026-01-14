@@ -66,10 +66,13 @@ class KkprnbAnalisDetail extends Component
                 $textKoordinat .= "{$point['x']}, {$point['y']}\n";
             }
         }
-
+        $batas = $this->kkprnb->batas_persil;
+        $analis = $permohonan->disposisi->where('tahapan_id', $permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id'))->first()->penerima->name ?? '-';
+        
         $data = [
+            'analis' => $analis,
             'nama_pemohon' => $permohonan->registrasi->nama,
-            'nik_pemohon' => $permohonan->registrasi->nik,
+            'nik' => $permohonan->registrasi->nik,
             'tgl_registrasi' => $permohonan->registrasi->tanggal ? date('d F Y', strtotime($permohonan->registrasi->tanggal)) : '-',
             'tgl_validasi' => $this->kkprnb->tgl_validasi ? date('d F Y', strtotime($this->kkprnb->tgl_validasi)) : '-',
             'tgl_survey' => $this->kkprnb->tgl_survey ? date('d F Y', strtotime($this->kkprnb->tgl_survey)) : '-',
@@ -95,9 +98,19 @@ class KkprnbAnalisDetail extends Component
             'kdb' => $this->kkprnb->kdb,
             'klb' => $this->kkprnb->klb,
             'kdh' => $this->kkprnb->kdh,
+            'gsb' => $this->kkprnb->gsb,
+            'status_jalan' => $this->kkprnb->status_jalan,
+            'tipe_jalan' => $this->kkprnb->tipe_jalan,
+            'fungsi_jalan' => $this->kkprnb->fungsi_jalan,
+            'median_jalan' => $this->kkprnb->median_jalan,
+            'lebar_jalan' => $this->kkprnb->lebar_jalan,
+            'batas_barat' => $batas ? $batas['barat'] : '______',
+            'batas_timur' => $batas ? $batas['timur'] : '______',
+            'batas_utara' => $batas ? $batas['utara'] : '______',
+            'batas_selatan' => $batas ? $batas['selatan'] : '______',
         ];
         $this->koordinatTable = false;
-        return $this->generateDocument('3D_KAJIAN_KKPR_NON_BERUSAHA.docx', $data);
+        return $this->generateDocument('3D_KAJIAN_KKPR_NONBERUSAHA.docx', $data);
     }
 
     public function download4()
@@ -186,8 +199,7 @@ class KkprnbAnalisDetail extends Component
         ];
 
         $this->koordinatTable = true;
-        // return $this->generateDocument('FORMAT_PERSETUJUAN_KKPR_NB.docx', $data);
-        return $this->generateDocument('FORMAT_PERSETUJUAN_KKPR_NONBERUSAHA.docx', $data);
+        return $this->generateDocument('6_FORMAT_PERSETUJUAN_KKPR_NONBERUSAHA.docx', $data);
     }
 
     private function generateDocument($templatePath, $data)
