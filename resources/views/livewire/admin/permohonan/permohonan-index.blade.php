@@ -130,7 +130,7 @@
                                         </span>
                                     </td>
                                     <td class="text-nowrap">
-                                        <div class="me-3">
+                                        <div class="me-3">                                            
                                             <a href="{{ route('permohonan.edit', ['id' => $data->id]) }}"
                                                 type="button" class="btn btn-primary btn-sm">
                                                 <i class="bx bx-edit"></i>
@@ -139,13 +139,25 @@
                                                 type="button" class="btn btn-primary btn-sm">
                                                 <i class="bx bx-show"></i>
                                             </a>
-                                            @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'data-entry')
+                                            @can('manageAll', $data)
+                                                <button type="button" class="btn btn-info btn-sm position-relative"
+                                                    wire:click="showSaran({{ $data->id }})">
+                                                    <i class="bx bx-chat"></i>
+                                                    @if ($data->saran_count > 0)
+                                                        <span
+                                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                            {{ $data->saran_count }}
+                                                        </span>
+                                                    @endif
+                                                </button>
+                                            @endif
+                                            @can('manageDataEntry', $data)
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     wire:click="deletePermohonan({{ $data->id }})"
                                                     wire:confirm="Are you sure you want to delete this Permohonan?">
                                                     <i class="bx bx-trash"></i>
                                                 </button>
-                                            @endif
+                                            @endcan
                                         </div>
 
                                     </td>
@@ -158,4 +170,64 @@
         </div>
         <!--/ Basic Bootstrap Table -->
     </div>
+
+    <!-- Modal Saran -->
+    <div wire:ignore.self class="modal fade" id="modalSaran" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">Daftar Saran / Masukan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @if($selectedPermohonan)
+                        <div class="mb-3">
+                            <h5>
+                                <strong>Kode : {{ $selectedPermohonan->registrasi->kode }}</strong>                                
+                            </h5>
+                            <h5>Nama Pemohon : {{ $selectedPermohonan->registrasi->nama }}</h5>
+                        </div>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Tanggal</th>
+                                        <th>Nama</th>
+                                        <th>Pesan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($saranList as $saran)
+                                        <tr>
+                                            <td>{{ $saran->created_at->format('d/m/Y H:i') }}</td>
+                                            <td>{{ $saran->nama ?? '-' }}</td>
+                                            <td class="text-wrap">{{ $saran->pesan }}</td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="3" class="text-center">Tidak ada saran untuk permohonan ini.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            Livewire.on('open-modal-saran', () => {
+                var myModal = new bootstrap.Modal(document.getElementById('modalSaran'));
+                myModal.show();
+            });
+        });
+    </script>
 </div>

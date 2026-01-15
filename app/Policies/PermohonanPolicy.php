@@ -14,6 +14,13 @@ class PermohonanPolicy
      * - user.role = superadmin / supervisor
      * - ATAU user penerima disposisi tahap survey
      */
+
+    public function manageAll(User $user): bool
+    {
+        return in_array($user->role, ['superadmin', 'supervisor']);
+    }
+
+
     public function manageSurvey(User $user, Permohonan $permohonan): bool
     {
         // superadmin & supervisor selalu boleh

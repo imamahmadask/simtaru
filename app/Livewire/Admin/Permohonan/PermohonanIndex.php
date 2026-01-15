@@ -18,10 +18,13 @@ class PermohonanIndex extends Component
     public $filterStatus = '';
     public $filterPrioritas = '';
     public $layanans;
+    public $selectedPermohonan;
+    public $saranList = [];
 
     public function render()
     {
         $permohonans = Permohonan::with('layanan.registrasi')
+                        ->withCount('saran')
                         ->whereHas('layanan', function($query) {
                             $query->where('id', 'like', '%'.$this->filterLayanan.'%');
                         })
@@ -43,6 +46,17 @@ class PermohonanIndex extends Component
     public function mount()
     {
         $this->layanans = Layanan::all();
+    }
+
+    public function showSaran($id)
+    {
+        if (Auth::user()->role != 'superadmin') {
+            abort(403);
+        }
+
+        $this->selectedPermohonan = Permohonan::with(['registrasi', 'saran'])->findOrFail($id);
+        $this->saranList = $this->selectedPermohonan->saran;
+        $this->dispatch('open-modal-saran');
     }
 
     public function deletePermohonan($id)
