@@ -23,6 +23,7 @@ class Registrasi extends Model
         'kec_tanah',
         'status',
         'alasan_dicabut',
+        'alasan_tidak_lengkap',
     ];
 
     public function layanan()

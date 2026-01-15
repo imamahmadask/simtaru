@@ -24,7 +24,8 @@ class RegistrasiDetail extends Component
     public $status;
     public $permohonan;
     public $alasan_dicabut;    
-    
+    public $alasan_tidak_lengkap;
+
     public function render()
     {
         return view('livewire.admin.registrasi.registrasi-detail');
@@ -49,6 +50,7 @@ class RegistrasiDetail extends Component
         $this->permohonan = $this->registrasi->permohonan;
         $this->riwayats = $this->registrasi->riwayat;
         $this->alasan_dicabut = $this->registrasi->alasan_dicabut;
+        $this->alasan_tidak_lengkap = $this->registrasi->alasan_tidak_lengkap;
 
     }
 }

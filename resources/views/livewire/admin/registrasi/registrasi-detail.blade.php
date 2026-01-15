@@ -101,6 +101,17 @@
                                                 <td>Alasan Dicabut</td>
                                                 <td>{{ $alasan_dicabut }}</td>
                                             </tr>
+                                        @elseif($status == 'Berkas Tidak Lengkap')
+                                            <tr>
+                                                <td>Status Berkas</td>
+                                                <td>
+                                                    <span class="badge bg-label-danger">{{ $status }}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Alasan Tidak Lengkap</td>
+                                                <td>{{ $alasan_tidak_lengkap }}</td>
+                                            </tr>
                                         @elseif($permohonan != NULL)
                                             <tr>
                                                 <td>Status</td>

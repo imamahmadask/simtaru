@@ -10,7 +10,7 @@ use Livewire\Component;
 
 class RegistrasiEdit extends Component
 {
-    public $registrasi_id, $layanans, $count_permohonan, $status, $alasan_dicabut;
+    public $permohonan, $registrasi_id, $layanans, $count_permohonan, $status, $alasan_dicabut, $alasan_tidak_lengkap;
 
     #[Validate('required')]
     public $nama, $no_hp, $layanan_id, $tanggal, $fungsi_bangunan, $alamat_tanah, $kel_tanah, $kec_tanah;
@@ -29,7 +29,7 @@ class RegistrasiEdit extends Component
     public function getRegistrasi($id)
     {
         $registrasi = Registrasi::find($id);
-
+        $this->permohonan = $registrasi->permohonan;
         $this->registrasi_id = $registrasi->id;
         $this->nama = $registrasi->nama;
         $this->nik = $registrasi->nik;
@@ -43,6 +43,7 @@ class RegistrasiEdit extends Component
         $this->kec_tanah = $registrasi->kec_tanah;
         $this->status = $registrasi->status;
         $this->alasan_dicabut = $registrasi->alasan_dicabut;
+        $this->alasan_tidak_lengkap = $registrasi->alasan_tidak_lengkap;
         $this->count_permohonan = $registrasi->permohonan()->count();
     }
 
@@ -78,7 +79,8 @@ class RegistrasiEdit extends Component
             'kel_tanah' => $this->kel_tanah,
             'kec_tanah' => $this->kec_tanah,
             'status' => $this->status,
-            'alasan_dicabut' => $this->alasan_dicabut
+            'alasan_dicabut' => $this->alasan_dicabut,
+            'alasan_tidak_lengkap' => $this->alasan_tidak_lengkap
         ]);      
         
         $this->dispatch('toast', [
@@ -86,7 +88,7 @@ class RegistrasiEdit extends Component
             'message' => 'Data registrasi berhasil diupdate!'
         ]);
 
-        $this->reset('nama', 'nik', 'no_hp', 'email', 'tanggal', 'layanan_id', 'fungsi_bangunan', 'alamat_tanah', 'kel_tanah', 'kec_tanah', 'status', 'alasan_dicabut');
+        $this->reset('nama', 'nik', 'no_hp', 'email', 'tanggal', 'layanan_id', 'fungsi_bangunan', 'alamat_tanah', 'kel_tanah', 'kec_tanah', 'status', 'alasan_dicabut', 'alasan_tidak_lengkap');
         
         $this->dispatch('refresh-registrasi-list');
 
