@@ -80,4 +80,9 @@ class Permohonan extends Model
             'id'                // local key di tabel tahapan
         );
     }
+
+    public function saran()
+    {
+        return $this->hasMany(Saran::class);
+    }
 }

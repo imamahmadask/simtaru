@@ -4,6 +4,7 @@ namespace App\Livewire\Guest;
 
 use App\Models\Permohonan;
 use App\Models\Registrasi;
+use App\Models\Saran;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
@@ -11,6 +12,64 @@ class Maps extends Component
 {
     public $kecamatan;
     public array $locations = [];
+
+    // Properties for Saran/Masukan
+    public $selectedPermohonanId;
+    public $saranNama;
+    public $saranPesan;
+    public $showSaranModal = false;
+    public $successMessage;
+
+    public function mount()
+    {
+        $this->loadLocations();
+    }
+
+    private function loadLocations()
+    {
+        $query = Permohonan::with(['skrk', 'itr', 'kkprb', 'kkprnb', 'registrasi']);
+
+        if (!empty($this->kecamatan)) {
+            $query->whereHas('registrasi', function ($q) {
+                $q->where('kec_tanah', $this->kecamatan);
+            });
+        }
+
+        $permohonans = $query->get();
+
+        $this->locations = $permohonans->flatMap(function ($permohonan) {
+            return $this->extractCoordinatesFromPermohonan($permohonan);
+        })->toArray();
+    }
+
+    private function extractCoordinatesFromPermohonan($permohonan)
+    {
+        $coords = [];
+        $relations = ['skrk', 'itr', 'kkprb', 'kkprnb'];
+
+        foreach ($relations as $relation) {
+            if ($permohonan->$relation && $permohonan->$relation->koordinat) {
+                $koordinatArray = $permohonan->$relation->koordinat;
+                
+                if (!empty($koordinatArray) && isset($koordinatArray[0])) {
+                    $firstCoord = $koordinatArray[0];
+                    $coords[] = [
+                        'id' => $permohonan->id,
+                        'name' => 'Kode Registrasi: ' . ($permohonan->registrasi->kode ?? '-'),
+                        'lng' => $this->dmsToDecimal($firstCoord['x'] ?? null),
+                        'lat' => $this->dmsToDecimal($firstCoord['y'] ?? null),
+                        'info' => 'Status : ' . ($permohonan->status ?? 'Tidak ada deskripsi'),
+                        'alamat' => 'Alamat : ' . ($permohonan->registrasi->alamat_tanah ?? '-'),
+                        'kelurahan' => 'Kelurahan : ' . ($permohonan->registrasi->kel_tanah ?? '-'),
+                        'kecamatan' => 'Kecamatan : ' . ($permohonan->registrasi->kec_tanah ?? '-'),
+                        'jenis_kegiatan' => 'Jenis Kegiatan : ' . ($permohonan->registrasi->fungsi_bangunan ?? '-'),
+                    ];
+                }
+            }
+        }
+
+        return $coords;
+    }
 
     public function render()
     {
@@ -69,189 +128,42 @@ class Maps extends Component
 
     public function filterMap()
     {
-        if($this->kecamatan != '')
-        {
-            $data = Permohonan::with(['skrk', 'itr', 'kkprb', 'kkprnb', 'registrasi'])
-            ->whereHas('registrasi', function ($query) {
-                $query->where('kec_tanah', $this->kecamatan);
-            })->get();
-        }
-        else
-        {
-            $data = Permohonan::with(['skrk', 'itr', 'kkprb', 'kkprnb', 'registrasi'])->get();
-        }     
-
-        $this->locations = $data->flatMap(function ($permohonan) {
-            $coords = [];
-            
-            // Ambil dari Skrk jika ada
-            if ($permohonan->skrk && $permohonan->skrk->koordinat) {                
-                $koordinatArray = $permohonan->skrk->koordinat;
-                // Get first coordinate if array is not empty
-                if (!empty($koordinatArray) && isset($koordinatArray[0])) {
-                    $firstCoord = $koordinatArray[0];                    
-                    $coords[] = [
-                        'name' => 'Kode Registrasi: ' . $permohonan->registrasi->kode,
-                        'lng' => $this->dmsToDecimal($firstCoord['x'] ?? null),
-                        'lat' => $this->dmsToDecimal($firstCoord['y'] ?? null),
-                        'info' => 'Status : ' . ($permohonan->status ?? 'Tidak ada deskripsi'),
-                        'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
-                        'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
-                        'kecamatan' => 'Kecamatan : ' . $permohonan->registrasi->kec_tanah,
-                        'jenis_kegiatan' => 'Jenis Kegiatan : ' . $permohonan->registrasi->fungsi_bangunan,
-                    ];
-                }
-            }
-
-            // Ambil dari Itr jika ada
-            if ($permohonan->itr && $permohonan->itr->koordinat) {
-                $koordinatArray = $permohonan->itr->koordinat;
-                // Get first coordinate if array is not empty
-                if (!empty($koordinatArray) && isset($koordinatArray[0])) {
-                    $firstCoord = $koordinatArray[0];                    
-                    $coords[] = [
-                        'name' => 'Kode Registrasi: ' . $permohonan->registrasi->kode,
-                        'lng' => $this->dmsToDecimal($firstCoord['x'] ?? null),
-                        'lat' => $this->dmsToDecimal($firstCoord['y'] ?? null),
-                        'info' => 'Status : ' . ($permohonan->status ?? 'Tidak ada deskripsi'),
-                        'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
-                        'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
-                        'kecamatan' => 'Kecamatan : ' . $permohonan->registrasi->kec_tanah,
-                        'jenis_kegiatan' => 'Jenis Kegiatan : ' . $permohonan->registrasi->fungsi_bangunan,
-                    ];
-                }
-            }
-
-            // Ambil dari Kkprb jika ada
-            if ($permohonan->kkprb && $permohonan->kkprb->koordinat) {
-                $koordinatArray = $permohonan->kkprb->koordinat;
-                // Get first coordinate if array is not empty
-                if (!empty($koordinatArray) && isset($koordinatArray[0])) {
-                    $firstCoord = $koordinatArray[0];                    
-                    $coords[] = [
-                        'name' => 'Kode Registrasi: ' . $permohonan->registrasi->kode,
-                        'lng' => $this->dmsToDecimal($firstCoord['x'] ?? null),
-                        'lat' => $this->dmsToDecimal($firstCoord['y'] ?? null),
-                        'info' => 'Status : ' . ($permohonan->status ?? 'Tidak ada deskripsi'),
-                        'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
-                        'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
-                        'kecamatan' => 'Kecamatan : ' . $permohonan->registrasi->kec_tanah,
-                        'jenis_kegiatan' => 'Jenis Kegiatan : ' . $permohonan->registrasi->fungsi_bangunan,                        
-                    ];
-                }   
-            }
-
-            // Ambil dari Kkprnb jika ada
-            if ($permohonan->kkprnb && $permohonan->kkprnb->koordinat) {
-                $koordinatArray = $permohonan->kkprnb->koordinat;
-                // Get first coordinate if array is not empty
-                if (!empty($koordinatArray) && isset($koordinatArray[0])) {
-                    $firstCoord = $koordinatArray[0];                    
-                    $coords[] = [
-                        'name' => 'Kode Registrasi: ' . $permohonan->registrasi->kode,
-                        'lng' => $this->dmsToDecimal($firstCoord['x'] ?? null),
-                        'lat' => $this->dmsToDecimal($firstCoord['y'] ?? null),
-                        'info' => 'Status : ' . ($permohonan->status ?? 'Tidak ada deskripsi'),
-                        'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
-                        'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
-                        'kecamatan' => 'Kecamatan : ' . $permohonan->registrasi->kec_tanah,
-                        'jenis_kegiatan' => 'Jenis Kegiatan : ' . $permohonan->registrasi->fungsi_bangunan,
-                    ];
-                }
-            }
-
-            return $coords;
-        })->toArray(); // Convert Collection to array
-        
-        // Dispatch event to refresh map with new filtered data
+        $this->loadLocations();
         $this->dispatch('refresh-map');
     }
 
-    public function mount()
+    public function openSaranModal($id)
     {
-        // Query semua permohonan dengan relasi layanan (eager load untuk efisiensi)
-        $permohonans = Permohonan::with(['skrk', 'itr', 'kkprb', 'kkprnb'])->get(); // Atau filter spesifik, misalnya ::where('status', 'approved')->get()
-        // Collect koordinat dari masing-masing layanan yang ada, jadikan 1 array
-        $this->locations = $permohonans->flatMap(function ($permohonan) {
-            $coords = [];
-            
-            // Ambil dari Skrk jika ada
-            if ($permohonan->skrk && $permohonan->skrk->koordinat) {                
-                $koordinatArray = $permohonan->skrk->koordinat;
-                // Get first coordinate if array is not empty
-                if (!empty($koordinatArray) && isset($koordinatArray[0])) {
-                    $firstCoord = $koordinatArray[0];                    
-                    $coords[] = [
-                        'name' => 'Kode Registrasi: ' . $permohonan->registrasi->kode,
-                        'lng' => $this->dmsToDecimal($firstCoord['x'] ?? null),
-                        'lat' => $this->dmsToDecimal($firstCoord['y'] ?? null),
-                        'info' => 'Status : ' . ($permohonan->status ?? 'Tidak ada deskripsi'),
-                        'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
-                        'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
-                        'kecamatan' => 'Kecamatan : ' . $permohonan->registrasi->kec_tanah,
-                        'jenis_kegiatan' => 'Jenis Kegiatan : ' . $permohonan->registrasi->fungsi_bangunan,
-                    ];
-                }
-            }
+        $this->selectedPermohonanId = $id;
+        $this->reset(['saranNama', 'saranPesan', 'successMessage']);
+        $this->resetErrorBag();
+        $this->showSaranModal = true;
+        $this->dispatch('open-modal-saran');
+    }
 
-            // Ambil dari Itr jika ada
-            if ($permohonan->itr && $permohonan->itr->koordinat) {
-                $koordinatArray = $permohonan->itr->koordinat;
-                // Get first coordinate if array is not empty
-                if (!empty($koordinatArray) && isset($koordinatArray[0])) {
-                    $firstCoord = $koordinatArray[0];                    
-                    $coords[] = [
-                        'name' => 'Kode Registrasi: ' . $permohonan->registrasi->kode,
-                        'lng' => $this->dmsToDecimal($firstCoord['x'] ?? null),
-                        'lat' => $this->dmsToDecimal($firstCoord['y'] ?? null),
-                        'info' => 'Status : ' . ($permohonan->status ?? 'Tidak ada deskripsi'),
-                        'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
-                        'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
-                        'kecamatan' => 'Kecamatan : ' . $permohonan->registrasi->kec_tanah,
-                        'jenis_kegiatan' => 'Jenis Kegiatan : ' . $permohonan->registrasi->fungsi_bangunan,
-                    ];
-                }
-            }
+    public function closeSaranModal()
+    {
+        $this->showSaranModal = false;
+        $this->reset(['selectedPermohonanId', 'saranNama', 'saranPesan']);
+        $this->resetErrorBag();
+        $this->dispatch('close-modal-saran');
+    }
 
-            // Ambil dari Kkprb jika ada
-            if ($permohonan->kkprb && $permohonan->kkprb->koordinat) {
-                $koordinatArray = $permohonan->kkprb->koordinat;
-                // Get first coordinate if array is not empty
-                if (!empty($koordinatArray) && isset($koordinatArray[0])) {
-                    $firstCoord = $koordinatArray[0];                    
-                    $coords[] = [
-                        'name' => 'Kode Registrasi: ' . $permohonan->registrasi->kode,
-                        'lng' => $this->dmsToDecimal($firstCoord['x'] ?? null),
-                        'lat' => $this->dmsToDecimal($firstCoord['y'] ?? null),
-                        'info' => 'Status : ' . ($permohonan->status ?? 'Tidak ada deskripsi'),
-                        'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
-                        'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
-                        'kecamatan' => 'Kecamatan : ' . $permohonan->registrasi->kec_tanah,
-                        'jenis_kegiatan' => 'Jenis Kegiatan : ' . $permohonan->registrasi->fungsi_bangunan,
-                    ];
-                }
-            }
+    public function saveSaran()
+    {
+        $this->validate([
+            'saranNama' => 'required|string|max:255',
+            'saranPesan' => 'required|string',
+        ]);
 
-            // Ambil dari Kkprnb jika ada
-            if ($permohonan->kkprnb && $permohonan->kkprnb->koordinat) {
-                $koordinatArray = $permohonan->kkprnb->koordinat;
-                // Get first coordinate if array is not empty
-                if (!empty($koordinatArray) && isset($koordinatArray[0])) {
-                    $firstCoord = $koordinatArray[0];                    
-                    $coords[] = [
-                        'name' => 'Kode Registrasi: ' . $permohonan->registrasi->kode,
-                        'lng' => $this->dmsToDecimal($firstCoord['x'] ?? null),
-                        'lat' => $this->dmsToDecimal($firstCoord['y'] ?? null),
-                        'info' => 'Status : ' . ($permohonan->status ?? 'Tidak ada deskripsi'),
-                        'alamat' => 'Alamat : ' . $permohonan->registrasi->alamat_tanah,
-                        'kelurahan' => 'Kelurahan : ' . $permohonan->registrasi->kel_tanah,
-                        'kecamatan' => 'Kecamatan : ' . $permohonan->registrasi->kec_tanah,
-                        'jenis_kegiatan' => 'Jenis Kegiatan : ' . $permohonan->registrasi->fungsi_bangunan,
-                    ];
-                }
-            }
+        Saran::create([
+            'permohonan_id' => $this->selectedPermohonanId,
+            'nama' => $this->saranNama,
+            'pesan' => $this->saranPesan,
+        ]);
 
-            return $coords;
-        })->toArray(); // Convert Collection to array          
+        $this->closeSaranModal();
+        $this->successMessage = 'Saran/Masukan berhasil dikirim. Terima kasih!';
+        $this->dispatch('show-success-toast');
     }
 }
