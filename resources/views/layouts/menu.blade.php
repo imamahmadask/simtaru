@@ -83,6 +83,13 @@
                     <div data-i18n="Analytics">Pengaduan</div>
                 </a>
             </li>
+
+            <li class="menu-item {!! request()->routeIs('gallery.*') ? 'active' : '' !!}">
+                <a href="{{ route('gallery.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-image"></i>
+                    <div data-i18n="Analytics">Galeri</div>
+                </a>
+            </li>
         @endif
 
         @if (Auth::user()->role == 'superadmin')

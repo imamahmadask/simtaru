@@ -2,6 +2,7 @@
 
 use App\Livewire\Admin\Dashboard\DashboardIndex;
 use App\Livewire\Admin\Disposisi\DisposisiIndex;
+use App\Livewire\Admin\Gallery\GalleryIndex;
 use App\Livewire\Admin\Layanan\LayananDetail;
 use App\Livewire\Admin\Layanan\LayananIndex;
 use App\Livewire\Admin\Pengaduan\PengaduanIndex;
@@ -62,6 +63,8 @@ Route::middleware(['cekRole:superadmin,supervisor,analis,surveyor,data-entry'])-
     Route::get('admin/disposisi', DisposisiIndex::class)->name('disposisi.index'); // Disposisi
 
     Route::get('admin/pengaduan', PengaduanIndex::class)->name('pengaduan.index'); // Pengaduan
+
+    Route::get('admin/gallery', GalleryIndex::class)->name('gallery.index'); // Gallery
 });
 
 Route::middleware(['cekRole:superadmin,supervisor'])->group(function () {
