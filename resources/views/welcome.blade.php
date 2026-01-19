@@ -13,6 +13,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="{{ asset('landing/style.css') }}" rel="stylesheet">
+    <!-- GLightbox CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
 </head>
 
 <body>
@@ -40,6 +42,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-muted hover-primary" href="#faq">FAQ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted hover-primary" href="#gallery">Galeri</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-muted hover-primary" href="#kontak">Kontak</a>
@@ -232,6 +237,9 @@
     <section id="maps" style="padding-top: 5rem !important; padding-bottom: 5rem !important">
         <livewire:guest.maps />
     </section>
+
+    <!-- Gallery Section -->
+    <livewire:guest.gallery-guest />
 
     <!-- FAQ Section -->
     <section id="faq" class="bg-light" style="padding-top: 5rem !important; padding-bottom: 5rem !important">
@@ -691,6 +699,9 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- GLightbox JS -->
+    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+
     <script>
         document.querySelectorAll('.collapse').forEach(el => {
             el.addEventListener('show.bs.collapse', () => {
@@ -701,6 +712,10 @@
                 const toggler = document.querySelector(`a[href="#${el.id}"]`);
                 if (toggler) toggler.textContent = 'Read More';
             });
+        });
+
+        const lightbox = GLightbox({
+            selector: '.glightbox'
         });
     </script>
 </body>
