@@ -76,6 +76,13 @@
                     <div data-i18n="Analytics">Disposisi</div>
                 </a>
             </li>
+
+            <li class="menu-item {!! request()->routeIs('pengaduan.*') ? 'active' : '' !!}">
+                <a href="{{ route('pengaduan.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-chat"></i>
+                    <div data-i18n="Analytics">Pengaduan</div>
+                </a>
+            </li>
         @endif
 
         @if (Auth::user()->role == 'superadmin')

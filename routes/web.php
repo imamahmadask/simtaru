@@ -4,6 +4,7 @@ use App\Livewire\Admin\Dashboard\DashboardIndex;
 use App\Livewire\Admin\Disposisi\DisposisiIndex;
 use App\Livewire\Admin\Layanan\LayananDetail;
 use App\Livewire\Admin\Layanan\LayananIndex;
+use App\Livewire\Admin\Pengaduan\PengaduanIndex;
 use App\Livewire\Admin\Permohonan\Itr\ItrDetail;
 use App\Livewire\Admin\Permohonan\Itr\ItrIndex;
 use App\Livewire\Admin\Permohonan\Kkprb\KkprbDetail;
@@ -59,6 +60,8 @@ Route::middleware(['cekRole:superadmin,supervisor,analis,surveyor,data-entry'])-
 
 
     Route::get('admin/disposisi', DisposisiIndex::class)->name('disposisi.index'); // Disposisi
+
+    Route::get('admin/pengaduan', PengaduanIndex::class)->name('pengaduan.index'); // Pengaduan
 });
 
 Route::middleware(['cekRole:superadmin,supervisor'])->group(function () {

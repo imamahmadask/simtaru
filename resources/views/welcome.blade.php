@@ -313,7 +313,11 @@
                             <h5 class="card-title fw-bold">Lapor Pengaduan</h5>
                             <p class="card-text text-muted small">
                                 <a href="https://lapor.go.id" class="text-decoration-none text-primary"
-                                    target="_blank">Lapor</a>
+                                    target="_blank">lapor.go.id</a> <br>
+                                <button type="button" class="btn btn-primary btn-sm mt-2"
+                                    data-bs-toggle="modal" data-bs-target="#modalPengaduan">
+                                    Form Pengaduan
+                                </button>
                             </p>
                         </div>
                     </div>
@@ -345,7 +349,8 @@
                     <ul class="list-unstyled">
                         <li><a href="#layanan" class="text-light text-decoration-none hover-white">Layanan</a></li>
                         <li><a href="#regulasi" class="text-light text-decoration-none hover-white">Regulasi</a></li>
-                        <li><a href="#contact" class="text-light text-decoration-none hover-white">Contact Us</a></li>
+                        <li><a href="#maps" class="text-light text-decoration-none hover-white">Maps</a></li>
+                        <li><a href="#kontak" class="text-light text-decoration-none hover-white">Kontak</a></li>
                     </ul>
                 </div>
             </div>
@@ -355,6 +360,22 @@
             </div>
         </div>
     </footer>
+
+    @livewire('guest.pengaduan')
+
+    <!-- Toast Notification -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="successToast" class="toast align-items-center text-white bg-success border-0" role="alert"
+            aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="toastMessage">
+                    Pengaduan berhasil dikirim!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
