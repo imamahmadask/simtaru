@@ -231,7 +231,7 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                            Scan KTP Pemohon (Asli dan masih berlaku)
+                                            KTP Pemohon (Asli/FC dan masih berlaku)
                                         </li>
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-success me-2"></i>
@@ -239,7 +239,7 @@
                                         </li>
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                            KTP Penerima Kuasa (jika dikuasakan)
+                                            KTP Penerima Kuasa (Asli/FC dan masih berlaku)
                                         </li>
                                     </ul>
                                 </div>
@@ -249,21 +249,21 @@
                         <div class="col-md-6">
                             <div class="card border-primary h-100">
                                 <div class="card-header bg-primary text-white">
-                                    <h5 class="mb-0"><i class="bi bi-geo-alt me-2"></i>Informasi Lokasi</h5>
+                                    <h5 class="mb-0"><i class="bi bi-geo-alt me-2"></i>Dokumen Lain</h5>
                                 </div>
                                 <div class="card-body">
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-primary me-2"></i>
-                                            Alamat lengkap lokasi yang dimohonkan
+                                            Mengisi formulir permohonan ITR
                                         </li>
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-primary me-2"></i>
-                                            Koordinat lokasi (jika ada)
+                                            Fotocopy Bukti Kepemilikan Tanah (rangkap 1)
                                         </li>
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-primary me-2"></i>
-                                            Peta/sketsa lokasi yang jelas
+                                            Gambar/sketsa lokasi permohonan
                                         </li>
                                     </ul>
                                 </div>
@@ -273,9 +273,7 @@
 
                     <div class="alert alert-info mt-4" role="alert">
                         <i class="bi bi-info-circle-fill me-2"></i>
-                        <strong>Catatan:</strong> Semua dokumen harus dalam format PDF atau gambar (JPG/PNG) dengan
-                        ukuran maksimal 2MB per file. Pastikan informasi lokasi yang diberikan akurat untuk mendapatkan
-                        informasi tata ruang yang tepat.
+                        <strong>Catatan:</strong> Semua Berkas di dalam map <strong>hijau</strong>.
                     </div>
                 </div>
             </div>
@@ -300,11 +298,11 @@
                                         style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">1</h3>
                                     </div>
-                                    <h5 class="fw-bold">Pendaftaran & Login</h5>
-                                    <p class="text-muted small">Daftar akun baru atau login ke sistem SIMTARU</p>
+                                    <h5 class="fw-bold">Konsultasi Awal</h5>
+                                    <p class="text-muted small">Konsultasi awal melalui WhatsApp/datang langsung ke MPP Mall Mataram</p>
                                 </div>
                             </div>
-                        </div>
+                        </div>                        
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
@@ -312,9 +310,8 @@
                                         style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">2</h3>
                                     </div>
-                                    <h5 class="fw-bold">Isi Formulir</h5>
-                                    <p class="text-muted small">Lengkapi formulir dengan informasi lokasi yang akurat
-                                    </p>
+                                    <h5 class="fw-bold">Pengumpulan Dokumen</h5>
+                                    <p class="text-muted small">Pengumpulan dokumen sesuai syarat</p>
                                 </div>
                             </div>
                         </div>
@@ -325,44 +322,32 @@
                                         style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">3</h3>
                                     </div>
-                                    <h5 class="fw-bold">Upload Dokumen</h5>
-                                    <p class="text-muted small">Unggah dokumen identitas dan informasi lokasi</p>
+                                    <h5 class="fw-bold">Verifikasi</h5>
+                                    <p class="text-muted small">Pemeriksaan teknis dan administrasi oleh petugas</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
                                         style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">4</h3>
                                     </div>
-                                    <h5 class="fw-bold">Verifikasi</h5>
-                                    <p class="text-muted small">Tim memverifikasi kelengkapan dan keakuratan data</p>
+                                    <h5 class="fw-bold">Penerbitan Dokumen</h5>
+                                    <p class="text-muted small">Jika lengkap maka akan dilakukan kajian dan dokumen terbit</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
                                         style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">5</h3>
                                     </div>
-                                    <h5 class="fw-bold">Penyusunan Informasi</h5>
-                                    <p class="text-muted small">Tim menyusun informasi tata ruang sesuai lokasi</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card border-0 shadow-sm h-100">
-                                <div class="card-body text-center">
-                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                                        style="width: 60px; height: 60px;">
-                                        <h3 class="mb-0">6</h3>
-                                    </div>
-                                    <h5 class="fw-bold">Penerbitan ITR</h5>
-                                    <p class="text-muted small">Dokumen ITR digital siap diunduh</p>
+                                    <h5 class="fw-bold">Perbaikan Dokumen</h5>
+                                    <p class="text-muted small">Jika ada kekurangan dokumen maka akan dilakukan perbaikan</p>
                                 </div>
                             </div>
                         </div>
@@ -423,131 +408,7 @@
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <div class="text-center mb-5">
-                        <h2 class="fw-bold mb-3">Pertanyaan yang Sering Diajukan</h2>
-                        <p class="text-muted">Temukan jawaban atas pertanyaan umum seputar ITR</p>
-                    </div>
-
-                    <div class="accordion" id="faqAccordion">
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq1">
-                                    <i class="bi bi-question-circle me-2 text-success"></i>
-                                    Apa perbedaan ITR dengan SKRK?
-                                </button>
-                            </h2>
-                            <div id="faq1" class="accordion-collapse collapse show"
-                                data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    <strong>ITR (Informasi Tata Ruang)</strong> memberikan informasi umum mengenai
-                                    rencana tata ruang di suatu kawasan, sedangkan <strong>SKRK (Surat Keterangan
-                                        Rencana Kota)</strong> adalah dokumen resmi yang menyatakan ketentuan teknis
-                                    tata ruang pada lokasi spesifik. ITR bersifat informatif, sementara SKRK lebih
-                                    formal dan sering digunakan sebagai syarat perizinan.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq2">
-                                    <i class="bi bi-question-circle me-2 text-success"></i>
-                                    Berapa lama proses penerbitan ITR?
-                                </button>
-                            </h2>
-                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Proses penerbitan ITR memakan waktu sekitar <strong>3-5 hari kerja</strong> setelah
-                                    semua dokumen persyaratan lengkap dan terverifikasi. Waktu proses lebih cepat
-                                    dibanding SKRK karena sifatnya yang informatif.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq3">
-                                    <i class="bi bi-question-circle me-2 text-success"></i>
-                                    Informasi apa saja yang tercantum dalam ITR?
-                                </button>
-                            </h2>
-                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    ITR mencakup informasi mengenai <strong>zona pemanfaatan ruang, ketentuan teknis
-                                        zonasi (KDB, KLB, KDH, GSB, ketinggian bangunan), jenis kegiatan yang
-                                        diperbolehkan, dan arahan pemanfaatan ruang</strong> berdasarkan RTRW dan RDTR
-                                    yang berlaku.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq4">
-                                    <i class="bi bi-question-circle me-2 text-success"></i>
-                                    Apakah ITR bisa digunakan untuk pengajuan kredit bank?
-                                </button>
-                            </h2>
-                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    ITR dapat digunakan sebagai <strong>dokumen pendukung untuk studi kelayakan dan
-                                        analisis properti</strong>, namun untuk pengajuan kredit bank biasanya
-                                    memerlukan dokumen yang lebih formal seperti SKRK atau IMB. Sebaiknya konfirmasi
-                                    terlebih dahulu dengan pihak bank mengenai dokumen yang diperlukan.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq5">
-                                    <i class="bi bi-question-circle me-2 text-success"></i>
-                                    Apakah ITR memiliki masa berlaku?
-                                </button>
-                            </h2>
-                            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    ITR berlaku <strong>selama RTRW dan RDTR yang menjadi dasarnya masih
-                                        berlaku</strong>. Jika terjadi perubahan atau revisi RTRW/RDTR, maka informasi
-                                    yang tercantum dalam ITR perlu disesuaikan dengan regulasi terbaru.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq6">
-                                    <i class="bi bi-question-circle me-2 text-success"></i>
-                                    Bagaimana jika lokasi saya berada di zona yang tidak jelas?
-                                </button>
-                            </h2>
-                            <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Jika lokasi berada di zona yang tidak jelas atau perbatasan zona, <strong>tim teknis
-                                        akan melakukan verifikasi lebih detail</strong> menggunakan peta digital dan
-                                    koordinat yang akurat. Pastikan Anda memberikan informasi lokasi yang sejelas
-                                    mungkin untuk mempercepat proses.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </section>    
 
     <!-- CTA Section -->
     <section class="py-5 bg-success text-white">

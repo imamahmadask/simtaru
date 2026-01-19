@@ -110,11 +110,15 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                            KTP Pemohon (Asli dan masih berlaku)
+                                            KTP Pemohon (Asli dan Masih Berlaku)
                                         </li>
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                            Surat Kuasa bermaterai (jika dikuasakan)
+                                            Fotocopy Kartu Keluarga (Bila Pemohon Masih Satu Keluarga Dengan Pemilik Lahan)
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                            Surat Kuasa Bermaterai (Jika Dikuasakan)
                                         </li>
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-success me-2"></i>
@@ -138,11 +142,27 @@
                                         </li>
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                            Bukti Kepemilikan Tanah (Sertifikat)
+                                            Bukti Kepemilikan Tanah/Akta Perjanjian Jual Beli/Sewa yang Sah
                                         </li>
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                            Gambar Denah Lokasi / Koordinat
+                                            Fotocopy Akta Pendirian Perusahaan dan Perubahannya (Bila Ada)
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                            Fotocopy Akta Pendirian Yayasan (Khusus Yayasan)
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                            Fotocopy NIB KBLI Beserta Kelengkapan
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                            Gambar Sketsa Lokasi Permohonan
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                            Pengangkatan/Penunjukan Pejabat (Khusus Instansi)
                                         </li>
                                     </ul>
                                 </div>
@@ -152,9 +172,7 @@
 
                     <div class="alert alert-info mt-4" role="alert">
                         <i class="bi bi-info-circle-fill me-2"></i>
-                        <strong>Catatan Untuk pengajuan Online :</strong> Semua dokumen harus dalam format PDF atau
-                        gambar (JPG/PNG) dengan
-                        ukuran maksimal 2MB per file.
+                        <strong>Catatan:</strong> Semua Berkas di dalam map <strong>kuning</strong>.
                     </div>
                 </div>
             </div>
@@ -179,8 +197,8 @@
                                         style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">1</h3>
                                     </div>
-                                    <h5 class="fw-bold">Isi Formulir</h5>
-                                    <p class="text-muted small">Lengkapi formulir permohonan dengan data yang akurat
+                                    <h5 class="fw-bold">Konsultasi</h5>
+                                    <p class="text-muted small">Konsultasi awal melalui WhatsApp/datang langsung ke MPP Mall Mataram
                                     </p>
                                 </div>
                             </div>
@@ -192,8 +210,8 @@
                                         style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">2</h3>
                                     </div>
-                                    <h5 class="fw-bold">Upload Dokumen</h5>
-                                    <p class="text-muted small">Unggah semua berkas persyaratan yang diperlukan</p>
+                                    <h5 class="fw-bold">Pengumpulan Dokumen</h5>
+                                    <p class="text-muted small">Pengumpulan dokumen sesuai syarat yang diperlukan</p>
                                 </div>
                             </div>
                         </div>
@@ -204,49 +222,35 @@
                                         style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">3</h3>
                                     </div>
-                                    <h5 class="fw-bold">Verifikasi Berkas</h5>
-                                    <p class="text-muted small">Tim akan memverifikasi kelengkapan administrasi &
-                                        teknis</p>
+                                    <h5 class="fw-bold">Verifikasi</h5>
+                                    <p class="text-muted small">Pemeriksaan administrasi & teknis oleh petugas</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
                                         style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">4</h3>
                                     </div>
-                                    <h5 class="fw-bold">Survei Lapangan</h5>
-                                    <p class="text-muted small">Peninjauan lokasi jika diperlukan oleh petugas</p>
+                                    <h5 class="fw-bold">Survey & Kajian</h5>
+                                    <p class="text-muted small">Jika lengkap maka akan dilakukan survey dan kajian kemudian penerbitan dokumen</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
                                         style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">5</h3>
                                     </div>
-                                    <h5 class="fw-bold">Analisa</h5>
-                                    <p class="text-muted small">Analisa hasil survey dan permohonan oleh Analis Tata
-                                        Ruang</p>
+                                    <h5 class="fw-bold">Perbaikan</h5>
+                                    <p class="text-muted small">Jika tidak lengkap akan dikembalikan untuk perbaikan</p>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card border-0 shadow-sm h-100">
-                                <div class="card-body text-center">
-                                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                                        style="width: 60px; height: 60px;">
-                                        <h3 class="mb-0">6</h3>
-                                    </div>
-                                    <h5 class="fw-bold">Penerbitan SKRK</h5>
-                                    <p class="text-muted small">Dokumen SKRK digital siap diunduh</p>
-                                </div>
-                            </div>
-                        </div>
+                        </div>                        
                     </div>
                 </div>
             </div>
@@ -304,109 +308,7 @@
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="py-5 bg-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <div class="text-center mb-5">
-                        <h2 class="fw-bold mb-3">Pertanyaan yang Sering Diajukan</h2>
-                        <p class="text-muted">Temukan jawaban atas pertanyaan umum seputar SKRK</p>
-                    </div>
-
-                    <div class="accordion" id="faqAccordion">
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq1">
-                                    <i class="bi bi-question-circle me-2 text-primary"></i>
-                                    Berapa lama proses penerbitan SKRK?
-                                </button>
-                            </h2>
-                            <div id="faq1" class="accordion-collapse collapse show"
-                                data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Proses penerbitan SKRK memakan waktu sekitar <strong>5-7 hari kerja</strong> setelah
-                                    semua dokumen persyaratan lengkap dan terverifikasi. Waktu dapat lebih cepat atau
-                                    lebih lama tergantung kompleksitas lokasi dan kebutuhan survei lapangan.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq2">
-                                    <i class="bi bi-question-circle me-2 text-primary"></i>
-                                    Apakah SKRK bisa diajukan secara online?
-                                </button>
-                            </h2>
-                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Ya, SKRK dapat diajukan secara <strong>online melalui sistem SIMTARU</strong>. Anda
-                                    cukup mendaftar, login, mengisi formulir, dan mengunggah dokumen persyaratan.
-                                    Seluruh proses dapat dilakukan dari rumah tanpa perlu datang ke kantor.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq3">
-                                    <i class="bi bi-question-circle me-2 text-primary"></i>
-                                    Apa perbedaan SKRK dengan IMB?
-                                </button>
-                            </h2>
-                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    <strong>SKRK</strong> adalah dokumen informasi tentang ketentuan tata ruang di suatu
-                                    lokasi, sedangkan <strong>IMB (Izin Mendirikan Bangunan)</strong> adalah izin resmi
-                                    untuk membangun. SKRK sering menjadi salah satu syarat untuk mengajukan IMB.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq4">
-                                    <i class="bi bi-question-circle me-2 text-primary"></i>
-                                    Apakah ada biaya untuk mengajukan SKRK?
-                                </button>
-                            </h2>
-                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Biaya penerbitan SKRK mengikuti <strong>Peraturan Daerah (Perda) yang
-                                        berlaku</strong> di Kota Mataram. Untuk informasi detail mengenai tarif, silakan
-                                    hubungi Dinas Penataan Ruang atau cek informasi terbaru di website resmi.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq5">
-                                    <i class="bi bi-question-circle me-2 text-primary"></i>
-                                    Bagaimana jika dokumen saya ditolak?
-                                </button>
-                            </h2>
-                            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Jika dokumen ditolak, sistem akan memberikan <strong>notifikasi beserta alasan
-                                        penolakan</strong>. Anda dapat memperbaiki dokumen sesuai catatan dan mengajukan
-                                    kembali. Tim verifikasi akan membantu memberikan arahan yang jelas.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </section>    
 
     <!-- CTA Section -->
     <section class="py-5 bg-primary text-white">

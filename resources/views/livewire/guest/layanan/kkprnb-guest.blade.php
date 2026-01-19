@@ -242,11 +242,11 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-info me-2"></i>
-                                            KTP Pemohon (Asli dan masih berlaku)
+                                            KTP Pemohon (Asli/FC dan masih berlaku)
                                         </li>
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-info me-2"></i>
-                                            Kartu Keluarga (untuk rumah tinggal)
+                                            Kartu Keluarga (bila pemohon masih satu keluarga dengan pemilik lahan)
                                         </li>
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-info me-2"></i>
@@ -270,66 +270,29 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-primary me-2"></i>
-                                            Bukti kepemilikan tanah (Sertifikat/Petok D)
+                                            Mengisi Formulir Permohonan, Form Kelengkapan berkas dan Surat Pernyataan
                                         </li>
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-primary me-2"></i>
-                                            Surat perjanjian sewa/kontrak (jika sewa)
+                                            Bukti Kepemilikan Tanah/akta perjanjian jual beli/sewa menyewa yang sah
                                         </li>
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-primary me-2"></i>
-                                            PBB tahun terakhir
+                                            Fotocopy akte pendirian badan hukum pada pemohon yang berbadan hukum termasuk akta perubahan terakhir (bila ada)
                                         </li>
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-primary me-2"></i>
-                                            Peta lokasi dan koordinat
+                                            Fotocopy akte pendirian yayasan pada Pemohon yang berbentuk yayasan
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="bi bi-check-circle-fill text-primary me-2"></i>
+                                            Gambar sketsa lokasi permohonan
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="bi bi-check-circle-fill text-primary me-2"></i>
+                                            Pengangkatan/penunjukan pejabat (*khusus instansi)
                                         </li>
                                     </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="card border-success">
-                                <div class="card-header bg-success text-white">
-                                    <h5 class="mb-0"><i class="bi bi-file-earmark-text me-2"></i>Dokumen Teknis &
-                                        Pendukung</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item">
-                                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                                    Gambar site plan/denah lokasi
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                                    Gambar rencana bangunan (jika ada)
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                                    Uraian kegiatan yang akan dilakukan
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item">
-                                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                                    Surat pernyataan tidak untuk komersial
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                                    Surat rekomendasi RT/RW (jika diperlukan)
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                                    Dokumen organisasi (untuk fasilitas sosial)
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -337,9 +300,7 @@
 
                     <div class="alert alert-info mt-4" role="alert">
                         <i class="bi bi-info-circle-fill me-2"></i>
-                        <strong>Catatan:</strong> Semua dokumen harus dalam format PDF atau gambar (JPG/PNG) dengan
-                        ukuran maksimal 2MB per file. Pastikan kegiatan yang diajukan benar-benar bersifat
-                        non-komersial.
+                        <strong>Catatan:</strong> Semua dijilid rangkap 2 (Map kuning)
                     </div>
                 </div>
             </div>
@@ -364,8 +325,8 @@
                                         style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">1</h3>
                                     </div>
-                                    <h5 class="fw-bold">Pendaftaran & Login</h5>
-                                    <p class="text-muted small">Daftar akun baru atau login ke sistem SIMTARU</p>
+                                    <h5 class="fw-bold">Konsultasi Awal</h5>
+                                    <p class="text-muted small">Konsultasi awal melalui WhatsApp/datang langsung ke MPP Mall Mataram</p>
                                 </div>
                             </div>
                         </div>
@@ -376,8 +337,8 @@
                                         style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">2</h3>
                                     </div>
-                                    <h5 class="fw-bold">Isi Formulir</h5>
-                                    <p class="text-muted small">Lengkapi data pemohon dan jenis kegiatan</p>
+                                    <h5 class="fw-bold">Pengumpulan Berkas</h5>
+                                    <p class="text-muted small">Pengumpulan dokumen sesuai syarat</p>
                                 </div>
                             </div>
                         </div>
@@ -388,71 +349,40 @@
                                         style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">3</h3>
                                     </div>
-                                    <h5 class="fw-bold">Upload Dokumen</h5>
-                                    <p class="text-muted small">Unggah semua dokumen persyaratan</p>
+                                    <h5 class="fw-bold">Verifikasi</h5>
+                                    <p class="text-muted small">Pemeriksaan teknis dan administrasi oleh petugas</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                    <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
                                         style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">4</h3>
                                     </div>
-                                    <h5 class="fw-bold">Verifikasi Administrasi</h5>
-                                    <p class="text-muted small">Tim memverifikasi kelengkapan dokumen</p>
+                                    <h5 class="fw-bold">Penerbitan Dokumen</h5>
+                                    <p class="text-muted small">Jika lengkap maka akan dilakukan kajian dan dokumen terbit</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
-                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                                    <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
                                         style="width: 60px; height: 60px;">
                                         <h3 class="mb-0">5</h3>
                                     </div>
-                                    <h5 class="fw-bold">Verifikasi Teknis</h5>
-                                    <p class="text-muted small">Pemeriksaan kesesuaian dengan tata ruang</p>
+                                    <h5 class="fw-bold">Perbaikan</h5>
+                                    <p class="text-muted small">Jika ada kekurangan dokumen maka akan dikembalikan untuk dilakukan perbaikan</p>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card border-0 shadow-sm h-100">
-                                <div class="card-body text-center">
-                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                                        style="width: 60px; height: 60px;">
-                                        <h3 class="mb-0">6</h3>
-                                    </div>
-                                    <h5 class="fw-bold">Survei Lapangan</h5>
-                                    <p class="text-muted small">Peninjauan lokasi (jika diperlukan)</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card border-0 shadow-sm h-100">
-                                <div class="card-body text-center">
-                                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                                        style="width: 60px; height: 60px;">
-                                        <h3 class="mb-0">7</h3>
-                                    </div>
-                                    <h5 class="fw-bold">Pembahasan & Persetujuan</h5>
-                                    <p class="text-muted small">Evaluasi dan rekomendasi tim teknis</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card border-0 shadow-sm h-100">
-                                <div class="card-body text-center">
-                                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                                        style="width: 60px; height: 60px;">
-                                        <h3 class="mb-0">8</h3>
-                                    </div>
-                                    <h5 class="fw-bold">Penerbitan KKPR</h5>
-                                    <p class="text-muted small">Dokumen KKPR Non Berusaha siap diunduh</p>
-                                </div>
-                            </div>
-                        </div>
+                        </div>                        
+                    </div>
+
+                    <div class="alert alert-info mt-4" role="alert">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        <strong>Catatan:</strong> Semua Berkas di dalam map <strong>kuning</strong>.
                     </div>
                 </div>
             </div>
@@ -510,129 +440,7 @@
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <div class="text-center mb-5">
-                        <h2 class="fw-bold mb-3">Pertanyaan yang Sering Diajukan</h2>
-                        <p class="text-muted">Temukan jawaban atas pertanyaan umum seputar KKPR Non Berusaha</p>
-                    </div>
-
-                    <div class="accordion" id="faqAccordion">
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq1">
-                                    <i class="bi bi-question-circle me-2 text-info"></i>
-                                    Apa perbedaan KKPR Non Berusaha dengan KKPR Berusaha?
-                                </button>
-                            </h2>
-                            <div id="faq1" class="accordion-collapse collapse show"
-                                data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    <strong>KKPR Non Berusaha</strong> diperuntukkan bagi kegiatan non-komersial yang
-                                    tidak berorientasi pada keuntungan (seperti rumah tinggal, tempat ibadah, fasilitas
-                                    sosial), sedangkan <strong>KKPR Berusaha</strong> untuk kegiatan usaha atau
-                                    komersial yang bertujuan mencari keuntungan.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq2">
-                                    <i class="bi bi-question-circle me-2 text-info"></i>
-                                    Berapa lama proses penerbitan KKPR Non Berusaha?
-                                </button>
-                            </h2>
-                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Proses penerbitan KKPR Non Berusaha memakan waktu sekitar <strong>5-7 hari
-                                        kerja</strong> setelah semua dokumen lengkap dan terverifikasi. Waktu proses
-                                    lebih cepat dibanding KKPR Berusaha karena persyaratan yang lebih sederhana.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq3">
-                                    <i class="bi bi-question-circle me-2 text-info"></i>
-                                    Apakah rumah tinggal wajib memiliki KKPR Non Berusaha?
-                                </button>
-                            </h2>
-                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Ya, KKPR Non Berusaha <strong>wajib untuk pembangunan rumah tinggal baru</strong>
-                                    sebagai salah satu persyaratan untuk mengurus Izin Mendirikan Bangunan (IMB).
-                                    Dokumen ini memastikan rumah Anda dibangun sesuai dengan peraturan zonasi yang
-                                    berlaku.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq4">
-                                    <i class="bi bi-question-circle me-2 text-info"></i>
-                                    Bagaimana jika saya menyewa tanah/bangunan?
-                                </button>
-                            </h2>
-                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Jika Anda menyewa, Anda tetap dapat mengajukan KKPR Non Berusaha dengan melampirkan
-                                    <strong>surat perjanjian sewa/kontrak yang sah</strong> dan surat persetujuan dari
-                                    pemilik tanah/bangunan. Pastikan masa sewa masih berlaku saat pengajuan.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq5">
-                                    <i class="bi bi-question-circle me-2 text-info"></i>
-                                    Apakah renovasi rumah perlu KKPR Non Berusaha baru?
-                                </button>
-                            </h2>
-                            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Untuk <strong>renovasi kecil</strong> tidak perlu KKPR baru. Namun untuk
-                                    <strong>renovasi besar yang mengubah struktur, menambah luas bangunan, atau mengubah
-                                        fungsi bangunan</strong>, Anda perlu mengajukan KKPR Non Berusaha yang baru.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq6">
-                                    <i class="bi bi-question-circle me-2 text-info"></i>
-                                    Apakah tempat ibadah perlu KKPR Non Berusaha?
-                                </button>
-                            </h2>
-                            <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Ya, <strong>pembangunan tempat ibadah wajib memiliki KKPR Non Berusaha</strong>.
-                                    Selain itu, tempat ibadah juga memerlukan rekomendasi dari RT/RW setempat dan
-                                    memenuhi persyaratan khusus sesuai peraturan yang berlaku mengenai pendirian rumah
-                                    ibadah.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </section>    
 
     <!-- CTA Section -->
     <section class="py-5 bg-info text-white">

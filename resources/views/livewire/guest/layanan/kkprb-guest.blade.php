@@ -227,7 +227,7 @@
                 <div class="col-lg-10 mx-auto">
                     <div class="text-center mb-5">
                         <h2 class="fw-bold mb-3">Persyaratan Dokumen</h2>
-                        <p class="text-muted">Dokumen yang perlu disiapkan untuk pengajuan KKPR Berusaha</p>
+                        <p class="text-muted">Syarat pengajuan KKPR Berusaha Non-UMK</p>
                     </div>
 
                     <div class="row g-4">
@@ -262,81 +262,23 @@
                         <div class="col-md-6">
                             <div class="card border-primary h-100">
                                 <div class="card-header bg-primary text-white">
-                                    <h5 class="mb-0"><i class="bi bi-geo-alt me-2"></i>Dokumen Lokasi</h5>
+                                    <h5 class="mb-0"><i class="bi bi-geo-alt me-2"></i>Dokumen</h5>
                                 </div>
                                 <div class="card-body">
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-primary me-2"></i>
-                                            Bukti kepemilikan/penguasaan lahan
-                                        </li>
-                                        <li class="list-group-item">
-                                            <i class="bi bi-check-circle-fill text-primary me-2"></i>
-                                            Sertifikat tanah atau bukti hak atas tanah
-                                        </li>
-                                        <li class="list-group-item">
-                                            <i class="bi bi-check-circle-fill text-primary me-2"></i>
-                                            PBB tahun terakhir
-                                        </li>
-                                        <li class="list-group-item">
-                                            <i class="bi bi-check-circle-fill text-primary me-2"></i>
-                                            Peta lokasi dan koordinat
-                                        </li>
+                                            Dapat mengajukan langsung melalui sistem OSS
+                                        </li>                                        
                                     </ul>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="card border-success">
-                                <div class="card-header bg-success text-white">
-                                    <h5 class="mb-0"><i class="bi bi-file-earmark-text me-2"></i>Dokumen Teknis</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item">
-                                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                                    Rencana site plan/denah lokasi
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                                    Gambar rencana bangunan
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                                    Rencana tata letak bangunan
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item">
-                                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                                    Uraian kegiatan usaha yang akan dilakukan
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                                    Dokumen lingkungan (jika diperlukan)
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                                    Surat pernyataan kesanggupan
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </div>                        
                     </div>
 
                     <div class="alert alert-warning mt-4" role="alert">
                         <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                        <strong>Penting:</strong> Semua dokumen harus dalam format PDF atau gambar (JPG/PNG) dengan
-                        ukuran maksimal 2MB per file. Pastikan data perusahaan dan lokasi usaha sudah sesuai dengan
-                        dokumen resmi.
+                        <strong>Catatan:</strong> Semua Berkas di dalam map <strong>kuning</strong>.
                     </div>
                 </div>
             </div>
@@ -507,130 +449,7 @@
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <div class="text-center mb-5">
-                        <h2 class="fw-bold mb-3">Pertanyaan yang Sering Diajukan</h2>
-                        <p class="text-muted">Temukan jawaban atas pertanyaan umum seputar KKPR Berusaha</p>
-                    </div>
-
-                    <div class="accordion" id="faqAccordion">
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq1">
-                                    <i class="bi bi-question-circle me-2 text-warning"></i>
-                                    Apa perbedaan KKPR Berusaha dengan KKPR Non Berusaha?
-                                </button>
-                            </h2>
-                            <div id="faq1" class="accordion-collapse collapse show"
-                                data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    <strong>KKPR Berusaha</strong> diperuntukkan bagi kegiatan usaha atau komersial yang
-                                    bertujuan mencari keuntungan (seperti toko, pabrik, hotel), sedangkan <strong>KKPR
-                                        Non Berusaha</strong> untuk kegiatan non-komersial seperti rumah tinggal, tempat
-                                    ibadah, atau fasilitas sosial.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq2">
-                                    <i class="bi bi-question-circle me-2 text-warning"></i>
-                                    Berapa lama proses penerbitan KKPR Berusaha?
-                                </button>
-                            </h2>
-                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Proses penerbitan KKPR Berusaha memakan waktu sekitar <strong>7-10 hari
-                                        kerja</strong> setelah semua dokumen lengkap dan terverifikasi. Waktu dapat
-                                    lebih lama jika diperlukan survei lapangan atau klarifikasi tambahan.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq3">
-                                    <i class="bi bi-question-circle me-2 text-warning"></i>
-                                    Apakah KKPR Berusaha wajib untuk semua jenis usaha?
-                                </button>
-                            </h2>
-                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Ya, KKPR Berusaha <strong>wajib untuk semua kegiatan usaha</strong> yang memerlukan
-                                    perizinan berusaha melalui sistem OSS. Dokumen ini memastikan bahwa lokasi dan jenis
-                                    kegiatan usaha Anda sesuai dengan peraturan tata ruang yang berlaku.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq4">
-                                    <i class="bi bi-question-circle me-2 text-warning"></i>
-                                    Bagaimana jika lokasi usaha saya tidak sesuai dengan zonasi?
-                                </button>
-                            </h2>
-                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Jika lokasi tidak sesuai dengan zonasi yang berlaku, permohonan KKPR Berusaha akan
-                                    <strong>ditolak</strong>. Anda perlu mencari lokasi alternatif yang sesuai dengan
-                                    jenis kegiatan usaha, atau mengubah jenis kegiatan usaha agar sesuai dengan zonasi
-                                    lokasi tersebut.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq5">
-                                    <i class="bi bi-question-circle me-2 text-warning"></i>
-                                    Apakah bisa mengajukan KKPR Berusaha tanpa NIB?
-                                </button>
-                            </h2>
-                            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    <strong>Tidak bisa</strong>. NIB (Nomor Induk Berusaha) merupakan
-                                    <strong>persyaratan wajib</strong> untuk mengajukan KKPR Berusaha. Anda harus
-                                    terlebih dahulu mendaftar dan mendapatkan NIB melalui sistem OSS sebelum mengajukan
-                                    KKPR Berusaha.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item border-0 shadow-sm mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq6">
-                                    <i class="bi bi-question-circle me-2 text-warning"></i>
-                                    Apakah KKPR Berusaha perlu diperpanjang?
-                                </button>
-                            </h2>
-                            <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    KKPR Berusaha <strong>berlaku selama izin usaha masih aktif</strong> dan tidak ada
-                                    perubahan pada lokasi atau jenis kegiatan usaha. Jika ada perubahan lokasi,
-                                    perluasan area, atau perubahan jenis kegiatan, Anda perlu mengajukan KKPR Berusaha
-                                    yang baru.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </section>   
 
     <!-- CTA Section -->
     <section class="py-5 bg-warning text-dark">
@@ -666,7 +485,7 @@
             <div class="row g-4 text-center">
                 <div class="col-md-4">
                     <i class="bi bi-geo-alt-fill text-warning mb-2" style="font-size: 1.5rem;"></i>
-                    <p class="mb-0 small">Dinas Penanaman Modal dan PTSP Kota Mataram</p>
+                    <p class="mb-0 small">Dinas PUPR Kota Mataram</p>
                 </div>
                 <div class="col-md-4">
                     <i class="bi bi-telephone-fill text-warning mb-2" style="font-size: 1.5rem;"></i>

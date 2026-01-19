@@ -39,6 +39,9 @@
                             <a class="nav-link text-muted hover-primary" href="/#maps">Peta</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-muted hover-primary" href="/#faq">FAQ</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-muted hover-primary" href="/#kontak">Kontak</a>
                         </li>
                         @if (Route::has('login'))
@@ -77,9 +80,11 @@
                 <div class="col-md-6 col-lg-3">
                     <h6 class="mb-3">Main Menu</h6>
                     <ul class="list-unstyled">
-                        <li><a href="#layanan" class="text-light text-decoration-none hover-white">Layanan</a></li>
-                        <li><a href="#regulasi" class="text-light text-decoration-none hover-white">Regulasi</a></li>
-                        <li><a href="#contact" class="text-light text-decoration-none hover-white">Contact Us</a></li>
+                        <li><a href="/#layanan" class="text-light text-decoration-none hover-white">Layanan</a></li>
+                        <li><a href="/#regulasi" class="text-light text-decoration-none hover-white">Regulasi</a></li>
+                        <li><a href="/#maps" class="text-light text-decoration-none hover-white">Maps</a></li>
+                        <li><a href="/#faq" class="text-light text-decoration-none hover-white">FAQ</a></li>
+                        <li><a href="/#kontak" class="text-light text-decoration-none hover-white">Kontak</a></li>
                     </ul>
                 </div>
             </div>
