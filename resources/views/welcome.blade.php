@@ -241,8 +241,8 @@
                     </p>
                 </div>
             </div>
-            <div class="row g-3 justify-content-center">
-                <div class="col-md-3">
+            <div class="row g-2 justify-content-center">
+                <div class="col-md-2">
                     <div class="card h-100 border-0 shadow-sm">
                         <div class="card-body p-4">
                             <div class="mb-3 text-primary">
@@ -256,7 +256,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="card h-100 border-0 shadow-sm">
                         <div class="card-body p-4">
                             <div class="mb-3 text-primary">
@@ -272,7 +272,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="card h-100 border-0 shadow-sm">
                         <div class="card-body p-4">
                             <div class="mb-3 text-primary">
@@ -289,7 +289,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="card h-100 border-0 shadow-sm">
                         <div class="card-body p-4">
                             <div class="mb-3 text-primary">
@@ -304,8 +304,22 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-2">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="mb-3 text-primary">
+                                <i class="bi bi-bell fs-1"></i>
+                            </div>
+                            <h5 class="card-title fw-bold">Lapor Pengaduan</h5>
+                            <p class="card-text text-muted small">
+                                <a href="https://lapor.go.id" class="text-decoration-none text-primary"
+                                    target="_blank">Lapor</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="row">
+            <div class="row mt-3">
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1102.4294683229016!2d116.10266777360239!3d-8.57736181405914!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dcdc0a12090bcf9%3A0xaebeae0268da0411!2sDinas%20Pekerjan%20Umum%20Kota%20Mataram!5e1!3m2!1sen!2sid!4v1767835507391!5m2!1sen!2sid"
                     width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
@@ -337,7 +351,7 @@
             </div>
             <hr class="my-4">
             <div class="text-center text-light">
-                <p>&copy; 2025 SIMTARU HARUM. All rights reserved.</p>
+                <p>&copy; 2026 SIMTARU HARUM. All rights reserved.</p>
             </div>
         </div>
     </footer>
