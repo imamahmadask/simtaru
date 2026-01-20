@@ -64,6 +64,7 @@
                                     <option value="analis">Analis</option>
                                     <option value="cs">Customer Service</option>
                                     <option value="data-entry">Data Entry</option>
+                                    <option value="admin-pelanggaran">Admin Pelanggaran</option>
                                 </select>
                                 @error('role')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>

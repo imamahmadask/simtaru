@@ -5,6 +5,11 @@ use App\Livewire\Admin\Disposisi\DisposisiIndex;
 use App\Livewire\Admin\Gallery\GalleryIndex;
 use App\Livewire\Admin\Layanan\LayananDetail;
 use App\Livewire\Admin\Layanan\LayananIndex;
+use App\Livewire\Admin\Pelanggaran\DashboardPelanggaran;
+use App\Livewire\Admin\Pelanggaran\PelanggaranCreate;
+use App\Livewire\Admin\Pelanggaran\PelanggaranDetail;
+use App\Livewire\Admin\Pelanggaran\PelanggaranEdit;
+use App\Livewire\Admin\Pelanggaran\PelanggaranIndex;
 use App\Livewire\Admin\Pengaduan\PengaduanIndex;
 use App\Livewire\Admin\Permohonan\Itr\ItrDetail;
 use App\Livewire\Admin\Permohonan\Itr\ItrIndex;
@@ -74,4 +79,13 @@ Route::middleware(['cekRole:superadmin,supervisor'])->group(function () {
 
 Route::middleware(['cekRole:superadmin'])->group(function () {
     Route::get('admin/users', UserIndex::class)->name('users.index');
+});
+
+// Grup untuk Pelapor (Sistem Baru)
+Route::middleware(['auth', 'cekRole:admin-pelanggaran,superadmin'])->prefix('admin/pelanggaran')->group(function () {
+    Route::get('/dashboard', DashboardPelanggaran::class)->name('pelanggaran.dashboard');    
+    Route::get('/index', PelanggaranIndex::class)->name('pelanggaran.index');
+    Route::get('/create', PelanggaranCreate::class)->name('pelanggaran.create');
+    Route::get('/edit/{id}', PelanggaranEdit::class)->name('pelanggaran.edit');
+    Route::get('/{id}', PelanggaranDetail::class)->name('pelanggaran.detail');
 });

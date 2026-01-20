@@ -20,6 +20,19 @@
             </a>
         </li>
 
+        @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'admin-pelanggaran')
+            <li class="menu-item {!! request()->routeIs('pelanggaran.*') ? 'active' : '' !!}">
+                <a href="{{ route('pelanggaran.index') }}" class="menu-link" target="_blank">
+                    <i class="menu-icon tf-icons bx bx-home"></i>
+                    <div data-i18n="Analytics">Pelanggaran</div>
+                </a>
+            </li>
+        @endif
+
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Layanan</span>
+        </li>
+
         @if (Auth::user()->role == 'superadmin' ||
                 Auth::user()->role == 'supervisor' ||
                 Auth::user()->role == 'cs' ||
@@ -72,7 +85,7 @@
         @if (Auth::user()->role != 'cs')
             <li class="menu-item {!! request()->routeIs('disposisi.*') ? 'active' : '' !!}">
                 <a href="{{ route('disposisi.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-file"></i>
+                    <i class="menu-icon tf-icons bx bx-collection"></i>
                     <div data-i18n="Analytics">Disposisi</div>
                 </a>
             </li>
