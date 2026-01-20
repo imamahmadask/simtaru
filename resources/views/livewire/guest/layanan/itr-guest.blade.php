@@ -367,44 +367,8 @@
                         <p class="text-muted">Kegunaan ITR untuk berbagai keperluan perencanaan</p>
                     </div>
 
-                    <div class="row g-4">
-                        <div class="col-md-6 col-lg-4">
-                            <div class="text-center">
-                                <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
-                                    <i class="bi bi-lightbulb text-success" style="font-size: 2.5rem;"></i>
-                                </div>
-                                <h5 class="fw-bold">Perencanaan Investasi</h5>
-                                <p class="text-muted small">Acuan untuk merencanakan investasi pembangunan</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-4">
-                            <div class="text-center">
-                                <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
-                                    <i class="bi bi-clipboard-check text-primary" style="font-size: 2.5rem;"></i>
-                                </div>
-                                <h5 class="fw-bold">Studi Kelayakan</h5>
-                                <p class="text-muted small">Mendukung penyusunan studi kelayakan proyek</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-4">
-                            <div class="text-center">
-                                <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
-                                    <i class="bi bi-file-earmark-ruled text-info" style="font-size: 2.5rem;"></i>
-                                </div>
-                                <h5 class="fw-bold">Syarat Perizinan</h5>
-                                <p class="text-muted small">Dokumen pendukung untuk berbagai perizinan</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-4">
-                            <div class="text-center">
-                                <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
-                                    <i class="bi bi-graph-up text-warning" style="font-size: 2.5rem;"></i>
-                                </div>
-                                <h5 class="fw-bold">Analisis Properti</h5>
-                                <p class="text-muted small">Informasi penting untuk analisis nilai properti</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-4">
+                    <div class="row g-4">                        
+                        <div class="col-md-6 col-lg-6">
                             <div class="text-center">
                                 <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
                                     <i class="bi bi-info-circle text-primary" style="font-size: 2.5rem;"></i>
@@ -414,7 +378,7 @@
                                     </p>
                             </div>
                         </div>
-                        <div class="col-md-6 col-lg-4">
+                        <div class="col-md-6 col-lg-6">
                             <div class="text-center">
                                 <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
                                     <i class="bi bi-file-earmark-text text-success" style="font-size: 2.5rem;"></i>

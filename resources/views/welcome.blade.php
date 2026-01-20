@@ -486,7 +486,7 @@
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faqTechnical">
                                     <i class="bi bi-question-circle me-2 text-success"></i>
-                                    Cara Menghitung Pengaturan Teknis Tata Ruang
+                                    Ketentuan Teknis Intensitas Pemanfaatan Ruang
                                 </button>
                             </h2>
                             <div id="faqTechnical" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
