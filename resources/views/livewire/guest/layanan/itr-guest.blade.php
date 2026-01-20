@@ -70,7 +70,7 @@
                                         <i class="bi bi-currency-dollar text-primary" style="font-size: 2rem;"></i>
                                     </div>
                                     <h5 class="card-title fw-bold">Biaya</h5>
-                                    <p class="card-text text-muted">Sesuai Perda yang berlaku</p>
+                                    <p class="card-text text-muted">Gratis</p>
                                 </div>
                             </div>
                         </div>
@@ -255,7 +255,7 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-primary me-2"></i>
-                                            Mengisi formulir permohonan ITR
+                                            Mengisi formulir permohonan ITR <a href="/formulir/Surat Permohonan ITR.docx">disini</a>
                                         </li>
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-primary me-2"></i>
@@ -368,7 +368,7 @@
                     </div>
 
                     <div class="row g-4">
-                        <div class="col-md-6 col-lg-3">
+                        <div class="col-md-6 col-lg-4">
                             <div class="text-center">
                                 <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
                                     <i class="bi bi-lightbulb text-success" style="font-size: 2.5rem;"></i>
@@ -377,7 +377,7 @@
                                 <p class="text-muted small">Acuan untuk merencanakan investasi pembangunan</p>
                             </div>
                         </div>
-                        <div class="col-md-6 col-lg-3">
+                        <div class="col-md-6 col-lg-4">
                             <div class="text-center">
                                 <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
                                     <i class="bi bi-clipboard-check text-primary" style="font-size: 2.5rem;"></i>
@@ -386,7 +386,7 @@
                                 <p class="text-muted small">Mendukung penyusunan studi kelayakan proyek</p>
                             </div>
                         </div>
-                        <div class="col-md-6 col-lg-3">
+                        <div class="col-md-6 col-lg-4">
                             <div class="text-center">
                                 <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
                                     <i class="bi bi-file-earmark-ruled text-info" style="font-size: 2.5rem;"></i>
@@ -395,13 +395,33 @@
                                 <p class="text-muted small">Dokumen pendukung untuk berbagai perizinan</p>
                             </div>
                         </div>
-                        <div class="col-md-6 col-lg-3">
+                        <div class="col-md-6 col-lg-4">
                             <div class="text-center">
                                 <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
                                     <i class="bi bi-graph-up text-warning" style="font-size: 2.5rem;"></i>
                                 </div>
                                 <h5 class="fw-bold">Analisis Properti</h5>
                                 <p class="text-muted small">Informasi penting untuk analisis nilai properti</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="text-center">
+                                <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
+                                    <i class="bi bi-info-circle text-primary" style="font-size: 2.5rem;"></i>
+                                </div>
+                                <h5 class="fw-bold">Sarana Penyampaian Informasi</h5>
+                                <p class="text-muted small">Sarana penyampaian informasi ketentuan tata ruang, yang tidak memiliki kedudukan sebagai dokumen perizinan atau persetujuan resmi
+                                    </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="text-center">
+                                <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
+                                    <i class="bi bi-file-earmark-text text-success" style="font-size: 2.5rem;"></i>
+                                </div>
+                                <h5 class="fw-bold">Pendamping Dokumen</h5>
+                                <p class="text-muted small">Pendamping dokumen Konfirmasi Kesesuaian Kegiatan pemanfaatan Ruang (KKKPR) yang telah diterbitkan OSS
+                                    </p>
                             </div>
                         </div>
                     </div>

@@ -138,7 +138,7 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                            Formulir Permohonan SKRK
+                                            Formulir Permohonan SKRK <a href="/formulir/Surat Permohonan SKRK.docx">disini</a>
                                         </li>
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-success me-2"></i>
@@ -172,7 +172,7 @@
 
                     <div class="alert alert-info mt-4" role="alert">
                         <i class="bi bi-info-circle-fill me-2"></i>
-                        <strong>Catatan:</strong> Semua Berkas di dalam map <strong>kuning</strong>.
+                        <strong>Catatan:</strong> Semua Berkas di dalam <strong>map kuning</strong> dijilid rangkap 2.
                     </div>
                 </div>
             </div>

@@ -60,7 +60,7 @@
                                         <i class="bi bi-clock-history text-info" style="font-size: 2rem;"></i>
                                     </div>
                                     <h5 class="card-title fw-bold">Waktu Proses</h5>
-                                    <p class="card-text text-muted">5-7 Hari Kerja</p>
+                                    <p class="card-text text-muted">24 Hari Kerja setelah PNBP diterbitkan/p>
                                 </div>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                                         <i class="bi bi-currency-dollar text-success" style="font-size: 2rem;"></i>
                                     </div>
                                     <h5 class="card-title fw-bold">Biaya</h5>
-                                    <p class="card-text text-muted">Sesuai Perda yang berlaku</p>
+                                    <p class="card-text text-muted">Sesuai dengan ketentuan PNBP yang berlaku</p>
                                 </div>
                             </div>
                         </div>
@@ -270,7 +270,7 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-primary me-2"></i>
-                                            Mengisi Formulir Permohonan, Form Kelengkapan berkas dan Surat Pernyataan
+                                            Mengisi Formulir Permohonan, Form Kelengkapan berkas dan Surat Pernyataan <a href="/formulir/Surat Permohonan KKPR Non Berusaha.docx">disini</a>
                                         </li>
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-primary me-2"></i>
@@ -300,7 +300,7 @@
 
                     <div class="alert alert-info mt-4" role="alert">
                         <i class="bi bi-info-circle-fill me-2"></i>
-                        <strong>Catatan:</strong> Semua dijilid rangkap 2 (Map kuning)
+                        <strong>Catatan:</strong> Semua Berkas di dalam <strong>map kuning</strong> dijilid rangkap 2. kuning
                     </div>
                 </div>
             </div>

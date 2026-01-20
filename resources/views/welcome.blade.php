@@ -292,8 +292,10 @@
                             <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
                                 <div class="accordion-body">
                                     <ul>
-                                        <li>KKPR: Maksimal 20 hari kerja (setelah PNBP PTP)</li>
-                                        <li>SKRK: Maksimal 24 hari kerja</li>
+                                        <li>KKPR Berusaha Non-UMK Maksimal 30 Hari Kerja (setelah PNBP PTP Terbit)</li>
+                                        <li>SKRK/KKPR Berusaha UMK Maksimal 20 Hari Kerja</li>
+                                        <li>ITR Maksimal 14 Hari Kerja</li>
+                                        <li>KKPR Non-Berusaha Maksimal 24 Hari Kerja (setelah PNBP PTP Terbit)</li>
                                     </ul>
                                 </div>
                             </div>
@@ -304,12 +306,16 @@
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
                                     <i class="bi bi-question-circle me-2 text-success"></i>
-                                    Apakah permohonan bisa dilakukan tanpa OSS?
+                                    Apakah permohonan dapat dilakukan tanpa melalui OSS (Online Single Submission)?
                                 </button>
                             </h2>
                             <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
                                 <div class="accordion-body">
-                                    Untuk kegiatan usaha non UMK bisa tanpa OSS, namun untuk kegiatan usaha UMK wajib melalui OSS.
+                                    <ul>
+                                        <li>Permohonan dapat dilakukan tanpa melalui OSS untuk KKPR Berusaha UMK.</li>
+                                        <li>Penggunaan OSS hanya diwajibkan untuk permohonan KKPR Berusaha Non-UMK dengan jenis usaha skala besar dan nilai modal di atas Rp5 Milyar,-.</li>
+                                        <li>Sementara itu, KKPR Berusaha UMK dapat diajukan melalui pernyataan mandiri atau permohonan pengajuan dokumen SKRK pada Bidang Tata Ruang Dinas PUPR Kota Mataram.</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -324,7 +330,7 @@
                             </h2>
                             <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
                                 <div class="accordion-body">
-                                    Untuk memastikan rencana bangunan sesuai rencana tata ruang dan peraturan teknis, serta menghindari sanksi di kemudian hari.
+                                    Untuk memastikan rencana bangunan sesuai rencana tata ruang dan peraturan teknis, serta menghindari sanksi di kemudian hari.    
                                 </div>
                             </div>
                         </div>
@@ -334,27 +340,33 @@
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
                                     <i class="bi bi-question-circle me-2 text-success"></i>
-                                    Apakah bisa membangun jika lokasi berada di dalam KP2B atau LSD?
+                                    Apakah boleh membangun jika lokasi berada di dalam KP2B?
                                 </button>
                             </h2>
                             <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
                                 <div class="accordion-body">
-                                    Tidak bisa, kecuali untuk kegiatan tertentu yang diatur khusus dalam peraturan perundang-undangan.
+                                   <ul>
+                                        <li>Pada prinsipnya, tidak diperbolehkan melakukan pembangunan di kawasan KP2B. KP2B (Kawasan Pertanian Pangan Berkelanjutan) adalah kawasan yang ditetapkan untuk melindungi lahan pertanian, khususnya sawah dan lahan pangan, agar tetap digunakan untuk mendukung ketahanan pangan.</li>
+                                        <li>Pembangunan hanya dapat dilakukan untuk kegiatan tertentu yang secara khusus diizinkan dan diatur dalam peraturan perundang-undangan, seperti prasarana pendukung pertanian atau kepentingan strategis yang tidak mengganggu fungsi utama lahan.</li>
+                                   </ul>
                                 </div>
                             </div>
                         </div>
-
+                        
                         <!-- Q7 -->
                         <div class="accordion-item border-0 mb-3">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
                                     <i class="bi bi-question-circle me-2 text-success"></i>
-                                    Jika melanggar peraturan tata ruang, apa sanksinya?
+                                    Apakah boleh membangun jika lokasi berada di dalam LSD?
                                 </button>
                             </h2>
                             <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
                                 <div class="accordion-body">
-                                    Sanksi dapat berupa peringatan tertulis, pembongkaran bangunan, atau denda administratif sesuai ketentuan peraturan daerah.
+                                   <ul>
+                                    <li>Tidak diperbolehkan melakukan pembangunan di kawasan LSD. LSD (Lahan Sawah Dilindungi) adalah lahan sawah yang ditetapkan untuk dilindungi dari alih fungsi, sehingga tidak boleh digunakan untuk kegiatan non-pertanian.</li>
+                                    <li>Pembangunan hanya dapat dilakukan untuk kegiatan tertentu yang diatur secara khusus dalam peraturan perundang-undangan, dan tetap harus menjaga fungsi lahan sebagai kawasan pertanian.</li>        
+                                </ul>
                                 </div>
                             </div>
                         </div>
@@ -364,20 +376,14 @@
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
                                     <i class="bi bi-question-circle me-2 text-success"></i>
-                                    Apa arti KDB, KLB, dan GSB di dalam dokumen SKRK/KKPR?
+                                    Jika melanggar peraturan tata ruang, apa sanksinya?
                                 </button>
                             </h2>
                             <div id="faq8" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
                                 <div class="accordion-body">
-                                    <ul>
-                                        <li><strong>KDB</strong>: Koefisien Dasar Bangunan</li>
-                                        <li><strong>KLB</strong>: Koefisien Lantai Bangunan</li>
-                                        <li><strong>GSB</strong>: Garis Sempadan Bangunan</li>
-                                    </ul>
-                                    Semua mengatur proporsi dan posisi bangunan di lahan.
-                                </div>
+                                    Sanksi dapat berupa peringatan tertulis, pembongkaran bangunan, atau denda administratif sesuai ketentuan peraturan daerah yang berlaku. </div>
                             </div>
-                        </div>
+                        </div>                        
 
                         <!-- Q9 -->
                         <div class="accordion-item border-0 mb-3">
@@ -389,25 +395,22 @@
                             </h2>
                             <div id="faq9" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
                                 <div class="accordion-body">
-                                    Ajukan surat permohonan revisi dengan melampirkan dokumen yang diperbarui dan dokumen lama untuk pembanding.
+                                   Ajukan surat permohonan revisi dengan melampirkan dokumen yang diperbarui dan dokumen lama untuk pembanding.
                                 </div>
                             </div>
-                        </div>
+                        </div>                        
 
                         <!-- Q10 -->
                         <div class="accordion-item border-0 mb-3">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq10">
                                     <i class="bi bi-question-circle me-2 text-success"></i>
-                                    Apa bedanya ITR dengan KKPR dan SKRK?
+                                    Kalau tanahnya belum bersertifikat, apakah bisa mengajukan KKPR?
                                 </button>
                             </h2>
                             <div id="faq10" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
                                 <div class="accordion-body">
-                                    <ul>
-                                        <li><strong>ITR</strong>: Informasi Tata Ruang (sifatnya hanya informasi).</li>
-                                        <li><strong>KKPR/SKRK</strong>: Dokumen resmi persetujuan pemanfaatan ruang yang memiliki kekuatan hukum.</li>
-                                    </ul>
+                                    Bisa. Pengajuan KKPR tetap dapat dilakukan meskipun tanah belum bersertifikat, dengan melampirkan bukti kepemilikan atau penguasaan lahan yang sah, seperti akta jual beli atau surat pinjam/sewa.
                                 </div>
                             </div>
                         </div>
@@ -417,12 +420,12 @@
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq11">
                                     <i class="bi bi-question-circle me-2 text-success"></i>
-                                    Kalau tanahnya belum bersertifikat, apakah bisa mengajukan KKPR?
+                                    Bagaimana jika lokasi berada di sempadan sungai atau pantai?
                                 </button>
                             </h2>
                             <div id="faq11" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
                                 <div class="accordion-body">
-                                    Bisa, dengan melampirkan bukti kepemilikan yang sah seperti akta jual beli atau surat pinjam sewa, disertai surat pernyataan.
+                                    Tidak diperbolehkan mendirikan bangunan permanen kecuali untuk kegiatan tertentu yang diatur peraturan.
                                 </div>
                             </div>
                         </div>
@@ -432,12 +435,15 @@
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq12">
                                     <i class="bi bi-question-circle me-2 text-success"></i>
-                                    Bagaimana jika lokasi berada di sempadan sungai atau pantai?
+                                    Jika KKPR sudah terbit tetapi belum dibangun, apakah KKPR tersebut masih berlaku?
                                 </button>
                             </h2>
                             <div id="faq12" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
                                 <div class="accordion-body">
-                                    Tidak diperbolehkan mendirikan bangunan permanen kecuali untuk kegiatan tertentu yang diatur peraturan.
+                                    <ul>
+                                        <li>KKPR tetap berlaku meskipun pembangunan belum dilakukan.</li>
+                                        <li>Namun, apabila di kemudian hari terdapat perubahan peraturan atau perubahan peruntukan ruang, maka dokumen KKPR dapat perlu disesuaikan kembali agar tetap sesuai dengan ketentuan yang berlaku.</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -447,12 +453,15 @@
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq13">
                                     <i class="bi bi-question-circle me-2 text-success"></i>
-                                    Kalau KKPR sudah ada tapi tidak dibangun-bangun, apakah hangus?
+                                    Bagaimana cara mengetahui pola ruang lokasi yang akan dibangun?
                                 </button>
                             </h2>
                             <div id="faq13" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
                                 <div class="accordion-body">
-                                    Tidak hangus, namun jika ada perubahan peruntukan atau peraturan, dokumen mungkin perlu disesuaikan kembali.
+                                    <ul>
+                                        <li>Pola ruang lokasi dapat diketahui dengan mengeceknya melalui RDTR Interaktif yang tersedia secara online.</li>
+                                        <li>Selain itu, masyarakat juga dapat mengajukan permohonan informasi tata ruang secara langsung ke Dinas PUPR sesuai dengan ketentuan yang berlaku.</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -462,25 +471,10 @@
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq14">
                                     <i class="bi bi-question-circle me-2 text-success"></i>
-                                    Bagaimana cara mengecek pola ruang lokasi yang ingin kita bangun?
-                                </button>
-                            </h2>
-                            <div id="faq14" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
-                                <div class="accordion-body">
-                                    Dapat dicek melalui OSS Interaktif atau dengan mengajukan permohonan informasi tata ruang ke Dinas PUPR.
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Q15 -->
-                        <div class="accordion-item border-0 mb-3">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq15">
-                                    <i class="bi bi-question-circle me-2 text-success"></i>
                                     Bagaimana jika yang mengajukan KKPR/SKRK berbeda dengan nama di sertifikat tanah?
                                 </button>
                             </h2>
-                            <div id="faq15" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
+                            <div id="faq14" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
                                 <div class="accordion-body">
                                     Wajib melampirkan surat kuasa dari pemilik tanah beserta fotokopi KTP pemilik yang sesuai sertifikat.
                                 </div>

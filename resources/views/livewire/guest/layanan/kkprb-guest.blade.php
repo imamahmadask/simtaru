@@ -4,7 +4,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-8 mx-auto text-center">
-                    <h1 class="display-4 fw-bold mb-3">KKPR Berusaha</h1>
+                    <h1 class="display-4 fw-bold mb-3">KKPR Berusaha Non-UMK</h1>
                     <p class="lead mb-4">Kesesuaian Kegiatan Pemanfaatan Ruang untuk Berusaha - Izin dasar yang
                         memastikan rencana kegiatan usaha Anda sesuai dengan tata ruang dan peraturan zonasi yang
                         berlaku</p>
@@ -27,9 +27,9 @@
             <div class="row">
                 <div class="col-lg-10 mx-auto">
                     <div class="text-center mb-5">
-                        <h2 class="fw-bold mb-3">Apa itu KKPR Berusaha?</h2>
+                        <h2 class="fw-bold mb-3">Apa itu KKPR Berusaha Non-UMK?</h2>
                         <p class="text-muted">Informasi lengkap tentang Kesesuaian Kegiatan Pemanfaatan Ruang untuk
-                            Berusaha</p>
+                            Berusaha Non-UMK</p>
                     </div>
 
                     <div class="card shadow-sm border-0 mb-4">
@@ -41,7 +41,7 @@
                                 <div class="col-md-10">
                                     <h5 class="card-title fw-bold">Definisi</h5>
                                     <p class="card-text text-muted mb-0">
-                                        KKPR Berusaha adalah Persetujuan Kesesuaian Kegiatan Pemanfaatan Ruang yang
+                                        KKPR Berusaha Non-UMK adalah Persetujuan Kesesuaian Kegiatan Pemanfaatan Ruang yang
                                         diperlukan untuk kegiatan usaha atau komersial. Dokumen ini memastikan bahwa
                                         rencana kegiatan usaha Anda sesuai dengan rencana tata ruang, peraturan zonasi,
                                         dan standar teknis yang berlaku. KKPR Berusaha merupakan persyaratan penting
@@ -60,7 +60,7 @@
                                         <i class="bi bi-clock-history text-warning" style="font-size: 2rem;"></i>
                                     </div>
                                     <h5 class="card-title fw-bold">Waktu Proses</h5>
-                                    <p class="card-text text-muted">7-10 Hari Kerja</p>
+                                    <p class="card-text text-muted">30 Hari Kerja</p>
                                 </div>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                                         <i class="bi bi-currency-dollar text-success" style="font-size: 2rem;"></i>
                                     </div>
                                     <h5 class="card-title fw-bold">Biaya</h5>
-                                    <p class="card-text text-muted">Sesuai Perda yang berlaku</p>
+                                    <p class="card-text text-muted">Sesuai dengan ketentuan PNBP yang berlaku</p>
                                 </div>
                             </div>
                         </div>
@@ -231,54 +231,26 @@
                     </div>
 
                     <div class="row g-4">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="card border-warning h-100">
                                 <div class="card-header bg-warning text-dark">
-                                    <h5 class="mb-0"><i class="bi bi-person-badge me-2"></i>Dokumen Pemohon</h5>
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">
-                                            <i class="bi bi-check-circle-fill text-warning me-2"></i>
-                                            KTP Direktur/Pemilik Usaha
-                                        </li>
-                                        <li class="list-group-item">
-                                            <i class="bi bi-check-circle-fill text-warning me-2"></i>
-                                            NPWP Perusahaan/Badan Usaha
-                                        </li>
-                                        <li class="list-group-item">
-                                            <i class="bi bi-check-circle-fill text-warning me-2"></i>
-                                            Akta Pendirian Perusahaan (PT/CV)
-                                        </li>
-                                        <li class="list-group-item">
-                                            <i class="bi bi-check-circle-fill text-warning me-2"></i>
-                                            NIB (Nomor Induk Berusaha)
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="card border-primary h-100">
-                                <div class="card-header bg-primary text-white">
                                     <h5 class="mb-0"><i class="bi bi-geo-alt me-2"></i>Dokumen</h5>
                                 </div>
                                 <div class="card-body">
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item">
-                                            <i class="bi bi-check-circle-fill text-primary me-2"></i>
-                                            Dapat mengajukan langsung melalui sistem OSS
-                                        </li>                                        
+                                            <i class="bi bi-check-circle-fill text-warning me-2"></i>
+                                            Persyaratan mengikuti ketentuan yang tercantum dalam Sistem OSS.
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
 
                     <div class="alert alert-warning mt-4" role="alert">
                         <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                        <strong>Catatan:</strong> Semua Berkas di dalam map <strong>kuning</strong>.
+                        <strong>Catatan:</strong> Semua Berkas di dalam <strong>map kuning</strong> dijilid rangkap 2.
                     </div>
                 </div>
             </div>
@@ -292,103 +264,19 @@
                 <div class="col-lg-10 mx-auto">
                     <div class="text-center mb-5">
                         <h2 class="fw-bold mb-3">Alur Proses Pengajuan</h2>
-                        <p class="text-muted">Langkah-langkah untuk mendapatkan KKPR Berusaha</p>
+                        <p class="text-muted">Langkah-langkah untuk mendapatkan KKPR Berusaha Non-UMK</p>
                     </div>
 
                     <div class="row g-4">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body text-center">
                                     <div class="bg-warning text-dark rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                                        style="width: 60px; height: 60px;">
-                                        <h3 class="mb-0">1</h3>
+                                        style="width: 100px; height: 100px;">
+                                        <h3 class="mb-0">OSS</h3>
                                     </div>
-                                    <h5 class="fw-bold">Pendaftaran NIB</h5>
-                                    <p class="text-muted small">Daftar NIB melalui OSS atau login ke sistem SIMTARU</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card border-0 shadow-sm h-100">
-                                <div class="card-body text-center">
-                                    <div class="bg-warning text-dark rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                                        style="width: 60px; height: 60px;">
-                                        <h3 class="mb-0">2</h3>
-                                    </div>
-                                    <h5 class="fw-bold">Isi Formulir</h5>
-                                    <p class="text-muted small">Lengkapi data usaha dan lokasi kegiatan</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card border-0 shadow-sm h-100">
-                                <div class="card-body text-center">
-                                    <div class="bg-warning text-dark rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                                        style="width: 60px; height: 60px;">
-                                        <h3 class="mb-0">3</h3>
-                                    </div>
-                                    <h5 class="fw-bold">Upload Dokumen</h5>
-                                    <p class="text-muted small">Unggah semua dokumen persyaratan</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card border-0 shadow-sm h-100">
-                                <div class="card-body text-center">
-                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                                        style="width: 60px; height: 60px;">
-                                        <h3 class="mb-0">4</h3>
-                                    </div>
-                                    <h5 class="fw-bold">Verifikasi Administrasi</h5>
-                                    <p class="text-muted small">Tim memverifikasi kelengkapan dokumen</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card border-0 shadow-sm h-100">
-                                <div class="card-body text-center">
-                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                                        style="width: 60px; height: 60px;">
-                                        <h3 class="mb-0">5</h3>
-                                    </div>
-                                    <h5 class="fw-bold">Verifikasi Teknis</h5>
-                                    <p class="text-muted small">Pemeriksaan kesesuaian dengan tata ruang</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card border-0 shadow-sm h-100">
-                                <div class="card-body text-center">
-                                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                                        style="width: 60px; height: 60px;">
-                                        <h3 class="mb-0">6</h3>
-                                    </div>
-                                    <h5 class="fw-bold">Survei Lapangan</h5>
-                                    <p class="text-muted small">Peninjauan lokasi oleh tim teknis</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card border-0 shadow-sm h-100">
-                                <div class="card-body text-center">
-                                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                                        style="width: 60px; height: 60px;">
-                                        <h3 class="mb-0">7</h3>
-                                    </div>
-                                    <h5 class="fw-bold">Pembahasan Teknis</h5>
-                                    <p class="text-muted small">Evaluasi dan rekomendasi tim teknis</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card border-0 shadow-sm h-100">
-                                <div class="card-body text-center">
-                                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                                        style="width: 60px; height: 60px;">
-                                        <h3 class="mb-0">8</h3>
-                                    </div>
-                                    <h5 class="fw-bold">Penerbitan KKPR</h5>
-                                    <p class="text-muted small">Dokumen KKPR Berusaha siap diunduh</p>
+                                    <h5 class="fw-bold">Sesuai OSS</h5>
+                                    <p class="text-muted small">Alur proses mengacu pada mekanisme yang tertera dalam OSS.</p>
                                 </div>
                             </div>
                         </div>
