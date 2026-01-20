@@ -144,32 +144,32 @@
                                     </div>
                                 </div>
                             </div>
-                        @endif
-                        @if($status == 'Berkas Dicabut')
-                            <div class="row">
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="edit_alasan_dicabut">Alasan Dicabut</label>
-                                        <textarea name="alasan_dicabut" wire:model="alasan_dicabut" id="edit_alasan_dicabut" class="form-control"></textarea>
-                                        @error('alasan_dicabut')
-                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
-                                        @enderror
+                            @if($status == 'Berkas Dicabut')
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="edit_alasan_dicabut">Alasan Dicabut</label>
+                                            <textarea name="alasan_dicabut" wire:model="alasan_dicabut" id="edit_alasan_dicabut" class="form-control"></textarea>
+                                            @error('alasan_dicabut')
+                                                <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                            @enderror
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endif
-                        @if($status == 'Berkas Tidak Lengkap')
-                            <div class="row">
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="edit_alasan_tidak_lengkap">Alasan Tidak Lengkap</label>
-                                        <textarea name="alasan_tidak_lengkap" wire:model="alasan_tidak_lengkap" id="edit_alasan_tidak_lengkap" class="form-control"></textarea>
-                                        @error('alasan_tidak_lengkap')
-                                            <span class="form-text text-xs text-danger"> {{ $message }} </span>
-                                        @enderror
+                            @endif
+                            @if($status == 'Berkas Tidak Lengkap')
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="edit_alasan_tidak_lengkap">Alasan Tidak Lengkap</label>
+                                            <textarea name="alasan_tidak_lengkap" wire:model="alasan_tidak_lengkap" id="edit_alasan_tidak_lengkap" class="form-control"></textarea>
+                                            @error('alasan_tidak_lengkap')
+                                                <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                            @enderror
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         @endif
                     </div>
                     <div class="modal-footer">

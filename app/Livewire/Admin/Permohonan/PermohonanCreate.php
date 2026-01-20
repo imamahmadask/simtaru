@@ -177,7 +177,10 @@ class PermohonanCreate extends Component
     public function mount()
     {
         $this->layanans = Layanan::all();
-        $this->registrasis = Registrasi::doesntHave('permohonan')->get();
+        $this->registrasis = Registrasi::doesntHave('permohonan')
+            ->whereNotIn('status', ['Berkas Tidak Lengkap', 'Berkas Dicabut'])
+            ->get();
+        
         $this->users = User::where('role', 'surveyor')->get();
     }
 
