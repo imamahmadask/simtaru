@@ -59,7 +59,7 @@
                                         <i class="bi bi-clock-history text-success" style="font-size: 2rem;"></i>
                                     </div>
                                     <h5 class="card-title fw-bold">Waktu Proses</h5>
-                                    <p class="card-text text-muted">3-5 Hari Kerja</p>
+                                    <p class="card-text text-muted">14 Hari Kerja</p>
                                 </div>
                             </div>
                         </div>
@@ -154,57 +154,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="card border-info shadow-sm">
-                                <div class="card-header bg-info text-white">
-                                    <h5 class="mb-0"><i class="bi bi-rulers me-2"></i>Peraturan Zonasi</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p class="card-text">Informasi mengenai ketentuan teknis pemanfaatan ruang yang
-                                        mencakup:</p>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item">
-                                                    <i class="bi bi-check-circle-fill text-info me-2"></i>
-                                                    Koefisien Dasar Bangunan (KDB)
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <i class="bi bi-check-circle-fill text-info me-2"></i>
-                                                    Koefisien Lantai Bangunan (KLB)
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item">
-                                                    <i class="bi bi-check-circle-fill text-info me-2"></i>
-                                                    Koefisien Daerah Hijau (KDH)
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <i class="bi bi-check-circle-fill text-info me-2"></i>
-                                                    Ketinggian bangunan maksimal
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item">
-                                                    <i class="bi bi-check-circle-fill text-info me-2"></i>
-                                                    Garis Sempadan Bangunan (GSB)
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <i class="bi bi-check-circle-fill text-info me-2"></i>
-                                                    Jenis kegiatan yang diperbolehkan
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </div>                        
                     </div>
                 </div>
             </div>

@@ -60,7 +60,7 @@
                                         <i class="bi bi-clock-history text-info" style="font-size: 2rem;"></i>
                                     </div>
                                     <h5 class="card-title fw-bold">Waktu Proses</h5>
-                                    <p class="card-text text-muted">24 Hari Kerja setelah PNBP diterbitkan/p>
+                                    <p class="card-text text-muted">24 Hari Kerja setelah PNBP diterbitkan</p>
                                 </div>
                             </div>
                         </div>
