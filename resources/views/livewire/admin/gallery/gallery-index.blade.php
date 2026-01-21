@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="table table-responsive text-nowrap">
+                <div class="table table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -29,14 +29,14 @@
                             @foreach ($galleries as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->title }}</td>
-                                    <td>{{ $item->description }}</td>
+                                    <td class="text-wrap" style="width: 20%;">{{ $item->title }}</td>
+                                    <td class="text-wrap" style="width: 50%;">{{ $item->description }}</td>
                                     <td>
                                         @foreach ($item->images as $image)
                                             <img class="image-fluid rounded-circle" src="{{ asset('storage/' . $image) }}" alt="{{ $item->title }}" width="100">
                                         @endforeach
                                     </td>
-                                    <td>
+                                    <td class="text-nowrap">
                                         <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editGalleryModal" 
                                         wire:click="$dispatch('edit-gallery', { id: {{ $item->id }} })">
                                             Edit
