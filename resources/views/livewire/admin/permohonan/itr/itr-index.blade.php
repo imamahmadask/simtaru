@@ -30,14 +30,12 @@
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        @php
-                            $no = 1;
-                        @endphp
+
                         @foreach ($itr as $data)
                             <div wire:key="{{ $data->id }}">
                                 <tr>
                                     <td>
-                                        {{ $no++ }}
+                                        {{ ($itr->currentPage() - 1) * $itr->perPage() + $loop->iteration }}
                                     </td>
                                     <td class="text-nowrap">
                                         <strong>

@@ -56,14 +56,12 @@
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        @php
-                            $no = 1;
-                        @endphp
+
                         @foreach ($registrasis as $data)
                             <div wire:key="{{ $data->id }}">
                                 <tr>
                                     <td>
-                                        {{ $no++ }}
+                                        {{ ($registrasis->currentPage() - 1) * $registrasis->perPage() + $loop->iteration }}
                                     </td>
                                     <td class="text-nowrap">
                                         <span class="fw-bold">

@@ -49,14 +49,12 @@
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        @php
-                            $no = 1;
-                        @endphp
+
                         @foreach ($disposisi as $data)
                             <div wire:key="{{ $data->id }}">
                                 <tr>
                                     <td>
-                                        {{ $no++ }}
+                                        {{ ($disposisi->currentPage() - 1) * $disposisi->perPage() + $loop->iteration }}
                                     </td>
                                     <td>
                                         {{ date('d-m-Y', strtotime($data->tanggal_disposisi)) }} <br>
@@ -177,14 +175,12 @@
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                            @php
-                                $no = 1;
-                            @endphp
+
                             @foreach ($disposisi_selesai as $data)
                                 <div wire:key="{{ $data->id }}">
                                     <tr>
                                         <td>
-                                            {{ $no++ }}
+                                            {{ ($disposisi_selesai->currentPage() - 1) * $disposisi_selesai->perPage() + $loop->iteration }}
                                         </td>
                                         <td>
                                             {{ date('d-m-Y', strtotime($data->tanggal_disposisi)) }} <br>
