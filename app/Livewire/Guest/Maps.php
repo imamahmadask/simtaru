@@ -19,6 +19,7 @@ class Maps extends Component
     public $saranPesan;
     public $showSaranModal = false;
     public $successMessage;
+    public $pemanfaatan_ruang;
 
     public function mount()
     {
@@ -29,11 +30,14 @@ class Maps extends Component
     {
         $query = Permohonan::with(['skrk', 'itr', 'kkprb', 'kkprnb', 'registrasi']);
 
-        if (!empty($this->kecamatan)) {
-            $query->whereHas('registrasi', function ($q) {
-                $q->where('kec_tanah', $this->kecamatan);
+        $query->when($this->kecamatan || $this->pemanfaatan_ruang, function ($query) {
+            $query->whereHas('registrasi', function ($query) {
+                $query->where(function ($query) {
+                    $query->when($this->kecamatan, fn($q) => $q->orWhere('kec_tanah', $this->kecamatan))
+                        ->when($this->pemanfaatan_ruang, fn($q) => $q->orWhere('fungsi_bangunan', 'like', '%' . $this->pemanfaatan_ruang . '%'));
+                });
             });
-        }
+        });
 
         $permohonans = $query->get();
 

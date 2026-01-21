@@ -120,7 +120,7 @@
             <div class="col-lg-8">
                 <h2 class="display-4 fw-bold text-dark mb-4">Peta Digital Interaktif</h2>
                 <p class="lead text-muted">
-                    Peta Informasi Perizinan Pemanfaatan Ruang Kota Mataram
+                    Peta Informasi Pemanfaatan Ruang Kota Mataram
                 </p>
             </div>
         </div>
@@ -146,15 +146,12 @@
                 <div class="input-group shadow-sm">
                     <span class="input-group-text bg-white border-end-0">
                         <i class="bi bi-layers text-primary"></i></span>
-                    <select class="form-select border-start-0" aria-label="Filter Pemanfaatan Ruang">
-                        <option selected>Semua Pemanfaatan Ruang</option>
-                        <option value="Rumah Tinggal">Rumah Tinggal</option>
-                        <option value="Perdagangan & Jasa">Perdagangan & Jasa</option>
-                        <option value="Rumah Kost">Rumah Kost</option>
-                        <option value="Perkantoran">Perkantoran</option>
-                        <option value="Sekolah/Yayasan">Sekolah/Yayasan</option>
-                        <option value="Lainnya">Lainnya</option>
-                    </select>
+                    <input type="text" wire:model="pemanfaatan_ruang" class="form-control border-start-0 border-end-0"
+                        placeholder="Cari Pemanfaatan Ruang">
+                    <button class="btn bg-white border-start-0 text-muted" type="button" x-show="$wire.pemanfaatan_ruang"
+                        wire:click="$set('pemanfaatan_ruang', '')">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
                 </div>
             </div>
             <div class="col-md-2">
