@@ -20,7 +20,6 @@
                             <tr>
                                 <th>No</th>
                                 <th>Judul</th>
-                                <th>Kategori</th>
                                 <th>Deskripsi</th>
                                 <th>Image</th>    
                                 <th>Aksi</th>
@@ -31,7 +30,6 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->title }}</td>
-                                    <td>{{ $item->category }}</td>
                                     <td>{{ $item->description }}</td>
                                     <td>
                                         @foreach ($item->images as $image)

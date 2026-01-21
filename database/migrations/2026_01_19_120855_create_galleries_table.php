@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('slug');
             $table->text('description');
             $table->json('images');
-            $table->string('category');
+            $table->string('category')->nullable();
             $table->timestamps();
         });
     }

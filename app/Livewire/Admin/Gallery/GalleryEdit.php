@@ -15,14 +15,11 @@ class GalleryEdit extends Component
 
     public $gallery;
     public $existingImages = [];
+    public $category;
 
     #[Validate('required')]
-    public $title;
-    #[Validate('required')]
-    public $category;
-    #[Validate('required')]
-    public $description;
-    
+    public $title, $description;
+
     public $newImages = [];
 
     protected function rules()

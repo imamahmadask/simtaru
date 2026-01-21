@@ -8,21 +8,21 @@
                 </div>
                 <form wire:submit.prevent="addImage" enctype="multipart/form-data">
                     @csrf
-                    <div class="modal-body">                        
-                        <div class="mb-3">
-                            <label for="create-category" class="form-label">Kategori</label>
-                            <select wire:model="category" class="form-control" id="create-category" name="category" required>
-                                <option value="">-- Pilih Kategori --</option>
-                                <option value="Survey">Survey</option>
-                                <option value="Lainnya">Lainnya</option>
-                            </select>
-                            @error('category') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
+                    <div class="modal-body">                                                
                         <div class="mb-3">
                             <label for="create-title" class="form-label">Judul</label>
                             <input type="text" wire:model="title" class="form-control" id="create-title" name="title" required>
                             @error('title') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
+                        {{-- <div class="mb-3">
+                            <label for="create-category" class="form-label">Kategori</label>
+                            <select wire:model="category" class="form-control" id="create-category" name="category">
+                                <option value="">-- Pilih Kategori --</option>
+                                <option value="Survey">Survey</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                            @error('category') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div> --}}
                         <div class="mb-3">
                             <label for="create-description" class="form-label">Deskripsi</label>
                             <textarea wire:model="description" class="form-control" id="create-description" name="description" required></textarea>

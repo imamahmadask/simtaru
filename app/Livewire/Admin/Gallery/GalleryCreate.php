@@ -12,12 +12,11 @@ class GalleryCreate extends Component
 {
     use WithFileUploads;
 
-    #[Validate('required')]
-    public $title;
-    #[Validate('required')]
     public $category;
+
     #[Validate('required')]
-    public $description;
+    public $title, $description;
+
     #[Validate('required')]
     public $images = [];
 
