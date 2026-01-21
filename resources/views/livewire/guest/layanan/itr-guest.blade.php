@@ -52,7 +52,7 @@
                     </div>
 
                     <div class="row g-4">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="card h-100 border-0 shadow-sm">
                                 <div class="card-body text-center">
                                     <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex p-3 mb-3">
@@ -63,7 +63,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="card h-100 border-0 shadow-sm">
                                 <div class="card-body text-center">
                                     <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-3 mb-3">
@@ -74,17 +74,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body text-center">
-                                    <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex p-3 mb-3">
-                                        <i class="bi bi-file-earmark-check text-info" style="font-size: 2rem;"></i>
-                                    </div>
-                                    <h5 class="card-title fw-bold">Format Output</h5>
-                                    <p class="card-text text-muted">Dokumen Digital (PDF)</p>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>

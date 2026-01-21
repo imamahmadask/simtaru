@@ -42,6 +42,9 @@
                             <a class="nav-link text-muted hover-primary" href="/#faq">FAQ</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-muted hover-primary" href="/#gallery">Galeri</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-muted hover-primary" href="/#kontak">Kontak</a>
                         </li>
                         @if (Route::has('login'))
@@ -84,13 +87,14 @@
                         <li><a href="/#regulasi" class="text-light text-decoration-none hover-white">Regulasi</a></li>
                         <li><a href="/#maps" class="text-light text-decoration-none hover-white">Maps</a></li>
                         <li><a href="/#faq" class="text-light text-decoration-none hover-white">FAQ</a></li>
+                        <li><a href="/#gallery" class="text-light text-decoration-none hover-white">Galeri</a></li>
                         <li><a href="/#kontak" class="text-light text-decoration-none hover-white">Kontak</a></li>
                     </ul>
                 </div>
             </div>
             <hr class="my-4">
             <div class="text-center text-light">
-                <p>&copy; 2025 SIMTARU HARUM. All rights reserved.</p>
+                <p>&copy; 2026 SIMTARU HARUM. All rights reserved.</p>
             </div>
         </div>
     </footer>
