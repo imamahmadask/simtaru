@@ -39,7 +39,7 @@
                                     <td>
                                         {{ $no++ }}
                                     </td>
-                                    <td>
+                                    <td class="text-nowrap">
                                         <strong>
                                             {{ $data->registrasi->kode }}
                                         </strong>
