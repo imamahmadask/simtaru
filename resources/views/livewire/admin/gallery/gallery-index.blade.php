@@ -31,9 +31,9 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td class="text-wrap" style="width: 20%;">{{ $item->title }}</td>
                                     <td class="text-wrap" style="width: 50%;">{{ $item->description }}</td>
-                                    <td>
+                                    <td class="text-nowrap">
                                         @foreach ($item->images as $image)
-                                            <img class="image-fluid rounded-circle" src="{{ asset('storage/' . $image) }}" alt="{{ $item->title }}" width="100">
+                                            <img class="image-fluid rounded-circle" src="{{ asset('storage/' . $image) }}" alt="{{ $item->title }}" width="70">
                                         @endforeach
                                     </td>
                                     <td class="text-nowrap">
