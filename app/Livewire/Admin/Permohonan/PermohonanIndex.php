@@ -39,7 +39,7 @@ class PermohonanIndex extends Component
                         ->where('status', 'like', '%' . $this->filterStatus . '%')
                         ->orderBy('is_prioritas', 'desc')
                         ->orderBy('created_at', 'desc')
-                        ->paginate(1);
+                        ->paginate(10);
 
         return view('livewire.admin.permohonan.permohonan-index', [
             'permohonans' => $permohonans
