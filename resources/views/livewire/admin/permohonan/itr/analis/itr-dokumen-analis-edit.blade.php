@@ -38,8 +38,8 @@
                             <div class="row">
                                 <div class="col mb-3">
                                     <label for="edit_peraturan_zonasi" class="form-label">Peraturan Zonasi</label>
-                                    <input type="text" class="form-control" wire:model="peraturan_zonasi"
-                                        id="edit_peraturan_zonasi" placeholder="Masukkan Peraturan Zonasi">
+                                    <textarea class="form-control" wire:model="peraturan_zonasi" id="edit_peraturan_zonasi"
+                                        placeholder="Masukkan Peraturan Zonasi" rows="5"></textarea>
                                 </div>
                             </div>
                             <div class="row">

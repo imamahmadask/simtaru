@@ -36,8 +36,8 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="create_peraturan_zonasi" class="form-label">Peraturan Zonasi</label>
-                                <input type="text" class="form-control" wire:model="peraturan_zonasi"
-                                    id="create_peraturan_zonasi" placeholder="Masukkan Peraturan Zonasi">
+                                <textarea class="form-control" wire:model="peraturan_zonasi" id="create_peraturan_zonasi"
+                                    placeholder="Masukkan Peraturan Zonasi" rows="3"></textarea>
                             </div>
                         </div>
                         <div class="row">

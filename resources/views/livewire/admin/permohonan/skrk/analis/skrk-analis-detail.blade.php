@@ -215,8 +215,7 @@
                         </label>
                         <div class="col-sm-8">
                             <div class="input-group">
-                                <input id="peraturan_zonasi" class="form-control"
-                                    value="{{ $skrk->peraturan_zonasi }}" readonly>
+                                <textarea id="peraturan_zonasi" class="form-control" rows="5" readonly>{{ $skrk->peraturan_zonasi }}</textarea>
                             </div>
                         </div>
                     </div>
