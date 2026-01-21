@@ -86,14 +86,12 @@
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        @php
-                            $no = 1;
-                        @endphp
+
                         @foreach ($permohonans as $data)
                             <div wire:key="{{ $data->id }}">
                                 <tr>
                                     <td>
-                                        {{ $no++ }}
+                                        {{ ($permohonans->currentPage() - 1) * $permohonans->perPage() + $loop->iteration }}
                                     </td>
                                     <td>
                                         @if ($data->is_prioritas)
