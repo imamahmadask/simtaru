@@ -149,6 +149,11 @@
                     </tbody>
                 </table>
             </div>
+            <div class="row mx-3 my-3">
+                <div class="col d-flex justify-content-end align-items-center">
+                    {{ $disposisi->links() }}
+                </div>
+            </div>
         </div>
         <!--/ Basic Bootstrap Table -->
 
@@ -254,6 +259,11 @@
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+                <div class="row mx-3 my-3">
+                    <div class="col d-flex justify-content-end align-items-center">
+                        {{ $disposisi->links() }}
+                    </div>
                 </div>
             </div>
             <!--/ Basic Bootstrap Table -->

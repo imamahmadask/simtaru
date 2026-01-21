@@ -167,6 +167,11 @@
                     </tbody>
                 </table>
             </div>
+            <div class="row mx-3 my-3">
+                <div class="col d-flex justify-content-end align-items-center">
+                    {{ $permohonans->links() }}
+                </div>
+            </div>
         </div>
         <!--/ Basic Bootstrap Table -->
     </div>

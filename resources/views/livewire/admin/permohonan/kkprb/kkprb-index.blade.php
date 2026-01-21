@@ -15,7 +15,7 @@
                 </div>
             </div>
 
-            <div class="table-responsive text-nowrap">
+            <div class="table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
@@ -75,6 +75,11 @@
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+            <div class="row mx-3 my-3">
+                <div class="col d-flex justify-content-end align-items-center">
+                    {{ $kkprb->links() }}
+                </div>
             </div>
         </div>
         <!--/ Basic Bootstrap Table -->

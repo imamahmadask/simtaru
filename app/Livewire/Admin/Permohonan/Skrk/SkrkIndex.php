@@ -6,10 +6,13 @@ use App\Models\Permohonan;
 use App\Models\Skrk;
 use Livewire\Attributes\Title;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 #[Title('Permohonan SKRK')]
 class SkrkIndex extends Component
 {
+    use WithPagination;
+
     public $search = '';
 
     public function render()
@@ -22,7 +25,8 @@ class SkrkIndex extends Component
                 $query->where('kode', 'LIKE', '%'.$this->search.'%')
                 ->orWhere('nama', 'LIKE', '%'.$this->search.'%');
             }))
-            ->orderBy('created_at', 'desc')->get();
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
         return view('livewire.admin.permohonan.skrk.skrk-index', [
             'skrk' => $skrk

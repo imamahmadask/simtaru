@@ -7,10 +7,12 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 #[Title('Disposisi')]
 class DisposisiIndex extends Component
 {
+    use WithPagination;
 
     #[On('refresh-disposisi-list')]
     public function refresh()
@@ -30,7 +32,7 @@ class DisposisiIndex extends Component
                         ->groupBy('permohonan_id');
                 })
                 ->orderBy('created_at', 'desc')
-                ->get();
+                ->paginate(10);
         }
         else
         {
@@ -38,13 +40,13 @@ class DisposisiIndex extends Component
                         ->where('penerima_id', Auth::user()->id)
                         ->where('is_done', false)
                         ->orderBy('created_at', 'desc')
-                        ->get();
+                        ->paginate(10);
 
             $disposisi_selesai = Disposisi::with('layanan')
                         ->where('penerima_id', Auth::user()->id)
                         ->where('is_done', true)
                         ->orderBy('created_at', 'desc')
-                        ->get();
+                        ->paginate(10);
         }
 
 

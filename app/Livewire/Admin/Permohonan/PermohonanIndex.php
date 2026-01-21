@@ -9,10 +9,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Title;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 #[Title('Permohonan')]
 class PermohonanIndex extends Component
 {
+    use WithPagination;
+
     public $search = '';
     public $filterLayanan = '';
     public $filterStatus = '';
@@ -36,7 +39,7 @@ class PermohonanIndex extends Component
                         ->where('status', 'like', '%' . $this->filterStatus . '%')
                         ->orderBy('is_prioritas', 'desc')
                         ->orderBy('created_at', 'desc')
-                        ->get();
+                        ->paginate(10);
 
         return view('livewire.admin.permohonan.permohonan-index', [
             'permohonans' => $permohonans

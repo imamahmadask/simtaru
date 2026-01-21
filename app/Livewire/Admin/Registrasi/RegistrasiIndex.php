@@ -12,10 +12,13 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use PhpOffice\PhpWord\TemplateProcessor;
+use Livewire\WithPagination;
 
 #[Title('Registrasi')]
 class RegistrasiIndex extends Component
 {
+    use WithPagination;
+
     public $search = '';
     public $filterLayanan = '';    
     public $layanans;
@@ -39,7 +42,7 @@ class RegistrasiIndex extends Component
                 });
             })
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(10);
 
         return view('livewire.admin.registrasi.registrasi-index', [
             'registrasis' => $registrasis
