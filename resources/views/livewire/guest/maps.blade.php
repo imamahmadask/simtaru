@@ -44,7 +44,7 @@
                         L.marker([loc.lat, loc.lng])
                             .addTo(markersLayer)
                             .bindPopup(
-                                `<b>${loc.name}</b><br>${loc.info}<br>${loc.alamat}<br>${loc.kelurahan}<br>${loc.kecamatan}<br>${loc.jenis_kegiatan}<br><hr><a href="javascript:void(0)" onclick="openFeedbackModal(${loc.id})" class="text-primary fw-bold"><i class="bi bi-chat-left-text me-1"></i>Beri Masukan</a>`
+                                `<b>${loc.name}</b><br>${loc.info}<br>${loc.alamat}<br>${loc.kelurahan}<br>${loc.kecamatan}<br>${loc.jenis_kegiatan}<br>${loc.kesimpulan}<hr><a href="javascript:void(0)" onclick="openFeedbackModal(${loc.id})" class="text-primary fw-bold"><i class="bi bi-chat-left-text me-1"></i>Beri Masukan</a>`
                             );
                     }
                 });

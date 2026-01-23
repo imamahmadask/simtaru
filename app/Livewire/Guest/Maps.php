@@ -52,6 +52,7 @@ class Maps extends Component
         $relations = ['skrk', 'itr', 'kkprb', 'kkprnb'];
 
         foreach ($relations as $relation) {
+            $kesimpulan = ($relation !== 'itr' && $permohonan->$relation) ? $permohonan->$relation->kesimpulan : null;
             if ($permohonan->$relation && $permohonan->$relation->koordinat) {
                 $koordinatArray = $permohonan->$relation->koordinat;
                 
@@ -67,6 +68,7 @@ class Maps extends Component
                         'kelurahan' => 'Kelurahan : ' . ($permohonan->registrasi->kel_tanah ?? '-'),
                         'kecamatan' => 'Kecamatan : ' . ($permohonan->registrasi->kec_tanah ?? '-'),
                         'jenis_kegiatan' => 'Jenis Kegiatan : ' . ($permohonan->registrasi->fungsi_bangunan ?? '-'),
+                        'kesimpulan' => 'Kesimpulan : ' . ($kesimpulan ?? '-'),
                     ];
                 }
             }
