@@ -54,6 +54,10 @@ class Skrk extends Model
         'median_jalan',
         'lebar_jalan',
         'pola_ruang',
+        'is_survey_hold',
+        'tgl_survey_hold',
+        'tgl_survey_unhold',
+        'ket_survey_hold',
     ];
 
     protected $casts = [

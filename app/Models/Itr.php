@@ -42,6 +42,10 @@ class Itr extends Model
         'batas_persil',
         'keterangan',
         'pola_ruang',
+        'is_survey_hold',
+        'tgl_survey_hold',
+        'tgl_survey_unhold',
+        'ket_survey_hold',
     ];
 
     protected $casts = [

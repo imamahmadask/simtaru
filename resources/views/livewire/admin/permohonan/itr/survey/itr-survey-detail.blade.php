@@ -13,27 +13,39 @@
                             data-bs-target="#UploadBerkasSurveyItrModal">
                             <i class="bx bx-cloud-upload"></i> Berkas Survey
                         </button>
+
+                        @if ($cek_disposisi)
+                            <button type="button" wire:click="$dispatch('disposisi-edit', { id: {{ $cek_disposisi->id }} })"
+                                class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editDisposisiModal">
+                                <i class="bx bx-edit"></i> Disposisi
+                            </button>
+                            @teleport('body')
+                                @livewire('admin.disposisi.disposisi-edit', [], key('disposisi-edit-itr-'.$itr->id))
+                            @endteleport
+                        @else
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#AddDisposisiModal">
+                                <i class="bx bx-plus"></i> Disposisi
+                            </button>
+                        @endif
                     @else
                         {{-- Action available BEFORE survey date is set --}}
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#AddSurveyItrModal">
-                            <i class="bx bx-plus"></i> Add Survey
+                        <button type="button"
+                            wire:click="$dispatch('itr-survey-hold', { itr_id: {{ $itr->id }} })"
+                            class="{{ $itr->is_survey_hold ? 'btn btn-warning' : 'btn btn-success' }}" data-bs-toggle="modal" data-bs-target="#HoldSurveyItrModal">
+                            @if ($itr->is_survey_hold) 
+                                <i class="bx bx-pause-circle"></i> Unhold Survey 
+                            @else 
+                                <i class="bx bx-play-circle"></i> Hold Survey 
+                            @endif
                         </button>
-                    @endif
 
-                    @if ($cek_disposisi)
-                        <button type="button" wire:click="$dispatch('disposisi-edit', { id: {{ $cek_disposisi->id }} })"
-                            class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editDisposisiModal">
-                            <i class="bx bx-edit"></i> Disposisi
-                        </button>
-                        @teleport('body')
-                            @livewire('admin.disposisi.disposisi-edit', [], key('disposisi-edit-itr-'.$itr->id))
-                        @endteleport
-                    @else
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#AddDisposisiModal">
-                            <i class="bx bx-plus"></i> Disposisi
-                        </button>
+                        @if (!$itr->is_survey_hold)
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#AddSurveyItrModal">
+                                <i class="bx bx-plus"></i> Add Survey
+                            </button>
+                        @endif
                     @endif
                 @endif
 
@@ -228,6 +240,9 @@
     @endteleport
     @teleport('body')
         @livewire('admin.disposisi.disposisi-create', ['permohonan_id' => $itr->permohonan->id, 'pelayanan_id' => $itr->id], key('disposisi-create-itr-'.$itr->id))
+    @endteleport
+    @teleport('body')
+        @livewire('admin.permohonan.itr.survey.itr-survey-hold')
     @endteleport
 
 </div>

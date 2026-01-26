@@ -61,6 +61,10 @@ class Kkprnb extends Model
         'akta_pendirian',
         'gambar_teknis',
         'pola_ruang',
+        'is_survey_hold',
+        'tgl_survey_hold',
+        'tgl_survey_unhold',
+        'ket_survey_hold',
     ];
 
     protected $casts = [

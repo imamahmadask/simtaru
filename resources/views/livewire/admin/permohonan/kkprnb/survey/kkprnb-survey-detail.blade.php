@@ -17,28 +17,40 @@
                             data-bs-target="#UploadBerkasSurveyKkprnbModal">
                             <i class="bx bx-cloud-upload"></i> Berkas Survey
                         </button>
+
+                        @if ($cek_disposisi)
+                            <button type="button" wire:click="$dispatch('disposisi-edit', { id: {{ $cek_disposisi->id }} })"
+                                class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editDisposisiModal">
+                                <i class="bx bx-edit"></i> Disposisi
+                            </button>
+                            @teleport('body')
+                                @livewire('admin.disposisi.disposisi-edit', [], key('disposisi-edit-kkprnb-'.$kkprnb->id))
+                            @endteleport
+                        @else
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#AddDisposisiModal">
+                                <i class="bx bx-plus"></i> Disposisi
+                            </button>
+                        @endif
                     @else
                         {{-- Action available BEFORE survey date is set --}}
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#AddSurveyKkprnbModal">
-                            <i class="bx bx-plus"></i> Add Survey
+                        <button type="button"
+                            wire:click="$dispatch('kkprnb-survey-hold', { kkprnb_id: {{ $kkprnb->id }} })"
+                            class="{{ $kkprnb->is_survey_hold ? 'btn btn-warning' : 'btn btn-success' }}" data-bs-toggle="modal" data-bs-target="#HoldSurveyKkprnbModal">
+                            @if ($kkprnb->is_survey_hold) 
+                                <i class="bx bx-pause-circle"></i> Unhold Survey 
+                            @else 
+                                <i class="bx bx-play-circle"></i> Hold Survey 
+                            @endif
                         </button>
-                    @endif
 
-                    @if ($cek_disposisi)
-                        <button type="button" wire:click="$dispatch('disposisi-edit', { id: {{ $cek_disposisi->id }} })"
-                            class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editDisposisiModal">
-                            <i class="bx bx-edit"></i> Disposisi
-                        </button>
-                        @teleport('body')
-                            @livewire('admin.disposisi.disposisi-edit', [], key('disposisi-edit-kkprnb-'.$kkprnb->id))
-                        @endteleport
-                    @else
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#AddDisposisiModal">
-                            <i class="bx bx-plus"></i> Disposisi
-                        </button>
-                    @endif
+                        @if (!$kkprnb->is_survey_hold)
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#AddSurveyKkprnbModal">
+                                <i class="bx bx-plus"></i> Add Survey
+                            </button>
+                        @endif
+                    @endif                    
                 @endif
 
                 @if ($cek_disposisi)
@@ -279,6 +291,9 @@
     @endteleport
     @teleport('body')
         @livewire('admin.disposisi.disposisi-create', ['permohonan_id' => $kkprnb->permohonan->id, 'pelayanan_id' => $kkprnb->id], key('disposisi-create-kkprnb-'.$kkprnb->id))
+    @endteleport
+    @teleport('body')
+        @livewire('admin.permohonan.kkprnb.survey.kkprnb-survey-hold')
     @endteleport
 </div>
 @script
