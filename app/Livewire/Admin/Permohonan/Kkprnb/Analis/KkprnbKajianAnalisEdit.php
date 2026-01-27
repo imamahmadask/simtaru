@@ -11,7 +11,7 @@ class KkprnbKajianAnalisEdit extends Component
 {
     public $permohonan, $kkprnb;
     public $penguasaan_tanah, $jml_bangunan, $jml_lantai, $luas_lantai, $kedalaman_min, $kedalaman_max, $jenis_kegiatan;
-    public $kdb, $klb, $indikasi_program, $gsb, $jba, $jbb, $kdh, $ktb, $jaringan_utilitas, $persyaratan_pelaksanaan, $luas_disetujui, $kesimpulan;
+    public $kdb, $klb, $indikasi_program, $gsb, $jba, $jbb, $kdh, $ktb, $jaringan_utilitas, $persyaratan_pelaksanaan, $luas_disetujui, $kesimpulan, $ketinggian_bangunan_max;
 
     public function render()
     {
@@ -39,6 +39,7 @@ class KkprnbKajianAnalisEdit extends Component
         $this->jbb = $this->kkprnb->jbb;
         $this->kdh = $this->kkprnb->kdh;
         $this->ktb = $this->kkprnb->ktb;
+        $this->ketinggian_bangunan_max = $this->kkprnb->ketinggian_bangunan_max;
         $this->indikasi_program = $this->kkprnb->indikasi_program;
         $this->jaringan_utilitas = $this->kkprnb->jaringan_utilitas;
         $this->persyaratan_pelaksanaan = $this->kkprnb->persyaratan_pelaksanaan;
@@ -62,19 +63,20 @@ class KkprnbKajianAnalisEdit extends Component
             'jbb' => $this->jbb,
             'kdh' => $this->kdh,
             'ktb' => $this->ktb,
+            'ketinggian_bangunan_max' => $this->ketinggian_bangunan_max,
             'indikasi_program' => $this->indikasi_program,
             'jaringan_utilitas' => $this->jaringan_utilitas,
             'persyaratan_pelaksanaan' => $this->persyaratan_pelaksanaan
         ]);
 
-        $this->reset('penguasaan_tanah', 'jml_bangunan', 'jml_lantai', 'luas_lantai', 'kedalaman_min', 'kedalaman_max', 'kdb', 'klb', 'indikasi_program', 'gsb', 'jba', 'jbb', 'kdh', 'ktb', 'jaringan_utilitas', 'persyaratan_pelaksanaan');
+        $this->reset('penguasaan_tanah', 'jml_bangunan', 'jml_lantai', 'luas_lantai', 'kedalaman_min', 'kedalaman_max', 'kdb', 'klb', 'indikasi_program', 'gsb', 'jba', 'jbb', 'kdh', 'ktb', 'ketinggian_bangunan_max', 'jaringan_utilitas', 'persyaratan_pelaksanaan');
 
         $this->dispatch('toast', [
             'type'    => 'success',
             'message' => 'Data Kajian Analisa KKPR Non Berusaha berhasil diupdate!'
         ]);
         
-        $this->dispatch('refresh-kkprnb-analis-list');
+        $this->dispatch('refresh-kkprnb-analis-detail');
 
         $this->dispatch('trigger-close-modal');
     }

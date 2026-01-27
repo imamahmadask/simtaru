@@ -126,6 +126,13 @@
                                 <input type="text" class="form-control" wire:model="ktb" id="edit_ktb"
                                     placeholder="Masukkan Koefisien Tapak Basement">
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="edit_ketinggian_bangunan_max" class="form-label">Ketinggian Bangunan Maksimum</label>
+                                <input type="text" class="form-control" wire:model="ketinggian_bangunan_max" id="edit_ketinggian_bangunan_max"
+                                    placeholder="Masukkan Ketinggian Bangunan Maksimum">
+                            </div>
                         </div>                        
                         <div class="row">
                             <div class="col mb-3">

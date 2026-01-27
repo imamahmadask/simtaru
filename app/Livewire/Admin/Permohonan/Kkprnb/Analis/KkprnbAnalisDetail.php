@@ -196,6 +196,7 @@ class KkprnbAnalisDetail extends Component
             'jbb' => $this->kkprnb->jbb,
             'kdh' => $this->kkprnb->kdh,
             'ktb' => $this->kkprnb->ktb,
+            'ketinggian_bangunan_max' => $this->kkprnb->ketinggian_bangunan_max,
             'jaringan_utilitas' => $this->kkprnb->jaringan_utilitas,
             'luas_disetujui' => $this->kkprnb->luas_disetujui,
         ];

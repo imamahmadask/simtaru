@@ -229,6 +229,16 @@
                         </div>
                     </div>
                     <div class="row mb-3">
+                        <label class="col-sm-4 col-form-label" for="ketinggian_bangunan_max">
+                            Ketinggian Bangunan Maksimum
+                        </label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input id="ketinggian_bangunan_max" class="form-control" value="{{ $kkprnb->ketinggian_bangunan_max }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
                         <label class="col-sm-4 col-form-label" for="jaringan_utilitas">
                             Jaringan Utilitas Kota
                         </label>

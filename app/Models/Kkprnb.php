@@ -69,6 +69,7 @@ class Kkprnb extends Model
         'tgl_analis_hold',
         'tgl_analis_unhold',
         'ket_analis_hold',
+        'ketinggian_bangunan_max',
     ];
 
     protected $casts = [

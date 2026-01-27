@@ -12,7 +12,7 @@ class KkprnbKajianAnalisCreate extends Component
 {
     public $permohonan, $kkprnb;
     public $penguasaan_tanah, $jml_bangunan, $jml_lantai, $luas_lantai, $kedalaman_min, $kedalaman_max, $jenis_kegiatan;
-    public $kdb, $klb, $indikasi_program, $gsb, $jba, $jbb, $kdh, $ktb, $jaringan_utilitas, $persyaratan_pelaksanaan, $luas_disetujui;
+    public $kdb, $klb, $indikasi_program, $gsb, $jba, $jbb, $kdh, $ktb, $jaringan_utilitas, $persyaratan_pelaksanaan, $luas_disetujui, $ketinggian_bangunan_max;
 
     public function render()
     {
@@ -38,6 +38,7 @@ class KkprnbKajianAnalisCreate extends Component
             'jbb' => $this->jbb,
             'kdh' => $this->kdh,
             'ktb' => $this->ktb,
+            'ketinggian_bangunan_max' => $this->ketinggian_bangunan_max,
             'jaringan_utilitas' => $this->jaringan_utilitas,
             'persyaratan_pelaksanaan' => $this->persyaratan_pelaksanaan,
             'is_kajian' => true,
@@ -47,7 +48,7 @@ class KkprnbKajianAnalisCreate extends Component
             'status' => 'Proses  Analisa'
         ]);
 
-        $this->reset('penguasaan_tanah', 'jml_bangunan', 'jml_lantai', 'luas_lantai', 'kedalaman_min', 'kedalaman_max', 'kdb', 'klb', 'indikasi_program', 'gsb', 'jba', 'jbb', 'kdh', 'ktb', 'jaringan_utilitas', 'persyaratan_pelaksanaan');
+        $this->reset('penguasaan_tanah', 'jml_bangunan', 'jml_lantai', 'luas_lantai', 'kedalaman_min', 'kedalaman_max', 'kdb', 'klb', 'indikasi_program', 'gsb', 'jba', 'jbb', 'kdh', 'ktb', 'ketinggian_bangunan_max', 'jaringan_utilitas', 'persyaratan_pelaksanaan');
 
         $this->createRiwayat($this->kkprnb->permohonan, 'Proses Analisa KKPR Non Berusaha');
 
@@ -56,7 +57,7 @@ class KkprnbKajianAnalisCreate extends Component
             'message' => 'Data Kajian KKPR Non Berusaha berhasil disimpan!'
         ]);
 
-        $this->dispatch('refresh-kkprnb-analis-list');
+        $this->dispatch('refresh-kkprnb-analis-detail');
 
         $this->dispatch('trigger-close-modal');
     }
