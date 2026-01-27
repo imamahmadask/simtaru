@@ -92,9 +92,14 @@ class SkrkSurveyDetail extends Component
             'bulan_survey' => $bulan_survey,
             'tahun_survey' => $tahun_survey,
             'tahun_number_survey' => $tahun_number_survey,
+            'status_jalan' => $this->skrk->status_jalan,
+            'fungsi_jalan' => $this->skrk->fungsi_jalan,
+            'tipe_jalan' => $this->skrk->tipe_jalan,
+            'median_jalan' => $this->skrk->median_jalan,
+            'lebar_jalan' => $this->skrk->lebar_jalan,
         ];
 
-        return $this->generateDocument('1B_BA_survey_template.docx', $data);
+        return $this->generateDocument('1B_BA_SURVEY_SKRK.docx', $data);
     }
 
     private function generateDocument($templatePath, $data)
