@@ -17,8 +17,10 @@ class KkprnbAnalisDetail extends Component
     public $kkprnb;
     public $koordinatTable = false;
 
-    #[On('refresh-kkprnb-analis-list')]
-    public function refresh() {}
+    #[On('refresh-kkprnb-analis-detail')]
+    public function refresh() {
+        $this->kkprnb->refresh();
+    }
 
     public function render()
     {

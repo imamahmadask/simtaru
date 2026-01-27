@@ -65,6 +65,10 @@ class Kkprnb extends Model
         'tgl_survey_hold',
         'tgl_survey_unhold',
         'ket_survey_hold',
+        'is_analis_hold',
+        'tgl_analis_hold',
+        'tgl_analis_unhold',
+        'ket_analis_hold',
     ];
 
     protected $casts = [

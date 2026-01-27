@@ -18,9 +18,20 @@
                 @endphp
                 @if($showButtons)
                     @if (!$kkprnb->is_kajian && $kkprnb->is_survey)
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddKajianKkprnbModal">
-                            <i class="bx bx-plus"></i> Data Kajian
+                         <button type="button"
+                            wire:click="$dispatch('kkprnb-analis-hold', { kkprnb_id: {{ $kkprnb->id }} })"
+                            class="{{ $kkprnb->is_analis_hold ? 'btn btn-warning' : 'btn btn-success' }}">
+                            @if ($kkprnb->is_analis_hold) 
+                                <i class="bx bx-pause-circle"></i> Unhold Analis 
+                            @else 
+                                <i class="bx bx-play-circle"></i> Hold Analis 
+                            @endif
                         </button>
+                        @if (!$kkprnb->is_analis_hold)
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddKajianKkprnbModal">
+                                <i class="bx bx-plus"></i> Data Kajian
+                            </button>
+                        @endif
                     @elseif($kkprnb->is_kajian && !$kkprnb->is_analis)
                         <button type="button" class="btn btn-primary" wire:click="$dispatch('kkprnb-kajian-edit', { permohonan_id: {{ $kkprnb->permohonan->id }}, kkprnb_id: {{ $kkprnb->id }} })" data-bs-toggle="modal"
                             data-bs-target="#EditKajianKkprnbModal">
@@ -314,6 +325,9 @@
     @endteleport
     @teleport('body')
         @livewire('admin.permohonan.kkprnb.analis.upload-berkas', ['permohonan_id' => $kkprnb->permohonan->id, 'kkprnb_id' => $kkprnb->id], key('kkprnb-analis-upload-berkas-'.$kkprnb->id))
+    @endteleport
+    @teleport('body')
+        @livewire('admin.permohonan.kkprnb.analis.hold-analis-modal', [], key('kkprnb-analis-hold-modal-'.$kkprnb->id))
     @endteleport
 </div>
 @script
