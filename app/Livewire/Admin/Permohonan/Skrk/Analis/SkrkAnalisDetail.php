@@ -146,7 +146,7 @@ class SkrkAnalisDetail extends Component
             'luas_kavling' => $this->skrk->luas_kavling,
             'jaringan_utilitas' => $this->skrk->jaringan_utilitas,
             'ketinggian_bangunan_max' => $this->skrk->ketinggian_bangunan_max,
-            // 'persyaratan_pelaksanaan' => $this->skrk->persyaratan_pelaksanaan,
+            'persyaratan_pelaksanaan' => htmlspecialchars($this->skrk->persyaratan_pelaksanaan, ENT_QUOTES, 'UTF-8'),
         ];
 
         $this->koordinatTable = true;

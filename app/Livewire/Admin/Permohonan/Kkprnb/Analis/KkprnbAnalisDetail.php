@@ -191,7 +191,7 @@ class KkprnbAnalisDetail extends Component
             'kdb' => $this->kkprnb->kdb,
             'klb' => $this->kkprnb->klb,
             'indikasi_program' => $this->kkprnb->indikasi_program,
-            'persyaratan_pelaksanaan' => $this->kkprnb->persyaratan_pelaksanaan,
+            'persyaratan_pelaksanaan' => htmlspecialchars($this->kkprnb->persyaratan_pelaksanaan, ENT_QUOTES, 'UTF-8'),
             'gsb' => $this->kkprnb->gsb,
             'jbb' => $this->kkprnb->jbb,
             'kdh' => $this->kkprnb->kdh,

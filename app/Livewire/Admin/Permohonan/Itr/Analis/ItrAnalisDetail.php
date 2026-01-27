@@ -76,7 +76,7 @@ class ItrAnalisDetail extends Component
             'ktb' => $this->itr->ktb,
             'luas_kavling' => $this->itr->luas_kavling,
             'jaringan_utilitas' => $this->itr->jaringan_utilitas,
-            'persyaratan_pelaksanaan' => $this->itr->persyaratan_pelaksanaan,
+            'persyaratan_pelaksanaan' => htmlspecialchars($this->itr->persyaratan_pelaksanaan, ENT_QUOTES, 'UTF-8'),
         ];
 
         $this->koordinatTable = true;
