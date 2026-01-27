@@ -122,7 +122,7 @@ class SkrkAnalisDetail extends Component
             'nik' => $permohonan->registrasi->nik,
             'no_hp' => $permohonan->registrasi->no_hp,
             'email' => $permohonan->registrasi->email,
-            'npwp' => $permohonan->npwp,
+            'npwp' => $permohonan->npwp,            
             'status_modal' => $permohonan->status_modal,
             'kbli' => $permohonan->kbli,
             'judul_kbli' => $permohonan->judul_kbli,
@@ -145,8 +145,10 @@ class SkrkAnalisDetail extends Component
             'ktb' => $this->skrk->ktb,
             'luas_kavling' => $this->skrk->luas_kavling,
             'jaringan_utilitas' => $this->skrk->jaringan_utilitas,
+            'ketinggian_bangunan_max' => $this->skrk->ketinggian_bangunan_max,
             // 'persyaratan_pelaksanaan' => $this->skrk->persyaratan_pelaksanaan,
         ];
+
         $this->koordinatTable = true;
         return $this->generateDocument('4_dokumen_skrk.docx', $data);
     }

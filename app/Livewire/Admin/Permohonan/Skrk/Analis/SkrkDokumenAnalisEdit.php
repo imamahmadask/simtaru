@@ -10,7 +10,7 @@ use Livewire\Component;
 class SkrkDokumenAnalisEdit extends Component
 {
     public $permohonan, $skrk;
-    public $skala_usaha, $luas_disetujui, $pemanfaatan_ruang, $peraturan_zonasi, $kbli_diizinkan, $kdb, $klb, $gsb, $jba, $jbb, $kdh, $ktb, $luas_kavling, $jaringan_utilitas, $persyaratan_pelaksanaan;
+    public $skala_usaha, $luas_disetujui, $pemanfaatan_ruang, $peraturan_zonasi, $kbli_diizinkan, $kdb, $klb, $gsb, $jba, $jbb, $kdh, $ktb, $luas_kavling, $jaringan_utilitas, $persyaratan_pelaksanaan, $ketinggian_bangunan_max;
 
     public function render()
     {
@@ -38,6 +38,7 @@ class SkrkDokumenAnalisEdit extends Component
         $this->luas_kavling = $this->skrk->luas_kavling;
         $this->jaringan_utilitas = $this->skrk->jaringan_utilitas;
         $this->persyaratan_pelaksanaan = $this->skrk->persyaratan_pelaksanaan;
+        $this->ketinggian_bangunan_max = $this->skrk->ketinggian_bangunan_max;
     }
 
     public function editKajianAnalisa()
@@ -57,8 +58,28 @@ class SkrkDokumenAnalisEdit extends Component
             'ktb' => $this->ktb,
             'luas_kavling' => $this->luas_kavling,
             'jaringan_utilitas' => $this->jaringan_utilitas,
-            'persyaratan_pelaksanaan' => $this->persyaratan_pelaksanaan
+            'persyaratan_pelaksanaan' => $this->persyaratan_pelaksanaan,
+            'ketinggian_bangunan_max' => $this->ketinggian_bangunan_max
         ]);
+
+        $this->reset(
+            'skala_usaha',
+            'luas_disetujui',
+            'pemanfaatan_ruang',
+            'peraturan_zonasi',
+            'kbli_diizinkan',
+            'kdb',
+            'klb',
+            'gsb',
+            'jba',
+            'jbb',
+            'kdh',
+            'ktb',
+            'luas_kavling',
+            'jaringan_utilitas',
+            'persyaratan_pelaksanaan',
+            'ketinggian_bangunan_max'
+        );
 
         $this->dispatch('toast', [
             'type'    => 'success',

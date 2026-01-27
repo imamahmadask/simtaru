@@ -11,7 +11,7 @@ use Livewire\Component;
 class SkrkDokumenAnalisCreate extends Component
 {
     public $permohonan, $skrk;
-    public $skala_usaha, $luas_disetujui, $pemanfaatan_ruang, $peraturan_zonasi, $kbli_diizinkan, $kdb, $klb, $gsb, $jba, $jbb, $kdh, $ktb, $luas_kavling, $jaringan_utilitas, $persyaratan_pelaksanaan;
+    public $skala_usaha, $luas_disetujui, $pemanfaatan_ruang, $peraturan_zonasi, $kbli_diizinkan, $kdb, $klb, $gsb, $jba, $jbb, $kdh, $ktb, $luas_kavling, $jaringan_utilitas, $persyaratan_pelaksanaan, $ketinggian_bangunan_max;
     public function render()
     {
         return view('livewire.admin.permohonan.skrk.analis.skrk-dokumen-analis-create');
@@ -35,11 +35,31 @@ class SkrkDokumenAnalisCreate extends Component
             'luas_kavling' => $this->luas_kavling,
             'jaringan_utilitas' => $this->jaringan_utilitas,
             'persyaratan_pelaksanaan' => $this->persyaratan_pelaksanaan,
+            'ketinggian_bangunan_max' => $this->ketinggian_bangunan_max,
             'is_dokumen' => true
         ]);
 
         $this->permohonan->update([
             'status' => 'Proses Analisa'
+        ]);
+
+        $this->reset([
+            'skala_usaha',
+            'luas_disetujui',
+            'pemanfaatan_ruang',
+            'peraturan_zonasi',
+            'kbli_diizinkan',
+            'kdb',
+            'klb',
+            'gsb',
+            'jba',
+            'jbb',
+            'kdh',
+            'ktb',
+            'luas_kavling',
+            'jaringan_utilitas',
+            'persyaratan_pelaksanaan',
+            'ketinggian_bangunan_max'
         ]);
 
         $this->dispatch('toast', [

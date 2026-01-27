@@ -58,6 +58,7 @@ class Skrk extends Model
         'tgl_survey_hold',
         'tgl_survey_unhold',
         'ket_survey_hold',
+        'ketinggian_bangunan_max',
     ];
 
     protected $casts = [

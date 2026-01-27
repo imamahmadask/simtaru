@@ -114,6 +114,15 @@
                         </div>
                         <div class="row">
                             <div class="col mb-3">
+                                <label for="edit_ketinggian_bangunan_max" class="form-label">Ketinggian Bangunan
+                                    Maximum</label>
+                                <input type="text" class="form-control" wire:model="ketinggian_bangunan_max"
+                                    id="edit_ketinggian_bangunan_max"
+                                    placeholder="Masukkan Ketinggian Bangunan Maximum">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-3">
                                 <label for="edit_persyaratan_pelaksanaan" class="form-label">
                                     Persyaratan Pelaksanaan Kegiatan Pemanfaatan Ruang</label>
                                 <textarea class="form-control" wire:model="persyaratan_pelaksanaan"

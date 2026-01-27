@@ -326,13 +326,24 @@
                         </div>
                     </div>
                     <div class="row mb-3">
+                        <label class="col-sm-4 col-form-label" for="ketinggian_bangunan_max">
+                            Ketinggian Bangunan Maximum
+                        </label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input id="ketinggian_bangunan_max" class="form-control"
+                                    value="{{ $skrk->ketinggian_bangunan_max }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
                         <label class="col-sm-4 col-form-label" for="persyaratan_pelaksanaan">
                             Persyaratan Pelaksanaan Kegiatan Pemanfaatan Ruang
                         </label>
                         <div class="col-sm-8">
                             <div class="input-group">                                
                                 <textarea id="persyaratan_pelaksanaan" class="form-control"
-                                    value="{{ $skrk->persyaratan_pelaksanaan }}" rows="5" readonly></textarea>
+                                    rows="5" readonly>{{ $skrk->persyaratan_pelaksanaan }}</textarea>
                             </div>
                         </div>
                     </div>
