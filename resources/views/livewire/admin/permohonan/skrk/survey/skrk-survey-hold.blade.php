@@ -31,7 +31,7 @@
                                     id="ket_survey_hold" rows="3" placeholder="Masukkan alasan hold survey..."></textarea>
                                 @error('ket_survey_hold') <span class="text-danger small">{{ $message }}</span> @enderror
                             </div>                        
-                        @elseif(!$is_survey_hold)
+                        @elseif(!$is_survey_hold && $tgl_survey_hold)
                             <div class="mb-3">
                                 <label class="form-label">Tanggal Unhold</label>
                                 <input type="date" wire:model="tgl_survey_unhold" class="form-control @error('tgl_survey_unhold') is-invalid @enderror" 
