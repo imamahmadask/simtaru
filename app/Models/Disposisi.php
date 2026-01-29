@@ -20,6 +20,9 @@ class Disposisi extends Model
         'layanan_type',
         'is_done',
         'tgl_selesai',
+        'parent_id',
+        'status',
+        'is_revisi',
     ];
 
     public function permohonan()
@@ -50,5 +53,15 @@ class Disposisi extends Model
     public function getLayananTypeNameAttribute()
     {
         return class_basename($this->layanan_type);
+    }
+
+    public function asalDisposisi()
+    {
+        return $this->belongsTo(Disposisi::class, 'parent_id');
+    }
+
+    public function riwayatRevisi()
+    {
+        return $this->hasMany(Disposisi::class, 'parent_id');
     }
 }

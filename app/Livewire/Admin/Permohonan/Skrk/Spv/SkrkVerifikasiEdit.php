@@ -55,19 +55,29 @@ class SkrkVerifikasiEdit extends Component
             $nama_tahapan = $tahapan->nama;
 
             $skrk = Skrk::find($this->skrk_id);
-            $skrk->disposisis()->updateOrCreate(
-                [
-                    'permohonan_id' => $skrk->permohonan->id,
-                    'tahapan_id' => $tahapan_id,
-                    'is_done' => true
-                ],
-                [
-                    'pemberi_id' => Auth::user()->id,
-                    'penerima_id' => $penerima_id,
-                    'tanggal_disposisi' => now(),
-                    'catatan' => $this->catatan,
-                ]
-            );
+            $currentDisposisi = $skrk->disposisis()
+                ->where('tahapan_id', $this->berkas->persyaratan->tahapan_id)
+                ->where('is_done', true)
+                ->latest()
+                ->first();
+
+            $currentDisposisi->update([
+                'status'      => 'revised',
+                'updated_by'  => Auth::id(),
+            ]);
+
+            $skrk->disposisis()->create([
+                'permohonan_id'     => $currentDisposisi->permohonan_id,
+                'tahapan_id'        => $currentDisposisi->tahapan_id,
+                'pemberi_id'        => Auth::user()->id,
+                'penerima_id'       => $penerima_id,
+                'tanggal_disposisi' => now(),
+                'catatan'           => $this->catatan,
+                'parent_id'         => $currentDisposisi->id,
+                'is_revisi'         => 1,
+                'status'            => 'pending',
+                'is_done'           => 0,
+            ]);
 
             if($nama_tahapan == 'Survey')
             {

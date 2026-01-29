@@ -44,6 +44,7 @@
                             <th>Pemberi</th>
                             <th>Penerima</th>
                             <th>Catatan</th>
+                            <th>Status</th>
                             <th class="text-center">Selesai</th>
                             <th>Actions</th>
                         </tr>
@@ -75,7 +76,12 @@
                                         {{ $data->permohonan->registrasi->nama }}
                                     </td>
                                     <td>
-                                        {{ $data->tahapan->nama }}
+                                        {{ $data->tahapan->nama }} <br>
+                                        <small class="text-muted fw-bold fst-italic">
+                                            <span class="{{ $data->is_revisi ? 'text-danger' : 'text-primary' }}">
+                                                {{ $data->is_revisi ? 'Revisi' : 'Normal' }}
+                                            </span>
+                                        </small>
                                     </td>
                                     <td>
                                         {{ Auth::user()->where('id', $data->pemberi_id)->first()->name ?? '-' }}
@@ -88,6 +94,9 @@
                                             data-bs-toggle="modal" data-bs-target="#catatanModal{{ $data->id }}">
                                             Lihat
                                         </button>
+                                    </td>
+                                    <td>
+                                        {{ $data->status }}
                                     </td>
                                     <td class="text-center">
                                         @if ($data->is_done)
@@ -171,6 +180,7 @@
                                 <th>Pemberi</th>
                                 <th>Penerima</th>
                                 <th>Catatan</th>
+                                <th>Status</th>
                                 <th class="text-center">Selesai</th>
                             </tr>
                         </thead>
@@ -197,11 +207,17 @@
                                                 {{ $data->permohonan->layanan->nama }}
                                             </small>
                                         </td>
-                                        <td>
+                                        <td class="text-wrap">
                                             {{ $data->permohonan->registrasi->nama }}
                                         </td>
                                         <td>
                                             {{ $data->tahapan->nama }}
+                                            <br>
+                                            <small class="text-muted fw-bold fst-italic">
+                                            <span class="{{ $data->is_revisi ? 'text-danger' : 'text-primary' }}">
+                                                {{ $data->is_revisi ? 'Revisi' : 'Normal' }}
+                                            </span>
+                                        </small>
                                         </td>
                                         <td>
                                             {{ Auth::user()->where('id', $data->pemberi_id)->first()->name ?? '-' }}
@@ -216,8 +232,11 @@
                                                 Lihat
                                             </button>
                                         </td>
+                                        <td>
+                                            {{ $data->status }}
+                                        </td>
                                         <td class="text-center">
-                                            @if ($data->is_done)
+                                            @if ($data->status == 'completed' || $data->status == 'revised')
                                                 <span class="badge badge-center bg-label-success me-1">
                                                     <i class="bx bx-check"></i>
                                                 </span>
