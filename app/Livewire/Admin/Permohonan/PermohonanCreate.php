@@ -178,8 +178,8 @@ class PermohonanCreate extends Component
     {
         $this->layanans = Layanan::all();
         $this->registrasis = Registrasi::doesntHave('permohonan')
-            ->where('status', NULL)
-            ->get();       
+            ->whereNotIn('status', ['Berkas Dicabut', 'Berkas Tidak Lengkap'])
+            ->get();
         $this->users = User::where('role', 'surveyor')->get();
     }
 

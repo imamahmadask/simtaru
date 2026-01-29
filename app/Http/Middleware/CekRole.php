@@ -21,6 +21,11 @@ class CekRole
         }
 
         // 2. Jika tidak punya akses, arahkan secara dinamis berdasarkan role mereka
+        if (!$request->user()) {
+            return redirect('/');
+        }
+
+        // Ensure user is authenticated before accessing role property
         $userRole = $request->user()->role;
 
         if ($userRole === 'admin-pelanggaran' || $userRole === 'superadmin') {

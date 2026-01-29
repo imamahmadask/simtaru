@@ -82,7 +82,7 @@ Route::middleware(['cekRole:superadmin'])->group(function () {
 });
 
 // Grup untuk Pelapor (Sistem Baru)
-Route::middleware(['auth', 'cekRole:admin-pelanggaran,superadmin'])->prefix('admin/pelanggaran')->group(function () {
+Route::middleware(['cekRole:admin-pelanggaran,superadmin'])->prefix('admin/pelanggaran')->group(function () {
     Route::get('/dashboard', DashboardPelanggaran::class)->name('pelanggaran.dashboard');    
     Route::get('/index', PelanggaranIndex::class)->name('pelanggaran.index');
     Route::get('/create', PelanggaranCreate::class)->name('pelanggaran.create');
