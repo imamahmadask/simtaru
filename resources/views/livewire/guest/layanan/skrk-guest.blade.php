@@ -128,7 +128,7 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                            Formulir Permohonan SKRK <a href="/formulir/Surat Permohonan SKRK.docx">disini</a>
+                                            Formulir Permohonan SKRK <a href="/formulir/Surat_Permohonan_SKRK.docx">di sini</a>
                                         </li>
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-success me-2"></i>
