@@ -259,7 +259,7 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-primary me-2"></i>
-                                            Mengisi Formulir Permohonan, Form Kelengkapan berkas dan Surat Pernyataan <a href="{{ asset('formulir/Surat_Permohonan_KKPR_Non_Berusaha.docx') }}" download>di sini</a>
+                                            Mengisi Formulir Permohonan, Form Kelengkapan berkas dan Surat Pernyataan <a href="{{ asset('formulir/SURAT_PERMOHONAN_KKPR_NON_BERUSAHA.docx') }}" download>di sini</a>
                                         </li>
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-primary me-2"></i>

@@ -195,7 +195,7 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-primary me-2"></i>
-                                            Mengisi formulir permohonan ITR <a href="{{ asset('formulir/Surat_Permohonan_ITR.docx') }}" download>di sini</a>
+                                            Mengisi formulir permohonan ITR <a href="{{ asset('formulir/SURAT_PERMOHONAN_ITR.docx') }}" download>di sini</a>
                                         </li>
                                         <li class="list-group-item">
                                             <i class="bi bi-check-circle-fill text-primary me-2"></i>
