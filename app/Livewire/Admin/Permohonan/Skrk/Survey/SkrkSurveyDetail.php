@@ -137,17 +137,25 @@ class SkrkSurveyDetail extends Component
                 // Find and update the disposisi for the 'Survey' stage
                 $tahapanSurveyId = $this->skrk->permohonan->layanan->tahapan->where('nama', 'Survey')->value('id');
                 if ($tahapanSurveyId) {
-                    $this->skrk->permohonan->disposisi()->where('tahapan_id', $tahapanSurveyId)->update([
+                    $disposisiQuery = $this->skrk->permohonan->disposisi()->where('tahapan_id', $tahapanSurveyId);
+                    
+                    $currentDisposisi = $disposisiQuery->latest()->first();
+
+                    $disposisiQuery->update([
                         'is_done' => true,
                         'tgl_selesai' => now()
                     ]);
+
+                    if ($currentDisposisi && !$currentDisposisi->is_revisi) {
+                        $this->skrk->permohonan->update([
+                            'status' => 'Proses Analisa'
+                        ]);
+    
+                        $this->createRiwayat($this->skrk->permohonan, 'Selesai Survey Data SKRK');
+                    }else{
+                        $this->createRiwayat($this->skrk->permohonan, 'Revisi Survey Data SKRK Selesai Dilengkapi');
+                    }
                 }
-
-                $this->skrk->permohonan->update([
-                    'status' => 'Proses Analisa'
-                ]);
-
-                $this->createRiwayat($this->skrk->permohonan, 'Selesai Survey Data SKRK');
 
                 session()->flash('success', 'Data Survey selesai!');
             }

@@ -42,9 +42,7 @@ class SkrkVerifikasiCreate extends Component
 
         $penerima_id = $this->berkas->uploaded_by;
         $penerima_name = User::where('id', $penerima_id)->first()->name;
-
-        $skrk = Skrk::find($this->skrk_id);
-
+        
         $this->berkas->update([
             'status' => $this->status,
             'catatan_verifikator' => $this->catatan,
@@ -52,15 +50,31 @@ class SkrkVerifikasiCreate extends Component
             'verified_at' => $verified_at
         ]);
 
+        $skrk = Skrk::find($this->skrk_id);
+        $currentDisposisi = $skrk->disposisis()
+            ->where('tahapan_id', $this->berkas->persyaratan->tahapan_id)
+            ->where('is_done', true)
+            ->latest()
+            ->first();
+
+        $currentDisposisi->update([
+            'status'      => 'revised',
+            'updated_by'  => Auth::id(),
+        ]);
+        
         if($this->status == 'ditolak')
         {
             $skrk->disposisis()->create([
-                'permohonan_id' => $skrk->permohonan->id,
+                'permohonan_id' => $currentDisposisi->permohonan->id,
                 'tahapan_id' => $tahapan_id,
                 'pemberi_id' => Auth::user()->id,
                 'penerima_id' => $penerima_id,
                 'tanggal_disposisi' => now(),
                 'catatan' => $this->catatan,
+                'parent_id' => $currentDisposisi->id,
+                'is_revisi' => 1,
+                'status' => 'pending',
+                'is_done' => 0,
             ]);
 
             if($nama_tahapan == 'Survey')

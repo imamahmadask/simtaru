@@ -33,7 +33,6 @@ class UploadBerkas extends Component
         $no_reg = $this->skrk->registrasi->kode;
         $isUpdate = false;
         foreach ($this->permohonan->persyaratanBerkas as $item) {
-
             // cek apakah file untuk persyaratan ini diupload
             if (!empty($this->file_[$item->kode])) {
                 // Check if a file already exists for this requirement
@@ -41,7 +40,7 @@ class UploadBerkas extends Component
                     ->where('persyaratan_berkas_id', $item->id)
                     ->where('versi', 'draft')
                     ->first();
-
+                
                 $isUpdate = $existingBerkas && $existingBerkas->file_path;
 
                 $uploadedFile = $this->file_[$item->kode];
@@ -55,14 +54,15 @@ class UploadBerkas extends Component
                     $filename,
                     'public'
                 );
-
+                
                 if($existingBerkas)
-                {
+                {                    
                     if($existingBerkas->status == 'ditolak')
-                    {
+                    {                       
                         $existingBerkas->update([
                             'file_path'           => $path,
                             'catatan'             => $this->catatan_[$item->kode] ?? null,
+                            'status'              => 'menunggu',
                             'uploaded_by'         => Auth::id(),
                             'uploaded_at'         => now(),
                         ]);
@@ -92,7 +92,7 @@ class UploadBerkas extends Component
 
         $this->updateBerkasStatus();
 
-        $this->reset('file_');
+        $this->reset('file_', 'catatan_');
 
         if ($isUpdate) {
             $this->dispatch('toast', [
@@ -158,6 +158,17 @@ class UploadBerkas extends Component
 
         $tahapan_id = $this->permohonan->layanan->tahapan->where('nama', 'Survey')->value('id');
         $this->persyaratan_berkas = $this->permohonan->persyaratanBerkas->where('tahapan_id', $tahapan_id);
+
+        foreach ($this->persyaratan_berkas as $item) {
+            $berkas = $this->permohonan->berkas
+                ->where('persyaratan_berkas_id', $item->id)
+                ->where('versi', 'draft')
+                ->first();
+
+            if ($berkas && $berkas->catatan) {
+                $this->catatan_[$item->kode] = $berkas->catatan;
+            }
+        }
     }
 
     private function createRiwayat(Permohonan $permohonan, string $keterangan)
