@@ -49,7 +49,6 @@ class SkrkVerifikasiEdit extends Component
 
         if($this->status == 'ditolak')
         {
-            $penerima_id = $this->berkas->uploaded_by;
             $tahapan_id = $this->berkas->persyaratan->tahapan_id;
             $tahapan = Tahapan::find($tahapan_id);
             $nama_tahapan = $tahapan->nama;
@@ -57,27 +56,18 @@ class SkrkVerifikasiEdit extends Component
             $skrk = Skrk::find($this->skrk_id);
             $currentDisposisi = $skrk->disposisis()
                 ->where('tahapan_id', $this->berkas->persyaratan->tahapan_id)
-                ->where('is_done', true)
                 ->latest()
                 ->first();
 
-            $currentDisposisi->update([
-                'status'      => 'revised',
-                'updated_by'  => Auth::id(),
-            ]);
-
-            $skrk->disposisis()->create([
-                'permohonan_id'     => $currentDisposisi->permohonan_id,
-                'tahapan_id'        => $currentDisposisi->tahapan_id,
-                'pemberi_id'        => Auth::user()->id,
-                'penerima_id'       => $penerima_id,
-                'tanggal_disposisi' => now(),
-                'catatan'           => $this->catatan,
-                'parent_id'         => $currentDisposisi->id,
-                'is_revisi'         => 1,
-                'status'            => 'pending',
-                'is_done'           => 0,
-            ]);
+            if ($currentDisposisi) {
+                $currentDisposisi->update([
+                    'status'    => 'pending',
+                    'catatan'   => $this->catatan,
+                    'updated_by' => Auth::id(),
+                    'is_revisi'  => 1,
+                    'is_done'    => 0,
+                ]);
+            }
 
             if($nama_tahapan == 'Survey')
             {

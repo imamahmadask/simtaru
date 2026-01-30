@@ -21,6 +21,8 @@ class UploadBerkas extends Component
     #[Validate(['file_.*' => 'mimes:.docx, .doc|max:10240'])]
     public $file_ = [];
 
+    public $catatan_ = [];
+
     public function render()
     {
         return view('livewire.admin.permohonan.kkprnb.analis.upload-berkas');
@@ -33,20 +35,35 @@ class UploadBerkas extends Component
 
         $this->tahapan_id = $this->permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id');
         $this->persyaratan_berkas = $this->permohonan->persyaratanBerkas->where('tahapan_id', $this->tahapan_id);
+
+        foreach ($this->persyaratan_berkas as $item) {
+            $berkas = $this->permohonan->berkas
+                ->where('persyaratan_berkas_id', $item->id)
+                ->where('versi', 'draft')
+                ->first();
+
+            if ($berkas && $berkas->catatan) {
+                $this->catatan_[$item->kode] = $berkas->catatan;
+            }
+        }
     }
 
     public function uploadBerkas()
     {
         $no_reg = $this->kkprnb->registrasi->kode;
+        $isUpdate = false;
+        $hasNewUpload = false;
 
         foreach ($this->permohonan->persyaratanBerkas as $item) {
+            // Check if a file already exists for this requirement
+            $existingBerkas = PermohonanBerkas::where('permohonan_id', $this->permohonan->id)
+                ->where('persyaratan_berkas_id', $item->id)
+                ->where('versi', 'draft')
+                ->first();
+
             // cek apakah file untuk persyaratan ini diupload
             if (!empty($this->file_[$item->kode])) {
-                // Check if a file already exists for this requirement
-                $existingBerkas = PermohonanBerkas::where('permohonan_id', $this->permohonan->id)
-                    ->where('persyaratan_berkas_id', $item->id)
-                    ->where('versi', 'draft')
-                    ->first();
+                $hasNewUpload = true;
                 $isUpdate = $existingBerkas && $existingBerkas->file_path;
 
                 $uploadedFile = $this->file_[$item->kode];
@@ -61,13 +78,14 @@ class UploadBerkas extends Component
                     'public'
                 );
 
-                // simpan ke database
                 if($existingBerkas)
                 {
                     if($existingBerkas->status == 'ditolak')
                     {
                         $existingBerkas->update([
                             'file_path'           => $path,
+                            'catatan'             => $this->catatan_[$item->kode] ?? null,
+                            'status'              => 'menunggu',
                             'uploaded_by'         => Auth::id(),
                             'uploaded_at'         => now(),
                         ]);
@@ -75,6 +93,7 @@ class UploadBerkas extends Component
                 }
                 else
                 {
+                    // simpan ke database
                     PermohonanBerkas::updateOrCreate(
                         [
                             'permohonan_id'        => $this->permohonan->id,
@@ -87,26 +106,43 @@ class UploadBerkas extends Component
                             'uploaded_at'         => now(),
                             'status'              => 'menunggu',
                             'catatan_verifikator' => null,
+                            'catatan'             => $this->catatan_[$item->kode] ?? null,
                         ]
                     );
                 }
-
-               if ($isUpdate) {
-                    session()->flash('success', 'Berkas Analisa berhasil diupdate!');
-                } else {
-                    session()->flash('success', 'Berkas Analisa berhasil ditambahkan!');
+            }
+            else
+            {
+                if($existingBerkas)
+                {                    
+                    if($existingBerkas->status == 'ditolak')
+                    {                       
+                        $existingBerkas->update([
+                            'catatan'             => $this->catatan_[$item->kode] ?? null,
+                            'status'              => 'ditolak',
+                        ]);
+                    }
                 }
             }
         }
 
-        $this->updateBerkasStatus();
+        if ($hasNewUpload) {
+            $this->updateBerkasStatus();
+        }
 
-        $this->reset('file_');
+        $this->reset('file_', 'catatan_');
 
-        $this->dispatch('toast', [
-            'type'    => 'success',
-            'message' => 'Berkas Analisa berhasil ditambahkan!'
-        ]);
+        if ($isUpdate) {
+            $this->dispatch('toast', [
+                'type'    => 'success',
+                'message' => 'Berkas Analisa berhasil diupdate!'
+            ]);
+        } else {
+            $this->dispatch('toast', [
+                'type'    => 'success',
+                'message' => 'Berkas Analisa berhasil ditambahkan!'
+            ]);
+        }
 
         $this->dispatch('refresh-kkprnb-analis-list');
         $this->dispatch('refresh-kkprnb-verifikasi-list');

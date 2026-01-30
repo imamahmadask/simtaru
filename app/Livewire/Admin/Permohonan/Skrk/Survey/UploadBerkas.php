@@ -32,15 +32,16 @@ class UploadBerkas extends Component
     {
         $no_reg = $this->skrk->registrasi->kode;
         $isUpdate = false;
+        $hasNewUpload = false;
         foreach ($this->permohonan->persyaratanBerkas as $item) {
-            // cek apakah file untuk persyaratan ini diupload
-            if (!empty($this->file_[$item->kode])) {
-                // Check if a file already exists for this requirement
-                $existingBerkas = PermohonanBerkas::where('permohonan_id', $this->permohonan->id)
-                    ->where('persyaratan_berkas_id', $item->id)
-                    ->where('versi', 'draft')
-                    ->first();
-                
+            // Check if a file already exists for this requirement
+            $existingBerkas = PermohonanBerkas::where('permohonan_id', $this->permohonan->id)
+                ->where('persyaratan_berkas_id', $item->id)
+                ->where('versi', 'draft')
+                ->first();
+
+            if (!empty($this->file_[$item->kode])) {                
+                $hasNewUpload = true;
                 $isUpdate = $existingBerkas && $existingBerkas->file_path;
 
                 $uploadedFile = $this->file_[$item->kode];
@@ -88,9 +89,24 @@ class UploadBerkas extends Component
                     );
                 }
             }
+            else
+            {
+                if($existingBerkas)
+                {                    
+                    if($existingBerkas->status == 'ditolak')
+                    {                       
+                        $existingBerkas->update([
+                            'catatan'             => $this->catatan_[$item->kode] ?? null,
+                            'status'              => 'ditolak',
+                        ]);
+                    }
+                }
+            }
         }
 
-        $this->updateBerkasStatus();
+        if ($hasNewUpload) {
+            $this->updateBerkasStatus();
+        }
 
         $this->reset('file_', 'catatan_');
 

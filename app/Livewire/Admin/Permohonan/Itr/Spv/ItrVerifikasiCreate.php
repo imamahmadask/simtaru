@@ -51,15 +51,30 @@ class ItrVerifikasiCreate extends Component
             'verified_at' => $verified_at
         ]);
 
+        $currentDisposisi = $itr->disposisis()
+            ->where('tahapan_id', $this->berkas->persyaratan->tahapan_id)
+            ->where('is_done', true)
+            ->latest()
+            ->first();
+
+        $currentDisposisi->update([
+            'status'     => $currentDisposisi->is_revisi == 1 ? 'revised' : 'completed',
+            'updated_by' => Auth::user()->id,
+        ]);
+
         if($this->status == 'ditolak')
         {
             $itr->disposisis()->create([
-                'permohonan_id' => $itr->permohonan->id,
+                'permohonan_id' => $currentDisposisi->permohonan->id,
                 'tahapan_id' => $tahapan_id,
                 'pemberi_id' => Auth::user()->id,
                 'penerima_id' => $penerima_id,
                 'tanggal_disposisi' => now(),
                 'catatan' => $this->catatan,
+                'parent_id' => $currentDisposisi->id,
+                'is_revisi' => 1,
+                'status' => 'pending',
+                'is_done' => 0,
             ]);
 
             if($nama_tahapan == 'Survey')

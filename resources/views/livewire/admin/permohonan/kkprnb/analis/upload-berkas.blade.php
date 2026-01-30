@@ -58,6 +58,18 @@
                                                     class="spinner-border spinner-border-sm" role="status"></span>
                                             </button>
                                         </div>
+
+                                        @if ($uploadedFile->status == 'ditolak')
+                                            <div class="mt-2">
+                                                <label for="catatan_{{ $item->kode }}"
+                                                    class="form-label mb-0 me-2">
+                                                    Catatan {{ $item->nama_berkas }}
+                                                </label>
+                                                <textarea class="form-control" id="catatan_{{ $item->kode }}" 
+                                                    wire:model="catatan_.{{ $item->kode }}" rows="3">                                                                                               
+                                                </textarea>
+                                            </div>
+                                        @endif
                                     @endif
                                 </div>
                             </div>
@@ -70,7 +82,11 @@
                             Close
                         </button>
                         <button type="submit" class="btn btn-primary">
-                            Upload
+                            <span wire:loading.remove wire:target="uploadBerkas">
+                                Upload
+                            </span>
+                            <span wire:loading wire:target="uploadBerkas" class="spinner-border spinner-border-sm"
+                                role="status" aria-hidden="true"></span>
                         </button>
                     </div>
                 </form>

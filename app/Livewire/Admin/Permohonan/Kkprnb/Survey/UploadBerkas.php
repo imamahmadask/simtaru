@@ -31,17 +31,19 @@ class UploadBerkas extends Component
     public function uploadBerkas()
     {
         $no_reg = $this->kkprnb->registrasi->kode;
+        $isUpdate = false;
+        $hasNewUpload = false;
 
         foreach ($this->permohonan->persyaratanBerkas as $item) {
+            // Check if a file already exists for this requirement
+            $existingBerkas = PermohonanBerkas::where('permohonan_id', $this->permohonan->id)
+                ->where('persyaratan_berkas_id', $item->id)
+                ->where('versi', 'draft')
+                ->first();
 
             // cek apakah file untuk persyaratan ini diupload
             if (!empty($this->file_[$item->kode])) {
-                // Check if a file already exists for this requirement
-                $existingBerkas = PermohonanBerkas::where('permohonan_id', $this->permohonan->id)
-                    ->where('persyaratan_berkas_id', $item->id)
-                    ->where('versi', 'draft')
-                    ->first();
-
+                $hasNewUpload = true;
                 $isUpdate = $existingBerkas && $existingBerkas->file_path;
 
                 $uploadedFile = $this->file_[$item->kode];
@@ -63,6 +65,7 @@ class UploadBerkas extends Component
                         $existingBerkas->update([
                             'file_path'           => $path,
                             'catatan'             => $this->catatan_[$item->kode] ?? null,
+                            'status'              => 'menunggu',
                             'uploaded_by'         => Auth::id(),
                             'uploaded_at'         => now(),
                         ]);
@@ -87,24 +90,39 @@ class UploadBerkas extends Component
                         ]
                     );
                 }
-
-
-                if ($isUpdate) {
-                    session()->flash('success', 'Berkas Survey berhasil diupdate!');
-                } else {
-                    session()->flash('success', 'Berkas Survey berhasil ditambahkan!');
+            }
+            else
+            {
+                if($existingBerkas)
+                {                    
+                    if($existingBerkas->status == 'ditolak')
+                    {                       
+                        $existingBerkas->update([
+                            'catatan'             => $this->catatan_[$item->kode] ?? null,
+                            'status'              => 'ditolak',
+                        ]);
+                    }
                 }
             }
         }
 
-        $this->updateBerkasStatus();
+        if ($hasNewUpload) {
+            $this->updateBerkasStatus();
+        }
 
-        $this->reset('file_');
+        $this->reset('file_', 'catatan_');
 
-        $this->dispatch('toast', [
-            'type'    => 'success',
-            'message' => 'Berkas Survey berhasil diunggah!'
-        ]);
+        if ($isUpdate) {
+            $this->dispatch('toast', [
+                'type'    => 'success',
+                'message' => 'Berkas Survey berhasil diupdate!'
+            ]);
+        } else {
+            $this->dispatch('toast', [
+                'type'    => 'success',
+                'message' => 'Berkas Survey berhasil ditambahkan!'
+            ]);
+        }
 
         $this->dispatch('refresh-kkprnb-survey-list');
         $this->dispatch('refresh-kkprnb-verifikasi-list');
@@ -158,6 +176,17 @@ class UploadBerkas extends Component
 
         $tahapan_id = $this->permohonan->layanan->tahapan->where('nama', 'Survey')->value('id');
         $this->persyaratan_berkas = $this->permohonan->persyaratanBerkas->where('tahapan_id', $tahapan_id);
+
+        foreach ($this->persyaratan_berkas as $item) {
+            $berkas = $this->permohonan->berkas
+                ->where('persyaratan_berkas_id', $item->id)
+                ->where('versi', 'draft')
+                ->first();
+
+            if ($berkas && $berkas->catatan) {
+                $this->catatan_[$item->kode] = $berkas->catatan;
+            }
+        }
     }
 
     private function createRiwayat(Permohonan $permohonan, string $keterangan)

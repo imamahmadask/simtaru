@@ -58,8 +58,8 @@ class SkrkVerifikasiCreate extends Component
             ->first();
 
         $currentDisposisi->update([
-            'status'      => 'revised',
-            'updated_by'  => Auth::id(),
+            'status'     => $currentDisposisi->is_revisi == 1 ? 'revised' : 'completed',
+            'updated_by' => Auth::user()->id,
         ]);
         
         if($this->status == 'ditolak')

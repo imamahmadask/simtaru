@@ -64,13 +64,12 @@
 
                                         @if ($uploadedFile->status == 'ditolak')
                                             <div class="mt-2">
-                                                <label for="catatan_{{ $uploadedFile->id }}"
+                                                <label for="catatan_{{ $item->kode }}"
                                                     class="form-label mb-0 me-2">
                                                     Catatan {{ $item->nama_berkas }}
                                                 </label>
-                                                <textarea class="form-control" id="catatan_{{ $uploadedFile->id }}" wire:model="catatan_.{{ $uploadedFile->id }}"
-                                                    rows="3">
-                                                    {{ $uploadedFile->catatan }}
+                                                <textarea class="form-control" id="catatan_{{ $item->kode }}" 
+                                                    wire:model="catatan_.{{ $item->kode }}" rows="3">                                                                                               
                                                 </textarea>
                                             </div>
                                         @endif
