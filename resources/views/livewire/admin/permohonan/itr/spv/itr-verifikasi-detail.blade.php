@@ -93,7 +93,7 @@
                         </table>
                     </div>
 
-                    @if ($itr->is_analis && !$itr->is_validate && $count_verifikasi == 0)
+                    @if ($itr->is_survey && $itr->is_analis && !$itr->is_validate && $count_verifikasi == 0)
                         <button type="button" class="btn {{ $itr->is_validate ? 'btn-primary' : 'btn-warning' }}"
                             data-bs-toggle="modal" data-bs-target="#selesaiVerifikasiItrModal">
                             <i class="bx bx-check"></i> Selesai Verifikasi Berkas

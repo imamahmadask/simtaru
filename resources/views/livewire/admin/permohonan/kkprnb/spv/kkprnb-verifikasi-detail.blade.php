@@ -99,7 +99,7 @@
                         @if($kesimpulan) <i class="bx bx-check"></i> @else  <i class="bx bx-x"></i> @endif Kesimpulan
                     </button>
 
-                    @if ($kkprnb->is_analis && !$kkprnb->is_validate && $count_verifikasi == 0)
+                    @if ($kkprnb->is_survey && $kkprnb->is_analis && !$kkprnb->is_validate && $count_verifikasi == 0)
                         <button type="button" class="btn {{ $kkprnb->is_validate ? 'btn-primary' : 'btn-warning' }}"
                             data-bs-toggle="modal" data-bs-target="#selesaiVerifikasiKkprnbModal">
                             <i class="bx bx-check"></i> Selesai Verifikasi Berkas

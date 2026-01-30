@@ -99,7 +99,7 @@
                         @if($skrk->kesimpulan) <i class="bx bx-check"></i> @else  <i class="bx bx-x"></i> @endif Kesimpulan
                     </button>
 
-                    @if ($skrk->is_analis && !$skrk->is_validate && $count_verifikasi == 0)
+                    @if ($skrk->is_survey && $skrk->is_analis && !$skrk->is_validate && $count_verifikasi == 0)
                         <button type="button" class="btn {{ $skrk->is_validate ? 'btn-primary' : 'btn-warning' }}"
                             data-bs-toggle="modal" data-bs-target="#selesaiVerifikasiSkrkModal">
                             <i class="bx bx-check"></i> Selesai Verifikasi Berkas
