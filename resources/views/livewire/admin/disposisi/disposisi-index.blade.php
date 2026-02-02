@@ -395,7 +395,7 @@
                                             <small class="text-success text-capitalize">
                                                 {{ $history->status }} <i class="bx bx-check-circle ms-1"></i>
                                             </small>
-                                        @elseif($history->is_done == true)
+                                        @elseif($history->is_done == 1 || $history->is_done == true || $history->is_done == "1")
                                             <small class="text-success text-capitalize">Completed <i class="bx bx-check-circle ms-1"></i></small>
                                         @endif
                                     </div>
