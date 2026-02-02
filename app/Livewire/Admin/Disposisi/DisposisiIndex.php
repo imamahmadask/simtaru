@@ -14,18 +14,19 @@ class DisposisiIndex extends Component
 {
     use WithPagination;
 
+    public $riwayatSelected = [];
+
     #[On('refresh-disposisi-list')]
     public function refresh()
     {}
 
     public function render()
     {
-        $disposisi = [];
-        $disposisi_selesai = [];
-        // $disposisi_belum = [];
+        $user = Auth::user();
+        $relations = ['layanan', 'permohonan.registrasi', 'tahapan', 'pemberi', 'penerima'];
 
-        if(Auth::user()->role == 'superadmin'){
-                $disposisi = Disposisi::with(['layanan', 'permohonan.registrasi', 'tahapan', 'pemberi', 'penerima'])
+        if ($user->role == 'superadmin') {
+            $disposisi = Disposisi::with($relations)
                 ->whereIn('id', function ($query) {
                     $query->selectRaw('max(id)')
                         ->from('disposisis')
@@ -33,26 +34,39 @@ class DisposisiIndex extends Component
                 })
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
-        }
-        else
-        {
-            $disposisi = Disposisi::with('layanan')
-                        ->where('penerima_id', Auth::user()->id)
-                        ->where('is_done', false)
-                        ->orderBy('created_at', 'desc')
-                        ->paginate(10);
 
-            $disposisi_selesai = Disposisi::with('layanan')
-                        ->where('penerima_id', Auth::user()->id)
-                        ->where('is_done', true)
-                        ->orderBy('created_at', 'desc')
-                        ->paginate(10);
+            return view('livewire.admin.disposisi.disposisi-index', [
+                'disposisi' => $disposisi,
+                'disposisi_selesai' => []
+            ]);
         }
 
+        $disposisi = Disposisi::with($relations)
+            ->where('penerima_id', $user->id)
+            ->where('is_done', false)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10, ['*'], 'page');
+
+        $disposisi_selesai = Disposisi::with($relations)
+            ->where('penerima_id', $user->id)
+            ->where('is_done', true)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10, ['*'], 'page_selesai');
 
         return view('livewire.admin.disposisi.disposisi-index', [
-            'disposisi_selesai' => $disposisi_selesai,
             'disposisi' => $disposisi,
+            'disposisi_selesai' => $disposisi_selesai,
         ]);
+    }
+
+    public function openHistory($permohonanId)
+    {
+        // Mengambil seluruh jejak disposisi secara kronologis (Linked List)
+        $this->riwayatSelected = Disposisi::with(['pemberi', 'penerima', 'tahapan'])
+            ->where('permohonan_id', $permohonanId)
+            ->latest() // Urutkan dari yang paling pertama dibuat
+            ->get();
+        
+        $this->dispatch('show-history-modal');
     }
 }
