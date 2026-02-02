@@ -89,13 +89,12 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Update Terakhir</th>
+                                <th>Tanggal</th>
                                 <th>Kode/Layanan</th>
                                 <th>Pemohon</th>
                                 <th>Pemberi</th>
-                                <th>Penerima</th>
-                                <th>Tahapan</th>
-                                <th>Status</th>
+                                <th>Penerima/Tahapan</th>
+                                <th>Jenis</th>
                                 <th class="text-center">Riwayat</th>
                                 <th>Actions</th>
                             </tr>
@@ -123,19 +122,14 @@
                                     <td>
                                         <div class="d-flex flex-column">
                                            {{ $data->penerima->name ?? '-' }}
+                                           <small class="fw-bold text-primary">{{ $data->tahapan->nama ?? '-' }}</small>
                                         </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column">
-                                            {{ $data->tahapan->nama ?? '-' }}
-                                        </div>
-                                    </td>
-                                   
+                                    </td>                                                                       
                                     <td>
                                         @if($data->is_revisi)
                                             <span class="badge bg-label-danger">Revisi</span>
                                         @else
-                                            <span class="badge bg-label-success">Normal</span>
+                                            <span class="badge bg-label-info">Normal</span>
                                         @endif
                                     </td>
                                     <td class="text-center">
