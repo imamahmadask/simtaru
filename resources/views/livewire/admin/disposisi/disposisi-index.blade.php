@@ -388,7 +388,7 @@
                                     </div>
 
                                     <div class="mb-2">
-                                        Status: 
+                                        Status: {{ $history->is_done }}
                                         @if($history->status == 'pending')
                                             <small class="text-danger text-capitalize">{{ $history->status }} <i class="bx bx-loader-alt bx-spin ms-1"></i></small>
                                         @elseif(in_array($history->status, ['completed', 'revised']) || $history->is_done)
