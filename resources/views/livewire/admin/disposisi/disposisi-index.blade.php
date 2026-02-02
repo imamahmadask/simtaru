@@ -388,14 +388,15 @@
                                     </div>
 
                                     <div class="mb-2">
-                                        Status: {{ $history->is_done }}
+                                        Status: 
                                         @if($history->status == 'pending')
                                             <small class="text-danger text-capitalize">{{ $history->status }} <i class="bx bx-loader-alt bx-spin ms-1"></i></small>
-                                        @elseif(in_array($history->status, ['completed', 'revised']) || $history->is_done)
+                                        @elseif(in_array($history->status, ['completed', 'revised']))
                                             <small class="text-success text-capitalize">
-                                                {{ in_array($history->status, ['completed', 'revised']) ? $history->status : 'Completed' }}
-                                                <i class="bx bx-check-circle ms-1"></i>
+                                                {{ $history->status }} <i class="bx bx-check-circle ms-1"></i>
                                             </small>
+                                        @elseif($history->is_done == true)
+                                            <small class="text-success text-capitalize">Completed <i class="bx bx-check-circle ms-1"></i></small>
                                         @endif
                                     </div>
 
