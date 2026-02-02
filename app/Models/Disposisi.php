@@ -25,6 +25,10 @@ class Disposisi extends Model
         'is_revisi',
     ];
 
+    protected $casts = [
+        'is_done' => 'integer',
+    ];
+
     public function permohonan()
     {
         return $this->belongsTo(Permohonan::class);
