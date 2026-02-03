@@ -57,16 +57,25 @@
                                         {{ $data->permohonan->keterangan }}
                                     </td>
                                     <td>
-                                        <span
-                                            class="badge bg-label-{{ $data->permohonan->status == 'completed' ? 'success' : 'warning' }} me-1">
-                                            {{ is_null($data->permohonan) ? 'Belum Entry' : $data->permohonan->status }}
-                                        </span>
+                                        @if($data->permohonan->registrasi->status == 'Berkas Dicabut' || $data->permohonan->registrasi->status == 'Berkas Tidak Lengkap')
+                                            <span
+                                                class="badge bg-label-danger me-1">
+                                                {{ $data->permohonan->registrasi->status }}
+                                            </span>                                        
+                                        @else
+                                            <span
+                                                class="badge bg-label-{{ $data->permohonan->status == 'completed' ? 'success' : 'warning' }} me-1">
+                                                {{ is_null($data->permohonan) ? 'Belum Entry' : $data->permohonan->status }}
+                                            </span>
+                                        @endif
                                     </td>
                                     <td>
-                                        <a href="{{ route('itr.detail', ['id' => $data->id]) }}" type="button"
-                                            class="btn btn-primary btn-sm">
-                                            <i class="bx bx-show"></i>
-                                        </a>
+                                        @if($data->permohonan->registrasi->status != 'Berkas Dicabut' && $data->permohonan->registrasi->status != 'Berkas Tidak Lengkap')
+                                            <a href="{{ route('itr.detail', ['id' => $data->id]) }}" type="button"
+                                                class="btn btn-primary btn-sm">
+                                                <i class="bx bx-show"></i>
+                                            </a>
+                                        @endif
                                     </td>
                                 </tr>
                             </div>

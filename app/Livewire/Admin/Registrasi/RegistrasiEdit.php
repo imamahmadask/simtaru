@@ -67,6 +67,10 @@ class RegistrasiEdit extends Component
             }            
         }
         
+        if ($this->status == '') {
+            $this->reset(['alasan_dicabut', 'alasan_tidak_lengkap']);
+        }
+
         $registrasi->update([
             'layanan_id' => $this->layanan_id,
             'nama' => $this->nama,

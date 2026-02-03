@@ -122,10 +122,17 @@
                                         {{ $data->keterangan }}
                                     </td>
                                     <td>
-                                        <span
-                                            class="badge bg-label-{{ $data->status == 'completed' ? 'success' : 'warning' }} me-1">
-                                            {{ $data->status }}
-                                        </span>
+                                        @if($data->registrasi->status == 'Berkas Dicabut' || $data->registrasi->status == 'Berkas Tidak Lengkap')
+                                            <span
+                                                class="badge bg-label-danger me-1">
+                                                {{ $data->registrasi->status }}
+                                            </span>                                        
+                                        @else
+                                            <span
+                                                class="badge bg-label-{{ $data->status == 'completed' ? 'success' : 'warning' }} me-1">
+                                                {{ $data->status }}
+                                            </span>
+                                        @endif
                                     </td>
                                     <td class="text-nowrap">
                                         <div class="me-3">                                            
