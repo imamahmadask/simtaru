@@ -83,11 +83,11 @@ class ItrAnalisDetail extends Component
 
         if($this->itr->jenis_itr == 'ITR')
         {
-            return $this->generateDocument('3_template_itr.docx', $data);
+            return $this->generateDocument('3_template_itr_new.docx', $data);
         }
         elseif($this->itr->jenis_itr == 'ITR-KKKPR')
         {
-            return $this->generateDocument('3_template_itr_kkkpr.docx', $data);
+            return $this->generateDocument('3_template_itr_kkkpr_new.docx', $data);
         }
     }
 
