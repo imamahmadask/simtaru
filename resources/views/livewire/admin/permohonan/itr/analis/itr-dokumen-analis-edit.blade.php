@@ -24,15 +24,15 @@
                             <div class="row">
                                 <div class="col mb-3">
                                     <label for="edit_penguasaan_tanah" class="form-label">Informasi Penguasaan Tanah</label>
-                                    <input type="text" class="form-control" wire:model="penguasaan_tanah"
-                                        id="edit_penguasaan_tanah" placeholder="Masukkan Informasi Penguasaan Tanah">
+                                    <textarea class="form-control" wire:model="penguasaan_tanah"
+                                        id="edit_penguasaan_tanah" placeholder="Masukkan Informasi Penguasaan Tanah" rows="5"></textarea>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col mb-3">
                                     <label for="edit_pemanfaatan_ruang" class="form-label">Jenis Pemanfaatan Ruang</label>
-                                    <input type="text" class="form-control" wire:model="pemanfaatan_ruang"
-                                        id="edit_pemanfaatan_ruang" placeholder="Masukkan Jenis Pemanfaatan Ruang">
+                                    <textarea class="form-control" wire:model="pemanfaatan_ruang"
+                                        id="edit_pemanfaatan_ruang" placeholder="Masukkan Jenis Pemanfaatan Ruang" rows="5"></textarea>
                                 </div>
                             </div>
                             <div class="row">
@@ -46,8 +46,8 @@
                                 <div class="col mb-3">
                                     <label for="edit_persyaratan_pelaksanaan" class="form-label">Persyaratan Pelaksanaan
                                         Kegiatan Pemanfaatan Ruang</label>
-                                    <input type="text" class="form-control" wire:model="persyaratan_pelaksanaan"
-                                        id="edit_persyaratan_pelaksanaan" placeholder="Masukkan Persyaratan Pelaksanaan">
+                                    <textarea class="form-control" wire:model="persyaratan_pelaksanaan"
+                                        id="edit_persyaratan_pelaksanaan" placeholder="Masukkan Persyaratan Pelaksanaan" rows="5"></textarea>
                                 </div>
                             </div>
                         @elseif($jenis_itr == 'ITR-KKKPR')

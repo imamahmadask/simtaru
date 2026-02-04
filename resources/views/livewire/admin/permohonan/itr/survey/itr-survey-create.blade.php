@@ -100,7 +100,7 @@
                             <div class="row">
                                 <div class="col mb-3">
                                     <label for="create_pola_ruang" class="form-label">Pola Ruang</label>
-                                    <input type="text" class="form-control" wire:model="pola_ruang" id="create_pola_ruang">
+                                    <textarea class="form-control" wire:model="pola_ruang" id="create_pola_ruang" rows="5"></textarea>
                                     @error('pola_ruang')
                                         <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                     @enderror
