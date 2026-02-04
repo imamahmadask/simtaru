@@ -15,6 +15,9 @@ class DisposisiIndex extends Component
     use WithPagination;
 
     public $riwayatSelected = [];
+    public $search = '';
+    public $search_disposisi_masuk = '';
+    public $search_disposisi_selesai = '';
 
     #[On('refresh-disposisi-list')]
     public function refresh()
@@ -32,6 +35,12 @@ class DisposisiIndex extends Component
                         ->from('disposisis')
                         ->groupBy('permohonan_id');
                 })
+                ->when($this->search, function ($query) {
+                    $query->whereHas('permohonan.registrasi', function ($q) {
+                        $q->where('kode', 'like', '%' . $this->search . '%')
+                        ->orWhere('nama', 'like', '%' . $this->search . '%');
+                    });
+                })
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
 
@@ -42,12 +51,24 @@ class DisposisiIndex extends Component
         }
 
         $disposisi = Disposisi::with($relations)
+            ->when($this->search_disposisi_masuk, function ($query) {
+                $query->whereHas('permohonan.registrasi', function ($q) {
+                    $q->where('kode', 'like', '%' . $this->search_disposisi_masuk . '%')
+                        ->orWhere('nama', 'like', '%' . $this->search_disposisi_masuk . '%');
+                });
+            })
             ->where('penerima_id', $user->id)
             ->where('is_done', false)
             ->orderBy('created_at', 'desc')
             ->paginate(10, ['*'], 'page');
 
         $disposisi_selesai = Disposisi::with($relations)
+            ->when($this->search_disposisi_selesai, function ($query) {
+                $query->whereHas('permohonan.registrasi', function ($q) {
+                    $q->where('kode', 'like', '%' . $this->search_disposisi_selesai . '%')
+                        ->orWhere('nama', 'like', '%' . $this->search_disposisi_selesai . '%');
+                });
+            })
             ->where('penerima_id', $user->id)
             ->where('is_done', true)
             ->orderBy('created_at', 'desc')

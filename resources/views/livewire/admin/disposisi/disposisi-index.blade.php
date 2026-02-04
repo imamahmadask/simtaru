@@ -84,82 +84,89 @@
         @if (Auth::user()->role == 'superadmin')
             <div class="card">
                 <h5 class="card-header">Monitoring Perjalanan Berkas (Grouping)</h5>
-                <div class="table-responsive text-nowrap">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Tanggal</th>
-                                <th>Kode/Layanan</th>
-                                <th>Pemohon</th>
-                                <th>Pemberi</th>
-                                <th>Penerima/Tahapan</th>
-                                <th>Jenis</th>
-                                <th class="text-center">Riwayat</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-border-bottom-0">
-                            @foreach ($disposisi as $data)
-                                <tr wire:key="group-{{ $data->id }}">
-                                    <td>{{ ($disposisi->currentPage() - 1) * $disposisi->perPage() + $loop->iteration }}</td>
-                                    <td>
-                                        {{ date('d-m-Y', strtotime($data->tanggal_disposisi)) }} <br>
-                                        <small class="text-muted fst-italic">{{ date('H:i:s', strtotime($data->tanggal_disposisi)) }}</small>
-                                    </td>
-                                    <td>
-                                        <span class="fw-bold">{{ $data->permohonan->registrasi->kode ?? '-' }}</span><br>
-                                        <small class="text-muted">{{ $data->permohonan->layanan->nama ?? '-' }}</small>
-                                    </td>
-                                    <td class="text-wrap fw-semibold">
-                                        {{ $data->permohonan->registrasi->nama ?? '-' }}
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column">
-                                            {{ $data->pemberi->name ?? '-' }}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column">
-                                           {{ $data->penerima->name ?? '-' }}
-                                           <small class="fw-bold text-primary">{{ $data->tahapan->nama ?? '-' }}</small>
-                                        </div>
-                                    </td>                                                                       
-                                    <td>
-                                        @if($data->is_revisi)
-                                            <span class="badge bg-label-danger">Revisi</span>
-                                        @else
-                                            <span class="badge bg-label-info">Normal</span>
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        <button wire:click="openHistory({{ $data->permohonan_id }})" 
-                                                class="btn btn-icon btn-outline-info btn-sm">
-                                            <i class="bx bx-history"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex gap-1">
-                                            <a href="{{ route(Str::lower($data->layanan_type_name) . '.detail', ['id' => $data->layanan_id]) }}"
-                                            target="_blank" class="btn btn-primary btn-sm">
-                                                <i class="bx bx-link-external"></i>
-                                            </a>
-                                            
-                                            <button wire:click="$dispatch('disposisi-edit', { id: {{ $data->id }} })"
-                                                    class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#editDisposisiModal">
-                                                <i class="bx bx-edit"></i>
-                                            </button>
-                                        </div>
-                                    </td>
+                <div class="card-body">
+                    <div class="row mb-3 justify-content-end">
+                        <div class="col-md-4">
+                            <input type="text" wire:model.live="search" class="form-control" placeholder="Cari berdasarkan kode atau nama pemohon">
+                        </div>
+                    </div>
+                    <div class="table-responsive text-nowrap">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Tanggal</th>
+                                    <th>Kode/Layanan</th>
+                                    <th>Pemohon</th>
+                                    <th>Pemberi</th>
+                                    <th>Penerima/Tahapan</th>
+                                    <th>Jenis</th>
+                                    <th class="text-center">Riwayat</th>
+                                    <th>Actions</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <div class="row mx-3 my-3">
-                    <div class="col d-flex justify-content-end align-items-center">
-                        {{ $disposisi->links() }}
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                @foreach ($disposisi as $data)
+                                    <tr wire:key="group-{{ $data->id }}">
+                                        <td>{{ ($disposisi->currentPage() - 1) * $disposisi->perPage() + $loop->iteration }}</td>
+                                        <td>
+                                            {{ date('d-m-Y', strtotime($data->tanggal_disposisi)) }} <br>
+                                            <small class="text-muted fst-italic">{{ date('H:i:s', strtotime($data->tanggal_disposisi)) }}</small>
+                                        </td>
+                                        <td>
+                                            <span class="fw-bold">{{ $data->permohonan->registrasi->kode ?? '-' }}</span><br>
+                                            <small class="text-muted">{{ $data->permohonan->layanan->nama ?? '-' }}</small>
+                                        </td>
+                                        <td class="text-wrap fw-semibold">
+                                            {{ $data->permohonan->registrasi->nama ?? '-' }}
+                                        </td>
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                                {{ $data->pemberi->name ?? '-' }}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                            {{ $data->penerima->name ?? '-' }}
+                                            <small class="fw-bold text-primary">{{ $data->tahapan->nama ?? '-' }}</small>
+                                            </div>
+                                        </td>                                                                       
+                                        <td>
+                                            @if($data->is_revisi)
+                                                <span class="badge bg-label-danger">Revisi</span>
+                                            @else
+                                                <span class="badge bg-label-info">Normal</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            <button wire:click="openHistory({{ $data->permohonan_id }})" 
+                                                    class="btn btn-icon btn-outline-info btn-sm">
+                                                <i class="bx bx-history"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex gap-1">
+                                                <a href="{{ route(Str::lower($data->layanan_type_name) . '.detail', ['id' => $data->layanan_id]) }}"
+                                                target="_blank" class="btn btn-primary btn-sm">
+                                                    <i class="bx bx-link-external"></i>
+                                                </a>
+                                                
+                                                <button wire:click="$dispatch('disposisi-edit', { id: {{ $data->id }} })"
+                                                        class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                                        data-bs-target="#editDisposisiModal">
+                                                    <i class="bx bx-edit"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row mx-3 my-3">
+                        <div class="col d-flex justify-content-end align-items-center">
+                            {{ $disposisi->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -167,98 +174,105 @@
             <!-- Non-Superadmin: Active Disposisi -->
             <div class="card">
                 <h5 class="card-header">List Disposisi Masuk (Aktif)</h5>
-                <div class="table-responsive text-nowrap">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Tanggal</th>
-                                <th>Kode/Layanan</th>
-                                <th>Pemohon</th>
-                                <th>Tahapan</th>
-                                <th>Pemberi</th>
-                                <th>Catatan</th>
-                                <th>Status</th>
-                                <th class="text-center">Selesai</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-border-bottom-0">
-                            @foreach ($disposisi as $data)
-                                <tr wire:key="active-{{ $data->id }}">
-                                    <td>{{ ($disposisi->currentPage() - 1) * $disposisi->perPage() + $loop->iteration }}</td>
-                                    <td>
-                                        {{ date('d-m-Y', strtotime($data->tanggal_disposisi)) }} <br>
-                                        <small class="text-muted fst-italic">
-                                            {{ date('H:i:s', strtotime($data->tanggal_disposisi)) }}
-                                        </small>
-                                    </td>
-                                    <td>
-                                        <span class="fw-bold">{{ $data->permohonan->registrasi->kode ?? '-' }}</span><br>
-                                        <small class="text-muted fst-italic ">{{ $data->permohonan->layanan->nama ?? '-' }}</small>
-                                    </td>
-                                    <td class="text-wrap">{{ $data->permohonan->registrasi->nama ?? '-' }}</td>
-                                    <td>
-                                        {{ $data->tahapan->nama ?? '-' }} <br>
-                                        <small class="text-muted fw-bold fst-italic">
-                                            <span class="{{ $data->is_revisi ? 'text-danger' : 'text-primary' }}">
-                                                {{ $data->is_revisi ? 'Revisi' : 'Normal' }}
-                                            </span>
-                                        </small>
-                                    </td>
-                                    <td>{{ $data->pemberi->name ?? '-' }}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-outline-primary btn-sm"
-                                            data-bs-toggle="modal" data-bs-target="#catatanModal{{ $data->id }}">
-                                            Lihat
-                                        </button>
-                                    </td>
-                                    <td>{{ $data->status }}</td>
-                                    <td class="text-center">
-                                        <span class="badge badge-center bg-label-danger me-1">
-                                            <i class="bx bx-block"></i>
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex gap-1">
-                                            @if (Auth::user()->role == 'supervisor')
-                                                <button wire:click="$dispatch('disposisi-edit', { id: {{ $data->id }} })"
-                                                        class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                                        data-bs-target="#editDisposisiModal">
-                                                    <i class="bx bx-edit"></i>
-                                                </button>
-                                            @endif
-
-                                            <a href="{{ route(Str::lower($data->layanan_type_name) . '.detail', ['id' => $data->layanan_id]) }}"
-                                                target="_blank" class="btn btn-primary btn-sm">
-                                                <i class="bx bx-link-external"></i>
-                                            </a>
-                                        </div>
-                                    </td>
+                <div class="card-body">
+                    <div class="row mb-3 justify-content-end">
+                        <div class="col-md-4">
+                            <input type="text" wire:model.live="search_disposisi_masuk" class="form-control" placeholder="Cari berdasarkan kode atau nama pemohon">
+                        </div>
+                    </div>
+                    <div class="table-responsive text-nowrap">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Tanggal</th>
+                                    <th>Kode/Layanan</th>
+                                    <th>Pemohon</th>
+                                    <th>Tahapan</th>
+                                    <th>Pemberi</th>
+                                    <th>Catatan</th>
+                                    <th>Status</th>
+                                    <th class="text-center">Selesai</th>
+                                    <th>Actions</th>
                                 </tr>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                @foreach ($disposisi as $data)
+                                    <tr wire:key="active-{{ $data->id }}">
+                                        <td>{{ ($disposisi->currentPage() - 1) * $disposisi->perPage() + $loop->iteration }}</td>
+                                        <td>
+                                            {{ date('d-m-Y', strtotime($data->tanggal_disposisi)) }} <br>
+                                            <small class="text-muted fst-italic">
+                                                {{ date('H:i:s', strtotime($data->tanggal_disposisi)) }}
+                                            </small>
+                                        </td>
+                                        <td>
+                                            <span class="fw-bold">{{ $data->permohonan->registrasi->kode ?? '-' }}</span><br>
+                                            <small class="text-muted fst-italic ">{{ $data->permohonan->layanan->nama ?? '-' }}</small>
+                                        </td>
+                                        <td class="text-wrap">{{ $data->permohonan->registrasi->nama ?? '-' }}</td>
+                                        <td>
+                                            {{ $data->tahapan->nama ?? '-' }} <br>
+                                            <small class="text-muted fw-bold fst-italic">
+                                                <span class="{{ $data->is_revisi ? 'text-danger' : 'text-primary' }}">
+                                                    {{ $data->is_revisi ? 'Revisi' : 'Normal' }}
+                                                </span>
+                                            </small>
+                                        </td>
+                                        <td>{{ $data->pemberi->name ?? '-' }}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-outline-primary btn-sm"
+                                                data-bs-toggle="modal" data-bs-target="#catatanModal{{ $data->id }}">
+                                                Lihat
+                                            </button>
+                                        </td>
+                                        <td>{{ $data->status }}</td>
+                                        <td class="text-center">
+                                            <span class="badge badge-center bg-label-danger me-1">
+                                                <i class="bx bx-block"></i>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex gap-1">
+                                                @if (Auth::user()->role == 'supervisor')
+                                                    <button wire:click="$dispatch('disposisi-edit', { id: {{ $data->id }} })"
+                                                            class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                                            data-bs-target="#editDisposisiModal">
+                                                        <i class="bx bx-edit"></i>
+                                                    </button>
+                                                @endif
 
-                                <!-- Catatan Modal -->
-                                <div class="modal fade" id="catatanModal{{ $data->id }}" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Catatan</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <a href="{{ route(Str::lower($data->layanan_type_name) . '.detail', ['id' => $data->layanan_id]) }}"
+                                                    target="_blank" class="btn btn-primary btn-sm">
+                                                    <i class="bx bx-link-external"></i>
+                                                </a>
                                             </div>
-                                            <div class="modal-body">{{ $data->catatan ?? '-' }}</div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Tutup</button>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Catatan Modal -->
+                                    <div class="modal fade" id="catatanModal{{ $data->id }}" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Catatan</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">{{ $data->catatan ?? '-' }}</div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <div class="row mx-3 my-3">
-                    <div class="col d-flex justify-content-end align-items-center">
-                        {{ $disposisi->links() }}
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row mx-3 my-3">
+                        <div class="col d-flex justify-content-end align-items-center">
+                            {{ $disposisi->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -266,77 +280,84 @@
             <!-- Non-Superadmin: Selesai Disposisi -->
             <div class="card mt-5">
                 <h5 class="card-header">List Disposisi Selesai</h5>
-                <div class="table-responsive text-nowrap">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Tanggal</th>
-                                <th>Kode/Layanan</th>
-                                <th>Pemohon</th>
-                                <th>Tahapan</th>
-                                <th>Pemberi</th>
-                                <th>Catatan</th>
-                                <th>Status</th>
-                                <th class="text-center">Selesai</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-border-bottom-0">
-                            @foreach ($disposisi_selesai as $data)
-                                <tr wire:key="done-{{ $data->id }}">
-                                    <td>{{ ($disposisi_selesai->currentPage() - 1) * $disposisi_selesai->perPage() + $loop->iteration }}</td>
-                                    <td>
-                                        {{ date('d-m-Y', strtotime($data->tanggal_disposisi)) }} <br>
-                                        <small class="text-muted fst-italic">
-                                            {{ date('H:i:s', strtotime($data->tanggal_disposisi)) }}
-                                        </small>
-                                    </td>
-                                    <td>
-                                        <span class="fw-bold">{{ $data->permohonan->registrasi->kode ?? '-' }}</span><br>
-                                        <small class="text-muted fst-italic ">{{ $data->permohonan->layanan->nama ?? '-' }}</small>
-                                    </td>
-                                    <td class="text-wrap">{{ $data->permohonan->registrasi->nama ?? '-' }}</td>
-                                    <td>
-                                        {{ $data->tahapan->nama ?? '-' }} <br>
-                                        <small class="text-muted fw-bold fst-italic">
-                                            <span class="{{ $data->is_revisi ? 'text-danger' : 'text-primary' }}">
-                                                {{ $data->is_revisi ? 'Revisi' : 'Normal' }}
-                                            </span>
-                                        </small>
-                                    </td>
-                                    <td>{{ $data->pemberi->name ?? '-' }}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-outline-primary btn-sm"
-                                            data-bs-toggle="modal" data-bs-target="#catatanSelesaiModal{{ $data->id }}">
-                                            Lihat
-                                        </button>
-                                    </td>
-                                    <td>{{ $data->status }}</td>
-                                    <td class="text-center">
-                                        <span class="badge badge-center bg-label-success me-1">
-                                            <i class="bx bx-check"></i>
-                                        </span>
-                                    </td>
+                <div class="card-body">
+                    <div class="row mb-3 justify-content-end">
+                        <div class="col-md-4">
+                            <input type="text" wire:model.live="search_disposisi_selesai" class="form-control" placeholder="Cari berdasarkan kode atau nama pemohon">
+                        </div>
+                    </div>
+                    <div class="table-responsive text-nowrap">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Tanggal</th>
+                                    <th>Kode/Layanan</th>
+                                    <th>Pemohon</th>
+                                    <th>Tahapan</th>
+                                    <th>Pemberi</th>
+                                    <th>Catatan</th>
+                                    <th>Status</th>
+                                    <th class="text-center">Selesai</th>
                                 </tr>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                @foreach ($disposisi_selesai as $data)
+                                    <tr wire:key="done-{{ $data->id }}">
+                                        <td>{{ ($disposisi_selesai->currentPage() - 1) * $disposisi_selesai->perPage() + $loop->iteration }}</td>
+                                        <td>
+                                            {{ date('d-m-Y', strtotime($data->tanggal_disposisi)) }} <br>
+                                            <small class="text-muted fst-italic">
+                                                {{ date('H:i:s', strtotime($data->tanggal_disposisi)) }}
+                                            </small>
+                                        </td>
+                                        <td>
+                                            <span class="fw-bold">{{ $data->permohonan->registrasi->kode ?? '-' }}</span><br>
+                                            <small class="text-muted fst-italic ">{{ $data->permohonan->layanan->nama ?? '-' }}</small>
+                                        </td>
+                                        <td class="text-wrap">{{ $data->permohonan->registrasi->nama ?? '-' }}</td>
+                                        <td>
+                                            {{ $data->tahapan->nama ?? '-' }} <br>
+                                            <small class="text-muted fw-bold fst-italic">
+                                                <span class="{{ $data->is_revisi ? 'text-danger' : 'text-primary' }}">
+                                                    {{ $data->is_revisi ? 'Revisi' : 'Normal' }}
+                                                </span>
+                                            </small>
+                                        </td>
+                                        <td>{{ $data->pemberi->name ?? '-' }}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-outline-primary btn-sm"
+                                                data-bs-toggle="modal" data-bs-target="#catatanSelesaiModal{{ $data->id }}">
+                                                Lihat
+                                            </button>
+                                        </td>
+                                        <td>{{ $data->status }}</td>
+                                        <td class="text-center">
+                                            <span class="badge badge-center bg-label-success me-1">
+                                                <i class="bx bx-check"></i>
+                                            </span>
+                                        </td>
+                                    </tr>
 
-                                <!-- Catatan Selesai Modal -->
-                                <div class="modal fade" id="catatanSelesaiModal{{ $data->id }}" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Catatan</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">{{ $data->catatan ?? '-' }}</div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    <!-- Catatan Selesai Modal -->
+                                    <div class="modal fade" id="catatanSelesaiModal{{ $data->id }}" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Catatan</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">{{ $data->catatan ?? '-' }}</div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="row mx-3 my-3">
                     <div class="col d-flex justify-content-end align-items-center">
