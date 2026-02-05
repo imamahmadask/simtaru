@@ -55,7 +55,7 @@ class PelanggaranAnalisDetail extends Component
         {
             foreach ($this->foto_tindak_lanjut as $foto) {
                 $foto_tindak_lanjut_filename = $this->pelanggaran->no_pelanggaran . '_' . Str::random(5) . '.' . $foto->getClientOriginalExtension();
-                $all_photos[] = $foto->storeAs('pelanggaran/foto_tindak_lanjut', $foto_tindak_lanjut_filename, 'public');
+                $all_photos[] = $foto->storeAs('pelanggaran/'.$this->pelanggaran->no_pelanggaran.'/foto_tindak_lanjut', $foto_tindak_lanjut_filename, 'public');
             }
         }
 

@@ -25,7 +25,17 @@ class PelanggaranIndex extends Component
         $pelanggaran = Pelanggaran::findOrFail($id);
 
         if ($pelanggaran->foto_pengawasan) {
-            Storage::disk('public')->delete($pelanggaran->foto_pengawasan);
+            $foto_pengawasan = json_decode($pelanggaran->foto_pengawasan, true);
+            foreach ($foto_pengawasan as $foto) {
+                Storage::disk('public')->delete($foto);
+            }
+        }
+
+        if ($pelanggaran->foto_tindak_lanjut) {
+            $foto_tindak_lanjut = json_decode($pelanggaran->foto_tindak_lanjut, true);
+            foreach ($foto_tindak_lanjut as $foto) {
+                Storage::disk('public')->delete($foto);
+            }
         }
 
         $pelanggaran->delete();

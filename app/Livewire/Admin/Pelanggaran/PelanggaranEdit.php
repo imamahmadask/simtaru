@@ -109,7 +109,7 @@ class PelanggaranEdit extends Component
         if ($this->new_foto_pengawasan) {
             foreach ($this->new_foto_pengawasan as $foto) {
                 $foto_pengawasan_filename = $this->no_pelanggaran . '_' . Str::random(5) . '.' . $foto->getClientOriginalExtension();
-                $foto_pengawasan_path[] = $foto->storeAs('pelanggaran/foto_pengawasan', $foto_pengawasan_filename, 'public');
+                $foto_pengawasan_path[] = $foto->storeAs('pelanggaran/'.$this->no_pelanggaran.'/foto_pengawasan', $foto_pengawasan_filename, 'public');
             }
         }
 
