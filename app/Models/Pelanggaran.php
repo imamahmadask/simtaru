@@ -10,11 +10,9 @@ class Pelanggaran extends Model
 
     protected $fillable = [
         'no_pelanggaran',
+        'tgl_laporan',
         'jenis_formulir',
-        'tanggal_pengawasan',
-        'lokasi_pengawasan',
-        'hasil_pengawasan',
-        'anggota_tidak_hadir',
+        'tanggal_pengawasan',        
         'foto_pengawasan',
         'temuan_pelanggaran',
         'sumber_informasi_pelanggaran',
@@ -31,8 +29,18 @@ class Pelanggaran extends Model
         'gmaps_pelanggaran',
         'bentuk_laporan',
         'nama_pelapor',
+        'telp_pelapor',
         'isi_laporan',
         'jenis_indikasi_pelanggaran',
         'status',
+        'no_kkpr_skrk',
+        'no_ba_sk_penilaian_kkpr',
+        'dokumen_penilaian_kkpr',
+        'jenis_pemanfaatan_ruang',
+        'tgl_evaluasi',
+        'tindak_lanjut',
+        'dokumen_akhir',
+        'foto_tindak_lanjut',
+        'foto_existing',
     ];
 }

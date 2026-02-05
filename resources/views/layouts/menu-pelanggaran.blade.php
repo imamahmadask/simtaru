@@ -22,6 +22,9 @@
         @endif
 
         @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'admin-pelanggaran')
+            <li class="menu-header small text-uppercase">
+                <span class="menu-header-text">Pelanggaran</span>
+            </li>
             <!-- Dashboard -->
             <li class="menu-item {!! request()->routeIs('pelanggaran.dashboard') ? 'active' : '' !!}">
                 <a href="{{ route('pelanggaran.dashboard') }}" class="menu-link">
@@ -37,7 +40,7 @@
             </li>
             <li class="menu-item {!! request()->routeIs('pelanggaran.index', 'pelanggaran.create', 'pelanggaran.edit', 'pelanggaran.detail') ? 'active' : '' !!}">
                 <a href="{{ route('pelanggaran.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-edit"></i>
+                    <i class="menu-icon tf-icons bx bx-bell"></i>
                     <div data-i18n="Analytics">Pelanggaran</div>
                 </a>
             </li>

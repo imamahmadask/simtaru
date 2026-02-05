@@ -16,13 +16,26 @@ class PelanggaranCreate extends Component
     use WithFileUploads;
     
     public $no_pelanggaran;
-    public $jenis_formulir;
-    public $tanggal_pengawasan;
-    public $lokasi_pengawasan;
-    public $hasil_pengawasan;
-    public $anggota_tidak_hadir;
-    public $temuan_pelanggaran;
-    public $sumber_informasi_pelanggaran;
+    
+    #[Validate('required')]
+    public $tgl_laporan, $sumber_informasi_pelanggaran;
+    
+    #[Validate('required_if:sumber_informasi_pelanggaran,Hasil Pengawasan dan Monitoring')]
+    public $tanggal_pengawasan;  
+
+    #[Validate('required_if:sumber_informasi_pelanggaran,Laporan Masyarakat')]
+    public $bentuk_laporan;
+    public $nama_pelapor;
+    public $telp_pelapor;
+    public $isi_laporan;
+
+    #[Validate('required_if:sumber_informasi_pelanggaran,Hasil Penilaian KKPR atau SKRK')]
+    public $no_kkpr_skrk;
+    public $no_ba_sk_penilaian_kkpr;
+    public $dokumen_penilaian_kkpr;
+    public $jenis_pemanfaatan_ruang;
+   
+    #[Validate('required')]
     public $nama_pelanggar;
     public $alamat_pelanggar;
     public $kel_pelanggar;
@@ -34,12 +47,9 @@ class PelanggaranCreate extends Component
     public $kec_pelanggaran;
     public $koordinat_pelanggaran;
     public $gmaps_pelanggaran;
-    public $bentuk_laporan;
-    public $nama_pelapor;
-    public $isi_laporan;
-    public $jenis_indikasi_pelanggaran;
-    
-    public $status;
+
+    #[Validate('required')]
+    public $jenis_indikasi_pelanggaran;    
 
     #[Validate(['foto_pengawasan.*' => 'image|max:10240'])]
     public $foto_pengawasan = [];
@@ -53,8 +63,11 @@ class PelanggaranCreate extends Component
     public function store()
     {
         $this->validate();
+
+        $this->no_pelanggaran = 'PEL-' . date('Ymd') . '-' . Str::random(5);
         
-        if($this->foto_pengawasan) {
+        if($this->foto_pengawasan) 
+        {
             $foto_pengawasan_path = [];
             foreach ($this->foto_pengawasan as $foto) {
                 $foto_pengawasan_filename = $this->no_pelanggaran . '_' . Str::random(5) . '.' . $foto->getClientOriginalExtension();
@@ -62,20 +75,24 @@ class PelanggaranCreate extends Component
             }
         }
         else
-            {
-                $foto_pengawasan_path = null;
-            }
+        {
+            $foto_pengawasan_path = null;
+        }
 
         Pelanggaran::create([
             'no_pelanggaran' => $this->no_pelanggaran,
-            'jenis_formulir' => $this->jenis_formulir,
+            'tgl_laporan' => $this->tgl_laporan,
+            'sumber_informasi_pelanggaran' => $this->sumber_informasi_pelanggaran,       
             'tanggal_pengawasan' => $this->tanggal_pengawasan,
-            'lokasi_pengawasan' => $this->lokasi_pengawasan,
-            'hasil_pengawasan' => $this->hasil_pengawasan,
-            'anggota_tidak_hadir' => $this->anggota_tidak_hadir,
             'foto_pengawasan' => json_encode($foto_pengawasan_path),
-            'temuan_pelanggaran' => $this->temuan_pelanggaran,
-            'sumber_informasi_pelanggaran' => $this->sumber_informasi_pelanggaran,
+            'bentuk_laporan' => $this->bentuk_laporan,
+            'nama_pelapor' => $this->nama_pelapor,
+            'telp_pelapor' => $this->telp_pelapor,
+            'isi_laporan' => $this->isi_laporan,
+            'no_kkpr_skrk' => $this->no_kkpr_skrk,
+            'no_ba_sk_penilaian_kkpr' => $this->no_ba_sk_penilaian_kkpr,
+            'dokumen_penilaian_kkpr' => $this->dokumen_penilaian_kkpr,
+            'jenis_pemanfaatan_ruang' => $this->jenis_pemanfaatan_ruang,
             'nama_pelanggar' => $this->nama_pelanggar,
             'alamat_pelanggar' => $this->alamat_pelanggar,
             'kel_pelanggar' => $this->kel_pelanggar,
@@ -87,16 +104,13 @@ class PelanggaranCreate extends Component
             'kec_pelanggaran' => $this->kec_pelanggaran,
             'koordinat_pelanggaran' => $this->koordinat_pelanggaran,
             'gmaps_pelanggaran' => $this->gmaps_pelanggaran,
-            'bentuk_laporan' => $this->bentuk_laporan,
-            'nama_pelapor' => $this->nama_pelapor,
-            'isi_laporan' => $this->isi_laporan,
-            'jenis_indikasi_pelanggaran' => $this->jenis_indikasi_pelanggaran,
-            'status' => 'Success',
+            'jenis_indikasi_pelanggaran' => $this->jenis_indikasi_pelanggaran,            
+            'status' => 'Pending',
         ]);
 
         session()->flash('success', 'Data berhasil disimpan');
 
-        redirect()->route('pelanggaran.index');
+        return redirect()->route('pelanggaran.detail', Pelanggaran::where('no_pelanggaran', $this->no_pelanggaran)->first()->id);
     }
 
     public function removeImage($index)

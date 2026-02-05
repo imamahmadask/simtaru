@@ -18,13 +18,26 @@ class PelanggaranEdit extends Component
 
     public $pelanggaranId;
     public $no_pelanggaran;
-    public $jenis_formulir;
+    
+    #[Validate('required')]
+    public $tgl_laporan, $sumber_informasi_pelanggaran;
+    
+    #[Validate('required_if:sumber_informasi_pelanggaran,Hasil Pengawasan dan Monitoring')]
     public $tanggal_pengawasan;
-    public $lokasi_pengawasan;
-    public $hasil_pengawasan;
-    public $anggota_tidak_hadir;
-    public $temuan_pelanggaran;
-    public $sumber_informasi_pelanggaran;
+
+    #[Validate('required_if:sumber_informasi_pelanggaran,Laporan Masyarakat')]
+    public $bentuk_laporan;
+    public $nama_pelapor;
+    public $telp_pelapor;
+    public $isi_laporan;
+
+    #[Validate('required_if:sumber_informasi_pelanggaran,Hasil Penilaian KKPR atau SKRK')]
+    public $no_kkpr_skrk;
+    public $no_ba_sk_penilaian_kkpr;
+    public $dokumen_penilaian_kkpr;
+    public $jenis_pemanfaatan_ruang;
+
+    #[Validate('required')]
     public $nama_pelanggar;
     public $alamat_pelanggar;
     public $kel_pelanggar;
@@ -36,9 +49,8 @@ class PelanggaranEdit extends Component
     public $kec_pelanggaran;
     public $koordinat_pelanggaran;
     public $gmaps_pelanggaran;
-    public $bentuk_laporan;
-    public $nama_pelapor;
-    public $isi_laporan;
+
+    #[Validate('required')]
     public $jenis_indikasi_pelanggaran;
     public $status;
 
@@ -52,13 +64,17 @@ class PelanggaranEdit extends Component
         $pelanggaran = Pelanggaran::findOrFail($id);
         $this->pelanggaranId = $pelanggaran->id;
         $this->no_pelanggaran = $pelanggaran->no_pelanggaran;
-        $this->jenis_formulir = $pelanggaran->jenis_formulir;
-        $this->tanggal_pengawasan = $pelanggaran->tanggal_pengawasan;
-        $this->lokasi_pengawasan = $pelanggaran->lokasi_pengawasan;
-        $this->hasil_pengawasan = $pelanggaran->hasil_pengawasan;
-        $this->anggota_tidak_hadir = $pelanggaran->anggota_tidak_hadir;
-        $this->temuan_pelanggaran = $pelanggaran->temuan_pelanggaran;
+        $this->tgl_laporan = $pelanggaran->tgl_laporan;
         $this->sumber_informasi_pelanggaran = $pelanggaran->sumber_informasi_pelanggaran;
+        $this->tanggal_pengawasan = $pelanggaran->tanggal_pengawasan;
+        $this->bentuk_laporan = $pelanggaran->bentuk_laporan;
+        $this->nama_pelapor = $pelanggaran->nama_pelapor;
+        $this->telp_pelapor = $pelanggaran->telp_pelapor;
+        $this->isi_laporan = $pelanggaran->isi_laporan;
+        $this->no_kkpr_skrk = $pelanggaran->no_kkpr_skrk;
+        $this->no_ba_sk_penilaian_kkpr = $pelanggaran->no_ba_sk_penilaian_kkpr;
+        $this->dokumen_penilaian_kkpr = $pelanggaran->dokumen_penilaian_kkpr;
+        $this->jenis_pemanfaatan_ruang = $pelanggaran->jenis_pemanfaatan_ruang;
         $this->nama_pelanggar = $pelanggaran->nama_pelanggar;
         $this->alamat_pelanggar = $pelanggaran->alamat_pelanggar;
         $this->kel_pelanggar = $pelanggaran->kel_pelanggar;
@@ -70,9 +86,6 @@ class PelanggaranEdit extends Component
         $this->kec_pelanggaran = $pelanggaran->kec_pelanggaran;
         $this->koordinat_pelanggaran = $pelanggaran->koordinat_pelanggaran;
         $this->gmaps_pelanggaran = $pelanggaran->gmaps_pelanggaran;
-        $this->bentuk_laporan = $pelanggaran->bentuk_laporan;
-        $this->nama_pelapor = $pelanggaran->nama_pelapor;
-        $this->isi_laporan = $pelanggaran->isi_laporan;
         $this->jenis_indikasi_pelanggaran = $pelanggaran->jenis_indikasi_pelanggaran;
         $this->status = $pelanggaran->status;
 
@@ -102,14 +115,18 @@ class PelanggaranEdit extends Component
 
         $pelanggaran->update([
             'no_pelanggaran' => $this->no_pelanggaran,
-            'jenis_formulir' => $this->jenis_formulir,
-            'tanggal_pengawasan' => $this->tanggal_pengawasan,
-            'lokasi_pengawasan' => $this->lokasi_pengawasan,
-            'hasil_pengawasan' => $this->hasil_pengawasan,
-            'anggota_tidak_hadir' => $this->anggota_tidak_hadir,
-            'foto_pengawasan' => json_encode($foto_pengawasan_path),
-            'temuan_pelanggaran' => $this->temuan_pelanggaran,
+            'tgl_laporan' => $this->tgl_laporan,
             'sumber_informasi_pelanggaran' => $this->sumber_informasi_pelanggaran,
+            'tanggal_pengawasan' => $this->tanggal_pengawasan,
+            'foto_pengawasan' => json_encode($foto_pengawasan_path),
+            'bentuk_laporan' => $this->bentuk_laporan,
+            'nama_pelapor' => $this->nama_pelapor,
+            'telp_pelapor' => $this->telp_pelapor,
+            'isi_laporan' => $this->isi_laporan,
+            'no_kkpr_skrk' => $this->no_kkpr_skrk,
+            'no_ba_sk_penilaian_kkpr' => $this->no_ba_sk_penilaian_kkpr,
+            'dokumen_penilaian_kkpr' => $this->dokumen_penilaian_kkpr,
+            'jenis_pemanfaatan_ruang' => $this->jenis_pemanfaatan_ruang,
             'nama_pelanggar' => $this->nama_pelanggar,
             'alamat_pelanggar' => $this->alamat_pelanggar,
             'kel_pelanggar' => $this->kel_pelanggar,
@@ -121,16 +138,14 @@ class PelanggaranEdit extends Component
             'kec_pelanggaran' => $this->kec_pelanggaran,
             'koordinat_pelanggaran' => $this->koordinat_pelanggaran,
             'gmaps_pelanggaran' => $this->gmaps_pelanggaran,
-            'bentuk_laporan' => $this->bentuk_laporan,
-            'nama_pelapor' => $this->nama_pelapor,
-            'isi_laporan' => $this->isi_laporan,
             'jenis_indikasi_pelanggaran' => $this->jenis_indikasi_pelanggaran,
             'status' => $this->status,
         ]);
 
         session()->flash('success', 'Data berhasil diperbarui');
 
-        return redirect()->route('pelanggaran.index');
+        return redirect()->route('pelanggaran.detail', $this->pelanggaranId);
+
     }
 
     public function removeExistingImage($index)

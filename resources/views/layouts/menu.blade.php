@@ -21,6 +21,10 @@
         </li>
 
         @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'admin-pelanggaran')
+            <li class="menu-header small text-uppercase">
+                <span class="menu-header-text">Pelanggaran</span>
+            </li>
+
             <li class="menu-item {!! request()->routeIs('pelanggaran.*') ? 'active' : '' !!}">
                 <a href="{{ route('pelanggaran.index') }}" class="menu-link" target="_blank">
                     <i class="menu-icon tf-icons bx bx-home"></i>

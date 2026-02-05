@@ -59,10 +59,10 @@
                                         </span>
                                     </td>
                                     <td class="text-nowrap">
-                                        {{ date('d-m-Y', strtotime($data->tanggal_pengawasan)) }}
+                                        {{ date('d-m-Y', strtotime($data->tgl_laporan)) }}
                                     </td>
                                     <td class="text-wrap">
-                                        {{ $data->jenis_formulir }}
+                                        {{ $data->sumber_informasi_pelanggaran }}
                                     </td>                                                                        
                                     <td class="text-nowrap">
                                         <div class="me-3">                                            
