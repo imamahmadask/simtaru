@@ -36,7 +36,7 @@ class PelanggaranAnalisDetail extends Component
         $this->pelanggaran = Pelanggaran::find($id);
         $this->temuan_pelanggaran = $this->pelanggaran->temuan_pelanggaran;
         $this->tindak_lanjut = $this->pelanggaran->tindak_lanjut;
-        $this->existing_foto_tindak_lanjut = json_decode($this->pelanggaran->foto_tindak_lanjut, true) ?? [];
+        $this->existing_foto_tindak_lanjut = $this->pelanggaran->foto_tindak_lanjut ?? [];
     }
 
     public function storeAnalisa()
@@ -62,7 +62,7 @@ class PelanggaranAnalisDetail extends Component
         $this->pelanggaran->update([
             'temuan_pelanggaran' => $this->temuan_pelanggaran,
             'tindak_lanjut' => $this->tindak_lanjut,
-            'foto_tindak_lanjut' => count($all_photos) > 0 ? json_encode($all_photos) : null,
+            'foto_tindak_lanjut' => count($all_photos) > 0 ? $all_photos : null,
         ]);
 
         session()->flash('message', 'Analisa Pelanggaran Berhasil Ditambahkan!');

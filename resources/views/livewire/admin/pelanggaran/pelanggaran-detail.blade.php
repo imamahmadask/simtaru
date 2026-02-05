@@ -113,14 +113,13 @@
                                                     <tr>
                                                         <th>No. BA/SK Penilaian</th>
                                                         <td>: {{ $pelanggaran->no_ba_sk_penilaian_kkpr }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Jenis Pemanfaatan</th>
-                                                        <td>: {{ $pelanggaran->jenis_pemanfaatan_ruang }}</td>
-                                                    </tr>
+                                                    </tr>                                                    
                                                     <tr>
                                                         <th>Dokumen Penilaian</th>
-                                                        <td>: {{ $pelanggaran->dokumen_penilaian_kkpr }}</td>
+                                                        <td>: <a href="{{ Storage::url($pelanggaran->dokumen_penilaian_kkpr) }}" target="_blank" class="text-primary fw-semibold">
+                                                                <i class="bx bx-file me-1"></i> Lihat Dokumen
+                                                            </a>
+                                                        </td>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -203,6 +202,10 @@
                                                     <td>: {{ $pelanggaran->koordinat_pelanggaran }}</td>
                                                 </tr>
                                                 <tr>
+                                                    <th>Jenis Pemanfaatan</th>
+                                                    <td>: {{ $pelanggaran->jenis_pemanfaatan_ruang }}</td>
+                                                </tr>
+                                                <tr>
                                                     <th>Google Maps</th>
                                                     <td>: <a href="{{ $pelanggaran->gmaps_pelanggaran }}" target="_blank" class="btn btn-xs btn-primary"><i class="bx bx-map-alt me-1"></i> Buka Peta</a></td>
                                                 </tr>
@@ -212,7 +215,8 @@
                                 </div>
     
                                 @php
-                                    $photos = json_decode($pelanggaran->foto_pengawasan, true) ?? [];
+                                    $photos = $pelanggaran->foto_pengawasan ?? [];
+                                    $existing_photos = $pelanggaran->foto_existing ?? [];
                                 @endphp
                                 @if(count($photos) > 0)
                                     <!-- Foto Pengawasan -->
@@ -226,6 +230,27 @@
                                                     @foreach ($photos as $photo)
                                                         <a href="{{ Storage::url($photo) }}" target="_blank">
                                                             <img src="{{ Storage::url($photo) }}" alt="Foto Pengawasan"
+                                                                class="img-thumbnail" style="width: 200px; height: 200px; object-fit: cover;">
+                                                        </a>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+
+                                @if(count($existing_photos) > 0)
+                                    <!-- Foto Existing -->
+                                    <div class="col-md-12 mb-4">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">Foto Kondisi Existing</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="d-flex flex-wrap gap-2">
+                                                    @foreach ($existing_photos as $photo)
+                                                        <a href="{{ Storage::url($photo) }}" target="_blank">
+                                                            <img src="{{ Storage::url($photo) }}" alt="Foto Existing"
                                                                 class="img-thumbnail" style="width: 200px; height: 200px; object-fit: cover;">
                                                         </a>
                                                     @endforeach

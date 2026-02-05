@@ -32,8 +32,7 @@ class PelanggaranCreate extends Component
     #[Validate('required_if:sumber_informasi_pelanggaran,Hasil Penilaian KKPR atau SKRK')]
     public $no_kkpr_skrk;
     public $no_ba_sk_penilaian_kkpr;
-    public $dokumen_penilaian_kkpr;
-    public $jenis_pemanfaatan_ruang;
+    public $dokumen_penilaian_kkpr;    
    
     #[Validate('required')]
     public $nama_pelanggar;
@@ -49,10 +48,14 @@ class PelanggaranCreate extends Component
     public $gmaps_pelanggaran;
 
     #[Validate('required')]
-    public $jenis_indikasi_pelanggaran;    
+    public $jenis_indikasi_pelanggaran;   
+    public $jenis_pemanfaatan_ruang; 
 
     #[Validate(['foto_pengawasan.*' => 'image|max:10240'])]
     public $foto_pengawasan = [];
+
+    #[Validate(['foto_existing.*' => 'image|max:10240'])]
+    public $foto_existing = [];
     
     #[Layout('layouts.app-pelanggaran')]
     public function render()
@@ -65,34 +68,31 @@ class PelanggaranCreate extends Component
         $this->validate();
 
         $this->no_pelanggaran = 'PEL-' . date('Ymd') . '-' . Str::random(5);
-        
-        if($this->foto_pengawasan) 
-        {
-            $foto_pengawasan_path = [];
-            foreach ($this->foto_pengawasan as $foto) {
-                $foto_pengawasan_filename = $this->no_pelanggaran . '_' . Str::random(5) . '.' . $foto->getClientOriginalExtension();
-                $foto_pengawasan_path[] = $foto->storeAs('pelanggaran/'.$this->no_pelanggaran.'/foto_pengawasan', $foto_pengawasan_filename, 'public');
-            }
-        }
-        else
-        {
-            $foto_pengawasan_path = null;
-        }
 
-        Pelanggaran::create([
+        $foto_pengawasan_path = $this->uploadMultipleFiles($this->foto_pengawasan, 'foto_pengawasan');
+        $foto_existing_path = $this->uploadMultipleFiles($this->foto_existing, 'foto_existing');
+        
+        $dokumen_penilaian_kkpr_path = $this->dokumen_penilaian_kkpr 
+            ? $this->dokumen_penilaian_kkpr->storeAs(
+                "pelanggaran/{$this->no_pelanggaran}/dokumen_penilaian_kkpr", 
+                "{$this->no_pelanggaran}_" . Str::random(5) . '.' . $this->dokumen_penilaian_kkpr->getClientOriginalExtension(), 
+                'public'
+            ) 
+            : null;
+
+        $pelanggaran = Pelanggaran::create([
             'no_pelanggaran' => $this->no_pelanggaran,
             'tgl_laporan' => $this->tgl_laporan,
             'sumber_informasi_pelanggaran' => $this->sumber_informasi_pelanggaran,       
             'tanggal_pengawasan' => $this->tanggal_pengawasan,
-            'foto_pengawasan' => json_encode($foto_pengawasan_path),
+            'foto_pengawasan' => $foto_pengawasan_path,
             'bentuk_laporan' => $this->bentuk_laporan,
             'nama_pelapor' => $this->nama_pelapor,
             'telp_pelapor' => $this->telp_pelapor,
             'isi_laporan' => $this->isi_laporan,
             'no_kkpr_skrk' => $this->no_kkpr_skrk,
             'no_ba_sk_penilaian_kkpr' => $this->no_ba_sk_penilaian_kkpr,
-            'dokumen_penilaian_kkpr' => $this->dokumen_penilaian_kkpr,
-            'jenis_pemanfaatan_ruang' => $this->jenis_pemanfaatan_ruang,
+            'dokumen_penilaian_kkpr' => $dokumen_penilaian_kkpr_path,            
             'nama_pelanggar' => $this->nama_pelanggar,
             'alamat_pelanggar' => $this->alamat_pelanggar,
             'kel_pelanggar' => $this->kel_pelanggar,
@@ -104,13 +104,30 @@ class PelanggaranCreate extends Component
             'kec_pelanggaran' => $this->kec_pelanggaran,
             'koordinat_pelanggaran' => $this->koordinat_pelanggaran,
             'gmaps_pelanggaran' => $this->gmaps_pelanggaran,
-            'jenis_indikasi_pelanggaran' => $this->jenis_indikasi_pelanggaran,            
+            'jenis_indikasi_pelanggaran' => $this->jenis_indikasi_pelanggaran,  
+            'jenis_pemanfaatan_ruang' => $this->jenis_pemanfaatan_ruang,
+            'foto_existing' => $foto_existing_path,          
             'status' => 'Pending',
         ]);
 
         session()->flash('success', 'Data berhasil disimpan');
 
-        return redirect()->route('pelanggaran.detail', Pelanggaran::where('no_pelanggaran', $this->no_pelanggaran)->first()->id);
+        return redirect()->route('pelanggaran.detail', $pelanggaran->id);
+    }
+
+    private function uploadMultipleFiles($files, $folder)
+    {
+        if (empty($files)) {
+            return null;
+        }
+
+        $paths = [];
+        foreach ($files as $file) {
+            $filename = "{$this->no_pelanggaran}_" . Str::random(5) . '.' . $file->getClientOriginalExtension();
+            $paths[] = $file->storeAs("pelanggaran/{$this->no_pelanggaran}/{$folder}", $filename, 'public');
+        }
+
+        return $paths;
     }
 
     public function removeImage($index)

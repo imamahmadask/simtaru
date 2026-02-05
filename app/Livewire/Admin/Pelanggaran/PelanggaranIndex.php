@@ -38,6 +38,14 @@ class PelanggaranIndex extends Component
             }
         }
 
+        if($pelanggaran->foto_existing){
+            Storage::disk('public')->delete($pelanggaran->foto_existing);
+        }
+
+        if ($pelanggaran->dokumen_penilaian_kkpr) {
+            Storage::disk('public')->delete($pelanggaran->dokumen_penilaian_kkpr);
+        }
+
         $pelanggaran->delete();
 
         session()->flash('success', 'Data berhasil dihapus');

@@ -66,7 +66,7 @@
                                             <div class="d-inline-block position-relative me-2 mb-2">
                                                 <img src="{{ Storage::url($path) }}" alt="Existing Photo"
                                                     class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
-                                                <button type="button" wire:click="removeExistingImage({{ $index }})"
+                                                <button type="button" wire:click="removeExistingImage({{ $index }}, 'foto_pengawasan')"
                                                     class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1"
                                                     wire:confirm="Yakin ingin menghapus foto ini?">
                                                     <i class="bx bx-x"></i>
@@ -75,7 +75,7 @@
                                         @endforeach
                                     </div>
                                 @endif
-
+ 
                                 @if ($new_foto_pengawasan)
                                     <div class="mt-2">
                                         <h6>Preview Foto Baru:</h6>
@@ -83,7 +83,7 @@
                                             <div class="d-inline-block position-relative me-2 mb-2">
                                                 <img src="{{ $image->temporaryUrl() }}" alt="Preview"
                                                     class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
-                                                <button type="button" wire:click="removeNewImage({{ $index }})"
+                                                <button type="button" wire:click="removeNewImage({{ $index }}, 'foto_pengawasan')"
                                                     class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1">
                                                     <i class="bx bx-x"></i>
                                                 </button>
@@ -95,9 +95,7 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>                        
-                        @endif
-
-                        @if($sumber_informasi_pelanggaran == 'Laporan Masyarakat')
+                        @elseif($sumber_informasi_pelanggaran == 'Laporan Masyarakat')
                             <hr>
                             <h5 class="fw-semibold text-danger">Profil Pelapor</h5>
                             <div class="col-md-6">
@@ -144,9 +142,7 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                        @endif
-
-                        @if($sumber_informasi_pelanggaran == 'Hasil Penilaian KKPR atau SKRK')
+                        @elseif($sumber_informasi_pelanggaran == 'Hasil Penilaian KKPR atau SKRK')
                             <hr>
                             <h5 class="fw-semibold text-danger">Data KKPR atau SKRK</h5>
                             <div class="col-md-6">
@@ -166,21 +162,23 @@
                                 @error('no_ba_sk_penilaian_kkpr')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label" for="jenis_pemanfaatan_ruang">Jenis Pemanfaatan Ruang (Sesuai KKPR)</label>
-                                <input type="text" id="jenis_pemanfaatan_ruang" wire:model="jenis_pemanfaatan_ruang"
-                                    class="form-control @error('jenis_pemanfaatan_ruang') is-invalid @enderror"
-                                    placeholder="Jenis Pemanfaatan Ruang">
-                                @error('jenis_pemanfaatan_ruang')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
+                            </div>                            
                             <div class="col-md-6">
                                 <label class="form-label" for="dokumen_penilaian_kkpr">Dokumen Penilaian KKPR</label>
-                                <input type="text" id="dokumen_penilaian_kkpr" wire:model="dokumen_penilaian_kkpr"
+                                <input type="file" id="dokumen_penilaian_kkpr" wire:model="dokumen_penilaian_kkpr"
                                     class="form-control @error('dokumen_penilaian_kkpr') is-invalid @enderror"
                                     placeholder="Dokumen Penilaian KKPR">
+                                <div wire:loading wire:target="dokumen_penilaian_kkpr">Uploading...</div>
+
+                                @if ($existing_dokumen_penilaian_kkpr)
+                                    <div class="mt-2">
+                                        <small class="text-muted">Dokumen Saat Ini: </small>
+                                        <a href="{{ Storage::url($existing_dokumen_penilaian_kkpr) }}" target="_blank" class="text-primary fw-semibold">
+                                            <i class="bx bx-file me-1"></i> Lihat Dokumen
+                                        </a>
+                                    </div>
+                                @endif
+
                                 @error('dokumen_penilaian_kkpr')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -314,6 +312,50 @@
                                 class="form-control @error('gmaps_pelanggaran') is-invalid @enderror"
                                 placeholder="Link Google Maps Lokasi Pelanggaran">
                             @error('gmaps_pelanggaran')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-12">
+                            <label class="form-label" for="new_foto_existing">Foto Kondisi Existing</label>
+                            <input type="file" id="new_foto_existing" wire:model="new_foto_existing"
+                                class="form-control @error('new_foto_existing') is-invalid @enderror" accept="image/*" multiple>
+                            <div wire:loading wire:target="new_foto_existing">Uploading...</div>
+                            
+                            <!-- Existing Photos -->
+                            @if ($existing_foto_existing)
+                                <div class="mt-2">
+                                    <h6>Foto Saat Ini:</h6>
+                                    @foreach ($existing_foto_existing as $index => $path)
+                                        <div class="d-inline-block position-relative me-2 mb-2">
+                                            <img src="{{ Storage::url($path) }}" alt="Existing Photo"
+                                                class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
+                                            <button type="button" wire:click="removeExistingImage({{ $index }}, 'foto_existing')"
+                                                class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1"
+                                                wire:confirm="Yakin ingin menghapus foto ini?">
+                                                <i class="bx bx-x"></i>
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
+
+                            @if ($new_foto_existing)
+                                <div class="mt-2">
+                                    <h6>Preview Foto Baru:</h6>
+                                    @foreach ($new_foto_existing as $index => $image)
+                                        <div class="d-inline-block position-relative me-2 mb-2">
+                                            <img src="{{ $image->temporaryUrl() }}" alt="Preview"
+                                                class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
+                                            <button type="button" wire:click="removeNewImage({{ $index }}, 'foto_existing')"
+                                                class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1">
+                                                <i class="bx bx-x"></i>
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
+                            @error('new_foto_existing')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

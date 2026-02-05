@@ -34,7 +34,7 @@ class PelanggaranEdit extends Component
     #[Validate('required_if:sumber_informasi_pelanggaran,Hasil Penilaian KKPR atau SKRK')]
     public $no_kkpr_skrk;
     public $no_ba_sk_penilaian_kkpr;
-    public $dokumen_penilaian_kkpr;
+    public $dokumen_penilaian_kkpr;    
     public $jenis_pemanfaatan_ruang;
 
     #[Validate('required')]
@@ -55,9 +55,14 @@ class PelanggaranEdit extends Component
     public $status;
 
     public $existing_foto_pengawasan = [];
+    public $existing_foto_existing = [];
+    public $existing_dokumen_penilaian_kkpr;
     
     #[Validate(['new_foto_pengawasan.*' => 'image|max:10240'])]
     public $new_foto_pengawasan = [];
+
+    #[Validate(['new_foto_existing.*' => 'image|max:10240'])]
+    public $new_foto_existing = [];
 
     public function mount($id)
     {
@@ -73,7 +78,7 @@ class PelanggaranEdit extends Component
         $this->isi_laporan = $pelanggaran->isi_laporan;
         $this->no_kkpr_skrk = $pelanggaran->no_kkpr_skrk;
         $this->no_ba_sk_penilaian_kkpr = $pelanggaran->no_ba_sk_penilaian_kkpr;
-        $this->dokumen_penilaian_kkpr = $pelanggaran->dokumen_penilaian_kkpr;
+        $this->existing_dokumen_penilaian_kkpr = $pelanggaran->dokumen_penilaian_kkpr;
         $this->jenis_pemanfaatan_ruang = $pelanggaran->jenis_pemanfaatan_ruang;
         $this->nama_pelanggar = $pelanggaran->nama_pelanggar;
         $this->alamat_pelanggar = $pelanggaran->alamat_pelanggar;
@@ -89,7 +94,8 @@ class PelanggaranEdit extends Component
         $this->jenis_indikasi_pelanggaran = $pelanggaran->jenis_indikasi_pelanggaran;
         $this->status = $pelanggaran->status;
 
-        $this->existing_foto_pengawasan = json_decode($pelanggaran->foto_pengawasan, true) ?? [];
+        $this->existing_foto_pengawasan = $pelanggaran->foto_pengawasan ?? [];
+        $this->existing_foto_existing = $pelanggaran->foto_existing ?? [];
     }
 
     #[Layout('layouts.app-pelanggaran')]
@@ -105,12 +111,28 @@ class PelanggaranEdit extends Component
         $pelanggaran = Pelanggaran::findOrFail($this->pelanggaranId);
 
         $foto_pengawasan_path = $this->existing_foto_pengawasan;
-
         if ($this->new_foto_pengawasan) {
-            foreach ($this->new_foto_pengawasan as $foto) {
-                $foto_pengawasan_filename = $this->no_pelanggaran . '_' . Str::random(5) . '.' . $foto->getClientOriginalExtension();
-                $foto_pengawasan_path[] = $foto->storeAs('pelanggaran/'.$this->no_pelanggaran.'/foto_pengawasan', $foto_pengawasan_filename, 'public');
+            $new_paths = $this->uploadMultipleFiles($this->new_foto_pengawasan, 'foto_pengawasan');
+            $foto_pengawasan_path = array_merge($foto_pengawasan_path, $new_paths);
+        }
+
+        $foto_existing_path = $this->existing_foto_existing;
+        if ($this->new_foto_existing) {
+            $new_paths = $this->uploadMultipleFiles($this->new_foto_existing, 'foto_existing');
+            $foto_existing_path = array_merge($foto_existing_path, $new_paths);
+        }
+
+        $dokumen_penilaian_kkpr_path = $this->existing_dokumen_penilaian_kkpr;
+        if ($this->dokumen_penilaian_kkpr) {
+            // Delete old file if exists
+            if ($this->existing_dokumen_penilaian_kkpr && Storage::disk('public')->exists($this->existing_dokumen_penilaian_kkpr)) {
+                Storage::disk('public')->delete($this->existing_dokumen_penilaian_kkpr);
             }
+            $dokumen_penilaian_kkpr_path = $this->dokumen_penilaian_kkpr->storeAs(
+                "pelanggaran/{$this->no_pelanggaran}/dokumen_penilaian_kkpr", 
+                "{$this->no_pelanggaran}_" . Str::random(5) . '.' . $this->dokumen_penilaian_kkpr->getClientOriginalExtension(), 
+                'public'
+            );
         }
 
         $pelanggaran->update([
@@ -118,14 +140,14 @@ class PelanggaranEdit extends Component
             'tgl_laporan' => $this->tgl_laporan,
             'sumber_informasi_pelanggaran' => $this->sumber_informasi_pelanggaran,
             'tanggal_pengawasan' => $this->tanggal_pengawasan,
-            'foto_pengawasan' => json_encode($foto_pengawasan_path),
+            'foto_pengawasan' => $foto_pengawasan_path,
             'bentuk_laporan' => $this->bentuk_laporan,
             'nama_pelapor' => $this->nama_pelapor,
             'telp_pelapor' => $this->telp_pelapor,
             'isi_laporan' => $this->isi_laporan,
             'no_kkpr_skrk' => $this->no_kkpr_skrk,
             'no_ba_sk_penilaian_kkpr' => $this->no_ba_sk_penilaian_kkpr,
-            'dokumen_penilaian_kkpr' => $this->dokumen_penilaian_kkpr,
+            'dokumen_penilaian_kkpr' => $dokumen_penilaian_kkpr_path,
             'jenis_pemanfaatan_ruang' => $this->jenis_pemanfaatan_ruang,
             'nama_pelanggar' => $this->nama_pelanggar,
             'alamat_pelanggar' => $this->alamat_pelanggar,
@@ -139,35 +161,54 @@ class PelanggaranEdit extends Component
             'koordinat_pelanggaran' => $this->koordinat_pelanggaran,
             'gmaps_pelanggaran' => $this->gmaps_pelanggaran,
             'jenis_indikasi_pelanggaran' => $this->jenis_indikasi_pelanggaran,
+            'foto_existing' => $foto_existing_path,
             'status' => $this->status,
         ]);
 
         session()->flash('success', 'Data berhasil diperbarui');
 
         return redirect()->route('pelanggaran.detail', $this->pelanggaranId);
-
     }
 
-    public function removeExistingImage($index)
+    private function uploadMultipleFiles($files, $folder)
     {
-        if (isset($this->existing_foto_pengawasan[$index])) {
-            $path = $this->existing_foto_pengawasan[$index];
+        if (empty($files)) {
+            return [];
+        }
+
+        $paths = [];
+        foreach ($files as $file) {
+            $filename = "{$this->no_pelanggaran}_" . Str::random(5) . '.' . $file->getClientOriginalExtension();
+            $paths[] = $file->storeAs("pelanggaran/{$this->no_pelanggaran}/{$folder}", $filename, 'public');
+        }
+
+        return $paths;
+    }
+
+    public function removeExistingImage($index, $type = 'foto_pengawasan')
+    {
+        $property = "existing_{$type}";
+        if (isset($this->$property[$index])) {
+            $path = $this->$property[$index];
             if (Storage::disk('public')->exists($path)) {
                 Storage::disk('public')->delete($path);
             }
-            unset($this->existing_foto_pengawasan[$index]);
-            $this->existing_foto_pengawasan = array_values($this->existing_foto_pengawasan);
+            $currentImages = $this->$property;
+            unset($currentImages[$index]);
+            $this->$property = array_values($currentImages);
             
             // Auto update field in database when removing existing image
             Pelanggaran::where('id', $this->pelanggaranId)->update([
-                'foto_pengawasan' => json_encode($this->existing_foto_pengawasan)
+                $type => $this->$property
             ]);
         }
     }
 
-    public function removeNewImage($index)
+    public function removeNewImage($index, $type = 'foto_pengawasan')
     {
-        unset($this->new_foto_pengawasan[$index]);
-        $this->new_foto_pengawasan = array_values($this->new_foto_pengawasan);
+        $property = "new_{$type}";
+        $currentImages = $this->$property;
+        unset($currentImages[$index]);
+        $this->$property = array_values($currentImages);
     }
 }

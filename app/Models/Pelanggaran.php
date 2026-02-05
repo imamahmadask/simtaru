@@ -43,4 +43,10 @@ class Pelanggaran extends Model
         'foto_tindak_lanjut',
         'foto_existing',
     ];
+
+    protected $casts = [
+        'foto_pengawasan' => 'array',
+        'foto_existing' => 'array',
+        'foto_tindak_lanjut' => 'array',
+    ];
 }

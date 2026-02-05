@@ -75,9 +75,7 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>                        
-                        @endif
-
-                        @if($sumber_informasi_pelanggaran == 'Laporan Masyarakat')
+                        @elseif($sumber_informasi_pelanggaran == 'Laporan Masyarakat')
                             <hr>
                             <h5 class="fw-semibold text-danger">Profil Pelapor</h5>
                             <div class="col-md-6">
@@ -124,11 +122,42 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+                        @elseif($sumber_informasi_pelanggaran == 'Hasil Penilaian KKPR atau SKRK')
+                            <hr>
+                            <h5 class="fw-semibold text-danger">Hasil Penilaian KKPR atau SKRK</h5>
+
+                            <div class="col-md-6">
+                                <label class="form-label" for="no_kkpr_skrk">No. KKPR/SKRK</label>
+                                <input type="text" id="no_kkpr_skrk" wire:model="no_kkpr_skrk"
+                                    class="form-control @error('no_kkpr_skrk') is-invalid @enderror"
+                                    placeholder="No. KKPR/SKRK">
+                                @error('no_kkpr_skrk')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="no_ba_sk_penilaian_kkpr">No. Berita Acara Penilaian KKPR/SKRK</label>
+                                <input type="text" id="no_ba_sk_penilaian_kkpr" wire:model="no_ba_sk_penilaian_kkpr"
+                                    class="form-control @error('no_ba_sk_penilaian_kkpr') is-invalid @enderror"
+                                    placeholder="No. Berita Acara Penilaian KKPR/SKRK">
+                                @error('no_ba_sk_penilaian_kkpr')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>                           
+                            <div class="col-md-6">
+                                <label class="form-label" for="dokumen_kkpr">Dokumen KKPR/SKRK</label>
+                                <input type="file" id="dokumen_kkpr" wire:model="dokumen_kkpr"
+                                    class="form-control @error('dokumen_kkpr') is-invalid @enderror"
+                                    placeholder="Dokumen KKPR/SKRK">
+                                @error('dokumen_kkpr')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                         @endif
 
                         <hr>
                         <h5 class="fw-semibold text-danger">Jenis Indikasi Pelanggaran</h5>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label class="form-label" for="jenis_indikasi_pelanggaran">Jenis Indikasi Pelanggaran</label>
                             <select id="jenis_indikasi_pelanggaran" wire:model="jenis_indikasi_pelanggaran"
                                 class="form-select @error('jenis_indikasi_pelanggaran') is-invalid @enderror">
@@ -139,6 +168,15 @@
                                 <option value="Tidak Memiliki Persetujuan Bangunan Gedung (PBG)">Tidak Memiliki Persetujuan Bangunan Gedung (PBG)</option>
                             </select>
                             @error('jenis_indikasi_pelanggaran')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="jenis_pemanfaatan_ruang">Jenis Pemanfaatan Ruang</label>
+                            <input type="text" id="jenis_pemanfaatan_ruang" wire:model="jenis_pemanfaatan_ruang"
+                                class="form-control @error('jenis_pemanfaatan_ruang') is-invalid @enderror"
+                                placeholder="Jenis Pemanfaatan Ruang">
+                            @error('jenis_pemanfaatan_ruang')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -253,6 +291,29 @@
                                 class="form-control @error('gmaps_pelanggaran') is-invalid @enderror"
                                 placeholder="Link Google Maps Lokasi Pelanggaran">
                             @error('gmaps_pelanggaran')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="foto_existing">Foto Existing</label>
+                            <input type="file" id="foto_existing" wire:model="foto_existing"
+                            class="form-control @error('foto_existing') is-invalid @enderror" accept="image/*" multiple>
+                            <div wire:loading wire:target="foto_existing">Uploading...</div>
+                            @if ($foto_existing)
+                                <div class="mt-2">
+                                    @foreach ($foto_existing as $index => $image)
+                                        <div class="d-inline-block position-relative me-2 mb-2">
+                                            <img src="{{ $image->temporaryUrl() }}" alt="Preview"
+                                                class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
+                                            <button type="button" wire:click="removeImage({{ $index }})"
+                                                class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1">
+                                                <i class="bx bx-x"></i>
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
+                            @error('foto_existing')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>                                                                                                               
