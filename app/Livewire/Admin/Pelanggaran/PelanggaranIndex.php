@@ -24,26 +24,22 @@ class PelanggaranIndex extends Component
     {
         $pelanggaran = Pelanggaran::findOrFail($id);
 
-        if ($pelanggaran->foto_pengawasan) {
-            $foto_pengawasan = json_decode($pelanggaran->foto_pengawasan, true);
-            foreach ($foto_pengawasan as $foto) {
-                Storage::disk('public')->delete($foto);
-            }
-        }
+        // Collect all file paths to delete
+        $filesToDelete = array_merge(
+            (array) $pelanggaran->foto_pengawasan,
+            (array) $pelanggaran->foto_tindak_lanjut,
+            (array) $pelanggaran->foto_existing,
+            (array) ($pelanggaran->dokumen_penilaian_kkpr ? [$pelanggaran->dokumen_penilaian_kkpr] : [])
+        );
 
-        if ($pelanggaran->foto_tindak_lanjut) {
-            $foto_tindak_lanjut = json_decode($pelanggaran->foto_tindak_lanjut, true);
-            foreach ($foto_tindak_lanjut as $foto) {
-                Storage::disk('public')->delete($foto);
-            }
-        }
-
-        if($pelanggaran->foto_existing){
-            Storage::disk('public')->delete($pelanggaran->foto_existing);
-        }
-
-        if ($pelanggaran->dokumen_penilaian_kkpr) {
-            Storage::disk('public')->delete($pelanggaran->dokumen_penilaian_kkpr);
+        // Delete files from storage
+        Storage::disk('public')->delete(array_filter($filesToDelete));
+        
+        // Also ensure the directory is cleaned up if empty
+        // Assuming 'no_pelanggaran' is a property on the Pelanggaran model
+        // and files are stored in a directory named after it.
+        if ($pelanggaran->no_pelanggaran) {
+            Storage::disk('public')->deleteDirectory('pelanggaran/' . $pelanggaran->no_pelanggaran);
         }
 
         $pelanggaran->delete();
