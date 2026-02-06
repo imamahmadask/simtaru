@@ -32,18 +32,12 @@
                     <div data-i18n="Analytics">Dashboard</div>
                 </a>
             </li>   
-        @endif
-
-        @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'admin-pelanggaran')
-            <li class="menu-header small text-uppercase">
-                <span class="menu-header-text">Layanan</span>
-            </li>
             <li class="menu-item {!! request()->routeIs('pelanggaran.index', 'pelanggaran.create', 'pelanggaran.edit', 'pelanggaran.detail') ? 'active' : '' !!}">
                 <a href="{{ route('pelanggaran.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-bell"></i>
                     <div data-i18n="Analytics">Pelanggaran</div>
                 </a>
             </li>
-        @endif
+        @endif       
     </ul>
 </aside>

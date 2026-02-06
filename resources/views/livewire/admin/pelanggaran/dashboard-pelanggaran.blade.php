@@ -53,9 +53,8 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="card-title d-flex align-items-start justify-content-between">
-                                <div class="avatar flex-shrink-0">
-                                    <img src="{{ asset('assets/img/icons/unicons/chart-success.png') }}" alt="chart success"
-                                        class="rounded" />
+                                <div class="p-2 rounded bg-primary text-white">
+                                    <i class="bx bx-file fs-3"></i>
                                 </div>
                                 <div class="dropdown">
                                     <button class="btn p-0" type="button" id="cardOpt3"
@@ -63,7 +62,7 @@
                                         <i class="bx bx-dots-vertical-rounded"></i>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                                        <a class="dropdown-item" href="{{ route('registrasi.index') }}">View
+                                        <a class="dropdown-item" href="{{ route('pelanggaran.index') }}">View
                                             More</a>
                                     </div>
                                 </div>
@@ -77,20 +76,9 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="card-title d-flex align-items-start justify-content-between">
-                                <div class="avatar flex-shrink-0">
-                                    <img src="{{ asset('assets/img/icons/unicons/wallet-info.png') }}" alt="Credit Card"
-                                        class="rounded" />
-                                </div>
-                                <div class="dropdown">
-                                    <button class="btn p-0" type="button" id="cardOpt6"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
-                                        <a class="dropdown-item" href="{{ route('permohonan.index') }}">View
-                                            More</a>
-                                    </div>
-                                </div>
+                                <div class="p-2 rounded bg-success text-white">
+                                    <i class="bx bx-file fs-3"></i>
+                                </div>                                
                             </div>
                             <span>Pelanggaran Selesai</span>
                             <h3 class="card-title text-nowrap">{{ $this->rekap['count_selesai'] }}</h3>
@@ -101,16 +89,9 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="card-title d-flex align-items-start justify-content-between">
-                                <div class="avatar flex-shrink-0">
-                                    <img src="{{ asset('assets/img/icons/unicons/paypal.png') }}" alt="Credit Card"
-                                        class="rounded" />
-                                </div>
-                                <div class="dropdown">
-                                    <button class="btn p-0" type="button" id="cardOpt4"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                    </button>
-                                </div>
+                                <div class="p-2 rounded bg-info text-white">
+                                    <i class="bx bx-file fs-3"></i>
+                                </div>                                
                             </div>
                             <span class="d-block">Pelanggaran Proses</span>
                             <h3 class="card-title text-nowrap">{{ $this->rekap['count_proses'] }}</h3>
@@ -121,20 +102,9 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="card-title d-flex align-items-start justify-content-between">
-                                <div class="avatar flex-shrink-0">
-                                    <img src="{{ asset('assets/img/icons/unicons/cc-primary.png') }}" alt="Credit Card"
-                                        class="rounded" />
-                                </div>
-                                <div class="dropdown">
-                                    <button class="btn p-0" type="button" id="cardOpt1"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
-                                        <a class="dropdown-item" href="{{ route('pengaduan.index') }}">View
-                                            More</a>
-                                    </div>
-                                </div>
+                                <div class="p-2 rounded bg-danger text-white">
+                                    <i class="bx bx-file fs-3"></i>
+                                </div>                                
                             </div>
                             <span>Pelanggaran Pending</span>
                             <h3 class="card-title text-nowrap">{{ $this->rekap['count_pending'] }}</h3>
@@ -150,22 +120,11 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="card-title d-flex align-items-start justify-content-between">
-                                <div class="avatar flex-shrink-0">
-                                    <img src="{{ asset('assets/img/icons/unicons/wallet-info.png') }}" alt="Credit Card"
-                                        class="rounded" />
-                                </div>
-                                <div class="dropdown">
-                                    <button class="btn p-0" type="button" id="cardOpt6"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
-                                        <a class="dropdown-item" href="{{ route('permohonan.index') }}">View
-                                            More</a>
-                                    </div>
-                                </div>
+                                <div class="p-2 rounded bg-info text-white">
+                                    <i class="bx bx-info-circle fs-3"></i>
+                                </div>                              
                             </div>
-                            <span>Sumber Pengawasan</span>
+                            <span>Sumber Hasil Pengawasan</span>
                             <h3 class="card-title text-nowrap">{{ $this->rekap['count_sumber_pengawasan'] }}</h3>
                         </div>
                     </div>
@@ -174,18 +133,11 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="card-title d-flex align-items-start justify-content-between">
-                                <div class="avatar flex-shrink-0">
-                                    <img src="{{ asset('assets/img/icons/unicons/paypal.png') }}" alt="Credit Card"
-                                        class="rounded" />
-                                </div>
-                                <div class="dropdown">
-                                    <button class="btn p-0" type="button" id="cardOpt4"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                    </button>
-                                </div>
+                                <div class="p-2 rounded bg-warning text-white">
+                                    <i class="bx bx-info-circle fs-3"></i>
+                                </div>                                
                             </div>
-                            <span class="d-block">Sumber Masyarakat</span>
+                            <span class="d-block">Sumber Dari Masyarakat</span>
                             <h3 class="card-title text-nowrap">{{ $this->rekap['count_sumber_masyarakat'] }}</h3>
                         </div>
                     </div>
@@ -194,22 +146,11 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="card-title d-flex align-items-start justify-content-between">
-                                <div class="avatar flex-shrink-0">
-                                    <img src="{{ asset('assets/img/icons/unicons/cc-primary.png') }}" alt="Credit Card"
-                                        class="rounded" />
-                                </div>
-                                <div class="dropdown">
-                                    <button class="btn p-0" type="button" id="cardOpt1"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
-                                        <a class="dropdown-item" href="{{ route('pengaduan.index') }}">View
-                                            More</a>
-                                    </div>
-                                </div>
+                                <div class="p-2 rounded bg-primary text-white">
+                                    <i class="bx bx-info-circle fs-3"></i>
+                                </div>                               
                             </div>
-                            <span>Sumber Penilaian KKPR/SKRK</span>
+                            <span>Sumber Hasil Penilaian KKPR/SKRK</span>
                             <h3 class="card-title text-nowrap">{{ $this->rekap['count_sumber_penilaian'] }}</h3>
                         </div>
                     </div>
