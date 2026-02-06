@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('pelanggarans', function (Blueprint $table) {
             $table->text('gmaps_pelanggaran')->nullable()->change();
+            $table->text('foto_tindak_lanjut')->nullable()->change();
         });
     }
 
@@ -23,6 +24,7 @@ return new class extends Migration
     {
         Schema::table('pelanggarans', function (Blueprint $table) {
             $table->string('gmaps_pelanggaran')->nullable()->change();
+            $table->string('foto_tindak_lanjut')->nullable()->change();
         });
     }
 };
