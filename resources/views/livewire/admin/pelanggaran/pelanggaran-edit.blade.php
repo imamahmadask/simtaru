@@ -315,7 +315,15 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-
+                        <div class="col-md-6">
+                            <label class="form-label" for="jenis_pemanfaatan_ruang">Jenis Pemanfaatan Ruang</label>
+                            <input type="text" id="jenis_pemanfaatan_ruang" wire:model="jenis_pemanfaatan_ruang"
+                                class="form-control @error('jenis_pemanfaatan_ruang') is-invalid @enderror"
+                                placeholder="Jenis Pemanfaatan Ruang">
+                            @error('jenis_pemanfaatan_ruang')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                         <div class="col-md-12">
                             <label class="form-label" for="new_foto_existing">Foto Kondisi Existing</label>
                             <input type="file" id="new_foto_existing" wire:model="new_foto_existing"

@@ -29,7 +29,9 @@ class PelanggaranAnalisDetail extends Component
     }
 
     #[On('refresh-pelanggaran-analis-list')]
-    public function refresh() {}
+    public function refresh() {
+        $this->mount($this->pelanggaran->id);
+    }
 
     public function mount($id)
     {

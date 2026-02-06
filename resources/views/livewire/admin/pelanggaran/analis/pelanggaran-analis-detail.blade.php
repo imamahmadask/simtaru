@@ -30,7 +30,7 @@
                         <label for="foto_tindak_lanjut" class="form-label">Foto Tindak Lanjut</label>
                         <div class="d-flex flex-wrap gap-2 mt-2">
                             @if($pelanggaran->foto_tindak_lanjut)
-                                @foreach(json_decode($pelanggaran->foto_tindak_lanjut) as $foto)
+                                @foreach($pelanggaran->foto_tindak_lanjut as $foto)
                                     <a href="{{ asset('storage/' . $foto) }}" target="_blank">
                                         <img src="{{ asset('storage/' . $foto) }}" class="img-thumbnail" style="width: 150px; height: 150px; object-fit: cover;" alt="Foto Tindak Lanjut">
                                     </a>                                

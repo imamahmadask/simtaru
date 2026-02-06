@@ -38,8 +38,14 @@
                         <tr>
                             <th>No</th>
                             <th>No Pelanggaran</th>
-                            <th>Tanggal</th>
-                            <th>Jenis Formulir</th>
+                            <th>Sumber Informasi</th>
+                            <th class="text-wrap">Nama Pemilik/ Penanggung Jawab</th>
+                            <th class="text-wrap">Alamat Lokasi</th>
+                            <th class="text-wrap">Jenis Pelanggaran</th>
+                            {{-- <th class="text-wrap">Jenis Pemanfaatan Ruang</th>
+                            <th class="text-wrap">Temuan Pelanggaran</th>
+                            <th class="text-wrap">Tindak Lanjut</th> --}}
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -56,14 +62,44 @@
                                     <td class="text-nowrap">
                                         <span class="fw-bold">
                                             {{ $data->no_pelanggaran }}
-                                        </span>
-                                    </td>
-                                    <td class="text-nowrap">
-                                        {{ date('d-m-Y', strtotime($data->tgl_laporan)) }}
+                                        </span> <br>
+                                        <small class="text-muted fst-italic">
+                                            {{ date('d-m-Y', strtotime($data->tgl_laporan)) }}                                            
+                                        </small>
                                     </td>
                                     <td class="text-wrap">
                                         {{ $data->sumber_informasi_pelanggaran }}
-                                    </td>                                                                        
+                                    </td>
+                                    <td class="text-nowrap">
+                                        {{ $data->nama_pelanggar }}
+                                    </td>                  
+                                    <td class="text-nowrap">
+                                        {{ $data->alamat_pelanggaran }} <br>
+                                        <small class="text-muted fst-italic">
+                                            Kel. {{ $data->kel_pelanggaran }} - Kec. {{ $data->kec_pelanggaran }}
+                                        </small>
+                                    </td>                
+                                    <td class="text-wrap">
+                                        {{ $data->jenis_indikasi_pelanggaran }}                                          
+                                    </td>
+                                    {{-- <td class="text-nowrap">
+                                        {{ $data->jenis_pemanfaatan_ruang }}                                          
+                                    </td>
+                                    <td class="text-nowrap">
+                                        {{ $data->temuan_pelanggaran }}                                          
+                                    </td>   
+                                    <td class="text-nowrap">
+                                        {{ $data->tindak_lanjut }}                                          
+                                    </td> --}}
+                                    <td class="text-nowrap">
+                                        @if($data->status == 'Pending')
+                                            <span class="badge bg-warning">Pending</span>
+                                        @elseif($data->status == 'Diproses')
+                                            <span class="badge bg-info">Diproses</span>
+                                        @elseif($data->status == 'Selesai')
+                                            <span class="badge bg-success">Selesai</span>
+                                        @endif
+                                    </td>
                                     <td class="text-nowrap">
                                         <div class="me-3">                                            
                                             <a href="{{ route('pelanggaran.edit', $data->id) }}"
