@@ -89,7 +89,7 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <label for="create_lebar_jalan" class="form-label">Lebar Jalan</label>
-                                <input type="number" class="form-control" wire:model="lebar_jalan" id="create_lebar_jalan">
+                                <input type="text" class="form-control" wire:model="lebar_jalan" id="create_lebar_jalan">
                                 @error('lebar_jalan')
                                     <span class="form-text text-xs text-danger"> {{ $message }} </span>
                                 @enderror
