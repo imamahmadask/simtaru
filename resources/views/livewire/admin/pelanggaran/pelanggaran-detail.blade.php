@@ -138,47 +138,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                @endif
-    
-                                <!-- Identitas Pelanggar -->
-                                <div class="col-md-6 mb-4">
-                                    <div class="card h-100">
-                                        <div class="card-header">
-                                            <h5 class="mb-0">Profil Identitas Pelanggar</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <table class="table table-borderless">
-                                                <tr>
-                                                    <th style="width: 40%">Nama Pemilik Lahan</th>
-                                                    <td>: {{ $pelanggaran->nama_pelanggar }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Alamat Pemilik Lahan</th>
-                                                    <td>: {{ $pelanggaran->alamat_pelanggar }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Kelurahan</th>
-                                                    <td>: {{ $pelanggaran->kel_pelanggar }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Kecamatan</th>
-                                                    <td>: {{ $pelanggaran->kec_pelanggar }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Kota</th>
-                                                    <td>: {{ $pelanggaran->kota_pelanggar }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Provinsi</th>
-                                                    <td>: {{ $pelanggaran->prov_pelanggar }}</td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endif                                
     
                                 <!-- Lokasi Pelanggaran -->
-                                <div class="col-md-6 mb-4">
+                                <div class="col-md-12 mb-4">
                                     <div class="card h-100">
                                         <div class="card-header">
                                             <h5 class="mb-0">Profil Lokasi Indikasi Pelanggaran</h5>
@@ -186,7 +149,15 @@
                                         <div class="card-body">
                                             <table class="table table-borderless">
                                                 <tr>
-                                                    <th style="width: 40%">Alamat Lokasi</th>
+                                                    <th style="width: 30%">Nama Pemilik/Penanggung Jawab</th>
+                                                    <td>: {{ $pelanggaran->nama_pelanggar }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="width: 30%">Alamat Pemilik/Penanggung Jawab</th>
+                                                    <td>: {{ $pelanggaran->alamat_pelanggar }}, Kel. {{ $pelanggaran->kel_pelanggar }}, Kec. {{ $pelanggaran->kec_pelanggar }}, Kab/Kota {{ $pelanggaran->kota_pelanggar }}, Provinsi {{ $pelanggaran->prov_pelanggar }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="width: 30%">Alamat Lokasi</th>
                                                     <td>: {{ $pelanggaran->alamat_pelanggaran }}</td>
                                                 </tr>
                                                 <tr>
