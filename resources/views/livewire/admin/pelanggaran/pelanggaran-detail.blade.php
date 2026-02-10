@@ -39,42 +39,38 @@
                                             </span>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table table-borderless">
-                                                <tr>
-                                                    <th style="width: 40%">No Pelanggaran</th>
-                                                    <td>: {{ $pelanggaran->no_pelanggaran }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Tanggal Laporan</th>
-                                                    <td>: {{ $pelanggaran->tgl_laporan ? \Carbon\Carbon::parse($pelanggaran->tgl_laporan)->translatedFormat('d F Y') : '-' }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Sumber Informasi</th>
-                                                    <td>: {{ $pelanggaran->sumber_informasi_pelanggaran }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Jenis Indikasi</th>
-                                                    <td>: {{ $pelanggaran->jenis_indikasi_pelanggaran }}</td>
-                                                </tr>
-                                            </table>                    
+                                            <div class="row mb-2">
+                                                <div class="col-md-4 fw-semibold">No Pelanggaran</div>
+                                                <div class="col-md-8">: {{ $pelanggaran->no_pelanggaran }}</div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-md-4 fw-semibold">Tanggal Laporan</div>
+                                                <div class="col-md-8">: {{ $pelanggaran->tgl_laporan ? \Carbon\Carbon::parse($pelanggaran->tgl_laporan)->translatedFormat('d F Y') : '-' }}</div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-md-4 fw-semibold">Sumber Informasi</div>
+                                                <div class="col-md-8">: {{ $pelanggaran->sumber_informasi_pelanggaran }}</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 fw-semibold">Jenis Indikasi</div>
+                                                <div class="col-md-8">: {{ $pelanggaran->jenis_indikasi_pelanggaran }}</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-    
-                                <!-- Detail Berdasarkan Sumber -->
+                                
                                 <div class="col-md-6 mb-4">
+                                    <!-- Detail Berdasarkan Sumber -->
                                     @if($pelanggaran->sumber_informasi_pelanggaran == 'Hasil Pengawasan dan Monitoring')
                                         <div class="card h-100">
                                             <div class="card-header">
                                                 <h5 class="mb-0">Hasil Pengawasan</h5>
                                             </div>
                                             <div class="card-body">
-                                                <table class="table table-borderless">
-                                                    <tr>
-                                                        <th style="width: 40%">Tanggal Pengawasan</th>
-                                                        <td>: {{ $pelanggaran->tanggal_pengawasan ? \Carbon\Carbon::parse($pelanggaran->tanggal_pengawasan)->translatedFormat('d F Y') : '-' }}</td>
-                                                    </tr>
-                                                </table>
+                                                <div class="row">
+                                                    <div class="col-md-4 fw-semibold">Tanggal Pengawasan</div>
+                                                    <div class="col-md-8">: {{ $pelanggaran->tanggal_pengawasan ? \Carbon\Carbon::parse($pelanggaran->tanggal_pengawasan)->translatedFormat('d F Y') : '-' }}</div>
+                                                </div>
                                             </div>
                                         </div>
                                     @elseif($pelanggaran->sumber_informasi_pelanggaran == 'Laporan Masyarakat')
@@ -83,20 +79,18 @@
                                                 <h5 class="mb-0">Profil Pelapor</h5>
                                             </div>
                                             <div class="card-body">
-                                                <table class="table table-borderless">
-                                                    <tr>
-                                                        <th style="width: 40%">Bentuk Laporan</th>
-                                                        <td>: {{ $pelanggaran->bentuk_laporan }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Nama Pelapor</th>
-                                                        <td>: {{ $pelanggaran->nama_pelapor }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>No. Telp Pelapor</th>
-                                                        <td>: {{ $pelanggaran->telp_pelapor }}</td>
-                                                    </tr>
-                                                </table>
+                                                <div class="row mb-2">
+                                                    <div class="col-md-4 fw-semibold">Bentuk Laporan</div>
+                                                    <div class="col-md-8">: {{ $pelanggaran->bentuk_laporan }}</div>
+                                                </div>
+                                                <div class="row mb-2">
+                                                    <div class="col-md-4 fw-semibold">Nama Pelapor</div>
+                                                    <div class="col-md-8">: {{ $pelanggaran->nama_pelapor }}</div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4 fw-semibold">No. Telp Pelapor</div>
+                                                    <div class="col-md-8">: {{ $pelanggaran->telp_pelapor }}</div>
+                                                </div>
                                             </div>
                                         </div>
                                     @elseif($pelanggaran->sumber_informasi_pelanggaran == 'Hasil Penilaian KKPR atau SKRK')
@@ -105,26 +99,24 @@
                                                 <h5 class="mb-0">Data KKPR/SKRK</h5>
                                             </div>
                                             <div class="card-body">
-                                                <table class="table table-borderless">
-                                                    <tr>
-                                                        <th style="width: 40%">No. KKPR/SKRK</th>
-                                                        <td>: {{ $pelanggaran->no_kkpr_skrk }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>No. BA/SK Penilaian</th>
-                                                        <td>: {{ $pelanggaran->no_ba_sk_penilaian_kkpr }}</td>
-                                                    </tr>                                                    
-                                                    <tr>
-                                                        <th>Dokumen Penilaian</th>
-                                                        <td>: <a href="{{ Storage::url($pelanggaran->dokumen_penilaian_kkpr) }}" target="_blank" class="text-primary fw-semibold">
-                                                                <i class="bx bx-file me-1"></i> Lihat Dokumen
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                </table>
+                                                <div class="row mb-2">
+                                                    <div class="col-md-4 fw-semibold">No. KKPR/SKRK</div>
+                                                    <div class="col-md-8">: {{ $pelanggaran->no_kkpr_skrk }}</div>
+                                                </div>
+                                                <div class="row mb-2">
+                                                    <div class="col-md-4 fw-semibold">No. BA/SK Penilaian</div>
+                                                    <div class="col-md-8">: {{ $pelanggaran->no_ba_sk_penilaian_kkpr }}</div>
+                                                </div>                                                    
+                                                <div class="row">
+                                                    <div class="col-md-4 fw-semibold">Dokumen Penilaian</div>
+                                                    <div class="col-md-8">: <a href="{{ Storage::url($pelanggaran->dokumen_penilaian_kkpr) }}" target="_blank" class="text-primary fw-semibold">
+                                                            <i class="bx bx-file me-1"></i> Lihat Dokumen
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    @endif
+                                    @endif                                    
                                 </div>
     
                                 @if($pelanggaran->sumber_informasi_pelanggaran == 'Laporan Masyarakat')
@@ -134,11 +126,12 @@
                                                 <h5 class="mb-0">Isi Laporan / Kronologis</h5>
                                             </div>
                                             <div class="card-body">
-                                                <p>{{ $pelanggaran->isi_laporan }}</p>
+                                                <p class="mb-0">{{ $pelanggaran->isi_laporan }}</p>
                                             </div>
                                         </div>
                                     </div>
-                                @endif                                
+                                @endif
+                                
     
                                 <!-- Lokasi Pelanggaran -->
                                 <div class="col-md-12 mb-4">
@@ -147,40 +140,38 @@
                                             <h5 class="mb-0">Profil Lokasi Indikasi Pelanggaran</h5>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table table-borderless">
-                                                <tr>
-                                                    <th style="width: 30%">Nama Pemilik/Penanggung Jawab</th>
-                                                    <td>: {{ $pelanggaran->nama_pelanggar }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th style="width: 30%">Alamat Pemilik/Penanggung Jawab</th>
-                                                    <td>: {{ $pelanggaran->alamat_pelanggar }}, Kel. {{ $pelanggaran->kel_pelanggar }}, Kec. {{ $pelanggaran->kec_pelanggar }}, Kab/Kota {{ $pelanggaran->kota_pelanggar }}, Provinsi {{ $pelanggaran->prov_pelanggar }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th style="width: 30%">Alamat Lokasi</th>
-                                                    <td>: {{ $pelanggaran->alamat_pelanggaran }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Kelurahan</th>
-                                                    <td>: {{ $pelanggaran->kel_pelanggaran }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Kecamatan</th>
-                                                    <td>: {{ $pelanggaran->kec_pelanggaran }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Koordinat</th>
-                                                    <td>: {{ $pelanggaran->koordinat_pelanggaran }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Jenis Pemanfaatan</th>
-                                                    <td>: {{ $pelanggaran->jenis_pemanfaatan_ruang }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Google Maps</th>
-                                                    <td>: <a href="{{ $pelanggaran->gmaps_pelanggaran }}" target="_blank" class="btn btn-xs btn-primary"><i class="bx bx-map-alt me-1"></i> Buka Peta</a></td>
-                                                </tr>
-                                            </table>
+                                            <div class="row mb-2">
+                                                <div class="col-md-4 fw-semibold">Nama Pemilik/Penanggung Jawab</div>
+                                                <div class="col-md-8">: {{ $pelanggaran->nama_pelanggar }}</div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-md-4 fw-semibold">Alamat Pemilik/Penanggung Jawab</div>
+                                                <div class="col-md-8">: {{ $pelanggaran->alamat_pelanggar }}, Kel. {{ $pelanggaran->kel_pelanggar }}, Kec. {{ $pelanggaran->kec_pelanggar }}, Kab/Kota {{ $pelanggaran->kota_pelanggar }}, Provinsi {{ $pelanggaran->prov_pelanggar }}</div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-md-4 fw-semibold">Alamat Lokasi</div>
+                                                <div class="col-md-8">: {{ $pelanggaran->alamat_pelanggaran }}</div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-md-4 fw-semibold">Kelurahan</div>
+                                                <div class="col-md-8">: {{ $pelanggaran->kel_pelanggaran }}</div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-md-4 fw-semibold">Kecamatan</div>
+                                                <div class="col-md-8">: {{ $pelanggaran->kec_pelanggaran }}</div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-md-4 fw-semibold">Koordinat</div>
+                                                <div class="col-md-8">: {{ $pelanggaran->koordinat_pelanggaran }}</div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-md-4 fw-semibold">Jenis Pemanfaatan</div>
+                                                <div class="col-md-8">: {{ $pelanggaran->jenis_pemanfaatan_ruang }}</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 fw-semibold">Google Maps</div>
+                                                <div class="col-md-8">: <a href="{{ $pelanggaran->gmaps_pelanggaran }}" target="_blank" class="btn btn-xs btn-primary"><i class="bx bx-map-alt me-1"></i> Buka Peta</a></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -247,7 +238,6 @@
             Livewire.on('toast', (event) => {
                 const { type = 'success', message = 'Berhasil!' } = event[0] || event;
 
-                // Pakai Bootstrap 5 Toast (atau SweetAlert2 kalau mau lebih cantik)
                 const toastEl = document.createElement('div');
                 toastEl.className = `bs-toast toast align-items-center text-white bg-${type === 'error' ? 'danger' : 'success'} bg-${type === 'error' ? 'danger' : 'success'} fade show position-fixed top-0 end-0 m-3`;
                 toastEl.style.zIndex = 9999;
@@ -264,11 +254,9 @@
 
                 document.body.appendChild(toastEl);
 
-                // Init dan tampilkan
                 const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
                 toast.show();
 
-                // Hapus dari DOM setelah selesai
                 toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
             });
         });

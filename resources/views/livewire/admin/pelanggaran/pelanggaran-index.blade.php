@@ -111,6 +111,9 @@
                     </tbody>
                 </table>
             </div>
+            <div class="card-body">
+                {{ $pelanggarans->links() }}
+            </div>
         </div>
         <!--/ Basic Bootstrap Table -->
     </div>   

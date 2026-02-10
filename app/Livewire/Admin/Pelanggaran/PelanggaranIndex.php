@@ -7,15 +7,17 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
+use Livewire\WithPagination;
 
 #[Title('Pelanggaran')]
 class PelanggaranIndex extends Component
 {
+    use WithPagination;
+
     #[Layout('layouts.app-pelanggaran')]
     public function render()
     {
-
-        $pelanggarans = Pelanggaran::all();
+        $pelanggarans = Pelanggaran::latest()->paginate(10);
 
         return view('livewire.admin.pelanggaran.pelanggaran-index', compact('pelanggarans'));
     }
