@@ -42,6 +42,12 @@ class Pelanggaran extends Model
         'dokumen_akhir',
         'foto_tindak_lanjut',
         'foto_existing',
+        'file_sp1',
+        'file_sp2',
+        'file_sp3',
+        'file_pelimpahan_polpp',
+        'file_pernyataan',
+        'file_sosialisasi',
     ];
 
     protected $casts = [
