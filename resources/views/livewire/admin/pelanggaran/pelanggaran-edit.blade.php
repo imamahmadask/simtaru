@@ -366,24 +366,7 @@
                             @error('new_foto_existing')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                        </div>
-
-                        <hr>
-                        <h5 class="fw-semibold text-danger">Status Pelanggaran</h5>
-                        <div class="col-md-12">
-                            <label class="form-label" for="status">Status</label>
-                            <select id="status" wire:model="status"
-                                class="form-select @error('status') is-invalid @enderror">
-                                <option value="">Pilih Status</option>
-                                <option value="Pending">Pending</option>
-                                <option value="Process">Process</option>
-                                <option value="Success">Success</option>
-                                <option value="Rejected">Rejected</option>
-                            </select>
-                            @error('status')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>                                                                                                               
+                        </div>                                                                                                                                    
                     </div>
                     <div class="row mt-5">
                         <div class="col-md-6">

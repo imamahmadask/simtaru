@@ -34,7 +34,7 @@
                                     <div class="card h-100">
                                         <div class="card-header d-flex justify-content-between align-items-center">
                                             <h5 class="mb-0">Informasi Umum</h5>
-                                            <span class="badge bg-{{ $pelanggaran->status == 'Success' ? 'success' : ($pelanggaran->status == 'On Progress' ? 'primary' : ($pelanggaran->status == 'Pending' ? 'warning' : 'danger')) }}">
+                                            <span class="badge bg-{{ $pelanggaran->status == 'Selesai' ? 'success' : 'warning' }}">
                                                 {{ $pelanggaran->status }}
                                             </span>
                                         </div>

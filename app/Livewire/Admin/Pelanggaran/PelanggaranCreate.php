@@ -107,7 +107,7 @@ class PelanggaranCreate extends Component
             'jenis_indikasi_pelanggaran' => $this->jenis_indikasi_pelanggaran,  
             'jenis_pemanfaatan_ruang' => $this->jenis_pemanfaatan_ruang,
             'foto_existing' => $foto_existing_path,          
-            'status' => 'Pending',
+            'status' => 'On Progress',
         ]);
 
         session()->flash('success', 'Data berhasil disimpan');

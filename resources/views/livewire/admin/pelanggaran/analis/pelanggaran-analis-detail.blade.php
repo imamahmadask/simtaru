@@ -36,7 +36,7 @@
                             <th style="width: 40%">Status Terkini</th>
                             <td style="width: 5%">:</td>
                             <td class="text-start">
-                                <span class="badge bg-{{ $pelanggaran->status == 'Success' ? 'success' : ($pelanggaran->status == 'On Progress' ? 'primary' : ($pelanggaran->status == 'Pending' ? 'warning' : 'danger')) }}">
+                                <span class="badge bg-{{ $pelanggaran->status == 'Selesai' ? 'success' : 'warning' }}">
                                     {{ $pelanggaran->status }}
                                 </span>
                             </td>
@@ -273,9 +273,8 @@
                             <label for="status_pelanggaran" class="form-label">Status Terkini</label>
                             <select wire:model="status_pelanggaran" class="form-select @error('status_pelanggaran') is-invalid @enderror" id="status_pelanggaran">
                                 <option value="">Pilih Status</option>
-                                <option value="Pending">Pending</option>
                                 <option value="On Progress">On Progress</option>
-                                <option value="Success">Success</option>
+                                <option value="Selesai">Selesai</option>
                             </select>
                             @error('status_pelanggaran')
                                 <div class="invalid-feedback">{{ $message }}</div>
