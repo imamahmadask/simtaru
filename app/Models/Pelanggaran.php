@@ -48,6 +48,14 @@ class Pelanggaran extends Model
         'file_pelimpahan_polpp',
         'file_pernyataan',
         'file_sosialisasi',
+        'file_ba_pengambilan_dokumen',
+        'file_ba_penolakan',
+        'file_ba_survey',
+        'file_ba_survey_surveyor',
+        'file_ba_wawancara',
+        'file_ba_penerapan_sanksi',
+        'file_ba_sosialisasi',
+        'file_sk_sanksi_pemberhentian',
     ];
 
     protected $casts = [

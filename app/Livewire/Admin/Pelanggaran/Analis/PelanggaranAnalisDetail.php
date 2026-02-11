@@ -17,10 +17,10 @@ class PelanggaranAnalisDetail extends Component
     public $pelanggaran;
     public $temuan_pelanggaran;
     public $existing_foto_tindak_lanjut = [];
-    
+
     #[Validate('required_if:temuan_pelanggaran,Ada Pelanggaran', message: 'Tindak lanjut wajib diisi')]
     public $tindak_lanjut;
-    
+
     #[Validate(['foto_tindak_lanjut.*' => 'image|max:10240'])]
     public $foto_tindak_lanjut = [];
 
@@ -43,6 +43,22 @@ class PelanggaranAnalisDetail extends Component
     public $upload_pernyataan;
     #[Validate('nullable|file|mimes:pdf,jpg,jpeg,png|max:10240')]
     public $upload_sosialisasi;
+    #[Validate('nullable|file|mimes:pdf,jpg,jpeg,png|max:10240')]
+    public $upload_ba_pengambilan_dokumen;
+    #[Validate('nullable|file|mimes:pdf,jpg,jpeg,png|max:10240')]
+    public $upload_ba_penolakan;
+    #[Validate('nullable|file|mimes:pdf,jpg,jpeg,png|max:10240')]
+    public $upload_ba_survey;
+    #[Validate('nullable|file|mimes:pdf,jpg,jpeg,png|max:10240')]
+    public $upload_ba_survey_surveyor;
+    #[Validate('nullable|file|mimes:pdf,jpg,jpeg,png|max:10240')]
+    public $upload_ba_wawancara;
+    #[Validate('nullable|file|mimes:pdf,jpg,jpeg,png|max:10240')]
+    public $upload_ba_penerapan_sanksi;
+    #[Validate('nullable|file|mimes:pdf,jpg,jpeg,png|max:10240')]
+    public $upload_ba_sosialisasi;
+    #[Validate('nullable|file|mimes:pdf,jpg,jpeg,png|max:10240')]
+    public $upload_sk_sanksi_pemberhentian;
 
     public function render()
     {
@@ -77,7 +93,7 @@ class PelanggaranAnalisDetail extends Component
 
         $all_photos = $this->existing_foto_tindak_lanjut;
 
-        if($this->foto_tindak_lanjut) 
+        if($this->foto_tindak_lanjut)
         {
             foreach ($this->foto_tindak_lanjut as $foto) {
                 $foto_tindak_lanjut_filename = $this->pelanggaran->no_pelanggaran . '_' . Str::random(5) . '.' . $foto->getClientOriginalExtension();
@@ -99,6 +115,15 @@ class PelanggaranAnalisDetail extends Component
             'upload_pelimpahan_polpp' => 'file_pelimpahan_polpp',
             'upload_pernyataan' => 'file_pernyataan',
             'upload_sosialisasi' => 'file_sosialisasi',
+            'upload_ba_pengambilan_dokumen' => 'file_ba_pengambilan_dokumen',
+            'upload_ba_penolakan' => 'file_ba_penolakan',
+            'upload_ba_survey' => 'file_ba_survey',
+            'upload_ba_survey_surveyor' => 'file_ba_survey_surveyor',
+            'upload_ba_wawancara' => 'file_ba_wawancara',
+            'upload_ba_penerapan_sanksi' => 'file_ba_penerapan_sanksi',
+            'upload_ba_sosialisasi' => 'file_ba_sosialisasi',
+            'upload_sk_sanksi_pemberhentian' => 'file_sk_sanksi_pemberhentian',
+
         ];
 
         foreach ($documentTemplates as $property => $column) {
@@ -114,7 +139,7 @@ class PelanggaranAnalisDetail extends Component
 
         $this->dispatch('refresh-pelanggaran-analis-list');
         $this->dispatch('closeModal');
-        
+
         // Reset new photos after save
         $this->foto_tindak_lanjut = [];
         $this->upload_sp1 = null;
@@ -123,6 +148,14 @@ class PelanggaranAnalisDetail extends Component
         $this->upload_pelimpahan_polpp = null;
         $this->upload_pernyataan = null;
         $this->upload_sosialisasi = null;
+        $this->upload_ba_pengambilan_dokumen = null;
+        $this->upload_ba_penolakan = null;
+        $this->upload_ba_survey = null;
+        $this->upload_ba_survey_surveyor = null;
+        $this->upload_ba_wawancara = null;
+        $this->upload_ba_penerapan_sanksi = null;
+        $this->upload_ba_sosialisasi = null;
+        $this->upload_sk_sanksi_pemberhentian = null;
     }
 
     public function removeImage($index)
@@ -159,7 +192,7 @@ class PelanggaranAnalisDetail extends Component
 
         $all_existing_photos = $this->existing_foto_existing;
 
-        if($this->temp_foto_existing) 
+        if($this->temp_foto_existing)
         {
             foreach ($this->temp_foto_existing as $foto) {
                 $filename = $this->pelanggaran->no_pelanggaran . '_eval_' . Str::random(5) . '.' . $foto->getClientOriginalExtension();
@@ -177,7 +210,7 @@ class PelanggaranAnalisDetail extends Component
 
         $this->dispatch('refresh-pelanggaran-analis-list');
         $this->dispatch('closeEvaluasiModal');
-        
+
         $this->temp_foto_existing = [];
     }
 
@@ -191,7 +224,7 @@ class PelanggaranAnalisDetail extends Component
             'alamat_pelanggaran' => $data->alamat_pelanggaran,
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => $data->kec_pelanggaran,
-            'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,            
+            'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,
         ];
 
         return $this->generateDocument('SURAT_PERINGATAN_1.docx', $data);
@@ -207,7 +240,7 @@ class PelanggaranAnalisDetail extends Component
             'alamat_pelanggaran' => $data->alamat_pelanggaran,
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => $data->kec_pelanggaran,
-            'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,            
+            'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,
         ];
 
         return $this->generateDocument('SURAT_PERINGATAN_2.docx', $data);
@@ -223,7 +256,7 @@ class PelanggaranAnalisDetail extends Component
             'alamat_pelanggaran' => $data->alamat_pelanggaran,
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => $data->kec_pelanggaran,
-            'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,            
+            'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,
         ];
 
         return $this->generateDocument('SURAT_PERINGATAN_3.docx', $data);
@@ -239,7 +272,7 @@ class PelanggaranAnalisDetail extends Component
             'alamat_pelanggaran' => $data->alamat_pelanggaran,
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => $data->kec_pelanggaran,
-            'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,            
+            'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,
         ];
 
         return $this->generateDocument('SURAT_PELIMPAHAN_BERKAS_POLPP.docx', $data);
@@ -255,7 +288,7 @@ class PelanggaranAnalisDetail extends Component
             'alamat_pelanggaran' => $data->alamat_pelanggaran,
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => $data->kec_pelanggaran,
-            'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,            
+            'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,
         ];
 
         return $this->generateDocument('SURAT_PERNYATAAN_PELANGGARAN_PEMANFAATAN_RUANG.docx', $data);
@@ -270,10 +303,127 @@ class PelanggaranAnalisDetail extends Component
             'alamat_pelanggaran' => $data->alamat_pelanggaran,
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => $data->kec_pelanggaran,
-            'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,            
+            'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,
         ];
 
         return $this->generateDocument('SURAT_SOSIALISASI_PELANGGARAN.docx', $data);
+    }
+
+    public function downloadBAPengambilanDokumen(){
+        $data = $this->pelanggaran;
+
+        $data = [
+            'jenis_indikasi_pelanggaran' => $data->jenis_indikasi_pelanggaran,
+            'alamat_pelanggaran' => $data->alamat_pelanggaran,
+            'kel_pelanggaran' => $data->kel_pelanggaran,
+            'kec_pelanggaran' => $data->kec_pelanggaran,
+        ];
+
+        return $this->generateDocument('1_BA_PENGAMBILAN_DOKUMEN.docx', $data);
+    }
+
+    public function downloadBAPenolakan(){
+        $data = $this->pelanggaran;
+
+        $data = [
+            'jenis_indikasi_pelanggaran' => $data->jenis_indikasi_pelanggaran,
+            'alamat_pelanggaran' => $data->alamat_pelanggaran,
+            'kel_pelanggaran' => $data->kel_pelanggaran,
+            'kec_pelanggaran' => $data->kec_pelanggaran,
+        ];
+
+        return $this->generateDocument('2_BA_PENOLAKAN.docx', $data);
+    }
+
+    public function downloadBASurvey(){
+        $data = $this->pelanggaran;
+        $koordinat = $data->koordinat_pelanggaran;
+        $koordinat = explode(',', $koordinat);
+
+        $data = [
+            'jenis_indikasi_pelanggaran' => $data->jenis_indikasi_pelanggaran,
+            'alamat_pelanggaran' => $data->alamat_pelanggaran,
+            'kel_pelanggaran' => $data->kel_pelanggaran,
+            'kec_pelanggaran' => $data->kec_pelanggaran,
+            'nama_pemilik_bangunan' => $data->nama_pelanggar,
+            'latitude' => $koordinat[0],
+            'longitude' => $koordinat[1],
+            'gmaps' => $data->gmaps,
+            'alamat_pelanggar' => $data->alamat_pelanggar,
+            'kel_pelanggar' => $data->kel_pelanggar,
+            'kec_pelanggar' => $data->kec_pelanggar,
+            'kota_pelanggar' => $data->kota_pelanggar,
+            'prov_pelanggar' => $data->prov_pelanggar,
+        ];
+
+        return $this->generateDocument('3A_BA_SURVEI_LAPANGAN.docx', $data);
+    }
+
+    public function downloadBASurveySurveyor(){
+        $data = $this->pelanggaran;
+
+        $data = [
+            'nama_pemilik_bangunan' => $data->nama_pelanggar,
+        ];
+
+        return $this->generateDocument('3B_BA_SURVEI_LAPANGAN_SURVEYOR.docx', $data);
+    }
+
+    public function downloadBAWawancara(){
+        $data = $this->pelanggaran;
+
+        $data = [
+            'nama_pemilik_bangunan' => $data->nama_pelanggar,
+        ];
+
+        return $this->generateDocument('4A_BA_WAWANCARA.docx', $data);
+    }
+
+    public function downloadPenerapanSanksi(){
+        $data = $this->pelanggaran;
+
+        $data = [
+            'jenis_indikasi_pelanggaran' => $data->jenis_indikasi_pelanggaran,
+            'alamat_pelanggaran' => $data->alamat_pelanggaran,
+            'kel_pelanggaran' => $data->kel_pelanggaran,
+            'kec_pelanggaran' => $data->kec_pelanggaran,
+            'nama_pemilik_bangunan' => $data->nama_pelanggar,
+            'alamat_pelanggar' => $data->alamat_pelanggar,
+            'kel_pelanggar' => $data->kel_pelanggar,
+            'kec_pelanggar' => $data->kec_pelanggar,
+            'kota_pelanggar' => $data->kota_pelanggar,
+            'prov_pelanggar' => $data->prov_pelanggar,
+        ];
+
+        return $this->generateDocument('5_BA_PENERAPAN_SANKSI.docx', $data);
+    }
+
+    public function downloadBASosialisasi(){
+        $data = $this->pelanggaran;
+
+        $data = [
+            'jenis_indikasi_pelanggaran' => $data->jenis_indikasi_pelanggaran,
+            'alamat_pelanggaran' => $data->alamat_pelanggaran,
+            'kel_pelanggaran' => $data->kel_pelanggaran,
+            'kec_pelanggaran' => $data->kec_pelanggaran,
+            'nama_pemilik_bangunan' => $data->nama_pelanggar,
+        ];
+
+        return $this->generateDocument('6_BA_SOSIALISASI.docx', $data);
+    }
+
+    public function downloadSKSanksiPemberhentian(){
+        $data = $this->pelanggaran;
+
+        $data = [
+            'jenis_indikasi_pelanggaran' => $data->jenis_indikasi_pelanggaran,
+            'alamat_pelanggaran' => strtoupper($data->alamat_pelanggaran),
+            'kel_pelanggaran' => $data->kel_pelanggaran,
+            'kec_pelanggaran' => strtoupper($data->kec_pelanggaran),
+            'nama_pemilik_bangunan' => $data->nama_pelanggar,
+        ];
+
+        return $this->generateDocument('10_SK_SANKSI_PEMBERHENTIAN.docx', $data);
     }
 
     private function generateDocument($templatePath, $data)
@@ -285,7 +435,8 @@ class PelanggaranAnalisDetail extends Component
         }
 
         $baseName = str_replace('.docx', '', basename($templatePath));
-        $sanitizedName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $data['nama_pemilik_bangunan']);
+        $name = $data['nama_pemilik_bangunan'] ?? $data['jenis_indikasi_pelanggaran'];
+        $sanitizedName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $name);
         $fileName = $baseName . '_' . $sanitizedName . '.docx';
         $tempPath = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $fileName);
 
