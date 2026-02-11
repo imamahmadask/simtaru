@@ -13,6 +13,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
+    @stack('styles')
 </head>
 
 <body>
@@ -36,7 +37,7 @@
                             <a class="nav-link text-muted hover-primary" href="/#regulasi">Regulasi</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-muted hover-primary" href="/#maps">Peta</a>
+                            <a class="nav-link text-muted hover-primary" href="/#peta">Peta</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-muted hover-primary" href="/#faq">FAQ</a>
@@ -85,7 +86,7 @@
                     <ul class="list-unstyled">
                         <li><a href="/#layanan" class="text-light text-decoration-none hover-white">Layanan</a></li>
                         <li><a href="/#regulasi" class="text-light text-decoration-none hover-white">Regulasi</a></li>
-                        <li><a href="/#maps" class="text-light text-decoration-none hover-white">Maps</a></li>
+                        <li><a href="/#peta" class="text-light text-decoration-none hover-white">Peta</a></li>
                         <li><a href="/#faq" class="text-light text-decoration-none hover-white">FAQ</a></li>
                         <li><a href="/#gallery" class="text-light text-decoration-none hover-white">Galeri</a></li>
                         <li><a href="/#kontak" class="text-light text-decoration-none hover-white">Kontak</a></li>
@@ -113,6 +114,7 @@
             });
         });
     </script>
+    @stack('scripts')
 </body>
 
 </html>

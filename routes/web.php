@@ -29,6 +29,8 @@ use App\Livewire\Guest\Layanan\ItrGuest;
 use App\Livewire\Guest\Layanan\KkprbGuest;
 use App\Livewire\Guest\Layanan\KkprnbGuest;
 use App\Livewire\Guest\Layanan\SkrkGuest;
+use App\Livewire\Guest\Maps\PetaPemanfaatanRuang;
+use App\Livewire\Guest\Maps\PetaPelanggaran;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -39,6 +41,8 @@ Route::get('layanan/skrk', SkrkGuest::class)->name('layanan.skrk');
 Route::get('layanan/itr', ItrGuest::class)->name('layanan.itr');
 Route::get('layanan/kkprnb', KkprnbGuest::class)->name('layanan.kkprnb');
 Route::get('layanan/kkprb', KkprbGuest::class)->name('layanan.kkprb');
+Route::get('peta/pemanfaatan-ruang', PetaPemanfaatanRuang::class)->name('peta.pemanfaatan-ruang');
+Route::get('peta/pelanggaran', PetaPelanggaran::class)->name('peta.pelanggaran');
 
 Route::middleware(['cekRole:superadmin,supervisor,analis,surveyor,cs,data-entry'])->group(function () {
     Route::get('admin/dashboard', DashboardIndex::class)->name('dashboard'); // dashboard

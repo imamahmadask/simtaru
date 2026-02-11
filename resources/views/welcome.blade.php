@@ -38,7 +38,7 @@
                             <a class="nav-link text-muted hover-primary" href="#regulasi">Regulasi</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-muted hover-primary" href="#maps">Peta</a>
+                            <a class="nav-link text-muted hover-primary" href="#peta">Peta</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-muted hover-primary" href="#faq">FAQ</a>
@@ -234,9 +234,76 @@
     </section>
 
     <!-- Map Section -->
-    <section id="maps" style="padding-top: 5rem !important; padding-bottom: 5rem !important">
-        <livewire:guest.maps />
+    <section id="peta" style="padding-top: 5rem !important; padding-bottom: 5rem !important">
+        <div class="container">
+            <div class="row justify-content-center text-center mb-5">
+                <div class="col-lg-8">
+                    <h2 class="display-4 fw-bold text-dark mb-4">Peta Tata Ruang</h2>
+                    <p class="lead text-muted">
+                        Informasi Peta Rencana Tata Ruang Wilayah (RTRW) Kota Mataram
+                    </p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow-lg feature-card">
+                        <div class="card-body text-center p-4">
+                            <a href="{{ route('peta.pemanfaatan-ruang') }}" class="text-decoration-none" target="_blank">
+                                <div class="feature-icon bg-primary-subtle text-primary mb-4 mx-auto">
+                                    <i class="bi bi-map"></i>
+                                </div>
+                                <h3 class="h5 fw-semibold text-dark mb-3">Peta Pemanfaatan Ruang</h3>
+                            </a>
+                            <p class="text-muted mb-1">
+                                Peta yang menggambarkan rencana pemanfaatan ruang di Kota Mataram.
+                            </p>
+                            <div class="mt-3">
+                                <a href="{{ route('peta.pemanfaatan-ruang') }}" class="btn btn-outline-primary btn-sm" target="_blank">Buka Peta</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow-lg feature-card">
+                        <div class="card-body text-center p-4">
+                            <a href="{{ route('peta.pelanggaran') }}" class="text-decoration-none" target="_blank">
+                                <div class="feature-icon bg-danger-subtle text-danger mb-4 mx-auto">
+                                    <i class="bi bi-bell-slash"></i>
+                                </div>
+                                <h3 class="h5 fw-semibold text-dark mb-3">Peta Pelanggaran</h3>
+                            </a>
+                            <p class="text-muted mb-1">
+                                Peta yang menggambarkan lokasi pelanggaran tata ruang di Kota Mataram.
+                            </p>
+                            <div class="mt-3">
+                                <a href="{{ route('peta.pelanggaran') }}" class="btn btn-outline-danger btn-sm" target="_blank">Buka Peta</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow-lg feature-card">
+                        <div class="card-body text-center p-4">
+                            <a href="https://geoportal.mataramkota.go.id/#/" class="text-decoration-none" target="_blank">
+                                <div class="feature-icon bg-success-subtle text-success mb-4 mx-auto">
+                                    <i class="bi bi-geo"></i>
+                                </div>
+                                <h3 class="h5 fw-semibold text-dark mb-3">Peta GIS</h3>
+                            </a>
+                            <p class="text-muted mb-1">
+                                Peta GIS Kota Mataram.
+                            </p>
+                            <div class="mt-3">
+                                <a href="https://geoportal.mataramkota.go.id/#/" class="btn btn-outline-success btn-sm" target="_blank">Buka Peta</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>                    
+        </div>
     </section>
+
+    
 
     <!-- Gallery Section -->
     <livewire:guest.gallery-guest />
@@ -662,7 +729,7 @@
                     <ul class="list-unstyled">
                         <li><a href="#layanan" class="text-light text-decoration-none hover-white">Layanan</a></li>
                         <li><a href="#regulasi" class="text-light text-decoration-none hover-white">Regulasi</a></li>
-                        <li><a href="#maps" class="text-light text-decoration-none hover-white">Maps</a></li>
+                        <li><a href="#peta" class="text-light text-decoration-none hover-white">Peta</a></li>
                         <li><a href="#faq" class="text-light text-decoration-none hover-white">FAQ</a></li>
                         <li><a href="#kontak" class="text-light text-decoration-none hover-white">Kontak</a></li>
                     </ul>
