@@ -165,9 +165,7 @@ class PelanggaranEdit extends Component
             'status' => $this->status,
         ]);
 
-        session()->flash('success', 'Data berhasil diperbarui');
-
-        return redirect()->route('pelanggaran.detail', $this->pelanggaranId);
+        return redirect()->route('pelanggaran.detail', $this->pelanggaranId)->with('success', 'Data Pelanggaran berhasil diupdate!');
     }
 
     private function uploadMultipleFiles($files, $folder)

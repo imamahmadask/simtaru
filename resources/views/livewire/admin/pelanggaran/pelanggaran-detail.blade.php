@@ -1,7 +1,7 @@
 <div>
-    <div class="container-xxl flex-grow-1 container-p-y">
+    <div class="container-xxl flex-grow-1 container-p-y">        
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="fw-bold py-3 mb-0"><span class="text-muted fw-light">Pelanggaran /</span> Detail Pelanggaran</h4>
+            <h4 class="fw-bold py-3 mb-0"><span class="text-muted fw-light">Pelanggaran /</span> Detail Kasus Pelanggaran</h4>                        
             <div>               
                 <a href="{{ route('pelanggaran.edit', $pelanggaran->id) }}" class="btn btn-warning">
                     <i class="bx bx-edit-alt me-1"></i> Edit
@@ -11,6 +11,31 @@
                 </a>
             </div>
         </div>
+
+        @if (session()->has('success'))
+            <div class="bs-toast toast bg-success fade top-0 end-0 mb-2" role="alert" aria-live="assertive"
+                aria-atomic="true" data-bs-delay="3000" data-bs-autohide="true">
+                <div class="toast-header">
+                    <i class="bx bx-bell me-2"></i>
+                    <div class="me-auto fw-semibold">Message!</div>
+                    <small>a moment ago</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">{{ session('success') }}</div>
+            </div>
+        @endif
+        @if (session()->has('error'))
+            <div class="bs-toast toast bg-danger fade top-0 end-0 mb-2" role="alert" aria-live="assertive"
+                aria-atomic="true" data-bs-delay="3000" data-bs-autohide="true">
+                <div class="toast-header">
+                    <i class="bx bx-bell me-2"></i>
+                    <div class="me-auto fw-semibold">Message!</div>
+                    <small>a moment ago</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">{{ session('error') }}</div>
+            </div>
+        @endif
 
         <div class="row">
             <div class="col-xxl-12 mb-4">
@@ -40,8 +65,8 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="row mb-2">
-                                                <div class="col-md-4 fw-semibold">No Pelanggaran</div>
-                                                <div class="col-md-8">: {{ $pelanggaran->no_pelanggaran }}</div>
+                                                <div class="col-md-4 fw-semibold">No Kasus</div>
+                                                <div class="col-md-8">: <span class="badge bg-danger fs-6 fst-italic">{{ $pelanggaran->no_pelanggaran }}</span></div>
                                             </div>
                                             <div class="row mb-2">
                                                 <div class="col-md-4 fw-semibold">Tanggal Laporan</div>
@@ -233,32 +258,35 @@
     </div>
 </div>
 @script
-    <script>
-        document.addEventListener('livewire:initialized', () => {
-            Livewire.on('toast', (event) => {
-                const { type = 'success', message = 'Berhasil!' } = event[0] || event;
+<script>
+    document.addEventListener('livewire:initialized', () => {
+        Livewire.on('toast', (event) => {
+            const { type = 'success', message = 'Berhasil!' } = event[0] || event;
 
-                const toastEl = document.createElement('div');
-                toastEl.className = `bs-toast toast align-items-center text-white bg-${type === 'error' ? 'danger' : 'success'} bg-${type === 'error' ? 'danger' : 'success'} fade show position-fixed top-0 end-0 m-3`;
-                toastEl.style.zIndex = 9999;
-                toastEl.setAttribute('role', 'alert');
-                toastEl.innerHTML = `
-                    <div class="d-flex">
-                        <div class="toast-body">
-                            <strong>${type === 'success' ? 'Berhasil!' : 'Gagal!'}</strong><br>
-                            ${message}
-                        </div>
-                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            // Pakai Bootstrap 5 Toast (atau SweetAlert2 kalau mau lebih cantik)
+            const toastEl = document.createElement('div');
+            toastEl.className = `bs-toast toast align-items-center text-white bg-${type === 'error' ? 'danger' : 'success'} bg-${type === 'error' ? 'danger' : 'success'} fade show position-fixed top-0 end-0 m-3`;
+            toastEl.style.zIndex = 9999;
+            toastEl.setAttribute('role', 'alert');
+            toastEl.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <strong>${type === 'success' ? 'Berhasil!' : 'Gagal!'}</strong><br>
+                        ${message}
                     </div>
-                `;
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            `;
 
-                document.body.appendChild(toastEl);
+            document.body.appendChild(toastEl);
 
-                const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
-                toast.show();
+            // Init dan tampilkan
+            const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+            toast.show();
 
-                toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
-            });
+            // Hapus dari DOM setelah selesai
+            toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
         });
-    </script>
+    });
+</script>
 @endscript

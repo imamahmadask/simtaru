@@ -67,7 +67,7 @@ class PelanggaranCreate extends Component
     {
         $this->validate();
 
-        $this->no_pelanggaran = 'PEL-' . date('Ymd') . '-' . Str::random(5);
+        $this->no_pelanggaran = $this->generateNoPelanggaran();
 
         $foto_pengawasan_path = $this->uploadMultipleFiles($this->foto_pengawasan, 'foto_pengawasan');
         $foto_existing_path = $this->uploadMultipleFiles($this->foto_existing, 'foto_existing');
@@ -75,7 +75,7 @@ class PelanggaranCreate extends Component
         $dokumen_penilaian_kkpr_path = $this->dokumen_penilaian_kkpr 
             ? $this->dokumen_penilaian_kkpr->storeAs(
                 "pelanggaran/{$this->no_pelanggaran}/dokumen_penilaian_kkpr", 
-                "{$this->no_pelanggaran}_" . Str::random(5) . '.' . $this->dokumen_penilaian_kkpr->getClientOriginalExtension(), 
+                str_replace('/', '-', $this->no_pelanggaran) . "_" . Str::random(5) . '.' . $this->dokumen_penilaian_kkpr->getClientOriginalExtension(), 
                 'public'
             ) 
             : null;
@@ -110,9 +110,7 @@ class PelanggaranCreate extends Component
             'status' => 'On Progress',
         ]);
 
-        session()->flash('success', 'Data berhasil disimpan');
-
-        return redirect()->route('pelanggaran.detail', $pelanggaran->id);
+        return redirect()->route('pelanggaran.detail', $pelanggaran->id)->with('success', 'Data Pelanggaran berhasil ditambahkan!');
     }
 
     private function uploadMultipleFiles($files, $folder)
@@ -123,7 +121,7 @@ class PelanggaranCreate extends Component
 
         $paths = [];
         foreach ($files as $file) {
-            $filename = "{$this->no_pelanggaran}_" . Str::random(5) . '.' . $file->getClientOriginalExtension();
+            $filename = str_replace('/', '-', $this->no_pelanggaran) . "_" . Str::random(5) . '.' . $file->getClientOriginalExtension();
             $paths[] = $file->storeAs("pelanggaran/{$this->no_pelanggaran}/{$folder}", $filename, 'public');
         }
 
@@ -134,5 +132,25 @@ class PelanggaranCreate extends Component
     {
         unset($this->foto_pengawasan[$index]);
         $this->foto_pengawasan = array_values($this->foto_pengawasan);
+    }
+
+    private function generateNoPelanggaran()
+    {
+        $bulan = date('n');
+        $tahun = date('Y');
+        $romawi = $this->getRomawi($bulan);
+        
+        $urutan = Pelanggaran::whereYear('created_at', $tahun)->count() + 1;
+        
+        return sprintf("%03d/Wasdal-Taru/%s/%s", $urutan, $romawi, $tahun);
+    }
+
+    private function getRomawi($bulan)
+    {
+        $map = [
+            1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV', 5 => 'V', 6 => 'VI',
+            7 => 'VII', 8 => 'VIII', 9 => 'IX', 10 => 'X', 11 => 'XI', 12 => 'XII'
+        ];
+        return $map[$bulan];
     }
 }

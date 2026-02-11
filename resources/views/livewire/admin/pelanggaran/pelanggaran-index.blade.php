@@ -1,8 +1,8 @@
 <div>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pelanggaran /</span> Daftar Pelanggaran</h4>
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pelanggaran /</span> Daftar Kasus Pelanggaran</h4>
         @if (session()->has('success'))
-            <div class="bs-toast toast bg-primary fade top-0 end-0 mb-2" role="alert" aria-live="assertive"
+            <div class="bs-toast toast bg-success fade top-0 end-0 mb-2" role="alert" aria-live="assertive"
                 aria-atomic="true" data-bs-delay="3000" data-bs-autohide="true">
                 <div class="toast-header">
                     <i class="bx bx-bell me-2"></i>
@@ -16,12 +16,12 @@
         
         <!-- Basic Bootstrap Table -->
         <div class="card">
-            <h5 class="card-header">List Data Pelanggaran</h5>
+            <h5 class="card-header">List Data Kasus Pelanggaran</h5>
             <div class="row mx-3 mb-3">
                 <div class="col d-flex flex-wrap justify-content-between align-items-center gap-2">
                     <!-- Tombol kiri -->
                     <a href="{{ route('pelanggaran.create') }}" class="btn btn-primary">
-                        Tambah Pelanggaran
+                        Tambah Kasus
                     </a>
                     <!-- Filter & Search -->
                     <div class="d-flex flex-wrap gap-2">                        
@@ -37,11 +37,11 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>No Pelanggaran</th>
+                            <th>No Kasus</th>
                             <th>Sumber Informasi</th>
                             <th class="text-wrap">Nama Pemilik/ Penanggung Jawab</th>
                             <th class="text-wrap">Alamat Lokasi</th>
-                            <th class="text-wrap">Jenis Pelanggaran</th>                            
+                            <th class="text-wrap">Jenis Indikasi Pelanggaran</th>                            
                             <th class="text-wrap">Temuan Pelanggaran</th>
                             <th class="text-wrap">Tindak Lanjut</th>                            
                             <th>Actions</th>

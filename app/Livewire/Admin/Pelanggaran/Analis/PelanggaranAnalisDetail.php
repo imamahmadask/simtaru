@@ -134,8 +134,8 @@ class PelanggaranAnalisDetail extends Component
         }
 
         $this->pelanggaran->update($updateData);
-
-        session()->flash('message', 'Analisa Pelanggaran Berhasil Ditambahkan!');
+        
+        $this->dispatch('toast', ['type' => 'success', 'message' => 'Analisa Pelanggaran Berhasil Ditambahkan!']);
 
         $this->dispatch('refresh-pelanggaran-analis-list');
         $this->dispatch('closeModal');
@@ -206,7 +206,7 @@ class PelanggaranAnalisDetail extends Component
             'foto_existing' => count($all_existing_photos) > 0 ? $all_existing_photos : null,
         ]);
 
-        session()->flash('message', 'Evaluasi Pelanggaran Berhasil Diperbarui!');
+        $this->dispatch('toast', ['type' => 'success', 'message' => 'Evaluasi Pelanggaran Berhasil Diperbarui!']);
 
         $this->dispatch('refresh-pelanggaran-analis-list');
         $this->dispatch('closeEvaluasiModal');
