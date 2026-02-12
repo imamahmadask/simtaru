@@ -3,6 +3,7 @@
 namespace App\Livewire\Guest\Maps;
 
 use App\Models\Pelanggaran;
+use App\Models\SaranPelanggaran;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
@@ -15,7 +16,11 @@ class PetaPelanggaran extends Component
     public array $locations = [];
 
     // Properties for simple popup or details
-    public $selectedPelanggaran;
+    public $selectedPelanggaranId;
+    public $saranNama;
+    public $saranPesan;
+    public $showSaranModal = false;
+    public $successMessage;
 
     public function mount()
     {
@@ -112,5 +117,40 @@ class PetaPelanggaran extends Component
     {
         $this->loadLocations();
         $this->dispatch('refresh-map');
+    }
+
+    public function openSaranModal($id)
+    {
+        $this->selectedPelanggaranId = $id;
+        $this->reset(['saranNama', 'saranPesan', 'successMessage']);
+        $this->resetErrorBag();
+        $this->showSaranModal = true;
+        $this->dispatch('open-modal-saran');
+    }
+
+    public function closeSaranModal()
+    {
+        $this->showSaranModal = false;
+        $this->reset(['selectedPelanggaranId', 'saranNama', 'saranPesan']);
+        $this->resetErrorBag();
+        $this->dispatch('close-modal-saran');
+    }
+
+    public function saveSaran()
+    {
+        $this->validate([
+            'saranNama' => 'required|string|max:255',
+            'saranPesan' => 'required|string',
+        ]);
+
+        SaranPelanggaran::create([
+            'pelanggaran_id' => $this->selectedPelanggaranId,
+            'nama' => $this->saranNama,
+            'pesan' => $this->saranPesan,
+        ]);
+
+        $this->closeSaranModal();
+        $this->successMessage = 'Saran/Masukan berhasil dikirim. Terima kasih!';
+        $this->dispatch('show-success-toast');
     }
 }
