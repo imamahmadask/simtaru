@@ -16,18 +16,49 @@ class SkrkAnalisDetail extends Component
 {
     public $skrk;
     public $koordinatTable = false;
+    public $disposisiAnalis = null;
 
     #[On('refresh-skrk-analis-list')]
     public function refresh() {}
 
     public function render()
     {
+        // Get the current analis disposisi for showing start button
+        $tahapanAnalisId = $this->skrk->permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id');
+        if ($tahapanAnalisId) {
+            $this->disposisiAnalis = $this->skrk->permohonan->disposisi()
+                ->where('tahapan_id', $tahapanAnalisId)
+                ->where('is_done', false)
+                ->latest()
+                ->first();
+        }
+
         return view('livewire.admin.permohonan.skrk.analis.skrk-analis-detail');
     }
 
     public function mount($skrk_id)
     {
         $this->skrk = Skrk::find($skrk_id);
+    }
+
+    public function mulaiKerja()
+    {
+        $tahapanAnalisId = $this->skrk->permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id');
+        if ($tahapanAnalisId) {
+            $disposisi = $this->skrk->permohonan->disposisi()
+                ->where('tahapan_id', $tahapanAnalisId)
+                ->where('is_done', false)
+                ->whereNull('tgl_mulai_kerja')
+                ->latest()
+                ->first();
+
+            if ($disposisi) {
+                $disposisi->update([
+                    'tgl_mulai_kerja' => now(),
+                ]);
+                session()->flash('success', 'Waktu mulai kerja telah dicatat!');
+            }
+        }
     }
 
     public function download2a()

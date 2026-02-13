@@ -16,6 +16,7 @@ class ItrAnalisDetail extends Component
 {
     public $itr;
     public $koordinatTable = false;
+    public $disposisiAnalis = null;
 
     #[On('refresh-itr-analis-list')]
     public function refresh()
@@ -25,12 +26,42 @@ class ItrAnalisDetail extends Component
     
     public function render()
     {
+        // Get the current analis disposisi for showing start button
+        $tahapanAnalisId = $this->itr->permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id');
+        if ($tahapanAnalisId) {
+            $this->disposisiAnalis = $this->itr->permohonan->disposisi()
+                ->where('tahapan_id', $tahapanAnalisId)
+                ->where('is_done', false)
+                ->latest()
+                ->first();
+        }
+
         return view('livewire.admin.permohonan.itr.analis.itr-analis-detail');
     }
 
     public function mount($itr_id)
     {
         $this->itr = Itr::find($itr_id);
+    }
+
+    public function mulaiKerja()
+    {
+        $tahapanAnalisId = $this->itr->permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id');
+        if ($tahapanAnalisId) {
+            $disposisi = $this->itr->permohonan->disposisi()
+                ->where('tahapan_id', $tahapanAnalisId)
+                ->where('is_done', false)
+                ->whereNull('tgl_mulai_kerja')
+                ->latest()
+                ->first();
+
+            if ($disposisi) {
+                $disposisi->update([
+                    'tgl_mulai_kerja' => now(),
+                ]);
+                session()->flash('success', 'Waktu mulai kerja telah dicatat!');
+            }
+        }
     }
 
     public function download2()

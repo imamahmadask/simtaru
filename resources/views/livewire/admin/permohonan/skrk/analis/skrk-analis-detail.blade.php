@@ -2,7 +2,19 @@
     <div class="mb-3">
         <div class="d-flex flex-wrap gap-3">
             @can('manageAnalis', $skrk->permohonan)
-                @if (!$skrk->is_analis)
+                {{-- Mulai Kerjakan Button --}}
+                @if ($disposisiAnalis && !$disposisiAnalis->tgl_mulai_kerja && !$skrk->is_analis)
+                    <button type="button" class="btn btn-success" wire:click="mulaiKerja"
+                        wire:confirm="Mulai mengerjakan Analisis? Waktu mulai akan dicatat.">
+                        <i class="bx bx-play-circle"></i> Mulai Kerjakan
+                    </button>
+                @elseif ($disposisiAnalis && $disposisiAnalis->tgl_mulai_kerja && !$skrk->is_analis)
+                    <span class="badge bg-success p-2">
+                        <i class="bx bx-check-circle"></i> Dikerjakan sejak: {{ \Carbon\Carbon::parse($disposisiAnalis->tgl_mulai_kerja)->format('d-m-Y H:i') }}
+                    </span>
+                @endif
+
+                @if ($skrk->is_analis || ($disposisiAnalis && $disposisiAnalis->tgl_mulai_kerja))
                     @if ($skrk->is_survey)
                         @if (!$skrk->is_kajian)
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -41,6 +53,8 @@
                         @endif
                     @endif {{-- End of is_kajian check --}}
                 @endif
+
+                @if ($skrk->is_analis || ($disposisiAnalis && $disposisiAnalis->tgl_mulai_kerja))
                 <button type="button" class="btn {{ $skrk->is_analis ? 'btn-success' : 'btn-danger' }}"
                     wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiAnalisaSkrkModal"
                     {{ $skrk->is_analis || !$skrk->is_berkas_analis_uploaded ? 'disabled' : '' }}>
@@ -50,6 +64,7 @@
                         <i class="bx bx-x"></i> Belum Selesai Analisa
                     @endif
                 </button>
+                @endif
             @endcan
         </div>
     </div>

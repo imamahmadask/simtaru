@@ -2,6 +2,18 @@
     <div class="mb-3">
         <div class="d-flex flex-wrap gap-3">
             @can('manageAnalis', $kkprb->permohonan)
+                {{-- Mulai Kerjakan Button --}}
+                @if ($disposisiAnalis && !$disposisiAnalis->tgl_mulai_kerja && !$kkprb->is_analis)
+                    <button type="button" class="btn btn-success" wire:click="mulaiKerja"
+                        wire:confirm="Mulai mengerjakan Analisis? Waktu mulai akan dicatat.">
+                        <i class="bx bx-play-circle"></i> Mulai Kerjakan
+                    </button>
+                @elseif ($kkprb->is_analis || ($disposisiAnalis && $disposisiAnalis->tgl_mulai_kerja))
+                    <span class="badge bg-success p-2">
+                        <i class="bx bx-check-circle"></i> Dikerjakan sejak: {{ \Carbon\Carbon::parse($disposisiAnalis->tgl_mulai_kerja)->format('d-m-Y H:i') }}
+                    </span>
+                @endif
+
                 @php
                     $showButtons = true;
                     if ($kkprb->rdtr_rtrw == 'RTRW') {
@@ -9,32 +21,38 @@
                     }
                 @endphp
                 @if($showButtons)
-                    @if (!$kkprb->is_kajian && $kkprb->is_survey)
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddKajianKkprbModal">
-                            <i class="bx bx-plus"></i> Data Kajian
-                        </button>
-                    @elseif($kkprb->is_kajian && !$kkprb->is_analis)
-                        <button type="button" class="btn btn-primary" wire:click="$dispatch('kkprb-kajian-edit', { permohonan_id: {{ $kkprb->permohonan->id }}, kkprb_id: {{ $kkprb->id }} })" data-bs-toggle="modal"
-                            data-bs-target="#EditKajianKkprbModal">
-                            <i class="bx bx-edit"></i> Edit Data Kajian
-                        </button>
-                        @teleport('body')
-                            @livewire('admin.permohonan.kkprb.analis.kkprb-analis-edit', [], key('kkprb-kajian-edit-'.$kkprb->id))
-                        @endteleport
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#UploadBerkasAnalisaKkprbModal">
-                            <i class="bx bx-cloud-upload"></i> Berkas Analis
+                    @if (!$kkprb->is_analis && $disposisiAnalis && $disposisiAnalis->tgl_mulai_kerja)
+                        @if (!$kkprb->is_kajian && $kkprb->is_survey)
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#AddKajianKkprbModal">
+                                <i class="bx bx-plus"></i> Data Kajian
+                            </button>
+                        @elseif($kkprb->is_kajian && !$kkprb->is_analis)
+                            <button type="button"
+                                wire:click="$dispatch('kkprb-kajian-edit', { permohonan_id: {{ $kkprb->permohonan->id }}, kkprb_id: {{ $kkprb->id }} })"
+                                class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditKajianKkprbModal">
+                                <i class="bx bx-edit"></i> Edit Data Kajian
+                            </button>
+                            @teleport('body')
+                                @livewire('admin.permohonan.kkprb.analis.kkprb-kajian-analis-edit', [], key('kkprb-kajian-edit-'.$kkprb->id))
+                            @endteleport
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#UploadBerkasAnalisaKkprbModal">
+                                <i class="bx bx-cloud-upload"></i> Berkas Analis
+                            </button>
+                        @endif
+                    @endif
+                    @if (!$kkprb->is_analis && $disposisiAnalis && $disposisiAnalis->tgl_mulai_kerja)
+                        <button type="button" class="btn {{ $kkprb->is_analis ? 'btn-success' : 'btn-danger' }}"
+                            wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiAnalisaModal"
+                            {{ $kkprb->is_analis || !$kkprb->is_berkas_analis_uploaded ? 'disabled' : '' }}>
+                            @if ($kkprb->is_analis)
+                                <i class="bx bx-check"></i> Selesai Analisa
+                            @else
+                                <i class="bx bx-x"></i> Belum Selesai Analisa
+                            @endif
                         </button>
                     @endif
-                    <button type="button" class="btn {{ $kkprb->is_analis ? 'btn-success' : 'btn-danger' }}"
-                        wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiAnalisaModal"
-                        {{ $kkprb->is_analis || !$kkprb->is_berkas_analis_uploaded ? 'disabled' : '' }}>
-                        @if ($kkprb->is_analis)
-                            <i class="bx bx-check"></i> Selesai Analisa
-                        @else
-                            <i class="bx bx-x"></i> Belum Selesai Analisa
-                        @endif
-                    </button>
                 @endif
             @endcan
         </div>

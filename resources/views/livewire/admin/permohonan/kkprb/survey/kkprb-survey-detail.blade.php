@@ -2,7 +2,19 @@
     <div class="mb-3">
         <div class="d-flex flex-wrap gap-3">
             @can('manageSurvey', $kkprb->permohonan)
-                @if (!$kkprb->is_survey)
+                {{-- Mulai Kerjakan Button --}}
+                @if ($disposisiSurvey && !$disposisiSurvey->tgl_mulai_kerja && !$kkprb->is_survey)
+                    <button type="button" class="btn btn-success" wire:click="mulaiKerja"
+                        wire:confirm="Mulai mengerjakan Survey? Waktu mulai akan dicatat.">
+                        <i class="bx bx-play-circle"></i> Mulai Kerjakan
+                    </button>
+                @elseif ($disposisiSurvey && $disposisiSurvey->tgl_mulai_kerja && !$kkprb->is_survey)
+                    <span class="badge bg-success p-2">
+                        <i class="bx bx-check-circle"></i> Dikerjakan sejak: {{ \Carbon\Carbon::parse($disposisiSurvey->tgl_mulai_kerja)->format('d-m-Y H:i') }}
+                    </span>
+                @endif
+
+                @if (!$kkprb->is_survey && $disposisiSurvey && $disposisiSurvey->tgl_mulai_kerja)
                     @if ($kkprb->tgl_survey)
                         {{-- Actions available AFTER survey date is set --}}
                         <button type="button"
@@ -34,25 +46,13 @@
                         @endif
                     @else
                         {{-- Action available BEFORE survey date is set --}}
-                        <button type="button"
-                            wire:click="$dispatch('kkprb-survey-hold', { kkprb_id: {{ $kkprb->id }} })"
-                            class="{{ $kkprb->is_survey_hold ? 'btn btn-warning' : 'btn btn-success' }}" data-bs-toggle="modal" data-bs-target="#HoldSurveyKkprbModal">
-                            @if ($kkprb->is_survey_hold) 
-                                <i class="bx bx-pause-circle"></i> Unhold Survey 
-                            @else 
-                                <i class="bx bx-play-circle"></i> Hold Survey 
-                            @endif
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#AddSurveyKkprbModal">
+                            <i class="bx bx-plus"></i> Add Survey
                         </button>
-
-                        @if (!$kkprb->is_survey_hold)
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#AddSurveyKkprbModal">
-                                <i class="bx bx-plus"></i> Add Survey
-                            </button>
-                        @endif
                     @endif                    
                 @endif
-                @if ($cek_disposisi)
+                @if ($cek_disposisi && $disposisiSurvey && $disposisiSurvey->tgl_mulai_kerja)
                     <button type="button" class="btn {{ $kkprb->is_survey ? 'btn-success' : 'btn-danger' }}"
                         wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiSurveyModal"
                         {{ $kkprb->is_survey || !$kkprb->is_berkas_survey_uploaded ? 'disabled' : '' }}>
@@ -289,9 +289,6 @@
     @endteleport
     @teleport('body')
         @livewire('admin.disposisi.disposisi-create', ['permohonan_id' => $kkprb->permohonan->id, 'pelayanan_id' => $kkprb->id], key('disposisi-create-kkprb-'.$kkprb->id))
-    @endteleport
-    @teleport('body')
-        @livewire('admin.permohonan.kkprb.survey.kkprb-survey-hold')
     @endteleport
 </div>
 @script

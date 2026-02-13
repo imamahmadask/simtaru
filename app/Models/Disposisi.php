@@ -20,6 +20,7 @@ class Disposisi extends Model
         'layanan_type',
         'is_done',
         'tgl_selesai',
+        'tgl_mulai_kerja',
         'parent_id',
         'status',
         'is_revisi',

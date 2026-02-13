@@ -16,18 +16,49 @@ class KkprbAnalisDetail extends Component
 {
     public $kkprb;
     public $koordinatTable = false;
+    public $disposisiAnalis = null;
 
     #[On('refresh-kkprb-analis-list')]
     public function refresh() {}
 
     public function render()
     {
+        // Get the current analis disposisi for showing start button
+        $tahapanAnalisId = $this->kkprb->permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id');
+        if ($tahapanAnalisId) {
+            $this->disposisiAnalis = $this->kkprb->permohonan->disposisi()
+                ->where('tahapan_id', $tahapanAnalisId)
+                ->where('is_done', false)
+                ->latest()
+                ->first();
+        }
+
         return view('livewire.admin.permohonan.kkprb.analis.kkprb-analis-detail');
     }
 
     public function mount($kkprb_id)
     {
         $this->kkprb = Kkprb::find($kkprb_id);
+    }
+
+    public function mulaiKerja()
+    {
+        $tahapanAnalisId = $this->kkprb->permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id');
+        if ($tahapanAnalisId) {
+            $disposisi = $this->kkprb->permohonan->disposisi()
+                ->where('tahapan_id', $tahapanAnalisId)
+                ->where('is_done', false)
+                ->whereNull('tgl_mulai_kerja')
+                ->latest()
+                ->first();
+
+            if ($disposisi) {
+                $disposisi->update([
+                    'tgl_mulai_kerja' => now(),
+                ]);
+                session()->flash('success', 'Waktu mulai kerja telah dicatat!');
+            }
+        }
     }
 
     public function download2a()

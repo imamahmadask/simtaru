@@ -2,32 +2,48 @@
     <div class="mb-3">
         <div class="d-flex flex-wrap gap-3">
             @can('manageAnalis', $itr->permohonan)
-                @if (!$itr->is_dokumen)
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddDokumenItrModal">
-                        <i class="bx bx-plus"></i> Data Analisa
+                {{-- Mulai Kerjakan Button --}}
+                @if ($disposisiAnalis && !$disposisiAnalis->tgl_mulai_kerja && !$itr->is_analis)
+                    <button type="button" class="btn btn-success" wire:click="mulaiKerja"
+                        wire:confirm="Mulai mengerjakan Analisis? Waktu mulai akan dicatat.">
+                        <i class="bx bx-play-circle"></i> Mulai Kerjakan
                     </button>
-                @elseif(!$itr->is_analis)
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#EditDokumenItrModal">
-                        <i class="bx bx-edit"></i> Edit Data Dokumen
-                    </button>
-                    @teleport('body')
-                        @livewire('admin.permohonan.itr.analis.itr-dokumen-analis-edit', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id], key('itr-dokumen-edit-'.$itr->id))
-                    @endteleport
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#UploadBerkasAnalisaItrModal">
-                        <i class="bx bx-cloud-upload"></i> Berkas Analisa
+                @elseif ($disposisiAnalis && $disposisiAnalis->tgl_mulai_kerja && !$itr->is_analis)
+                    <span class="badge bg-success p-2">
+                        <i class="bx bx-check-circle"></i> Dikerjakan sejak: {{ \Carbon\Carbon::parse($disposisiAnalis->tgl_mulai_kerja)->format('d-m-Y H:i') }}
+                    </span>
+                @endif
+
+                @if (!$itr->is_analis && $disposisiAnalis && $disposisiAnalis->tgl_mulai_kerja)
+                    @if (!$itr->is_dokumen)
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddDokumenItrModal">
+                            <i class="bx bx-plus"></i> Data Analisa
+                        </button>
+                    @else
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#EditDokumenItrModal">
+                            <i class="bx bx-edit"></i> Edit Data Dokumen
+                        </button>
+                        @teleport('body')
+                            @livewire('admin.permohonan.itr.analis.itr-dokumen-analis-edit', ['permohonan_id' => $itr->permohonan->id, 'itr_id' => $itr->id], key('itr-dokumen-edit-'.$itr->id))
+                        @endteleport
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#UploadBerkasAnalisaItrModal">
+                            <i class="bx bx-cloud-upload"></i> Berkas Analisa
+                        </button>
+                    @endif
+                @endif
+                @if ($itr->is_analis || ($disposisiAnalis && $disposisiAnalis->tgl_mulai_kerja))
+                    <button type="button" class="btn {{ $itr->is_analis ? 'btn-success' : 'btn-danger' }}"
+                        wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiAnalisaModal"
+                        {{ $itr->is_analis || !$itr->is_berkas_analis_uploaded ? 'disabled' : '' }}>
+                        @if ($itr->is_analis)
+                            <i class="bx bx-check"></i> Selesai Analisa
+                        @else
+                            <i class="bx bx-x"></i> Belum Selesai Analisa
+                        @endif
                     </button>
                 @endif
-                <button type="button" class="btn {{ $itr->is_analis ? 'btn-success' : 'btn-danger' }}"
-                    wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiAnalisaModal"
-                    {{ $itr->is_analis || !$itr->is_berkas_analis_uploaded ? 'disabled' : '' }}>
-                    @if ($itr->is_analis)
-                        <i class="bx bx-check"></i> Selesai Analisa
-                    @else
-                        <i class="bx bx-x"></i> Belum Selesai Analisa
-                    @endif
-                </button>
             @endcan
         </div>
     </div>

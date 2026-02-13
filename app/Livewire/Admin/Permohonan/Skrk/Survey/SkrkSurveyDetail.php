@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Permohonan\Skrk\Survey;
 
+use App\Models\Disposisi;
 use App\Models\Permohonan;
 use App\Models\RiwayatPermohonan;
 use App\Models\Skrk;
@@ -15,12 +16,23 @@ class SkrkSurveyDetail extends Component
 {
     public $skrk;
     public $cek_disposisi = false;
+    public $disposisiSurvey = null;
 
     public function render()
     {
         $this->cek_disposisi = $this->skrk->permohonan->disposisi()
             ->where('tahapan_id', $this->skrk->permohonan->layanan->tahapan
             ->where('nama', 'Analisis')->value('id'))->first();
+
+        // Get the current survey disposisi for showing start button
+        $tahapanSurveyId = $this->skrk->permohonan->layanan->tahapan->where('nama', 'Survey')->value('id');
+        if ($tahapanSurveyId) {
+            $this->disposisiSurvey = $this->skrk->permohonan->disposisi()
+                ->where('tahapan_id', $tahapanSurveyId)
+                ->where('is_done', false)
+                ->latest()
+                ->first();
+        }
 
         return view('livewire.admin.permohonan.skrk.survey.skrk-survey-detail');
     }
@@ -34,6 +46,26 @@ class SkrkSurveyDetail extends Component
     public function mount($skrk_id)
     {
         $this->skrk = Skrk::find($skrk_id);
+    }
+
+    public function mulaiKerja()
+    {
+        $tahapanSurveyId = $this->skrk->permohonan->layanan->tahapan->where('nama', 'Survey')->value('id');
+        if ($tahapanSurveyId) {
+            $disposisi = $this->skrk->permohonan->disposisi()
+                ->where('tahapan_id', $tahapanSurveyId)
+                ->where('is_done', false)
+                ->whereNull('tgl_mulai_kerja')
+                ->latest()
+                ->first();
+
+            if ($disposisi) {
+                $disposisi->update([
+                    'tgl_mulai_kerja' => now(),
+                ]);
+                session()->flash('success', 'Waktu mulai kerja telah dicatat!');
+            }
+        }
     }
 
     public function download1a()

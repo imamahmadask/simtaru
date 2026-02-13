@@ -15,12 +15,23 @@ class ItrSurveyDetail extends Component
 {
     public $itr;
     public $cek_disposisi = false;
+    public $disposisiSurvey = null;
 
     public function render()
     {
         $this->cek_disposisi = $this->itr->permohonan->disposisi()
             ->where('tahapan_id', $this->itr->permohonan->layanan->tahapan
             ->where('nama', 'Analisis')->value('id'))->first();
+
+        // Get the current survey disposisi for showing start button
+        $tahapanSurveyId = $this->itr->permohonan->layanan->tahapan->where('nama', 'Survey')->value('id');
+        if ($tahapanSurveyId) {
+            $this->disposisiSurvey = $this->itr->permohonan->disposisi()
+                ->where('tahapan_id', $tahapanSurveyId)
+                ->where('is_done', false)
+                ->latest()
+                ->first();
+        }
 
         return view('livewire.admin.permohonan.itr.survey.itr-survey-detail');
     }
@@ -34,6 +45,26 @@ class ItrSurveyDetail extends Component
     public function mount($itr_id)
     {
         $this->itr = Itr::find($itr_id);
+    }
+
+    public function mulaiKerja()
+    {
+        $tahapanSurveyId = $this->itr->permohonan->layanan->tahapan->where('nama', 'Survey')->value('id');
+        if ($tahapanSurveyId) {
+            $disposisi = $this->itr->permohonan->disposisi()
+                ->where('tahapan_id', $tahapanSurveyId)
+                ->where('is_done', false)
+                ->whereNull('tgl_mulai_kerja')
+                ->latest()
+                ->first();
+
+            if ($disposisi) {
+                $disposisi->update([
+                    'tgl_mulai_kerja' => now(),
+                ]);
+                session()->flash('success', 'Waktu mulai kerja telah dicatat!');
+            }
+        }
     }
 
     public function download1a()

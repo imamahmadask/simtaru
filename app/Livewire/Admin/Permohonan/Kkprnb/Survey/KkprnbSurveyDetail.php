@@ -15,12 +15,23 @@ class KkprnbSurveyDetail extends Component
 {
     public $kkprnb;
     public $cek_disposisi = false;
+    public $disposisiSurvey = null;
 
     public function render()
     {
         $this->cek_disposisi = $this->kkprnb->permohonan->disposisi()
             ->where('tahapan_id', $this->kkprnb->permohonan->layanan->tahapan
             ->where('nama', 'Analisis')->value('id'))->first();
+
+        // Get the current survey disposisi for showing start button
+        $tahapanSurveyId = $this->kkprnb->permohonan->layanan->tahapan->where('nama', 'Survey')->value('id');
+        if ($tahapanSurveyId) {
+            $this->disposisiSurvey = $this->kkprnb->permohonan->disposisi()
+                ->where('tahapan_id', $tahapanSurveyId)
+                ->where('is_done', false)
+                ->latest()
+                ->first();
+        }
 
         return view('livewire.admin.permohonan.kkprnb.survey.kkprnb-survey-detail');
     }
@@ -34,6 +45,26 @@ class KkprnbSurveyDetail extends Component
     public function mount($kkprnb_id)
     {
         $this->kkprnb = Kkprnb::find($kkprnb_id);
+    }
+
+    public function mulaiKerja()
+    {
+        $tahapanSurveyId = $this->kkprnb->permohonan->layanan->tahapan->where('nama', 'Survey')->value('id');
+        if ($tahapanSurveyId) {
+            $disposisi = $this->kkprnb->permohonan->disposisi()
+                ->where('tahapan_id', $tahapanSurveyId)
+                ->where('is_done', false)
+                ->whereNull('tgl_mulai_kerja')
+                ->latest()
+                ->first();
+
+            if ($disposisi) {
+                $disposisi->update([
+                    'tgl_mulai_kerja' => now(),
+                ]);
+                session()->flash('success', 'Waktu mulai kerja telah dicatat!');
+            }
+        }
     }
 
     public function download3a()

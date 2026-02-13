@@ -10,24 +10,27 @@
     <div class="mb-3">
         <div class="d-flex flex-wrap gap-3">
             @can('manageAnalis', $kkprnb->permohonan)
+                {{-- Mulai Kerjakan Button --}}
+                @if ($disposisiAnalis && !$disposisiAnalis->tgl_mulai_kerja && !$kkprnb->is_analis)
+                    <button type="button" class="btn btn-success" wire:click="mulaiKerja"
+                        wire:confirm="Mulai mengerjakan Analisis? Waktu mulai akan dicatat.">
+                        <i class="bx bx-play-circle"></i> Mulai Kerjakan
+                    </button>
+                @elseif ($disposisiAnalis && $disposisiAnalis->tgl_mulai_kerja && !$kkprnb->is_analis)
+                    <span class="badge bg-success p-2">
+                        <i class="bx bx-check-circle"></i> Dikerjakan sejak: {{ \Carbon\Carbon::parse($disposisiAnalis->tgl_mulai_kerja)->format('d-m-Y H:i') }}
+                    </span>
+                @endif
+
                 @php
                     $showButtons = true;
                     if ($kkprnb->rdtr_rtrw == 'RTRW') {
                         $showButtons = ($kkprnb->no_ptp != null && $kkprnb->berkas_ptp != null);
                     }
                 @endphp
-                @if($showButtons)
-                    @if (!$kkprnb->is_kajian && $kkprnb->is_survey)
-                         <button type="button"
-                            wire:click="$dispatch('kkprnb-analis-hold', { kkprnb_id: {{ $kkprnb->id }} })"
-                            class="{{ $kkprnb->is_analis_hold ? 'btn btn-warning' : 'btn btn-success' }}">
-                            @if ($kkprnb->is_analis_hold) 
-                                <i class="bx bx-pause-circle"></i> Unhold Analis 
-                            @else 
-                                <i class="bx bx-play-circle"></i> Hold Analis 
-                            @endif
-                        </button>
-                        @if (!$kkprnb->is_analis_hold)
+                @if($showButtons && $disposisiAnalis && $disposisiAnalis->tgl_mulai_kerja)
+                    @if (!$kkprnb->is_analis && $kkprnb->is_survey)
+                        @if (!$kkprnb->is_kajian)
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddKajianKkprnbModal">
                                 <i class="bx bx-plus"></i> Data Kajian
                             </button>
@@ -335,9 +338,6 @@
     @endteleport
     @teleport('body')
         @livewire('admin.permohonan.kkprnb.analis.upload-berkas', ['permohonan_id' => $kkprnb->permohonan->id, 'kkprnb_id' => $kkprnb->id], key('kkprnb-analis-upload-berkas-'.$kkprnb->id))
-    @endteleport
-    @teleport('body')
-        @livewire('admin.permohonan.kkprnb.analis.hold-analis-modal', [], key('kkprnb-analis-hold-modal-'.$kkprnb->id))
     @endteleport
 </div>
 @script

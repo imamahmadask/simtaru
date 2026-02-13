@@ -2,7 +2,19 @@
     <div class="mb-3">
         <div class="d-flex flex-wrap gap-3">
             @can('manageSurvey', $itr->permohonan)
-                @if (!$itr->is_survey)
+                {{-- Mulai Kerjakan Button --}}
+                @if ($disposisiSurvey && !$disposisiSurvey->tgl_mulai_kerja && !$itr->is_survey)
+                    <button type="button" class="btn btn-success" wire:click="mulaiKerja"
+                        wire:confirm="Mulai mengerjakan Survey? Waktu mulai akan dicatat.">
+                        <i class="bx bx-play-circle"></i> Mulai Kerjakan
+                    </button>
+                @elseif ($disposisiSurvey && $disposisiSurvey->tgl_mulai_kerja && !$itr->is_survey)
+                    <span class="badge bg-success p-2">
+                        <i class="bx bx-check-circle"></i> Dikerjakan sejak: {{ \Carbon\Carbon::parse($disposisiSurvey->tgl_mulai_kerja)->format('d-m-Y H:i') }}
+                    </span>
+                @endif
+
+                @if (!$itr->is_survey && $disposisiSurvey && $disposisiSurvey->tgl_mulai_kerja)
                     @if ($itr->tgl_survey)
                         {{-- Actions available AFTER survey date is set --}}
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -30,26 +42,14 @@
                         @endif
                     @else
                         {{-- Action available BEFORE survey date is set --}}
-                        <button type="button"
-                            wire:click="$dispatch('itr-survey-hold', { itr_id: {{ $itr->id }} })"
-                            class="{{ $itr->is_survey_hold ? 'btn btn-warning' : 'btn btn-success' }}" data-bs-toggle="modal" data-bs-target="#HoldSurveyItrModal">
-                            @if ($itr->is_survey_hold) 
-                                <i class="bx bx-pause-circle"></i> Unhold Survey 
-                            @else 
-                                <i class="bx bx-play-circle"></i> Hold Survey 
-                            @endif
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#AddSurveyItrModal">
+                            <i class="bx bx-plus"></i> Add Survey
                         </button>
-
-                        @if (!$itr->is_survey_hold)
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#AddSurveyItrModal">
-                                <i class="bx bx-plus"></i> Add Survey
-                            </button>
-                        @endif
                     @endif
                 @endif
 
-                @if ($cek_disposisi)
+                @if ($cek_disposisi && $disposisiSurvey && $disposisiSurvey->tgl_mulai_kerja)
                     <button type="button" class="btn {{ $itr->is_survey ? 'btn-success' : 'btn-danger' }}"
                         wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#SelesaiSurveyItrModal"
                         {{ $itr->is_survey || !$itr->is_berkas_survey_uploaded ? 'disabled' : '' }}>
@@ -240,9 +240,6 @@
     @endteleport
     @teleport('body')
         @livewire('admin.disposisi.disposisi-create', ['permohonan_id' => $itr->permohonan->id, 'pelayanan_id' => $itr->id], key('disposisi-create-itr-'.$itr->id))
-    @endteleport
-    @teleport('body')
-        @livewire('admin.permohonan.itr.survey.itr-survey-hold')
     @endteleport
 
 </div>
