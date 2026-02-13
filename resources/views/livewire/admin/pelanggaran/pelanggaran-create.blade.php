@@ -283,6 +283,15 @@
                             @enderror
                         </div>
                         <div class="col-md-12">
+                            <label class="form-label" for="penjelasan_singkat">Penjelasan Singkat</label>
+                            <textarea id="penjelasan_singkat" wire:model="penjelasan_singkat"
+                                class="form-control @error('penjelasan_singkat') is-invalid @enderror"
+                                placeholder="Penjelasan Singkat" rows="3"></textarea>
+                            @error('penjelasan_singkat')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-12">
                             <label class="form-label" for="foto_existing">Foto Existing</label>
                             <input type="file" id="foto_existing" wire:model="foto_existing"
                             class="form-control @error('foto_existing') is-invalid @enderror" accept="image/*" multiple>

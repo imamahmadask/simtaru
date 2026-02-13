@@ -76,9 +76,13 @@
                                                 <div class="col-md-4 fw-semibold">Sumber Informasi</div>
                                                 <div class="col-md-8">: {{ $pelanggaran->sumber_informasi_pelanggaran }}</div>
                                             </div>
-                                            <div class="row">
+                                            <div class="row mb-2">
                                                 <div class="col-md-4 fw-semibold">Jenis Indikasi</div>
                                                 <div class="col-md-8">: {{ $pelanggaran->jenis_indikasi_pelanggaran }}</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 fw-semibold">Penjelasan Singkat</div>
+                                                <div class="col-md-8">: {{ $pelanggaran->penjelasan_singkat ?? '-' }}</div>
                                             </div>
                                         </div>
                                     </div>

@@ -52,6 +52,7 @@ class PelanggaranEdit extends Component
 
     #[Validate('required')]
     public $jenis_indikasi_pelanggaran;
+    public $penjelasan_singkat;
     public $status;
 
     public $existing_foto_pengawasan = [];
@@ -92,6 +93,7 @@ class PelanggaranEdit extends Component
         $this->koordinat_pelanggaran = $pelanggaran->koordinat_pelanggaran;
         $this->gmaps_pelanggaran = $pelanggaran->gmaps_pelanggaran;
         $this->jenis_indikasi_pelanggaran = $pelanggaran->jenis_indikasi_pelanggaran;
+        $this->penjelasan_singkat = $pelanggaran->penjelasan_singkat;
         $this->status = $pelanggaran->status;
 
         $this->existing_foto_pengawasan = $pelanggaran->foto_pengawasan ?? [];
@@ -162,6 +164,7 @@ class PelanggaranEdit extends Component
             'gmaps_pelanggaran' => $this->gmaps_pelanggaran,
             'jenis_indikasi_pelanggaran' => $this->jenis_indikasi_pelanggaran,
             'foto_existing' => $foto_existing_path,
+            'penjelasan_singkat' => $this->penjelasan_singkat,
             'status' => $this->status,
         ]);
 

@@ -42,6 +42,7 @@ class Pelanggaran extends Model
         'dokumen_akhir',
         'foto_tindak_lanjut',
         'foto_existing',
+        'penjelasan_singkat',
         'file_sp1',
         'file_sp2',
         'file_sp3',
@@ -63,4 +64,9 @@ class Pelanggaran extends Model
         'foto_existing' => 'array',
         'foto_tindak_lanjut' => 'array',
     ];
+
+    public function sarans()
+    {
+        return $this->hasMany(SaranPelanggaran::class, 'pelanggaran_id');
+    }
 }

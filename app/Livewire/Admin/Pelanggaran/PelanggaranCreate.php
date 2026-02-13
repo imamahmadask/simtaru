@@ -50,6 +50,7 @@ class PelanggaranCreate extends Component
     #[Validate('required')]
     public $jenis_indikasi_pelanggaran;   
     public $jenis_pemanfaatan_ruang; 
+    public $penjelasan_singkat;
 
     #[Validate(['foto_pengawasan.*' => 'image|max:10240'])]
     public $foto_pengawasan = [];
@@ -107,6 +108,7 @@ class PelanggaranCreate extends Component
             'jenis_indikasi_pelanggaran' => $this->jenis_indikasi_pelanggaran,  
             'jenis_pemanfaatan_ruang' => $this->jenis_pemanfaatan_ruang,
             'foto_existing' => $foto_existing_path,          
+            'penjelasan_singkat' => $this->penjelasan_singkat,
             'status' => 'On Progress',
         ]);
 

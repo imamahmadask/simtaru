@@ -103,6 +103,17 @@
                                                     <i class="bx bx-trash"></i>
                                                 </button>
                                             @endif
+                                            <button type="button" class="btn btn-info btn-sm position-relative"
+                                                wire:click="openSaranModal({{ $data->id }})"
+                                                title="Lihat Masukan">
+                                                <i class="bx bx-chat"></i>
+                                                @if ($data->sarans_count > 0)
+                                                    <span
+                                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                        {{ $data->sarans_count }}
+                                                    </span>
+                                                @endif
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -116,5 +127,69 @@
             </div>
         </div>
         <!--/ Basic Bootstrap Table -->
-    </div>   
+    </div>
+
+    <!-- Modal Masukan Pelanggaran -->
+    <div wire:ignore.self class="modal fade" id="modalSaranAdmin" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Masukan Pelanggaran: 
+                        <span class="text-primary">{{ $selectedPelanggaran ? $selectedPelanggaran->no_pelanggaran : '' }}</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="closeSaranModal"></button>
+                </div>
+                <div class="modal-body">
+                    @if($selectedPelanggaran && $selectedPelanggaran->sarans->count() > 0)
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Tanggal</th>
+                                        <th>Nama</th>
+                                        <th>Pesan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($selectedPelanggaran->sarans as $saran)
+                                        <tr>
+                                            <td class="text-nowrap">{{ $saran->created_at->format('d/m/Y H:i') }}</td>
+                                            <td><strong>{{ $saran->nama }}</strong></td>
+                                            <td class="text-wrap">{{ $saran->pesan }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @else
+                        <div class="text-center py-4">
+                            <i class="bx bx-message-square-minus display-4 text-muted"></i>
+                            <p class="mt-2">Belum ada masukan untuk pelanggaran ini.</p>
+                        </div>
+                    @endif
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" wire:click="closeSaranModal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @push('scripts')
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            Livewire.on('open-modal-saran-admin', () => {
+                const modalElement = document.getElementById('modalSaranAdmin');
+                if (modalElement) {
+                    let modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    if (!modalInstance) {
+                        modalInstance = new bootstrap.Modal(modalElement);
+                    }
+                    modalInstance.show();
+                }
+            });
+        });
+    </script>
+    @endpush
 </div>
+```

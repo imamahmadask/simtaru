@@ -14,12 +14,44 @@ class PelanggaranIndex extends Component
 {
     use WithPagination;
 
+    public $search = '';
+    public $selectedPelanggaran;
+    public $showSaranModal = false;
+
+    protected $listeners = ['refresh' => '$refresh'];
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
     #[Layout('layouts.app-pelanggaran')]
     public function render()
     {
-        $pelanggarans = Pelanggaran::latest()->paginate(10);
+        $pelanggarans = Pelanggaran::query()
+            ->withCount('sarans')
+            ->when($this->search, function ($query) {
+                $query->where('no_pelanggaran', 'like', '%' . $this->search . '%')
+                    ->orWhere('nama_pelanggar', 'like', '%' . $this->search . '%')
+                    ->orWhere('alamat_pelanggaran', 'like', '%' . $this->search . '%');
+            })
+            ->latest()
+            ->paginate(10);
 
         return view('livewire.admin.pelanggaran.pelanggaran-index', compact('pelanggarans'));
+    }
+
+    public function openSaranModal($id)
+    {
+        $this->selectedPelanggaran = Pelanggaran::with('sarans')->findOrFail($id);
+        $this->showSaranModal = true;
+        $this->dispatch('open-modal-saran-admin');
+    }
+
+    public function closeSaranModal()
+    {
+        $this->showSaranModal = false;
+        $this->selectedPelanggaran = null;
     }
 
     public function deletePelanggaran($id)
