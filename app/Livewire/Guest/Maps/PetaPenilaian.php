@@ -29,19 +29,7 @@ class PetaPenilaian extends Component
 
     public function render()
     {
-        $years = Penilaian::whereNotNull('tanggal_penilaian')
-            ->selectRaw('YEAR(tanggal_penilaian) as year')
-            ->distinct()
-            ->orderBy('year', 'desc')
-            ->pluck('year');
-
-        $jenisList = Penilaian::whereNotNull('jenis_penilaian')
-            ->select('jenis_penilaian')
-            ->distinct()
-            ->orderBy('jenis_penilaian')
-            ->pluck('jenis_penilaian');
-
-        return view('livewire.guest.maps.peta-penilaian', compact('years', 'jenisList'));
+        return view('livewire.guest.maps.peta-penilaian');
     }
 
     public function loadLocations()

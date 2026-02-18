@@ -67,8 +67,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <span>Total Penilaian <small class="text-muted fst-italic">({{ $year }})</small></span>
-                            <h3 class="card-title text-nowrap">{{ $this->rekap['count_penilaian'] }}</h3>
+                            <span class="d-block fw-bold">Total Penilaian <small class="text-muted fst-italic">({{ $year }})</small></span>
+                            <h3 class="card-title text-nowrap">{{ $this->rekap['count_penilaian_year'] }}</h3>
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                                     <i class="bx bx-check-double fs-3"></i>
                                 </div>                                
                             </div>
-                            <span>Penilaian KKPR/KKKPR <small class="text-muted fst-italic">({{ $year }})</small></span>
+                            <span class="d-block fw-bold">Penilaian KKPR/KKKPR <small class="text-muted fst-italic">({{ $year }})</small></span>
                             <h3 class="card-title text-nowrap">{{ $this->rekap['count_kkpr_kkkpr'] }}</h3>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                                     <i class="bx bx-shield fs-3"></i>
                                 </div>                                
                             </div>
-                            <span class="d-block">Penilaian PMP UMK <small class="text-muted fst-italic">({{ $year }})</small></span>
+                            <span class="d-block fw-bold">Penilaian PMP UMK <small class="text-muted fst-italic">({{ $year }})</small></span>
                             <h3 class="card-title text-nowrap">{{ $this->rekap['count_pmp_umk'] }}</h3>
                         </div>
                     </div>
@@ -109,7 +109,7 @@
                                     <i class="bx bx-check-double fs-3"></i>
                                 </div>                                
                             </div>
-                            <span>Penilaian KKPR/KKKPR <b>Sesuai Sebagian</b></span>
+                            <span>Penilaian KKPR/KKKPR <br> <b>Sesuai Sebagian</b></span>
                             <h3 class="card-title text-nowrap">{{ $this->rekap['count_kkpr_sesuai_sebagian'] }}</h3>
                         </div>
                     </div>
@@ -122,7 +122,7 @@
                                     <i class="bx bx-check-double fs-3"></i>
                                 </div>                                
                             </div>
-                            <span class="d-block">Penilaian KKPR/KKKPR <b>Sesuai Seluruhnya</b></span>
+                            <span class="d-block">Penilaian KKPR/KKKPR <br> <b>Sesuai Seluruhnya</b></span>
                             <h3 class="card-title text-nowrap">{{ $this->rekap['count_kkpr_sesuai_seluruhnya'] }}</h3>
                         </div>
                     </div>
@@ -135,7 +135,7 @@
                                     <i class="bx bx-shield fs-3"></i>
                                 </div>                                
                             </div>
-                            <span>Penilaian PMP UMK <b>Sesuai Sebagian</b></span>
+                            <span>Penilaian PMP UMK <br> <b>Sesuai Sebagian</b></span>
                             <h3 class="card-title text-nowrap">{{ $this->rekap['count_pmp_umk_sesuai_sebagian'] }}</h3>
                         </div>
                     </div>
@@ -148,7 +148,7 @@
                                     <i class="bx bx-shield fs-3"></i>
                                 </div>                                
                             </div>
-                            <span class="d-block">Penilaian PMP UMK <b>Sesuai Seluruhnya</b></span>
+                            <span class="d-block">Penilaian PMP UMK <br> <b>Sesuai Seluruhnya</b></span>
                             <h3 class="card-title text-nowrap">{{ $this->rekap['count_pmp_umk_sesuai_seluruhnya'] }}</h3>
                         </div>
                     </div>

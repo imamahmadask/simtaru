@@ -38,7 +38,7 @@
                         <tr>
                             <th>No</th>
                             <th>Tgl Penilaian</th>
-                            <th>Jenis Penilaian</th>
+                            <th class="text-wrap">Jenis Penilaian</th>
                             <th class="text-wrap">Pelaku Usaha</th>
                             <th class="text-wrap">Nama Usaha</th>
                             <th class="text-wrap">Jenis Kegiatan Usaha</th>
@@ -59,14 +59,14 @@
                                 <td class="text-nowrap">
                                     {{ $data->tanggal_penilaian ? date('d-m-Y', strtotime($data->tanggal_penilaian)) : '-' }}                                                                        
                                 </td>
-                                <td class="text-wrap">
+                                <td class="text-nowrap">
                                     {{ $data->jenis_penilaian }} <br>
                                     <small class="text-muted fst-italic">{{ $data->jenis_dokumen }} </small>                                    
                                 </td>
-                                <td class="text-nowrap">
+                                <td class="text-wrap">
                                     {{ $data->nama_pelaku_usaha }}
                                 </td>                  
-                                <td class="text-nowrap">
+                                <td class="text-wrap">
                                     {{ $data->nama_usaha }} <br>
                                     <small class="text-muted fst-italic">{{ $data->alamat_lokasi_usaha }}</small>
                                 </td>                
