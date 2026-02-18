@@ -21,18 +21,33 @@ class DashboardPenilaian extends Component
     #[Layout('layouts.app-penilaian')]
     public function render()
     {
-        $count_penilaian_year = Penilaian::whereYear('tanggal_penilaian', $this->year)->count();
+        $years = Penilaian::whereNotNull('tanggal_penilaian')
+            ->selectRaw('YEAR(tanggal_penilaian) as year')
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->pluck('year')
+            ->toArray();
+
+        // Ensure current year is in the list
+        if (!in_array(date('Y'), $years)) {
+            $years[] = date('Y');
+            rsort($years);
+        }
+
+        $query = Penilaian::whereYear('tanggal_penilaian', $this->year);
+
+        $count_penilaian_year = (clone $query)->count();
         $count_penilaian = Penilaian::count();
         
-        // count by jenis penilaian
-        $count_kkpr_kkkpr = Penilaian::where('jenis_penilaian', 'KKPR/KKKPR')->count();
-        $count_pmp_umk = Penilaian::where('jenis_penilaian', 'PMP UMK')->count();
+        // count by jenis penilaian (filtered by year)
+        $count_kkpr_kkkpr = (clone $query)->where('jenis_penilaian', 'KKPR/KKKPR')->count();
+        $count_pmp_umk = (clone $query)->where('jenis_penilaian', 'PMP UMK')->count();
 
-        // Example breakdown by analisa_penilaian
-        $count_kkpr_sesuai_sebagian = Penilaian::where('jenis_penilaian', 'KKPR/KKKPR')->where('analisa_penilaian', 'Sesuai Sebagian')->count();
-        $count_kkpr_sesuai_seluruhnya = Penilaian::where('jenis_penilaian', 'KKPR/KKKPR')->where('analisa_penilaian', 'Sesuai Seluruhnya')->count();        
-        $count_pmp_umk_sesuai_sebagian = Penilaian::where('jenis_penilaian', 'PMP UMK')->where('analisa_penilaian', 'Sesuai Sebagian')->count();
-        $count_pmp_umk_sesuai_seluruhnya = Penilaian::where('jenis_penilaian', 'PMP UMK')->where('analisa_penilaian', 'Sesuai Seluruhnya')->count();        
+        // breakdowns (filtered by year)
+        $count_kkpr_sesuai_sebagian = (clone $query)->where('jenis_penilaian', 'KKPR/KKKPR')->where('analisa_penilaian', 'Sesuai Sebagian')->count();
+        $count_kkpr_sesuai_seluruhnya = (clone $query)->where('jenis_penilaian', 'KKPR/KKKPR')->where('analisa_penilaian', 'Sesuai Seluruhnya')->count();        
+        $count_pmp_umk_sesuai_sebagian = (clone $query)->where('jenis_penilaian', 'PMP UMK')->where('analisa_penilaian', 'Sesuai Sebagian')->count();
+        $count_pmp_umk_sesuai_seluruhnya = (clone $query)->where('jenis_penilaian', 'PMP UMK')->where('analisa_penilaian', 'Sesuai Seluruhnya')->count();        
 
         $this->rekap = [
             'count_penilaian_year' => $count_penilaian_year,
@@ -46,7 +61,8 @@ class DashboardPenilaian extends Component
         ];
         
         return view('livewire.admin.penilaian.dashboard-penilaian', [
-            'rekap' => $this->rekap
+            'rekap' => $this->rekap,
+            'years' => $years
         ]);
     }
 }

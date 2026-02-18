@@ -29,7 +29,22 @@ class PetaPenilaian extends Component
 
     public function render()
     {
-        return view('livewire.guest.maps.peta-penilaian');
+        $years = Penilaian::whereNotNull('tanggal_penilaian')
+            ->selectRaw('YEAR(tanggal_penilaian) as year')
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->pluck('year')
+            ->toArray();
+
+        // Ensure current year is in the list
+        if (!in_array(date('Y'), $years)) {
+            $years[] = date('Y');
+            rsort($years);
+        }
+
+        return view('livewire.guest.maps.peta-penilaian', [
+            'years' => $years
+        ]);
     }
 
     public function loadLocations()

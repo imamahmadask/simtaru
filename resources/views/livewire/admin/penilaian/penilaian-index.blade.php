@@ -67,9 +67,7 @@
                                     {{ $data->nama_pelaku_usaha }}
                                 </td>                  
                                 <td class="text-wrap">
-                                    {{ $data->nama_usaha }} <br>
-                                    <small class="text-muted fst-italic">{{ $data->alamat_lokasi_usaha }}</small>
-                                </td>                
+                                    {{ $data->nama_usaha }}</td>                
                                 <td>
                                     {{ $data->jenis_kegiatan_usaha }}
                                 </td>    

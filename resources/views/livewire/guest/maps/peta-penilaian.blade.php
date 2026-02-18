@@ -162,7 +162,9 @@
                                 class="bi bi-calendar-event text-primary"></i></span>
                         <select wire:model="filterYear" class="form-select border-start-0" aria-label="Filter Tahun">
                             <option value="" selected>Tahun Penilaian</option>
-                            <option value="2026">2026</option>
+                            @foreach($years as $year)
+                                <option value="{{ $year }}">{{ $year }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>

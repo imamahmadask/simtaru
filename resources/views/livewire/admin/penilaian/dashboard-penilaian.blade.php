@@ -3,6 +3,25 @@
         <!-- Content -->
 
         <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-3">
+                                    <label class="form-label" for="filterYear">Pilih Tahun Penilaian:</label>
+                                    <select wire:model.live="year" id="filterYear" class="form-select">
+                                        @foreach($years as $y)
+                                            <option value="{{ $y }}">{{ $y }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="row mb-4">
                 <div class="col-lg-8 col-md-8 mb-4 order-0">
                     <div class="card">
