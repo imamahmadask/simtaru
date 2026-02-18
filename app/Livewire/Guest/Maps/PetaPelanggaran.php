@@ -106,7 +106,7 @@ class PetaPelanggaran extends Component
                 'alamat' => $pelanggaran->alamat_pelanggaran,
                 'kelurahan' => $pelanggaran->kel_pelanggaran,
                 'kecamatan' => $pelanggaran->kec_pelanggaran,                
-                'tindak_lanjut' => $pelanggaran->tindak_lanjut,
+                'tindak_lanjut' => $pelanggaran->tindak_lanjut ?? '-',
             ];
         }
 
