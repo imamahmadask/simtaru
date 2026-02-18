@@ -42,9 +42,15 @@ class DashboardIndex extends Component
             'count_skrk' => $count_skrk
         ];
 
+        $latestPermohonans = Permohonan::with(['registrasi', 'disposisi.tahapan'])
+                            ->orderBy('created_at', 'desc')
+                            ->limit(10)
+                            ->get();
+
         return view('livewire.admin.dashboard.dashboard-index',
         [
-            'rekap' => $this->rekap
+            'rekap' => $this->rekap,
+            'latestPermohonans' => $latestPermohonans
         ]);
     }
 

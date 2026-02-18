@@ -240,6 +240,79 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                
+            @if(Auth::user()->role == 'superadmin')
+            <div class="row">
+                <div class="col-12 mb-4">
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center justify-content-between bg-secondary">
+                            <h5 class="mb-0 text-white">Lead Time Permohonan Terkini (Hari)</h5>
+                        </div>
+                        <div class="card-body mt-3">
+                            <div class="table-responsive text-nowrap">
+                                <table class="table table-hover table-bordered">
+                                    <thead class="bg-light">
+                                        <tr>
+                                            <th>No. Registrasi</th>
+                                            <th class="text-center">Survey</th>
+                                            <th class="text-center">Analis</th>
+                                            <th class="text-center">Verifikasi</th>
+                                            <th class="text-center">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($latestPermohonans as $permohonan)
+                                            @php
+                                                $surveyDays = 0;
+                                                $analisDays = 0;
+                                                $verifikasiDays = 0;
+                                                
+                                                foreach ($permohonan->disposisi as $disposisi) {
+                                                    $start = \Carbon\Carbon::parse($disposisi->tanggal_disposisi);
+                                                    $end = $disposisi->is_done && $disposisi->tgl_selesai ? \Carbon\Carbon::parse($disposisi->tgl_selesai) : now();
+                                                    $diff = $start->floatDiffInDays($end);
+                                                    
+                                                    $tahapanName = strtolower($disposisi->tahapan->nama ?? '');
+                                                    if (str_contains($tahapanName, 'survey')) {
+                                                        $surveyDays += $diff;
+                                                    } elseif (str_contains($tahapanName, 'analis')) {
+                                                        $analisDays += $diff;
+                                                    } elseif (str_contains($tahapanName, 'verifikasi')) {
+                                                        $verifikasiDays += $diff;
+                                                    }
+                                                }
+                                                $totalDays = $surveyDays + $analisDays + $verifikasiDays;
+                                            @endphp
+                                            <tr>
+                                                <td>
+                                                    <strong>{{ $permohonan->registrasi->kode }}</strong>
+                                                    <br>
+                                                    <small class="text-muted">{{ $permohonan->registrasi->nama }}</small>
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="badge bg-label-info">{{ number_format($surveyDays, 2) }}</span>
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="badge bg-label-warning">{{ number_format($analisDays, 2) }}</span>
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="badge bg-label-primary">{{ number_format($verifikasiDays, 2) }}</span>
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="badge bg-primary">{{ number_format($totalDays, 2) }}</span>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
         <!-- / Content -->
 
