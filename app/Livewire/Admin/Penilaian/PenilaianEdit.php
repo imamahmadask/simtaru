@@ -37,7 +37,7 @@ class PenilaianEdit extends Component
     public $no_telepon;
     public $email;
 
-    #[Validate('nullable|file|max:10240')]
+    #[Validate('nullable|file|mimes:pdf|max:10240')]
     public $new_file_dokumen;
 
     public $existing_file_dokumen;

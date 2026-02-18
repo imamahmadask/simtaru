@@ -54,7 +54,7 @@
                         <div class="col-md-12">
                             <label class="form-label" for="new_file_dokumen">File Dokumen Pemanfaatan Ruang (Opsional - Pilih Jika Ingin Ganti)</label>
                             <input type="file" id="new_file_dokumen" wire:model="new_file_dokumen"
-                                class="form-control @error('new_file_dokumen') is-invalid @enderror">
+                                class="form-control @error('new_file_dokumen') is-invalid @enderror" accept="application/pdf">
                             <div wire:loading wire:target="new_file_dokumen">Uploading...</div>
                             
                             @if ($existing_file_dokumen)

@@ -12,7 +12,15 @@ use Livewire\Attributes\Layout;
 class PetaPenilaian extends Component
 {
     public $kecamatan;
+    public $filterYear;
+    public $filterJenis;
     public array $locations = [];
+
+    public $selectedPenilaianId;
+    public $saranNama;
+    public $saranPesan;
+    public $showSaranModal = false;
+    public $successMessage;
 
     public function mount()
     {
@@ -21,17 +29,32 @@ class PetaPenilaian extends Component
 
     public function render()
     {
-        return view('livewire.guest.maps.peta-penilaian');
+        $years = Penilaian::whereNotNull('tanggal_penilaian')
+            ->selectRaw('YEAR(tanggal_penilaian) as year')
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->pluck('year');
+
+        $jenisList = Penilaian::whereNotNull('jenis_penilaian')
+            ->select('jenis_penilaian')
+            ->distinct()
+            ->orderBy('jenis_penilaian')
+            ->pluck('jenis_penilaian');
+
+        return view('livewire.guest.maps.peta-penilaian', compact('years', 'jenisList'));
     }
 
     public function loadLocations()
     {
-        $query = Penilaian::query();
+        $query = \App\Models\Penilaian::query();
 
-        // Assuming kecamatan filter is relevant if penilaians have addresses with kecamatan info
-        // If penilaians don't have a specific kec_penilaian field, we might need to filter by alamat_lokasi_usaha
-        // But for consistency with Pelanggaran, let's see if we can filter.
-        // Based on the migration, there's no explicit kecamatan field, but there's alamat_lokasi_usaha.
+        $query->when($this->filterYear, function ($q) {
+            $q->whereYear('tanggal_penilaian', $this->filterYear);
+        });
+
+        $query->when($this->filterJenis, function ($q) {
+            $q->where('jenis_penilaian', $this->filterJenis);
+        });
         
         $penilaians = $query->whereNotNull('koordinat')->get();
 
@@ -83,5 +106,40 @@ class PetaPenilaian extends Component
     {
         $this->loadLocations();
         $this->dispatch('refresh-map');
+    }
+
+    public function openSaranModal($id)
+    {
+        $this->selectedPenilaianId = $id;
+        $this->reset(['saranNama', 'saranPesan', 'successMessage']);
+        $this->resetErrorBag();
+        $this->showSaranModal = true;
+        $this->dispatch('open-modal-saran');
+    }
+
+    public function closeSaranModal()
+    {
+        $this->showSaranModal = false;
+        $this->reset(['selectedPenilaianId', 'saranNama', 'saranPesan']);
+        $this->resetErrorBag();
+        $this->dispatch('close-modal-saran');
+    }
+
+    public function saveSaran()
+    {
+        $this->validate([
+            'saranNama' => 'required|string|max:255',
+            'saranPesan' => 'required|string',
+        ]);
+
+        \App\Models\SaranPenilaian::create([
+            'penilaian_id' => $this->selectedPenilaianId,
+            'nama' => $this->saranNama,
+            'pesan' => $this->saranPesan,
+        ]);
+
+        $this->closeSaranModal();
+        $this->successMessage = 'Saran/Masukan berhasil dikirim. Terima kasih!';
+        $this->dispatch('show-success-toast');
     }
 }

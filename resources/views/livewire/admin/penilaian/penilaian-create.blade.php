@@ -53,7 +53,7 @@
                         <div class="col-md-12">
                             <label class="form-label" for="file_dokumen">Upload Dokumen Pemanfaatan Ruang</label>
                             <input type="file" id="file_dokumen" wire:model="file_dokumen"
-                                class="form-control @error('file_dokumen') is-invalid @enderror">
+                                class="form-control @error('file_dokumen') is-invalid @enderror" accept="application/pdf">
                             <div wire:loading wire:target="file_dokumen">Uploading...</div>
                             @error('file_dokumen')
                                 <div class="invalid-feedback">{{ $message }}</div>

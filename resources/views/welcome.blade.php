@@ -288,10 +288,10 @@
                                 <div class="feature-icon bg-info-subtle text-info mb-4 mx-auto">
                                     <i class="bi bi-map-fill"></i>
                                 </div>
-                                <h3 class="h5 fw-semibold text-dark mb-3">Peta Hasil Penilaian Tata Ruang</h3>
+                                <h3 class="h5 fw-semibold text-dark mb-3">Peta Penilaian KKPR dan PMP UMK</h3>
                             </a>
                             <p class="text-muted mb-1">
-                                Peta ini menampilkan hasil penilaian kesesuaian dan kepatuhan terhadap rencana tata ruang.
+                                Peta ini menampilkan hasil penilaian KKPR dan PMP UMK yang telah dilakukan di Kota Mataram.
                             </p>
                             <div class="mt-3">
                                 <a href="{{ route('peta.penilaian') }}" class="btn btn-outline-info btn-sm" target="_blank">Buka Peta</a>

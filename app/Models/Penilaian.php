@@ -25,4 +25,8 @@ class Penilaian extends Model
         'link_hasil_penilaian',
         'status',
     ];
+    public function sarans()
+    {
+        return $this->hasMany(SaranPenilaian::class, 'penilaian_id');
+    }
 }

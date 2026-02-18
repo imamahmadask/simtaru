@@ -34,17 +34,13 @@ class PenilaianCreate extends Component
     public $no_telepon;
     public $email;
 
-    #[Validate('required|file|max:10240')] // 10MB max
+    #[Validate('nullable|file|mimes:pdf|max:10240')]
     public $file_dokumen;
 
     #[Validate('required')]
-    public $nama_usaha;
+    public $nama_usaha, $jenis_kegiatan_usaha, $koordinat, $analisa_penilaian, $rekomendasi;
 
     public $alamat_lokasi_usaha;
-    public $jenis_kegiatan_usaha;
-    public $koordinat;
-    public $analisa_penilaian;
-    public $rekomendasi;
     public $link_hasil_penilaian;
 
     #[Layout('layouts.app-penilaian')]

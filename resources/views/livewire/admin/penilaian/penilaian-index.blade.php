@@ -37,12 +37,13 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>No & Tgl Dokumen</th>
+                            <th>Tgl Penilaian</th>
                             <th>Jenis Penilaian</th>
                             <th class="text-wrap">Pelaku Usaha</th>
                             <th class="text-wrap">Nama Usaha</th>
-                            <th class="text-wrap">Alamat Lokasi</th>
-                            <th class="text-wrap">Koordinat</th>                            
+                            <th class="text-wrap">Jenis Kegiatan Usaha</th>
+                            <th>Analisa Penilaian</th>
+                            <th class="text-wrap">Dokumen</th>                            
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -56,30 +57,33 @@
                                     {{ $no++ }}
                                 </td>
                                 <td class="text-nowrap">
-                                    <span class="fw-bold">
-                                        {{ $data->nomor_dokumen }}
-                                    </span> <br>
-                                    <small class="text-muted fst-italic">
-                                        {{ $data->tanggal_penilaian ? date('d-m-Y', strtotime($data->tanggal_penilaian)) : '-' }}                                            
-                                    </small>
+                                    {{ $data->tanggal_penilaian ? date('d-m-Y', strtotime($data->tanggal_penilaian)) : '-' }}                                                                        
                                 </td>
                                 <td class="text-wrap">
                                     {{ $data->jenis_penilaian }} <br>
-                                    <small class="text-muted fst-italic">
-                                        {{ $data->jenis_dokumen }}
-                                    </small>
+                                    <small class="text-muted fst-italic">{{ $data->jenis_dokumen }} </small>                                    
                                 </td>
                                 <td class="text-nowrap">
                                     {{ $data->nama_pelaku_usaha }}
                                 </td>                  
                                 <td class="text-nowrap">
-                                    {{ $data->nama_usaha }}
+                                    {{ $data->nama_usaha }} <br>
+                                    <small class="text-muted fst-italic">{{ $data->alamat_lokasi_usaha }}</small>
                                 </td>                
-                                <td class="text-wrap" style="max-width: 200px;">
-                                    {{ $data->alamat_lokasi_usaha }}
-                                </td>                                      
+                                <td>
+                                    {{ $data->jenis_kegiatan_usaha }}
+                                </td>    
+                                <td>
+                                    {{ $data->analisa_penilaian }}
+</td>                     
                                 <td class="text-nowrap">
-                                    {{ $data->koordinat }}                                          
+                                    @if($data->file_dokumen)
+                                        <a href="{{ asset('storage/' . $data->file_dokumen) }}" target="_blank" class="btn btn-primary btn-sm">
+                                            <i class="bx bx-file"></i>
+                                        </a>                                          
+                                    @else
+                                        -
+                                    @endif
                                 </td>
                                 <td class="text-nowrap">
                                     <div class="me-3">                                            
@@ -98,6 +102,17 @@
                                                 <i class="bx bx-trash"></i>
                                             </button>
                                         @endif
+                                        <button type="button" class="btn btn-info btn-sm position-relative"
+                                            wire:click="openSaranModal({{ $data->id }})"
+                                            title="Lihat Masukan">
+                                            <i class="bx bx-chat"></i>
+                                            @if ($data->sarans_count > 0)
+                                                <span
+                                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                    {{ $data->sarans_count }}
+                                                </span>
+                                            @endif
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -111,4 +126,67 @@
         </div>
         <!--/ Basic Bootstrap Table -->
     </div>
+
+    <!-- Modal Masukan Penilaian -->
+    <div wire:ignore.self class="modal fade" id="modalSaranAdmin" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Masukan Penilaian: 
+                        <span class="text-primary">{{ $selectedPenilaian ? $selectedPenilaian->nomor_dokumen : '' }}</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="closeSaranModal"></button>
+                </div>
+                <div class="modal-body">
+                    @if($selectedPenilaian && $selectedPenilaian->sarans->count() > 0)
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Tanggal</th>
+                                        <th>Nama</th>
+                                        <th>Pesan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($selectedPenilaian->sarans as $saran)
+                                        <tr>
+                                            <td class="text-nowrap">{{ $saran->created_at->format('d/m/Y H:i') }}</td>
+                                            <td><strong>{{ $saran->nama }}</strong></td>
+                                            <td class="text-wrap">{{ $saran->pesan }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @else
+                        <div class="text-center py-4">
+                            <i class="bx bx-message-square-minus display-4 text-muted"></i>
+                            <p class="mt-2">Belum ada masukan untuk penilaian ini.</p>
+                        </div>
+                    @endif
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" wire:click="closeSaranModal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @push('scripts')
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            Livewire.on('open-modal-saran-admin', () => {
+                const modalElement = document.getElementById('modalSaranAdmin');
+                if (modalElement) {
+                    let modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    if (!modalInstance) {
+                        modalInstance = new bootstrap.Modal(modalElement);
+                    }
+                    modalInstance.show();
+                }
+            });
+        });
+    </script>
+    @endpush
 </div>

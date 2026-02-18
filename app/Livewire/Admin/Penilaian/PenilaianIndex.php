@@ -15,6 +15,8 @@ class PenilaianIndex extends Component
     use WithPagination;
 
     public $search = '';
+    public $selectedPenilaian;
+    public $showSaranModal = false;
 
     protected $listeners = ['refresh' => '$refresh'];
 
@@ -27,6 +29,7 @@ class PenilaianIndex extends Component
     public function render()
     {
         $penilaians = Penilaian::query()
+            ->withCount('sarans')
             ->when($this->search, function ($query) {
                 $query->where('nomor_dokumen', 'like', '%' . $this->search . '%')
                     ->orWhere('nama_pelaku_usaha', 'like', '%' . $this->search . '%')
@@ -37,6 +40,19 @@ class PenilaianIndex extends Component
             ->paginate(10);
 
         return view('livewire.admin.penilaian.penilaian-index', compact('penilaians'));
+    }
+
+    public function openSaranModal($id)
+    {
+        $this->selectedPenilaian = Penilaian::with('sarans')->findOrFail($id);
+        $this->showSaranModal = true;
+        $this->dispatch('open-modal-saran-admin');
+    }
+
+    public function closeSaranModal()
+    {
+        $this->showSaranModal = false;
+        $this->selectedPenilaian = null;
     }
 
     public function deletePenilaian($id)
