@@ -17,11 +17,15 @@ class KkprbIndex extends Component
     public $showTimelineModal = false;
     public $timelineData = [];
     public $timelineTitle = '';
+    public $permohonanIsDone = false;
+    public $permohonanWaktuPekerjaan = null;
 
     public function showTimeline($kkprbId)
     {
         $kkprb = Kkprb::with(['permohonan.disposisi.tahapan', 'permohonan.disposisi.penerima'])->findOrFail($kkprbId);
         $permohonan = $kkprb->permohonan;
+        $this->permohonanIsDone = $permohonan->is_done;
+        $this->permohonanWaktuPekerjaan = $permohonan->waktu_pengerjaan;
 
         $this->timelineTitle = $kkprb->registrasi->kode . ' - ' . $kkprb->registrasi->nama;
 

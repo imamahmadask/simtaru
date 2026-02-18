@@ -19,11 +19,15 @@ class SkrkIndex extends Component
     public $showTimelineModal = false;
     public $timelineData = [];
     public $timelineTitle = '';
+    public $permohonanIsDone = false;
+    public $permohonanWaktuPekerjaan = null;
 
     public function showTimeline($skrkId)
     {
         $skrk = Skrk::with(['permohonan.disposisi.tahapan', 'permohonan.disposisi.penerima'])->findOrFail($skrkId);
         $permohonan = $skrk->permohonan;
+        $this->permohonanIsDone = $permohonan->is_done;
+        $this->permohonanWaktuPekerjaan = $permohonan->waktu_pengerjaan;
 
         $this->timelineTitle = $skrk->registrasi->kode . ' - ' . $skrk->registrasi->nama;
 

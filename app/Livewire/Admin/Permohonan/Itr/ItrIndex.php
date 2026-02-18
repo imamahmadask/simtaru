@@ -17,11 +17,15 @@ class ItrIndex extends Component
     public $showTimelineModal = false;
     public $timelineData = [];
     public $timelineTitle = '';
+    public $permohonanIsDone = false;
+    public $permohonanWaktuPekerjaan = null;
 
     public function showTimeline($itrId)
     {
         $itr = Itr::with(['permohonan.disposisi.tahapan', 'permohonan.disposisi.penerima'])->findOrFail($itrId);
         $permohonan = $itr->permohonan;
+        $this->permohonanIsDone = $permohonan->is_done;
+        $this->permohonanWaktuPekerjaan = $permohonan->waktu_pengerjaan;
 
         $this->timelineTitle = $itr->registrasi->kode . ' - ' . $itr->registrasi->nama;
 

@@ -257,9 +257,33 @@
                                                         {{ $item['penerima'] }}
                                                         <br><small class="text-muted">{{ ucfirst($item['role']) }}</small>
                                                     </td>
-                                                    <td class="text-nowrap small">{{ $item['tanggal_disposisi'] }}</td>
-                                                    <td class="text-nowrap small">{{ $item['tgl_mulai_kerja'] }}</td>
-                                                    <td class="text-nowrap small">{{ $item['tgl_selesai'] }}</td>
+                                                    <td class="text-nowrap small">
+                                                        @php
+                                                            $tgl_disposisi = explode(' ', $item['tanggal_disposisi']);
+                                                        @endphp
+                                                        {{ $tgl_disposisi[0] }}
+                                                        @if (isset($tgl_disposisi[1]))
+                                                            <br><small class="text-muted fst-italic">{{ $tgl_disposisi[1] }}</small>
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-nowrap small">
+                                                        @php
+                                                            $tgl_mulai = explode(' ', $item['tgl_mulai_kerja']);
+                                                        @endphp
+                                                        {{ $tgl_mulai[0] }}
+                                                        @if (isset($tgl_mulai[1]))
+                                                            <br><small class="text-muted fst-italic">{{ $tgl_mulai[1] }}</small>
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-nowrap small">
+                                                        @php
+                                                            $tgl_selesai = explode(' ', $item['tgl_selesai']);
+                                                        @endphp
+                                                        {{ $tgl_selesai[0] }}
+                                                        @if (isset($tgl_selesai[1]))
+                                                            <br><small class="text-muted fst-italic">{{ $tgl_selesai[1] }}</small>
+                                                        @endif
+                                                    </td>
                                                     <td>
                                                         @if($item['is_done'])
                                                             <span class="text-success fw-bold">{{ $item['durasi'] }}</span>
@@ -281,6 +305,15 @@
                                         </tbody>
                                     </table>
                                 </div>
+
+                                @if($permohonanIsDone)
+                                    <div class="mt-3 p-3 bg-label-success border rounded">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h6 class="mb-0 fw-bold text-success">Total Waktu Penyelesaian:</h6>
+                                            <span class="badge bg-success" style="font-size: 14px;">{{ $permohonanWaktuPekerjaan }} Hari</span>
+                                        </div>
+                                    </div>
+                                @endif
                             @else
                                 <div class="text-center py-4">
                                     <i class="bx bx-info-circle text-muted" style="font-size: 48px;"></i>
