@@ -119,8 +119,8 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-8 mx-auto text-center">
-                    <h1 class="display-4 fw-bold mb-3">Peta Digital Interaktif</h1>
-                    <p class="lead ">Peta Informasi Pemanfaatan Ruang Kota Mataram</p>
+                    <h1 class="display-4 fw-bold mb-3">Peta Rencana Pemanfaatan Ruang</h1>
+                    <p class="lead ">Peta ini menampilkan rencana pemanfaatan ruang berdasarkan permohonan dokumen Kesesuaian Pemanfaatan Ruang yang diajukan.</p>
                 </div>
             </div>
         </div>

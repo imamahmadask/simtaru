@@ -131,8 +131,8 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-8 mx-auto text-center">
-                    <h1 class="display-4 fw-bold mb-3">Peta Sebaran Pelanggaran</h1>
-                    <p class="lead">Peta Indikasi Pelanggaran Tata Ruang Kota Mataram</p>
+                    <h1 class="display-4 fw-bold mb-3">Peta Indikasi Pelanggaran Tata Ruang</h1>
+                    <p class="lead">Peta ini menampilkan lokasi indikasi pelanggaran tata ruang dan tindak lanjut yang telah dilakukan.</p>
                 </div>
             </div>
         </div>

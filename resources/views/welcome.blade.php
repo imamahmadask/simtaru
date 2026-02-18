@@ -252,10 +252,10 @@
                                 <div class="feature-icon bg-primary-subtle text-primary mb-4 mx-auto">
                                     <i class="bi bi-map"></i>
                                 </div>
-                                <h3 class="h5 fw-semibold text-dark mb-3">Peta Pemanfaatan Ruang</h3>
+                                <h3 class="h5 fw-semibold text-dark mb-3">Peta Rencana Pemanfaatan Ruang</h3>
                             </a>
                             <p class="text-muted mb-1">
-                                Peta yang menggambarkan rencana pemanfaatan ruang di Kota Mataram.
+                                Peta ini menampilkan rencana pemanfaatan ruang berdasarkan permohonan dokumen Kesesuaian Pemanfaatan Ruang yang diajukan.
                             </p>
                             <div class="mt-3">
                                 <a href="{{ route('peta.pemanfaatan-ruang') }}" class="btn btn-outline-primary btn-sm" target="_blank">Buka Peta</a>
@@ -270,10 +270,10 @@
                                 <div class="feature-icon bg-danger-subtle text-danger mb-4 mx-auto">
                                     <i class="bi bi-bell-slash"></i>
                                 </div>
-                                <h3 class="h5 fw-semibold text-dark mb-3">Peta Pelanggaran</h3>
+                                <h3 class="h5 fw-semibold text-dark mb-3">Peta Indikasi Pelanggaran Tata Ruang</h3>
                             </a>
                             <p class="text-muted mb-1">
-                                Peta yang menggambarkan lokasi pelanggaran tata ruang di Kota Mataram.
+                                Peta ini menampilkan lokasi indikasi pelanggaran tata ruang dan tindak lanjut yang telah dilakukan. 
                             </p>
                             <div class="mt-3">
                                 <a href="{{ route('peta.pelanggaran') }}" class="btn btn-outline-danger btn-sm" target="_blank">Buka Peta</a>
@@ -288,10 +288,10 @@
                                 <div class="feature-icon bg-success-subtle text-success mb-4 mx-auto">
                                     <i class="bi bi-geo"></i>
                                 </div>
-                                <h3 class="h5 fw-semibold text-dark mb-3">Peta GIS</h3>
+                                <h3 class="h5 fw-semibold text-dark mb-3">Geoportal Sistem Informasi Geografis</h3>
                             </a>
                             <p class="text-muted mb-1">
-                                Peta GIS Kota Mataram.
+                                Platform yang mengumpulkan, menyajikan, dan menyebarluaskan data dan informasi geospasial di Kota Mataram.Peta GIS Kota Mataram.
                             </p>
                             <div class="mt-3">
                                 <a href="https://geoportal.mataramkota.go.id/#/" class="btn btn-outline-success btn-sm" target="_blank">Buka Peta</a>
