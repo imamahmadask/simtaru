@@ -26,9 +26,20 @@
             </li>
 
             <li class="menu-item {!! request()->routeIs('pelanggaran.*') ? 'active' : '' !!}">
-                <a href="{{ route('pelanggaran.dashboard') }}" class="menu-link" target="_blank">
+                <a href="{{ route('pelanggaran.index') }}" class="menu-link" target="_blank">
                     <i class="menu-icon tf-icons bx bx-home"></i>
                     <div data-i18n="Analytics">Pelanggaran</div>
+                </a>
+            </li>
+            
+            <li class="menu-header small text-uppercase">
+                <span class="menu-header-text">Penilaian</span>
+            </li>
+
+            <li class="menu-item {!! request()->routeIs('penilaian.*') ? 'active' : '' !!}">
+                <a href="{{ route('penilaian.index') }}" class="menu-link" target="_blank">
+                    <i class="menu-icon tf-icons bx bx-home"></i>
+                    <div data-i18n="Analytics">Penilaian</div>
                 </a>
             </li>
         @endif

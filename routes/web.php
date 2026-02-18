@@ -11,6 +11,11 @@ use App\Livewire\Admin\Pelanggaran\PelanggaranDetail;
 use App\Livewire\Admin\Pelanggaran\PelanggaranEdit;
 use App\Livewire\Admin\Pelanggaran\PelanggaranIndex;
 use App\Livewire\Admin\Pengaduan\PengaduanIndex;
+use App\Livewire\Admin\Penilaian\DashboardPenilaian;
+use App\Livewire\Admin\Penilaian\PenilaianCreate;
+use App\Livewire\Admin\Penilaian\PenilaianDetail;
+use App\Livewire\Admin\Penilaian\PenilaianEdit;
+use App\Livewire\Admin\Penilaian\PenilaianIndex;
 use App\Livewire\Admin\Permohonan\Itr\ItrDetail;
 use App\Livewire\Admin\Permohonan\Itr\ItrIndex;
 use App\Livewire\Admin\Permohonan\Kkprb\KkprbDetail;
@@ -31,6 +36,7 @@ use App\Livewire\Guest\Layanan\KkprnbGuest;
 use App\Livewire\Guest\Layanan\SkrkGuest;
 use App\Livewire\Guest\Maps\PetaPemanfaatanRuang;
 use App\Livewire\Guest\Maps\PetaPelanggaran;
+use App\Livewire\Guest\Maps\PetaPenilaian;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -43,6 +49,7 @@ Route::get('layanan/kkprnb', KkprnbGuest::class)->name('layanan.kkprnb');
 Route::get('layanan/kkprb', KkprbGuest::class)->name('layanan.kkprb');
 Route::get('peta/pemanfaatan-ruang', PetaPemanfaatanRuang::class)->name('peta.pemanfaatan-ruang');
 Route::get('peta/pelanggaran', PetaPelanggaran::class)->name('peta.pelanggaran');
+Route::get('peta/penilaian', PetaPenilaian::class)->name('peta.penilaian');
 
 Route::middleware(['cekRole:superadmin,supervisor,analis,surveyor,cs,data-entry'])->group(function () {
     Route::get('admin/dashboard', DashboardIndex::class)->name('dashboard'); // dashboard
@@ -92,4 +99,13 @@ Route::middleware(['cekRole:admin-pelanggaran,superadmin'])->prefix('admin/pelan
     Route::get('/create', PelanggaranCreate::class)->name('pelanggaran.create');
     Route::get('/edit/{id}', PelanggaranEdit::class)->name('pelanggaran.edit');
     Route::get('/{id}', PelanggaranDetail::class)->name('pelanggaran.detail');
+});
+
+// Grup untuk Penilaian
+Route::middleware(['cekRole:admin-penilaian,superadmin'])->prefix('admin/penilaian')->group(function () {
+    Route::get('/dashboard', DashboardPenilaian::class)->name('penilaian.dashboard');    
+    Route::get('/index', PenilaianIndex::class)->name('penilaian.index');
+    Route::get('/create', PenilaianCreate::class)->name('penilaian.create');
+    Route::get('/edit/{id}', PenilaianEdit::class)->name('penilaian.edit');
+    Route::get('/{id}', PenilaianDetail::class)->name('penilaian.detail');
 });

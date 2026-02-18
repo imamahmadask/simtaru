@@ -245,7 +245,7 @@
                 </div>
             </div>
             <div class="row g-4">
-                <div class="col-md-6 col-lg-4">
+                <div class="col-md-6 col-lg-3">
                     <div class="card h-100 border-0 shadow-lg feature-card">
                         <div class="card-body text-center p-4">
                             <a href="{{ route('peta.pemanfaatan-ruang') }}" class="text-decoration-none" target="_blank">
@@ -263,7 +263,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-4">
+                <div class="col-md-6 col-lg-3">
                     <div class="card h-100 border-0 shadow-lg feature-card">
                         <div class="card-body text-center p-4">
                             <a href="{{ route('peta.pelanggaran') }}" class="text-decoration-none" target="_blank">
@@ -281,7 +281,25 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="card h-100 border-0 shadow-lg feature-card">
+                        <div class="card-body text-center p-4">
+                            <a href="{{ route('peta.penilaian') }}" class="text-decoration-none" target="_blank">
+                                <div class="feature-icon bg-info-subtle text-info mb-4 mx-auto">
+                                    <i class="bi bi-map-fill"></i>
+                                </div>
+                                <h3 class="h5 fw-semibold text-dark mb-3">Peta Hasil Penilaian Tata Ruang</h3>
+                            </a>
+                            <p class="text-muted mb-1">
+                                Peta ini menampilkan hasil penilaian kesesuaian dan kepatuhan terhadap rencana tata ruang.
+                            </p>
+                            <div class="mt-3">
+                                <a href="{{ route('peta.penilaian') }}" class="btn btn-outline-info btn-sm" target="_blank">Buka Peta</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
                     <div class="card h-100 border-0 shadow-lg feature-card">
                         <div class="card-body text-center p-4">
                             <a href="https://geoportal.mataramkota.go.id/#/" class="text-decoration-none" target="_blank">
@@ -291,7 +309,7 @@
                                 <h3 class="h5 fw-semibold text-dark mb-3">Geoportal Sistem Informasi Geografis</h3>
                             </a>
                             <p class="text-muted mb-1">
-                                Platform yang mengumpulkan, menyajikan, dan menyebarluaskan data dan informasi geospasial di Kota Mataram.Peta GIS Kota Mataram.
+                                Platform yang menyebarluaskan data dan informasi geospasial di Kota Mataram.
                             </p>
                             <div class="mt-3">
                                 <a href="https://geoportal.mataramkota.go.id/#/" class="btn btn-outline-success btn-sm" target="_blank">Buka Peta</a>
