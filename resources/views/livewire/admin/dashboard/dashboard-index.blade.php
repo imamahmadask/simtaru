@@ -268,6 +268,9 @@
                                                 $surveyDays = 0;
                                                 $analisDays = 0;
                                                 $verifikasiDays = 0;
+                                                $surveyNames = [];
+                                                $analisNames = [];
+                                                $verifikasiNames = [];
                                                 
                                                 foreach ($permohonan->disposisi as $disposisi) {
                                                     $start = \Carbon\Carbon::parse($disposisi->tanggal_disposisi);
@@ -275,12 +278,16 @@
                                                     $diff = $start->floatDiffInDays($end);
                                                     
                                                     $tahapanName = strtolower($disposisi->tahapan->nama ?? '');
+                                                    $penerimaName = $disposisi->penerima->name ?? 'N/A';
                                                     if (str_contains($tahapanName, 'survey')) {
                                                         $surveyDays += $diff;
+                                                        $surveyNames[] = $penerimaName;
                                                     } elseif (str_contains($tahapanName, 'analis')) {
                                                         $analisDays += $diff;
+                                                        $analisNames[] = $penerimaName;
                                                     } elseif (str_contains($tahapanName, 'verifikasi')) {
                                                         $verifikasiDays += $diff;
+                                                        $verifikasiNames[] = $penerimaName;
                                                     }
                                                 }
                                                 $totalDays = $surveyDays + $analisDays + $verifikasiDays;
@@ -293,12 +300,21 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <span class="badge bg-label-info">{{ number_format($surveyDays, 2) }}</span>
+                                                    @if(count($surveyNames))
+                                                        <br><small class="text-muted">{{ implode(', ', array_unique($surveyNames)) }}</small>
+                                                    @endif
                                                 </td>
                                                 <td class="text-center">
                                                     <span class="badge bg-label-warning">{{ number_format($analisDays, 2) }}</span>
+                                                    @if(count($analisNames))
+                                                        <br><small class="text-muted">{{ implode(', ', array_unique($analisNames)) }}</small>
+                                                    @endif
                                                 </td>
                                                 <td class="text-center">
                                                     <span class="badge bg-label-primary">{{ number_format($verifikasiDays, 2) }}</span>
+                                                    @if(count($verifikasiNames))
+                                                        <br><small class="text-muted">{{ implode(', ', array_unique($verifikasiNames)) }}</small>
+                                                    @endif
                                                 </td>
                                                 <td class="text-center">
                                                     <span class="badge bg-primary">{{ number_format($totalDays, 2) }}</span>

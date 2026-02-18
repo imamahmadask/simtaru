@@ -42,7 +42,7 @@ class DashboardIndex extends Component
             'count_skrk' => $count_skrk
         ];
 
-        $latestPermohonans = Permohonan::with(['registrasi', 'disposisi.tahapan'])
+        $latestPermohonans = Permohonan::with(['registrasi', 'disposisi.tahapan', 'disposisi.penerima'])
                             ->orderBy('created_at', 'desc')
                             ->limit(10)
                             ->get();
