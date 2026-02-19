@@ -42,7 +42,7 @@
                             </button>
                         @endif
                     @endif
-                    @if (!$kkprb->is_analis && $disposisiAnalis && $disposisiAnalis->tgl_mulai_kerja)
+                    @if ($kkprb->is_analis || ($disposisiAnalis && $disposisiAnalis->tgl_mulai_kerja))
                         <button type="button" class="btn {{ $kkprb->is_analis ? 'btn-success' : 'btn-danger' }}"
                             wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiAnalisaModal"
                             {{ $kkprb->is_analis || !$kkprb->is_berkas_analis_uploaded ? 'disabled' : '' }}>

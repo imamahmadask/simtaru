@@ -53,7 +53,7 @@
                     @endif                    
                 @endif
 
-                @if ($cek_disposisi)
+                @if ($cek_disposisi || ($cek_disposisi && $disposisiSurvey && $disposisiSurvey->tgl_mulai_kerja))
                     <button type="button" class="btn {{ $kkprnb->is_survey ? 'btn-success' : 'btn-danger' }}"
                         wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiSurveyModal"
                         {{ $kkprnb->is_survey || !$kkprnb->is_berkas_survey_uploaded ? 'disabled' : '' }}>

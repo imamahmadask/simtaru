@@ -49,7 +49,7 @@
                     @endif
                 @endif
 
-                @if ($cek_disposisi && $disposisiSurvey && $disposisiSurvey->tgl_mulai_kerja)
+                @if ($cek_disposisi || ($cek_disposisi && $disposisiSurvey && $disposisiSurvey->tgl_mulai_kerja))
                     <button type="button" class="btn {{ $itr->is_survey ? 'btn-success' : 'btn-danger' }}"
                         wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#SelesaiSurveyItrModal"
                         {{ $itr->is_survey || !$itr->is_berkas_survey_uploaded ? 'disabled' : '' }}>
