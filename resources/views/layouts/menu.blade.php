@@ -31,7 +31,9 @@
                     <div data-i18n="Analytics">Pelanggaran</div>
                 </a>
             </li>
-            
+        @endif
+        
+        @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'admin-penilaian')  
             <li class="menu-header small text-uppercase">
                 <span class="menu-header-text">Penilaian</span>
             </li>
