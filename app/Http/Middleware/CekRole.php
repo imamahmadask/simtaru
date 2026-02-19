@@ -32,6 +32,10 @@ class CekRole
             return redirect()->route('pelanggaran.dashboard');
         }
 
+        if ($userRole === 'admin-penilaian' || $userRole === 'superadmin') {
+            return redirect()->route('penilaian.dashboard');
+        }
+
         // Default redirect untuk admin atau role lainnya
         return redirect('/admin/dashboard');
     }
