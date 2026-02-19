@@ -34,19 +34,19 @@
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddKajianKkprnbModal">
                                 <i class="bx bx-plus"></i> Data Kajian
                             </button>
+                        @elseif($kkprnb->is_kajian && !$kkprnb->is_analis)
+                            <button type="button" class="btn btn-primary" wire:click="$dispatch('kkprnb-kajian-edit', { permohonan_id: {{ $kkprnb->permohonan->id }}, kkprnb_id: {{ $kkprnb->id }} })" data-bs-toggle="modal"
+                                data-bs-target="#EditKajianKkprnbModal">
+                                <i class="bx bx-edit"></i> Edit Data Kajian
+                            </button>
+                            @teleport('body')
+                                @livewire('admin.permohonan.kkprnb.analis.kkprnb-kajian-analis-edit', [], key('kkprnb-kajian-edit-'.$kkprnb->id))
+                            @endteleport
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#UploadBerkasAnalisaKkprnbModal">
+                                <i class="bx bx-cloud-upload"></i> Berkas Analis
+                            </button>
                         @endif
-                    @elseif($kkprnb->is_kajian && !$kkprnb->is_analis)
-                        <button type="button" class="btn btn-primary" wire:click="$dispatch('kkprnb-kajian-edit', { permohonan_id: {{ $kkprnb->permohonan->id }}, kkprnb_id: {{ $kkprnb->id }} })" data-bs-toggle="modal"
-                            data-bs-target="#EditKajianKkprnbModal">
-                            <i class="bx bx-edit"></i> Edit Data Kajian
-                        </button>
-                        @teleport('body')
-                            @livewire('admin.permohonan.kkprnb.analis.kkprnb-kajian-analis-edit', [], key('kkprnb-kajian-edit-'.$kkprnb->id))
-                        @endteleport
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#UploadBerkasAnalisaKkprnbModal">
-                            <i class="bx bx-cloud-upload"></i> Berkas Analis
-                        </button>
                     @endif
                     <button type="button" class="btn {{ $kkprnb->is_analis ? 'btn-success' : 'btn-danger' }}"
                         wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiAnalisaModal"
