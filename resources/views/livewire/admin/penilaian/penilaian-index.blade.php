@@ -24,13 +24,38 @@
                         Tambah Penilaian
                     </a>
                     <!-- Filter & Search -->
-                    <div class="d-flex flex-wrap gap-2">                        
+                    <div class="d-flex flex-wrap gap-2">
+                        <div style="min-width: 150px;">
+                            <select class="form-select" wire:model.live="filterYear">
+                                <option value="">Semua Tahun</option>
+                                @foreach ($years as $year)
+                                    <option value="{{ $year }}">{{ $year }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div style="min-width: 150px;">
+                            <select class="form-select" wire:model.live="filterJenis">
+                                <option value="">Semua Jenis</option>
+                                @foreach ($jenisPenilaians as $jenis)
+                                    <option value="{{ $jenis }}">{{ $jenis }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div style="min-width: 150px;">
+                            <select class="form-select" wire:model.live="filterAnalisa">
+                                <option value="">Semua Analisa</option>
+                                @foreach ($analisas as $analisa)
+                                    <option value="{{ $analisa }}">{{ $analisa }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="flex-fill" style="min-width: 150px;">
                             <input class="form-control" type="search" wire:model.live="search" placeholder="Search"
                                 aria-label="Search">
                         </div>
                     </div>
                 </div>
+                
             </div>
             <div class="table-responsive">
                 <table class="table">

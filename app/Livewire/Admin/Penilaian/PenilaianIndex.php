@@ -15,6 +15,9 @@ class PenilaianIndex extends Component
     use WithPagination;
 
     public $search = '';
+    public $filterYear = '';
+    public $filterJenis = '';
+    public $filterAnalisa = '';
     public $selectedPenilaian;
     public $showSaranModal = false;
 
@@ -25,21 +28,66 @@ class PenilaianIndex extends Component
         $this->resetPage();
     }
 
+    public function updatingFilterYear()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingFilterJenis()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingFilterAnalisa()
+    {
+        $this->resetPage();
+    }
+
     #[Layout('layouts.app-penilaian')]
     public function render()
     {
         $penilaians = Penilaian::query()
             ->withCount('sarans')
             ->when($this->search, function ($query) {
-                $query->where('nomor_dokumen', 'like', '%' . $this->search . '%')
-                    ->orWhere('nama_pelaku_usaha', 'like', '%' . $this->search . '%')
-                    ->orWhere('nama_usaha', 'like', '%' . $this->search . '%')
-                    ->orWhere('alamat_lokasi_usaha', 'like', '%' . $this->search . '%');
+                $query->where(function ($q) {
+                    $q->where('nomor_dokumen', 'like', '%' . $this->search . '%')
+                        ->orWhere('nama_pelaku_usaha', 'like', '%' . $this->search . '%')
+                        ->orWhere('nama_usaha', 'like', '%' . $this->search . '%')
+                        ->orWhere('alamat_lokasi_usaha', 'like', '%' . $this->search . '%');
+                });
+            })
+            ->when($this->filterYear, function ($query) {
+                $query->whereYear('tanggal_penilaian', $this->filterYear);
+            })
+            ->when($this->filterJenis, function ($query) {
+                $query->where('jenis_penilaian', $this->filterJenis);
+            })
+            ->when($this->filterAnalisa, function ($query) {
+                $query->where('analisa_penilaian', $this->filterAnalisa);
             })
             ->latest()
             ->paginate(10);
 
-        return view('livewire.admin.penilaian.penilaian-index', compact('penilaians'));
+        $years = Penilaian::selectRaw('YEAR(tanggal_penilaian) as year')
+            ->whereNotNull('tanggal_penilaian')
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->pluck('year');
+
+        $jenisPenilaians = Penilaian::select('jenis_penilaian')
+            ->whereNotNull('jenis_penilaian')
+            ->distinct()
+            ->orderBy('jenis_penilaian')
+            ->pluck('jenis_penilaian');
+
+        $analisas = Penilaian::select('analisa_penilaian')
+            ->whereNotNull('analisa_penilaian')
+            ->where('analisa_penilaian', '!=', '')
+            ->distinct()
+            ->orderBy('analisa_penilaian')
+            ->pluck('analisa_penilaian');
+
+        return view('livewire.admin.penilaian.penilaian-index', compact('penilaians', 'years', 'jenisPenilaians', 'analisas'));
     }
 
     public function openSaranModal($id)
