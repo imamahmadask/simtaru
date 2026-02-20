@@ -256,6 +256,7 @@
                                     <thead class="bg-light">
                                         <tr>
                                             <th>No. Registrasi</th>
+                                            <th class="text-center">Posisi Terkini</th>
                                             <th class="text-center">Survey</th>
                                             <th class="text-center">Analis</th>
                                             <th class="text-center">Verifikasi</th>
@@ -271,6 +272,7 @@
                                                 $surveyNames = [];
                                                 $analisNames = [];
                                                 $verifikasiNames = [];
+                                                $latestDisposisi = $permohonan->disposisi->sortByDesc('created_at')->first();
                                                 
                                                 foreach ($permohonan->disposisi as $disposisi) {
                                                     $start = \Carbon\Carbon::parse($disposisi->tanggal_disposisi);
@@ -297,6 +299,15 @@
                                                     <strong>{{ $permohonan->registrasi->kode }}</strong>
                                                     <br>
                                                     <small class="text-muted">{{ $permohonan->registrasi->nama }}</small>
+                                                </td>
+                                                <td class="text-center">
+                                                    @if($latestDisposisi)
+                                                        <span class="badge bg-label-secondary mb-1">{{ $latestDisposisi->tahapan->nama ?? '-' }}</span>
+                                                        <br>
+                                                        <small class="text-muted">{{ $latestDisposisi->penerima->name ?? '-' }}</small>
+                                                    @else
+                                                        -
+                                                    @endif
                                                 </td>
                                                 <td class="text-center">
                                                     <span class="badge bg-label-info">{{ round($surveyDays) }} Hari</span>
