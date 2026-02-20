@@ -295,7 +295,7 @@
                                                 $totalDays = $surveyDays + $analisDays + $verifikasiDays;
                                             @endphp
                                             <tr>
-                                                <td>
+                                                <td class="text-wrap">
                                                     <strong>{{ $permohonan->registrasi->kode }}</strong>
                                                     <br>
                                                     <small class="text-muted">{{ $permohonan->registrasi->nama }}</small>
