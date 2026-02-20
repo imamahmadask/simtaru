@@ -299,25 +299,25 @@
                                                     <small class="text-muted">{{ $permohonan->registrasi->nama }}</small>
                                                 </td>
                                                 <td class="text-center">
-                                                    <span class="badge bg-label-info">{{ number_format($surveyDays, 2) }}</span>
+                                                    <span class="badge bg-label-info">{{ round($surveyDays) }} Hari</span>
                                                     @if(count($surveyNames))
                                                         <br><small class="text-muted">{{ implode(', ', array_unique($surveyNames)) }}</small>
                                                     @endif
                                                 </td>
                                                 <td class="text-center">
-                                                    <span class="badge bg-label-warning">{{ number_format($analisDays, 2) }}</span>
+                                                    <span class="badge bg-label-warning">{{ round($analisDays) }} Hari</span>
                                                     @if(count($analisNames))
                                                         <br><small class="text-muted">{{ implode(', ', array_unique($analisNames)) }}</small>
                                                     @endif
                                                 </td>
                                                 <td class="text-center">
-                                                    <span class="badge bg-label-primary">{{ number_format($verifikasiDays, 2) }}</span>
+                                                    <span class="badge bg-label-primary">{{ round($verifikasiDays) }} Hari</span>
                                                     @if(count($verifikasiNames))
                                                         <br><small class="text-muted">{{ implode(', ', array_unique($verifikasiNames)) }}</small>
                                                     @endif
                                                 </td>
                                                 <td class="text-center">
-                                                    <span class="badge bg-primary">{{ number_format($totalDays, 2) }}</span>
+                                                    <span class="badge bg-primary">{{ round($totalDays) }} Hari</span>
                                                 </td>
                                             </tr>
                                         @endforeach
