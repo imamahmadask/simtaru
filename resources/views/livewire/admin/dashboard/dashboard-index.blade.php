@@ -302,7 +302,12 @@
                                                 </td>
                                                 <td class="text-center">
                                                     @if($latestDisposisi)
-                                                        <span class="badge bg-label-secondary mb-1">{{ $latestDisposisi->tahapan->nama ?? '-' }}</span>
+                                                        <span class="badge bg-label-secondary mb-1">
+                                                            {{ $latestDisposisi->tahapan->nama ?? '-' }}
+                                                            @if($latestDisposisi->is_revisi)
+                                                                <span class="text-danger">(Revisi)</span>
+                                                            @endif
+                                                        </span>
                                                         <br>
                                                         <small class="text-muted">{{ $latestDisposisi->penerima->name ?? '-' }}</small>
                                                     @else
