@@ -44,6 +44,7 @@
                             <th class="text-wrap">Jenis Indikasi Pelanggaran</th>                            
                             <th class="text-wrap">Temuan Pelanggaran</th>
                             <th class="text-wrap">Tindak Lanjut</th>                            
+                            <th class="text-wrap">Status</th>                            
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -85,6 +86,13 @@
                                     </td>
                                     <td class="text-nowrap">
                                         {{ $data->tindak_lanjut }}                                          
+                                    </td>
+                                    <td class="text-nowrap">
+                                        @if($data->status == 'Selesai')
+                                            <span class="badge bg-success">Selesai</span>
+                                        @elseif($data->status == 'On Progress')
+                                            <span class="badge bg-warning">On Progress</span>                                        
+                                        @endif
                                     </td>
                                     <td class="text-nowrap">
                                         <div class="me-3">                                            
