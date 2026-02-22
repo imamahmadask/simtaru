@@ -35,6 +35,11 @@
                             </td>
                         </tr>
                         <tr>
+                            <th style="width: 40%">Hasil Evaluasi</th>
+                            <td style="width: 5%">:</td>
+                            <td class="text-start">{{ $pelanggaran->hasil_evaluasi ?? '-' }}</td>
+                        </tr>
+                        <tr>
                             <th style="width: 40%">Status Terkini</th>
                             <td style="width: 5%">:</td>
                             <td class="text-start">
@@ -475,6 +480,15 @@
                                 <option value="Selesai">Selesai</option>
                             </select>
                             @error('status_pelanggaran')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="hasil_evaluasi" class="form-label">Hasil Evaluasi</label>
+                            <textarea wire:model="hasil_evaluasi" class="form-control @error('hasil_evaluasi') is-invalid @enderror"
+                                id="hasil_evaluasi" rows="3" placeholder="Masukkan hasil evaluasi..."></textarea>
+                            @error('hasil_evaluasi')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

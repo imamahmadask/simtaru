@@ -38,6 +38,7 @@ class Pelanggaran extends Model
         'dokumen_penilaian_kkpr',
         'jenis_pemanfaatan_ruang',
         'tgl_evaluasi',
+        'hasil_evaluasi',
         'tindak_lanjut',
         'dokumen_akhir',
         'foto_tindak_lanjut',

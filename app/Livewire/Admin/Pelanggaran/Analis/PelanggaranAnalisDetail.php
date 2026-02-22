@@ -27,6 +27,7 @@ class PelanggaranAnalisDetail extends Component
     public $existing_foto_existing = [];
     #[Validate('nullable|date')]
     public $tgl_evaluasi;
+    public $hasil_evaluasi;
     public $status_pelanggaran;
     #[Validate(['temp_foto_existing.*' => 'image|max:10240'])]
     public $temp_foto_existing = [];
@@ -76,6 +77,7 @@ class PelanggaranAnalisDetail extends Component
         $this->temuan_pelanggaran = $this->pelanggaran->temuan_pelanggaran;
         $this->tindak_lanjut = $this->pelanggaran->tindak_lanjut;
         $this->tgl_evaluasi = $this->pelanggaran->tgl_evaluasi;
+        $this->hasil_evaluasi = $this->pelanggaran->hasil_evaluasi;
         $this->status_pelanggaran = $this->pelanggaran->status;
         $this->existing_foto_tindak_lanjut = $this->pelanggaran->foto_tindak_lanjut ?? [];
         $this->existing_foto_existing = $this->pelanggaran->foto_existing ?? [];
@@ -202,6 +204,7 @@ class PelanggaranAnalisDetail extends Component
 
         $this->pelanggaran->update([
             'tgl_evaluasi' => $this->tgl_evaluasi,
+            'hasil_evaluasi' => $this->hasil_evaluasi,
             'status' => $this->status_pelanggaran,
             'foto_existing' => count($all_existing_photos) > 0 ? $all_existing_photos : null,
         ]);
