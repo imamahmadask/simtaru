@@ -30,6 +30,24 @@ class DashboardIndex extends Component
         $count_kkprnb = Kkprnb::count();
         $count_itr = Itr::count();
         $count_skrk = Skrk::count();
+        $count_skrk_done = Skrk::whereHas('permohonan', function($q) {
+            $q->where('is_done', true);
+        })->count();
+
+        $count_itr = Itr::count();
+        $count_itr_done = Itr::whereHas('permohonan', function($q) {
+            $q->where('is_done', true);
+        })->count();
+
+        $count_kkprb = Kkprb::count();
+        $count_kkprb_done = Kkprb::whereHas('permohonan', function($q) {
+            $q->where('is_done', true);
+        })->count();
+
+        $count_kkprnb = Kkprnb::count();
+        $count_kkprnb_done = Kkprnb::whereHas('permohonan', function($q) {
+            $q->where('is_done', true);
+        })->count();
 
         $this->rekap = [
             'count_registrasi' => $count_registrasi,
@@ -37,9 +55,13 @@ class DashboardIndex extends Component
             'count_layanan' => $count_layanan,
             'count_pengaduan' => $count_pengaduan,
             'count_kkprb' => $count_kkprb,
+            'count_kkprb_done' => $count_kkprb_done,
             'count_kkprnb' => $count_kkprnb,
+            'count_kkprnb_done' => $count_kkprnb_done,
             'count_itr' => $count_itr,
-            'count_skrk' => $count_skrk
+            'count_itr_done' => $count_itr_done,
+            'count_skrk' => $count_skrk,
+            'count_skrk_done' => $count_skrk_done,
         ];
 
         $latestPermohonans = Permohonan::with(['registrasi', 'disposisi.tahapan', 'disposisi.penerima'])

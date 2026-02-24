@@ -166,7 +166,14 @@
                                 </div>
                             </div>
                             <span>SKRK</span>
-                            <h3 class="card-title text-nowrap">{{ $this->rekap['count_skrk'] }}</h3>
+                            <h3 class="card-title text-nowrap mb-1">{{ $this->rekap['count_skrk'] }}</h3>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <small class="text-success fw-semibold"><i class='bx bx-check-double'></i> {{ $this->rekap['count_skrk_done'] }} Selesai</small>
+                                <small class="text-muted">{{ $this->rekap['count_skrk'] > 0 ? round(($this->rekap['count_skrk_done'] / $this->rekap['count_skrk']) * 100) : 0 }}%</small>
+                            </div>
+                            <div class="progress mt-2" style="height: 6px;">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: {{ $this->rekap['count_skrk'] > 0 ? ($this->rekap['count_skrk_done'] / $this->rekap['count_skrk'] * 100) : 0 }}%" aria-valuenow="{{ $this->rekap['count_skrk_done'] }}" aria-valuemin="0" aria-valuemax="{{ $this->rekap['count_skrk'] }}"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -189,7 +196,14 @@
                                 </div>
                             </div>
                             <span>ITR</span>
-                            <h3 class="card-title text-nowrap">{{ $this->rekap['count_itr'] }}</h3>
+                            <h3 class="card-title text-nowrap mb-1">{{ $this->rekap['count_itr'] }}</h3>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <small class="text-success fw-semibold"><i class='bx bx-check-double'></i> {{ $this->rekap['count_itr_done'] }} Selesai</small>
+                                <small class="text-muted">{{ $this->rekap['count_itr'] > 0 ? round(($this->rekap['count_itr_done'] / $this->rekap['count_itr']) * 100) : 0 }}%</small>
+                            </div>
+                            <div class="progress mt-2" style="height: 6px;">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $this->rekap['count_itr'] > 0 ? ($this->rekap['count_itr_done'] / $this->rekap['count_itr'] * 100) : 0 }}%" aria-valuenow="{{ $this->rekap['count_itr_done'] }}" aria-valuemin="0" aria-valuemax="{{ $this->rekap['count_itr'] }}"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -212,7 +226,14 @@
                                 </div>
                             </div>
                             <span class="d-block">KKPR Berusaha</span>
-                            <h3 class="card-title text-nowrap">{{ $this->rekap['count_kkprb'] }}</h3>
+                            <h3 class="card-title text-nowrap mb-1">{{ $this->rekap['count_kkprb'] }}</h3>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <small class="text-success fw-semibold"><i class='bx bx-check-double'></i> {{ $this->rekap['count_kkprb_done'] }} Selesai</small>
+                                <small class="text-muted">{{ $this->rekap['count_kkprb'] > 0 ? round(($this->rekap['count_kkprb_done'] / $this->rekap['count_kkprb']) * 100) : 0 }}%</small>
+                            </div>
+                            <div class="progress mt-2" style="height: 6px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: {{ $this->rekap['count_kkprb'] > 0 ? ($this->rekap['count_kkprb_done'] / $this->rekap['count_kkprb'] * 100) : 0 }}%" aria-valuenow="{{ $this->rekap['count_kkprb_done'] }}" aria-valuemin="0" aria-valuemax="{{ $this->rekap['count_kkprb'] }}"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -235,11 +256,93 @@
                                 </div>
                             </div>
                             <span class="d-block">KKPR Non Berusaha</span>
-                            <h3 class="card-title text-nowrap">{{ $this->rekap['count_kkprnb'] }}</h3>
+                            <h3 class="card-title text-nowrap mb-1">{{ $this->rekap['count_kkprnb'] }}</h3>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <small class="text-success fw-semibold"><i class='bx bx-check-double'></i> {{ $this->rekap['count_kkprnb_done'] }} Selesai</small>
+                                <small class="text-muted">{{ $this->rekap['count_kkprnb'] > 0 ? round(($this->rekap['count_kkprnb_done'] / $this->rekap['count_kkprnb']) * 100) : 0 }}%</small>
+                            </div>
+                            <div class="progress mt-2" style="height: 6px;">
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: {{ $this->rekap['count_kkprnb'] > 0 ? ($this->rekap['count_kkprnb_done'] / $this->rekap['count_kkprnb'] * 100) : 0 }}%" aria-valuenow="{{ $this->rekap['count_kkprnb_done'] }}" aria-valuemin="0" aria-valuemax="{{ $this->rekap['count_kkprnb'] }}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <h5 class="mb-0 text-primary">Ringkasan Penyelesaian Permohonan</h5>
+                        </div>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Layanan</th>
+                                        <th class="text-center">Total Berkas</th>
+                                        <th class="text-center">Selesai</th>
+                                        <th class="text-center">% Achievement</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>SKRK</strong></td>
+                                        <td class="text-center">{{ $this->rekap['count_skrk'] }}</td>
+                                        <td class="text-center text-success"><strong>{{ $this->rekap['count_skrk_done'] }}</strong></td>
+                                        <td style="width: 40%">
+                                            <div class="d-flex align-items-center">
+                                                <div class="progress w-100 me-3" style="height: 8px;">
+                                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ $this->rekap['count_skrk'] > 0 ? ($this->rekap['count_skrk_done'] / $this->rekap['count_skrk'] * 100) : 0 }}%"></div>
+                                                </div>
+                                                <span>{{ $this->rekap['count_skrk'] > 0 ? round(($this->rekap['count_skrk_done'] / $this->rekap['count_skrk']) * 100) : 0 }}%</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>ITR</strong></td>
+                                        <td class="text-center">{{ $this->rekap['count_itr'] }}</td>
+                                        <td class="text-center text-success"><strong>{{ $this->rekap['count_itr_done'] }}</strong></td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="progress w-100 me-3" style="height: 8px;">
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $this->rekap['count_itr'] > 0 ? ($this->rekap['count_itr_done'] / $this->rekap['count_itr'] * 100) : 0 }}%"></div>
+                                                </div>
+                                                <span>{{ $this->rekap['count_itr'] > 0 ? round(($this->rekap['count_itr_done'] / $this->rekap['count_itr']) * 100) : 0 }}%</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>KKPR Berusaha Non UMK</strong></td>
+                                        <td class="text-center">{{ $this->rekap['count_kkprb'] }}</td>
+                                        <td class="text-center text-success"><strong>{{ $this->rekap['count_kkprb_done'] }}</strong></td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="progress w-100 me-3" style="height: 8px;">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ $this->rekap['count_kkprb'] > 0 ? ($this->rekap['count_kkprb_done'] / $this->rekap['count_kkprb'] * 100) : 0 }}%"></div>
+                                                </div>
+                                                <span>{{ $this->rekap['count_kkprb'] > 0 ? round(($this->rekap['count_kkprb_done'] / $this->rekap['count_kkprb']) * 100) : 0 }}%</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>KKPR Non Berusaha</strong></td>
+                                        <td class="text-center">{{ $this->rekap['count_kkprnb'] }}</td>
+                                        <td class="text-center text-success"><strong>{{ $this->rekap['count_kkprnb_done'] }}</strong></td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="progress w-100 me-3" style="height: 8px;">
+                                                    <div class="progress-bar bg-primary" role="progressbar" style="width: {{ $this->rekap['count_kkprnb'] > 0 ? ($this->rekap['count_kkprnb_done'] / $this->rekap['count_kkprnb'] * 100) : 0 }}%"></div>
+                                                </div>
+                                                <span>{{ $this->rekap['count_kkprnb'] > 0 ? round(($this->rekap['count_kkprnb_done'] / $this->rekap['count_kkprnb']) * 100) : 0 }}%</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
+            <hr>
 
             <div class="row">
                 
