@@ -52,7 +52,7 @@
                         </button>
                     @endif                    
                 @endif
-                @if ($cek_disposisi && $disposisiSurvey && $disposisiSurvey->tgl_mulai_kerja)
+                @if ($cek_disposisi || ($disposisiSurvey && $disposisiSurvey->tgl_mulai_kerja))
                     <button type="button" class="btn {{ $kkprb->is_survey ? 'btn-success' : 'btn-danger' }}"
                         wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiSurveyModal"
                         {{ $kkprb->is_survey || !$kkprb->is_berkas_survey_uploaded ? 'disabled' : '' }}>
