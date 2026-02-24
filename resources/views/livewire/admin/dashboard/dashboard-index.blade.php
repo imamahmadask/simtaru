@@ -337,6 +337,21 @@
                                         </td>
                                     </tr>
                                 </tbody>
+                                <tfoot class="table-light">
+                                    <tr>
+                                        <td><strong>Total</strong></td>
+                                        <td class="text-center">{{ $this->rekap['count_total'] }}</td>
+                                        <td class="text-center text-success"><strong>{{ $this->rekap['count_total_done'] }}</strong></td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="progress w-100 me-3" style="height: 8px;">
+                                                    <div class="progress-bar bg-primary" role="progressbar" style="width: {{ $this->rekap['count_total'] > 0 ? ($this->rekap['count_total_done'] / $this->rekap['count_total'] * 100) : 0 }}%"></div>
+                                                </div>
+                                                <span>{{ $this->rekap['count_total'] > 0 ? round(($this->rekap['count_total_done'] / $this->rekap['count_total']) * 100) : 0 }}%</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>

@@ -49,6 +49,9 @@ class DashboardIndex extends Component
             $q->where('is_done', true);
         })->count();
 
+        $count_total = $count_skrk + $count_itr + $count_kkprb + $count_kkprnb;
+        $count_total_done = $count_skrk_done + $count_itr_done + $count_kkprb_done + $count_kkprnb_done;
+
         $this->rekap = [
             'count_registrasi' => $count_registrasi,
             'count_permohonan' => $count_permohonan,
@@ -62,6 +65,8 @@ class DashboardIndex extends Component
             'count_itr_done' => $count_itr_done,
             'count_skrk' => $count_skrk,
             'count_skrk_done' => $count_skrk_done,
+            'count_total' => $count_total,
+            'count_total_done' => $count_total_done,
         ];
 
         $latestPermohonans = Permohonan::with(['registrasi', 'disposisi.tahapan', 'disposisi.penerima'])
