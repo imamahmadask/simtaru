@@ -76,7 +76,7 @@ class DashboardIndex extends Component
 
         $latestPermohonans = Permohonan::with(['registrasi', 'disposisi.tahapan', 'disposisi.penerima'])
                             ->orderBy('created_at', 'desc')
-                            ->paginate(2);
+                            ->paginate(10);
 
         return view('livewire.admin.dashboard.dashboard-index',
         [
