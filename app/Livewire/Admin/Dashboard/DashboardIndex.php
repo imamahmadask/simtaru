@@ -13,10 +13,15 @@ use App\Models\Registrasi;
 use App\Models\Skrk;
 use Livewire\Attributes\Title;
 use Livewire\Component;
+use Livewire\WithoutUrlPagination;
+use Livewire\WithPagination;
 
 #[Title('Dashboard')]
 class DashboardIndex extends Component
 {
+    use WithPagination, WithoutUrlPagination;
+    
+    protected $paginationTheme = 'bootstrap';
     public $rekap = [];
     public $year;
 
@@ -71,8 +76,7 @@ class DashboardIndex extends Component
 
         $latestPermohonans = Permohonan::with(['registrasi', 'disposisi.tahapan', 'disposisi.penerima'])
                             ->orderBy('created_at', 'desc')
-                            ->limit(10)
-                            ->get();
+                            ->paginate(2);
 
         return view('livewire.admin.dashboard.dashboard-index',
         [

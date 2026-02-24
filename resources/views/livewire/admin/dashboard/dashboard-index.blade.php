@@ -225,7 +225,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <span class="d-block">KKPR Berusaha</span>
+                            <span class="d-block">KKPR Berusaha Non UMK</span>
                             <h3 class="card-title text-nowrap mb-1">{{ $this->rekap['count_kkprb'] }}</h3>
                             <div class="d-flex align-items-center justify-content-between">
                                 <small class="text-success fw-semibold"><i class='bx bx-check-double'></i> {{ $this->rekap['count_kkprb_done'] }} Selesai</small>
@@ -267,6 +267,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            <hr>
+
             <div class="row mt-4">
                 <div class="col-12">
                     <div class="card">
@@ -357,16 +361,15 @@
                     </div>
                 </div>
             </div>
+            
             <hr>
-
-            <div class="row">
                 
             @if(Auth::user()->role == 'superadmin')
             <div class="row">
                 <div class="col-12 mb-4">
                     <div class="card">
                         <div class="card-header d-flex align-items-center justify-content-between bg-secondary">
-                            <h5 class="mb-0 text-white">Lead Time Permohonan Terkini (Hari)</h5>
+                            <h5 class="mb-0 text-white">Permohonan Terkini (On Proses)</h5>
                         </div>
                         <div class="card-body mt-3">
                             <div class="table-responsive text-nowrap">
@@ -457,6 +460,9 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="mt-4">
+                                {{ $latestPermohonans->links() }}
                             </div>
                         </div>
                     </div>
