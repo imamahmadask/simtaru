@@ -113,9 +113,11 @@
                                     <label for="create_fungsi_jalan" class="form-label">Fungsi Jalan</label>
                                     <select class="form-select" wire:model="fungsi_jalan" id="create_fungsi_jalan">
                                         <option value="">Pilih</option>
-                                        <option value="Kolektor Primer">Kolektor Primer</option>                                    
-                                        <option value="Kolektor Sekunder">Kolektor Sekunder</option>                                    
+                                        <option value="Arteri Primer">Arteri Primer</option>
+                                        <option value="Kolektor Primer">Kolektor Primer</option>
                                         <option value="Lokal Primer">Lokal Primer</option>
+                                        <option value="Arteri Sekunder">Arteri Sekunder</option>
+                                        <option value="Kolektor Sekunder">Kolektor Sekunder</option>
                                         <option value="Lokal Sekunder">Lokal Sekunder</option>
                                         <option value="Lingkungan">Lingkungan</option>
                                     </select>
