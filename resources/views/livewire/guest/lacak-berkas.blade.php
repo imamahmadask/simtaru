@@ -72,7 +72,7 @@
                                                 </small>
                                                 <h5 class="fw-semibold fs-6 mb-1">{{ $riwayat->keterangan }}</h5>
                                                 <p class="text-muted">
-                                                    Oleh : {{ $riwayat->user->name }}
+                                                    Oleh : {{ $riwayat->user->name ?? '-' }}
                                                 </p>
                                             </li>
                                         @endforeach                                    
