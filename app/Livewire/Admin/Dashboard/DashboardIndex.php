@@ -12,6 +12,7 @@ use App\Models\Permohonan;
 use App\Models\Registrasi;
 use App\Models\Skrk;
 use Livewire\Attributes\Title;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
@@ -23,34 +24,33 @@ class DashboardIndex extends Component
     
     protected $paginationTheme = 'bootstrap';
     public $rekap = [];
+    #[Url]
     public $year;
 
     public function render()
     {
-        $count_registrasi = Registrasi::count();
-        $count_permohonan = Permohonan::count();
+        $count_registrasi = Registrasi::whereYear('created_at', $this->year)->count();
+        $count_permohonan = Permohonan::whereYear('created_at', $this->year)->count();
         $count_layanan = Layanan::count();
-        $count_pengaduan = Pengaduan::count();
-        $count_kkprb = Kkprb::count();
-        $count_kkprnb = Kkprnb::count();
-        $count_itr = Itr::count();
-        $count_skrk = Skrk::count();
-        $count_skrk_done = Skrk::whereHas('permohonan', function($q) {
+        $count_pengaduan = Pengaduan::whereYear('created_at', $this->year)->count();
+        
+        $count_skrk = Skrk::whereYear('created_at', $this->year)->count();
+        $count_skrk_done = Skrk::whereYear('created_at', $this->year)->whereHas('permohonan', function($q) {
             $q->where('is_done', true);
         })->count();
 
-        $count_itr = Itr::count();
-        $count_itr_done = Itr::whereHas('permohonan', function($q) {
+        $count_itr = Itr::whereYear('created_at', $this->year)->count();
+        $count_itr_done = Itr::whereYear('created_at', $this->year)->whereHas('permohonan', function($q) {
             $q->where('is_done', true);
         })->count();
 
-        $count_kkprb = Kkprb::count();
-        $count_kkprb_done = Kkprb::whereHas('permohonan', function($q) {
+        $count_kkprb = Kkprb::whereYear('created_at', $this->year)->count();
+        $count_kkprb_done = Kkprb::whereYear('created_at', $this->year)->whereHas('permohonan', function($q) {
             $q->where('is_done', true);
         })->count();
 
-        $count_kkprnb = Kkprnb::count();
-        $count_kkprnb_done = Kkprnb::whereHas('permohonan', function($q) {
+        $count_kkprnb = Kkprnb::whereYear('created_at', $this->year)->count();
+        $count_kkprnb_done = Kkprnb::whereYear('created_at', $this->year)->whereHas('permohonan', function($q) {
             $q->where('is_done', true);
         })->count();
 
@@ -75,13 +75,19 @@ class DashboardIndex extends Component
         ];
 
         $latestPermohonans = Permohonan::with(['registrasi', 'disposisi.tahapan', 'disposisi.penerima'])
+                            ->whereYear('created_at', $this->year)
                             ->orderBy('created_at', 'desc')
                             ->paginate(10);
+
+        $minYearDate = Permohonan::min('created_at');
+        $minYear = $minYearDate ? date('Y', strtotime($minYearDate)) : date('Y');
+        $years = range(date('Y'), min($minYear, (int)date('Y')));
 
         return view('livewire.admin.dashboard.dashboard-index',
         [
             'rekap' => $this->rekap,
-            'latestPermohonans' => $latestPermohonans
+            'latestPermohonans' => $latestPermohonans,
+            'years' => $years
         ]);
     }
 

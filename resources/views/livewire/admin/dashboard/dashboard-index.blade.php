@@ -4,6 +4,26 @@
 
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body d-flex align-items-center justify-content-between p-3">
+                            <div>
+                                <h4 class="fw-bold mb-0"><i class="bx bx-calendar me-2"></i>Filter Tahun</h4>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <label for="yearFilter" class="form-label mb-0 fw-semibold">Pilih Tahun:</label>
+                                <select id="yearFilter" wire:model.live="year" class="form-select form-select-sm border-primary" style="width: 120px;">
+                                    @foreach ($years as $y)
+                                        <option value="{{ $y }}">{{ $y }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
                 <div class="col-lg-8 col-md-8 mb-4 order-0">
                     <div class="card">
                         <div class="d-flex align-items-end row">
