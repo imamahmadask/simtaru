@@ -85,4 +85,14 @@ class Permohonan extends Model
     {
         return $this->hasMany(Saran::class);
     }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by')->withTrashed();
+    }
+
+    public function updater()
+    {
+        return $this->belongsTo(User::class, 'updated_by')->withTrashed();
+    }
 }

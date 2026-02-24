@@ -42,12 +42,12 @@ class Disposisi extends Model
 
     public function pemberi()
     {
-        return $this->belongsTo(User::class, 'pemberi_id');
+        return $this->belongsTo(User::class, 'pemberi_id')->withTrashed();
     }
 
     public function penerima()
     {
-        return $this->belongsTo(User::class, 'penerima_id');
+        return $this->belongsTo(User::class, 'penerima_id')->withTrashed();
     }
 
     public function layanan()
