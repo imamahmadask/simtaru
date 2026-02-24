@@ -69,7 +69,7 @@ class KkprnbAnalisDetail extends Component
 
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
-            'jenis_kegiatan' => $permohonan->registrasi->fungsi_bangunan,
+            'jenis_kegiatan' => htmlspecialchars($permohonan->registrasi->fungsi_bangunan, ENT_QUOTES, 'UTF-8'),
             'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
             'kel_tanah' => $permohonan->registrasi->kel_tanah,
             'kec_tanah' => $permohonan->registrasi->kec_tanah
@@ -118,7 +118,7 @@ class KkprnbAnalisDetail extends Component
             'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
             'kel_tanah' => $permohonan->registrasi->kel_tanah,
             'kec_tanah' => $permohonan->registrasi->kec_tanah,
-            'jenis_kegiatan' => $permohonan->registrasi->fungsi_bangunan,
+            'jenis_kegiatan' => htmlspecialchars($permohonan->registrasi->fungsi_bangunan, ENT_QUOTES, 'UTF-8'),
             'luas_tanah' => $permohonan->luas_tanah,
             'penguasaan_tanah' => $this->kkprnb->penguasaan_tanah,
             'ada_bangunan' => $this->kkprnb->ada_bangunan,
@@ -157,7 +157,7 @@ class KkprnbAnalisDetail extends Component
         }
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
-            'jenis_kegiatan' => $permohonan->registrasi->fungsi_bangunan,
+            'jenis_kegiatan' => htmlspecialchars($permohonan->registrasi->fungsi_bangunan, ENT_QUOTES, 'UTF-8'),
             'tgl_registrasi' => $permohonan->registrasi->tanggal ? date('d F Y', strtotime($permohonan->registrasi->tanggal)) : '-',
             'no_registrasi' => $permohonan->registrasi->kode,
             'tgl_validasi' => $this->kkprnb->tgl_validasi ? date('d F Y', strtotime($this->kkprnb->tgl_validasi)) : '-',
@@ -171,7 +171,6 @@ class KkprnbAnalisDetail extends Component
             'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
             'kel_tanah' => $permohonan->registrasi->kel_tanah,
             'kec_tanah' => $permohonan->registrasi->kec_tanah,
-            'jenis_kegiatan' => $permohonan->registrasi->fungsi_bangunan,
             'luas_tanah' => $permohonan->luas_tanah,
             'penguasaan_tanah' => $this->kkprnb->penguasaan_tanah,
             'ada_bangunan' => $this->kkprnb->ada_bangunan,
@@ -212,7 +211,7 @@ class KkprnbAnalisDetail extends Component
             'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
             'kel_tanah' => $permohonan->registrasi->kel_tanah,
             'kec_tanah' => $permohonan->registrasi->kec_tanah,
-            'jenis_kegiatan' => $permohonan->registrasi->fungsi_bangunan,
+            'jenis_kegiatan' => htmlspecialchars($permohonan->registrasi->fungsi_bangunan, ENT_QUOTES, 'UTF-8'),
             'jenis_kegiatan_pemanfaatan' => $this->kkprnb->jenis_kegiatan,
             'luas_permohonan' => $permohonan->luas_tanah,
             'no_ptp' => $this->kkprnb->no_ptp,

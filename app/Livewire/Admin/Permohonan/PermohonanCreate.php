@@ -227,7 +227,7 @@ class PermohonanCreate extends Component
     {        
         $data = [
             'nama_pemohon' => $this->nama,            
-            'fungsi_bangunan' => $this->fungsi_bangunan,
+            'fungsi_bangunan' => htmlspecialchars($this->fungsi_bangunan, ENT_QUOTES, 'UTF-8'),
             'kode_registrasi' => $this->kode_registrasi,
             'tgl_registrasi' => $this->tgl_registrasi,
         ];
@@ -239,7 +239,7 @@ class PermohonanCreate extends Component
     {        
         $data = [
             'nama_pemohon' => $this->nama,            
-            'fungsi_bangunan' => $this->fungsi_bangunan,
+            'fungsi_bangunan' => htmlspecialchars($this->fungsi_bangunan, ENT_QUOTES, 'UTF-8'),
             'kode_registrasi' => $this->kode_registrasi,
             'tgl_registrasi' => $this->tgl_registrasi,
         ];
@@ -251,7 +251,7 @@ class PermohonanCreate extends Component
     {        
         $data = [
             'nama_pemohon' => $this->nama,            
-            'fungsi_bangunan' => $this->fungsi_bangunan,
+            'fungsi_bangunan' => htmlspecialchars($this->fungsi_bangunan, ENT_QUOTES, 'UTF-8'),
             'kode_registrasi' => $this->kode_registrasi,
             'tgl_registrasi' => $this->tgl_registrasi,
         ];
