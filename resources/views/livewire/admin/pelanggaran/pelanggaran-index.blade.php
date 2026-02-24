@@ -88,11 +88,10 @@
                                         {{ $data->tindak_lanjut }}                                          
                                     </td>
                                     <td class="text-nowrap">
-                                        @if($data->status == 'Selesai')
-                                            <span class="badge bg-success">Selesai</span>
-                                        @elseif($data->status == 'On Progress')
-                                            <span class="badge bg-warning">On Progress</span>                                        
-                                        @endif
+                                        <span
+                                            class="badge bg-{{ $data->status == 'Selesai' ? 'success' : ($data->status == 'Pelimpahan Berkas' ? 'primary' : 'warning') }}">
+                                            {{ $data->status }}
+                                        </span>
                                     </td>
                                     <td class="text-nowrap">
                                         <div class="me-3">                                            

@@ -43,7 +43,8 @@
                             <th style="width: 40%">Status Terkini</th>
                             <td style="width: 5%">:</td>
                             <td class="text-start">
-                                <span class="badge bg-{{ $pelanggaran->status == 'Selesai' ? 'success' : 'warning' }}">
+                                <span
+                                    class="badge bg-{{ $pelanggaran->status == 'Selesai' ? 'success' : ($pelanggaran->status == 'Pelimpahan Berkas' ? 'primary' : 'warning') }}">
                                     {{ $pelanggaran->status }}
                                 </span>
                             </td>
@@ -477,6 +478,7 @@
                                 id="status_pelanggaran">
                                 <option value="">Pilih Status</option>
                                 <option value="On Progress">On Progress</option>
+                                <option value="Pelimpahan Berkas">Pelimpahan Berkas</option>
                                 <option value="Selesai">Selesai</option>
                             </select>
                             @error('status_pelanggaran')

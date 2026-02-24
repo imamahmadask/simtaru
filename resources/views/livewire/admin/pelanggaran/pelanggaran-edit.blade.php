@@ -182,8 +182,8 @@
                                 class="form-select @error('jenis_indikasi_pelanggaran') is-invalid @enderror">
                                 <option value="">Pilih Jenis Indikasi Pelanggaran</option>
                                 <option value="Tidak Memiliki KKPR atau SKRK">Tidak Memiliki KKPR atau SKRK</option>
-                                <option value="Tidak memenuhi ketentuan dalam KKPR atau SKRK cth. pelanggaran GSB, KDB/KDH">Tidak memenuhi ketentuan dalam KKPR atau SKRK cth. pelanggaran GSB, KDB/KDH</option>
-                                <option value="Menghalangi akses terhadap kawasan yang ditetapkan sebagai milik umum">Menghalangi akses terhadap kawasan yang ditetapkan sebagai milik umum</option>
+                                <option value="Tidak Memenuhi Ketentuan Dalam KKPR/SKRK">Tidak Memenuhi Ketentuan Dalam KKPR/SKRK (cth. pelanggaran GSB, KDB/KDH)</option>
+                                <option value="Menghalangi Akses Terhadap Kawasan Yang Ditetapkan Sebagai Milik Umum">Menghalangi Akses Terhadap Kawasan Yang Ditetapkan Sebagai Milik Umum</option>
                                 <option value="Tidak Memiliki Persetujuan Bangunan Gedung (PBG)">Tidak Memiliki Persetujuan Bangunan Gedung (PBG)</option>
                             </select>
                             @error('jenis_indikasi_pelanggaran')

@@ -59,7 +59,8 @@
                                     <div class="card h-100">
                                         <div class="card-header d-flex justify-content-between align-items-center">
                                             <h5 class="mb-0">Informasi Umum</h5>
-                                            <span class="badge bg-{{ $pelanggaran->status == 'Selesai' ? 'success' : 'warning' }}">
+                                            <span
+                                                class="badge bg-{{ $pelanggaran->status == 'Selesai' ? 'success' : ($pelanggaran->status == 'Pelimpahan Berkas' ? 'primary' : 'warning') }}">
                                                 {{ $pelanggaran->status }}
                                             </span>
                                         </div>
