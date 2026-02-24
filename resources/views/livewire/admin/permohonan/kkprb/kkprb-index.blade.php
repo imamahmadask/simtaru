@@ -1,10 +1,10 @@
 <div>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Permohonan /</span> KKPR Berusaha</h4>
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Permohonan /</span> KKPR Berusaha Non UMK</h4>
 
         <!-- Basic Bootstrap Table -->
         <div class="card">
-            <h5 class="card-header">List Permohonan KKPR Berusaha</h5>
+            <h5 class="card-header">List Permohonan KKPR Berusaha Non UMK</h5>
             <div class="row mx-3 mb-3">
                 <div class="col d-flex justify-content-end align-items-center">
                     <!-- Search kanan -->

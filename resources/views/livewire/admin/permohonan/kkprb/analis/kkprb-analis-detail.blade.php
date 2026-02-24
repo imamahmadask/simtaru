@@ -62,7 +62,7 @@
         <div class="col-xl-6">
             <div class="card mb-4">
                 <div class="card-header d-flex align-items-center justify-content-between bg-secondary">
-                    <h5 class="mb-0 text-white">Data Analisa KKPR Berusaha</h5>
+                    <h5 class="mb-0 text-white">Data Analisa KKPR Berusaha Non UMK</h5>
                 </div>
                 <div class="card-body mt-3">                    
                     <div class="row mb-3">

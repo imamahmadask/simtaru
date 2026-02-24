@@ -3,7 +3,7 @@
         <div class="col-xl">
             <div class="card mb-4">
                 <div class="card-header d-flex align-items-center justify-content-between bg-secondary">
-                    <h5 class="mb-0 text-white">Berkas KKPR Berusaha</h5>
+                    <h5 class="mb-0 text-white">Berkas KKPR Berusaha Non UMK</h5>
                 </div>
                 <div class="card-body mt-3">
                     <div class="alert alert-primary" role="alert">
