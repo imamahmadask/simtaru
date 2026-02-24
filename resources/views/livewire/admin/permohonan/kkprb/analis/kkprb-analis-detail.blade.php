@@ -34,7 +34,7 @@
                                 <i class="bx bx-edit"></i> Edit Data Kajian
                             </button>
                             @teleport('body')
-                                @livewire('admin.permohonan.kkprb.analis.kkprb-kajian-analis-edit', [], key('kkprb-kajian-edit-'.$kkprb->id))
+                                @livewire('admin.permohonan.kkprb.analis.kkprb-analis-edit', [], key('kkprb-kajian-edit-'.$kkprb->id))
                             @endteleport
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#UploadBerkasAnalisaKkprbModal">
