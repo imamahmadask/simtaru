@@ -175,7 +175,7 @@
             <hr>
             <div class="row">
                 <!-- Left Side: Rekap Berdasarkan Temuan -->
-                <div class="col-lg-6 mb-4">
+                <div class="col-lg-4 mb-4">
                     <h5>Rekap Berdasarkan Temuan</h5>
                     <div class="card">
                         <div class="card-body">
@@ -191,7 +191,7 @@
                                         labels: ['Ada Pelanggaran', 'Tidak Ada Pelanggaran'],
                                         chart: {
                                             type: 'donut',
-                                            height: 350,
+                                            height: 250,
                                             toolbar: { show: false }
                                         },
                                         colors: [
@@ -243,7 +243,7 @@
                 </div>
 
                 <!-- Right Side: Rekap Berdasarkan Indikasi Pelanggaran -->
-                <div class="col-lg-6 mb-4">
+                <div class="col-lg-8 mb-4">
                     <h5>Rekap Berdasarkan Indikasi Pelanggaran</h5>
                     <div class="card">
                         <div class="card-body">
@@ -263,28 +263,47 @@
                                         }],
                                         chart: {
                                             type: 'bar',
-                                            height: 350,
+                                            height: 250,
                                             toolbar: { show: false }
                                         },
                                         plotOptions: {
                                             bar: {
                                                 borderRadius: 4,
-                                                horizontal: false,
+                                                horizontal: true,
                                                 distributed: true,
-                                                columnWidth: '50%',
+                                                barHeight: '50%',
                                             }
                                         },
                                         dataLabels: {
                                             enabled: true,
+                                            textAnchor: 'start',
+                                            style: {
+                                                colors: ['#fff']
+                                            },
                                             formatter: function (val) {
                                                 return val.toFixed(0);
+                                            },
+                                            offsetX: 0,
+                                            dropShadow: {
+                                              enabled: true
                                             }
                                         },
-                                        yaxis: {
+                                        xaxis: {
+                                            categories: [
+                                                'Tidak Memiliki KKPR/SKRK',
+                                                'Tidak Memenuhi Ketentuan Dalam KKPR/SKRK',
+                                                'Menghalangi Akses Kawasan Milik Umum',
+                                                'Tidak Memiliki PBG'
+                                            ],
                                             labels: {
                                                 formatter: function (val) {
                                                     return val.toFixed(0);
                                                 }
+                                            }
+                                        },
+                                        yaxis: {
+                                            labels: {
+                                                show: true
                                             }
                                         },
                                         colors: [
@@ -293,14 +312,6 @@
                                             config.colors.info,
                                             config.colors.warning
                                         ],
-                                        xaxis: {
-                                            categories: [
-                                                'Tidak Memiliki KKPR/SKRK',
-                                                'Tidak Memenuhi Ketentuan Dalam KKPR/SKRK',
-                                                'Menghalangi Akses Kawasan Milik Umum',
-                                                'Tidak Memiliki PBG'
-                                            ],
-                                        },
                                         legend: {
                                             show: false
                                         }
