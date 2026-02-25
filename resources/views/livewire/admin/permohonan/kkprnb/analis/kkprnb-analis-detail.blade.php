@@ -21,7 +21,7 @@
                         <i class="bx bx-check-circle"></i> Dikerjakan sejak: {{ \Carbon\Carbon::parse($disposisiAnalis->tgl_mulai_kerja)->format('d-m-Y H:i') }}
                     </span>
                 @endif
-
+                
                 @php
                     $showButtons = true;
                     if ($kkprnb->rdtr_rtrw == 'RTRW') {
@@ -47,18 +47,18 @@
                                 <i class="bx bx-cloud-upload"></i> Berkas Analis
                             </button>
                         @endif
-                    @endif
-                    @if ($kkprnb->is_analis || ($disposisiAnalis && $disposisiAnalis->tgl_mulai_kerja))
-                        <button type="button" class="btn {{ $kkprnb->is_analis ? 'btn-success' : 'btn-danger' }}"
-                            wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiAnalisaModal"
-                            {{ $kkprnb->is_analis || !$kkprnb->is_berkas_analis_uploaded ? 'disabled' : '' }}>
-                            @if ($kkprnb->is_analis)
-                                <i class="bx bx-check"></i> Selesai Analisa
-                            @else
-                                <i class="bx bx-x"></i> Belum Selesai Analisa
-                            @endif
-                        </button>
-                    @endif
+                    @endif                    
+                @endif
+                @if ($kkprnb->is_analis)
+                    <button type="button" class="btn {{ $kkprnb->is_analis ? 'btn-success' : 'btn-danger' }}"
+                        wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiAnalisaModal"
+                        {{ $kkprnb->is_analis || !$kkprnb->is_berkas_analis_uploaded ? 'disabled' : '' }}>
+                        @if ($kkprnb->is_analis)
+                            <i class="bx bx-check"></i> Selesai Analisa
+                        @else
+                            <i class="bx bx-x"></i> Belum Selesai Analisa
+                        @endif
+                    </button>
                 @endif
             @endcan
         </div>
