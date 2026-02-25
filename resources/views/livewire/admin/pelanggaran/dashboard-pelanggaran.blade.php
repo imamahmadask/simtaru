@@ -56,7 +56,74 @@
                                         <h3 class="mb-0">{{ $this->rekap['count_pelanggaran_year'] }} Berkas</h3>
                                     </div>
                                 </div>
-                                <div id="profileReportChart"></div>
+                                <div wire:ignore x-data="{
+                                    chart: null,
+                                    rekap: @entangle('rekap'),
+                                    init() {
+                                        const profileReportChartConfig = {
+                                            chart: {
+                                                height: 80,
+                                                type: 'line',
+                                                toolbar: {
+                                                    show: false
+                                                },
+                                                dropShadow: {
+                                                    enabled: true,
+                                                    top: 10,
+                                                    left: 5,
+                                                    blur: 3,
+                                                    color: config.colors.warning,
+                                                    opacity: 0.15
+                                                },
+                                                sparkline: {
+                                                    enabled: true
+                                                }
+                                            },
+                                            grid: {
+                                                show: false,
+                                                padding: {
+                                                    right: 8
+                                                }
+                                            },
+                                            colors: [config.colors.warning],
+                                            dataLabels: {
+                                                enabled: false
+                                            },
+                                            stroke: {
+                                                width: 5,
+                                                curve: 'smooth'
+                                            },
+                                            series: [{
+                                                data: this.rekap.monthly_counts
+                                            }],
+                                            xaxis: {
+                                                show: false,
+                                                lines: {
+                                                    show: false
+                                                },
+                                                labels: {
+                                                    show: false
+                                                },
+                                                axisBorder: {
+                                                    show: false
+                                                }
+                                            },
+                                            yaxis: {
+                                                show: false
+                                            }
+                                        };
+                                        this.chart = new ApexCharts(this.$refs.profileReportChart, profileReportChartConfig);
+                                        this.chart.render();
+
+                                        this.$watch('rekap', (value) => {
+                                            this.chart.updateSeries([{
+                                                data: value.monthly_counts
+                                            }]);
+                                        });
+                                    }
+                                }">
+                                    <div x-ref="profileReportChart"></div>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -49,6 +49,13 @@ class DashboardPenilaian extends Component
         $count_pmp_umk_sesuai_sebagian = (clone $query)->where('jenis_penilaian', 'PMP UMK')->where('analisa_penilaian', 'Sesuai Sebagian')->count();
         $count_pmp_umk_sesuai_seluruhnya = (clone $query)->where('jenis_penilaian', 'PMP UMK')->where('analisa_penilaian', 'Sesuai Seluruhnya')->count();        
 
+        $monthly_counts = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $monthly_counts[] = Penilaian::whereYear('tanggal_penilaian', $this->year)
+                ->whereMonth('tanggal_penilaian', $i)
+                ->count();
+        }
+
         $this->rekap = [
             'count_penilaian_year' => $count_penilaian_year,
             'count_penilaian' => $count_penilaian,
@@ -58,6 +65,7 @@ class DashboardPenilaian extends Component
             'count_kkpr_sesuai_seluruhnya' => $count_kkpr_sesuai_seluruhnya,
             'count_pmp_umk_sesuai_sebagian' => $count_pmp_umk_sesuai_sebagian,
             'count_pmp_umk_sesuai_seluruhnya' => $count_pmp_umk_sesuai_seluruhnya,
+            'monthly_counts' => $monthly_counts
         ];
         
         return view('livewire.admin.penilaian.dashboard-penilaian', [

@@ -41,6 +41,13 @@ class DashboardPelanggaran extends Component
         $count_indikasi_menghalangi_akses = Pelanggaran::where('jenis_indikasi_pelanggaran', 'Menghalangi Akses Terhadap Kawasan Yang Ditetapkan Sebagai Milik Umum')->whereYear('tgl_laporan', $this->year)->count();
         $count_indikasi_tidak_memiliki_pbg = Pelanggaran::where('jenis_indikasi_pelanggaran', 'Tidak Memiliki Persetujuan Bangunan Gedung (PBG)')->whereYear('tgl_laporan', $this->year)->count();
 
+        $monthly_counts = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $monthly_counts[] = Pelanggaran::whereYear('tgl_laporan', $this->year)
+                ->whereMonth('tgl_laporan', $i)
+                ->count();
+        }
+
         $this->rekap = [
             'count_pelanggaran_year' => $count_pelanggaran_year,
             'count_pelanggaran' => $count_pelanggaran,
@@ -55,7 +62,8 @@ class DashboardPelanggaran extends Component
             'count_indikasi_tidak_memiliki_kkpr' => $count_indikasi_tidak_memiliki_kkpr,
             'count_indikasi_tidak_memenuhi_ketentuan' => $count_indikasi_tidak_memenuhi_ketentuan,
             'count_indikasi_menghalangi_akses' => $count_indikasi_menghalangi_akses,
-            'count_indikasi_tidak_memiliki_pbg' => $count_indikasi_tidak_memiliki_pbg
+            'count_indikasi_tidak_memiliki_pbg' => $count_indikasi_tidak_memiliki_pbg,
+            'monthly_counts' => $monthly_counts
         ];
         
         return view('livewire.admin.pelanggaran.dashboard-pelanggaran', [

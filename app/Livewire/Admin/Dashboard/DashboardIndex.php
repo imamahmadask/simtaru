@@ -57,6 +57,13 @@ class DashboardIndex extends Component
         $count_total = $count_skrk + $count_itr + $count_kkprb + $count_kkprnb;
         $count_total_done = $count_skrk_done + $count_itr_done + $count_kkprb_done + $count_kkprnb_done;
 
+        $monthly_counts = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $monthly_counts[] = Permohonan::whereYear('created_at', $this->year)
+                ->whereMonth('created_at', $i)
+                ->count();
+        }
+
         $this->rekap = [
             'count_registrasi' => $count_registrasi,
             'count_permohonan' => $count_permohonan,
@@ -72,6 +79,7 @@ class DashboardIndex extends Component
             'count_skrk_done' => $count_skrk_done,
             'count_total' => $count_total,
             'count_total_done' => $count_total_done,
+            'monthly_counts' => $monthly_counts,
         ];
 
         $latestPermohonans = Permohonan::with(['registrasi', 'disposisi.tahapan', 'disposisi.penerima'])
