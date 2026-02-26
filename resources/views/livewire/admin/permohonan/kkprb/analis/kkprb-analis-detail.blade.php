@@ -8,7 +8,7 @@
                         wire:confirm="Mulai mengerjakan Analisis? Waktu mulai akan dicatat.">
                         <i class="bx bx-play-circle"></i> Mulai Kerjakan
                     </button>
-                @elseif ($kkprb->is_analis || ($disposisiAnalis && $disposisiAnalis->tgl_mulai_kerja))
+                @elseif ($disposisiAnalis && $disposisiAnalis->tgl_mulai_kerja && !$kkprb->is_analis)
                     <span class="badge bg-success p-2">
                         <i class="bx bx-check-circle"></i> Dikerjakan sejak: {{ \Carbon\Carbon::parse($disposisiAnalis->tgl_mulai_kerja)->format('d-m-Y H:i') }}
                     </span>
