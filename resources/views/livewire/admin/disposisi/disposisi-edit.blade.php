@@ -88,7 +88,7 @@
 @script
     <script>
         $wire.on('trigger-close-modal', () => {
-            const modal = bootstrap.Modal.getInstance(document.getElementById('AddDisposisiModal'));
+            const modal = bootstrap.Modal.getInstance(document.getElementById('editDisposisiModal'));
             if (modal) {
                 modal.hide();
             }
