@@ -445,6 +445,107 @@
             </div>
             
             <hr>
+
+            <div class="row mt-4">
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <h5 class="mb-0 text-primary">Rata-rata Durasi Penyelesaian per Layanan</h5>
+                        </div>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Layanan</th>
+                                        <th class="text-center">Total Hari</th>
+                                        <th class="text-center">Total Selesai</th>
+                                        <th class="text-center">Rata-rata (Hari)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($this->rekap['stats_layanan'] as $stats)
+                                    <tr>
+                                        <td><strong>{{ $stats->layanan_nama }}</strong> <small class="text-muted">({{ $stats->layanan_kode }})</small></td>
+                                        <td class="text-center">{{ number_format($stats->total_days, 1) }}</td>
+                                        <td class="text-center">{{ $stats->total_done }}</td>
+                                        <td class="text-center">
+                                            <span class="badge bg-label-primary">{{ $stats->average_days }} Hari</span>
+                                        </td>
+                                    </tr>
+                                    @empty
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted py-4">Tidak ada data penyelesaian di tahun {{ $this->year }}</td>
+                                    </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <h5 class="mb-0 text-primary">Grafik Rata-rata Durasi (Hari)</h5>
+                        </div>
+                        <div class="card-body pt-2">
+                            <div wire:ignore x-data="{
+                                chart: null,
+                                stats: @entangle('rekap.stats_layanan'),
+                                init() {
+                                    const options = {
+                                        chart: {
+                                            type: 'bar',
+                                            height: 250,
+                                            parentHeightOffset: 0,
+                                            toolbar: { show: false }
+                                        },
+                                        plotOptions: {
+                                            bar: {
+                                                borderRadius: 4,
+                                                horizontal: false,
+                                                columnWidth: '40%',
+                                                distributed: true
+                                            }
+                                        },
+                                        dataLabels: { enabled: true, formatter: (val) => val + ' H' },
+                                        legend: { show: false },
+                                        series: [{
+                                            name: 'Rata-rata Hari',
+                                            data: this.stats.map(s => s.average_days)
+                                        }],
+                                        xaxis: {
+                                            categories: this.stats.map(s => s.layanan_kode),
+                                            axisBorder: { show: false },
+                                            axisTicks: { show: false }
+                                        },
+                                        yaxis: {
+                                            title: { text: 'Hari' }
+                                        },
+                                        colors: [config.colors.primary, config.colors.info, config.colors.success, config.colors.warning]
+                                    };
+                                    this.chart = new ApexCharts(this.$refs.avgChart, options);
+                                    this.chart.render();
+
+                                    this.$watch('stats', (value) => {
+                                        this.chart.updateOptions({
+                                            series: [{
+                                                data: value.map(s => s.average_days)
+                                            }],
+                                            xaxis: {
+                                                categories: value.map(s => s.layanan_kode)
+                                            }
+                                        });
+                                    });
+                                }
+                            }">
+                                <div x-ref="avgChart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
                 
             @if(Auth::user()->role == 'superadmin')
             <div class="row">
