@@ -466,10 +466,10 @@
                                     @forelse($this->rekap['stats_layanan'] as $stats)
                                     <tr>
                                         <td><strong>{{ $stats['layanan_nama'] }}</strong> <small class="text-muted">({{ $stats['layanan_kode'] }})</small></td>
-                                        <td class="text-center">{{ number_format($stats['total_days'], 1) }}</td>
+                                        <td class="text-center">{{ number_format($stats['total_days']) }}</td>
                                         <td class="text-center">{{ $stats['total_done'] }}</td>
                                         <td class="text-center">
-                                            <span class="badge bg-label-primary">{{ $stats['average_days'] }} Hari</span>
+                                            <span class="badge bg-label-primary">{{ number_format($stats['average_days']) }} Hari</span>
                                         </td>                                        
                                     </tr>
                                     @empty
@@ -481,10 +481,10 @@
                                 <tfoot class="table-light">
                                     <tr>
                                         <td><strong>Total</strong></td>
-                                        <td class="text-center"><strong>{{ number_format($this->rekap['total_days_all'], 1) }}</strong></td>
+                                        <td class="text-center"><strong>{{ number_format($this->rekap['total_days_all']) }}</strong></td>
                                         <td class="text-center"><strong>{{ $this->rekap['count_total_done'] }}</strong></td>
                                         <td class="text-center">
-                                            <span class="badge bg-primary">{{ $this->rekap['average_days_all'] }} Hari</span>
+                                            <span class="badge bg-primary">{{ number_format($this->rekap['average_days_all']) }} Hari</span>
                                         </td>
                                     </tr>
                                 </tfoot>

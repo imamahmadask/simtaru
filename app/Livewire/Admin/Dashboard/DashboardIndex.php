@@ -79,12 +79,12 @@ class DashboardIndex extends Component
                     'layanan_kode' => $item->layanan_kode,
                     'total_days' => (float)$item->total_days,
                     'total_done' => (int)$item->total_done,
-                    'average_days' => $item->total_done > 0 ? round($item->total_days / $item->total_done, 2) : 0,
+                    'average_days' => $item->total_done > 0 ? round($item->total_days / $item->total_done) : 0,
                 ];
             })->toArray();
 
         $total_days_all = collect($stats_layanan)->sum('total_days');
-        $average_days_all = $count_total_done > 0 ? round($total_days_all / $count_total_done, 2) : 0;
+        $average_days_all = $count_total_done > 0 ? round($total_days_all / $count_total_done) : 0;
 
         $this->rekap = [
             'count_registrasi' => $count_registrasi,
