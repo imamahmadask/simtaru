@@ -470,7 +470,7 @@
                                         <td class="text-center">{{ $stats['total_done'] }}</td>
                                         <td class="text-center">
                                             <span class="badge bg-label-primary">{{ $stats['average_days'] }} Hari</span>
-                                        </td>
+                                        </td>                                        
                                     </tr>
                                     @empty
                                     <tr>
@@ -478,6 +478,16 @@
                                     </tr>
                                     @endforelse
                                 </tbody>
+                                <tfoot class="table-light">
+                                    <tr>
+                                        <td><strong>Total</strong></td>
+                                        <td class="text-center"><strong>{{ number_format($this->rekap['total_days_all'], 1) }}</strong></td>
+                                        <td class="text-center"><strong>{{ $this->rekap['count_total_done'] }}</strong></td>
+                                        <td class="text-center">
+                                            <span class="badge bg-primary">{{ $this->rekap['average_days_all'] }} Hari</span>
+                                        </td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -485,7 +495,7 @@
                 <div class="col-md-6 mb-4">
                     <div class="card h-100">
                         <div class="card-header d-flex align-items-center justify-content-between">
-                            <h5 class="mb-0 text-primary">Grafik Rata-rata Durasi Tahun {{ $year }} (Hari)</h5>
+                            <h5 class="mb-0 text-primary">Grafik Rata-Rata Durasi Penyelesaian Layanan Tahun {{ $year }} (Hari)</h5>
                         </div>
                         <div class="card-body pt-2">
                             <div wire:ignore x-data="{

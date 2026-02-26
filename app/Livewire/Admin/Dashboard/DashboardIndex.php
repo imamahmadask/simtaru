@@ -83,6 +83,9 @@ class DashboardIndex extends Component
                 ];
             })->toArray();
 
+        $total_days_all = collect($stats_layanan)->sum('total_days');
+        $average_days_all = $count_total_done > 0 ? round($total_days_all / $count_total_done, 2) : 0;
+
         $this->rekap = [
             'count_registrasi' => $count_registrasi,
             'count_permohonan' => $count_permohonan,
@@ -100,6 +103,8 @@ class DashboardIndex extends Component
             'count_total_done' => $count_total_done,
             'monthly_counts' => $monthly_counts,
             'stats_layanan' => $stats_layanan,
+            'total_days_all' => $total_days_all,
+            'average_days_all' => $average_days_all,
         ];
 
         $latestPermohonans = Permohonan::with(['registrasi', 'disposisi.tahapan', 'disposisi.penerima'])
