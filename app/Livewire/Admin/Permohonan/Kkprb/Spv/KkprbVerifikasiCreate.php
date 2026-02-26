@@ -116,6 +116,10 @@ class KkprbVerifikasiCreate extends Component
         
         $this->dispatch('refresh-kkprb-verifikasi-list');
 
+        $this->dispatch('refresh-kkprb-analis-list');
+
+        $this->dispatch('refresh-kkprb-survey-list');
+
         $this->dispatch('trigger-close-modal');
     }
 

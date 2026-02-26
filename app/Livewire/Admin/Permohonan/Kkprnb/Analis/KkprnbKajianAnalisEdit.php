@@ -76,7 +76,7 @@ class KkprnbKajianAnalisEdit extends Component
             'message' => 'Data Kajian Analisa KKPR Non Berusaha berhasil diupdate!'
         ]);
         
-        $this->dispatch('refresh-kkprnb-analis-detail');
+        $this->dispatch('refresh-kkprnb-analis-list');
 
         $this->dispatch('trigger-close-modal');
     }

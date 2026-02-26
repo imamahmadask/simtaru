@@ -18,7 +18,7 @@ class KkprnbAnalisDetail extends Component
     public $koordinatTable = false;
     public $disposisiAnalis = null;
 
-    #[On('refresh-kkprnb-analis-detail')]
+    #[On('refresh-kkprnb-analis-list')]
     public function refresh() {
         $this->kkprnb->refresh();
     }

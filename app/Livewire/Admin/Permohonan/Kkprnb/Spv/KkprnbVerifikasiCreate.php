@@ -114,6 +114,8 @@ class KkprnbVerifikasiCreate extends Component
         $this->reset('status', 'catatan');
         
         $this->dispatch('refresh-kkprnb-verifikasi-list');
+        $this->dispatch('refresh-kkprnb-survey-list');
+        $this->dispatch('refresh-kkprnb-analis-detail');
 
         $this->dispatch('trigger-close-modal');
     }

@@ -19,7 +19,9 @@ class SkrkAnalisDetail extends Component
     public $disposisiAnalis = null;
 
     #[On('refresh-skrk-analis-list')]
-    public function refresh() {}
+    public function refresh() {
+        $this->skrk->refresh();
+    }
 
     public function render()
     {
