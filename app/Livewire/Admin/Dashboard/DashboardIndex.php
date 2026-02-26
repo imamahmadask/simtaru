@@ -65,7 +65,7 @@ class DashboardIndex extends Component
         }
 
         $stats_layanan = Permohonan::whereYear('permohonan.created_at', $this->year)
-            ->where('is_done', true)
+            ->where('permohonan.is_done', true)
             ->join('layanan', 'permohonan.layanan_id', '=', 'layanan.id')
             ->selectRaw('layanan.nama as layanan_nama, 
                          layanan.kode as layanan_kode,
@@ -74,9 +74,14 @@ class DashboardIndex extends Component
             ->groupBy('layanan.id', 'layanan.nama', 'layanan.kode')
             ->get()
             ->map(function($item) {
-                $item->average_days = $item->total_done > 0 ? round($item->total_days / $item->total_done, 2) : 0;
-                return $item;
-            });
+                return [
+                    'layanan_nama' => $item->layanan_nama,
+                    'layanan_kode' => $item->layanan_kode,
+                    'total_days' => (float)$item->total_days,
+                    'total_done' => (int)$item->total_done,
+                    'average_days' => $item->total_done > 0 ? round($item->total_days / $item->total_done, 2) : 0,
+                ];
+            })->toArray();
 
         $this->rekap = [
             'count_registrasi' => $count_registrasi,

@@ -228,7 +228,7 @@
             <hr>
 
             <div class="row">
-                <h5>Rekapitulasi Permohonan per Layanan</h5>
+                <h5>Rekapitulasi Permohonan per Layanan ({{ $year }})</h5>
                 <div class="col-6 col-md-3 mb-4">
                     <div class="card">
                         <div class="card-body">
@@ -357,7 +357,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header d-flex align-items-center justify-content-between">
-                            <h5 class="mb-0 text-primary">Ringkasan Penyelesaian Permohonan</h5>
+                            <h5 class="mb-0 text-primary">Ringkasan Penyelesaian Permohonan ({{ $year }})</h5>
                         </div>
                         <div class="table-responsive text-nowrap">
                             <table class="table table-hover">
@@ -450,7 +450,7 @@
                 <div class="col-md-6 mb-4">
                     <div class="card h-100">
                         <div class="card-header d-flex align-items-center justify-content-between">
-                            <h5 class="mb-0 text-primary">Rata-rata Durasi Penyelesaian per Layanan</h5>
+                            <h5 class="mb-0 text-primary">Rata-Rata Durasi Penyelesaian per Layanan ({{ $year }})</h5>
                         </div>
                         <div class="table-responsive text-nowrap">
                             <table class="table table-hover">
@@ -465,11 +465,11 @@
                                 <tbody>
                                     @forelse($this->rekap['stats_layanan'] as $stats)
                                     <tr>
-                                        <td><strong>{{ $stats->layanan_nama }}</strong> <small class="text-muted">({{ $stats->layanan_kode }})</small></td>
-                                        <td class="text-center">{{ number_format($stats->total_days, 1) }}</td>
-                                        <td class="text-center">{{ $stats->total_done }}</td>
+                                        <td><strong>{{ $stats['layanan_nama'] }}</strong> <small class="text-muted">({{ $stats['layanan_kode'] }})</small></td>
+                                        <td class="text-center">{{ number_format($stats['total_days'], 1) }}</td>
+                                        <td class="text-center">{{ $stats['total_done'] }}</td>
                                         <td class="text-center">
-                                            <span class="badge bg-label-primary">{{ $stats->average_days }} Hari</span>
+                                            <span class="badge bg-label-primary">{{ $stats['average_days'] }} Hari</span>
                                         </td>
                                     </tr>
                                     @empty
@@ -485,13 +485,14 @@
                 <div class="col-md-6 mb-4">
                     <div class="card h-100">
                         <div class="card-header d-flex align-items-center justify-content-between">
-                            <h5 class="mb-0 text-primary">Grafik Rata-rata Durasi (Hari)</h5>
+                            <h5 class="mb-0 text-primary">Grafik Rata-rata Durasi Tahun {{ $year }} (Hari)</h5>
                         </div>
                         <div class="card-body pt-2">
                             <div wire:ignore x-data="{
                                 chart: null,
                                 stats: @entangle('rekap.stats_layanan'),
                                 init() {
+                                    if (!this.stats) this.stats = [];
                                     const options = {
                                         chart: {
                                             type: 'bar',
@@ -527,6 +528,7 @@
                                     this.chart.render();
 
                                     this.$watch('stats', (value) => {
+                                        if (!value) return;
                                         this.chart.updateOptions({
                                             series: [{
                                                 data: value.map(s => s.average_days)
@@ -552,7 +554,7 @@
                 <div class="col-12 mb-4">
                     <div class="card">
                         <div class="card-header d-flex align-items-center justify-content-between bg-secondary">
-                            <h5 class="mb-0 text-white">Permohonan Terkini (On Proses)</h5>
+                            <h5 class="mb-0 text-white">Permohonan Terkini (On Proses) Tahun {{ $year }}</h5>
                         </div>
                         <div class="card-body mt-3">
                             <div class="table-responsive text-nowrap">
