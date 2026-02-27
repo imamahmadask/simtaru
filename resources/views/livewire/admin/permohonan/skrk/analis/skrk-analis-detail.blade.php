@@ -14,7 +14,7 @@
                     </span>
                 @endif
 
-                @if ($skrk->is_analis || ($disposisiAnalis && $disposisiAnalis->tgl_mulai_kerja))
+                @if (!$skrk->is_analis && ($disposisiAnalis && $disposisiAnalis->tgl_mulai_kerja))
                     @if ($skrk->is_survey)
                         @if (!$skrk->is_kajian)
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
