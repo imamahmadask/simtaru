@@ -64,6 +64,11 @@
                         </table>
                     </div>
                 </div>                
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary" wire:click="downloadSuratPengantar">
+                        <i class="bx bx-download"></i> Template Surat Pengantar
+                    </button>
+                </div>
             </div>
             <div class="card mb-4">
                 <div class="card-header d-flex align-items-center justify-content-between bg-secondary">

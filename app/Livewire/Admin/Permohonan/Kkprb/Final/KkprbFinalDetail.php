@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 class KkprbFinalDetail extends Component
 {
@@ -34,6 +35,34 @@ class KkprbFinalDetail extends Component
         $this->kkprb->refresh();
         $this->berkas_final = $this->kkprb->permohonan->berkas->where('versi', 'final');
     }    
+
+    public function downloadSuratPengantar()
+    {        
+        $data = [
+            'nama_pemohon' => $this->kkprb->permohonan->registrasi->nama,                        
+        ];
+
+        return $this->generateDocument('Surat_Pengantar_KKPR_Berusaha_Non_UMK.docx', $data);                
+    }
+
+    private function generateDocument($templatePath, $data)
+    {
+        $templateProcessor = new TemplateProcessor(public_path('templates/kkprb/'.$templatePath));
+
+        foreach ($data as $key => $value) {
+            $templateProcessor->setValue($key, $value);
+        }
+
+        // Sanitize filename by removing special characters
+        $baseName = str_replace('.docx', '', basename($templatePath));
+        $sanitizedName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $data['nama_pemohon']);
+        $fileName = $baseName . '_' . $sanitizedName . '.docx';
+        $tempPath = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $fileName);
+
+        $templateProcessor->saveAs($tempPath);
+
+        return response()->download($tempPath)->deleteFileAfterSend(true);
+    }
 
     public function deleteBerkas($berkas_id)
     {
