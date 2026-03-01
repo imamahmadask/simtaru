@@ -62,6 +62,7 @@
                                     <h6 class="fw-bold text-danger mb-2">${loc.no_pelanggaran}</h6>
                                     <p class="mb-1"><strong>Alamat:</strong> ${loc.alamat}</p>
                                     <p class="mb-1"><strong>Lokasi:</strong> Kel. ${loc.kelurahan}, Kec. ${loc.kecamatan}</p>
+                                    <p class="mb-1"><strong>Jenis Indikasi Pelanggaran :</strong> ${loc.jenis_indikasi_pelanggaran}</p>
                                     <p class="mb-1"><strong>Tindak Lanjut:</strong> ${loc.tindak_lanjut}</p>
                                     <p class="mb-1"><strong>Status:</strong> <span class="badge bg-warning text-dark">${loc.info}</span></p>
                                     <hr class="my-2">
