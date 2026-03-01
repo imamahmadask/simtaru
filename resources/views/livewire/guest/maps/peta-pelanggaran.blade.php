@@ -46,6 +46,16 @@
 
                 locations.forEach(loc => {
                     if (loc.lat && loc.lng) {
+                        // Determine badge class based on status (case-insensitive)
+                        let badgeClass = 'bg-warning text-dark';
+                        const status = loc.info ? loc.info.toLowerCase().trim() : '';
+
+                        if (status === 'selesai') {
+                            badgeClass = 'bg-success';
+                        } else if (status === 'pelimpahan berkas') {
+                            badgeClass = 'bg-primary';
+                        }
+
                         // Custom red icon for violations
                         const redIcon = L.icon({
                             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
@@ -67,7 +77,7 @@
                                     <p class="mb-1"><strong>Lokasi:</strong> Kel. ${loc.kelurahan}, Kec. ${loc.kecamatan}</p>
                                     <p class="mb-1"><strong>Jenis Indikasi Pelanggaran :</strong> ${loc.jenis_indikasi_pelanggaran}</p>
                                     <p class="mb-1"><strong>Tindak Lanjut:</strong> ${loc.tindak_lanjut}</p>
-                                    <p class="mb-1"><strong>Status:</strong> <span class="badge ${loc.info === 'selesai' ? 'bg-success' : (loc.info === 'Pelimpahan Berkas' ? 'bg-primary' : 'bg-warning text-dark')}">${loc.info}</span></p>
+                                    <p class="mb-1"><strong>Status:</strong> <span class="badge ${badgeClass}">${loc.info}</span></p>
                                     <hr class="my-2">
                                     <a href="javascript:void(0)" onclick="openFeedbackModal(${loc.id})" class="text-danger fw-bold"><i class="bi bi-chat-left-text me-1"></i>Beri Masukan</a>
                                 </div>`
