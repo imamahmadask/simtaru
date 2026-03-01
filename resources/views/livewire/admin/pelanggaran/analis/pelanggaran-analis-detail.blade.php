@@ -253,7 +253,7 @@
                                     <option value="Surat Peringatan 1">Surat Peringatan 1</option>
                                     <option value="Surat Peringatan 2">Surat Peringatan 2</option>
                                     <option value="Surat Peringatan 3">Surat Peringatan 3</option>
-                                    <option value="Pelimpangan Pol PP/">Pelimpangan Pol PP/</option>
+                                    <option value="Pelimpahan Pol PP">Pelimpahan Pol PP</option>
                                     <option value="PPNS">PPNS</option>
                                     <option value="Penertiban Tim Gabungan">Penertiban Tim Gabungan</option>
                                     <option value="Pembongkaran">Pembongkaran</option>
