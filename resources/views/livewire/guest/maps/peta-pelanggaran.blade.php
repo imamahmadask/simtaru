@@ -8,6 +8,7 @@
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
+
         .marker-cluster-small {
             background-color: rgba(181, 226, 140, 0.6);
         }
@@ -45,6 +46,16 @@
 
                 locations.forEach(loc => {
                     if (loc.lat && loc.lng) {
+                        // Determine badge class based on status (case-insensitive)
+                        let badgeClass = 'bg-warning text-dark';
+                        const status = loc.info ? loc.info.toLowerCase().trim() : '';
+
+                        if (status === 'selesai') {
+                            badgeClass = 'bg-success';
+                        } else if (status === 'pelimpahan berkas') {
+                            badgeClass = 'bg-primary';
+                        }
+
                         // Custom red icon for violations
                         const redIcon = L.icon({
                             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
@@ -55,15 +66,18 @@
                             shadowSize: [41, 41]
                         });
 
-                        L.marker([loc.lat, loc.lng], { icon: redIcon })
+                        L.marker([loc.lat, loc.lng], {
+                                icon: redIcon
+                            })
                             .addTo(markersLayer)
                             .bindPopup(
                                 `<div class="p-2">
                                     <h6 class="fw-bold text-danger mb-2">${loc.no_pelanggaran}</h6>
                                     <p class="mb-1"><strong>Alamat:</strong> ${loc.alamat}</p>
                                     <p class="mb-1"><strong>Lokasi:</strong> Kel. ${loc.kelurahan}, Kec. ${loc.kecamatan}</p>
+                                    <p class="mb-1"><strong>Jenis Indikasi Pelanggaran :</strong> ${loc.jenis_indikasi_pelanggaran}</p>
                                     <p class="mb-1"><strong>Tindak Lanjut:</strong> ${loc.tindak_lanjut}</p>
-                                    <p class="mb-1"><strong>Status:</strong> <span class="badge bg-warning text-dark">${loc.info}</span></p>
+                                    <p class="mb-1"><strong>Status:</strong> <span class="badge ${badgeClass}">${loc.info}</span></p>
                                     <hr class="my-2">
                                     <a href="javascript:void(0)" onclick="openFeedbackModal(${loc.id})" class="text-danger fw-bold"><i class="bi bi-chat-left-text me-1"></i>Beri Masukan</a>
                                 </div>`
@@ -132,7 +146,8 @@
             <div class="row align-items-center">
                 <div class="col-lg-8 mx-auto text-center">
                     <h1 class="display-4 fw-bold mb-3">Peta Indikasi Pelanggaran Tata Ruang</h1>
-                    <p class="lead">Peta ini menampilkan lokasi indikasi pelanggaran tata ruang dan tindak lanjut yang telah dilakukan.</p>
+                    <p class="lead">Peta ini menampilkan lokasi indikasi pelanggaran tata ruang dan tindak lanjut yang
+                        telah dilakukan.</p>
                 </div>
             </div>
         </div>
@@ -172,35 +187,45 @@
         </div>
 
         <!-- Modal Saran/Masukan -->
-        <div wire:ignore.self class="modal fade" id="modalSaran" tabindex="-1" aria-labelledby="modalSaranLabel" aria-hidden="true">
+        <div wire:ignore.self class="modal fade" id="modalSaran" tabindex="-1" aria-labelledby="modalSaranLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-danger text-white">
                         <h5 class="modal-title" id="modalSaranLabel">Beri Saran / Masukan Pelanggaran</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" wire:click="closeSaranModal"></button>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Close" wire:click="closeSaranModal"></button>
                     </div>
                     <form wire:submit.prevent="saveSaran">
                         <div class="modal-body">
                             @if ($successMessage)
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                                     {{ $successMessage }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
                                 </div>
                             @endif
 
                             <div class="mb-3">
                                 <label for="saranNama" class="form-label">Nama Lengkap</label>
-                                <input type="text" class="form-control @error('saranNama') is-invalid @enderror" id="saranNama" wire:model="saranNama" placeholder="Masukkan nama Anda">
-                                @error('saranNama') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                <input type="text" class="form-control @error('saranNama') is-invalid @enderror"
+                                    id="saranNama" wire:model="saranNama" placeholder="Masukkan nama Anda">
+                                @error('saranNama')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="saranPesan" class="form-label">Saran / Masukan</label>
-                                <textarea class="form-control @error('saranPesan') is-invalid @enderror" id="saranPesan" wire:model="saranPesan" rows="4" placeholder="Tuliskan saran atau masukan Anda terkait indikasi pelanggaran ini"></textarea>
-                                @error('saranPesan') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                <textarea class="form-control @error('saranPesan') is-invalid @enderror" id="saranPesan" wire:model="saranPesan"
+                                    rows="4" placeholder="Tuliskan saran atau masukan Anda terkait indikasi pelanggaran ini"></textarea>
+                                @error('saranPesan')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" wire:click="closeSaranModal">Batal</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                wire:click="closeSaranModal">Batal</button>
                             <button type="submit" class="btn btn-danger">
                                 <i class="bi bi-send me-1"></i> Kirim Masukan
                             </button>
@@ -211,12 +236,13 @@
         </div>
 
         @if ($successMessage)
-        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1060">
-            <div id="successToast" class="alert alert-success shadow-lg alert-dismissible fade show" role="alert">
-                <i class="bi bi-check-circle-fill me-2"></i> {{ $successMessage }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" wire:click="$set('successMessage', null)"></button>
+            <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1060">
+                <div id="successToast" class="alert alert-success shadow-lg alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i> {{ $successMessage }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
+                        wire:click="$set('successMessage', null)"></button>
+                </div>
             </div>
-        </div>
         @endif
     </section>
 </div>
