@@ -58,6 +58,8 @@ class PelanggaranAnalisDetail extends Component
     public $upload_ba_penerapan_sanksi;
     #[Validate('nullable|file|mimes:pdf,jpg,jpeg,png|max:10240')]
     public $upload_ba_sosialisasi;
+    #[Validate('nullable|file|mimes:pdf|max:10240')]
+    public $upload_bukti_perizinan;
     #[Validate('nullable|file|mimes:pdf,jpg,jpeg,png|max:10240')]
     public $upload_sk_sanksi_pemberhentian;
 
@@ -125,6 +127,7 @@ class PelanggaranAnalisDetail extends Component
             'upload_ba_penerapan_sanksi' => 'file_ba_penerapan_sanksi',
             'upload_ba_sosialisasi' => 'file_ba_sosialisasi',
             'upload_sk_sanksi_pemberhentian' => 'file_sk_sanksi_pemberhentian',
+            'upload_bukti_perizinan' => 'bukti_perizinan',
 
         ];
 
@@ -158,6 +161,7 @@ class PelanggaranAnalisDetail extends Component
         $this->upload_ba_penerapan_sanksi = null;
         $this->upload_ba_sosialisasi = null;
         $this->upload_sk_sanksi_pemberhentian = null;
+        $this->upload_bukti_perizinan = null;
     }
 
     public function removeImage($index)

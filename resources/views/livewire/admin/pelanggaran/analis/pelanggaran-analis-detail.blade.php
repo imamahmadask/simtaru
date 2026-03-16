@@ -49,6 +49,17 @@
                                 </span>
                             </td>
                         </tr>
+                        <tr>
+                            <th style="width: 40%">Bukti Perizinan</th>
+                            <td style="width: 5%">:</td>
+                            <td class="text-start">
+                                @if($pelanggaran->bukti_perizinan)
+                                    <a href="{{ Storage::url($pelanggaran->bukti_perizinan) }}" target="_blank" class="btn btn-primary btn-sm"><i class="bx bx-file me-1"></i>Lihat Berkas</a>
+                                @else
+                                    -
+                                @endif
+                            </td>
+                        </tr>
                     </table>
 
                     <hr>
@@ -242,6 +253,24 @@
                         </div>
 
                         @if ($temuan_pelanggaran == 'Ada Pelanggaran')
+                            <div class="mb-3">
+                                <label for="upload_bukti_perizinan" class="form-label">Bukti Perizinan</label>
+                                <input type="file" wire:model="upload_bukti_perizinan" class="form-control @error('upload_bukti_perizinan') is-invalid @enderror" id="upload_bukti_perizinan" accept=".pdf">
+                                <div wire:loading wire:target="upload_bukti_perizinan" class="text-info mt-1">Uploading...</div>
+                                @error('upload_bukti_perizinan')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                                @if ($pelanggaran->bukti_perizinan)
+                                    <div class="mt-2">
+                                        <a href="{{ Storage::url($pelanggaran->bukti_perizinan) }}" target="_blank" class="btn btn-primary btn-sm">
+                                            <i class="bx bx-file me-1"></i> Lihat Berkas Saat Ini
+                                        </a>
+                                    </div>
+                                @endif
+                            </div>
+
                             <div class="mb-3">
                                 <label for="tindak_lanjut" class="form-label">Tindak Lanjut</label>
                                 <select wire:model="tindak_lanjut"

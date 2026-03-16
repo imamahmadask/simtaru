@@ -58,6 +58,7 @@ class Pelanggaran extends Model
         'file_ba_penerapan_sanksi',
         'file_ba_sosialisasi',
         'file_sk_sanksi_pemberhentian',
+        'bukti_perizinan',
     ];
 
     protected $casts = [
