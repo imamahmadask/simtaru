@@ -30,7 +30,11 @@ class Permohonan extends Model
         'kbli',
         'judul_kbli',
         'berkas_kuasa',
-        'is_done'
+        'is_done',
+        'is_ditolak',
+        'surat_penolakan',
+        'alasan_ditolak',
+        'tgl_surat_penolakan'
     ];
 
     public function layanan()

@@ -81,7 +81,7 @@
                                         {{ $data->layanan->nama }}
                                     </td>
                                     <td>
-                                        @if (in_array($data->status, ['Berkas Dicabut', 'Berkas Tidak Lengkap']))
+                                        @if (in_array($data->status, ['Berkas Dicabut', 'Berkas Tidak Lengkap', 'Berkas Ditolak']))
                                             <span class="badge bg-label-danger">{{ $data->status }}</span>
                                         @else
                                             <span

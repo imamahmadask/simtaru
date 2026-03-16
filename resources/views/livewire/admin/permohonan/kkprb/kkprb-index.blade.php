@@ -57,10 +57,10 @@
                                         {{ $data->permohonan->keterangan }}
                                     </td>
                                     <td>
-                                        @if($data->permohonan->registrasi->status == 'Berkas Dicabut' || $data->permohonan->registrasi->status == 'Berkas Tidak Lengkap')
+                                        @if($data->permohonan->registrasi->status == 'Berkas Dicabut' || $data->permohonan->registrasi->status == 'Berkas Tidak Lengkap' || $data->permohonan->is_ditolak || $data->permohonan->registrasi->status == 'Berkas Ditolak')
                                             <span
                                                 class="badge bg-label-danger me-1">
-                                                {{ $data->permohonan->registrasi->status }}
+                                                {{ $data->permohonan->is_ditolak ? 'Berkas Ditolak' : $data->permohonan->registrasi->status }}
                                             </span>                                        
                                         @else
                                             <span

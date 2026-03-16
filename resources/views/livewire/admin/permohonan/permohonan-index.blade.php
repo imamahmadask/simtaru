@@ -71,7 +71,7 @@
             </div>
 
             <div class="table-responsive">
-                <table class="table">
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -79,7 +79,6 @@
                             <th>Layanan</th>
                             <th>Kode Registrasi</th>
                             <th>Nama Pemohon</th>
-                            <th>Waktu Penyelesaian</th>
                             <th>Keterangan</th>
                             <th>Status</th>
                             <th>Actions</th>
@@ -98,7 +97,7 @@
                                             <i class="bx bx-star text-warning"></i>
                                         @endif
                                     </td>
-                                    <td class="text-nowrap">
+                                    <td class="text-wrap">
                                         {{ $data->layanan->nama }}
                                     </td>
                                     <td class="text-nowrap">
@@ -112,20 +111,15 @@
                                     </td>
                                     <td class="text-wrap">
                                         {{ $data->registrasi->nama }}
-                                    </td>
-                                    <td>
-                                        @if ($data->is_done)
-                                            {{ $data->waktu_pengerjaan }} Hari
-                                        @endif
-                                    </td>
+                                    </td>                                    
                                     <td>
                                         {{ $data->keterangan }}
                                     </td>
                                     <td>
-                                        @if($data->registrasi->status == 'Berkas Dicabut' || $data->registrasi->status == 'Berkas Tidak Lengkap')
+                                        @if($data->registrasi->status == 'Berkas Dicabut' || $data->registrasi->status == 'Berkas Tidak Lengkap' || $data->is_ditolak || $data->registrasi->status == 'Berkas Ditolak')
                                             <span
                                                 class="badge bg-label-danger me-1">
-                                                {{ $data->registrasi->status }}
+                                                {{ $data->is_ditolak ? 'Berkas Ditolak' : $data->registrasi->status }}
                                             </span>                                        
                                         @else
                                             <span
@@ -144,6 +138,12 @@
                                                 type="button" class="btn btn-primary btn-sm">
                                                 <i class="bx bx-show"></i>
                                             </a>
+                                            @if($data->status != 'completed')
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    wire:click="openModalTolak({{ $data->id }})" title="{{ $data->is_ditolak ? 'Detail Penolakan Berkas' : 'Tolak Berkas' }}">
+                                                    <i class="bx bx-x"></i>
+                                                </button>
+                                            @endif
                                             @can('manageAll', $data)
                                                 <button type="button" class="btn btn-info btn-sm position-relative"
                                                     wire:click="showSaran({{ $data->id }})">
@@ -179,6 +179,69 @@
             </div>
         </div>
         <!--/ Basic Bootstrap Table -->
+    </div>
+
+    <!-- Modal Tolak Berkas -->
+    <div wire:ignore.self class="modal fade" id="modalTolak" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">Tolak Berkas Permohonan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @if($isDetailTolak)
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Tanggal Surat Penolakan</label>
+                            <p class="mb-0">{{ \Carbon\Carbon::parse($tgl_surat_penolakan)->format('d F Y') }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Alasan Ditolak</label>
+                            <p class="mb-0">{{ $alasan_ditolak }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Berkas Surat Penolakan</label>
+                            <br>
+                            @if($permohonanDitolak && $permohonanDitolak->surat_penolakan)
+                                <a href="{{ asset('storage/' . $permohonanDitolak->surat_penolakan) }}" target="_blank" class="btn btn-primary btn-sm mt-1">
+                                    <i class="bx bx-download me-1"></i> Lihat Berkas
+                                </a>
+                            @endif
+                        </div>
+                    @else
+                        <form wire:submit="submitTolak">
+                            <div class="mb-3">
+                                <label class="form-label">Alasan Ditolak</label>
+                                <textarea wire:model="alasan_ditolak" class="form-control" rows="3" required></textarea>
+                                @error('alasan_ditolak') <span class="text-danger error">{{ $message }}</span> @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Tanggal Surat Penolakan</label>
+                                <input type="date" wire:model="tgl_surat_penolakan" class="form-control" required>
+                                @error('tgl_surat_penolakan') <span class="text-danger error">{{ $message }}</span> @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Upload Surat Penolakan</label>
+                                <input type="file" wire:model="surat_penolakan" class="form-control" accept=".pdf,.png,.jpg,.jpeg" required>
+                                <div wire:loading wire:target="surat_penolakan">Uploading...</div>
+                                @error('surat_penolakan') <span class="text-danger error">{{ $message }}</span> @enderror
+                            </div>
+                        </form>
+                    @endif
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        {{ $isDetailTolak ? 'Tutup' : 'Batal' }}
+                    </button>
+                    @if(!$isDetailTolak)
+                        <button type="button" class="btn btn-danger" wire:click="submitTolak" wire:loading.attr="disabled">
+                            <span wire:loading wire:target="submitTolak" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                            Tolak Berkas
+                        </button>
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Modal Saran -->
@@ -237,6 +300,24 @@
             Livewire.on('open-modal-saran', () => {
                 var myModal = new bootstrap.Modal(document.getElementById('modalSaran'));
                 myModal.show();
+            });
+
+            var modalTolakInstance;
+            Livewire.on('open-modal-tolak', () => {
+                if (!modalTolakInstance) {
+                    modalTolakInstance = new bootstrap.Modal(document.getElementById('modalTolak'));
+                }
+                modalTolakInstance.show();
+            });
+
+            Livewire.on('close-modal-tolak', () => {
+                if (modalTolakInstance) {
+                    modalTolakInstance.hide();
+                } else {
+                    var el = document.getElementById('modalTolak');
+                    var inst = bootstrap.Modal.getInstance(el);
+                    if(inst) inst.hide();
+                }
             });
         });
     </script>

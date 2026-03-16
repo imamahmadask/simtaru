@@ -10,11 +10,12 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
 
 #[Title('Permohonan')]
 class PermohonanIndex extends Component
 {
-    use WithPagination;
+    use WithPagination, WithFileUploads;
 
     public $search = '';
     public $filterLayanan = '';
@@ -23,6 +24,13 @@ class PermohonanIndex extends Component
     public $layanans;
     public $selectedPermohonan;
     public $saranList = [];
+    
+    public $tolakPermohonanId;
+    public $surat_penolakan;
+    public $alasan_ditolak;
+    public $tgl_surat_penolakan;
+    public $isDetailTolak = false;
+    public $permohonanDitolak;
 
     public function render()
     {
@@ -60,6 +68,67 @@ class PermohonanIndex extends Component
         $this->selectedPermohonan = Permohonan::with(['registrasi', 'saran'])->findOrFail($id);
         $this->saranList = $this->selectedPermohonan->saran;
         $this->dispatch('open-modal-saran');
+    }
+
+    public function openModalTolak($id)
+    {
+        $permohonan = Permohonan::findOrFail($id);
+        $this->tolakPermohonanId = $id;
+
+        if ($permohonan->is_ditolak) {
+            $this->isDetailTolak = true;
+            $this->permohonanDitolak = $permohonan;
+            $this->alasan_ditolak = $permohonan->alasan_ditolak;
+            $this->tgl_surat_penolakan = $permohonan->tgl_surat_penolakan;
+        } else {
+            $this->isDetailTolak = false;
+            $this->surat_penolakan = null;
+            $this->alasan_ditolak = '';
+            $this->tgl_surat_penolakan = date('Y-m-d');
+        }
+
+        $this->dispatch('open-modal-tolak');
+    }
+
+    public function submitTolak()
+    {
+        $this->validate([
+            'surat_penolakan' => 'required|file|mimes:pdf,jpg,jpeg,png|max:10240',
+            'alasan_ditolak' => 'required|string',
+            'tgl_surat_penolakan' => 'required|date',
+        ]);
+
+        $permohonan = Permohonan::findOrFail($this->tolakPermohonanId);
+        
+        $path = $this->surat_penolakan->store('surat_penolakan', 'public');
+
+        $permohonan->update([
+            'is_ditolak' => true,
+            'surat_penolakan' => $path,
+            'alasan_ditolak' => $this->alasan_ditolak,
+            'tgl_surat_penolakan' => $this->tgl_surat_penolakan,
+            'status' => 'Berkas Ditolak'
+        ]);
+
+        $permohonan->registrasi->update([
+            'status' => 'Berkas Ditolak'
+        ]);
+
+        if ($permohonan->skrk) {
+            $permohonan->skrk->update(['kesimpulan' => 'Ditolak']);
+        }
+        if ($permohonan->kkprb) {
+            $permohonan->kkprb->update(['kesimpulan' => 'Ditolak']);
+        }
+        if ($permohonan->kkprnb) {
+            $permohonan->kkprnb->update(['kesimpulan' => 'Ditolak']);
+        }
+        if ($permohonan->itr) {
+            $permohonan->itr->update(['kesimpulan' => 'Ditolak']);
+        }
+
+        $this->dispatch('close-modal-tolak');
+        session()->flash('success', 'Permohonan berhasil ditolak.');
     }
 
     public function deletePermohonan($id)

@@ -195,8 +195,13 @@
                                             <div class="row mb-3">
                                                 <label class="col-sm-4 col-form-label" for="status">Status</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" id="status" class="form-control"
-                                                        value="{{ $permohonan->status }}" readonly />
+                                                    @if($permohonan->is_ditolak || $permohonan->registrasi->status == 'Berkas Ditolak')
+                                                        <input type="text" id="status" class="form-control text-danger fw-bold"
+                                                            value="Berkas Ditolak" readonly />
+                                                    @else
+                                                        <input type="text" id="status" class="form-control"
+                                                            value="{{ $permohonan->status }}" readonly />
+                                                    @endif
                                                 </div>
                                             </div>
                                             @if ($permohonan->status == 'success')

@@ -23,6 +23,10 @@ class PermohonanPolicy
 
     public function manageSurvey(User $user, Permohonan $permohonan): bool
     {
+        if ($permohonan->is_ditolak) {
+            return false;
+        }
+
         // superadmin & supervisor selalu boleh
         if (in_array($user->role, ['superadmin', 'supervisor'])) {
             return true;
@@ -42,6 +46,10 @@ class PermohonanPolicy
 
     public function manageAnalis(User $user, Permohonan $permohonan): bool
     {
+        if ($permohonan->is_ditolak) {
+            return false;
+        }
+
         // superadmin & supervisor selalu boleh
         if (in_array($user->role, ['superadmin', 'supervisor'])) {
             return true;
@@ -61,6 +69,10 @@ class PermohonanPolicy
 
     public function manageDataEntry(User $user, Permohonan $permohonan): bool
     {
+        if ($permohonan->is_ditolak) {
+            return false;
+        }
+
         // superadmin & supervisor selalu boleh
         if (in_array($user->role, ['superadmin', 'supervisor'])) {
             return true;
