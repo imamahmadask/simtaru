@@ -11,9 +11,9 @@
                         @livewire('admin.permohonan.kkprb.final.kkprb-final-create', ['permohonan_id' => $kkprb->permohonan->id, 'kkprb_id' => $kkprb->id], key('kkprb-final-create-'.$kkprb->id))
                     @endteleport
                 @endif
-                @if ($kkprb->permohonan->is_done)
+                @if ($kkprb->permohonan->no_dokumen)
                     <button type="button" class="btn {{ $kkprb->permohonan->is_done ? 'btn-success' : 'btn-danger' }}"
-                        wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiFinalisasiModal"
+                        wire:loading.attr="disabled" data-bs-toggle="modal" data-bs-target="#selesaiFinalisasiKkprbModal"
                         {{ $kkprb->permohonan->is_done ? 'disabled' : '' }}>
                         @if ($kkprb->permohonan->is_done)
                             <i class="bx bx-check"></i> Selesai Finalisasi
@@ -132,7 +132,7 @@
         </div>
     </div>  
     
-    <div wire:ignore.self class="modal fade" id="selesaiFinalisasiModal" data-bs-backdrop="static" tabindex="-1"
+    <div wire:ignore.self class="modal fade" id="selesaiFinalisasiKkprbModal" data-bs-backdrop="static" tabindex="-1"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -161,7 +161,7 @@
 @script
     <script>
         $wire.on('trigger-close-modal', () => {
-            const modal = bootstrap.Modal.getInstance(document.getElementById('selesaiFinalisasiModal'));
+            const modal = bootstrap.Modal.getInstance(document.getElementById('selesaiFinalisasiKkprbModal'));
             if (modal) {
                 modal.hide();
             }
