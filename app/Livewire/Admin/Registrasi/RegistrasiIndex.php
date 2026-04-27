@@ -73,25 +73,25 @@ class RegistrasiIndex extends Component
 
                 // 2. Delete files and records from service-specific tables
                 // SKRK
-                $skrks = $permohonan->skrk;
-                foreach ($skrks as $skrk) {
+                $skrk = $permohonan->skrk;
+                if ($skrk) {
                     $this->deleteFileIfExists($skrk->gambar_peta);
                     $this->deleteFileIfExists($skrk->foto_survey);
+                    $skrk->delete();
                 }
-                $permohonan->skrk()->delete();
 
                 // KKPRB
-                $kkprbs = \App\Models\Kkprb::where('permohonan_id', $permohonan->id)->get();
-                foreach ($kkprbs as $kkprb) {
+                $kkprb = $permohonan->kkprb;
+                if ($kkprb) {
                     $this->deleteFileIfExists($kkprb->berkas_ptp);
                     $this->deleteFileIfExists($kkprb->gambar_peta);
                     $this->deleteFileIfExists($kkprb->foto_survey);
+                    $kkprb->delete();
                 }
-                \App\Models\Kkprb::where('permohonan_id', $permohonan->id)->delete();
 
                 // KKPRNB
-                $kkprnbs = \App\Models\Kkprnb::where('permohonan_id', $permohonan->id)->get();
-                foreach ($kkprnbs as $kkprnb) {
+                $kkprnb = $permohonan->kkprnb;
+                if ($kkprnb) {
                     $this->deleteFileIfExists($kkprnb->berkas_ptp);
                     $this->deleteFileIfExists($kkprnb->gambar_peta);
                     $this->deleteFileIfExists($kkprnb->foto_survey);
@@ -100,20 +100,21 @@ class RegistrasiIndex extends Component
                     $this->deleteFileIfExists($kkprnb->tanggapan_1a);
                     $this->deleteFileIfExists($kkprnb->tanggapan_1b);
                     $this->deleteFileIfExists($kkprnb->tanggapan_2);
+                    $kkprnb->delete();
                 }
-                \App\Models\Kkprnb::where('permohonan_id', $permohonan->id)->delete();
 
                 // ITR
-                $itrs = \App\Models\Itr::where('permohonan_id', $permohonan->id)->get();
-                foreach ($itrs as $itr) {
+                $itr = $permohonan->itr;
+                if ($itr) {
                     $this->deleteFileIfExists($itr->dokumen_kkkpr);
                     $this->deleteFileIfExists($itr->gambar_peta);
                     $this->deleteFileIfExists($itr->foto_survey);
+                    $itr->delete();
                 }
-                \App\Models\Itr::where('permohonan_id', $permohonan->id)->delete();
 
-                // 3. Delete Disposisi records
+                // 3. Delete Disposisi and Saran records
                 $permohonan->disposisi()->delete();
+                $permohonan->saran()->delete();
 
                 // 4. Delete files from Permohonan fields
                 $this->deleteFileIfExists($permohonan->berkas_ktp);

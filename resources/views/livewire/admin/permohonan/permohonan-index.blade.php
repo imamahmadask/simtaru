@@ -52,6 +52,7 @@
                                 <option value="Proses Analisa">Proses Analisa</option>
                                 <option value="Proses Verifikasi">Proses Verifikasi</option>
                                 <option value="completed">Completed</option>
+                                <option value="Berkas Ditolak">Berkas Ditolak</option>
                             </select>
                         </div>
                         <div class="flex-fill" style="min-width: 150px;">
