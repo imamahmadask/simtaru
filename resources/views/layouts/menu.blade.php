@@ -32,8 +32,8 @@
                 </a>
             </li>
         @endif
-        
-        @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'admin-penilaian')  
+
+        @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'admin-penilaian')
             <li class="menu-header small text-uppercase">
                 <span class="menu-header-text">Penilaian</span>
             </li>
@@ -136,5 +136,12 @@
                 </a>
             </li>
         @endif
+
+        <li class="menu-item">
+            <a href="/doc/USER_BOOK_MANUAL_SIMTARU.pdf" class="menu-link" target="_blank">
+                <i class='menu-icon tf-icons bx bx-book'></i>
+                <div data-i18n="Panduan">Panduan</div>
+            </a>
+        </li>
     </ul>
 </aside>
