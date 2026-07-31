@@ -45,8 +45,11 @@
                                         <i id="eye-closed" class="bx bx-hide"></i>
                                     </span>
                                 </div>
+                                <small class="form-text text-muted d-block mt-1">
+                                    Format password wajib: Minimal 8 karakter, kombinasi huruf besar (A-Z), huruf kecil (a-z), angka (0-9), dan simbol (!@#$%^&*). Password tidak boleh sama dengan username/email.
+                                </small>
                                 @error('password')
-                                    <span class="form-text text-xs text-danger"> {{ $message }} </span>
+                                    <span class="form-text text-xs text-danger d-block"> {{ $message }} </span>
                                 @enderror
                             </div>
                         </div>
