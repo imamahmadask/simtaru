@@ -43,6 +43,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Proteksi OWASP A05: Blokir akses langsung GET/HEAD/PUT/DELETE ke endpoint livewire/update
+Route::match(['get', 'head', 'put', 'delete', 'options'], 'livewire/update', function () {
+    abort(404);
+});
+
+
 Route::get('layanan/skrk', SkrkGuest::class)->name('layanan.skrk');
 Route::get('layanan/itr', ItrGuest::class)->name('layanan.itr');
 Route::get('layanan/kkprnb', KkprnbGuest::class)->name('layanan.kkprnb');
