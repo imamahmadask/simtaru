@@ -16,58 +16,68 @@
         
         <!-- Basic Bootstrap Table -->
         <div class="card">
-            <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-                <h5 class="mb-0">
-                    List Data Registrasi
+            <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-3">
+                <div class="d-flex align-items-center gap-2">
+                    <h5 class="mb-0">List Data Registrasi</h5>
                     @if ($viewTrash)
-                        <span class="badge bg-danger ms-2">Mode Sampah (Trash)</span>
+                        <span class="badge bg-label-danger"><i class="bx bx-trash me-1"></i> Mode Sampah (Trash)</span>
                     @endif
-                </h5>
+                </div>
+
                 @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor')
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-sm {{ !$viewTrash ? 'btn-primary' : 'btn-outline-primary' }}"
-                            wire:click="toggleTrashView(false)">
-                            <i class="bx bx-list-ul me-1"></i> Data Aktif
-                        </button>
-                        <button type="button" class="btn btn-sm {{ $viewTrash ? 'btn-danger' : 'btn-outline-danger' }}"
-                            wire:click="toggleTrashView(true)">
-                            <i class="bx bx-trash me-1"></i> Sampah (Trash)
-                        </button>
-                    </div>
+                    <ul class="nav nav-pills card-header-pills gap-2">
+                        <li class="nav-item">
+                            <button type="button"
+                                class="nav-link {{ !$viewTrash ? 'active btn-primary text-white' : 'bg-label-secondary text-secondary' }} btn-sm px-3"
+                                wire:click="toggleTrashView(false)">
+                                <i class="bx bx-list-ul me-1"></i> Data Aktif
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button"
+                                class="nav-link {{ $viewTrash ? 'active btn-primary text-white' : 'bg-label-secondary text-secondary' }} btn-sm px-3"
+                                wire:click="toggleTrashView(true)">
+                                <i class="bx bx-trash me-1"></i> Sampah (Trash)
+                            </button>
+                        </li>
+                    </ul>
                 @endif
             </div>
 
             <div class="row mx-3 mb-3">
-                <div class="col d-flex flex-wrap justify-content-between align-items-center gap-2">
+                <div class="col d-flex flex-wrap justify-content-between align-items-center gap-3">
                     <!-- Tombol kiri -->
                     @if (!$viewTrash)
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#AddRegistrasiModal">
-                            Tambah Registrasi
+                            <i class="bx bx-plus me-1"></i> Tambah Registrasi
                         </button>
                     @else
-                        <span class="text-muted small">Menampilkan data yang telah dipindahkan ke Sampah.</span>
+                        <span class="text-muted small">
+                            <i class="bx bx-info-circle me-1 text-primary"></i> Menampilkan data registrasi yang berada di Sampah.
+                        </span>
                     @endif
 
                     <!-- Filter & Search -->
                     <div class="d-flex flex-wrap gap-2">
-                        <div class="flex-fill" style="min-width: 150px;">
+                        <div class="flex-fill" style="min-width: 170px;">
                             <select wire:model.live="filterLayanan" id="filterLayanan" class="form-control">
-                                <option value="">Pilih Layanan</option>
+                                <option value="">Semua Layanan</option>
                                 @foreach ($layanans as $layanan)
                                     <option value="{{ $layanan->id }}">{{ $layanan->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="flex-fill" style="min-width: 150px;">
-                            <input class="form-control" type="search" wire:model.live="search" placeholder="Search"
+                        <div class="flex-fill" style="min-width: 170px;">
+                            <input class="form-control" type="search" wire:model.live="search" placeholder="Cari pemohon / kode..."
                                 aria-label="Search">
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="table-responsive">
-                <table class="table">
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -77,95 +87,97 @@
                             <th>No Hp</th>
                             <th>Jenis Layanan</th>
                             <th>Status</th>
-                            <th>Actions</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
 
                         @foreach ($registrasis as $data)
-                            <div wire:key="{{ $data->id }}">
-                                <tr>
-                                    <td>
-                                        {{ ($registrasis->currentPage() - 1) * $registrasis->perPage() + $loop->iteration }}
-                                    </td>
-                                    <td class="text-nowrap">
-                                        <span class="fw-bold">
-                                            {{ $data->kode }}
+                            <tr wire:key="{{ $data->id }}">
+                                <td>
+                                    {{ ($registrasis->currentPage() - 1) * $registrasis->perPage() + $loop->iteration }}
+                                </td>
+                                <td class="text-nowrap">
+                                    <span class="fw-bold text-primary">
+                                        {{ $data->kode }}
+                                    </span>
+                                </td>
+                                <td class="text-nowrap">
+                                    {{ date('d-m-Y', strtotime($data->tanggal)) }}
+                                </td>
+                                <td class="text-wrap">
+                                    {{ $data->nama }}
+                                </td>
+                                <td>
+                                    {{ $data->no_hp }}
+                                </td>
+                                <td class="text-nowrap">
+                                    {{ $data->layanan->nama }}
+                                </td>
+                                <td>
+                                    @if ($viewTrash)
+                                        <span class="badge bg-label-danger">Terhapus</span>
+                                    @elseif (in_array($data->status, ['Berkas Dicabut', 'Berkas Tidak Lengkap', 'Berkas Ditolak']))
+                                        <span class="badge bg-label-danger">{{ $data->status }}</span>
+                                    @else
+                                        <span
+                                            class="badge bg-label-{{ is_null($data->permohonan) ? 'danger' : ($data->permohonan->status === 'completed' ? 'success' : 'warning') }}">
+                                            {{ is_null($data->permohonan) ? 'Belum Entry' : $data->permohonan->status }}
                                         </span>
-                                    </td>
-                                    <td class="text-nowrap">
-                                        {{ date('d-m-Y', strtotime($data->tanggal)) }}
-                                    </td>
-                                    <td class="text-wrap">
-                                        {{ $data->nama }}
-                                    </td>
-                                    <td>
-                                        {{ $data->no_hp }}
-                                    </td>
-                                    <td class="text-nowrap">
-                                        {{ $data->layanan->nama }}
-                                    </td>
-                                    <td>
+                                    @endif
+                                </td>
+                                <td class="text-nowrap text-center">
+                                    <div class="d-inline-flex align-items-center gap-2">
                                         @if ($viewTrash)
-                                            <span class="badge bg-danger">Terhapus</span>
-                                        @elseif (in_array($data->status, ['Berkas Dicabut', 'Berkas Tidak Lengkap', 'Berkas Ditolak']))
-                                            <span class="badge bg-label-danger">{{ $data->status }}</span>
-                                        @else
-                                            <span
-                                                class="badge bg-label-{{ is_null($data->permohonan) ? 'danger' : ($data->permohonan->status === 'completed' ? 'success' : 'warning') }}">
-                                                {{ is_null($data->permohonan) ? 'Belum Entry' : $data->permohonan->status }}
-                                            </span>
-                                        @endif
-                                    </td>
-                                    <td class="text-nowrap">
-                                        <div class="me-3 d-flex gap-1">
-                                            @if ($viewTrash)
-                                                <!-- Akses Trash Mode: Restore & Force Delete -->
-                                                @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor')
-                                                    <button type="button" class="btn btn-success btn-sm"
-                                                        wire:click="restoreRegistrasi({{ $data->id }})"
-                                                        wire:confirm="Pulihkan data registrasi '{{ $data->kode }}' dari Sampah?">
-                                                        <i class="bx bx-undo me-1"></i> Pulihkan
-                                                    </button>
-                                                @endif
-
-                                                @if (Auth::user()->role == 'superadmin')
-                                                    <button type="button" class="btn btn-danger btn-sm"
-                                                        wire:click="forceDeleteRegistrasi({{ $data->id }})"
-                                                        wire:confirm="HAPUS PERMANEN registrasi '{{ $data->kode }}'? Data dan berkas fisik akan dihapus dari server dan tidak dapat dikembalikan!">
-                                                        <i class="bx bx-trash me-1"></i> Permanen
-                                                    </button>
-                                                @endif
-                                            @else
-                                                <!-- Akses Normal: Print, Detail, Edit, Soft Delete -->
-                                                <a href="{{ url('admin/registrasi/print/' . $data->id) }}" type="button"
-                                                    target="blank" class="btn btn-primary btn-sm">
-                                                    <i class="bx bx-download"></i>
-                                                </a>
-                                                <button
-                                                    wire:click="$dispatch('registrasi-detail', { id: {{ $data->id }} })"
-                                                    type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#detailRegistrasiModal">
-                                                    <i class="bx bx-show"></i>
+                                            <!-- Mode Sampah: Restore & Force Delete -->
+                                            @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor')
+                                                <button type="button" class="btn btn-primary btn-sm px-2"
+                                                    wire:click="restoreRegistrasi({{ $data->id }})"
+                                                    wire:confirm="Pulihkan data registrasi '{{ $data->kode }}' dari Sampah?"
+                                                    title="Pulihkan Data">
+                                                    <i class="bx bx-undo me-1"></i> Pulihkan
                                                 </button>
-                                                <button
-                                                    wire:click="$dispatch('registrasi-edit', { id: {{ $data->id }} })"
-                                                    type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#editRegistrasiModal">
-                                                    <i class="bx bx-edit"></i>
-                                                </button>
-                                                @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor')
-                                                    <button type="button" class="btn btn-outline-danger btn-sm"
-                                                        wire:click="deleteRegistrasi({{ $data->id }})"
-                                                        wire:confirm="Pindahkan data registrasi '{{ $data->kode }}' ke Sampah (Trash)?">
-                                                        <i class="bx bx-trash"></i>
-                                                    </button>
-                                                @endif
                                             @endif
-                                        </div>
-                                    </td>
-                                </tr>
-                            </div>
+
+                                            @if (Auth::user()->role == 'superadmin')
+                                                <button type="button" class="btn btn-outline-danger btn-sm px-2"
+                                                    wire:click="forceDeleteRegistrasi({{ $data->id }})"
+                                                    wire:confirm="HAPUS PERMANEN registrasi '{{ $data->kode }}'? Data dan berkas fisik akan dihapus dari server secara permanen!"
+                                                    title="Hapus Permanen">
+                                                    <i class="bx bx-trash me-1"></i> Permanen
+                                                </button>
+                                            @endif
+                                        @else
+                                            <!-- Mode Normal: Print, Detail, Edit, Soft Delete -->
+                                            <a href="{{ url('admin/registrasi/print/' . $data->id) }}"
+                                                target="_blank" class="btn btn-primary btn-sm"
+                                                title="Cetak Tanda Terima">
+                                                <i class="bx bx-download"></i>
+                                            </a>
+                                            <button
+                                                wire:click="$dispatch('registrasi-detail', { id: {{ $data->id }} })"
+                                                type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#detailRegistrasiModal" title="Detail Registrasi">
+                                                <i class="bx bx-show"></i>
+                                            </button>
+                                            <button
+                                                wire:click="$dispatch('registrasi-edit', { id: {{ $data->id }} })"
+                                                type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#editRegistrasiModal" title="Edit Registrasi">
+                                                <i class="bx bx-edit"></i>
+                                            </button>
+                                            @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor')
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    wire:click="deleteRegistrasi({{ $data->id }})"
+                                                    wire:confirm="Pindahkan data registrasi '{{ $data->kode }}' ke Sampah (Trash)?"
+                                                    title="Pindahkan ke Sampah">
+                                                    <i class="bx bx-trash"></i>
+                                                </button>
+                                            @endif
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
