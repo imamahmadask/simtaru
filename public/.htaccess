@@ -18,3 +18,41 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Security Headers (Apache Level — Defense in Depth)
+# Melengkapi header yang sudah dikirim Laravel Middleware.
+# ─────────────────────────────────────────────────────────────────────────────
+<IfModule mod_headers.c>
+    # Mencegah halaman SIMTARU di-embed situs luar (Clickjacking)
+    Header always set X-Frame-Options "SAMEORIGIN"
+
+    # Mencegah browser menebak tipe konten (MIME sniffing)
+    Header always set X-Content-Type-Options "nosniff"
+
+    # Filter XSS bawaan browser (untuk browser lama / IE)
+    Header always set X-XSS-Protection "1; mode=block"
+
+    # Paksa HTTPS selama 1 tahun, termasuk subdomain
+    # CATATAN: Aktifkan hanya jika SSL/HTTPS sudah terkonfigurasi di server
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+    # Kontrol informasi referrer saat navigasi lintas domain
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Nonaktifkan fitur browser yang tidak dipakai, izinkan geolokasi & fullscreen untuk peta
+    Header always set Permissions-Policy "camera=(), microphone=(), payment=(), usb=(), bluetooth=(), geolocation=(self), fullscreen=(self)"
+
+    # Isolasi browsing context, izinkan popup (misal link WhatsApp/eksternal)
+    Header always set Cross-Origin-Opener-Policy "same-origin-allow-popups"
+
+    # Cegah resource SIMTARU di-load oleh situs asing
+    Header always set Cross-Origin-Resource-Policy "same-origin"
+
+    # Hapus header yang membocorkan informasi teknologi server
+    Header always unset X-Powered-By
+    Header always unset Server
+
+    # Content-Security-Policy — disesuaikan dengan seluruh dependensi SIMTARU
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' cdn.jsdelivr.net unpkg.com cdnjs.cloudflare.com raw.githubusercontent.com buttons.github.io maps.googleapis.com maps.gstatic.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com cdn.jsdelivr.net unpkg.com cdnjs.cloudflare.com fonts.bunny.net; img-src 'self' data: blob: *.tile.openstreetmap.org raw.githubusercontent.com cdnjs.cloudflare.com maps.googleapis.com maps.gstatic.com cdn.jsdelivr.net unpkg.com; font-src 'self' fonts.googleapis.com fonts.gstatic.com fonts.bunny.net cdn.jsdelivr.net; connect-src 'self' ws: wss: *.tile.openstreetmap.org maps.googleapis.com; frame-src 'self' www.google.com; frame-ancestors 'self'; media-src 'self'; object-src 'none'; worker-src 'self' blob:; form-action 'self'; upgrade-insecure-requests"
+</IfModule>

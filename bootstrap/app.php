@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\CekRole;
+use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -17,6 +18,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'cekRole' => CekRole::class,
         ]);
         $middleware->trustProxies(at: '*');
+
+        // Tambahkan Security Headers ke seluruh request web
+        $middleware->web(append: [
+            SecurityHeaders::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
