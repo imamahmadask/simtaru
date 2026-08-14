@@ -2,8 +2,13 @@
 
 namespace App\Livewire\Admin\Registrasi;
 
+use App\Models\Itr;
+use App\Models\Kkprb;
+use App\Models\Kkprnb;
 use App\Models\Layanan;
+use App\Models\Permohonan;
 use App\Models\Registrasi;
+use App\Models\Skrk;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,16 +25,39 @@ class RegistrasiIndex extends Component
     use WithPagination;
 
     public $search = '';
-    public $filterLayanan = '';    
+    public $filterLayanan = '';
+    public $viewTrash = false;
     public $layanans;
 
     #[On('refresh-registrasi-list')]
     public function refresh()
     {}
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedFilterLayanan()
+    {
+        $this->resetPage();
+    }
+
+    public function toggleTrashView($val)
+    {
+        $this->viewTrash = (bool) $val;
+        $this->resetPage();
+    }
+
     public function render()
     {
-        $registrasis = Registrasi::with('layanan')
+        $query = Registrasi::with('layanan');
+
+        if ($this->viewTrash) {
+            $query->onlyTrashed();
+        }
+
+        $registrasis = $query
             ->when($this->filterLayanan, function ($query) {
                 $query->whereHas('layanan', function ($subQuery) {
                     $subQuery->where('id', 'like', '%' . $this->filterLayanan . '%');
@@ -49,7 +77,115 @@ class RegistrasiIndex extends Component
         ]);
     }
 
-    public function deleteRegistrasi(Registrasi $registrasi)
+    /**
+     * Soft Delete registrasi dan permohonan terkait
+     */
+    public function deleteRegistrasi($id)
+    {
+        if (Auth::user()->role != 'superadmin' && Auth::user()->role != 'supervisor') {
+            abort(403);
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $registrasi = Registrasi::findOrFail($id);
+            $permohonan = $registrasi->permohonan;
+
+            if ($permohonan) {
+                if ($permohonan->skrk) {
+                    $permohonan->skrk->delete();
+                }
+                if ($permohonan->kkprb) {
+                    $permohonan->kkprb->delete();
+                }
+                if ($permohonan->kkprnb) {
+                    $permohonan->kkprnb->delete();
+                }
+                if ($permohonan->itr) {
+                    $permohonan->itr->delete();
+                }
+                $permohonan->delete();
+            }
+
+            $registrasi->delete();
+
+            DB::commit();
+
+            $this->dispatch('toast', [
+                'type'    => 'success',
+                'message' => 'Data registrasi berhasil dipindahkan ke Sampah (Trash).'
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $this->dispatch('toast', [
+                'type'    => 'error',
+                'message' => 'Gagal menghapus registrasi: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * Restore registrasi dari Sampah (Trash)
+     */
+    public function restoreRegistrasi($id)
+    {
+        if (Auth::user()->role != 'superadmin' && Auth::user()->role != 'supervisor') {
+            abort(403);
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $registrasi = Registrasi::onlyTrashed()->findOrFail($id);
+            $registrasi->restore();
+
+            $permohonan = Permohonan::onlyTrashed()->where('registrasi_id', $id)->first();
+            if ($permohonan) {
+                $permohonan->restore();
+
+                $skrk = Skrk::onlyTrashed()->where('permohonan_id', $permohonan->id)->first();
+                if ($skrk) {
+                    $skrk->restore();
+                }
+
+                $kkprb = Kkprb::onlyTrashed()->where('permohonan_id', $permohonan->id)->first();
+                if ($kkprb) {
+                    $kkprb->restore();
+                }
+
+                $kkprnb = Kkprnb::onlyTrashed()->where('permohonan_id', $permohonan->id)->first();
+                if ($kkprnb) {
+                    $kkprnb->restore();
+                }
+
+                $itr = Itr::onlyTrashed()->where('permohonan_id', $permohonan->id)->first();
+                if ($itr) {
+                    $itr->restore();
+                }
+            }
+
+            DB::commit();
+
+            $this->dispatch('toast', [
+                'type'    => 'success',
+                'message' => 'Data registrasi berhasil dipulihkan dari Sampah.'
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $this->dispatch('toast', [
+                'type'    => 'error',
+                'message' => 'Gagal memulihkan registrasi: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * Force Delete (Hapus Permanen data & berkas fisik dari disk)
+     */
+    public function forceDeleteRegistrasi($id)
     {
         if (Auth::user()->role != 'superadmin') {
             abort(403);
@@ -58,11 +194,11 @@ class RegistrasiIndex extends Component
         try {
             DB::beginTransaction();
 
-            // Get permohonan if exists
-            $permohonan = $registrasi->permohonan;
+            $registrasi = Registrasi::withTrashed()->findOrFail($id);
+            $permohonan = Permohonan::withTrashed()->where('registrasi_id', $id)->first();
 
             if ($permohonan) {
-                // 1. Delete files and records from PermohonanBerkas
+                // Delete files and records from PermohonanBerkas
                 $permohonanBerkas = $permohonan->berkas;
                 foreach ($permohonanBerkas as $berkas) {
                     if ($berkas->file_path && Storage::disk('public')->exists($berkas->file_path)) {
@@ -71,26 +207,23 @@ class RegistrasiIndex extends Component
                 }
                 $permohonan->berkas()->delete();
 
-                // 2. Delete files and records from service-specific tables
-                // SKRK
-                $skrk = $permohonan->skrk;
+                // Delete files and records from service-specific tables
+                $skrk = Skrk::withTrashed()->where('permohonan_id', $permohonan->id)->first();
                 if ($skrk) {
                     $this->deleteFileIfExists($skrk->gambar_peta);
                     $this->deleteFileIfExists($skrk->foto_survey);
-                    $skrk->delete();
+                    $skrk->forceDelete();
                 }
 
-                // KKPRB
-                $kkprb = $permohonan->kkprb;
+                $kkprb = Kkprb::withTrashed()->where('permohonan_id', $permohonan->id)->first();
                 if ($kkprb) {
                     $this->deleteFileIfExists($kkprb->berkas_ptp);
                     $this->deleteFileIfExists($kkprb->gambar_peta);
                     $this->deleteFileIfExists($kkprb->foto_survey);
-                    $kkprb->delete();
+                    $kkprb->forceDelete();
                 }
 
-                // KKPRNB
-                $kkprnb = $permohonan->kkprnb;
+                $kkprnb = Kkprnb::withTrashed()->where('permohonan_id', $permohonan->id)->first();
                 if ($kkprnb) {
                     $this->deleteFileIfExists($kkprnb->berkas_ptp);
                     $this->deleteFileIfExists($kkprnb->gambar_peta);
@@ -100,51 +233,46 @@ class RegistrasiIndex extends Component
                     $this->deleteFileIfExists($kkprnb->tanggapan_1a);
                     $this->deleteFileIfExists($kkprnb->tanggapan_1b);
                     $this->deleteFileIfExists($kkprnb->tanggapan_2);
-                    $kkprnb->delete();
+                    $kkprnb->forceDelete();
                 }
 
-                // ITR
-                $itr = $permohonan->itr;
+                $itr = Itr::withTrashed()->where('permohonan_id', $permohonan->id)->first();
                 if ($itr) {
                     $this->deleteFileIfExists($itr->dokumen_kkkpr);
                     $this->deleteFileIfExists($itr->gambar_peta);
                     $this->deleteFileIfExists($itr->foto_survey);
-                    $itr->delete();
+                    $itr->forceDelete();
                 }
 
-                // 3. Delete Disposisi and Saran records
                 $permohonan->disposisi()->delete();
                 $permohonan->saran()->delete();
 
-                // 4. Delete files from Permohonan fields
                 $this->deleteFileIfExists($permohonan->berkas_ktp);
                 $this->deleteFileIfExists($permohonan->berkas_nib);
                 $this->deleteFileIfExists($permohonan->berkas_penguasaan);
                 $this->deleteFileIfExists($permohonan->berkas_permohonan);
                 $this->deleteFileIfExists($permohonan->berkas_kuasa);
 
-                // 5. Delete Permohonan record
-                $permohonan->delete();
+                $permohonan->forceDelete();
             }
 
-            // 6. Delete RiwayatPermohonan records
             $registrasi->riwayat()->delete();
-
-            // 7. Delete Registrasi record
-            $registrasi->delete();
+            $registrasi->forceDelete();
 
             DB::commit();
 
-            session()->flash('success', 'Registrasi dan semua data terkait berhasil dihapus');
-
-            return redirect()->route('registrasi.index');
+            $this->dispatch('toast', [
+                'type'    => 'success',
+                'message' => 'Registrasi dan semua data terkait berhasil dihapus permanen.'
+            ]);
 
         } catch (\Exception $e) {
             DB::rollBack();
-            
-            session()->flash('error', 'Gagal menghapus registrasi: ' . $e->getMessage());
-            
-            return redirect()->route('registrasi.index');
+
+            $this->dispatch('toast', [
+                'type'    => 'error',
+                'message' => 'Gagal menghapus registrasi secara permanen: ' . $e->getMessage()
+            ]);
         }
     }
 

@@ -16,14 +16,39 @@
         
         <!-- Basic Bootstrap Table -->
         <div class="card">
-            <h5 class="card-header">List Data Registrasi</h5>
+            <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+                <h5 class="mb-0">
+                    List Data Registrasi
+                    @if ($viewTrash)
+                        <span class="badge bg-danger ms-2">Mode Sampah (Trash)</span>
+                    @endif
+                </h5>
+                @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor')
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-sm {{ !$viewTrash ? 'btn-primary' : 'btn-outline-primary' }}"
+                            wire:click="toggleTrashView(false)">
+                            <i class="bx bx-list-ul me-1"></i> Data Aktif
+                        </button>
+                        <button type="button" class="btn btn-sm {{ $viewTrash ? 'btn-danger' : 'btn-outline-danger' }}"
+                            wire:click="toggleTrashView(true)">
+                            <i class="bx bx-trash me-1"></i> Sampah (Trash)
+                        </button>
+                    </div>
+                @endif
+            </div>
+
             <div class="row mx-3 mb-3">
                 <div class="col d-flex flex-wrap justify-content-between align-items-center gap-2">
                     <!-- Tombol kiri -->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#AddRegistrasiModal">
-                        Tambah Registrasi
-                    </button>
+                    @if (!$viewTrash)
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#AddRegistrasiModal">
+                            Tambah Registrasi
+                        </button>
+                    @else
+                        <span class="text-muted small">Menampilkan data yang telah dipindahkan ke Sampah.</span>
+                    @endif
+
                     <!-- Filter & Search -->
                     <div class="d-flex flex-wrap gap-2">
                         <div class="flex-fill" style="min-width: 150px;">
@@ -81,7 +106,9 @@
                                         {{ $data->layanan->nama }}
                                     </td>
                                     <td>
-                                        @if (in_array($data->status, ['Berkas Dicabut', 'Berkas Tidak Lengkap', 'Berkas Ditolak']))
+                                        @if ($viewTrash)
+                                            <span class="badge bg-danger">Terhapus</span>
+                                        @elseif (in_array($data->status, ['Berkas Dicabut', 'Berkas Tidak Lengkap', 'Berkas Ditolak']))
                                             <span class="badge bg-label-danger">{{ $data->status }}</span>
                                         @else
                                             <span
@@ -91,34 +118,49 @@
                                         @endif
                                     </td>
                                     <td class="text-nowrap">
-                                        <div class="me-3">
-                                            <!-- Button trigger modal -->
-                                            <a href="{{ url('admin/registrasi/print/' . $data->id) }}" type="button"
-                                                target="blank" class="btn btn-primary btn-sm">
-                                                <i class="bx bx-download"></i>
-                                            </a>
-                                            {{-- <button class="btn btn-primary btn-sm"
-                                                wire:click='downloadTandaTerima({{ $data->id }})'>
-                                                <i class="bx bx-download"></i>
-                                            </button> --}}
-                                            <button
-                                                wire:click="$dispatch('registrasi-detail', { id: {{ $data->id }} })"
-                                                type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#detailRegistrasiModal">
-                                                <i class="bx bx-show"></i>
-                                            </button>
-                                            <button
-                                                wire:click="$dispatch('registrasi-edit', { id: {{ $data->id }} })"
-                                                type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#editRegistrasiModal">
-                                                <i class="bx bx-edit"></i>
-                                            </button>
-                                            @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor')
-                                                <button type="button" class="btn btn-primary btn-sm"
-                                                    wire:click="deleteRegistrasi({{ $data->id }})"
-                                                    wire:confirm="Are you sure you want to delete this Registrasi?">
-                                                    <i class="bx bx-trash"></i>
+                                        <div class="me-3 d-flex gap-1">
+                                            @if ($viewTrash)
+                                                <!-- Akses Trash Mode: Restore & Force Delete -->
+                                                @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor')
+                                                    <button type="button" class="btn btn-success btn-sm"
+                                                        wire:click="restoreRegistrasi({{ $data->id }})"
+                                                        wire:confirm="Pulihkan data registrasi '{{ $data->kode }}' dari Sampah?">
+                                                        <i class="bx bx-undo me-1"></i> Pulihkan
+                                                    </button>
+                                                @endif
+
+                                                @if (Auth::user()->role == 'superadmin')
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        wire:click="forceDeleteRegistrasi({{ $data->id }})"
+                                                        wire:confirm="HAPUS PERMANEN registrasi '{{ $data->kode }}'? Data dan berkas fisik akan dihapus dari server dan tidak dapat dikembalikan!">
+                                                        <i class="bx bx-trash me-1"></i> Permanen
+                                                    </button>
+                                                @endif
+                                            @else
+                                                <!-- Akses Normal: Print, Detail, Edit, Soft Delete -->
+                                                <a href="{{ url('admin/registrasi/print/' . $data->id) }}" type="button"
+                                                    target="blank" class="btn btn-primary btn-sm">
+                                                    <i class="bx bx-download"></i>
+                                                </a>
+                                                <button
+                                                    wire:click="$dispatch('registrasi-detail', { id: {{ $data->id }} })"
+                                                    type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#detailRegistrasiModal">
+                                                    <i class="bx bx-show"></i>
                                                 </button>
+                                                <button
+                                                    wire:click="$dispatch('registrasi-edit', { id: {{ $data->id }} })"
+                                                    type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#editRegistrasiModal">
+                                                    <i class="bx bx-edit"></i>
+                                                </button>
+                                                @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'supervisor')
+                                                    <button type="button" class="btn btn-outline-danger btn-sm"
+                                                        wire:click="deleteRegistrasi({{ $data->id }})"
+                                                        wire:confirm="Pindahkan data registrasi '{{ $data->kode }}' ke Sampah (Trash)?">
+                                                        <i class="bx bx-trash"></i>
+                                                    </button>
+                                                @endif
                                             @endif
                                         </div>
                                     </td>

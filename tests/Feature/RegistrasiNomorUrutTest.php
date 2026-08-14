@@ -79,7 +79,8 @@ class RegistrasiNomorUrutTest extends TestCase
         $layanan_kode = Layanan::findOrFail($layanan_id)->kode;
 
         return DB::transaction(function () use ($year, $month, $layanan_kode) {
-            $lastKode = Registrasi::whereYear('created_at', $year)
+            $lastKode = Registrasi::withTrashed()
+                ->whereYear('created_at', $year)
                 ->lockForUpdate()
                 ->pluck('kode')
                 ->map(function ($kode) {
@@ -158,8 +159,8 @@ class RegistrasiNomorUrutTest extends TestCase
         // Hapus kode 0018 — mensimulasikan kasus yang terjadi di production
         Registrasi::where('kode', "0018-SKRK-{$month}-{$year}")->delete();
 
-        // Pastikan gap memang ada
-        $this->assertDatabaseMissing('registrasi', ['kode' => "0018-SKRK-{$month}-{$year}"]);
+        // Pastikan record di-soft delete
+        $this->assertSoftDeleted('registrasi', ['kode' => "0018-SKRK-{$month}-{$year}"]);
 
         // Generate kode baru
         $kode = $this->generateKode(layanan_id: 1);
@@ -386,7 +387,7 @@ class RegistrasiNomorUrutTest extends TestCase
         $year  = date('Y');
         $month = date('m');
 
-        // Simulasi: registrasi campuran, kode 0096-0100 dihapus
+        // Buat 100 registrasi campuran (0001 s/d 0100)
         for ($i = 1; $i <= 100; $i++) {
             $this->buatRegistrasi(
                 str_pad($i, 4, '0', STR_PAD_LEFT) . "-SKRK-{$month}-{$year}",
@@ -394,25 +395,29 @@ class RegistrasiNomorUrutTest extends TestCase
             );
         }
 
-        // Admin menghapus 5 registrasi terakhir (misal: salah input)
+        // Admin melakukan Soft Delete pada 5 registrasi terakhir (0096..0100)
         for ($i = 96; $i <= 100; $i++) {
             Registrasi::where('kode', str_pad($i, 4, '0', STR_PAD_LEFT) . "-SKRK-{$month}-{$year}")
                 ->delete();
         }
 
-        // Kode MAX yang tersisa sekarang adalah 0095
-        $maxKode = Registrasi::whereYear('created_at', $year)
-            ->pluck('kode')
-            ->map(fn($k) => (int) explode('-', $k)[0])
-            ->max();
+        // Karena Soft Delete menyimpan record di Trash, withTrashed() tetap memperhitungkan 0100
+        $kodeSoftDelete = $this->generateKode(layanan_id: 3); // KKPR-NB
 
-        $this->assertEquals(95, $maxKode, 'MAX kode sekarang harus 95 setelah penghapusan');
+        $this->assertStringStartsWith('0101-KKPR-NB-', $kodeSoftDelete,
+            'Jika di-soft-delete (ada di Trash), nomor urut tetap berlanjut ke 0101 agar tidak bentrok jika di-restore');
 
-        // Generate kode baru → harus 0096, BUKAN melanjutkan ke 0101
-        // (karena MAX adalah 95, bukan 100)
-        $kode = $this->generateKode(layanan_id: 3); // KKPR-NB
+        // Jika 5 registrasi terakhir di-Force Delete (hapus permanen dari DB)
+        for ($i = 96; $i <= 100; $i++) {
+            Registrasi::withTrashed()
+                ->where('kode', str_pad($i, 4, '0', STR_PAD_LEFT) . "-SKRK-{$month}-{$year}")
+                ->forceDelete();
+        }
 
-        $this->assertStringStartsWith('0096-KKPR-NB-', $kode,
-            'Setelah 0095 menjadi MAX, kode baru harus 0096 (MAX+1)');
+        // Setelah di-force delete, MAX yang tersisa di DB adalah 0095
+        $kodeForceDelete = $this->generateKode(layanan_id: 3);
+
+        $this->assertStringStartsWith('0096-KKPR-NB-', $kodeForceDelete,
+            'Setelah di-force delete secara permanen dari DB, MAX yang tersisa adalah 95 sehingga kode baru = 0096');
     }
 }

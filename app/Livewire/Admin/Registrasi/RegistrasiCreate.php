@@ -52,8 +52,9 @@ class RegistrasiCreate extends Component
         // ─────────────────────────────────────────────────────────────────
         $newKode = DB::transaction(function () use ($year, $month, $layanan_kode) {
 
-            // Kunci dan ambil nomor urutan tertinggi dari SEMUA layanan tahun ini
-            $lastKode = Registrasi::whereYear('created_at', $year)
+            // Kunci dan ambil nomor urutan tertinggi dari SEMUA layanan (termasuk yang di-soft-delete) tahun ini
+            $lastKode = Registrasi::withTrashed()
+                ->whereYear('created_at', $year)
                 ->lockForUpdate()
                 ->pluck('kode')
                 ->map(function ($kode) {
