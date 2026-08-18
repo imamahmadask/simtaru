@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\CekRole;
+use App\Http\Middleware\EnsurePasswordNotExpired;
 use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -19,9 +20,10 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->trustProxies(at: '*');
 
-        // Tambahkan Security Headers ke seluruh request web
+        // Tambahkan Security Headers & Password Expiration Check ke seluruh request web
         $middleware->web(append: [
             SecurityHeaders::class,
+            EnsurePasswordNotExpired::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

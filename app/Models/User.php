@@ -31,7 +31,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role'
+        'role',
+        'password_changed_at',
     ];
 
     /**
@@ -65,7 +66,25 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'password_changed_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Cek apakah password user telah kedaluwarsa (berlaku untuk semua role kecuali superadmin).
+     */
+    public function isPasswordExpired(): bool
+    {
+        if ($this->role === 'superadmin') {
+            return false;
+        }
+
+        if (is_null($this->password_changed_at)) {
+            return true;
+        }
+
+        $expiresInDays = (int) config('auth.password_expires_days', 90);
+        return $this->password_changed_at->addDays($expiresInDays)->isPast();
     }
 
         // disposisi yang diberikan user ini

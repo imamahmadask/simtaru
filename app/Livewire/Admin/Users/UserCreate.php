@@ -74,6 +74,7 @@ class UserCreate extends Component
            'email' => $this->email,
            'role' => $this->role,
            'password' => Hash::make($this->password),
+           'password_changed_at' => now(),
         ]);
 
         session()->flash('success', 'User berhasil ditambahkan!');

@@ -85,6 +85,7 @@ class UserEdit extends Component
 
         if (!empty($this->password)) {
             $updateData['password'] = Hash::make($this->password);
+            $updateData['password_changed_at'] = now();
         }
 
         $user->update($updateData);
