@@ -42,4 +42,4 @@
             @endif
         </div>
     </div>
-    </x-de-layout>
+    </x-default-layout>

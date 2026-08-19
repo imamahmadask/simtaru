@@ -12,7 +12,7 @@
             <x-label for="current_password" value="{{ __('Current Password') }}" />
             <div class="relative mt-1">
                 <x-input id="current_password" type="password" x-bind:type="show ? 'text' : 'password'" class="block w-full pr-10" wire:model="state.current_password" autocomplete="current-password" />
-                <button type="button" @click="show = !show" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 focus:outline-none" tabindex="-1" title="Lihat/Sembunyikan Password">
+                <button type="button" @click="show = !show" class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none bg-transparent border-0 p-0 cursor-pointer z-10" style="position: absolute; top: 50%; right: 12px; transform: translateY(-50%); background: transparent; border: none; padding: 0;" tabindex="-1" title="Lihat/Sembunyikan Password">
                     <!-- Eye Open (saat tersembunyi) -->
                     <svg x-show="!show" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -32,7 +32,7 @@
             <x-label for="password" value="{{ __('New Password') }}" />
             <div class="relative mt-1">
                 <x-input id="password" type="password" x-bind:type="show ? 'text' : 'password'" class="block w-full pr-10" wire:model="state.password" autocomplete="new-password" />
-                <button type="button" @click="show = !show" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 focus:outline-none" tabindex="-1" title="Lihat/Sembunyikan Password">
+                <button type="button" @click="show = !show" class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none bg-transparent border-0 p-0 cursor-pointer z-10" style="position: absolute; top: 50%; right: 12px; transform: translateY(-50%); background: transparent; border: none; padding: 0;" tabindex="-1" title="Lihat/Sembunyikan Password">
                     <!-- Eye Open (saat tersembunyi) -->
                     <svg x-show="!show" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -52,7 +52,7 @@
             <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
             <div class="relative mt-1">
                 <x-input id="password_confirmation" type="password" x-bind:type="show ? 'text' : 'password'" class="block w-full pr-10" wire:model="state.password_confirmation" autocomplete="new-password" />
-                <button type="button" @click="show = !show" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 focus:outline-none" tabindex="-1" title="Lihat/Sembunyikan Password">
+                <button type="button" @click="show = !show" class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none bg-transparent border-0 p-0 cursor-pointer z-10" style="position: absolute; top: 50%; right: 12px; transform: translateY(-50%); background: transparent; border: none; padding: 0;" tabindex="-1" title="Lihat/Sembunyikan Password">
                     <!-- Eye Open (saat tersembunyi) -->
                     <svg x-show="!show" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
