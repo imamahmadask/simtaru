@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="light-style layout-menu-fixed" dir="ltr"
-    data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template-free">
+    data-theme="theme-default" data-assets-path="{{ asset('assets') }}/" data-template="vertical-menu-template-free">
 
 <head>
     {{-- Security: CSP & X-Frame-Options meta tags --}}

@@ -41,7 +41,8 @@
         maps.googleapis.com
         maps.gstatic.com
         cdn.jsdelivr.net
-        unpkg.com;
+        unpkg.com
+        ui-avatars.com;
     font-src 'self'
         fonts.googleapis.com
         fonts.gstatic.com
@@ -56,7 +57,9 @@
     object-src 'none';
     worker-src 'self' blob:;
     form-action 'self';
+    @if(request()->isSecure())
     upgrade-insecure-requests;
+    @endif
 ">
 
 {{-- X-Frame-Options: juga ditegaskan via meta untuk browser yang mendukung --}}

@@ -42,7 +42,7 @@ class SecurityHeaders
                 . "*.tile.openstreetmap.org "
                 . "raw.githubusercontent.com cdnjs.cloudflare.com "
                 . "maps.googleapis.com maps.gstatic.com "
-                . "cdn.jsdelivr.net unpkg.com",
+                . "cdn.jsdelivr.net unpkg.com ui-avatars.com",
 
             // Font: self, Google Fonts, Font Bunny, CDN
             "font-src 'self' "
