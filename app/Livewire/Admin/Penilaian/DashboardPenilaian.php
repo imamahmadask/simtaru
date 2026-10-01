@@ -34,37 +34,39 @@ class DashboardPenilaian extends Component
             rsort($years);
         }
 
-        $query = Penilaian::whereYear('tanggal_penilaian', $this->year);
-
-        $count_penilaian_year = (clone $query)->count();
         $count_penilaian = Penilaian::count();
-        
-        // count by jenis penilaian (filtered by year)
-        $count_kkpr_kkkpr = (clone $query)->where('jenis_penilaian', 'KKPR/KKKPR')->count();
-        $count_pmp_umk = (clone $query)->where('jenis_penilaian', 'PMP UMK')->count();
 
-        // breakdowns (filtered by year)
-        $count_kkpr_sesuai_sebagian = (clone $query)->where('jenis_penilaian', 'KKPR/KKKPR')->where('analisa_penilaian', 'Sesuai Sebagian')->count();
-        $count_kkpr_sesuai_seluruhnya = (clone $query)->where('jenis_penilaian', 'KKPR/KKKPR')->where('analisa_penilaian', 'Sesuai Seluruhnya')->count();        
-        $count_pmp_umk_sesuai_sebagian = (clone $query)->where('jenis_penilaian', 'PMP UMK')->where('analisa_penilaian', 'Sesuai Sebagian')->count();
-        $count_pmp_umk_sesuai_seluruhnya = (clone $query)->where('jenis_penilaian', 'PMP UMK')->where('analisa_penilaian', 'Sesuai Seluruhnya')->count();        
+        $stats = Penilaian::whereYear('tanggal_penilaian', $this->year)
+            ->selectRaw("
+                COUNT(*) as count_penilaian_year,
+                COALESCE(SUM(CASE WHEN jenis_penilaian = 'KKPR/KKKPR' THEN 1 ELSE 0 END), 0) as count_kkpr_kkkpr,
+                COALESCE(SUM(CASE WHEN jenis_penilaian = 'PMP UMK' THEN 1 ELSE 0 END), 0) as count_pmp_umk,
+                COALESCE(SUM(CASE WHEN jenis_penilaian = 'KKPR/KKKPR' AND analisa_penilaian = 'Sesuai Sebagian' THEN 1 ELSE 0 END), 0) as count_kkpr_sesuai_sebagian,
+                COALESCE(SUM(CASE WHEN jenis_penilaian = 'KKPR/KKKPR' AND analisa_penilaian = 'Sesuai Seluruhnya' THEN 1 ELSE 0 END), 0) as count_kkpr_sesuai_seluruhnya,
+                COALESCE(SUM(CASE WHEN jenis_penilaian = 'PMP UMK' AND analisa_penilaian = 'Sesuai Sebagian' THEN 1 ELSE 0 END), 0) as count_pmp_umk_sesuai_sebagian,
+                COALESCE(SUM(CASE WHEN jenis_penilaian = 'PMP UMK' AND analisa_penilaian = 'Sesuai Seluruhnya' THEN 1 ELSE 0 END), 0) as count_pmp_umk_sesuai_seluruhnya
+            ")
+            ->first();
+
+        $monthly_raw = Penilaian::whereYear('tanggal_penilaian', $this->year)
+            ->selectRaw('MONTH(tanggal_penilaian) as month, COUNT(*) as total')
+            ->groupBy('month')
+            ->pluck('total', 'month');
 
         $monthly_counts = [];
         for ($i = 1; $i <= 12; $i++) {
-            $monthly_counts[] = Penilaian::whereYear('tanggal_penilaian', $this->year)
-                ->whereMonth('tanggal_penilaian', $i)
-                ->count();
+            $monthly_counts[] = (int) ($monthly_raw[$i] ?? 0);
         }
 
         $this->rekap = [
-            'count_penilaian_year' => $count_penilaian_year,
+            'count_penilaian_year' => (int) ($stats->count_penilaian_year ?? 0),
             'count_penilaian' => $count_penilaian,
-            'count_kkpr_kkkpr' => $count_kkpr_kkkpr,
-            'count_pmp_umk' => $count_pmp_umk,
-            'count_kkpr_sesuai_sebagian' => $count_kkpr_sesuai_sebagian,
-            'count_kkpr_sesuai_seluruhnya' => $count_kkpr_sesuai_seluruhnya,
-            'count_pmp_umk_sesuai_sebagian' => $count_pmp_umk_sesuai_sebagian,
-            'count_pmp_umk_sesuai_seluruhnya' => $count_pmp_umk_sesuai_seluruhnya,
+            'count_kkpr_kkkpr' => (int) ($stats->count_kkpr_kkkpr ?? 0),
+            'count_pmp_umk' => (int) ($stats->count_pmp_umk ?? 0),
+            'count_kkpr_sesuai_sebagian' => (int) ($stats->count_kkpr_sesuai_sebagian ?? 0),
+            'count_kkpr_sesuai_seluruhnya' => (int) ($stats->count_kkpr_sesuai_seluruhnya ?? 0),
+            'count_pmp_umk_sesuai_sebagian' => (int) ($stats->count_pmp_umk_sesuai_sebagian ?? 0),
+            'count_pmp_umk_sesuai_seluruhnya' => (int) ($stats->count_pmp_umk_sesuai_seluruhnya ?? 0),
             'monthly_counts' => $monthly_counts
         ];
         

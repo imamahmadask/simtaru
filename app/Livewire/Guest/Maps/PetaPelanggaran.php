@@ -34,7 +34,9 @@ class PetaPelanggaran extends Component
 
     private function loadLocations()
     {
-        $query = Pelanggaran::query();
+        $query = Pelanggaran::query()
+            ->whereNotNull('koordinat_pelanggaran')
+            ->where('koordinat_pelanggaran', '!=', '');
 
         $query->when($this->kecamatan, function ($q) {
             $q->where('kec_pelanggaran', $this->kecamatan);
@@ -72,27 +74,8 @@ class PetaPelanggaran extends Component
                 if (is_numeric(trim($parts[0])) && is_numeric(trim($parts[1]))) {
                     $lat = (float) trim($parts[0]);
                     $lng = (float) trim($parts[1]);
-                } else {
-                    // Try DMS if not numeric
-                    // Note: PelanggaranCreate logic might suggest format
-                    // Defaulting to 0,0 if parsing fails for safety, or null
-                    // But for now let's assume valid DMS or Decimal
-                    // If complex parsing needed, we can reuse logic or simple regex
                 }
             }
-        }
-        
-        // If still null, try DMS parser or assume simple string
-        if ($lat === null || $lng === null) {
-             // Fallback or specific parser if needed. 
-             // Without knowing exact format, assuming decimal "lat, lng" is most common for simple fields
-             // If field is "S 8 35 ..., E 116 ...", we need custom parser
-             // Let's implement a robust parser similar to PetaPemanfaatan if needed, 
-             // but usually koordinat field is simple.
-             
-             // Let's try to extract numbers.
-             // If manual string, just return null for now to avoid errors
-             // or try to match lat/lng patterns
         }
 
         // Just in case it's reversed or specific format

@@ -3,9 +3,11 @@
 namespace App\Livewire\Admin\Pelanggaran;
 
 use App\Models\Pelanggaran;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\WithPagination;
 
@@ -18,13 +20,12 @@ class PelanggaranIndex extends Component
     public $selectedPelanggaran;
     public $showSaranModal = false;
 
-    protected $listeners = ['refresh' => '$refresh'];
-
     public function updatingSearch()
     {
         $this->resetPage();
     }
 
+    #[On('refresh')]
     #[Layout('layouts.app-pelanggaran')]
     public function render()
     {
@@ -56,6 +57,10 @@ class PelanggaranIndex extends Component
 
     public function deletePelanggaran($id)
     {
+        if (!in_array(Auth::user()->role, ['superadmin', 'admin-pelanggaran'])) {
+            abort(403);
+        }
+
         $pelanggaran = Pelanggaran::findOrFail($id);
 
         // Collect all file paths to delete

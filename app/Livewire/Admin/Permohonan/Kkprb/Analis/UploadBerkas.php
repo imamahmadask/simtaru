@@ -17,7 +17,7 @@ class UploadBerkas extends Component
 
     public $permohonan, $kkprb, $persyaratan_berkas, $tahapan_id;
 
-    #[Validate(['file_.*' => 'mimes:.docx, .doc|max:10240'])]
+    #[Validate(['file_.*' => 'nullable|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240'])]
     public $file_ = [];
 
     public $catatan_ = [];
@@ -29,17 +29,16 @@ class UploadBerkas extends Component
 
     public function mount($permohonan_id, $kkprb_id)
     {
-        $this->permohonan = Permohonan::findOrFail($permohonan_id);
+        $this->permohonan = Permohonan::with(['layanan.tahapan', 'persyaratanBerkas', 'berkas'])->findOrFail($permohonan_id);
         $this->kkprb = Kkprb::findOrFail($kkprb_id);
 
         $this->tahapan_id = $this->permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id');
         $this->persyaratan_berkas = $this->permohonan->persyaratanBerkas->where('tahapan_id', $this->tahapan_id);
 
+        $existingBerkasMap = $this->permohonan->berkas->where('versi', 'draft')->keyBy('persyaratan_berkas_id');
+
         foreach ($this->persyaratan_berkas as $item) {
-            $berkas = $this->permohonan->berkas
-                ->where('persyaratan_berkas_id', $item->id)
-                ->where('versi', 'draft')
-                ->first();
+            $berkas = $existingBerkasMap->get($item->id);
 
             if ($berkas && $berkas->catatan) {
                 $this->catatan_[$item->kode] = $berkas->catatan;
@@ -49,16 +48,20 @@ class UploadBerkas extends Component
 
     public function uploadBerkas()
     {
+        $this->validate();
+
         $no_reg = $this->kkprb->registrasi->kode;
         $isUpdate = false;
         $hasNewUpload = false;
 
+        $existingBerkasMap = PermohonanBerkas::where('permohonan_id', $this->permohonan->id)
+            ->where('versi', 'draft')
+            ->get()
+            ->keyBy('persyaratan_berkas_id');
+
         foreach ($this->permohonan->persyaratanBerkas as $item) {
             // Check if a file already exists for this requirement
-            $existingBerkas = PermohonanBerkas::where('permohonan_id', $this->permohonan->id)
-                ->where('persyaratan_berkas_id', $item->id)
-                ->where('versi', 'draft')
-                ->first();
+            $existingBerkas = $existingBerkasMap->get($item->id);
 
             // cek apakah file untuk persyaratan ini diupload
             if (!empty($this->file_[$item->kode])) {

@@ -46,16 +46,14 @@ class KkprbAnalisCreate extends Component
         ]);
 
         $this->permohonan->update([
-            'status' => 'Proses  Analisa'
+            'status' => 'Proses Analisa'
         ]);
-
-        // $this->createRiwayat($this->kkprb->permohonan, 'Proses Analisa KKPR Berusaha');
 
         $this->reset('tgl_oss', 'oss_id', 'id_proyek', 'skala_usaha', 'nib', 'penguasaan_tanah', 'jml_bangunan', 'jml_lantai', 'luas_lantai', 'kedalaman_min', 'kedalaman_max', 'ketinggian_min', 'ketinggian_max', 'kdb', 'klb', 'indikasi_program', 'kdh', 'gsb', 'luas_disetujui');
 
         $this->dispatch('toast', [
             'type'    => 'success',
-            'message' => 'Data Kajian KKPR Non Berusaha berhasil disimpan!'
+            'message' => 'Data Kajian KKPR Berusaha berhasil disimpan!'
         ]);
 
         $this->dispatch('refresh-kkprb-analis-list');

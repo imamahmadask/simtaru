@@ -129,10 +129,10 @@ class ItrSurveyEdit extends Component
         : [];
         $this->gambar_peta_selected = $this->gambar_peta_lama;
         $this->foto_survey_selected = $this->foto_survey_lama;
-        $this->batas_barat = $this->itr->batas_administratif['barat'] ?? '';
-        $this->batas_selatan = $this->itr->batas_administratif['selatan'] ?? '';
-        $this->batas_timur = $this->itr->batas_administratif['timur'] ?? '';
-        $this->batas_utara = $this->itr->batas_administratif['utara'] ?? '';
+        $this->batas_barat = $this->itr->batas_persil['barat'] ?? $this->itr->batas_administratif['barat'] ?? '';
+        $this->batas_selatan = $this->itr->batas_persil['selatan'] ?? $this->itr->batas_administratif['selatan'] ?? '';
+        $this->batas_timur = $this->itr->batas_persil['timur'] ?? $this->itr->batas_administratif['timur'] ?? '';
+        $this->batas_utara = $this->itr->batas_persil['utara'] ?? $this->itr->batas_administratif['utara'] ?? '';
         $this->pola_ruang = $this->itr->pola_ruang ?? '';
     }
 

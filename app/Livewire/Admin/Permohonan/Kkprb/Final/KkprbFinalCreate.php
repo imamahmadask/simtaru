@@ -90,7 +90,7 @@ class KkprbFinalCreate extends Component
         $this->dispatch('trigger-close-modal');
     }
 
-    public function updated($tgl_selesai)
+    public function updatedTglSelesai()
     {
         $tgl_mulai = Carbon::parse($this->permohonan->registrasi->tanggal);
         $tgl_selesai = Carbon::parse($this->tgl_selesai);

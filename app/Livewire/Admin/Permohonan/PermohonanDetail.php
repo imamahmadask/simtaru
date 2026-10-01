@@ -18,7 +18,15 @@ class PermohonanDetail extends Component
 
     public function mount($id)
     {
-        $this->permohonan = Permohonan::findOrFail($id);
+        $this->permohonan = Permohonan::with([
+            'registrasi.riwayat.user',
+            'layanan',
+            'skrk',
+            'itr',
+            'kkprb',
+            'kkprnb',
+            'berkas.persyaratan',
+        ])->findOrFail($id);
         $this->satu_a = 'templates/skrk/1A. FORM ISIAN PEMERIKSAAN LAPANGAN.docx';
         $this->satu_b = 'templates/skrk/1B. BA PEMERIKSAAN LAPANGAN SKRK.docx';
         $this->dua_a = 'templates/skrk/2A. BA Rapat FPR (Bila Ada) SKRK.docx';

@@ -20,16 +20,12 @@ class DisposisiIndex extends Component
     public $search_disposisi_selesai = '';
 
     #[On('refresh-disposisi-list')]
-    public function refresh()
-    {}
-
     public function render()
     {
         $user = Auth::user();
-        $relations = ['layanan', 'permohonan.registrasi', 'tahapan', 'pemberi', 'penerima'];
 
         if ($user->role == 'superadmin') {
-            $disposisi = Disposisi::with($relations)
+            $disposisi = Disposisi::with(['permohonan.registrasi', 'permohonan.layanan', 'pemberi', 'penerima', 'tahapan'])
                 ->whereIn('id', function ($query) {
                     $query->selectRaw('max(id)')
                         ->from('disposisis')
@@ -50,7 +46,7 @@ class DisposisiIndex extends Component
             ]);
         }
 
-        $disposisi = Disposisi::with($relations)
+        $disposisi = Disposisi::with(['permohonan.registrasi', 'permohonan.layanan', 'pemberi', 'penerima', 'tahapan'])
             ->when($this->search_disposisi_masuk, function ($query) {
                 $query->whereHas('permohonan.registrasi', function ($q) {
                     $q->where('kode', 'like', '%' . $this->search_disposisi_masuk . '%')
@@ -62,7 +58,7 @@ class DisposisiIndex extends Component
             ->orderBy('created_at', 'desc')
             ->paginate(10, ['*'], 'page');
 
-        $disposisi_selesai = Disposisi::with($relations)
+        $disposisi_selesai = Disposisi::with(['permohonan.registrasi', 'permohonan.layanan', 'pemberi', 'penerima', 'tahapan'])
             ->when($this->search_disposisi_selesai, function ($query) {
                 $query->whereHas('permohonan.registrasi', function ($q) {
                     $q->where('kode', 'like', '%' . $this->search_disposisi_selesai . '%')

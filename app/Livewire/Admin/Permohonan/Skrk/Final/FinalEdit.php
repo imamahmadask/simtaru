@@ -95,21 +95,10 @@ class FinalEdit extends Component
         $this->dispatch('trigger-close-modal');
     }
 
-    public function updated($tgl_selesai)
+    public function updatedTglSelesai()
     {
         $tgl_mulai = Carbon::parse($this->permohonan->registrasi->tanggal);
         $tgl_selesai = Carbon::parse($this->tgl_selesai);
         $this->waktu_pengerjaan = $tgl_mulai->diffInDays($tgl_selesai) + 1;
     }
-
-    private function createRiwayat(Permohonan $permohonan, string $keterangan)
-    {
-        RiwayatPermohonan::create([
-            'registrasi_id' => $permohonan->registrasi_id,
-            'user_id' => Auth::user()->id,
-            'keterangan' => $keterangan
-        ]);
-    }
-
-
 }

@@ -20,7 +20,7 @@ class ItrVerifikasiDetail extends Component
     public function refresh()
     {
         $this->itr->refresh();
-        $this->itr->load(['permohonan.berkas']);
+        $this->itr->load(['permohonan.berkas.persyaratan', 'permohonan.berkas.verifiedBy']);
         $this->loadData();
     }
     
@@ -31,7 +31,7 @@ class ItrVerifikasiDetail extends Component
 
     public function mount($itr_id)
     {
-        $this->itr = Itr::findOrFail($itr_id);
+        $this->itr = Itr::with(['permohonan.berkas.persyaratan', 'permohonan.berkas.verifiedBy'])->findOrFail($itr_id);
         $this->loadData();
     }
 

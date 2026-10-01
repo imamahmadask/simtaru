@@ -103,7 +103,8 @@ class KkprbSurveyCreate extends Component
         $this->permohonan_id = $permohonan_id;
         $this->kkprb_id = $kkprb_id;
 
-         $this->koordinat = $kkprb->koordinat ?? [
+        $kkprb = Kkprb::findOrFail($kkprb_id);
+        $this->koordinat = $kkprb->koordinat ?? [
             ['x' => '', 'y' => ''],
             ['x' => '', 'y' => ''],
             ['x' => '', 'y' => ''],
@@ -124,14 +125,5 @@ class KkprbSurveyCreate extends Component
             unset($this->koordinat[$index]);
             $this->koordinat = array_values($this->koordinat);
         }
-    }
-
-    private function createRiwayat(Permohonan $permohonan, string $keterangan)
-    {
-        RiwayatPermohonan::create([
-            'registrasi_id' => $permohonan->registrasi_id,
-            'user_id' => Auth::user()->id,
-            'keterangan' => $keterangan
-        ]);
     }
 }

@@ -9,7 +9,7 @@
                 <div class="col d-flex justify-content-end align-items-center">
                     <!-- Search kanan -->
                     <div class="col-2">
-                        <input class="form-control" type="search" wire:model.live="search" placeholder="Search"
+                        <input class="form-control" type="search" wire:model.live.debounce.300ms="search" placeholder="Search"
                             aria-label="Search">
                     </div>
                 </div>
@@ -32,8 +32,7 @@
                     <tbody class="table-border-bottom-0">
 
                         @foreach ($kkprnb as $data)
-                            <div wire:key="{{ $data->id }}">
-                                <tr>
+                                <tr wire:key="{{ $data->id }}">
                                     <td>
                                         {{ ($kkprnb->currentPage() - 1) * $kkprnb->perPage() + $loop->iteration }}
                                     </td>
@@ -84,7 +83,6 @@
                                         @endif
                                     </td>
                                 </tr>
-                            </div>
                         @endforeach
                     </tbody>
                 </table>

@@ -34,7 +34,7 @@ class RegistrasiDetail extends Component
     #[On('registrasi-detail')]
     public function detailRegistrasi($id)
     {
-        $this->registrasi = Registrasi::find($id);
+        $this->registrasi = Registrasi::with(['layanan', 'permohonan', 'riwayat.user'])->find($id);
         $this->nama = $this->registrasi->nama;
         $this->kode = $this->registrasi->kode;
         $this->nik = $this->registrasi->nik;

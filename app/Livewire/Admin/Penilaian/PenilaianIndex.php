@@ -3,9 +3,11 @@
 namespace App\Livewire\Admin\Penilaian;
 
 use App\Models\Penilaian;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\WithPagination;
 
@@ -20,8 +22,6 @@ class PenilaianIndex extends Component
     public $filterAnalisa = '';
     public $selectedPenilaian;
     public $showSaranModal = false;
-
-    protected $listeners = ['refresh' => '$refresh'];
 
     public function updatingSearch()
     {
@@ -43,6 +43,7 @@ class PenilaianIndex extends Component
         $this->resetPage();
     }
 
+    #[On('refresh')]
     #[Layout('layouts.app-penilaian')]
     public function render()
     {
@@ -105,6 +106,10 @@ class PenilaianIndex extends Component
 
     public function deletePenilaian($id)
     {
+        if (!in_array(Auth::user()->role, ['superadmin', 'admin-penilaian'])) {
+            abort(403);
+        }
+
         $penilaian = Penilaian::findOrFail($id);
 
         if ($penilaian->file_dokumen) {

@@ -45,7 +45,7 @@ class KkprnbKajianAnalisCreate extends Component
         ]);
 
         $this->permohonan->update([
-            'status' => 'Proses  Analisa'
+            'status' => 'Proses Analisa'
         ]);
 
         $this->reset('penguasaan_tanah', 'jml_bangunan', 'jml_lantai', 'luas_lantai', 'kedalaman_min', 'kedalaman_max', 'kdb', 'klb', 'indikasi_program', 'gsb', 'jba', 'jbb', 'kdh', 'ktb', 'ketinggian_bangunan_max', 'jaringan_utilitas', 'persyaratan_pelaksanaan');

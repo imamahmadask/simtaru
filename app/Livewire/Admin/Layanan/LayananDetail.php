@@ -18,7 +18,6 @@ class LayananDetail extends Component
 
     public function mount($id)
     {
-        $this->layanan = Layanan::findOrFail($id);
-
+        $this->layanan = Layanan::with('tahapan.persyaratanBerkas')->findOrFail($id);
     }
 }

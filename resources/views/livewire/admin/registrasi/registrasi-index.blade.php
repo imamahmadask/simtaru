@@ -69,7 +69,7 @@
                             </select>
                         </div>
                         <div class="flex-fill" style="min-width: 170px;">
-                            <input class="form-control" type="search" wire:model.live="search" placeholder="Cari pemohon / kode..."
+                            <input class="form-control" type="search" wire:model.live.debounce.300ms="search" placeholder="Cari pemohon / kode..."
                                 aria-label="Search">
                         </div>
                     </div>

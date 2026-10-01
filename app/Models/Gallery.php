@@ -26,7 +26,9 @@ class Gallery extends Model
 
     public function getImageUrlAttribute()
     {
-        return asset('storage/' . $this->image);
+        $firstImage = is_array($this->images) && !empty($this->images) ? $this->images[0] : null;
+
+        return $firstImage ? asset('storage/' . $firstImage) : null;
     }
 
     public function getCreatedAtAttribute($value)

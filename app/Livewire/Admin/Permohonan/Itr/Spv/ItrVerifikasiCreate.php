@@ -11,7 +11,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
-use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 
 class ItrVerifikasiCreate extends Component
@@ -81,13 +80,13 @@ class ItrVerifikasiCreate extends Component
             {
                 $itr->update([
                     'is_survey' => false,
-                    'is_berkas_survey' => false,
+                    'is_berkas_survey_uploaded' => false,
                 ]);
             }
             elseif($nama_tahapan == 'Analisis')
             {
                 $itr->update([
-                    'is_berkas_analis' => false,
+                    'is_berkas_analis_uploaded' => false,
                     'is_analis' => false,
                 ]);
             }
@@ -97,8 +96,6 @@ class ItrVerifikasiCreate extends Component
             $this->dispatch('refresh-itr-survey-list');
             $this->dispatch('refresh-itr-analis-list');
         }
-
-        Log::info("Verifikasi berkas dengan ID: " . $this->berkas->id);
         
         $message = $this->status == 'diterima'
         ? "Berkas berhasil diverifikasi sebagai : Diterima"

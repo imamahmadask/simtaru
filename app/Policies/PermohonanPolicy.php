@@ -23,70 +23,46 @@ class PermohonanPolicy
 
     public function manageSurvey(User $user, Permohonan $permohonan): bool
     {
-        if ($permohonan->is_ditolak) {
-            return false;
-        }
-
-        // superadmin & supervisor selalu boleh
-        if (in_array($user->role, ['superadmin', 'supervisor'])) {
-            return true;
-        }
-
-        // cek disposisi untuk user ini
-        if ($user->role === 'surveyor') {
-            $layanan = Str::ucfirst(Str::lower($permohonan->layanan->kode));
-            return $permohonan->disposisi()
-                ->where('penerima_id', $user->id)
-                ->get()
-                ->contains(fn ($d) => $d->layanan_type_name === $layanan);
-        }
-
-        return false;
+        return $this->canManageStage($user, $permohonan, 'surveyor');
     }
 
     public function manageAnalis(User $user, Permohonan $permohonan): bool
     {
-        if ($permohonan->is_ditolak) {
-            return false;
-        }
-
-        // superadmin & supervisor selalu boleh
-        if (in_array($user->role, ['superadmin', 'supervisor'])) {
-            return true;
-        }
-
-        // cek disposisi untuk user ini
-        if ($user->role === 'analis') {
-            $layanan = Str::ucfirst(Str::lower($permohonan->layanan->kode));
-            return $permohonan->disposisi()
-                ->where('penerima_id', $user->id)
-                ->get()
-                ->contains(fn ($d) => $d->layanan_type_name === $layanan);
-        }
-
-        return false;
+        return $this->canManageStage($user, $permohonan, 'analis');
     }
 
     public function manageDataEntry(User $user, Permohonan $permohonan): bool
+    {
+        return $this->canManageStage($user, $permohonan, 'data-entry');
+    }
+
+    private function canManageStage(User $user, Permohonan $permohonan, string $expectedRole): bool
     {
         if ($permohonan->is_ditolak) {
             return false;
         }
 
-        // superadmin & supervisor selalu boleh
-        if (in_array($user->role, ['superadmin', 'supervisor'])) {
+        if (in_array($user->role, ['superadmin', 'supervisor'], true)) {
             return true;
         }
 
-        // cek disposisi untuk user ini
-        if ($user->role === 'data-entry') {
-            $layanan = Str::ucfirst(Str::lower($permohonan->layanan->kode));
-            return $permohonan->disposisi()
-                ->where('penerima_id', $user->id)
-                ->get()
-                ->contains(fn ($d) => $d->layanan_type_name === $layanan);
+        if ($user->role !== $expectedRole || !$permohonan->layanan) {
+            return false;
         }
 
-        return false;
+        $layananName = Str::ucfirst(Str::lower($permohonan->layanan->kode));
+        $layananClass = 'App\\Models\\' . $layananName;
+
+        if ($permohonan->relationLoaded('disposisi')) {
+            return $permohonan->disposisi->contains(
+                fn ($d) => (int) $d->penerima_id === (int) $user->id
+                    && ($d->layanan_type === $layananClass || $d->layanan_type_name === $layananName)
+            );
+        }
+
+        return $permohonan->disposisi()
+            ->where('penerima_id', $user->id)
+            ->where('layanan_type', $layananClass)
+            ->exists();
     }
 }

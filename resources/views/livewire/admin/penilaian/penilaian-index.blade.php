@@ -50,7 +50,7 @@
                             </select>
                         </div>
                         <div class="flex-fill" style="min-width: 150px;">
-                            <input class="form-control" type="search" wire:model.live="search" placeholder="Search"
+                            <input class="form-control" type="search" wire:model.live.debounce.300ms="search" placeholder="Search"
                                 aria-label="Search">
                         </div>
                     </div>
@@ -77,7 +77,7 @@
                             $no = ($penilaians->currentPage() - 1) * $penilaians->perPage() + 1;
                         @endphp
                         @foreach ($penilaians as $data)
-                            <tr wire:key="{{ $data->id }}">
+                            <tr wire:key="penilaian-{{ $data->id }}">
                                 <td>
                                     {{ $no++ }}
                                 </td>

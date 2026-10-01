@@ -20,6 +20,7 @@ class FinalDetail extends Component
     public function refresh()
     {
         $this->skrk->refresh();
+        $this->skrk->load(['permohonan.berkas.persyaratan', 'permohonan.berkas.uploadedBy']);
         $this->berkas_final = $this->skrk->permohonan->berkas->where('versi', 'final');
     }
     
@@ -30,7 +31,7 @@ class FinalDetail extends Component
 
     public function mount($skrk_id)
     {
-        $this->skrk = Skrk::find($skrk_id);
+        $this->skrk = Skrk::with(['permohonan.berkas.persyaratan', 'permohonan.berkas.uploadedBy'])->find($skrk_id);
         $this->berkas_final = $this->skrk->permohonan->berkas->where('versi', 'final');
     }
 

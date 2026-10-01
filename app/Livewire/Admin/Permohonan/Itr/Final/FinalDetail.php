@@ -20,6 +20,7 @@ class FinalDetail extends Component
     public function refresh()
     {
         $this->itr->refresh();
+        $this->itr->load(['permohonan.berkas.persyaratan', 'permohonan.berkas.uploadedBy']);
         $this->berkas_final = $this->itr->permohonan->berkas->where('versi', 'final');
     }
     
@@ -30,7 +31,7 @@ class FinalDetail extends Component
 
     public function mount($itr_id)
     {
-        $this->itr = Itr::find($itr_id);
+        $this->itr = Itr::with(['permohonan.berkas.persyaratan', 'permohonan.berkas.uploadedBy'])->find($itr_id);
         $this->berkas_final = $this->itr->permohonan->berkas->where('versi', 'final');
     }
 

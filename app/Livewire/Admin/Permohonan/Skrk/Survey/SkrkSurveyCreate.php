@@ -102,7 +102,8 @@ class SkrkSurveyCreate extends Component
         $this->permohonan_id = $permohonan_id;
         $this->skrk_id = $skrk_id;
 
-         $this->koordinat = $skrk->koordinat ?? [
+        $skrk = Skrk::findOrFail($skrk_id);
+        $this->koordinat = $skrk->koordinat ?? [
             ['x' => '', 'y' => ''],
             ['x' => '', 'y' => ''],
             ['x' => '', 'y' => ''],
@@ -123,14 +124,5 @@ class SkrkSurveyCreate extends Component
             unset($this->koordinat[$index]);
             $this->koordinat = array_values($this->koordinat);
         }
-    }
-
-    private function createRiwayat(Permohonan $permohonan, string $keterangan)
-    {
-        RiwayatPermohonan::create([
-            'registrasi_id' => $permohonan->registrasi_id,
-            'user_id' => Auth::user()->id,
-            'keterangan' => $keterangan
-        ]);
     }
 }

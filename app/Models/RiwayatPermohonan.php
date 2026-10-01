@@ -25,10 +25,8 @@ class RiwayatPermohonan extends Model
     }
 
 
-    protected static function boot()
+    protected static function booted(): void
     {
-        parent::boot();
-
         static::addGlobalScope('orderByCreatedAt', function ($builder) {
             $builder->orderBy('created_at', 'desc')->orderBy('id', 'desc');
         });

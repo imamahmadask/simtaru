@@ -87,7 +87,7 @@
                 <div class="card-body">
                     <div class="row mb-3 justify-content-end">
                         <div class="col-md-4">
-                            <input type="text" wire:model.live="search" class="form-control" placeholder="Cari berdasarkan kode atau nama pemohon">
+                            <input type="text" wire:model.live.debounce.300ms="search" class="form-control" placeholder="Cari berdasarkan kode atau nama pemohon">
                         </div>
                     </div>
                     <div class="table-responsive text-nowrap">
@@ -177,7 +177,7 @@
                 <div class="card-body">
                     <div class="row mb-3 justify-content-end">
                         <div class="col-md-4">
-                            <input type="text" wire:model.live="search_disposisi_masuk" class="form-control" placeholder="Cari berdasarkan kode atau nama pemohon">
+                            <input type="text" wire:model.live.debounce.300ms="search_disposisi_masuk" class="form-control" placeholder="Cari berdasarkan kode atau nama pemohon">
                         </div>
                     </div>
                     <div class="table-responsive text-nowrap">
@@ -283,7 +283,7 @@
                 <div class="card-body">
                     <div class="row mb-3 justify-content-end">
                         <div class="col-md-4">
-                            <input type="text" wire:model.live="search_disposisi_selesai" class="form-control" placeholder="Cari berdasarkan kode atau nama pemohon">
+                            <input type="text" wire:model.live.debounce.300ms="search_disposisi_selesai" class="form-control" placeholder="Cari berdasarkan kode atau nama pemohon">
                         </div>
                     </div>
                     <div class="table-responsive text-nowrap">
@@ -384,7 +384,7 @@
                 <div class="modal-body">
                     <ul class="timeline mt-3">
                         @forelse($riwayatSelected as $history)
-                            <li class="timeline-item mb-4 {{ $history->is_revisi ? 'border-left-danger' : '' }}">
+                            <li wire:key="history-{{ $history->id }}" class="timeline-item mb-4 {{ $history->is_revisi ? 'border-left-danger' : '' }}">
                                 <div class="timeline-event">
                                     <div class="timeline-header mb-2">
                                         <h6 class="mb-0 fw-bold">

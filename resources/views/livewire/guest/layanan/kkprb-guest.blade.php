@@ -337,7 +337,7 @@
                     <p class="lead mb-4">Pastikan kegiatan usaha Anda sesuai dengan regulasi tata ruang yang berlaku
                     </p>
                     <div class="d-flex gap-3 justify-content-center flex-wrap">
-                        <button wire:click="$emit('startApplication')" class="btn btn-dark btn-lg px-5">
+                        <button wire:click="$dispatch('startApplication')" class="btn btn-dark btn-lg px-5">
                             <i class="bi bi-rocket-takeoff me-2"></i>Mulai Pengajuan Sekarang
                         </button>
                         <a href="https://wa.me/62895326753064" target="_blank"

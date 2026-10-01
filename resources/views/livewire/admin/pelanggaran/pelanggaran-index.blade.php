@@ -26,7 +26,7 @@
                     <!-- Filter & Search -->
                     <div class="d-flex flex-wrap gap-2">                        
                         <div class="flex-fill" style="min-width: 150px;">
-                            <input class="form-control" type="search" wire:model.live="search" placeholder="Search"
+                            <input class="form-control" type="search" wire:model.live.debounce.300ms="search" placeholder="Search"
                                 aria-label="Search">
                         </div>
                     </div>
@@ -53,78 +53,76 @@
                             $no = 1;
                         @endphp
                         @foreach ($pelanggarans as $data)
-                            <div wire:key="{{ $data->id }}">
-                                <tr>
-                                    <td>
-                                        {{ $no++ }}
-                                    </td>
-                                    <td class="text-nowrap">
-                                        <span class="fw-bold">
-                                            {{ $data->no_pelanggaran }}
-                                        </span> <br>
-                                        <small class="text-muted fst-italic">
-                                            {{ date('d-m-Y', strtotime($data->tgl_laporan)) }}                                            
-                                        </small>
-                                    </td>
-                                    <td class="text-wrap">
-                                        {{ $data->sumber_informasi_pelanggaran }}
-                                    </td>
-                                    <td class="text-nowrap">
-                                        {{ $data->nama_pelanggar }}
-                                    </td>                  
-                                    <td class="text-nowrap">
-                                        {{ $data->alamat_pelanggaran }} <br>
-                                        <small class="text-muted fst-italic">
-                                            Kel. {{ $data->kel_pelanggaran }} - Kec. {{ $data->kec_pelanggaran }}
-                                        </small>
-                                    </td>                
-                                    <td class="text-wrap">
-                                        {{ $data->jenis_indikasi_pelanggaran }}                                          
-                                    </td>                                      
-                                    <td class="text-nowrap">
-                                        {{ $data->temuan_pelanggaran }}                                          
-                                    </td>
-                                    <td class="text-nowrap">
-                                        {{ $data->tindak_lanjut }}                                          
-                                    </td>
-                                    <td class="text-nowrap">
-                                        <span
-                                            class="badge bg-{{ $data->status == 'Selesai' ? 'success' : ($data->status == 'Pelimpahan Berkas' ? 'primary' : 'warning') }}">
-                                            {{ $data->status }}
-                                        </span>
-                                    </td>
-                                    <td class="text-nowrap">
-                                        <div class="me-3">                                            
-                                            <a href="{{ route('pelanggaran.edit', $data->id) }}"
-                                                class="btn btn-primary btn-sm">
-                                                <i class="bx bx-edit"></i>
-                                            </a>
-                                            <a href="{{ route('pelanggaran.detail', $data->id) }}"
-                                                class="btn btn-primary btn-sm">
-                                                <i class="bx bx-show"></i>
-                                            </a>
-                                            @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'admin-pelanggaran')
-                                                <button type="button" class="btn btn-primary btn-sm"
-                                                    wire:click="deletePelanggaran({{ $data->id }})"
-                                                    wire:confirm="Are you sure you want to delete this Pelanggaran?">
-                                                    <i class="bx bx-trash"></i>
-                                                </button>
-                                            @endif
-                                            <button type="button" class="btn btn-info btn-sm position-relative"
-                                                wire:click="openSaranModal({{ $data->id }})"
-                                                title="Lihat Masukan">
-                                                <i class="bx bx-chat"></i>
-                                                @if ($data->sarans_count > 0)
-                                                    <span
-                                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                                        {{ $data->sarans_count }}
-                                                    </span>
-                                                @endif
+                            <tr wire:key="pelanggaran-{{ $data->id }}">
+                                <td>
+                                    {{ $no++ }}
+                                </td>
+                                <td class="text-nowrap">
+                                    <span class="fw-bold">
+                                        {{ $data->no_pelanggaran }}
+                                    </span> <br>
+                                    <small class="text-muted fst-italic">
+                                        {{ date('d-m-Y', strtotime($data->tgl_laporan)) }}                                            
+                                    </small>
+                                </td>
+                                <td class="text-wrap">
+                                    {{ $data->sumber_informasi_pelanggaran }}
+                                </td>
+                                <td class="text-nowrap">
+                                    {{ $data->nama_pelanggar }}
+                                </td>                  
+                                <td class="text-nowrap">
+                                    {{ $data->alamat_pelanggaran }} <br>
+                                    <small class="text-muted fst-italic">
+                                        Kel. {{ $data->kel_pelanggaran }} - Kec. {{ $data->kec_pelanggaran }}
+                                    </small>
+                                </td>                
+                                <td class="text-wrap">
+                                    {{ $data->jenis_indikasi_pelanggaran }}                                          
+                                </td>                                      
+                                <td class="text-nowrap">
+                                    {{ $data->temuan_pelanggaran }}                                          
+                                </td>
+                                <td class="text-nowrap">
+                                    {{ $data->tindak_lanjut }}                                          
+                                </td>
+                                <td class="text-nowrap">
+                                    <span
+                                        class="badge bg-{{ $data->status == 'Selesai' ? 'success' : ($data->status == 'Pelimpahan Berkas' ? 'primary' : 'warning') }}">
+                                        {{ $data->status }}
+                                    </span>
+                                </td>
+                                <td class="text-nowrap">
+                                    <div class="me-3">                                            
+                                        <a href="{{ route('pelanggaran.edit', $data->id) }}"
+                                            class="btn btn-primary btn-sm">
+                                            <i class="bx bx-edit"></i>
+                                        </a>
+                                        <a href="{{ route('pelanggaran.detail', $data->id) }}"
+                                            class="btn btn-primary btn-sm">
+                                            <i class="bx bx-show"></i>
+                                        </a>
+                                        @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'admin-pelanggaran')
+                                            <button type="button" class="btn btn-primary btn-sm"
+                                                wire:click="deletePelanggaran({{ $data->id }})"
+                                                wire:confirm="Are you sure you want to delete this Pelanggaran?">
+                                                <i class="bx bx-trash"></i>
                                             </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </div>
+                                        @endif
+                                        <button type="button" class="btn btn-info btn-sm position-relative"
+                                            wire:click="openSaranModal({{ $data->id }})"
+                                            title="Lihat Masukan">
+                                            <i class="bx bx-chat"></i>
+                                            @if ($data->sarans_count > 0)
+                                                <span
+                                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                    {{ $data->sarans_count }}
+                                                </span>
+                                            @endif
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>

@@ -17,7 +17,7 @@ class RegistrasiCreate extends Component
     #[Validate('required')]
     public $nama, $no_hp, $layanan_id, $tanggal, $fungsi_bangunan, $alamat_tanah, $kel_tanah, $kec_tanah;
 
-    #[Validate('required|min:0,max:16|numeric')]
+    #[Validate('required|numeric|digits:16')]
     public $nik;
 
     #[Validate('required|email')]
@@ -50,11 +50,10 @@ class RegistrasiCreate extends Component
         // 3. lockForUpdate() mencegah race condition saat dua user
         //    submit registrasi bersamaan (tidak akan duplikat kode).
         // ─────────────────────────────────────────────────────────────────
-        $newKode = DB::transaction(function () use ($year, $month, $layanan_kode) {
-
+        DB::transaction(function () use ($year, $month, $layanan_kode) {
             // Kunci dan ambil nomor urutan tertinggi dari SEMUA layanan (termasuk yang di-soft-delete) tahun ini
             $lastKode = Registrasi::withTrashed()
-                ->whereYear('created_at', $year)
+                ->whereBetween('created_at', ["{$year}-01-01 00:00:00", "{$year}-12-31 23:59:59"])
                 ->lockForUpdate()
                 ->pluck('kode')
                 ->map(function ($kode) {
@@ -66,13 +65,11 @@ class RegistrasiCreate extends Component
             // Nomor berikutnya = MAX yang ada + 1 (atau mulai dari 1 jika belum ada)
             $sequence = ($lastKode ?? 0) + 1;
 
-            return str_pad($sequence, 4, '0', STR_PAD_LEFT)
+            $newKode = str_pad($sequence, 4, '0', STR_PAD_LEFT)
                 . '-' . $layanan_kode
                 . '-' . $month
                 . '-' . $year;
-        });
 
-        DB::transaction(function () use ($newKode) {
             $registrasi = Registrasi::create([
                 'kode'                => $newKode,
                 'nama'                => $this->nama,

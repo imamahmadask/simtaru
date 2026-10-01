@@ -23,7 +23,7 @@ class SkrkVerifikasiDetail extends Component
     public function refresh()
     {
         $this->skrk->refresh();
-        $this->skrk->load(['permohonan.berkas']);
+        $this->skrk->load(['permohonan.berkas.persyaratan', 'permohonan.berkas.verifiedBy']);
         $this->loadData();
     }
     
@@ -35,7 +35,7 @@ class SkrkVerifikasiDetail extends Component
 
     public function mount($skrk_id)
     {
-        $this->skrk = Skrk::findOrFail($skrk_id);
+        $this->skrk = Skrk::with(['permohonan.berkas.persyaratan', 'permohonan.berkas.verifiedBy'])->findOrFail($skrk_id);
         $this->loadData();
     }
 

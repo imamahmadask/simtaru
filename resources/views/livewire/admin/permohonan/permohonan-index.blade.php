@@ -64,7 +64,7 @@
                             </select>
                         </div>
                         <div class="flex-fill" style="min-width: 150px;">
-                            <input class="form-control" type="search" wire:model.live="search" placeholder="Search"
+                            <input class="form-control" type="search" wire:model.live.debounce.300ms="search" placeholder="Search"
                                 aria-label="Search">
                         </div>
                     </div>
@@ -88,8 +88,7 @@
                     <tbody class="table-border-bottom-0">
 
                         @foreach ($permohonans as $data)
-                            <div wire:key="{{ $data->id }}">
-                                <tr>
+                                <tr wire:key="{{ $data->id }}">
                                     <td>
                                         {{ ($permohonans->currentPage() - 1) * $permohonans->perPage() + $loop->iteration }}
                                     </td>
@@ -168,7 +167,6 @@
 
                                     </td>
                                 </tr>
-                            </div>
                         @endforeach
                     </tbody>
                 </table>

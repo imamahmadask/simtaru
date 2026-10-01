@@ -18,7 +18,7 @@ class UploadBerkas extends Component
 
     public $persyaratan_berkas, $permohonan, $skrk;
 
-    #[Validate(['file_.*' => 'required|mimes:.docx, .doc|max:2000'])]
+    #[Validate(['file_.*' => 'nullable|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240'])]
     public $file_ = [];
 
     public $catatan_ = [];
@@ -28,17 +28,22 @@ class UploadBerkas extends Component
         return view('livewire.admin.permohonan.skrk.survey.upload-berkas');
     }
 
-    public function  uploadBerkas()
+    public function uploadBerkas()
     {
+        $this->validate();
+
         $no_reg = $this->skrk->registrasi->kode;
         $isUpdate = false;
         $hasNewUpload = false;
+
+        $existingBerkasMap = PermohonanBerkas::where('permohonan_id', $this->permohonan->id)
+            ->where('versi', 'draft')
+            ->get()
+            ->keyBy('persyaratan_berkas_id');
+
         foreach ($this->permohonan->persyaratanBerkas as $item) {
             // Check if a file already exists for this requirement
-            $existingBerkas = PermohonanBerkas::where('permohonan_id', $this->permohonan->id)
-                ->where('persyaratan_berkas_id', $item->id)
-                ->where('versi', 'draft')
-                ->first();
+            $existingBerkas = $existingBerkasMap->get($item->id);
 
             if (!empty($this->file_[$item->kode])) {                
                 $hasNewUpload = true;
@@ -169,30 +174,20 @@ class UploadBerkas extends Component
 
     public function mount($permohonan_id, $skrk_id)
     {
-        $this->permohonan = Permohonan::findOrFail($permohonan_id);
+        $this->permohonan = Permohonan::with(['layanan.tahapan', 'persyaratanBerkas', 'berkas'])->findOrFail($permohonan_id);
         $this->skrk = Skrk::findOrFail($skrk_id);
 
         $tahapan_id = $this->permohonan->layanan->tahapan->where('nama', 'Survey')->value('id');
         $this->persyaratan_berkas = $this->permohonan->persyaratanBerkas->where('tahapan_id', $tahapan_id);
 
+        $existingBerkasMap = $this->permohonan->berkas->where('versi', 'draft')->keyBy('persyaratan_berkas_id');
+
         foreach ($this->persyaratan_berkas as $item) {
-            $berkas = $this->permohonan->berkas
-                ->where('persyaratan_berkas_id', $item->id)
-                ->where('versi', 'draft')
-                ->first();
+            $berkas = $existingBerkasMap->get($item->id);
 
             if ($berkas && $berkas->catatan) {
                 $this->catatan_[$item->kode] = $berkas->catatan;
             }
         }
-    }
-
-    private function createRiwayat(Permohonan $permohonan, string $keterangan)
-    {
-        RiwayatPermohonan::create([
-            'registrasi_id' => $permohonan->registrasi_id,
-            'user_id' => Auth::user()->id,
-            'keterangan' => $keterangan
-        ]);
     }
 }

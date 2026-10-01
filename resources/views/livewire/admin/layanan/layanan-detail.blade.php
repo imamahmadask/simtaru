@@ -58,67 +58,53 @@
                                         $no = 1;
                                     @endphp
                                     @foreach ($layanan->tahapan as $tahapan)
-                                        <div wire:key="{{ $tahapan->id }}">
-                                            <tr>
-                                                <td>
-                                                    {{ $no++ }}
-                                                </td>
-                                                <td>
-                                                    {{ $tahapan->nama }}
-                                                </td>
-                                                <td>
-                                                    {{ $tahapan->urutan }}
-                                                </td>
-                                                <td>
-                                                    @if ($tahapan->persyaratanBerkas->count() > 0)
-                                                        @foreach ($tahapan->persyaratanBerkas as $persyaratan)
-                                                            <ul>
-                                                                <li>
-                                                                    {{ $persyaratan->nama_berkas }} -
-                                                                    {{ $persyaratan->wajib == 1 ? 'Wajib' : 'Tidak Wajib' }}
-                                                                    <button type="button"
-                                                                        wire:click="$dispatch('persyaratan-berkas-edit', { id: {{ $persyaratan->id }} })"
-                                                                        class="btn btn-primary btn-xs"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#editPersyaratanBerkasModal">
-                                                                        <i class="bx bx-edit"></i>
-                                                                    </button>
-                                                                    @teleport('body')
-                                                                        <!-- Edit  Persyaratan Berkas Modal -->
-                                                                        @livewire('admin.layanan.persyaratan.persyaratan-berkas-edit')
-                                                                    @endteleport
-                                                                </li>
-                                                            </ul>
-                                                        @endforeach
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex gap-2">
-                                                        <button
-                                                            wire:click="$dispatch('tahapan-edit', { id: {{ $tahapan->id }} })"
-                                                            type="button" class="btn btn-primary btn-sm"
-                                                            data-bs-toggle="modal" data-bs-target="#editTahapanModal">
-                                                            <i class="bx bx-edit"></i> Tahapan
-                                                        </button>
+                                        <tr wire:key="tahapan-{{ $tahapan->id }}">
+                                            <td>
+                                                {{ $no++ }}
+                                            </td>
+                                            <td>
+                                                {{ $tahapan->nama }}
+                                            </td>
+                                            <td>
+                                                {{ $tahapan->urutan }}
+                                            </td>
+                                            <td>
+                                                @if ($tahapan->persyaratanBerkas->count() > 0)
+                                                    @foreach ($tahapan->persyaratanBerkas as $persyaratan)
+                                                        <ul wire:key="persyaratan-{{ $persyaratan->id }}">
+                                                            <li>
+                                                                {{ $persyaratan->nama_berkas }} -
+                                                                {{ $persyaratan->wajib == 1 ? 'Wajib' : 'Tidak Wajib' }}
+                                                                <button type="button"
+                                                                    wire:click="$dispatch('persyaratan-berkas-edit', { id: {{ $persyaratan->id }} })"
+                                                                    class="btn btn-primary btn-xs"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#editPersyaratanBerkasModal">
+                                                                    <i class="bx bx-edit"></i>
+                                                                </button>
+                                                            </li>
+                                                        </ul>
+                                                    @endforeach
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <div class="d-flex gap-2">
+                                                    <button
+                                                        wire:click="$dispatch('tahapan-edit', { id: {{ $tahapan->id }} })"
+                                                        type="button" class="btn btn-primary btn-sm"
+                                                        data-bs-toggle="modal" data-bs-target="#editTahapanModal">
+                                                        <i class="bx bx-edit"></i> Tahapan
+                                                    </button>
 
-                                                        <button type="button" class="btn btn-primary btn-sm"
-                                                            wire:click="$dispatch('persyaratan-add', { tahapan_id: {{ $tahapan->id }}, layanan_id: {{ $layanan->id }} })"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#addPersyaratanModal">
-                                                            <i class="bx bx-plus"></i> Syarat
-                                                        </button>
-                                                    </div>
-                                                    @teleport('body')
-                                                        <!-- Edit  Tahapan Modal -->
-                                                        @livewire('admin.layanan.tahapan.tahapan-edit')
-                                                    @endteleport
-                                                    @teleport('body')
-                                                        <!-- Create Persyaratan Modal -->
-                                                        @livewire('admin.layanan.persyaratan.persyaratan-berkas-create')
-                                                    @endteleport
-                                                </td>
-                                            </tr>
-                                        </div>
+                                                    <button type="button" class="btn btn-primary btn-sm"
+                                                        wire:click="$dispatch('persyaratan-add', { tahapan_id: {{ $tahapan->id }}, layanan_id: {{ $layanan->id }} })"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#addPersyaratanModal">
+                                                        <i class="bx bx-plus"></i> Syarat
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -137,5 +123,17 @@
     @teleport('body')
         <!-- Create Tahapan Modal -->
         @livewire('admin.layanan.tahapan.tahapan-create', ['layanan_id' => $layanan->id])
+    @endteleport
+    @teleport('body')
+        <!-- Edit Tahapan Modal -->
+        @livewire('admin.layanan.tahapan.tahapan-edit')
+    @endteleport
+    @teleport('body')
+        <!-- Create Persyaratan Modal -->
+        @livewire('admin.layanan.persyaratan.persyaratan-berkas-create')
+    @endteleport
+    @teleport('body')
+        <!-- Edit Persyaratan Berkas Modal -->
+        @livewire('admin.layanan.persyaratan.persyaratan-berkas-edit')
     @endteleport
 </div>

@@ -115,17 +115,11 @@ class KkprnbVerifikasiCreate extends Component
         
         $this->dispatch('refresh-kkprnb-verifikasi-list');
         $this->dispatch('refresh-kkprnb-survey-list');
+        $this->dispatch('refresh-kkprnb-analis-list');
         $this->dispatch('refresh-kkprnb-analis-detail');
 
         $this->dispatch('trigger-close-modal');
     }
-
-    // public function mount($kkprnb_id, $berkas_id)
-    // {
-    //     $this->kkprnb_id = $kkprnb_id;
-    //     $this->berkas = PermohonanBerkas::find($berkas_id);
-    //     $this->permohonan = Permohonan::findOrFail($this->berkas->permohonan_id);
-    // }
 
     private function createRiwayat(Permohonan $permohonan, string $keterangan)
     {

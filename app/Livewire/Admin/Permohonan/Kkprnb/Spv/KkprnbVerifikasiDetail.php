@@ -22,7 +22,7 @@ class KkprnbVerifikasiDetail extends Component
     public function refresh()
     {
         $this->kkprnb->refresh();
-        $this->kkprnb->load(['permohonan.berkas']);
+        $this->kkprnb->load(['permohonan.berkas.persyaratan', 'permohonan.berkas.verifiedBy']);
         $this->loadData();
     }
     
@@ -33,7 +33,7 @@ class KkprnbVerifikasiDetail extends Component
 
     public function mount($kkprnb_id)
     {
-        $this->kkprnb = Kkprnb::findOrFail($kkprnb_id);
+        $this->kkprnb = Kkprnb::with(['permohonan.berkas.persyaratan', 'permohonan.berkas.verifiedBy'])->findOrFail($kkprnb_id);
         $this->loadData();
     }
 

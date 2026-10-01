@@ -34,34 +34,57 @@ class DashboardIndex extends Component
         $count_layanan = Layanan::count();
         $count_pengaduan = Pengaduan::whereYear('created_at', $this->year)->count();
         
-        $count_skrk = Skrk::whereYear('created_at', $this->year)->count();
-        $count_skrk_done = Skrk::whereYear('created_at', $this->year)->whereHas('permohonan', function($q) {
-            $q->where('is_done', true);
-        })->count();
+        $skrkStats = Skrk::whereYear('skrk.created_at', $this->year)
+            ->leftJoin('permohonan', function ($join) {
+                $join->on('skrk.permohonan_id', '=', 'permohonan.id')
+                    ->whereNull('permohonan.deleted_at');
+            })
+            ->selectRaw('COUNT(*) as total, COALESCE(SUM(CASE WHEN permohonan.is_done = 1 THEN 1 ELSE 0 END), 0) as done')
+            ->first();
+        $count_skrk = (int) ($skrkStats->total ?? 0);
+        $count_skrk_done = (int) ($skrkStats->done ?? 0);
 
-        $count_itr = Itr::whereYear('created_at', $this->year)->count();
-        $count_itr_done = Itr::whereYear('created_at', $this->year)->whereHas('permohonan', function($q) {
-            $q->where('is_done', true);
-        })->count();
+        $itrStats = Itr::whereYear('itr.created_at', $this->year)
+            ->leftJoin('permohonan', function ($join) {
+                $join->on('itr.permohonan_id', '=', 'permohonan.id')
+                    ->whereNull('permohonan.deleted_at');
+            })
+            ->selectRaw('COUNT(*) as total, COALESCE(SUM(CASE WHEN permohonan.is_done = 1 THEN 1 ELSE 0 END), 0) as done')
+            ->first();
+        $count_itr = (int) ($itrStats->total ?? 0);
+        $count_itr_done = (int) ($itrStats->done ?? 0);
 
-        $count_kkprb = Kkprb::whereYear('created_at', $this->year)->count();
-        $count_kkprb_done = Kkprb::whereYear('created_at', $this->year)->whereHas('permohonan', function($q) {
-            $q->where('is_done', true);
-        })->count();
+        $kkprbStats = Kkprb::whereYear('kkprb.created_at', $this->year)
+            ->leftJoin('permohonan', function ($join) {
+                $join->on('kkprb.permohonan_id', '=', 'permohonan.id')
+                    ->whereNull('permohonan.deleted_at');
+            })
+            ->selectRaw('COUNT(*) as total, COALESCE(SUM(CASE WHEN permohonan.is_done = 1 THEN 1 ELSE 0 END), 0) as done')
+            ->first();
+        $count_kkprb = (int) ($kkprbStats->total ?? 0);
+        $count_kkprb_done = (int) ($kkprbStats->done ?? 0);
 
-        $count_kkprnb = Kkprnb::whereYear('created_at', $this->year)->count();
-        $count_kkprnb_done = Kkprnb::whereYear('created_at', $this->year)->whereHas('permohonan', function($q) {
-            $q->where('is_done', true);
-        })->count();
+        $kkprnbStats = Kkprnb::whereYear('kkprnb.created_at', $this->year)
+            ->leftJoin('permohonan', function ($join) {
+                $join->on('kkprnb.permohonan_id', '=', 'permohonan.id')
+                    ->whereNull('permohonan.deleted_at');
+            })
+            ->selectRaw('COUNT(*) as total, COALESCE(SUM(CASE WHEN permohonan.is_done = 1 THEN 1 ELSE 0 END), 0) as done')
+            ->first();
+        $count_kkprnb = (int) ($kkprnbStats->total ?? 0);
+        $count_kkprnb_done = (int) ($kkprnbStats->done ?? 0);
 
         $count_total = $count_skrk + $count_itr + $count_kkprb + $count_kkprnb;
         $count_total_done = $count_skrk_done + $count_itr_done + $count_kkprb_done + $count_kkprnb_done;
 
+        $monthly_raw = Permohonan::whereYear('created_at', $this->year)
+            ->selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+            ->groupBy('month')
+            ->pluck('total', 'month');
+
         $monthly_counts = [];
         for ($i = 1; $i <= 12; $i++) {
-            $monthly_counts[] = Permohonan::whereYear('created_at', $this->year)
-                ->whereMonth('created_at', $i)
-                ->count();
+            $monthly_counts[] = (int) ($monthly_raw[$i] ?? 0);
         }
 
         $stats_layanan = Permohonan::whereYear('permohonan.created_at', $this->year)

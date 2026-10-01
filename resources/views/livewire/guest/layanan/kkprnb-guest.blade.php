@@ -439,7 +439,7 @@
                     <h2 class="fw-bold mb-3">Siap Mengajukan KKPR Non Berusaha?</h2>
                     <p class="lead mb-4">Pastikan kegiatan non-komersial Anda sesuai dengan regulasi tata ruang</p>
                     <div class="d-flex gap-3 justify-content-center flex-wrap">
-                        <button wire:click="$emit('startApplication')" class="btn btn-light btn-lg px-5">
+                        <button wire:click="$dispatch('startApplication')" class="btn btn-light btn-lg px-5">
                             <i class="bi bi-rocket-takeoff me-2"></i>Mulai Pengajuan Sekarang
                         </button>
                         <a href="https://wa.me/62895326753064" target="_blank"

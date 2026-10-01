@@ -32,6 +32,8 @@ class PelanggaranCreate extends Component
     #[Validate('required_if:sumber_informasi_pelanggaran,Hasil Penilaian KKPR atau SKRK')]
     public $no_kkpr_skrk;
     public $no_ba_sk_penilaian_kkpr;
+
+    #[Validate('nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240')]
     public $dokumen_penilaian_kkpr;    
    
     #[Validate('required')]

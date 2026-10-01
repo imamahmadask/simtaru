@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Permohonan;
 
+use App\Livewire\Concerns\HasPermohonanTimeline;
 use App\Models\Layanan;
 use App\Models\Permohonan;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,7 @@ use Livewire\WithFileUploads;
 #[Title('Permohonan')]
 class PermohonanIndex extends Component
 {
-    use WithPagination, WithFileUploads;
+    use WithPagination, WithFileUploads, HasPermohonanTimeline;
 
     public $search = '';
     public $filterLayanan = '';
@@ -32,19 +33,23 @@ class PermohonanIndex extends Component
     public $isDetailTolak = false;
     public $permohonanDitolak;
 
+    public function showTimeline($permohonanId)
+    {
+        $permohonan = Permohonan::with(['registrasi', 'disposisi.tahapan', 'disposisi.penerima'])->findOrFail($permohonanId);
+        $this->loadTimelineForPermohonan($permohonan);
+    }
+
     public function render()
     {
-        $permohonans = Permohonan::with('layanan.registrasi')
+        $permohonans = Permohonan::with(['layanan', 'registrasi'])
                         ->withCount('saran')
-                        ->whereHas('layanan', function($query) {
-                            $query->where('id', 'like', '%'.$this->filterLayanan.'%');
-                        })
+                        ->when($this->filterLayanan !== '', fn($q) => $q->where('layanan_id', $this->filterLayanan))
                         ->whereHas('registrasi', function($query) {
                             $query->where('nama', 'like', '%' . $this->search . '%')
                                 ->orWhere('kode', 'like', '%' . $this->search . '%');
                         })
-                        ->where('is_prioritas', 'like', '%' . $this->filterPrioritas . '%')
-                        ->where('status', 'like', '%' . $this->filterStatus . '%')
+                        ->when($this->filterPrioritas !== '', fn($q) => $q->where('is_prioritas', $this->filterPrioritas))
+                        ->when($this->filterStatus !== '', fn($q) => $q->where('status', 'like', '%' . $this->filterStatus . '%'))
                         ->orderBy('is_prioritas', 'desc')
                         ->orderBy('created_at', 'desc')
                         ->paginate(10);
@@ -92,40 +97,43 @@ class PermohonanIndex extends Component
 
     public function submitTolak()
     {
+        if (!in_array(Auth::user()->role, ['superadmin', 'supervisor', 'cs'])) {
+            abort(403);
+        }
+
         $this->validate([
             'surat_penolakan' => 'required|file|mimes:pdf,jpg,jpeg,png|max:10240',
             'alasan_ditolak' => 'required|string',
             'tgl_surat_penolakan' => 'required|date',
         ]);
 
-        $permohonan = Permohonan::findOrFail($this->tolakPermohonanId);
-        
-        $path = $this->surat_penolakan->store('surat_penolakan', 'public');
+        DB::transaction(function () {
+            $permohonan = Permohonan::findOrFail($this->tolakPermohonanId);
+            
+            $path = $this->surat_penolakan->store('surat_penolakan', 'public');
 
-        $permohonan->update([
-            'is_ditolak' => true,
-            'surat_penolakan' => $path,
-            'alasan_ditolak' => $this->alasan_ditolak,
-            'tgl_surat_penolakan' => $this->tgl_surat_penolakan,
-            'status' => 'Berkas Ditolak'
-        ]);
+            $permohonan->update([
+                'is_ditolak' => true,
+                'surat_penolakan' => $path,
+                'alasan_ditolak' => $this->alasan_ditolak,
+                'tgl_surat_penolakan' => $this->tgl_surat_penolakan,
+                'status' => 'Berkas Ditolak'
+            ]);
 
-        $permohonan->registrasi->update([
-            'status' => 'Berkas Ditolak'
-        ]);
+            $permohonan->registrasi->update([
+                'status' => 'Berkas Ditolak'
+            ]);
 
-        if ($permohonan->skrk) {
-            $permohonan->skrk->update(['kesimpulan' => 'Ditolak']);
-        }
-        if ($permohonan->kkprb) {
-            $permohonan->kkprb->update(['kesimpulan' => 'Ditolak']);
-        }
-        if ($permohonan->kkprnb) {
-            $permohonan->kkprnb->update(['kesimpulan' => 'Ditolak']);
-        }
-        if ($permohonan->itr) {
-            $permohonan->itr->update(['kesimpulan' => 'Ditolak']);
-        }
+            if ($permohonan->skrk) {
+                $permohonan->skrk->update(['kesimpulan' => 'Ditolak']);
+            }
+            if ($permohonan->kkprb) {
+                $permohonan->kkprb->update(['kesimpulan' => 'Ditolak']);
+            }
+            if ($permohonan->kkprnb) {
+                $permohonan->kkprnb->update(['kesimpulan' => 'Ditolak']);
+            }
+        });
 
         $this->dispatch('close-modal-tolak');
         session()->flash('success', 'Permohonan berhasil ditolak.');

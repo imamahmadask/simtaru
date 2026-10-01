@@ -11,7 +11,6 @@ use Livewire\Attributes\Layout;
 #[Layout('layouts.guest-onepage')]
 class PetaPenilaian extends Component
 {
-    public $kecamatan;
     public $filterYear;
     public $filterJenis;
     public array $locations = [];

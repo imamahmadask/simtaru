@@ -3,9 +3,7 @@
 namespace App\Livewire\Admin\Permohonan\Skrk\Analis;
 
 use App\Models\Permohonan;
-use App\Models\RiwayatPermohonan;
 use App\Models\Skrk;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class SkrkDokumenAnalisCreate extends Component
@@ -76,14 +74,5 @@ class SkrkDokumenAnalisCreate extends Component
     {
         $this->skrk = Skrk::findOrFail($skrk_id);
         $this->permohonan = Permohonan::findOrFail($permohonan_id);
-    }
-
-    private function createRiwayat(Permohonan $permohonan, string $keterangan)
-    {
-        RiwayatPermohonan::create([
-            'registrasi_id' => $permohonan->registrasi_id,
-            'user_id' => Auth::user()->id,
-            'keterangan' => $keterangan
-        ]);
     }
 }

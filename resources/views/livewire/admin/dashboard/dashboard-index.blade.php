@@ -9,7 +9,7 @@
                         <span class="input-group-text"><i class="bx bx-calendar"></i></span>
                         <select id="yearFilter" wire:model.live="year" class="form-select">
                             @foreach ($years as $y)
-                                <option value="{{ $y }}">Tahun {{ $y }}</option>
+                                <option value="{{ $y }}" wire:key="year-{{ $y }}">Tahun {{ $y }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -464,7 +464,7 @@
                                 </thead>
                                 <tbody>
                                     @forelse($this->rekap['stats_layanan'] as $stats)
-                                    <tr>
+                                    <tr wire:key="stats-layanan-{{ $stats['layanan_kode'] }}">
                                         <td><strong>{{ $stats['layanan_nama'] }}</strong> <small class="text-muted">({{ $stats['layanan_kode'] }})</small></td>
                                         <td class="text-center">{{ number_format($stats['total_days']) }}</td>
                                         <td class="text-center">{{ $stats['total_done'] }}</td>
@@ -610,7 +610,7 @@
                                                 }
                                                 $totalDays = $surveyDays + $analisDays + $verifikasiDays;
                                             @endphp
-                                            <tr>
+                                            <tr wire:key="permohonan-{{ $permohonan->id }}">
                                                 <td class="text-wrap">
                                                     <strong>{{ $permohonan->registrasi->kode }}</strong>
                                                     <br>

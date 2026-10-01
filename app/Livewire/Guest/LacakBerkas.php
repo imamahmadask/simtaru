@@ -18,15 +18,13 @@ class LacakBerkas extends Component
 
     public function lacakBerkas()
     {        
-        $this->berkas = Registrasi::where('kode', $this->no_reg)->first();
+        $this->berkas = Registrasi::with('riwayat.user')->where('kode', $this->no_reg)->first();
         
         if ($this->berkas) {
-            $this->riwayats = $this->berkas->riwayat;           
-            // $this->reset('no_reg');
+            $this->riwayats = $this->berkas->riwayat;
         }
         else{
             $this->riwayats = [];
         }
-
     }
 }
