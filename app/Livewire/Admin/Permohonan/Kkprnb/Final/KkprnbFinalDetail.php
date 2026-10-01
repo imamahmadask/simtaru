@@ -8,6 +8,7 @@ use App\Models\RiwayatPermohonan;
 use App\Models\Tahapan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -25,7 +26,7 @@ class KkprnbFinalDetail extends Component
 
     public function mount($kkprnb_id)
     {
-        $this->kkprnb = Kkprnb::find($kkprnb_id);
+        $this->kkprnb = Kkprnb::with(['permohonan.berkas.persyaratan', 'permohonan.berkas.uploadedBy'])->find($kkprnb_id);
         $this->berkas_final = $this->kkprnb->permohonan->berkas->where('versi', 'final');                
     }
 
@@ -33,6 +34,7 @@ class KkprnbFinalDetail extends Component
     public function refresh()
     {
         $this->kkprnb->refresh();
+        $this->kkprnb->load(['permohonan.berkas.persyaratan', 'permohonan.berkas.uploadedBy']);
         $this->berkas_final = $this->kkprnb->permohonan->berkas->where('versi', 'final');
     }
 
@@ -54,21 +56,11 @@ class KkprnbFinalDetail extends Component
 
     private function generateDocument($templatePath, $data)
     {
-        $templateProcessor = new TemplateProcessor(public_path('templates/kkprnb/'.$templatePath));
-
-        foreach ($data as $key => $value) {
-            $templateProcessor->setValue($key, $value);
-        }
-
-        // Sanitize filename by removing special characters
-        $baseName = str_replace('.docx', '', basename($templatePath));
-        $sanitizedName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $data['nama_pemohon']);
-        $fileName = $baseName . '_' . $sanitizedName . '.docx';
-        $tempPath = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $fileName);
-
-        $templateProcessor->saveAs($tempPath);
-
-        return response()->download($tempPath)->deleteFileAfterSend(true);
+        return app(\App\Services\DocumentTemplateService::class)->generate(
+            codeOrPath: $templatePath,
+            data: $data,
+            modul: 'kkprnb'
+        );
     }
 
     public function deleteBerkas($berkas_id)

@@ -7,6 +7,7 @@ use App\Models\Permohonan;
 use App\Models\RiwayatPermohonan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Number;
+use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -114,7 +115,7 @@ class ItrSurveyDetail extends Component
             'kel_tanah' => $permohonan->registrasi->kel_tanah,
             'kec_tanah' => $permohonan->registrasi->kec_tanah,
             'luas_tanah' => $permohonan->luas_tanah,
-            'ada_bangunan' => $this->itr->ada_bangunan,
+            'ada_bangunan' => $this->itr->ada_bangunan ?? '-',
             'batas_utara' => $batas['utara'],
             'batas_selatan' => $batas['selatan'],
             'batas_timur' => $batas['timur'],
@@ -131,21 +132,11 @@ class ItrSurveyDetail extends Component
 
     private function generateDocument($templatePath, $data)
     {
-        $templateProcessor = new TemplateProcessor(public_path('templates/itr/'.$templatePath));
-
-        foreach ($data as $key => $value) {
-            $templateProcessor->setValue($key, $value);
-        }
-
-        // Sanitize filename by removing special characters
-        $baseName = str_replace('.docx', '', basename($templatePath));
-        $sanitizedName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $data['nama_pemohon']);
-        $fileName = $baseName . '_' . $sanitizedName . '.docx';
-        $tempPath = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $fileName);
-
-        $templateProcessor->saveAs($tempPath);
-
-        return response()->download($tempPath)->deleteFileAfterSend(true);
+        return app(\App\Services\DocumentTemplateService::class)->generate(
+            codeOrPath: $templatePath,
+            data: $data,
+            modul: 'itr'
+        );
     }
 
     public function selesaiSurvey()

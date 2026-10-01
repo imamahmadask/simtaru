@@ -8,6 +8,7 @@ use App\Models\RiwayatPermohonan;
 use App\Models\Tahapan;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -71,7 +72,7 @@ class KkprbAnalisDetail extends Component
             'nama_pemohon' => $permohonan->registrasi->nama,
             'nib' => $this->kkprb->nib,
             'oss_id' => $this->kkprb->oss_id,
-            'proyek_id' => $this->kkprb->proyek_id,
+            'proyek_id' => $this->kkprb->id_proyek ?? $this->kkprb->proyek_id,
             'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
             'kel_tanah' => $permohonan->registrasi->kel_tanah,
             'kec_tanah' => $permohonan->registrasi->kec_tanah,
@@ -102,7 +103,7 @@ class KkprbAnalisDetail extends Component
             'email' => $permohonan->registrasi->email,
             'tgl_oss' =>  $this->kkprb->tgl_oss ? date('d F Y', strtotime($this->kkprb->tgl_oss)) : '-',
             'tgl_validasi' => $this->kkprb->tgl_validasi ? date('d F Y', strtotime($this->kkprb->tgl_validasi)) : '-',
-            'tgl_pnbp' => $this->kkprb->pnbp ? date('d F Y', strtotime($this->kkprb->pnbp)) : '-',
+            'tgl_pnbp' => $this->kkprb->tgl_pnbp ? date('d F Y', strtotime($this->kkprb->tgl_pnbp)) : '-',
             'tgl_ptp' => $this->kkprb->tgl_ptp ? date('d F Y', strtotime($this->kkprb->tgl_ptp)) : '-',
             'no_ptp' => $this->kkprb->no_ptp,
             'tgl_survey' => $this->kkprb->tgl_survey ? date('d F Y', strtotime($this->kkprb->tgl_survey)) : '-',
@@ -145,10 +146,10 @@ class KkprbAnalisDetail extends Component
             'judul_kbli' => $permohonan->judul_kbli,
             'tgl_oss' => $this->kkprb->tgl_oss ? date('d F Y', strtotime($this->kkprb->tgl_oss)) : '-',
             'tgl_validasi' => $this->kkprb->tgl_validasi ? date('d F Y', strtotime($this->kkprb->tgl_validasi)) : '-',
-            'tgl_pnbp' => $this->kkprb->pnbp ? date('d F Y', strtotime($this->kkprb->pnbp)) : '-',
+            'tgl_pnbp' => $this->kkprb->tgl_pnbp ? date('d F Y', strtotime($this->kkprb->tgl_pnbp)) : '-',
             'tgl_ptp' => $this->kkprb->tgl_ptp ? date('d F Y', strtotime($this->kkprb->tgl_ptp)) : '-',
             'no_ptp' => $this->kkprb->no_ptp,
-            'proyek_id' => $this->kkprb->proyek_id,
+            'proyek_id' => $this->kkprb->id_proyek ?? $this->kkprb->proyek_id,
             'alamat_tanah' => $permohonan->registrasi->alamat_tanah,
             'kel_tanah' => $permohonan->registrasi->kel_tanah,
             'kec_tanah' => $permohonan->registrasi->kec_tanah,
@@ -186,7 +187,7 @@ class KkprbAnalisDetail extends Component
 
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
-            'jenis_kegiatan' => $this->kkprb->jenis_kegiatan,
+            'jenis_kegiatan' => $this->kkprb->jenis_usaha ?? $this->kkprb->jenis_kegiatan,
             'no_ptp' => $this->kkprb->no_ptp,
             'tgl_ptp' => $this->kkprb->tgl_ptp ? date('d F Y', strtotime($this->kkprb->tgl_ptp)) : '-',
             'kdb' => $this->kkprb->kdb,
@@ -200,44 +201,14 @@ class KkprbAnalisDetail extends Component
 
     private function generateDocument($templatePath, $data)
     {
-        $templateProcessor = new TemplateProcessor(public_path('templates/kkprb/'.$templatePath));
+        $koordinatList = $this->koordinatTable ? $this->kkprb->koordinat : null;
 
-        foreach ($data as $key => $value) {
-            $templateProcessor->setValue($key, $value);
-        }
-
-        if($this->koordinatTable)
-        {
-            $koordinatList = $this->kkprb->koordinat;
-            // 🧭 Jika ada data koordinat, isi ke tabel di Word
-            if (!empty($koordinatList)) {
-                // Clone baris berdasarkan placeholder 'x'
-                $templateProcessor->cloneRow('x', count($koordinatList));
-
-                foreach ($koordinatList as $i => $point) {
-                    $row = $i + 1;
-                    $templateProcessor->setValue("x#{$row}", $point['x']);
-                    $templateProcessor->setValue("y#{$row}", $point['y']);
-                }
-            }
-            else
-            {
-                // Jika tidak ada koordinat, tampilkan satu baris kosong
-                $templateProcessor->cloneRow('x', 1);
-                $templateProcessor->setValue('x#1', '-');
-                $templateProcessor->setValue('y#1', '-');
-            }
-        }
-
-        // Sanitize filename by removing special characters
-        $baseName = str_replace('.docx', '', basename($templatePath));
-        $sanitizedName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $data['nama_pemohon']);
-        $fileName = $baseName . '_' . $sanitizedName . '.docx';
-        $tempPath = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $fileName);
-
-        $templateProcessor->saveAs($tempPath);
-
-        return response()->download($tempPath)->deleteFileAfterSend(true);
+        return app(\App\Services\DocumentTemplateService::class)->generate(
+            codeOrPath: $templatePath,
+            data: $data,
+            koordinatList: $koordinatList,
+            modul: 'kkprb'
+        );
     }
 
     public function selesaiAnalisa()

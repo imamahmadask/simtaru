@@ -8,6 +8,7 @@ use App\Models\Skrk;
 use App\Models\Tahapan;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -68,10 +69,11 @@ class SkrkAnalisDetail extends Component
         $permohonan = $this->skrk->permohonan;
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
-            'alamat_tanah' => $permohonan->alamat_tanah,
-            'kel_tanah' => $permohonan->kel_tanah,
-            'kec_tanah' => $permohonan->kec_tanah,
-            'jenis_bangunan' => $permohonan->jenis_bangunan,
+            'alamat_tanah' => $permohonan->registrasi->alamat_tanah ?? $permohonan->alamat_tanah,
+            'kel_tanah' => $permohonan->registrasi->kel_tanah ?? $permohonan->kel_tanah,
+            'kec_tanah' => $permohonan->registrasi->kec_tanah ?? $permohonan->kec_tanah,
+            'jenis_bangunan' => $permohonan->registrasi->fungsi_bangunan ?? $permohonan->jenis_bangunan,
+            'fungsi_bangunan' => $permohonan->registrasi->fungsi_bangunan ?? $permohonan->fungsi_bangunan,
         ];
         $this->koordinatTable = false;
         return $this->generateDocument('2A_BA_rapat_fpr.docx', $data);
@@ -82,6 +84,10 @@ class SkrkAnalisDetail extends Component
         $permohonan = $this->skrk->permohonan;
         $data = [
             'nama_pemohon' => $permohonan->registrasi->nama,
+            'alamat_tanah' => $permohonan->registrasi->alamat_tanah ?? $permohonan->alamat_tanah,
+            'kel_tanah' => $permohonan->registrasi->kel_tanah ?? $permohonan->kel_tanah,
+            'kec_tanah' => $permohonan->registrasi->kec_tanah ?? $permohonan->kec_tanah,
+            'fungsi_bangunan' => $permohonan->registrasi->fungsi_bangunan ?? $permohonan->fungsi_bangunan,
         ];
         $this->koordinatTable = false;
         return $this->generateDocument('2B_notulensi_rapat_fpr.docx', $data);
@@ -188,44 +194,14 @@ class SkrkAnalisDetail extends Component
 
     private function generateDocument($templatePath, $data)
     {
-        $templateProcessor = new TemplateProcessor(public_path('templates/skrk/'.$templatePath));
+        $koordinatList = $this->koordinatTable ? $this->skrk->koordinat : null;
 
-        foreach ($data as $key => $value) {
-            $templateProcessor->setValue($key, $value);
-        }
-
-        if($this->koordinatTable)
-        {
-            $koordinatList = $this->skrk->koordinat;
-            // 🧭 Jika ada data koordinat, isi ke tabel di Word
-            if (!empty($koordinatList)) {
-                // Clone baris berdasarkan placeholder 'x'
-                $templateProcessor->cloneRow('x', count($koordinatList));
-
-                foreach ($koordinatList as $i => $point) {
-                    $row = $i + 1;
-                    $templateProcessor->setValue("x#{$row}", $point['x']);
-                    $templateProcessor->setValue("y#{$row}", $point['y']);
-                }
-            }
-            else
-            {
-                // Jika tidak ada koordinat, tampilkan satu baris kosong
-                $templateProcessor->cloneRow('x', 1);
-                $templateProcessor->setValue('x#1', '-');
-                $templateProcessor->setValue('y#1', '-');
-            }
-        }
-
-        // Sanitize filename by removing special characters
-        $baseName = str_replace('.docx', '', basename($templatePath));
-        $sanitizedName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $data['nama_pemohon']);
-        $fileName = $baseName . '_' . $sanitizedName . '.docx';
-        $tempPath = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $fileName);
-
-        $templateProcessor->saveAs($tempPath);
-
-        return response()->download($tempPath)->deleteFileAfterSend(true);
+        return app(\App\Services\DocumentTemplateService::class)->generate(
+            codeOrPath: $templatePath,
+            data: $data,
+            koordinatList: $koordinatList,
+            modul: 'skrk'
+        );
     }
 
     public function selesaiAnalisa()

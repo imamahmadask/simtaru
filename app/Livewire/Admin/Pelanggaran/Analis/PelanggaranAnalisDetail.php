@@ -344,8 +344,9 @@ class PelanggaranAnalisDetail extends Component
 
     public function downloadBASurvey(){
         $data = $this->pelanggaran;
-        $koordinat = $data->koordinat_pelanggaran;
-        $koordinat = explode(',', $koordinat);
+        $parts = array_map('trim', explode(',', (string) $data->koordinat_pelanggaran));
+        $lat = $parts[0] ?? '-';
+        $lng = $parts[1] ?? '-';
 
         $data = [
             'jenis_indikasi_pelanggaran' => $data->jenis_indikasi_pelanggaran,
@@ -353,9 +354,9 @@ class PelanggaranAnalisDetail extends Component
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => $data->kec_pelanggaran,
             'nama_pemilik_bangunan' => $data->nama_pelanggar,
-            'latitude' => $koordinat[0],
-            'longitude' => $koordinat[1],
-            'gmaps' => $data->gmaps,
+            'latitude' => $lat !== '' ? $lat : '-',
+            'longitude' => $lng !== '' ? $lng : '-',
+            'gmaps' => $data->gmaps_pelanggaran,
             'alamat_pelanggar' => $data->alamat_pelanggar,
             'kel_pelanggar' => $data->kel_pelanggar,
             'kec_pelanggar' => $data->kec_pelanggar,
@@ -435,20 +436,10 @@ class PelanggaranAnalisDetail extends Component
 
     private function generateDocument($templatePath, $data)
     {
-        $templateProcessor = new TemplateProcessor(public_path('templates/pelanggaran/'.$templatePath));
-
-        foreach ($data as $key => $value) {
-            $templateProcessor->setValue($key, $value);
-        }
-
-        $baseName = str_replace('.docx', '', basename($templatePath));
-        $name = $data['nama_pemilik_bangunan'] ?? $data['jenis_indikasi_pelanggaran'];
-        $sanitizedName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $name);
-        $fileName = $baseName . '_' . $sanitizedName . '.docx';
-        $tempPath = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $fileName);
-
-        $templateProcessor->saveAs($tempPath);
-
-        return response()->download($tempPath)->deleteFileAfterSend(true);
+        return app(\App\Services\DocumentTemplateService::class)->generate(
+            codeOrPath: $templatePath,
+            data: $data,
+            modul: 'pelanggaran'
+        );
     }
 }

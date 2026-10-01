@@ -9,10 +9,10 @@ use App\Models\Layanan;
 use App\Models\Permohonan;
 use App\Models\Registrasi;
 use App\Models\Skrk;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -28,10 +28,6 @@ class RegistrasiIndex extends Component
     public $filterLayanan = '';
     public $viewTrash = false;
     public $layanans;
-
-    #[On('refresh-registrasi-list')]
-    public function refresh()
-    {}
 
     public function updatedSearch()
     {
@@ -49,9 +45,10 @@ class RegistrasiIndex extends Component
         $this->resetPage();
     }
 
+    #[On('refresh-registrasi-list')]
     public function render()
     {
-        $query = Registrasi::with('layanan');
+        $query = Registrasi::with(['layanan', 'permohonan']);
 
         if ($this->viewTrash) {
             $query->onlyTrashed();
@@ -294,8 +291,7 @@ class RegistrasiIndex extends Component
 
         view()->share('data', $data);
 
-        // $pdf = Pdf::loadView('pdf.tanda-terima-regis');
-        $pdf = Pdf::loadView('pdf.bukti-regis');
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.bukti-regis');
         return $pdf->download($data['kode'].'.pdf');
     }
 
@@ -318,21 +314,11 @@ class RegistrasiIndex extends Component
 
     private function generateDocument($templatePath, $data)
     {
-        $templateProcessor = new TemplateProcessor(storage_path('app/public/templates/skrk/'.$templatePath));
-
-        foreach ($data as $key => $value) {
-            $templateProcessor->setValue($key, $value);
-        }
-
-        // Sanitize filename by removing special characters
-        $baseName = str_replace('.docx', '', basename($templatePath));
-        $sanitizedName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $data['nama_pemohon']);
-        $fileName = $baseName . '_' . $sanitizedName . '.docx';
-        $tempPath = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $fileName);
-
-        $templateProcessor->saveAs($tempPath);
-
-        return response()->download($tempPath)->deleteFileAfterSend(true);
+        return app(\App\Services\DocumentTemplateService::class)->generate(
+            codeOrPath: $templatePath,
+            data: $data,
+            modul: 'skrk'
+        );
     }
 
 }

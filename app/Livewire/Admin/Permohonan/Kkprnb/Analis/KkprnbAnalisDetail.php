@@ -8,6 +8,7 @@ use App\Models\RiwayatPermohonan;
 use App\Models\Tahapan;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -237,46 +238,14 @@ class KkprnbAnalisDetail extends Component
 
     private function generateDocument($templatePath, $data)
     {
-        $templateProcessor = new TemplateProcessor(public_path('templates/kkprnb/'.$templatePath));
+        $koordinatList = $this->koordinatTable ? $this->kkprnb->koordinat : null;
 
-        foreach ($data as $key => $value) {
-            $templateProcessor->setValue($key, $value);
-        }
-
-        if($this->koordinatTable)
-        {
-            $koordinatList = $this->kkprnb->koordinat;
-            // 🧭 Jika ada data koordinat, isi ke tabel di Word
-            if (!empty($koordinatList)) {
-                // Clone baris berdasarkan placeholder 'x'
-                $templateProcessor->cloneRow('x', count($koordinatList));
-
-                foreach ($koordinatList as $i => $point) {
-                    $row = $i + 1;
-                    $templateProcessor->setValue("x#{$row}", $point['x']);
-                    $templateProcessor->setValue("y#{$row}", $point['y']);
-                }
-            }
-            else
-            {
-                // Jika tidak ada koordinat, tampilkan satu baris kosong
-                $templateProcessor->cloneRow('x', 1);
-                $templateProcessor->setValue('x#1', '-');
-                $templateProcessor->setValue('y#1', '-');
-            }
-        }
-
-        // Sanitize filename by removing special characters
-        $baseName = str_replace('.docx', '', basename($templatePath));
-        $sanitizedName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $data['nama_pemohon']);
-        $fileName = $baseName . '_' . $sanitizedName . '.docx';
-        $tempPath = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $fileName);
-
-        $templateProcessor->saveAs($tempPath);
-
-        if (ob_get_contents()) ob_end_clean();
-
-        return response()->download($tempPath)->deleteFileAfterSend(true);
+        return app(\App\Services\DocumentTemplateService::class)->generate(
+            codeOrPath: $templatePath,
+            data: $data,
+            koordinatList: $koordinatList,
+            modul: 'kkprnb'
+        );
     }
 
     public function selesaiAnalisa()

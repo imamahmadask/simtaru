@@ -29,6 +29,7 @@ use App\Livewire\Admin\Permohonan\PermohonanIndex;
 use App\Livewire\Admin\Permohonan\Skrk\SkrkDetail;
 use App\Livewire\Admin\Permohonan\Skrk\SkrkIndex;
 use App\Livewire\Admin\Registrasi\RegistrasiIndex;
+use App\Livewire\Admin\Template\TemplateIndex;
 use App\Livewire\Admin\Users\UserIndex;
 use App\Livewire\Guest\Layanan\ItrGuest;
 use App\Livewire\Guest\Layanan\KkprbGuest;
@@ -96,6 +97,7 @@ Route::middleware(['cekRole:superadmin,supervisor'])->group(function () {
 
 Route::middleware(['cekRole:superadmin'])->group(function () {
     Route::get('admin/users', UserIndex::class)->name('users.index');
+    Route::get('admin/templates', TemplateIndex::class)->name('templates.index');
 });
 
 // Grup untuk Pelapor (Sistem Baru)

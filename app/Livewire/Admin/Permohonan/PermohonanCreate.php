@@ -51,11 +51,13 @@ class PermohonanCreate extends Component
     {
         $this->validate();
 
-        $path_berkas_ktp = $this->uploadFile($this->berkas_ktp, 'berkas_ktp');
-        $path_berkas_nib = $this->uploadFile($this->berkas_nib, 'berkas_nib');
-        $path_berkas_penguasaan = $this->uploadFile($this->berkas_penguasaan, 'berkas_penguasaan');
-        $path_berkas_permohonan = $this->uploadFile($this->berkas_permohonan, 'berkas_permohonan');
-        $path_berkas_kuasa = $this->uploadFile($this->berkas_kuasa, 'berkas_kuasa');
+        $registrasi = Registrasi::findOrFail($this->registrasi_id);
+
+        $path_berkas_ktp = $this->uploadFile($this->berkas_ktp, 'berkas_ktp', $registrasi);
+        $path_berkas_nib = $this->uploadFile($this->berkas_nib, 'berkas_nib', $registrasi);
+        $path_berkas_penguasaan = $this->uploadFile($this->berkas_penguasaan, 'berkas_penguasaan', $registrasi);
+        $path_berkas_permohonan = $this->uploadFile($this->berkas_permohonan, 'berkas_permohonan', $registrasi);
+        $path_berkas_kuasa = $this->uploadFile($this->berkas_kuasa, 'berkas_kuasa', $registrasi);
 
         $permohonan = Permohonan::create([
             'registrasi_id' => $this->registrasi_id,
@@ -83,8 +85,8 @@ class PermohonanCreate extends Component
         $serviceModel = null;
 
         if ($layanan->kode == 'SKRK') {
-            $path_akta_pendirian = $this->uploadFile($this->akta_pendirian, 'skrk/'.$permohonan->registrasi->kode.'/akta_pendirian');
-            $path_sket_lokasi = $this->uploadFile($this->sket_lokasi, 'skrk/'.$permohonan->registrasi->kode.'/sket_lokasi');
+            $path_akta_pendirian = $this->uploadFile($this->akta_pendirian, 'skrk/'.$registrasi->kode.'/akta_pendirian', $registrasi);
+            $path_sket_lokasi = $this->uploadFile($this->sket_lokasi, 'skrk/'.$registrasi->kode.'/sket_lokasi', $registrasi);
             $serviceModel = Skrk::create([
                 'permohonan_id' => $permohonan->id,
                 'layanan_id' => $this->layanan_id,
@@ -97,14 +99,14 @@ class PermohonanCreate extends Component
                 'layanan_id' => $this->layanan_id,
             ]);
         } elseif ($layanan->kode == 'KKPRNB') {
-            $path_berkas_ptp = $this->uploadFile($this->berkas_ptp, 'kkprnb/'.$permohonan->registrasi->kode.'/berkas_ptp');
-            $path_ceklis = $this->uploadFile($this->ceklis, 'kkprnb/'.$permohonan->registrasi->kode.'/ceklis');
-            $path_tanggapan_1a = $this->uploadFile($this->tanggapan_1a, 'kkprnb/'.$permohonan->registrasi->kode.'/tanggapan_1a');
-            $path_tanggapan_1b = $this->uploadFile($this->tanggapan_1b, 'kkprnb/'.$permohonan->registrasi->kode.'/tanggapan_1b');
-            $path_tanggapan_2 = $this->uploadFile($this->tanggapan_2, 'kkprnb/'.$permohonan->registrasi->kode.'/tanggapan_2');
-            $path_surat_pengantar_kelengkapan = $this->uploadFile($this->surat_pengantar_kelengkapan, 'kkprnb/'.$permohonan->registrasi->kode.'/surat_pengantar_kelengkapan');
-            $path_akta_pendirian = $this->uploadFile($this->akta_pendirian, 'kkprnb/'.$permohonan->registrasi->kode.'/akta_pendirian');
-            $path_gambar_teknis = $this->uploadFile($this->gambar_teknis, 'kkprnb/'.$permohonan->registrasi->kode.'/gambar_teknis');
+            $path_berkas_ptp = $this->uploadFile($this->berkas_ptp, 'kkprnb/'.$registrasi->kode.'/berkas_ptp', $registrasi);
+            $path_ceklis = $this->uploadFile($this->ceklis, 'kkprnb/'.$registrasi->kode.'/ceklis', $registrasi);
+            $path_tanggapan_1a = $this->uploadFile($this->tanggapan_1a, 'kkprnb/'.$registrasi->kode.'/tanggapan_1a', $registrasi);
+            $path_tanggapan_1b = $this->uploadFile($this->tanggapan_1b, 'kkprnb/'.$registrasi->kode.'/tanggapan_1b', $registrasi);
+            $path_tanggapan_2 = $this->uploadFile($this->tanggapan_2, 'kkprnb/'.$registrasi->kode.'/tanggapan_2', $registrasi);
+            $path_surat_pengantar_kelengkapan = $this->uploadFile($this->surat_pengantar_kelengkapan, 'kkprnb/'.$registrasi->kode.'/surat_pengantar_kelengkapan', $registrasi);
+            $path_akta_pendirian = $this->uploadFile($this->akta_pendirian, 'kkprnb/'.$registrasi->kode.'/akta_pendirian', $registrasi);
+            $path_gambar_teknis = $this->uploadFile($this->gambar_teknis, 'kkprnb/'.$registrasi->kode.'/gambar_teknis', $registrasi);
             $serviceModel = Kkprnb::create([
                 'permohonan_id' => $permohonan->id,
                 'layanan_id' => $this->layanan_id,
@@ -123,7 +125,7 @@ class PermohonanCreate extends Component
                 'rdtr_rtrw' => $this->rdtr_rtrw,
             ]);
         } elseif($layanan->kode == 'KKPRB') {
-            $path_berkas_ptp = $this->uploadFile($this->berkas_ptp, 'kkprb/'.$permohonan->registrasi->kode.'/berkas_ptp');
+            $path_berkas_ptp = $this->uploadFile($this->berkas_ptp, 'kkprb/'.$registrasi->kode.'/berkas_ptp', $registrasi);
             $serviceModel = Kkprb::create([
                 'tgl_validasi' => $this->tgl_validasi,
                 'permohonan_id' => $permohonan->id,
@@ -161,10 +163,10 @@ class PermohonanCreate extends Component
         ]);
     }
 
-    private function uploadFile($file, $folder)
+    private function uploadFile($file, $folder, ?Registrasi $registrasi = null)
     {
         if ($file) {
-            $registrasi = Registrasi::find($this->registrasi_id);
+            $registrasi = $registrasi ?? Registrasi::find($this->registrasi_id);
 
             $filename = $registrasi->kode .'_'.$registrasi->nama. '.' . $file->getClientOriginalExtension();
 
@@ -291,20 +293,10 @@ class PermohonanCreate extends Component
 
     private function generateDocument($templatePath, $data)
     {
-        $templateProcessor = new TemplateProcessor(public_path('templates/kkprnb/'.$templatePath));
-
-        foreach ($data as $key => $value) {
-            $templateProcessor->setValue($key, $value);
-        }
-
-        // Sanitize filename by removing special characters
-        $baseName = str_replace('.docx', '', basename($templatePath));
-        $sanitizedName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $data['nama_pemohon']);
-        $fileName = $baseName . '_' . $sanitizedName . '.docx';
-        $tempPath = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $fileName);
-
-        $templateProcessor->saveAs($tempPath);
-
-        return response()->download($tempPath)->deleteFileAfterSend(true);
+        return app(\App\Services\DocumentTemplateService::class)->generate(
+            codeOrPath: $templatePath,
+            data: $data,
+            modul: 'kkprnb'
+        );
     }
 }

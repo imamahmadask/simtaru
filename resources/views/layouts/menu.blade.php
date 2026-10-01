@@ -135,6 +135,12 @@
                     <div data-i18n="Analytics">Users</div>
                 </a>
             </li>
+            <li class="menu-item {!! request()->routeIs('templates.*') ? 'active' : '' !!}">
+                <a href="{{ route('templates.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-file-blank"></i>
+                    <div data-i18n="Analytics">Dokumen Template</div>
+                </a>
+            </li>
         @endif
 
         <li class="menu-item">

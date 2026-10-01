@@ -13,6 +13,7 @@ use App\Models\Skrk;
 use App\Models\Tahapan;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -31,14 +32,17 @@ class PermohonanEdit extends Component
     #[Validate('required')]
     public $registrasi_id, $layanan_id, $nama, $nik, $no_hp, $email, $alamat_pemohon, $alamat_tanah, $kel_tanah, $kec_tanah, $fungsi_bangunan, $luas_tanah, $tahapan_id, $penerima_id;
     public $npwp, $keterangan, $status, $pemberi_id, $catatan, $status_modal, $kbli, $judul_kbli;
+
+    #[Validate('nullable|file|mimes:pdf,jpg,jpeg,png|max:10240')]
     public $berkas_ktp, $berkas_nib, $berkas_penguasaan, $berkas_permohonan, $berkas_kuasa;
     
     public $berkas_ktp_lama, $berkas_nib_lama, $berkas_penguasaan_lama, $berkas_permohonan_lama, $berkas_kuasa_lama;
     public $akta_pendirian_lama, $gambar_teknis_lama, $sket_lokasi_lama;    
 
 
-    // PTP
+    // PTP & KKPRB
     public $tgl_ptp, $tgl_terima_ptp, $tgl_validasi, $no_ptp, $berkas_ptp_lama, $rdtr_rtrw, $tgl_pnbp;
+    public $tgl_oss, $oss_id, $id_proyek, $skala_usaha, $jenis_usaha;
     public $tanggapan_1a_lama, $tanggapan_1b_lama, $tanggapan_2_lama, $ceklis_lama, $surat_pengantar_kelengkapan_lama;
     public $kode_registrasi, $tgl_registrasi;
 
@@ -110,6 +114,11 @@ class PermohonanEdit extends Component
             $this->tgl_ptp = $kkprb->tgl_ptp;
             $this->no_ptp = $kkprb->no_ptp;
             $this->berkas_ptp_lama = $kkprb->berkas_ptp;
+            $this->tgl_oss = $kkprb->tgl_oss;
+            $this->oss_id = $kkprb->oss_id;
+            $this->id_proyek = $kkprb->id_proyek;
+            $this->skala_usaha = $kkprb->skala_usaha;
+            $this->jenis_usaha = $kkprb->jenis_usaha;
         }
 
         if($this->kode_layanan == 'SKRK')
@@ -119,11 +128,9 @@ class PermohonanEdit extends Component
             $this->sket_lokasi_lama = $skrk->sket_lokasi;
         }
 
-        // $this->berkas_pemohon_lama = $permohonan->berkas_pemohon;
-
         $this->layanans = Layanan::all();
 
-        $this->registrasis = Registrasi::all();
+        $this->registrasis = Registrasi::where('id', $this->registrasi_id)->get();
 
         $this->tahapans = Tahapan::where('layanan_id', $this->layanan_id)->where('urutan', 1)->get();
 
@@ -134,23 +141,20 @@ class PermohonanEdit extends Component
     {
         $this->validate();
 
-        $permohonan = Permohonan::findOrFail($this->permohonan_id);
+        $permohonan = Permohonan::with('registrasi')->findOrFail($this->permohonan_id);
+        $registrasi = $permohonan->registrasi;
 
-        $path_berkas_ktp = $this->uploadFile($this->berkas_ktp, 'berkas_ktp', $this->berkas_ktp_lama);
-        $path_berkas_nib = $this->uploadFile($this->berkas_nib, 'berkas_nib', $this->berkas_nib_lama);
-        $path_berkas_penguasaan = $this->uploadFile($this->berkas_penguasaan, 'berkas_penguasaan', $this->berkas_penguasaan_lama);
-        $path_berkas_permohonan = $this->uploadFile($this->berkas_permohonan, 'berkas_permohonan', $this->berkas_permohonan_lama);
-        $path_berkas_kuasa = $this->uploadFile($this->berkas_kuasa, 'berkas_kuasa', $this->berkas_kuasa_lama);
+        $path_berkas_ktp = $this->uploadFile($this->berkas_ktp, 'berkas_ktp', $this->berkas_ktp_lama, $registrasi);
+        $path_berkas_nib = $this->uploadFile($this->berkas_nib, 'berkas_nib', $this->berkas_nib_lama, $registrasi);
+        $path_berkas_penguasaan = $this->uploadFile($this->berkas_penguasaan, 'berkas_penguasaan', $this->berkas_penguasaan_lama, $registrasi);
+        $path_berkas_permohonan = $this->uploadFile($this->berkas_permohonan, 'berkas_permohonan', $this->berkas_permohonan_lama, $registrasi);
+        $path_berkas_kuasa = $this->uploadFile($this->berkas_kuasa, 'berkas_kuasa', $this->berkas_kuasa_lama, $registrasi);
         
         $permohonan->update([
             'registrasi_id' => $this->registrasi_id,
             'layanan_id' => $this->layanan_id,
             'alamat_pemohon' => $this->alamat_pemohon,
             'npwp' => $this->npwp,
-            'alamat_tanah' => $this->alamat_tanah,
-            'kel_tanah' => $this->kel_tanah,
-            'kec_tanah' => $this->kec_tanah,
-            'fungsi_bangunan' => $this->fungsi_bangunan,
             'luas_tanah' => $this->luas_tanah,
             'status_modal' => $this->status_modal,
             'kbli' => $this->kbli,
@@ -165,15 +169,22 @@ class PermohonanEdit extends Component
             'updated_by' => Auth::user()->id
         ]);
 
+        $registrasi->update([
+            'alamat_tanah' => $this->alamat_tanah,
+            'kel_tanah' => $this->kel_tanah,
+            'kec_tanah' => $this->kec_tanah,
+            'fungsi_bangunan' => $this->fungsi_bangunan,
+        ]);
+
         if($this->kode_layanan == 'KKPRNB') {
-            $path_berkas_ptp = $this->uploadFile($this->berkas_ptp, 'kkprnb/'.$permohonan->registrasi->kode.'/berkas_ptp', $this->berkas_ptp_lama);
-            $path_tanggapan_1a = $this->uploadFile($this->tanggapan_1a, 'kkprnb/'.$permohonan->registrasi->kode.'/tanggapan_1a', $this->tanggapan_1a_lama);
-            $path_tanggapan_1b = $this->uploadFile($this->tanggapan_1b, 'kkprnb/'.$permohonan->registrasi->kode.'/tanggapan_1b', $this->tanggapan_1b_lama);
-            $path_tanggapan_2 = $this->uploadFile($this->tanggapan_2, 'kkprnb/'.$permohonan->registrasi->kode.'/tanggapan_2', $this->tanggapan_2_lama);
-            $path_ceklis = $this->uploadFile($this->ceklis, 'kkprnb/'.$permohonan->registrasi->kode.'/ceklis', $this->ceklis_lama);
-            $path_surat_pengantar_kelengkapan = $this->uploadFile($this->surat_pengantar_kelengkapan, 'kkprnb/'.$permohonan->registrasi->kode.'/surat_pengantar_kelengkapan', $this->surat_pengantar_kelengkapan_lama);
-            $path_akta_pendirian = $this->uploadFile($this->akta_pendirian, 'kkprnb/'.$permohonan->registrasi->kode.'/akta_pendirian', $this->akta_pendirian_lama);
-            $path_gambar_teknis = $this->uploadFile($this->gambar_teknis, 'kkprnb/'.$permohonan->registrasi->kode.'/gambar_teknis', $this->gambar_teknis_lama);
+            $path_berkas_ptp = $this->uploadFile($this->berkas_ptp, 'kkprnb/'.$registrasi->kode.'/berkas_ptp', $this->berkas_ptp_lama, $registrasi);
+            $path_tanggapan_1a = $this->uploadFile($this->tanggapan_1a, 'kkprnb/'.$registrasi->kode.'/tanggapan_1a', $this->tanggapan_1a_lama, $registrasi);
+            $path_tanggapan_1b = $this->uploadFile($this->tanggapan_1b, 'kkprnb/'.$registrasi->kode.'/tanggapan_1b', $this->tanggapan_1b_lama, $registrasi);
+            $path_tanggapan_2 = $this->uploadFile($this->tanggapan_2, 'kkprnb/'.$registrasi->kode.'/tanggapan_2', $this->tanggapan_2_lama, $registrasi);
+            $path_ceklis = $this->uploadFile($this->ceklis, 'kkprnb/'.$registrasi->kode.'/ceklis', $this->ceklis_lama, $registrasi);
+            $path_surat_pengantar_kelengkapan = $this->uploadFile($this->surat_pengantar_kelengkapan, 'kkprnb/'.$registrasi->kode.'/surat_pengantar_kelengkapan', $this->surat_pengantar_kelengkapan_lama, $registrasi);
+            $path_akta_pendirian = $this->uploadFile($this->akta_pendirian, 'kkprnb/'.$registrasi->kode.'/akta_pendirian', $this->akta_pendirian_lama, $registrasi);
+            $path_gambar_teknis = $this->uploadFile($this->gambar_teknis, 'kkprnb/'.$registrasi->kode.'/gambar_teknis', $this->gambar_teknis_lama, $registrasi);
 
             $kkprnb = Kkprnb::where('permohonan_id', $permohonan->id)->first();
             $kkprnb->update([
@@ -192,10 +203,28 @@ class PermohonanEdit extends Component
                 'gambar_teknis' => $path_gambar_teknis,
             ]);
         }
+        elseif($this->kode_layanan == 'KKPRB')
+        {
+            $path_berkas_ptp = $this->uploadFile($this->berkas_ptp, 'kkprb/'.$registrasi->kode.'/berkas_ptp', $this->berkas_ptp_lama, $registrasi);
+
+            $kkprb = Kkprb::where('permohonan_id', $permohonan->id)->first();
+            $kkprb->update([
+                'tgl_validasi' => $this->tgl_validasi,
+                'tgl_pnbp' => $this->tgl_pnbp,
+                'tgl_ptp' => $this->tgl_ptp,
+                'no_ptp' => $this->no_ptp,
+                'berkas_ptp' => $path_berkas_ptp,
+                'tgl_oss' => $this->tgl_oss,
+                'oss_id' => $this->oss_id,
+                'id_proyek' => $this->id_proyek,
+                'skala_usaha' => $this->skala_usaha,
+                'jenis_usaha' => $this->jenis_usaha,
+            ]);
+        }
         elseif($this->kode_layanan == 'SKRK') 
         {
-            $path_akta_pendirian = $this->uploadFile($this->akta_pendirian, 'skrk/'.$permohonan->registrasi->kode.'/akta_pendirian', $this->akta_pendirian_lama);
-            $path_sket_lokasi = $this->uploadFile($this->sket_lokasi, 'skrk/'.$permohonan->registrasi->kode.'/sket_lokasi', $this->sket_lokasi_lama);
+            $path_akta_pendirian = $this->uploadFile($this->akta_pendirian, 'skrk/'.$registrasi->kode.'/akta_pendirian', $this->akta_pendirian_lama, $registrasi);
+            $path_sket_lokasi = $this->uploadFile($this->sket_lokasi, 'skrk/'.$registrasi->kode.'/sket_lokasi', $this->sket_lokasi_lama, $registrasi);
             
             $skrk = Skrk::where('permohonan_id', $permohonan->id)->first();
             $skrk->update([
@@ -203,6 +232,8 @@ class PermohonanEdit extends Component
                 'sket_lokasi' => $path_sket_lokasi,
             ]);
         }
+
+        $disposisiChanged = ($this->disposisi->penerima_id != $this->penerima_id || $this->disposisi->catatan != $this->catatan);
 
         $this->disposisi->update([
             'pemberi_id' => $this->pemberi_id,
@@ -212,7 +243,7 @@ class PermohonanEdit extends Component
             'updated_by' => Auth::user()->id
         ]);
 
-        if($this->disposisi->penerima_id != $this->penerima_id || $this->disposisi->catatan != $this->catatan) {
+        if($disposisiChanged) {
             $this->editRiwayat($permohonan, "Update: Disposisi kepada {$this->users->where('id', $this->penerima_id)->first()->name} pada tahapan Survey Berkas");
         }
 
@@ -235,22 +266,17 @@ class PermohonanEdit extends Component
         ]);
     }
 
-    private function uploadFile($file, $folder, $old_file)
+    private function uploadFile($file, $folder, $old_file, ?Registrasi $registrasi = null)
     {
         if ($file) {
-            $registrasi = Registrasi::find($this->registrasi_id);
+            $registrasi = $registrasi ?? Registrasi::find($this->registrasi_id);
 
             $filename = $registrasi->kode .'_'.$registrasi->nama. '.' . $file->getClientOriginalExtension();
 
             return $file->storeAs($folder, $filename, 'public');
         }
-        else
-        {
-            return $old_file;
-        }
 
-
-        return null;
+        return $old_file;
     }
 
     public function download1a()
@@ -322,20 +348,10 @@ class PermohonanEdit extends Component
 
     private function generateDocument($templatePath, $data)
     {
-        $templateProcessor = new TemplateProcessor(public_path('templates/kkprnb/'.$templatePath));
-
-        foreach ($data as $key => $value) {
-            $templateProcessor->setValue($key, $value);
-        }
-
-        // Sanitize filename by removing special characters
-        $baseName = str_replace('.docx', '', basename($templatePath));
-        $sanitizedName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $data['nama_pemohon']);
-        $fileName = $baseName . '_' . $sanitizedName . '.docx';
-        $tempPath = storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $fileName);
-
-        $templateProcessor->saveAs($tempPath);
-
-        return response()->download($tempPath)->deleteFileAfterSend(true);
+        return app(\App\Services\DocumentTemplateService::class)->generate(
+            codeOrPath: $templatePath,
+            data: $data,
+            modul: 'kkprnb'
+        );
     }
 }
