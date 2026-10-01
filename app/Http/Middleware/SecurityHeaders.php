@@ -37,8 +37,9 @@ class SecurityHeaders
                 . "fonts.googleapis.com cdn.jsdelivr.net "
                 . "unpkg.com cdnjs.cloudflare.com fonts.bunny.net",
 
-            // Gambar: self, data URI, blob, dan semua CDN gambar peta & aset
+            // Gambar: self, data URI, blob, UI Avatars (foto profil default Jetstream), dan CDN gambar peta & aset
             "img-src 'self' data: blob: "
+                . "ui-avatars.com "
                 . "*.tile.openstreetmap.org "
                 . "raw.githubusercontent.com cdnjs.cloudflare.com "
                 . "maps.googleapis.com maps.gstatic.com "

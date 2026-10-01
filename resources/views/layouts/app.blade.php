@@ -37,9 +37,11 @@
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
 
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/apex-charts/apex-charts.css') }}" />
+    @if (request()->routeIs('dashboard', 'pelanggaran.dashboard', 'penilaian.dashboard'))
+        <link rel="stylesheet" href="{{ asset('assets/vendor/libs/apex-charts/apex-charts.css') }}" />
+    @endif
 
-    <!-- Page CSS -->
+    @stack('styles')
 
     <!-- Helpers -->
     <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
@@ -54,7 +56,7 @@
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
             <!-- Menu -->
-            @include('layouts.menu')
+            @include($menuPartial ?? 'layouts.menu')
             <!-- / Menu -->
 
             <!-- Layout container -->
@@ -90,17 +92,15 @@
     <!-- endbuild -->
 
     <!-- Vendors JS -->
-    <script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
+    @if (request()->routeIs('dashboard', 'pelanggaran.dashboard', 'penilaian.dashboard'))
+        <script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
+    @endif
 
     <!-- Main JS -->
     <script src="{{ asset('js/main.js') }}"></script>
 
     <!-- Page JS -->
-    <script src="{{ asset('js/dashboards-analytics.js') }}"></script>
     <script src="{{ asset('js/ui-toasts.js') }}"></script>
-
-    <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {

@@ -13,7 +13,14 @@
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        <img src="{{ Auth::user()->profile_photo_url }}" alt class="w-px-40 h-auto rounded-circle" />
+                        @if (Auth::user()->profile_photo_path)
+                            <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}"
+                                class="w-px-40 h-auto rounded-circle" />
+                        @else
+                            <span class="avatar-initial rounded-circle bg-label-primary fw-semibold">
+                                {{ Auth::user()->initials }}
+                            </span>
+                        @endif
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -22,8 +29,14 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar avatar-online">
-                                        <img src="{{ Auth::user()->profile_photo_url }}" alt
-                                            class="w-px-40 h-auto rounded-circle" />
+                                        @if (Auth::user()->profile_photo_path)
+                                            <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}"
+                                                class="w-px-40 h-auto rounded-circle" />
+                                        @else
+                                            <span class="avatar-initial rounded-circle bg-label-primary fw-semibold">
+                                                {{ Auth::user()->initials }}
+                                            </span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">

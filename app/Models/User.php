@@ -98,4 +98,38 @@ class User extends Authenticatable
     {
         return $this->hasMany(Disposisi::class, 'penerima_id');
     }
+
+    /**
+     * Ambil inisial nama pengguna (maksimal 2 huruf, contoh: "Imam Ahmad" -> "IA").
+     */
+    public function getInitialsAttribute(): string
+    {
+        $words = preg_split('/\s+/', trim((string) $this->name), -1, PREG_SPLIT_NO_EMPTY);
+
+        if (empty($words)) {
+            return 'U';
+        }
+
+        if (count($words) === 1) {
+            return mb_strtoupper(mb_substr($words[0], 0, 2));
+        }
+
+        return mb_strtoupper(mb_substr($words[0], 0, 1) . mb_substr($words[count($words) - 1], 0, 1));
+    }
+
+    /**
+     * Override default profile photo URL Jetstream menggunakan inline SVG data URI berinisial nama.
+     */
+    protected function defaultProfilePhotoUrl(): string
+    {
+        $initials = htmlspecialchars($this->initials, ENT_QUOTES, 'UTF-8');
+        $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">'
+            . '<rect width="128" height="128" rx="64" fill="#E7E7FF"/>'
+            . '<text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" '
+            . 'fill="#696CFF" font-family="Public Sans, Arial, sans-serif" font-weight="600" font-size="48">'
+            . $initials
+            . '</text></svg>';
+
+        return 'data:image/svg+xml;utf8,' . rawurlencode($svg);
+    }
 }

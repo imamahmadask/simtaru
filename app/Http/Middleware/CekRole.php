@@ -28,15 +28,15 @@ class CekRole
         // Ensure user is authenticated before accessing role property
         $userRole = $request->user()->role;
 
-        if ($userRole === 'admin-pelanggaran' || $userRole === 'superadmin') {
+        if ($userRole === 'admin-pelanggaran') {
             return redirect()->route('pelanggaran.dashboard');
         }
 
-        if ($userRole === 'admin-penilaian' || $userRole === 'superadmin') {
+        if ($userRole === 'admin-penilaian') {
             return redirect()->route('penilaian.dashboard');
         }
 
-        // Default redirect untuk admin atau role lainnya
+        // Default redirect untuk superadmin atau role lainnya
         return redirect('/admin/dashboard');
     }
 }

@@ -35,6 +35,7 @@
         cdnjs.cloudflare.com
         fonts.bunny.net;
     img-src 'self' data: blob:
+        ui-avatars.com
         *.tile.openstreetmap.org
         raw.githubusercontent.com
         cdnjs.cloudflare.com
@@ -52,12 +53,11 @@
         *.tile.openstreetmap.org
         maps.googleapis.com;
     frame-src 'self' www.google.com;
-    frame-ancestors 'self';
     media-src 'self';
     object-src 'none';
     worker-src 'self' blob:;
     form-action 'self';
-    @if(request()->isSecure())
+    @if (request()->isSecure())
     upgrade-insecure-requests;
     @endif
 ">
