@@ -1,17 +1,181 @@
 <div id="simtaru-chatbot-root">
     <style>
-        .simtaru-chat-fab {
+        .simtaru-fab-container {
             position: fixed;
             bottom: 25px;
             right: 25px;
             z-index: 9999;
-            box-shadow: 0 8px 24px rgba(13, 110, 253, 0.35);
-            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .simtaru-chat-fab {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0d6efd 0%, #4f46e5 50%, #7c3aed 100%);
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.45);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            outline: none;
+            position: relative;
         }
 
         .simtaru-chat-fab:hover {
             transform: scale(1.08);
-            box-shadow: 0 12px 28px rgba(13, 110, 253, 0.45);
+            box-shadow: 0 12px 30px rgba(79, 70, 229, 0.6);
+        }
+
+        .simtaru-chat-fab:active {
+            transform: scale(0.95);
+        }
+
+        .simtaru-chat-fab.pulse-active {
+            animation: simtaruFabPulse 3s infinite ease-in-out;
+        }
+
+        @keyframes simtaruFabPulse {
+            0% {
+                box-shadow: 0 8px 24px rgba(79, 70, 229, 0.45);
+            }
+            50% {
+                box-shadow: 0 8px 28px rgba(124, 58, 237, 0.65), 0 0 0 8px rgba(99, 102, 241, 0.22);
+            }
+            100% {
+                box-shadow: 0 8px 24px rgba(79, 70, 229, 0.45);
+            }
+        }
+
+        /* Micro badge 'AI' on the FAB */
+        .simtaru-fab-badge {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            color: #ffffff;
+            font-size: 0.62rem;
+            font-weight: 800;
+            letter-spacing: 0.6px;
+            padding: 2px 6px;
+            border-radius: 999px;
+            border: 2px solid #ffffff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+            line-height: 1.1;
+            pointer-events: none;
+            animation: simtaruBadgeGlow 2.5s infinite ease-in-out;
+        }
+
+        @keyframes simtaruBadgeGlow {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.12);
+            }
+        }
+
+        /* Stars sparkle over robot */
+        .simtaru-fab-ai-icon {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .simtaru-fab-stars {
+            position: absolute;
+            top: -6px;
+            right: -7px;
+            font-size: 0.95rem;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+            animation: simtaruSparklePulse 2s infinite ease-in-out alternate;
+        }
+
+        @keyframes simtaruSparklePulse {
+            0% {
+                transform: scale(0.85) rotate(-5deg);
+                opacity: 0.85;
+            }
+            100% {
+                transform: scale(1.15) rotate(10deg);
+                opacity: 1;
+            }
+        }
+
+        /* Hint Pill beside FAB */
+        .simtaru-ai-hint-pill {
+            background: #ffffff;
+            padding: 7px 14px;
+            border-radius: 30px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+            border: 1px solid rgba(79, 70, 229, 0.15);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            animation: simtaruPillFadeIn 0.3s ease;
+        }
+
+        .simtaru-ai-hint-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.22);
+            border-color: #6366f1;
+        }
+
+        .simtaru-hint-text {
+            font-size: 0.82rem;
+            color: #1e293b;
+            white-space: nowrap;
+        }
+
+        .simtaru-hint-text strong {
+            color: #4f46e5;
+        }
+
+        .simtaru-hint-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #ffffff;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .simtaru-pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: simtaruGreenPulse 1.8s infinite;
+        }
+
+        @keyframes simtaruGreenPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+        }
+
+        @keyframes simtaruPillFadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .simtaru-chat-window {
@@ -278,33 +442,51 @@
         }
     </style>
 
-    <!-- Floating Action Button -->
-    <button wire:click="toggleChat" type="button" 
-        class="btn btn-primary rounded-circle p-0 simtaru-chat-fab d-flex align-items-center justify-content-center"
-        style="width: 58px; height: 58px;"
-        aria-label="Tanya Asisten AI SIMTARU"
-        title="Konsultasi Tata Ruang & Cek Berkas">
-        @if($isOpen)
-            <i class="bi bi-x-lg fs-4 text-white"></i>
-        @else
-            <i class="bi bi-chat-dots-fill fs-4 text-white"></i>
+    <!-- Floating Action Button & AI Hint Pill -->
+    <div class="simtaru-fab-container">
+        @if(!$isOpen)
+            <div wire:click="toggleChat" class="simtaru-ai-hint-pill d-none d-sm-flex align-items-center gap-2 shadow-sm" role="button" title="Tanya Asisten AI SIMTARU">
+                <span class="simtaru-pulse-dot"></span>
+                <span class="simtaru-hint-text">Tanya <strong>AI SIMTARU</strong></span>
+                <span class="simtaru-hint-badge"><i class="bi bi-stars"></i> AI</span>
+            </div>
         @endif
-    </button>
+
+        <button wire:click="toggleChat" type="button" 
+            class="simtaru-chat-fab position-relative d-flex align-items-center justify-content-center border-0 p-0 text-white {{ !$isOpen ? 'pulse-active' : '' }}"
+            aria-label="Tanya Asisten AI SIMTARU"
+            title="Konsultasi Tata Ruang & Cek Berkas (Asisten AI)">
+            @if($isOpen)
+                <i class="bi bi-x-lg fs-4 text-white"></i>
+            @else
+                <div class="simtaru-fab-ai-icon">
+                    <i class="bi bi-robot fs-3 text-white"></i>
+                    <i class="bi bi-stars simtaru-fab-stars text-warning"></i>
+                </div>
+                <span class="simtaru-fab-badge">AI</span>
+            @endif
+        </button>
+    </div>
 
     <!-- Chat Window Container -->
     @if($isOpen)
         <div class="simtaru-chat-window">
             <!-- Header -->
-            <div class="bg-primary text-white px-3 py-2 d-flex align-items-center justify-content-between">
+            <div class="text-white px-3 py-2.5 d-flex align-items-center justify-content-between" style="background: linear-gradient(135deg, #0d6efd 0%, #4f46e5 100%);">
                 <div class="d-flex align-items-center gap-2">
-                    <div class="bg-white rounded-circle p-1 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
-                        <img src="{{ asset('assets/img/favicon/fav.svg') }}" alt="Logo" width="22" onerror="this.src='{{ asset('assets/img/logo/simtaru2.png') }}'">
+                    <div class="position-relative bg-white rounded-circle p-1 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 38px; height: 38px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
+                        <i class="bi bi-robot text-primary fs-5"></i>
+                        <span class="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle" style="width: 9px; height: 9px;"></span>
                     </div>
                     <div>
-                        <h6 class="mb-0 fw-bold fs-6">Asisten AI SIMTARU</h6>
+                        <div class="d-flex align-items-center gap-1.5">
+                            <h6 class="mb-0 fw-bold fs-6">Asisten AI SIMTARU</h6>
+                            <span class="badge bg-warning text-dark px-1.5 py-0.5 rounded-pill fw-bold" style="font-size: 0.62rem; letter-spacing: 0.3px;">
+                                <i class="bi bi-stars"></i> AI
+                            </span>
+                        </div>
                         <small class="text-white-50" style="font-size: 0.72rem;">
-                            <span class="d-inline-block rounded-circle bg-success me-1" style="width: 7px; height: 7px;"></span>
-                            DPUPR Kota Mataram • Online
+                            DPUPR Kota Mataram • Cerdas & Siaga
                         </small>
                     </div>
                 </div>
@@ -360,6 +542,9 @@
                     @else
                         <div class="d-flex justify-content-start mb-3">
                             <div class="simtaru-bubble simtaru-bubble-model shadow-sm">
+                                <div class="d-flex align-items-center gap-1 mb-1 text-primary fw-bold" style="font-size: 0.73rem;">
+                                    <i class="bi bi-robot"></i> Asisten AI
+                                </div>
                                 <div class="simtaru-content">
                                     {!! \Illuminate\Support\Str::markdown($msg['content']) !!}
                                 </div>
@@ -373,7 +558,8 @@
                 <div wire:loading wire:target="sendMessage, sendQuickPrompt" class="mb-3">
                     <div class="simtaru-bubble simtaru-bubble-model shadow-sm d-inline-block">
                         <div class="d-flex align-items-center gap-2">
-                            <span class="text-muted" style="font-size: 0.8rem;">Asisten sedang mengetik</span>
+                            <i class="bi bi-robot text-primary" style="font-size: 0.85rem;"></i>
+                            <span class="text-muted" style="font-size: 0.8rem;">AI sedang berpikir</span>
                             <div class="typing-dots d-inline-flex gap-1">
                                 <span></span><span></span><span></span>
                             </div>
