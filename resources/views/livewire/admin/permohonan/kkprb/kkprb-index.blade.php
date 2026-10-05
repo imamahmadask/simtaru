@@ -53,7 +53,31 @@
                                         @endif
                                     </td>
                                     <td>
-                                        {{ $data->permohonan->keterangan }}
+                                        @if ($data->permohonan->posisi_berkas)
+                                            <div class="mb-1">
+                                                <span
+                                                    class="badge bg-label-{{ $data->permohonan->posisi_berkas === 'BPN' ? 'warning' : 'info' }}"
+                                                    style="white-space: normal;">
+                                                    <i
+                                                        class="bx bx-buildings me-1"></i>{{ $data->permohonan->posisi_berkas }}
+                                                    @if ($data->permohonan->proses_berkas)
+                                                        ({{ $data->permohonan->proses_berkas }})
+                                                    @endif
+                                                </span>
+                                                <small class="text-muted d-block" style="font-size: 11px;">
+                                                    Per:
+                                                    {{ $data->permohonan->tgl_posisi_berkas ? \Carbon\Carbon::parse($data->permohonan->tgl_posisi_berkas)->format('d-m-Y') : '-' }}
+                                                </small>
+                                                @if ($data->permohonan->ket_posisi_berkas)
+                                                    <small class="text-secondary d-block fst-italic" style="font-size: 11px;">
+                                                        {{ Str::limit($data->permohonan->ket_posisi_berkas, 40) }}
+                                                    </small>
+                                                @endif
+                                            </div>
+                                        @endif
+                                        @if ($data->permohonan->keterangan && !$data->permohonan->posisi_berkas)
+                                            <span>{{ $data->permohonan->keterangan }}</span>
+                                        @endif
                                     </td>
                                     <td>
                                         @if($data->permohonan->registrasi->status == 'Berkas Dicabut' || $data->permohonan->registrasi->status == 'Berkas Tidak Lengkap' || $data->permohonan->is_ditolak || $data->permohonan->registrasi->status == 'Berkas Ditolak')
@@ -75,6 +99,13 @@
                                                     class="btn btn-primary btn-sm" title="Detail">
                                                     <i class="bx bx-show"></i>
                                                 </a>
+                                                @if (Auth::check() && Auth::user()->role === 'superadmin')
+                                                    <button type="button" class="btn btn-warning btn-sm"
+                                                        wire:click="openKeteranganBerkas({{ $data->id }})"
+                                                        title="Keterangan Posisi Berkas (BPN / DPMPTSP)">
+                                                        <i class="bx bx-buildings"></i>
+                                                    </button>
+                                                @endif
                                                 <button type="button" class="btn btn-info btn-sm"
                                                     wire:click="showTimeline({{ $data->id }})" title="History Timeline">
                                                     <i class="bx bx-history"></i>
@@ -328,6 +359,11 @@
         </div>
 
     </div>
+    @if (Auth::check() && Auth::user()->role === 'superadmin')
+        @teleport('body')
+            @livewire('admin.permohonan.keterangan-berkas-modal', [], key('modal-posisi-berkas-kkprb-index'))
+        @endteleport
+    @endif
 </div>
 
 @script

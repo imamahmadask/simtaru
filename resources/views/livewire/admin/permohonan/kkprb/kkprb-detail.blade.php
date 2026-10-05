@@ -32,14 +32,49 @@
             </div>
         @endif
 
-        <div class="d-flex justify-content-between align-items-center">
-            <h4 class="fw-bold py-3 mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold py-3 mb-0">
                 <span class="text-muted fw-light">Permohonan /</span> Detail Permohonan KKPR Berusaha Non UMK
             </h4>
+            @if(Auth::check() && Auth::user()->role === 'superadmin')
+            <div>
+                <button type="button" class="btn btn-warning" wire:click="openKeteranganBerkas">
+                    <i class="bx bx-buildings me-1"></i> Posisi Berkas (BPN / DPMPTSP)
+                </button>
+            </div>
+            @endif
         </div>
 
         <div class="row">
             <div class="col-xxl">
+                @if ($kkprb->permohonan->posisi_berkas)
+                    <div class="alert alert-{{ $kkprb->permohonan->posisi_berkas === 'BPN' ? 'warning' : 'info' }} d-flex align-items-center justify-content-between mb-4 shadow-sm">
+                        <div class="d-flex align-items-center">
+                            <i class="bx bx-buildings fs-2 me-3"></i>
+                            <div>
+                                <span class="badge bg-{{ $kkprb->permohonan->posisi_berkas === 'BPN' ? 'warning' : 'info' }} text-uppercase mb-1">
+                                    Posisi Berkas Saat Ini
+                                </span>
+                                <h5 class="alert-heading fw-bold mb-1">
+                                    Sedang berada di {{ $kkprb->permohonan->posisi_berkas }}{{ $kkprb->permohonan->proses_berkas ? ' - Tahapan ' . $kkprb->permohonan->proses_berkas : '' }}
+                                </h5>
+                                <div class="small">
+                                    Per Tanggal: <strong>{{ $kkprb->permohonan->tgl_posisi_berkas ? \Carbon\Carbon::parse($kkprb->permohonan->tgl_posisi_berkas)->translatedFormat('d F Y') : '-' }}</strong>
+                                    @if ($kkprb->permohonan->ket_posisi_berkas)
+                                        &bull; <span class="fst-italic text-dark">"{{ $kkprb->permohonan->ket_posisi_berkas }}"</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        @if(Auth::check() && Auth::user()->role === 'superadmin')
+                        <div>
+                            <button type="button" class="btn btn-sm btn-outline-dark" wire:click="openKeteranganBerkas">
+                                <i class="bx bx-edit me-1"></i> Update Posisi
+                            </button>
+                        </div>
+                        @endif
+                    </div>
+                @endif
                 <div class="nav-align-top mb-4">
                     <ul class="nav nav-pills mb-3" role="tablist">
                         <li class="nav-item">
@@ -371,6 +406,11 @@
             </div>
         </div>
     </div>
+    @if (Auth::check() && Auth::user()->role === 'superadmin')
+        @teleport('body')
+            @livewire('admin.permohonan.keterangan-berkas-modal', [], key('modal-posisi-berkas-kkprb-detail'))
+        @endteleport
+    @endif
 </div>
 @script
     <script>

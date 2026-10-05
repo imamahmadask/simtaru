@@ -22,6 +22,16 @@
                         @endif
                     </button>
                 @endif
+                @if(Auth::check() && Auth::user()->role === 'superadmin')
+                    <button type="button" class="btn {{ $skrk->permohonan->posisi_berkas === 'DPMPTSP' && $skrk->permohonan->proses_berkas === 'Cetak Berkas' ? 'btn-warning' : 'btn-outline-warning' }}"
+                        wire:click="$dispatch('open-modal-posisi-berkas', { skrk_id: {{ $skrk->id }}, instansi: 'DPMPTSP', proses: 'Cetak Berkas' })"
+                        title="Keterangan Berkas berada di DPMPTSP (Cetak Berkas)">
+                        <i class="bx bx-buildings me-1"></i> Berkas di DPMPTSP (Cetak)
+                        @if ($skrk->permohonan->posisi_berkas === 'DPMPTSP' && $skrk->permohonan->proses_berkas === 'Cetak Berkas')
+                            <span class="badge bg-white text-dark ms-1">Aktif</span>
+                        @endif
+                    </button>
+                @endif
             @endcan
         </div>
     </div>

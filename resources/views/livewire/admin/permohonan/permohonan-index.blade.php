@@ -113,7 +113,31 @@
                                         {{ $data->registrasi->nama }}
                                     </td>                                    
                                     <td>
-                                        {{ $data->keterangan }}
+                                        @if ($data->posisi_berkas)
+                                            <div class="mb-1">
+                                                <span
+                                                    class="badge bg-label-{{ $data->posisi_berkas === 'BPN' ? 'warning' : 'info' }}"
+                                                    style="white-space: normal;">
+                                                    <i
+                                                        class="bx bx-buildings me-1"></i>{{ $data->posisi_berkas }}
+                                                    @if ($data->proses_berkas)
+                                                        ({{ $data->proses_berkas }})
+                                                    @endif
+                                                </span>
+                                                <small class="text-muted d-block" style="font-size: 11px;">
+                                                    Per:
+                                                    {{ $data->tgl_posisi_berkas ? \Carbon\Carbon::parse($data->tgl_posisi_berkas)->format('d-m-Y') : '-' }}
+                                                </small>
+                                                @if ($data->ket_posisi_berkas)
+                                                    <small class="text-secondary d-block fst-italic" style="font-size: 11px;">
+                                                        {{ Str::limit($data->ket_posisi_berkas, 40) }}
+                                                    </small>
+                                                @endif
+                                            </div>
+                                        @endif
+                                        @if ($data->keterangan && !$data->posisi_berkas)
+                                            <span>{{ $data->keterangan }}</span>
+                                        @endif
                                     </td>
                                     <td>
                                         @if($data->registrasi->status == 'Berkas Dicabut' || $data->registrasi->status == 'Berkas Tidak Lengkap' || $data->is_ditolak || $data->registrasi->status == 'Berkas Ditolak')
@@ -138,6 +162,13 @@
                                                 type="button" class="btn btn-primary btn-sm">
                                                 <i class="bx bx-show"></i>
                                             </a>
+                                            @if (Auth::check() && Auth::user()->role === 'superadmin' && $data->layanan?->kode !== 'ITR')
+                                                <button type="button" class="btn btn-warning btn-sm"
+                                                    wire:click="openKeteranganBerkas({{ $data->id }})"
+                                                    title="Keterangan Posisi Berkas (BPN / DPMPTSP)">
+                                                    <i class="bx bx-buildings"></i>
+                                                </button>
+                                            @endif
                                             @if($data->status != 'completed')
                                                 <button type="button" class="btn btn-danger btn-sm"
                                                     wire:click="openModalTolak({{ $data->id }})" title="{{ $data->is_ditolak ? 'Detail Penolakan Berkas' : 'Tolak Berkas' }}">
@@ -320,4 +351,10 @@
             });
         });
     </script>
+
+    @if (Auth::check() && Auth::user()->role === 'superadmin')
+        @teleport('body')
+            @livewire('admin.permohonan.keterangan-berkas-modal', [], key('modal-posisi-berkas-permohonan-index'))
+        @endteleport
+    @endif
 </div>

@@ -37,7 +37,15 @@ class Permohonan extends Model
         'is_ditolak',
         'surat_penolakan',
         'alasan_ditolak',
-        'tgl_surat_penolakan'
+        'tgl_surat_penolakan',
+        'posisi_berkas',
+        'proses_berkas',
+        'tgl_posisi_berkas',
+        'ket_posisi_berkas',
+    ];
+
+    protected $casts = [
+        'tgl_posisi_berkas' => 'date',
     ];
 
     public function layanan()

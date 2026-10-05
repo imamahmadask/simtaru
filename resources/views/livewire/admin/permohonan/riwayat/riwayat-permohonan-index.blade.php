@@ -37,10 +37,36 @@
                     @foreach ($permohonan->registrasi->riwayat as $riwayat)
                         <li class="timeline-item mb-3">
                             <small class="text-muted">
-                                {{ date('j F Y h:i:s', strtotime($riwayat->created_at)) }}
+                                {{ date('j F Y H:i:s', strtotime($riwayat->created_at)) }}
                             </small>
-                            <h5 class="fw-bold mb-1">{{ $riwayat->keterangan }}</h5>
-                            <p class="text-muted">
+                            @if ($riwayat->instansi)
+                                <div class="mt-1 mb-1">
+                                    <span class="badge bg-{{ $riwayat->instansi === 'BPN' ? 'warning' : 'info' }} me-1">
+                                        <i class="bx bx-buildings me-1"></i>{{ $riwayat->instansi }}
+                                    </span>
+                                    @if ($riwayat->proses)
+                                        <span class="badge bg-label-primary me-1">
+                                            {{ $riwayat->proses }}
+                                        </span>
+                                    @endif
+                                    @if ($riwayat->tanggal_status)
+                                        <span class="badge bg-label-secondary">
+                                            Per: {{ \Carbon\Carbon::parse($riwayat->tanggal_status)->translatedFormat('d F Y') }}
+                                        </span>
+                                    @endif
+                                </div>
+                                @php
+                                    $keteranganText = $riwayat->keterangan;
+                                    if ($riwayat->instansi === 'BPN') {
+                                        $keteranganText = str_ireplace(['(Bagian Survey)', '(Bagian Survey )'], '', $keteranganText);
+                                        $keteranganText = preg_replace('/\s+/', ' ', $keteranganText);
+                                    }
+                                @endphp
+                                <h6 class="fw-bold mb-1 text-dark">{{ $keteranganText }}</h6>
+                            @else
+                                <h5 class="fw-bold mb-1">{{ $riwayat->keterangan }}</h5>
+                            @endif
+                            <p class="text-muted mb-0 small">
                                 Oleh : {{ $riwayat->user->name ?? '-' }}
                             </p>
                         </li>

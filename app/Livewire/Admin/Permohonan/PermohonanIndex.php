@@ -8,6 +8,7 @@ use App\Models\Permohonan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -19,6 +20,26 @@ class PermohonanIndex extends Component
     use WithPagination, WithFileUploads, HasPermohonanTimeline;
 
     public $search = '';
+
+    #[On('refresh-permohonan-index')]
+    public function refreshIndex()
+    {
+        // triggers re-render
+    }
+
+    public function openKeteranganBerkas($permohonanId)
+    {
+        if (!Auth::check() || Auth::user()->role !== 'superadmin') {
+            return;
+        }
+
+        $permohonan = Permohonan::with('layanan')->find($permohonanId);
+        if ($permohonan?->layanan?->kode === 'ITR') {
+            return;
+        }
+
+        $this->dispatch('open-modal-posisi-berkas', permohonan_id: $permohonanId);
+    }
     public $filterLayanan = '';
     public $filterStatus = '';
     public $filterPrioritas = '';

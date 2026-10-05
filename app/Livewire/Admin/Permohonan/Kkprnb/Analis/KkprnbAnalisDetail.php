@@ -20,6 +20,7 @@ class KkprnbAnalisDetail extends Component
     public $disposisiAnalis = null;
 
     #[On('refresh-kkprnb-analis-list')]
+    #[On('refresh-kkprnb-analis-detail')]
     public function refresh() {
         $this->kkprnb->refresh();
     }

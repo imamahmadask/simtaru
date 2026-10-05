@@ -8,14 +8,49 @@
     </style>
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="d-flex justify-content-between align-items-center">
-            <h4 class="fw-bold py-3 mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold py-3 mb-0">
                 <span class="text-muted fw-light">Permohonan /</span> Detail Permohonan
             </h4>
+            @if(Auth::check() && Auth::user()->role === 'superadmin' && $permohonan->layanan?->kode !== 'ITR')
+            <div>
+                <button type="button" class="btn btn-warning" wire:click="openKeteranganBerkas">
+                    <i class="bx bx-buildings me-1"></i> Posisi Berkas (BPN / DPMPTSP)
+                </button>
+            </div>
+            @endif
         </div>
 
         <div class="row">
             <div class="col-xxl">
+                @if ($permohonan->posisi_berkas)
+                    <div class="alert alert-{{ $permohonan->posisi_berkas === 'BPN' ? 'warning' : 'info' }} d-flex align-items-center justify-content-between mb-4 shadow-sm">
+                        <div class="d-flex align-items-center">
+                            <i class="bx bx-buildings fs-2 me-3"></i>
+                            <div>
+                                <span class="badge bg-{{ $permohonan->posisi_berkas === 'BPN' ? 'warning' : 'info' }} text-uppercase mb-1">
+                                    Posisi Berkas Saat Ini
+                                </span>
+                                <h5 class="alert-heading fw-bold mb-1">
+                                    Sedang berada di {{ $permohonan->posisi_berkas }}{{ $permohonan->proses_berkas ? ' - Tahapan ' . $permohonan->proses_berkas : '' }}
+                                </h5>
+                                <div class="small">
+                                    Per Tanggal: <strong>{{ $permohonan->tgl_posisi_berkas ? \Carbon\Carbon::parse($permohonan->tgl_posisi_berkas)->translatedFormat('d F Y') : '-' }}</strong>
+                                    @if ($permohonan->ket_posisi_berkas)
+                                        &bull; <span class="fst-italic text-dark">"{{ $permohonan->ket_posisi_berkas }}"</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        @if(Auth::check() && Auth::user()->role === 'superadmin' && $permohonan->layanan?->kode !== 'ITR')
+                        <div>
+                            <button type="button" class="btn btn-sm btn-outline-dark" wire:click="openKeteranganBerkas">
+                                <i class="bx bx-edit me-1"></i> Update Posisi
+                            </button>
+                        </div>
+                        @endif
+                    </div>
+                @endif
                 <div class="nav-align-top mb-4">
                     <ul class="nav nav-pills mb-3" role="tablist">
                         <li class="nav-item">
@@ -334,4 +369,9 @@
             </div>
         </div>
     </div>
+    @if (Auth::check() && Auth::user()->role === 'superadmin' && $permohonan->layanan?->kode !== 'ITR')
+        @teleport('body')
+            @livewire('admin.permohonan.keterangan-berkas-modal', [], key('modal-posisi-berkas-permohonan-detail'))
+        @endteleport
+    @endif
 </div>

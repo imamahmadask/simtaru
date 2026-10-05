@@ -67,6 +67,16 @@
                         @endif
                     </button>
                 @endif
+                @if(Auth::check() && Auth::user()->role === 'superadmin')
+                    <button type="button" class="btn {{ $skrk->permohonan->posisi_berkas === 'BPN' && $skrk->permohonan->proses_berkas === 'Proses Survey' ? 'btn-warning' : 'btn-outline-warning' }}"
+                        wire:click="$dispatch('open-modal-posisi-berkas', { skrk_id: {{ $skrk->id }}, instansi: 'BPN', proses: 'Proses Survey' })"
+                        title="Keterangan Berkas berada di BPN (Proses Survey)">
+                        <i class="bx bx-buildings me-1"></i> Berkas di BPN (Survey)
+                        @if ($skrk->permohonan->posisi_berkas === 'BPN' && $skrk->permohonan->proses_berkas === 'Proses Survey')
+                            <span class="badge bg-white text-dark ms-1">Aktif</span>
+                        @endif
+                    </button>
+                @endif
             @endcan
         </div>
     </div>

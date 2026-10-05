@@ -39,8 +39,10 @@ class SkrkSurveyDetail extends Component
     }
 
     #[On('refresh-skrk-survey-list')]
+    #[On('refresh-skrk-survey-detail')]
     public function refresh()
     {
+        $this->skrk->refresh();
         $this->cek_disposisi = $this->skrk->permohonan->disposisi()->where('tahapan_id', $this->skrk->permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id'))->first();
     }
 

@@ -9,8 +9,8 @@
                 <div class="col d-flex justify-content-end align-items-center">
                     <!-- Search kanan -->
                     <div class="col-2">
-                        <input class="form-control" type="search" wire:model.live.debounce.300ms="search" placeholder="Search"
-                            aria-label="Search">
+                        <input class="form-control" type="search" wire:model.live.debounce.300ms="search"
+                            placeholder="Search" aria-label="Search">
                     </div>
                 </div>
             </div>
@@ -32,58 +32,95 @@
                     <tbody class="table-border-bottom-0">
 
                         @foreach ($skrk as $data)
-                                <tr wire:key="{{ $data->id }}">
-                                    <td>
-                                        {{ ($skrk->currentPage() - 1) * $skrk->perPage() + $loop->iteration }}
-                                    </td>
-                                    <td class="text-nowrap">
-                                        <strong>
-                                            {{ $data->registrasi->kode }}
-                                        </strong>
-                                    </td>
-                                    <td>
-                                        {{ $data->registrasi->nama }}
-                                    </td>
-                                    <td>
-                                        {{ date('d-m-Y', strtotime($data->registrasi->tanggal)) }}
-                                    </td>
-                                    <td>
-                                        @if ($data->permohonan->is_done)
-                                            {{ $data->permohonan->waktu_pengerjaan }} Hari
-                                        @endif
-                                    </td>
-                                    <td>
-                                        {{ $data->permohonan->keterangan }}
-                                    </td>
-                                    <td>
-                                        @if($data->permohonan->registrasi->status == 'Berkas Dicabut' || $data->permohonan->registrasi->status == 'Berkas Tidak Lengkap' || $data->permohonan->is_ditolak || $data->permohonan->registrasi->status == 'Berkas Ditolak')
+                            <tr wire:key="{{ $data->id }}">
+                                <td>
+                                    {{ ($skrk->currentPage() - 1) * $skrk->perPage() + $loop->iteration }}
+                                </td>
+                                <td class="text-nowrap">
+                                    <strong>
+                                        {{ $data->registrasi->kode }}
+                                    </strong>
+                                </td>
+                                <td>
+                                    {{ $data->registrasi->nama }}
+                                </td>
+                                <td>
+                                    {{ date('d-m-Y', strtotime($data->registrasi->tanggal)) }}
+                                </td>
+                                <td>
+                                    @if ($data->permohonan->is_done)
+                                        {{ $data->permohonan->waktu_pengerjaan }} Hari
+                                    @endif
+                                </td>
+                                <td class="text-nowrap">
+                                    @if ($data->permohonan->posisi_berkas)
+                                        <div class="mb-1">
                                             <span
-                                                class="badge bg-label-danger me-1">
-                                                {{ $data->permohonan->is_ditolak ? 'Berkas Ditolak' : $data->permohonan->registrasi->status }}
-                                            </span>                                        
-                                        @else
-                                            <span
-                                                class="badge bg-label-{{ $data->permohonan->status == 'completed' ? 'success' : 'warning' }} me-1">
-                                                {{ is_null($data->permohonan) ? 'Belum Entry' : $data->permohonan->status }}
+                                                class="badge bg-label-{{ $data->permohonan->posisi_berkas === 'BPN' ? 'warning' : 'info' }}"
+                                                style="white-space: normal;">
+                                                <i
+                                                    class="bx bx-buildings me-1"></i>{{ $data->permohonan->posisi_berkas }}
+                                                @if ($data->permohonan->proses_berkas)
+                                                    ({{ $data->permohonan->proses_berkas }})
+                                                @endif
                                             </span>
+                                            <small class="text-muted d-block" style="font-size: 11px;">
+                                                Per:
+                                                {{ $data->permohonan->tgl_posisi_berkas ? \Carbon\Carbon::parse($data->permohonan->tgl_posisi_berkas)->format('d-m-Y') : '-' }}
+                                            </small>
+                                            @if ($data->permohonan->ket_posisi_berkas)
+                                                <small class="text-secondary d-block fst-italic"
+                                                    style="font-size: 11px;">
+                                                    {{ Str::limit($data->permohonan->ket_posisi_berkas, 40) }}
+                                                </small>
+                                            @endif
+                                        </div>
+                                    @endif
+                                    @if ($data->permohonan->keterangan && !$data->permohonan->posisi_berkas)
+                                        <span>{{ $data->permohonan->keterangan }}</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if (
+                                        $data->permohonan->registrasi->status == 'Berkas Dicabut' ||
+                                            $data->permohonan->registrasi->status == 'Berkas Tidak Lengkap' ||
+                                            $data->permohonan->is_ditolak ||
+                                            $data->permohonan->registrasi->status == 'Berkas Ditolak')
+                                        <span class="badge bg-label-danger me-1">
+                                            {{ $data->permohonan->is_ditolak ? 'Berkas Ditolak' : $data->permohonan->registrasi->status }}
+                                        </span>
+                                    @else
+                                        <span
+                                            class="badge bg-label-{{ $data->permohonan->status == 'completed' ? 'success' : 'warning' }} me-1">
+                                            {{ is_null($data->permohonan) ? 'Belum Entry' : $data->permohonan->status }}
+                                        </span>
+                                    @endif
+                                </td>
+                                <td class="text-nowrap">
+                                    @if (
+                                        $data->permohonan->registrasi->status != 'Berkas Dicabut' &&
+                                            $data->permohonan->registrasi->status != 'Berkas Tidak Lengkap')
+                                        <a href="{{ route('skrk.detail', ['id' => $data->id]) }}" type="button"
+                                            class="btn btn-primary btn-sm" title="Lihat Detail SKRK">
+                                            <i class="bx bx-show"></i>
+                                        </a>
+                                        @if (Auth::check() && Auth::user()->role === 'superadmin')
+                                            <button type="button" class="btn btn-warning btn-sm"
+                                                wire:click="openKeteranganBerkas({{ $data->id }})"
+                                                title="Keterangan Posisi Berkas (BPN / Dinas Perizinan)">
+                                                <i class="bx bx-buildings"></i>
+                                            </button>
                                         @endif
-                                    </td>
-                                    <td>
-                                        @if($data->permohonan->registrasi->status != 'Berkas Dicabut' && $data->permohonan->registrasi->status != 'Berkas Tidak Lengkap')
-                                            <a href="{{ route('skrk.detail', ['id' => $data->id]) }}" type="button"
-                                                class="btn btn-primary btn-sm">
-                                                <i class="bx bx-show"></i>
-                                            </a>
-                                            @can('manageAll', App\Models\Permohonan::class)
-                                                <button type="button" class="btn btn-info btn-sm" 
-                                                    wire:click="showTimeline({{ $data->id }})"
-                                                    title="Lihat Timeline Pengerjaan">
-                                                    <i class="bx bx-time-five"></i>
-                                                </button>
-                                            @endcan
-                                        @endif
-                                    </td>
-                                </tr>
+                                        @can('manageAll', App\Models\Permohonan::class)
+                                            <button type="button" class="btn btn-info btn-sm"
+                                                wire:click="showTimeline({{ $data->id }})"
+                                                title="Lihat Timeline Pengerjaan">
+                                                <i class="bx bx-time-five"></i>
+                                            </button>
+                                        @endcan
+                                    @endif
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
@@ -98,17 +135,19 @@
     </div>
 
     <!-- Timeline Modal -->
-    <div wire:ignore.self class="modal fade" id="timelineModal" tabindex="-1" aria-labelledby="timelineModalLabel" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="timelineModal" tabindex="-1" aria-labelledby="timelineModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
                     <h5 class="modal-title text-white" id="timelineModalLabel">
                         <i class="bx bx-time-five me-2"></i>Timeline Pengerjaan
                     </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    @if($showTimelineModal)
+                    @if ($showTimelineModal)
                         <div class="mb-3">
                             <h6 class="text-muted mb-1">Permohonan</h6>
                             <h5 class="fw-bold">{{ $timelineTitle }}</h5>
@@ -116,13 +155,21 @@
 
                         <hr>
 
-                        @if(count($timelineData) > 0)
+                        @if (count($timelineData) > 0)
                             {{-- Summary Cards --}}
                             @php
-                                $surveyItems = collect($timelineData)->where('tahapan', 'Survey')->where('status', '!=', 'revised');
-                                $analisItems = collect($timelineData)->where('tahapan', 'Analisis')->where('status', '!=', 'revised');
-                                $verifikasiItems = collect($timelineData)->where('tahapan', 'Verifikasi')->where('status', '!=', 'revised');
-                                $cetakItems = collect($timelineData)->where('tahapan', 'Cetak')->where('status', '!=', 'revised');
+                                $surveyItems = collect($timelineData)
+                                    ->where('tahapan', 'Survey')
+                                    ->where('status', '!=', 'revised');
+                                $analisItems = collect($timelineData)
+                                    ->where('tahapan', 'Analisis')
+                                    ->where('status', '!=', 'revised');
+                                $verifikasiItems = collect($timelineData)
+                                    ->where('tahapan', 'Verifikasi')
+                                    ->where('status', '!=', 'revised');
+                                $cetakItems = collect($timelineData)
+                                    ->where('tahapan', 'Cetak')
+                                    ->where('status', '!=', 'revised');
                             @endphp
 
                             <div class="row g-3 mb-4">
@@ -131,16 +178,20 @@
                                     <div class="card border shadow-none h-100">
                                         <div class="card-body p-3">
                                             <div class="d-flex align-items-center mb-2">
-                                                <div class="avatar avatar-sm me-2 flex-shrink-0" style="background-color: #e7f3ff; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                                <div class="avatar avatar-sm me-2 flex-shrink-0"
+                                                    style="background-color: #e7f3ff; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
                                                     <i class="bx bx-map" style="color: #2196F3; font-size: 18px;"></i>
                                                 </div>
                                                 <h6 class="mb-0 fw-bold">Survey</h6>
                                             </div>
-                                            @if($surveyItems->count() > 0)
+                                            @if ($surveyItems->count() > 0)
                                                 @php $latestSurvey = $surveyItems->last(); @endphp
-                                                <div class="small text-muted">Petugas: <strong>{{ $latestSurvey['penerima'] }}</strong></div>
-                                                <div class="small text-muted">Durasi: 
-                                                    <span class="badge bg-label-{{ $latestSurvey['is_done'] ? 'success' : 'warning' }}">
+                                                <div class="small text-muted">Petugas:
+                                                    <strong>{{ $latestSurvey['penerima'] }}</strong>
+                                                </div>
+                                                <div class="small text-muted">Durasi:
+                                                    <span
+                                                        class="badge bg-label-{{ $latestSurvey['is_done'] ? 'success' : 'warning' }}">
                                                         {{ $latestSurvey['durasi'] }}
                                                     </span>
                                                 </div>
@@ -156,16 +207,21 @@
                                     <div class="card border shadow-none h-100">
                                         <div class="card-body p-3">
                                             <div class="d-flex align-items-center mb-2">
-                                                <div class="avatar avatar-sm me-2 flex-shrink-0" style="background-color: #fef3e2; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                                                    <i class="bx bx-analyse" style="color: #FF9800; font-size: 18px;"></i>
+                                                <div class="avatar avatar-sm me-2 flex-shrink-0"
+                                                    style="background-color: #fef3e2; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                                    <i class="bx bx-analyse"
+                                                        style="color: #FF9800; font-size: 18px;"></i>
                                                 </div>
                                                 <h6 class="mb-0 fw-bold">Analisis</h6>
                                             </div>
-                                            @if($analisItems->count() > 0)
+                                            @if ($analisItems->count() > 0)
                                                 @php $latestAnalis = $analisItems->last(); @endphp
-                                                <div class="small text-muted">Petugas: <strong>{{ $latestAnalis['penerima'] }}</strong></div>
-                                                <div class="small text-muted">Durasi: 
-                                                    <span class="badge bg-label-{{ $latestAnalis['is_done'] ? 'success' : 'warning' }}">
+                                                <div class="small text-muted">Petugas:
+                                                    <strong>{{ $latestAnalis['penerima'] }}</strong>
+                                                </div>
+                                                <div class="small text-muted">Durasi:
+                                                    <span
+                                                        class="badge bg-label-{{ $latestAnalis['is_done'] ? 'success' : 'warning' }}">
                                                         {{ $latestAnalis['durasi'] }}
                                                     </span>
                                                 </div>
@@ -181,16 +237,21 @@
                                     <div class="card border shadow-none h-100">
                                         <div class="card-body p-3">
                                             <div class="d-flex align-items-center mb-2">
-                                                <div class="avatar avatar-sm me-2 flex-shrink-0" style="background-color: #e8f5e9; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                                                    <i class="bx bx-check-shield" style="color: #4CAF50; font-size: 18px;"></i>
+                                                <div class="avatar avatar-sm me-2 flex-shrink-0"
+                                                    style="background-color: #e8f5e9; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                                    <i class="bx bx-check-shield"
+                                                        style="color: #4CAF50; font-size: 18px;"></i>
                                                 </div>
                                                 <h6 class="mb-0 fw-bold">Verifikasi</h6>
                                             </div>
-                                            @if($verifikasiItems->count() > 0)
+                                            @if ($verifikasiItems->count() > 0)
                                                 @php $latestVerifikasi = $verifikasiItems->last(); @endphp
-                                                <div class="small text-muted">Petugas: <strong>{{ $latestVerifikasi['penerima'] }}</strong></div>
-                                                <div class="small text-muted">Durasi: 
-                                                    <span class="badge bg-label-{{ $latestVerifikasi['is_done'] ? 'success' : 'warning' }}">
+                                                <div class="small text-muted">Petugas:
+                                                    <strong>{{ $latestVerifikasi['penerima'] }}</strong>
+                                                </div>
+                                                <div class="small text-muted">Durasi:
+                                                    <span
+                                                        class="badge bg-label-{{ $latestVerifikasi['is_done'] ? 'success' : 'warning' }}">
                                                         {{ $latestVerifikasi['durasi'] }}
                                                     </span>
                                                 </div>
@@ -206,16 +267,21 @@
                                     <div class="card border shadow-none h-100">
                                         <div class="card-body p-3">
                                             <div class="d-flex align-items-center mb-2">
-                                                <div class="avatar avatar-sm me-2 flex-shrink-0" style="background-color: #fce4ec; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                                                    <i class="bx bx-printer" style="color: #E91E63; font-size: 18px;"></i>
+                                                <div class="avatar avatar-sm me-2 flex-shrink-0"
+                                                    style="background-color: #fce4ec; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                                    <i class="bx bx-printer"
+                                                        style="color: #E91E63; font-size: 18px;"></i>
                                                 </div>
                                                 <h6 class="mb-0 fw-bold">Cetak</h6>
                                             </div>
-                                            @if($cetakItems->count() > 0)
+                                            @if ($cetakItems->count() > 0)
                                                 @php $latestCetak = $cetakItems->last(); @endphp
-                                                <div class="small text-muted">Petugas: <strong>{{ $latestCetak['penerima'] }}</strong></div>
-                                                <div class="small text-muted">Durasi: 
-                                                    <span class="badge bg-label-{{ $latestCetak['is_done'] ? 'success' : 'warning' }}">
+                                                <div class="small text-muted">Petugas:
+                                                    <strong>{{ $latestCetak['penerima'] }}</strong>
+                                                </div>
+                                                <div class="small text-muted">Durasi:
+                                                    <span
+                                                        class="badge bg-label-{{ $latestCetak['is_done'] ? 'success' : 'warning' }}">
                                                         {{ $latestCetak['durasi'] }}
                                                     </span>
                                                 </div>
@@ -249,8 +315,9 @@
                                                 <td class="text-center">{{ $index + 1 }}</td>
                                                 <td>
                                                     <strong>{{ $item['tahapan'] }}</strong>
-                                                    @if($item['is_revisi'])
-                                                        <span class="badge bg-label-warning ms-1" style="font-size: 10px;">Revisi</span>
+                                                    @if ($item['is_revisi'])
+                                                        <span class="badge bg-label-warning ms-1"
+                                                            style="font-size: 10px;">Revisi</span>
                                                     @endif
                                                 </td>
                                                 <td>
@@ -263,7 +330,8 @@
                                                     @endphp
                                                     {{ $tgl_disposisi[0] }}
                                                     @if (isset($tgl_disposisi[1]))
-                                                        <br><small class="text-muted fst-italic">{{ $tgl_disposisi[1] }}</small>
+                                                        <br><small
+                                                            class="text-muted fst-italic">{{ $tgl_disposisi[1] }}</small>
                                                     @endif
                                                 </td>
                                                 <td class="text-nowrap small">
@@ -272,7 +340,8 @@
                                                     @endphp
                                                     {{ $tgl_mulai[0] }}
                                                     @if (isset($tgl_mulai[1]))
-                                                        <br><small class="text-muted fst-italic">{{ $tgl_mulai[1] }}</small>
+                                                        <br><small
+                                                            class="text-muted fst-italic">{{ $tgl_mulai[1] }}</small>
                                                     @endif
                                                 </td>
                                                 <td class="text-nowrap small">
@@ -281,23 +350,29 @@
                                                     @endphp
                                                     {{ $tgl_selesai[0] }}
                                                     @if (isset($tgl_selesai[1]))
-                                                        <br><small class="text-muted fst-italic">{{ $tgl_selesai[1] }}</small>
+                                                        <br><small
+                                                            class="text-muted fst-italic">{{ $tgl_selesai[1] }}</small>
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    @if($item['is_done'])
-                                                        <span class="text-success fw-bold">{{ $item['durasi'] }}</span>
+                                                    @if ($item['is_done'])
+                                                        <span
+                                                            class="text-success fw-bold">{{ $item['durasi'] }}</span>
                                                     @else
-                                                        <span class="text-warning fst-italic">{{ $item['durasi'] }}</span>
+                                                        <span
+                                                            class="text-warning fst-italic">{{ $item['durasi'] }}</span>
                                                     @endif
                                                 </td>
                                                 <td class="text-center">
-                                                    @if($item['status'] == 'completed')
-                                                        <span class="badge bg-success"><i class="bx bx-check"></i> Selesai</span>
+                                                    @if ($item['status'] == 'completed')
+                                                        <span class="badge bg-success"><i class="bx bx-check"></i>
+                                                            Selesai</span>
                                                     @elseif($item['status'] == 'revised')
-                                                        <span class="badge bg-warning"><i class="bx bx-revision"></i> Direvisi</span>
+                                                        <span class="badge bg-warning"><i class="bx bx-revision"></i>
+                                                            Direvisi</span>
                                                     @else
-                                                        <span class="badge bg-secondary"><i class="bx bx-loader-alt"></i> Proses</span>
+                                                        <span class="badge bg-secondary"><i
+                                                                class="bx bx-loader-alt"></i> Proses</span>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -306,11 +381,12 @@
                                 </table>
                             </div>
 
-                            @if($permohonanIsDone)
+                            @if ($permohonanIsDone)
                                 <div class="mt-3 p-3 bg-label-success border rounded">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h6 class="mb-0 fw-bold text-success">Total Waktu Penyelesaian:</h6>
-                                        <span class="badge bg-success" style="font-size: 14px;">{{ $permohonanWaktuPekerjaan }} Hari</span>
+                                        <span class="badge bg-success"
+                                            style="font-size: 14px;">{{ $permohonanWaktuPekerjaan }} Hari</span>
                                     </div>
                                 </div>
                             @endif
@@ -328,6 +404,12 @@
             </div>
         </div>
     </div>
+
+    @if (Auth::check() && Auth::user()->role === 'superadmin')
+        @teleport('body')
+            @livewire('admin.permohonan.keterangan-berkas-modal', [], key('modal-posisi-berkas-skrk-index'))
+        @endteleport
+    @endif
 </div>
 
 @script
@@ -338,4 +420,3 @@
         });
     </script>
 @endscript
-

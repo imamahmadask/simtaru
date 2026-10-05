@@ -4,6 +4,8 @@ namespace App\Livewire\Admin\Permohonan\Kkprnb;
 
 use App\Livewire\Concerns\HasPermohonanTimeline;
 use App\Models\Kkprnb;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -14,6 +16,20 @@ class KkprnbIndex extends Component
     use WithPagination, HasPermohonanTimeline;
 
     public $search = '';
+
+    #[On('refresh-kkprnb-index')]
+    public function refreshIndex()
+    {
+        // triggers re-render
+    }
+
+    public function openKeteranganBerkas($kkprnbId)
+    {
+        if (!Auth::check() || Auth::user()->role !== 'superadmin') {
+            return;
+        }
+        $this->dispatch('open-modal-posisi-berkas', kkprnb_id: $kkprnbId);
+    }
 
     public function showTimeline($kkprnbId)
     {

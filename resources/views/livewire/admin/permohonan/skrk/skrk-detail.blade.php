@@ -32,14 +32,54 @@
             </div>
         @endif
 
-        <div class="d-flex justify-content-between align-items-center">
-            <h4 class="fw-bold py-3 mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold py-3 mb-0">
                 <span class="text-muted fw-light">Permohonan /</span> Detail Permohonan SKRK
             </h4>
+            @if (Auth::check() && Auth::user()->role === 'superadmin')
+                <div>
+                    <button type="button" class="btn btn-warning" wire:click="openKeteranganBerkas">
+                        <i class="bx bx-buildings me-1"></i> Posisi Berkas (BPN / DPMPTSP)
+                    </button>
+                </div>
+            @endif
         </div>
 
         <div class="row">
             <div class="col-xxl">
+                @if ($skrk->permohonan->posisi_berkas)
+                    <div
+                        class="alert alert-{{ $skrk->permohonan->posisi_berkas === 'BPN' ? 'warning' : 'info' }} d-flex align-items-center justify-content-between mb-4 shadow-sm">
+                        <div class="d-flex align-items-center">
+                            <i class="bx bx-buildings fs-2 me-3"></i>
+                            <div>
+                                <span
+                                    class="badge bg-{{ $skrk->permohonan->posisi_berkas === 'BPN' ? 'warning' : 'info' }} text-uppercase mb-1">
+                                    Posisi Berkas Saat Ini
+                                </span>
+                                <h5 class="alert-heading fw-bold mb-1">
+                                    Sedang berada di {{ $skrk->permohonan->posisi_berkas }}{{ $skrk->permohonan->proses_berkas ? ' - Tahapan ' . $skrk->permohonan->proses_berkas : '' }}
+                                </h5>
+                                <div class="small">
+                                    Per Tanggal:
+                                    <strong>{{ $skrk->permohonan->tgl_posisi_berkas ? \Carbon\Carbon::parse($skrk->permohonan->tgl_posisi_berkas)->translatedFormat('d F Y') : '-' }}</strong>
+                                    @if ($skrk->permohonan->ket_posisi_berkas)
+                                        &bull; <span
+                                            class="fst-italic text-dark">"{{ $skrk->permohonan->ket_posisi_berkas }}"</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        @if (Auth::check() && Auth::user()->role === 'superadmin')
+                            <div>
+                                <button type="button" class="btn btn-sm btn-outline-dark"
+                                    wire:click="openKeteranganBerkas">
+                                    <i class="bx bx-edit me-1"></i> Update Posisi
+                                </button>
+                            </div>
+                        @endif
+                    </div>
+                @endif
                 <div class="nav-align-top mb-4">
                     <ul class="nav nav-pills mb-3" role="tablist">
                         <li class="nav-item">
@@ -303,16 +343,25 @@
             </div>
         </div>
     </div>
+    @if (Auth::check() && Auth::user()->role === 'superadmin')
+        @teleport('body')
+            @livewire('admin.permohonan.keterangan-berkas-modal', [], key('modal-posisi-berkas-skrk-detail'))
+        @endteleport
+    @endif
 </div>
+
 @script
     <script>
         document.addEventListener('livewire:initialized', () => {
             Livewire.on('toast', (event) => {
-                const { type = 'success', message = 'Berhasil!' } = event[0] || event;
+                const {
+                    type = 'success', message = 'Berhasil!'
+                } = event[0] || event;
 
                 // Pakai Bootstrap 5 Toast (atau SweetAlert2 kalau mau lebih cantik)
                 const toastEl = document.createElement('div');
-                toastEl.className = `bs-toast toast align-items-center text-white bg-${type === 'error' ? 'danger' : 'success'} bg-${type === 'error' ? 'danger' : 'success'} fade show position-fixed top-0 end-0 m-3`;
+                toastEl.className =
+                    `bs-toast toast align-items-center text-white bg-${type === 'error' ? 'danger' : 'success'} bg-${type === 'error' ? 'danger' : 'success'} fade show position-fixed top-0 end-0 m-3`;
                 toastEl.style.zIndex = 9999;
                 toastEl.setAttribute('role', 'alert');
                 toastEl.innerHTML = `
@@ -328,7 +377,9 @@
                 document.body.appendChild(toastEl);
 
                 // Init dan tampilkan
-                const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+                const toast = new bootstrap.Toast(toastEl, {
+                    delay: 4000
+                });
                 toast.show();
 
                 // Hapus dari DOM setelah selesai

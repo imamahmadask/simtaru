@@ -38,8 +38,10 @@ class KkprbSurveyDetail extends Component
     }
 
     #[On('refresh-kkprb-survey-list')]
+    #[On('refresh-kkprb-survey-detail')]
     public function refresh()
     {
+        $this->kkprb->refresh();
         $this->cek_disposisi = $this->kkprb->permohonan->disposisi()->where('tahapan_id', $this->kkprb->permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id'))->first();
     }
 

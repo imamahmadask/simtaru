@@ -12,6 +12,14 @@ class RiwayatPermohonan extends Model
         'registrasi_id',
         'user_id',
         'keterangan',
+        'instansi',
+        'proses',
+        'tanggal_status',
+        'catatan',
+    ];
+
+    protected $casts = [
+        'tanggal_status' => 'date',
     ];
 
     public function registrasi()

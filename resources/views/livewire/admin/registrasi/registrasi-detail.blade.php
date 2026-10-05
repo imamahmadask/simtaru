@@ -90,7 +90,7 @@
                                             <td>Kecamatan Persil</td>
                                             <td>{{ $kec_tanah }}</td>
                                         </tr>
-                                        @if($status == 'Berkas Dicabut')
+                                        @if ($status == 'Berkas Dicabut')
                                             <tr>
                                                 <td>Status Berkas</td>
                                                 <td>
@@ -112,7 +112,7 @@
                                                 <td>Alasan Tidak Lengkap</td>
                                                 <td>{{ $alasan_tidak_lengkap }}</td>
                                             </tr>
-                                        @elseif($permohonan != NULL)
+                                        @elseif($permohonan != null)
                                             <tr>
                                                 <td>Status</td>
                                                 <td>
@@ -134,10 +134,42 @@
                                     @foreach ($riwayats as $riwayat)
                                         <li class="timeline-item mb-3">
                                             <small class="text-muted">
-                                                {{ date('j F Y h:i:s', strtotime($riwayat->created_at)) }}
+                                                {{ date('j F Y H:i:s', strtotime($riwayat->created_at)) }}
                                             </small>
-                                            <h5 class="fw-semibold fs-6 mb-1">{{ $riwayat->keterangan }}</h5>
-                                            <p class="text-muted">
+                                            @if ($riwayat->instansi)
+                                                <div class="mt-1 mb-1">
+                                                    <span
+                                                        class="badge bg-{{ $riwayat->instansi === 'BPN' ? 'warning' : 'info' }} me-1">
+                                                        <i class="bx bx-buildings me-1"></i>{{ $riwayat->instansi }}
+                                                    </span>
+                                                    @if ($riwayat->tanggal_status)
+                                                        <span class="badge bg-label-secondary">
+                                                            Per:
+                                                            {{ \Carbon\Carbon::parse($riwayat->tanggal_status)->translatedFormat('d F Y') }}
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                                @php
+                                                    $keteranganText = $riwayat->keterangan;
+                                                    if ($riwayat->instansi === 'BPN') {
+                                                        $keteranganText = str_ireplace(
+                                                            [
+                                                                '(Bagian Survey)',
+                                                                '(Analisa)',
+                                                                '(Bagian Survey )',
+                                                                '( Analisa)',
+                                                            ],
+                                                            '',
+                                                            $keteranganText,
+                                                        );
+                                                        $keteranganText = preg_replace('/\s+/', ' ', $keteranganText);
+                                                    }
+                                                @endphp
+                                                <h6 class="fw-semibold fs-6 mb-1 text-dark">{{ $keteranganText }}</h6>
+                                            @else
+                                                <h5 class="fw-semibold fs-6 mb-1">{{ $riwayat->keterangan }}</h5>
+                                            @endif
+                                            <p class="text-muted small mb-0">
                                                 Oleh : {{ $riwayat->user->name ?? '-' }}
                                             </p>
                                         </li>
