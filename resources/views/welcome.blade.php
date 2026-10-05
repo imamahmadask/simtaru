@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    {{-- Security: CSP & X-Frame-Options meta tags --}}
+    {{-- Security: CSP meta tag --}}
     @include('partials.csp-meta')
 
     <meta charset="UTF-8">

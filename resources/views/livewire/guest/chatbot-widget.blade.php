@@ -386,13 +386,13 @@
             <div class="p-2 bg-white border-top">
                 <form wire:submit="sendMessage" class="d-flex gap-2 align-items-center">
                     <input type="text" 
+                        id="simtaru-chat-input"
                         wire:model="inputMessage" 
                         placeholder="Ketik pertanyaan atau nomor registrasi..." 
                         class="form-control form-control-sm rounded-pill px-3 py-2 border" 
                         style="font-size: 0.86rem;"
                         wire:loading.attr="disabled"
-                        wire:target="sendMessage, sendQuickPrompt"
-                        autofocus>
+                        wire:target="sendMessage, sendQuickPrompt">
                     <button type="submit" 
                         class="btn btn-primary rounded-circle p-0 d-flex align-items-center justify-content-center flex-shrink-0" 
                         style="width: 38px; height: 38px;"
@@ -420,7 +420,13 @@
             };
 
             Livewire.on('scroll-chat-to-bottom', () => {
-                setTimeout(scrollToBottom, 60);
+                setTimeout(() => {
+                    scrollToBottom();
+                    const chatInput = document.getElementById('simtaru-chat-input');
+                    if (chatInput) {
+                        chatInput.focus();
+                    }
+                }, 60);
             });
 
             // Inisialisasi Kontrol Scroll Horizontal Pills

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
-        {{-- Security: CSP & X-Frame-Options meta tags --}}
+        {{-- Security: CSP meta tag --}}
         @include('partials.csp-meta')
 
         <meta charset="utf-8">

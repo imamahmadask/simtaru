@@ -50,10 +50,11 @@ class SecurityHeaders
                 . "fonts.googleapis.com fonts.gstatic.com "
                 . "fonts.bunny.net cdn.jsdelivr.net",
 
-            // Koneksi: self + WebSocket Livewire + tile OSM + Google Maps API
+            // Koneksi: self + WebSocket Livewire + tile OSM + Google Maps API + CDN source maps & assets
             "connect-src 'self' ws: wss: "
                 . "*.tile.openstreetmap.org "
-                . "maps.googleapis.com",
+                . "maps.googleapis.com "
+                . "cdn.jsdelivr.net unpkg.com cdnjs.cloudflare.com",
 
             // Frame/iframe: self dan Google Maps embed saja
             "frame-src 'self' www.google.com",

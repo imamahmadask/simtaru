@@ -51,7 +51,10 @@
         cdn.jsdelivr.net;
     connect-src 'self' ws: wss:
         *.tile.openstreetmap.org
-        maps.googleapis.com;
+        maps.googleapis.com
+        cdn.jsdelivr.net
+        unpkg.com
+        cdnjs.cloudflare.com;
     frame-src 'self' www.google.com;
     media-src 'self';
     object-src 'none';
@@ -61,6 +64,3 @@
     upgrade-insecure-requests;
     @endif
 ">
-
-{{-- X-Frame-Options: juga ditegaskan via meta untuk browser yang mendukung --}}
-<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">

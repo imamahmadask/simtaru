@@ -3,7 +3,7 @@
     data-theme="theme-default" data-assets-path="{{ asset('assets') }}/" data-template="vertical-menu-template-free">
 
 <head>
-    {{-- Security: CSP & X-Frame-Options meta tags --}}
+    {{-- Security: CSP meta tag --}}
     @include('partials.csp-meta')
 
     <meta charset="utf-8" />

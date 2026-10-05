@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -25,6 +26,7 @@ use Tests\TestCase;
  */
 class SecurityHeadersTest extends TestCase
 {
+    use RefreshDatabase;
     // ─────────────────────────────────────────────────────────────────────────
     // Helper: ambil response dari halaman utama
     // ─────────────────────────────────────────────────────────────────────────
@@ -124,6 +126,18 @@ class SecurityHeadersTest extends TestCase
             'CSP harus mengizinkan WebSocket aman (wss:) untuk Livewire');
     }
 
+    public function test_csp_header_allows_cdn_in_connect_src(): void
+    {
+        $response = $this->getHomeResponse();
+        $csp = $response->headers->get('Content-Security-Policy');
+        $this->assertMatchesRegularExpression('/connect-src[^;]*cdn\.jsdelivr\.net/', $csp,
+            'CSP connect-src harus mengizinkan cdn.jsdelivr.net untuk source maps Bootstrap');
+        $this->assertMatchesRegularExpression('/connect-src[^;]*unpkg\.com/', $csp,
+            'CSP connect-src harus mengizinkan unpkg.com');
+        $this->assertMatchesRegularExpression('/connect-src[^;]*cdnjs\.cloudflare\.com/', $csp,
+            'CSP connect-src harus mengizinkan cdnjs.cloudflare.com');
+    }
+
     // ─────────────────────────────────────────────────────────────────────────
     // 2. X-Frame-Options (Clickjacking protection)
     // ─────────────────────────────────────────────────────────────────────────
@@ -175,13 +189,13 @@ class SecurityHeadersTest extends TestCase
     // ─────────────────────────────────────────────────────────────────────────
     public function test_response_has_strict_transport_security_header(): void
     {
-        $response = $this->getHomeResponse();
+        $response = $this->get('https://localhost/');
         $response->assertHeader('Strict-Transport-Security');
     }
 
     public function test_hsts_header_has_required_max_age(): void
     {
-        $response = $this->getHomeResponse();
+        $response = $this->get('https://localhost/');
         $hsts = $response->headers->get('Strict-Transport-Security');
         $this->assertStringContainsString('max-age=31536000', $hsts,
             'HSTS harus memiliki max-age minimal 1 tahun (31536000 detik)');
