@@ -197,6 +197,55 @@
             animation: simtaruChatSlideUp 0.25s ease-out;
         }
 
+        /* Chat Header */
+        .simtaru-chat-header {
+            background: linear-gradient(135deg, #0d6efd 0%, #4f46e5 100%);
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            box-sizing: border-box;
+            gap: 10px;
+        }
+
+        .simtaru-header-title {
+            font-size: 0.92rem;
+            font-weight: 700;
+            line-height: 1.25;
+            color: #ffffff;
+            margin: 0;
+            letter-spacing: 0.2px;
+        }
+
+        .simtaru-header-badge {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #ffffff;
+            font-size: 0.62rem;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+            flex-shrink: 0;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        .simtaru-header-badge i {
+            font-size: 0.65rem;
+        }
+
+        .simtaru-header-sub {
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.2;
+            margin-top: 3px;
+        }
+
         @keyframes simtaruChatSlideUp {
             from {
                 opacity: 0;
@@ -445,17 +494,17 @@
     <!-- Floating Action Button & AI Hint Pill -->
     <div class="simtaru-fab-container">
         @if(!$isOpen)
-            <div wire:click="toggleChat" class="simtaru-ai-hint-pill d-none d-sm-flex align-items-center gap-2 shadow-sm" role="button" title="Tanya Asisten AI SIMTARU">
+            <div wire:click="toggleChat" class="simtaru-ai-hint-pill d-none d-sm-flex align-items-center gap-2 shadow-sm" role="button" title="Tanya Asisten AI SIMTARU HARUM">
                 <span class="simtaru-pulse-dot"></span>
-                <span class="simtaru-hint-text">Tanya <strong>AI SIMTARU</strong></span>
+                <span class="simtaru-hint-text">Tanya <strong>AI SIMTARU HARUM</strong></span>
                 <span class="simtaru-hint-badge"><i class="bi bi-stars"></i> AI</span>
             </div>
         @endif
 
         <button wire:click="toggleChat" type="button" 
             class="simtaru-chat-fab position-relative d-flex align-items-center justify-content-center border-0 p-0 text-white {{ !$isOpen ? 'pulse-active' : '' }}"
-            aria-label="Tanya Asisten AI SIMTARU"
-            title="Konsultasi Tata Ruang & Cek Berkas (Asisten AI)">
+            aria-label="Tanya Asisten AI SIMTARU HARUM"
+            title="Konsultasi Tata Ruang & Cek Berkas (Asisten AI SIMTARU HARUM)">
             @if($isOpen)
                 <i class="bi bi-x-lg fs-4 text-white"></i>
             @else
@@ -472,25 +521,25 @@
     @if($isOpen)
         <div class="simtaru-chat-window">
             <!-- Header -->
-            <div class="text-white px-3 py-2.5 d-flex align-items-center justify-content-between" style="background: linear-gradient(135deg, #0d6efd 0%, #4f46e5 100%);">
-                <div class="d-flex align-items-center gap-2">
+            <div class="simtaru-chat-header text-white">
+                <div class="d-flex align-items-center gap-2 overflow-hidden">
                     <div class="position-relative bg-white rounded-circle p-1 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 38px; height: 38px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
                         <i class="bi bi-robot text-primary fs-5"></i>
                         <span class="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle" style="width: 9px; height: 9px;"></span>
                     </div>
-                    <div>
-                        <div class="d-flex align-items-center gap-1.5">
-                            <h6 class="mb-0 fw-bold fs-6">Asisten AI SIMTARU</h6>
-                            <span class="badge bg-warning text-dark px-1.5 py-0.5 rounded-pill fw-bold" style="font-size: 0.62rem; letter-spacing: 0.3px;">
+                    <div class="d-flex flex-column justify-content-center overflow-hidden">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="simtaru-header-title text-truncate">Asisten AI SIMTARU HARUM</span>
+                            <span class="simtaru-header-badge">
                                 <i class="bi bi-stars"></i> AI
                             </span>
                         </div>
-                        <small class="text-white-50" style="font-size: 0.72rem;">
+                        <div class="simtaru-header-sub text-truncate">
                             DPUPR Kota Mataram • Cerdas & Siaga
-                        </small>
+                        </div>
                     </div>
                 </div>
-                <div class="d-flex align-items-center gap-1">
+                <div class="d-flex align-items-center gap-1 flex-shrink-0 ms-2">
                     <button wire:click="resetChat" class="btn btn-sm text-white-50 hover-white p-1" title="Mulai ulang chat">
                         <i class="bi bi-arrow-counterclockwise fs-6"></i>
                     </button>
@@ -543,7 +592,7 @@
                         <div class="d-flex justify-content-start mb-3">
                             <div class="simtaru-bubble simtaru-bubble-model shadow-sm">
                                 <div class="d-flex align-items-center gap-1 mb-1 text-primary fw-bold" style="font-size: 0.73rem;">
-                                    <i class="bi bi-robot"></i> Asisten AI
+                                    <i class="bi bi-robot"></i> Asisten AI SIMTARU HARUM
                                 </div>
                                 <div class="simtaru-content">
                                     {!! \Illuminate\Support\Str::markdown($msg['content']) !!}
@@ -589,7 +638,7 @@
                 </form>
                 <div class="text-center mt-1">
                     <small class="text-muted" style="font-size: 0.65rem;">
-                        SIMTARU AI dapat membuat kekeliruan. Verifikasi informasi penting ke DPUPR Mataram.
+                        SIMTARU HARUM AI dapat membuat kekeliruan. Verifikasi informasi penting ke DPUPR Mataram.
                     </small>
                 </div>
             </div>

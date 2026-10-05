@@ -18,7 +18,7 @@ class ChatbotWidget extends Component
         $this->messages = [
             [
                 'role' => 'model',
-                'content' => "Halo! 👋 Selamat datang di **SIMTARU Kota Mataram**.\n\nSaya adalah **Asisten Virtual (AI)** yang siap membantu Anda seputar:\n- Persyaratan & alur pengajuan dokumen (**SKRK, ITR, KKPR**)\n- Informasi tata ruang & zonasi Kota Mataram\n- Pengecekan status berkas permohonan Anda (ketikkan nomor registrasi Anda)\n\nAda yang dapat saya bantu hari ini?",
+                'content' => "Halo! 👋 Selamat datang di **SIMTARU HARUM Kota Mataram**.\n\nSaya adalah **Asisten Virtual (AI)** yang siap membantu Anda seputar:\n- Persyaratan & alur pengajuan dokumen (**SKRK, ITR, KKPR**)\n- Informasi tata ruang & zonasi Kota Mataram\n- Pengecekan status berkas permohonan Anda (ketikkan nomor registrasi Anda)\n\nAda yang dapat saya bantu hari ini?",
                 'time' => now()->format('H:i'),
             ],
         ];

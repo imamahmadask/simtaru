@@ -50,7 +50,7 @@ class ChatbotFeatureTest extends TestCase
         Livewire::test(ChatbotWidget::class)
             ->set('isOpen', true)
             ->assertSee('Asisten Virtual')
-            ->assertSee('SIMTARU Kota Mataram');
+            ->assertSee('SIMTARU HARUM');
     }
 
     public function test_chatbot_toggle_open_and_close()
