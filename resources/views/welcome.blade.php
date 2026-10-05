@@ -800,6 +800,9 @@
             selector: '.glightbox'
         });
     </script>
+
+    {{-- Chatbot Virtual AI SIMTARU Kota Mataram --}}
+    <livewire:guest.chatbot-widget />
 </body>
 
 </html>
