@@ -62,10 +62,30 @@ class ChatbotWidget extends Component
             return;
         }
 
-        // 2. Proteksi Rate Limiting (Mencegah Spam / DDoS API: Max 15 Pesan per Menit per IP)
-        $throttleKey = 'chatbot-limiter:' . (request()->ip() ?? 'guest');
-        if (RateLimiter::tooManyAttempts($throttleKey, 15)) {
-            $seconds = RateLimiter::availableIn($throttleKey);
+        // 2. Proteksi Rate Limiting
+        $clientIp = request()->ip() ?? 'guest';
+
+        // 2a. Limit Harian (Max 50 Pesan per Hari per IP)
+        $dailyThrottleKey = 'chatbot-daily:' . $clientIp;
+        $maxDailyAttempts = 50;
+        if (RateLimiter::tooManyAttempts($dailyThrottleKey, $maxDailyAttempts)) {
+            $secondsRemaining = RateLimiter::availableIn($dailyThrottleKey);
+            $hoursRemaining = max(1, (int) ceil($secondsRemaining / 3600));
+
+            $this->messages[] = [
+                'role' => 'model',
+                'content' => "🚫 **Batas Kuota Harian Tercapai:** Anda telah mencapai batas maksimal **{$maxDailyAttempts} pesan per hari** untuk alamat IP ini.\n\nKuota harian akan otomatis direset kembali pada pukul 00:00 (sekitar **{$hoursRemaining} jam** lagi). Untuk keperluan mendesak, silakan langsung kunjungi loket pelayanan DPUPR Kota Mataram.",
+                'time' => now()->format('H:i'),
+            ];
+            $this->inputMessage = '';
+            $this->dispatch('scroll-chat-to-bottom');
+            return;
+        }
+
+        // 2b. Limit per Menit (Anti-Spam / DDoS: Max 15 Pesan per Menit per IP)
+        $minuteThrottleKey = 'chatbot-limiter:' . $clientIp;
+        if (RateLimiter::tooManyAttempts($minuteThrottleKey, 15)) {
+            $seconds = RateLimiter::availableIn($minuteThrottleKey);
             $this->messages[] = [
                 'role' => 'model',
                 'content' => "⏳ **Mohon Menunggu:** Anda mengirimkan pesan terlalu cepat. Silakan tunggu **{$seconds} detik** sebelum mengirim pesan kembali.",
@@ -74,7 +94,11 @@ class ChatbotWidget extends Component
             $this->dispatch('scroll-chat-to-bottom');
             return;
         }
-        RateLimiter::hit($throttleKey, 60);
+
+        // Hit kedua rate limiter (Harian hingga akhir hari, Menit selama 60 detik)
+        $secondsUntilMidnight = max(60, (int) now()->diffInSeconds(now()->endOfDay()));
+        RateLimiter::hit($dailyThrottleKey, $secondsUntilMidnight);
+        RateLimiter::hit($minuteThrottleKey, 60);
 
         // 3. Simpan pesan user
         $this->messages[] = [

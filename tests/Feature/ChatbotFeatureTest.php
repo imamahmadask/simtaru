@@ -77,6 +77,7 @@ class ChatbotFeatureTest extends TestCase
     public function test_chatbot_rate_limiting_protects_against_spam()
     {
         RateLimiter::clear('chatbot-limiter:127.0.0.1');
+        RateLimiter::clear('chatbot-daily:127.0.0.1');
 
         $component = Livewire::test(ChatbotWidget::class)
             ->set('isOpen', true);
@@ -86,10 +87,30 @@ class ChatbotFeatureTest extends TestCase
             $component->set('inputMessage', 'Pertanyaan ke-' . $i)->call('sendMessage');
         }
 
-        // Pesan ke-16 harus memicu throttle
+        // Pesan ke-16 harus memicu throttle per menit
         $component->set('inputMessage', 'Pertanyaan ke-16')
             ->call('sendMessage')
             ->assertSee('Anda mengirimkan pesan terlalu cepat');
+    }
+
+    public function test_chatbot_daily_rate_limiting_protects_against_abuse()
+    {
+        RateLimiter::clear('chatbot-limiter:127.0.0.1');
+        RateLimiter::clear('chatbot-daily:127.0.0.1');
+
+        $component = Livewire::test(ChatbotWidget::class)
+            ->set('isOpen', true);
+
+        // Simulasikan batas kuota 50 pesan harian tercapai
+        for ($i = 1; $i <= 50; $i++) {
+            RateLimiter::hit('chatbot-daily:127.0.0.1', 86400);
+        }
+
+        // Pesan ke-51 harus diblokir oleh limit harian
+        $component->set('inputMessage', 'Pertanyaan ke-51')
+            ->call('sendMessage')
+            ->assertSee('Batas Kuota Harian Tercapai')
+            ->assertSee('50 pesan per hari');
     }
 
     public function test_database_tracking_masks_name_and_never_leaks_sensitive_personal_data()
