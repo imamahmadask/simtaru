@@ -11,6 +11,7 @@ use App\Models\Pengaduan;
 use App\Models\Permohonan;
 use App\Models\Registrasi;
 use App\Models\Skrk;
+use App\Services\PermohonanExportService;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -150,5 +151,10 @@ class DashboardIndex extends Component
     public function mount()
     {
         $this->year = date('Y');
+    }
+
+    public function exportExcel(PermohonanExportService $exportService)
+    {
+        return $exportService->download($this->year);
     }
 }
