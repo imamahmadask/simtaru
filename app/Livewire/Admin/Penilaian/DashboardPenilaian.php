@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Penilaian;
 
 use App\Models\Penilaian;
+use App\Services\PenilaianExportService;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -16,6 +17,11 @@ class DashboardPenilaian extends Component
     public function mount()
     {
         $this->year = date('Y');
+    }
+
+    public function exportExcel(PenilaianExportService $exportService)
+    {
+        return $exportService->download($this->year);
     }
     
     #[Layout('layouts.app-penilaian')]

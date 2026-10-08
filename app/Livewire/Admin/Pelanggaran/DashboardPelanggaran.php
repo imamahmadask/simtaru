@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Pelanggaran;
 
 use App\Models\Pelanggaran;
+use App\Services\PelanggaranExportService;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -16,6 +17,11 @@ class DashboardPelanggaran extends Component
     public function mount()
     {
         $this->year = date('Y');
+    }
+
+    public function exportExcel(PelanggaranExportService $exportService)
+    {
+        return $exportService->download($this->year);
     }
 
 

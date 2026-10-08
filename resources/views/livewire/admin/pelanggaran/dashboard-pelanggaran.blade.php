@@ -3,9 +3,9 @@
         <!-- Content -->
 
         <div class="container-xxl pt-4">
-            <div class="row">
-                <div class="col-md-3 ms-auto">
-                    <div class="input-group input-group-merge">
+            <div class="row align-items-center">
+                <div class="col-12 col-md-auto ms-auto d-flex flex-wrap align-items-center gap-2">
+                    <div class="input-group input-group-merge" style="width: auto; min-width: 170px;">
                         <span class="input-group-text"><i class="bx bx-calendar"></i></span>
                         <select class="form-select" wire:model.live="year">
                             @foreach(range(date('Y'), date('Y') - 2) as $y)
@@ -13,6 +13,14 @@
                             @endforeach
                         </select>
                     </div>
+                    <button type="button" class="btn btn-success" wire:click="exportExcel" wire:loading.attr="disabled" title="Download Laporan Pelanggaran Excel (Tahun {{ $year }})">
+                        <span wire:loading.remove wire:target="exportExcel">
+                            <i class="bx bx-download me-1"></i> Download Report Excel
+                        </span>
+                        <span wire:loading wire:target="exportExcel">
+                            <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Mengunduh...
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>
