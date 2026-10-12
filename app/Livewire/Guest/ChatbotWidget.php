@@ -42,6 +42,8 @@ class ChatbotWidget extends Component
     {
         $userText = trim($this->inputMessage);
         if (empty($userText)) {
+            $this->inputMessage = '';
+            $this->dispatch('scroll-chat-to-bottom');
             return;
         }
 

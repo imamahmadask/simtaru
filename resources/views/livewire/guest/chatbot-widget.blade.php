@@ -485,9 +485,44 @@
         }
         .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
         .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes simtaruBounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
+        /* Auto-expanding Multiline Textarea Input */
+        .simtaru-chat-textarea {
+            font-size: 0.86rem;
+            line-height: 1.45;
+            padding: 8px 14px;
+            border-radius: 20px !important;
+            resize: none !important;
+            height: 38px;
+            min-height: 38px;
+            max-height: 120px;
+            overflow-y: hidden;
+            overflow-x: hidden !important;
+            word-wrap: break-word !important;
+            word-break: break-word !important;
+            white-space: pre-wrap !important;
+            box-sizing: border-box;
+            background-color: #ffffff;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .simtaru-chat-textarea:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.18rem rgba(13, 110, 253, 0.15);
+            outline: none;
+        }
+
+        .simtaru-chat-textarea::placeholder {
+            color: #94a3b8;
+            font-size: 0.84rem;
+        }
+
+        .simtaru-chat-textarea::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .simtaru-chat-textarea::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 4px;
         }
     </style>
 
@@ -619,20 +654,23 @@
 
             <!-- Footer / Input Form -->
             <div class="p-2 bg-white border-top">
-                <form wire:submit="sendMessage" class="d-flex gap-2 align-items-center">
-                    <input type="text" 
+                <form wire:submit="sendMessage" class="d-flex gap-2 align-items-end">
+                    <textarea 
                         id="simtaru-chat-input"
                         wire:model="inputMessage" 
+                        wire:keydown.enter.exact.prevent="sendMessage"
                         placeholder="Ketik pertanyaan atau nomor registrasi..." 
-                        class="form-control form-control-sm rounded-pill px-3 py-2 border" 
-                        style="font-size: 0.86rem;"
+                        rows="1"
+                        class="form-control simtaru-chat-textarea border" 
+                        oninput="this.style.height='auto'; const sh=this.scrollHeight; if(sh>120){this.style.height='120px';this.style.overflowY='auto';}else{this.style.height=Math.max(sh,38)+'px';this.style.overflowY='hidden';}"
                         wire:loading.attr="disabled"
-                        wire:target="sendMessage, sendQuickPrompt">
+                        wire:target="sendMessage, sendQuickPrompt"></textarea>
                     <button type="submit" 
                         class="btn btn-primary rounded-circle p-0 d-flex align-items-center justify-content-center flex-shrink-0" 
-                        style="width: 38px; height: 38px;"
+                        style="width: 38px; height: 38px; margin-bottom: 1px;"
                         wire:loading.attr="disabled"
-                        wire:target="sendMessage, sendQuickPrompt">
+                        wire:target="sendMessage, sendQuickPrompt"
+                        title="Kirim Pesan (Tekan Enter)">
                         <i class="bi bi-send-fill text-white" style="font-size: 0.85rem; transform: translateX(1px);"></i>
                     </button>
                 </form>
@@ -659,6 +697,8 @@
                     scrollToBottom();
                     const chatInput = document.getElementById('simtaru-chat-input');
                     if (chatInput) {
+                        chatInput.style.height = '38px';
+                        chatInput.style.overflowY = 'hidden';
                         chatInput.focus();
                     }
                 }, 60);
