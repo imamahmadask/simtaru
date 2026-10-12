@@ -654,18 +654,20 @@
 
             <!-- Footer / Input Form -->
             <div class="p-2 bg-white border-top">
-                <form wire:submit="sendMessage" class="d-flex gap-2 align-items-end">
+                <form id="simtaru-chat-form" wire:submit="sendMessage" class="d-flex gap-2 align-items-end">
                     <textarea 
                         id="simtaru-chat-input"
+                        name="inputMessage"
                         wire:model="inputMessage" 
-                        wire:keydown.enter.exact.prevent="sendMessage"
                         placeholder="Ketik pertanyaan atau nomor registrasi..." 
                         rows="1"
                         class="form-control simtaru-chat-textarea border" 
+                        onkeydown="if(event.key==='Enter' && !event.shiftKey){ event.preventDefault(); this.dispatchEvent(new Event('input', { bubbles: true })); const btn=this.closest('form').querySelector('button[type=submit]'); if(btn && !btn.disabled){ btn.click(); } }"
                         oninput="this.style.height='auto'; const sh=this.scrollHeight; if(sh>120){this.style.height='120px';this.style.overflowY='auto';}else{this.style.height=Math.max(sh,38)+'px';this.style.overflowY='hidden';}"
                         wire:loading.attr="disabled"
                         wire:target="sendMessage, sendQuickPrompt"></textarea>
                     <button type="submit" 
+                        id="simtaru-chat-submit-btn"
                         class="btn btn-primary rounded-circle p-0 d-flex align-items-center justify-content-center flex-shrink-0" 
                         style="width: 38px; height: 38px; margin-bottom: 1px;"
                         wire:loading.attr="disabled"
@@ -764,10 +766,33 @@
                 };
             };
 
+            // Inisialisasi pengiriman pesan via tombol Enter pada textarea
+            const initChatInput = () => {
+                const chatInput = document.getElementById('simtaru-chat-input');
+                const chatForm = document.getElementById('simtaru-chat-form');
+                if (chatInput && !chatInput.dataset.enterBound) {
+                    chatInput.dataset.enterBound = 'true';
+                    chatInput.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            chatInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            const sendBtn = chatForm ? chatForm.querySelector('button[type="submit"]') : null;
+                            if (sendBtn && !sendBtn.disabled) {
+                                sendBtn.click();
+                            }
+                        }
+                    });
+                }
+            };
+
             // Jalankan saat pertama kali dan saat Livewire update DOM
+            initChatInput();
             initPillsControl();
             Livewire.hook('morph.updated', () => {
-                setTimeout(initPillsControl, 50);
+                setTimeout(() => {
+                    initChatInput();
+                    initPillsControl();
+                }, 50);
             });
         });
     </script>
