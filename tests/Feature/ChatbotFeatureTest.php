@@ -159,4 +159,24 @@ class ChatbotFeatureTest extends TestCase
 
         $this->assertNotEmpty($result);
     }
+
+    public function test_chatbot_knowledge_base_includes_all_six_regulatory_documents()
+    {
+        $service = app(ChatbotService::class);
+        $reply = $service->generateReply([], "Jelaskan dasar hukum KKPR, LSD, RTRW, dan RDTR Kota Mataram");
+
+        Http::assertSent(function (Request $request) {
+            $body = json_encode($request->data(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+
+            return str_contains($body, 'Nomor 21 Tahun 2021')
+                && str_contains($body, 'Nomor 28 Tahun 2025')
+                && str_contains($body, '6/Juknis-PF.01/VIII/2023')
+                && str_contains($body, '978,06 Ha')
+                && str_contains($body, 'Nomor 5 Tahun 2019')
+                && str_contains($body, 'Nomor 19 Tahun 2024');
+        });
+
+        $this->assertNotEmpty($reply);
+    }
 }
+
