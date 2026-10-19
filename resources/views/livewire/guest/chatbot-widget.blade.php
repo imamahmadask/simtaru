@@ -600,7 +600,7 @@
                     <button wire:click="sendQuickPrompt('Apa itu KKPR Non-Berusaha?')" class="btn btn-outline-info btn-sm simtaru-pill-btn">
                         🏛️ KKPR Non-Berusaha
                     </button>
-                    <button wire:click="sendQuickPrompt('Bagaimana cara mengecek riwayat berkas permohonan saya?')" class="btn btn-outline-secondary btn-sm simtaru-pill-btn">
+                    <button wire:click="sendQuickPrompt('Bagaimana cara mengecek status berkas permohonan saya?')" class="btn btn-outline-secondary btn-sm simtaru-pill-btn">
                         🔍 Lacak Berkas
                     </button>
                     <button wire:click="sendQuickPrompt('Jelaskan batas garis sempadan sungai di Kota Mataram')" class="btn btn-outline-warning btn-sm simtaru-pill-btn text-dark">

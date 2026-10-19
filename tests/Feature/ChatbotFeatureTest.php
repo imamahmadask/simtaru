@@ -4,7 +4,9 @@ namespace Tests\Feature;
 
 use App\Livewire\Guest\ChatbotWidget;
 use App\Models\Layanan;
+use App\Models\Pelanggaran;
 use App\Models\Registrasi;
+use App\Models\RiwayatPermohonan;
 use App\Services\ChatbotService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Request;
@@ -49,8 +51,7 @@ class ChatbotFeatureTest extends TestCase
     {
         Livewire::test(ChatbotWidget::class)
             ->set('isOpen', true)
-            ->assertSee('Asisten Virtual')
-            ->assertSee('SIMTARU HARUM');
+            ->assertSee('Asisten AI SIMTARU HARUM');
     }
 
     public function test_chatbot_toggle_open_and_close()
@@ -113,7 +114,7 @@ class ChatbotFeatureTest extends TestCase
             ->assertSee('50 pesan per hari');
     }
 
-    public function test_database_tracking_masks_name_and_never_leaks_sensitive_personal_data()
+    public function test_database_tracking_masks_name_and_omits_history_unless_requested()
     {
         $layanan = Layanan::create([
             'nama' => 'Surat Keterangan Rencana Kota',
@@ -136,28 +137,95 @@ class ChatbotFeatureTest extends TestCase
         ]);
 
         $service = app(ChatbotService::class);
-        $result = $service->generateReply([], "cek berkas 0999-SKRK-10-2026");
 
-        // Verifikasi bahwa permintaan yang dikirim ke AI memuat data publik tersensor dan TIDAK PERNAH memuat data rahasia
+        // 1. Cek status biasa tanpa meminta riwayat -> TIDAK BOLEH menyertakan Kronologi / Riwayat Perjalanan Berkas
+        $result = $service->generateReply([], "cek status 0999-SKRK-10-2026");
+
         Http::assertSent(function (Request $request) {
-            $body = json_encode($request->data());
+            $body = json_encode($request->data(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
-            // 1. Data publik terkirim ke konteks AI
             $hasPublicData = str_contains($body, '0999-SKRK-10-2026')
                 && str_contains($body, 'Mataram Barat')
                 && str_contains($body, 'A***d')
                 && str_contains($body, 'S*****i');
 
-            // 2. Data sensitif NIK, Nomor HP, Email, dan Nama Asli TIDAK PERNAH dikirim ke luar
             $noLeak = !str_contains($body, 'Ahmad Subandi')
                 && !str_contains($body, '5271019998880001')
                 && !str_contains($body, '081234567899')
                 && !str_contains($body, 'ahmad.rahasia@pemerintah.id');
 
-            return $hasPublicData && $noLeak;
+            $noHistoryWhenNotAsked = !str_contains($body, 'Kronologi / Riwayat Perjalanan Berkas:');
+
+            return $hasPublicData && $noLeak && $noHistoryWhenNotAsked;
         });
 
         $this->assertNotEmpty($result);
+    }
+
+    public function test_pelanggaran_question_with_year_2026_never_triggers_berkas_lookup()
+    {
+        $layanan = Layanan::create([
+            'nama' => 'KKPR Non-Berusaha',
+            'kode' => 'KKPRNB',
+            'keterangan' => 'Layanan KKPRNB',
+        ]);
+
+        // Buat berkas tahun 2026 yang sebelumnya sempat terpicu salah (false-positive) karena angka "2026"
+        Registrasi::create([
+            'kode' => '0001-KKPRNB-01-2026',
+            'nama' => 'Ridwan Hadi',
+            'nik' => '5271010001110002',
+            'no_hp' => '081111222333',
+            'email' => 'ridwan@example.com',
+            'fungsi_bangunan' => 'Rumah Tinggal',
+            'tanggal' => '2026-01-05',
+            'layanan_id' => $layanan->id,
+            'kel_tanah' => 'Pagesangan',
+            'kec_tanah' => 'Mataram',
+            'status' => 'Penerbitan Dokumen',
+        ]);
+
+        // Buat data kasus pelanggaran tahun 2026
+        Pelanggaran::create([
+            'no_pelanggaran' => 'PLG-001-2026',
+            'tgl_laporan' => '2026-02-10',
+            'sumber_informasi_pelanggaran' => 'Hasil Pengawasan dan Pemantauan',
+            'nama_pelanggar' => 'Pelanggar Rahasia',
+            'alamat_pelanggar' => 'Jl. Rahasia No. 1',
+            'kel_pelanggar' => 'Kekalik Jaya',
+            'kec_pelanggar' => 'Sekarbela',
+            'kota_pelanggar' => 'Mataram',
+            'prov_pelanggar' => 'NTB',
+            'alamat_pelanggaran' => 'Jl. Pelanggaran No. 2',
+            'kel_pelanggaran' => 'Kekalik Jaya',
+            'kec_pelanggaran' => 'Sekarbela',
+            'koordinat_pelanggaran' => '-8.5833, 116.1167',
+            'status' => 'Selesai',
+            'jenis_indikasi_pelanggaran' => 'Tidak Memiliki KKPR atau SKRK',
+            'temuan_pelanggaran' => 'Ada Pelanggaran',
+        ]);
+
+        $service = app(ChatbotService::class);
+        $reply = $service->generateReply([], "sudah berapa kasus pelanggaran di kota mataram tahun 2026");
+
+        Http::assertSent(function (Request $request) {
+            $body = json_encode($request->data(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+
+            // Harus memuat data statistik pelanggaran tahun 2026
+            $hasPelanggaranStats = str_contains($body, 'DATA STATISTIK PELANGGARAN TATA RUANG')
+                && str_contains($body, 'Kecamatan Sekarbela')
+                && str_contains($body, 'Tidak Memiliki KKPR atau SKRK');
+
+            // DILARANG KERAS memuat nomor berkas 0001-KKPRNB-01-2026, nomor pelanggaran, atau nama pelanggar
+            $noBerkasOrPersonalLeak = !str_contains($body, '0001-KKPRNB-01-2026')
+                && !str_contains($body, 'R****n H**i')
+                && !str_contains($body, 'PLG-001-2026')
+                && !str_contains($body, 'Pelanggar Rahasia');
+
+            return $hasPelanggaranStats && $noBerkasOrPersonalLeak;
+        });
+
+        $this->assertNotEmpty($reply);
     }
 
     public function test_chatbot_knowledge_base_includes_all_six_regulatory_documents()
