@@ -246,5 +246,22 @@ class ChatbotFeatureTest extends TestCase
 
         $this->assertNotEmpty($reply);
     }
+
+    public function test_chatbot_system_instruction_enforces_pupr_kota_mataram_domain()
+    {
+        $service = app(ChatbotService::class);
+        $reply = $service->generateReply([], "Apa saja tugas dan layanan tata ruang?");
+
+        Http::assertSent(function (Request $request) {
+            $body = json_encode($request->data(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+
+            return str_contains($body, 'BATASAN DOMAIN KHUSUS (PUPR KOTA MATARAM)')
+                && str_contains($body, 'Pekerjaan Umum dan Penataan Ruang (PUPR) di Kota Mataram')
+                && str_contains($body, 'Batasan Domain Khusus PUPR Kota Mataram')
+                && str_contains($body, 'TIDAK BOLEH keluar dari koridor tersebut');
+        });
+
+        $this->assertNotEmpty($reply);
+    }
 }
 

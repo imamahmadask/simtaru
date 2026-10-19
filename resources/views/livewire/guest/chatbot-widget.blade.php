@@ -485,6 +485,140 @@
         }
         .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
         .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0s; }
+
+        @keyframes simtaruBounce {
+            0%, 80%, 100% {
+                transform: scale(0.35);
+                opacity: 0.35;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+                background-color: #4f46e5;
+            }
+        }
+
+        /* Modern AI Loading Bubble & Shimmer Card */
+        .simtaru-loading-bubble {
+            max-width: 95% !important;
+            border-left: 3px solid #4f46e5 !important;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%) !important;
+            border-radius: 12px !important;
+            padding: 12px 14px !important;
+            animation: simtaruFadeIn 0.25s ease-out;
+        }
+
+        @keyframes simtaruFadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .simtaru-loading-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(79, 70, 229, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .simtaru-loading-avatar i {
+            font-size: 0.95rem;
+            color: #4f46e5;
+        }
+
+        .simtaru-loading-spin-ring {
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: #4f46e5;
+            border-right-color: #0d6efd;
+            animation: simtaruSpin 1.2s linear infinite;
+        }
+
+        @keyframes simtaruSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .simtaru-loading-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1.25;
+            transition: all 0.3s ease;
+        }
+
+        .simtaru-loading-sub {
+            font-size: 0.69rem;
+            color: #64748b;
+            line-height: 1.2;
+            margin-top: 1px;
+            transition: all 0.3s ease;
+        }
+
+        /* Shimmer Skeleton Placeholder */
+        .simtaru-loading-skeleton {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            margin: 9px 0 7px 0;
+        }
+
+        .simtaru-skeleton-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #e2e8f0 0%, #f1f5f9 50%, #e2e8f0 100%);
+            background-size: 200% 100%;
+            animation: simtaruShimmer 1.8s infinite linear;
+        }
+
+        @keyframes simtaruShimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Indeterminate Progress Bar Track */
+        .simtaru-progress-track {
+            width: 100%;
+            height: 3px;
+            background-color: #e2e8f0;
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .simtaru-progress-bar-animated {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 40%;
+            background: linear-gradient(90deg, #0d6efd 0%, #4f46e5 50%, #7c3aed 100%);
+            border-radius: 3px;
+            animation: simtaruIndeterminate 1.8s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+        }
+
+        @keyframes simtaruIndeterminate {
+            0% { left: -40%; width: 30%; }
+            50% { left: 40%; width: 50%; }
+            100% { left: 100%; width: 30%; }
+        }
+
+        .simtaru-loading-hint {
+            font-size: 0.7rem;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            line-height: 1.3;
+            transition: all 0.3s ease;
+        }
         /* Auto-expanding Multiline Textarea Input */
         .simtaru-chat-textarea {
             font-size: 0.86rem;
@@ -570,7 +704,13 @@
                             </span>
                         </div>
                         <div class="simtaru-header-sub text-truncate">
-                            DPUPR Kota Mataram • Cerdas & Siaga
+                            <span wire:loading.remove wire:target="sendMessage, sendQuickPrompt">
+                                DPUPR Kota Mataram • Cerdas & Siaga
+                            </span>
+                            <span wire:loading wire:target="sendMessage, sendQuickPrompt" class="text-white d-inline-flex align-items-center gap-1">
+                                <span class="spinner-grow text-warning" style="width: 7px; height: 7px;" role="status"></span>
+                                <span class="text-warning fw-semibold">Sedang memproses jawaban...</span>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -638,15 +778,45 @@
                     @endif
                 @endforeach
 
-                <!-- Typing / Loading Indicator -->
-                <div wire:loading wire:target="sendMessage, sendQuickPrompt" class="mb-3">
-                    <div class="simtaru-bubble simtaru-bubble-model shadow-sm d-inline-block">
-                        <div class="d-flex align-items-center gap-2">
-                            <i class="bi bi-robot text-primary" style="font-size: 0.85rem;"></i>
-                            <span class="text-muted" style="font-size: 0.8rem;">AI sedang berpikir</span>
-                            <div class="typing-dots d-inline-flex gap-1">
+                <!-- Typing / Loading Indicator Saat AI Sedang Memproses / Mengambil Data -->
+                <div wire:loading wire:target="sendMessage, sendQuickPrompt" class="mb-3" id="simtaru-loading-wrapper">
+                    <div class="simtaru-bubble simtaru-bubble-model shadow-sm simtaru-loading-bubble">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="simtaru-loading-avatar">
+                                    <i class="bi bi-robot"></i>
+                                    <span class="simtaru-loading-spin-ring"></span>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <span id="simtaru-loading-status-text" class="simtaru-loading-title">
+                                        AI sedang memproses pertanyaan Anda...
+                                    </span>
+                                    <span id="simtaru-loading-sub-text" class="simtaru-loading-sub">
+                                        Menghubungkan ke layanan data & regulasi DPUPR Mataram
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="typing-dots d-inline-flex gap-1 align-items-center flex-shrink-0 ms-2">
                                 <span></span><span></span><span></span>
                             </div>
+                        </div>
+
+                        <!-- Shimmer Skeleton Placeholder -->
+                        <div class="simtaru-loading-skeleton">
+                            <div class="simtaru-skeleton-bar" style="width: 90%;"></div>
+                            <div class="simtaru-skeleton-bar" style="width: 76%;"></div>
+                            <div class="simtaru-skeleton-bar" style="width: 52%;"></div>
+                        </div>
+
+                        <!-- Animated Progress Line -->
+                        <div class="simtaru-progress-track mt-2">
+                            <div class="simtaru-progress-bar-animated"></div>
+                        </div>
+
+                        <!-- Reassurance Note for long queries -->
+                        <div class="simtaru-loading-hint mt-2 pt-2 border-top">
+                            <i class="bi bi-shield-check text-success flex-shrink-0"></i>
+                            <span id="simtaru-loading-hint-text">Menelusuri database SIMTARU & 6 dokumen regulasi resmi Kota Mataram...</span>
                         </div>
                     </div>
                 </div>
@@ -673,7 +843,12 @@
                         wire:loading.attr="disabled"
                         wire:target="sendMessage, sendQuickPrompt"
                         title="Kirim Pesan (Tekan Enter)">
-                        <i class="bi bi-send-fill text-white" style="font-size: 0.85rem; transform: translateX(1px);"></i>
+                        <span wire:loading.remove wire:target="sendMessage, sendQuickPrompt">
+                            <i class="bi bi-send-fill text-white" style="font-size: 0.85rem; transform: translateX(1px);"></i>
+                        </span>
+                        <span wire:loading wire:target="sendMessage, sendQuickPrompt">
+                            <span class="spinner-border spinner-border-sm text-white" style="width: 0.95rem; height: 0.95rem;" role="status"></span>
+                        </span>
                     </button>
                 </form>
                 <div class="text-center mt-1">
@@ -766,6 +941,58 @@
                 };
             };
 
+            // Siklus status dinamis saat AI sedang memproses data
+            let loadingTimer = null;
+            const loadingStages = [
+                {
+                    title: 'AI sedang membaca pertanyaan Anda...',
+                    sub: 'Memeriksa konteks & maksud pertanyaan',
+                    hint: 'Menelusuri database SIMTARU & 6 regulasi resmi Kota Mataram...'
+                },
+                {
+                    title: 'Sedang menelusuri data & aturan tata ruang...',
+                    sub: 'Memeriksa kesesuaian berkas, zonasi & koefisien ruang',
+                    hint: 'Mengakses database SIMTARU & dokumen resmi DPUPR...'
+                },
+                {
+                    title: 'Sedang merumuskan jawaban resmi...',
+                    sub: 'Menyusun poin-poin penjelasan spesifik dan terarah',
+                    hint: 'Memastikan informasi akurat sesuai Perda & Perwal...'
+                },
+                {
+                    title: 'Hampir selesai, memvalidasi data...',
+                    sub: 'Menyiapkan ringkasan jawaban untuk Anda',
+                    hint: 'Terima kasih telah menunggu dengan sabar...'
+                }
+            ];
+
+            const startLoadingCycle = () => {
+                let stageIdx = 0;
+                const updateStage = () => {
+                    const titleEl = document.getElementById('simtaru-loading-status-text');
+                    const subEl = document.getElementById('simtaru-loading-sub-text');
+                    const hintEl = document.getElementById('simtaru-loading-hint-text');
+                    const stage = loadingStages[stageIdx];
+                    if (titleEl && stage) titleEl.textContent = stage.title;
+                    if (subEl && stage) subEl.textContent = stage.sub;
+                    if (hintEl && stage) hintEl.textContent = stage.hint;
+                };
+
+                updateStage();
+                setTimeout(scrollToBottom, 30);
+
+                clearInterval(loadingTimer);
+                loadingTimer = setInterval(() => {
+                    stageIdx = (stageIdx + 1) % loadingStages.length;
+                    updateStage();
+                }, 2400);
+            };
+
+            const stopLoadingCycle = () => {
+                clearInterval(loadingTimer);
+                setTimeout(scrollToBottom, 60);
+            };
+
             // Inisialisasi pengiriman pesan via tombol Enter pada textarea
             const initChatInput = () => {
                 const chatInput = document.getElementById('simtaru-chat-input');
@@ -778,17 +1005,41 @@
                             chatInput.dispatchEvent(new Event('input', { bubbles: true }));
                             const sendBtn = chatForm ? chatForm.querySelector('button[type="submit"]') : null;
                             if (sendBtn && !sendBtn.disabled) {
+                                startLoadingCycle();
                                 sendBtn.click();
                             }
                         }
                     });
                 }
+
+                if (chatForm && !chatForm.dataset.loadingBound) {
+                    chatForm.dataset.loadingBound = 'true';
+                    chatForm.addEventListener('submit', () => {
+                        startLoadingCycle();
+                    });
+                }
             };
+
+            // Hook Livewire untuk mengaktifkan & mematikan loading cycle otomatis
+            try {
+                Livewire.hook('commit', ({ succeed, fail }) => {
+                    startLoadingCycle();
+                    succeed(() => {
+                        stopLoadingCycle();
+                    });
+                    fail(() => {
+                        stopLoadingCycle();
+                    });
+                });
+            } catch (err) {
+                // Fallback jika hook versi spesifik tidak didukung
+            }
 
             // Jalankan saat pertama kali dan saat Livewire update DOM
             initChatInput();
             initPillsControl();
             Livewire.hook('morph.updated', () => {
+                stopLoadingCycle();
                 setTimeout(() => {
                     initChatInput();
                     initPillsControl();
