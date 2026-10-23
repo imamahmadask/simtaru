@@ -274,6 +274,15 @@
                             @enderror
                         </div>
                         <div class="col-md-6">
+                            <label class="form-label" for="pemanfaatan_ruang">Peruntukan Pemanfaatan Ruang</label>
+                            <input type="text" id="pemanfaatan_ruang" wire:model="pemanfaatan_ruang"
+                                class="form-control @error('pemanfaatan_ruang') is-invalid @enderror"
+                                placeholder="Peruntukan Pemanfaatan Ruang">
+                            @error('pemanfaatan_ruang')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-6">
                             <label class="form-label" for="jenis_pemanfaatan_ruang">Jenis Pemanfaatan Ruang</label>
                             <input type="text" id="jenis_pemanfaatan_ruang" wire:model="jenis_pemanfaatan_ruang"
                                 class="form-control @error('jenis_pemanfaatan_ruang') is-invalid @enderror"

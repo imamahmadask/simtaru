@@ -195,8 +195,12 @@
                                                 <div class="col-md-8">: {{ $pelanggaran->koordinat_pelanggaran }}</div>
                                             </div>
                                             <div class="row mb-2">
+                                                <div class="col-md-4 fw-semibold">Peruntukan Pemanfaatan Ruang</div>
+                                                <div class="col-md-8">: {{ $pelanggaran->pemanfaatan_ruang ?? '-' }}</div>
+                                            </div>
+                                            <div class="row mb-2">
                                                 <div class="col-md-4 fw-semibold">Jenis Pemanfaatan</div>
-                                                <div class="col-md-8">: {{ $pelanggaran->jenis_pemanfaatan_ruang }}</div>
+                                                <div class="col-md-8">: {{ $pelanggaran->jenis_pemanfaatan_ruang ?? '-' }}</div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-4 fw-semibold">Google Maps</div>

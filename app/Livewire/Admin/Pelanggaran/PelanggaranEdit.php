@@ -38,6 +38,7 @@ class PelanggaranEdit extends Component
     #[Validate('nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240')]
     public $dokumen_penilaian_kkpr;    
     public $jenis_pemanfaatan_ruang;
+    public $pemanfaatan_ruang;
 
     #[Validate('required')]
     public $nama_pelanggar;
@@ -83,6 +84,7 @@ class PelanggaranEdit extends Component
         $this->no_ba_sk_penilaian_kkpr = $pelanggaran->no_ba_sk_penilaian_kkpr;
         $this->existing_dokumen_penilaian_kkpr = $pelanggaran->dokumen_penilaian_kkpr;
         $this->jenis_pemanfaatan_ruang = $pelanggaran->jenis_pemanfaatan_ruang;
+        $this->pemanfaatan_ruang = $pelanggaran->pemanfaatan_ruang;
         $this->nama_pelanggar = $pelanggaran->nama_pelanggar;
         $this->alamat_pelanggar = $pelanggaran->alamat_pelanggar;
         $this->kel_pelanggar = $pelanggaran->kel_pelanggar;
@@ -153,6 +155,7 @@ class PelanggaranEdit extends Component
             'no_ba_sk_penilaian_kkpr' => $this->no_ba_sk_penilaian_kkpr,
             'dokumen_penilaian_kkpr' => $dokumen_penilaian_kkpr_path,
             'jenis_pemanfaatan_ruang' => $this->jenis_pemanfaatan_ruang,
+            'pemanfaatan_ruang' => $this->pemanfaatan_ruang,
             'nama_pelanggar' => $this->nama_pelanggar,
             'alamat_pelanggar' => $this->alamat_pelanggar,
             'kel_pelanggar' => $this->kel_pelanggar,

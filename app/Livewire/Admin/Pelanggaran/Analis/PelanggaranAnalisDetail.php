@@ -62,6 +62,12 @@ class PelanggaranAnalisDetail extends Component
     public $upload_bukti_perizinan;
     #[Validate('nullable|file|mimes:pdf,jpg,jpeg,png|max:10240')]
     public $upload_sk_sanksi_pemberhentian;
+    #[Validate('nullable|file|mimes:pdf,jpg,jpeg,png|max:10240')]
+    public $upload_kkpr_skrk;
+    #[Validate('nullable|file|mimes:pdf,jpg,jpeg,png|max:10240')]
+    public $upload_pbg_imb;
+    #[Validate('nullable|file|mimes:pdf,jpg,jpeg,png|max:10240')]
+    public $upload_nib_kbli;
 
     public function render()
     {
@@ -91,8 +97,12 @@ class PelanggaranAnalisDetail extends Component
             $this->validate();
         } else {
             $this->validate([
-                'temuan_pelanggaran' => 'required'
+                'temuan_pelanggaran' => 'required',
+                'upload_kkpr_skrk' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
+                'upload_pbg_imb' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
+                'upload_nib_kbli' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
             ]);
+            $this->tindak_lanjut = null;
         }
 
         $all_photos = $this->existing_foto_tindak_lanjut;
@@ -128,7 +138,9 @@ class PelanggaranAnalisDetail extends Component
             'upload_ba_sosialisasi' => 'file_ba_sosialisasi',
             'upload_sk_sanksi_pemberhentian' => 'file_sk_sanksi_pemberhentian',
             'upload_bukti_perizinan' => 'bukti_perizinan',
-
+            'upload_kkpr_skrk' => 'file_kkpr_skrk',
+            'upload_pbg_imb' => 'file_pbg_imb',
+            'upload_nib_kbli' => 'file_nib_kbli',
         ];
 
         foreach ($documentTemplates as $property => $column) {
@@ -162,6 +174,9 @@ class PelanggaranAnalisDetail extends Component
         $this->upload_ba_sosialisasi = null;
         $this->upload_sk_sanksi_pemberhentian = null;
         $this->upload_bukti_perizinan = null;
+        $this->upload_kkpr_skrk = null;
+        $this->upload_pbg_imb = null;
+        $this->upload_nib_kbli = null;
     }
 
     public function removeImage($index)
@@ -232,6 +247,7 @@ class PelanggaranAnalisDetail extends Component
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => $data->kec_pelanggaran,
             'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,
+            'pemanfaatan_ruang' => $data->pemanfaatan_ruang,
         ];
 
         return $this->generateDocument('SURAT_PERINGATAN_1.docx', $data);
@@ -248,6 +264,7 @@ class PelanggaranAnalisDetail extends Component
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => $data->kec_pelanggaran,
             'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,
+            'pemanfaatan_ruang' => $data->pemanfaatan_ruang,
         ];
 
         return $this->generateDocument('SURAT_PERINGATAN_2.docx', $data);
@@ -264,6 +281,7 @@ class PelanggaranAnalisDetail extends Component
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => $data->kec_pelanggaran,
             'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,
+            'pemanfaatan_ruang' => $data->pemanfaatan_ruang,
         ];
 
         return $this->generateDocument('SURAT_PERINGATAN_3.docx', $data);
@@ -280,6 +298,7 @@ class PelanggaranAnalisDetail extends Component
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => $data->kec_pelanggaran,
             'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,
+            'pemanfaatan_ruang' => $data->pemanfaatan_ruang,
         ];
 
         return $this->generateDocument('SURAT_PELIMPAHAN_BERKAS_POLPP.docx', $data);
@@ -296,6 +315,7 @@ class PelanggaranAnalisDetail extends Component
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => $data->kec_pelanggaran,
             'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,
+            'pemanfaatan_ruang' => $data->pemanfaatan_ruang,
         ];
 
         return $this->generateDocument('SURAT_PERNYATAAN_PELANGGARAN_PEMANFAATAN_RUANG.docx', $data);
@@ -311,6 +331,7 @@ class PelanggaranAnalisDetail extends Component
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => $data->kec_pelanggaran,
             'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,
+            'pemanfaatan_ruang' => $data->pemanfaatan_ruang,
         ];
 
         return $this->generateDocument('SURAT_SOSIALISASI_PELANGGARAN.docx', $data);

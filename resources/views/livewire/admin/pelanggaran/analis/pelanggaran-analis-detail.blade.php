@@ -49,17 +49,53 @@
                                 </span>
                             </td>
                         </tr>
-                        <tr>
-                            <th style="width: 40%">Bukti Perizinan</th>
-                            <td style="width: 5%">:</td>
-                            <td class="text-start">
-                                @if($pelanggaran->bukti_perizinan)
-                                    <a href="{{ Storage::url($pelanggaran->bukti_perizinan) }}" target="_blank" class="btn btn-primary btn-sm"><i class="bx bx-file me-1"></i>Lihat Berkas</a>
-                                @else
-                                    -
-                                @endif
-                            </td>
-                        </tr>
+                        @if ($pelanggaran->temuan_pelanggaran == 'Tidak Ada Pelanggaran')
+                            <tr>
+                                <th style="width: 40%">Berkas KKPR/SKRK</th>
+                                <td style="width: 5%">:</td>
+                                <td class="text-start">
+                                    @if($pelanggaran->file_kkpr_skrk)
+                                        <a href="{{ Storage::url($pelanggaran->file_kkpr_skrk) }}" target="_blank" class="btn btn-primary btn-sm"><i class="bx bx-file me-1"></i>Lihat Berkas</a>
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="width: 40%">Berkas PBG/IMB</th>
+                                <td style="width: 5%">:</td>
+                                <td class="text-start">
+                                    @if($pelanggaran->file_pbg_imb)
+                                        <a href="{{ Storage::url($pelanggaran->file_pbg_imb) }}" target="_blank" class="btn btn-primary btn-sm"><i class="bx bx-file me-1"></i>Lihat Berkas</a>
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="width: 40%">Berkas NIB KBLI</th>
+                                <td style="width: 5%">:</td>
+                                <td class="text-start">
+                                    @if($pelanggaran->file_nib_kbli)
+                                        <a href="{{ Storage::url($pelanggaran->file_nib_kbli) }}" target="_blank" class="btn btn-primary btn-sm"><i class="bx bx-file me-1"></i>Lihat Berkas</a>
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                            </tr>
+                        @else
+                            <tr>
+                                <th style="width: 40%">Bukti Perizinan</th>
+                                <td style="width: 5%">:</td>
+                                <td class="text-start">
+                                    @if($pelanggaran->bukti_perizinan)
+                                        <a href="{{ Storage::url($pelanggaran->bukti_perizinan) }}" target="_blank" class="btn btn-primary btn-sm"><i class="bx bx-file me-1"></i>Lihat Berkas</a>
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                            </tr>
+                        @endif
                     </table>
 
                     <hr>
@@ -469,6 +505,71 @@
                                         @enderror
                                     </div>
                                 @endforeach
+                            </div>
+                        @elseif ($temuan_pelanggaran == 'Tidak Ada Pelanggaran')
+                            <hr>
+                            <h6 class="fw-bold mb-3">Dokumen Perizinan (Opsional)</h6>
+                            <div class="mb-3">
+                                <label for="upload_kkpr_skrk" class="form-label">Upload KKPR/SKRK</label>
+                                <input type="file" wire:model="upload_kkpr_skrk"
+                                    class="form-control @error('upload_kkpr_skrk') is-invalid @enderror"
+                                    id="upload_kkpr_skrk" accept=".pdf,.jpg,.jpeg,.png">
+                                <div wire:loading wire:target="upload_kkpr_skrk" class="text-info mt-1">Uploading...</div>
+                                @error('upload_kkpr_skrk')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                                @if ($pelanggaran->file_kkpr_skrk)
+                                    <div class="mt-2">
+                                        <a href="{{ Storage::url($pelanggaran->file_kkpr_skrk) }}" target="_blank"
+                                            class="btn btn-primary btn-sm">
+                                            <i class="bx bx-file me-1"></i> Lihat Berkas KKPR/SKRK Saat Ini
+                                        </a>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="upload_pbg_imb" class="form-label">Upload PBG/IMB</label>
+                                <input type="file" wire:model="upload_pbg_imb"
+                                    class="form-control @error('upload_pbg_imb') is-invalid @enderror"
+                                    id="upload_pbg_imb" accept=".pdf,.jpg,.jpeg,.png">
+                                <div wire:loading wire:target="upload_pbg_imb" class="text-info mt-1">Uploading...</div>
+                                @error('upload_pbg_imb')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                                @if ($pelanggaran->file_pbg_imb)
+                                    <div class="mt-2">
+                                        <a href="{{ Storage::url($pelanggaran->file_pbg_imb) }}" target="_blank"
+                                            class="btn btn-primary btn-sm">
+                                            <i class="bx bx-file me-1"></i> Lihat Berkas PBG/IMB Saat Ini
+                                        </a>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="upload_nib_kbli" class="form-label">Upload NIB KBLI</label>
+                                <input type="file" wire:model="upload_nib_kbli"
+                                    class="form-control @error('upload_nib_kbli') is-invalid @enderror"
+                                    id="upload_nib_kbli" accept=".pdf,.jpg,.jpeg,.png">
+                                <div wire:loading wire:target="upload_nib_kbli" class="text-info mt-1">Uploading...</div>
+                                @error('upload_nib_kbli')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                                @if ($pelanggaran->file_nib_kbli)
+                                    <div class="mt-2">
+                                        <a href="{{ Storage::url($pelanggaran->file_nib_kbli) }}" target="_blank"
+                                            class="btn btn-primary btn-sm">
+                                            <i class="bx bx-file me-1"></i> Lihat Berkas NIB KBLI Saat Ini
+                                        </a>
+                                    </div>
+                                @endif
                             </div>
                         @endif
                     </div>

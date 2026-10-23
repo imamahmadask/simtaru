@@ -37,6 +37,7 @@ class Pelanggaran extends Model
         'no_ba_sk_penilaian_kkpr',
         'dokumen_penilaian_kkpr',
         'jenis_pemanfaatan_ruang',
+        'pemanfaatan_ruang',
         'tgl_evaluasi',
         'hasil_evaluasi',
         'tindak_lanjut',
@@ -59,6 +60,9 @@ class Pelanggaran extends Model
         'file_ba_sosialisasi',
         'file_sk_sanksi_pemberhentian',
         'bukti_perizinan',
+        'file_kkpr_skrk',
+        'file_pbg_imb',
+        'file_nib_kbli',
     ];
 
     protected $casts = [
