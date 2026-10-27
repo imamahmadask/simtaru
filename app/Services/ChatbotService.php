@@ -124,8 +124,9 @@ INSTRUCTION;
             ],
         ];
 
-        // Batasi riwayat percakapan yang dikirim ke API (maks 4 pesan terakhir agar hemat token)
-        $recentHistory = array_slice($chatHistory, -4);
+        // Batasi riwayat percakapan yang dikirim ke API (maks 2-4 pesan terakhir agar hemat token)
+        $maxHistoryTurns = (strlen($systemInstruction) > 10000) ? 2 : 4;
+        $recentHistory = array_slice($chatHistory, -$maxHistoryTurns);
         foreach ($recentHistory as $item) {
             $role = ($item['role'] === 'user') ? 'user' : 'assistant';
             $text = trim($item['content'] ?? '');
@@ -154,6 +155,8 @@ INSTRUCTION;
             'qwen/qwen3.8-27b',
         ]));
 
+        $maxTokens = 450;
+
         foreach ($candidateModels as $targetModel) {
             try {
                 $response = Http::withHeaders([
@@ -163,7 +166,7 @@ INSTRUCTION;
                     'model' => $targetModel,
                     'messages' => $messages,
                     'temperature' => 0.2,
-                    'max_tokens' => 700,
+                    'max_tokens' => $maxTokens,
                 ]);
 
                 if ($response->successful()) {
@@ -175,6 +178,15 @@ INSTRUCTION;
 
                 $status = $response->status();
                 Log::warning("Groq API Error with model [{$targetModel}] (HTTP {$status}): " . $response->body());
+
+                // Jika terkena batas TPM (413/429), kurangi max_tokens dan hilangkan history untuk percobaan berikutnya
+                if ($status === 413 || $status === 429) {
+                    $maxTokens = 300;
+                    $messages = [
+                        ['role' => 'system', 'content' => $systemInstruction],
+                        ['role' => 'user', 'content' => $cleanMessage],
+                    ];
+                }
 
                 if (in_array($status, [400, 404, 413, 429, 500, 503])) {
                     continue;
@@ -245,8 +257,8 @@ INSTRUCTION;
 
         $candidateModels = array_unique(array_filter([
             $this->geminiModel,
+            'gemini-flash-lite-latest',
             'gemini-flash-latest',
-            'gemini-2.5-flash-lite',
         ]));
 
         foreach ($candidateModels as $targetModel) {

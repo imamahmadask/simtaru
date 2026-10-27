@@ -263,5 +263,23 @@ class ChatbotFeatureTest extends TestCase
 
         $this->assertNotEmpty($reply);
     }
+
+    public function test_chatbot_knowledge_base_covers_rumah_kos_zoning_rules_in_perwal_19_2024()
+    {
+        $service = app(ChatbotService::class);
+        $reply = $service->generateReply([], "Boleh ga rumah kos dibangun di zona perumahan kepadatan tinggi?");
+
+        Http::assertSent(function (Request $request) {
+            $body = json_encode($request->data(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+
+            return str_contains($body, 'rumah kos')
+                && str_contains($body, 'Sub-Zona Perumahan Kepadatan Tinggi (R-2)')
+                && str_contains($body, 'berstatus X (TIDAK DIPERBOLEHKAN / DILARANG)')
+                && str_contains($body, 'Perumahan Kepadatan Sedang (R-3)')
+                && str_contains($body, 'T1, B1, B2');
+        });
+
+        $this->assertNotEmpty($reply);
+    }
 }
 
