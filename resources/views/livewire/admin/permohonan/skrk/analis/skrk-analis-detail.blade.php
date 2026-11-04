@@ -15,22 +15,20 @@
                 @endif
 
                 @if (!$skrk->is_analis && ($disposisiAnalis && $disposisiAnalis->tgl_mulai_kerja))
-                    @if ($skrk->is_survey)
-                        @if (!$skrk->is_kajian)
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#AddKajianSkrkModal">
-                                <i class="bx bx-plus"></i> Data Kajian
-                            </button>
-                        @else
-                            <button type="button" wire:click="$dispatch('skrk-analis-edit-kajian', { permohonan_id: {{ $skrk->permohonan->id }}, skrk_id: {{ $skrk->id }} })" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#EditKajianSkrkModal">
-                                <i class="bx bx-edit"></i> Edit Data Kajian
-                            </button>
-                            @teleport('body')
-                                @livewire('admin.permohonan.skrk.analis.skrk-kajian-analis-edit')
-                            @endteleport
-                        @endif
-                    @endif {{-- End of is_survey check --}}
+                    @if (!$skrk->is_kajian)
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#AddKajianSkrkModal">
+                            <i class="bx bx-plus"></i> Data Kajian
+                        </button>
+                    @else
+                        <button type="button" wire:click="$dispatch('skrk-analis-edit-kajian', { permohonan_id: {{ $skrk->permohonan->id }}, skrk_id: {{ $skrk->id }} })" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#EditKajianSkrkModal">
+                            <i class="bx bx-edit"></i> Edit Data Kajian
+                        </button>
+                        @teleport('body')
+                            @livewire('admin.permohonan.skrk.analis.skrk-kajian-analis-edit')
+                        @endteleport
+                    @endif
 
                     @if ($skrk->is_kajian)
                         @if (!$skrk->is_dokumen)

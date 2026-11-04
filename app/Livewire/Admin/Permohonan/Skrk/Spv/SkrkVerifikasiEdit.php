@@ -15,6 +15,7 @@ class SkrkVerifikasiEdit extends Component
 {
     public $berkas, $catatan;
     public $skrk_id;
+    public $isLoading = true;
 
     #[Validate('required')]
     public $status;
@@ -22,10 +23,15 @@ class SkrkVerifikasiEdit extends Component
     #[On('skrk-verifikasi-edit')]
     public function getData($skrk_id, $berkas_id)
     {
+        $this->reset(['berkas', 'status', 'catatan']);
+        $this->isLoading = true;
         $this->skrk_id = $skrk_id;
-        $this->berkas = PermohonanBerkas::find($berkas_id);
-        $this->status = $this->berkas->status;
-        $this->catatan = $this->berkas->catatan_verifikator;
+        $this->berkas = PermohonanBerkas::with('persyaratan.tahapan')->find($berkas_id);
+        if ($this->berkas) {
+            $this->status = $this->berkas->status;
+            $this->catatan = $this->berkas->catatan_verifikator;
+        }
+        $this->isLoading = false;
     }
 
     public function render()
@@ -36,6 +42,14 @@ class SkrkVerifikasiEdit extends Component
     public function updateVerifikasi()
     {
         $this->validate();
+
+        if (!$this->berkas) {
+            $this->dispatch('toast', [
+                'type'    => 'error',
+                'message' => 'Berkas belum dipilih atau sedang dimuat!'
+            ]);
+            return;
+        }
 
         $verified_at = $this->status == 'diterima' ? now() : null;
         $verified_by = $this->status == 'diterima' ? Auth::user()->id : null;
@@ -51,7 +65,7 @@ class SkrkVerifikasiEdit extends Component
         {
             $tahapan_id = $this->berkas->persyaratan->tahapan_id;
             $tahapan = Tahapan::find($tahapan_id);
-            $nama_tahapan = $tahapan->nama;
+            $nama_tahapan = $tahapan->nama ?? '';
 
             $skrk = Skrk::find($this->skrk_id);
             $currentDisposisi = $skrk->disposisis()
@@ -72,16 +86,21 @@ class SkrkVerifikasiEdit extends Component
             if($nama_tahapan == 'Survey')
             {
                 $skrk->update([
-                    'is_survey' => false
+                    'is_survey' => false,
+                    'is_berkas_survey_uploaded' => false,
                 ]);
             }
             elseif($nama_tahapan == 'Analisis')
             {
                 $skrk->update([
-                    'is_analis' => false
+                    'is_analis' => false,
+                    'is_berkas_analis_uploaded' => false,
                 ]);
             }
         }
+
+        $this->reset(['status', 'catatan', 'berkas']);
+        $this->isLoading = true;
 
         $message = $this->status == 'diterima'
         ? "Verifikasi : Berkas Diterima!"

@@ -18,6 +18,7 @@ class KkprnbVerifikasiCreate extends Component
     public $berkas, $catatan, $persyaratan;
     public $kkprnb_id;
     public $tahapans, $permohonan;
+    public $isLoading = true;
 
     #[Validate('required')]
     public $status;
@@ -30,24 +31,36 @@ class KkprnbVerifikasiCreate extends Component
     #[On('kkprnb-verifikasi-create')]
     public function getBerkas($kkprnb_id, $berkas_id)
     {
+        $this->reset(['berkas', 'status', 'catatan']);
+        $this->isLoading = true;
         $this->kkprnb_id = $kkprnb_id;
-        $this->berkas = PermohonanBerkas::find($berkas_id);
-        $this->permohonan = Permohonan::findOrFail($this->berkas->permohonan_id);
+        $this->berkas = PermohonanBerkas::with('persyaratan.tahapan')->find($berkas_id);
+        $this->permohonan = $this->berkas ? Permohonan::find($this->berkas->permohonan_id) : null;
+        $this->isLoading = false;
     }
     
     public function addVerifikasi()
     {
         $this->validate();
 
+        if (!$this->berkas) {
+            $this->dispatch('toast', [
+                'type'    => 'error',
+                'message' => 'Berkas belum dipilih atau sedang dimuat!'
+            ]);
+            return;
+        }
+
         $verified_at = $this->status == 'diterima' ? now() : null;
         $verified_by = $this->status == 'diterima' ? Auth::user()->id : null;
 
         $tahapan_id = $this->berkas->persyaratan->tahapan_id;
         $tahapan = Tahapan::find($tahapan_id);
-        $nama_tahapan = $tahapan->nama;
+        $nama_tahapan = $tahapan->nama ?? '';
 
         $penerima_id = $this->berkas->uploaded_by;
-        $penerima_name = User::where('id', $penerima_id)->first()->name;
+        $penerima = User::find($penerima_id);
+        $penerima_name = $penerima ? $penerima->name : 'Petugas';
 
         $kkprnb = Kkprnb::find($this->kkprnb_id);
 
@@ -58,31 +71,54 @@ class KkprnbVerifikasiCreate extends Component
             'verified_at' => $verified_at
         ]);
 
-        $currentDisposisi = $kkprnb->disposisis()
-            ->where('tahapan_id', $this->berkas->persyaratan->tahapan_id)
-            ->where('is_done', true)
-            ->latest()
-            ->first();
-
-        $currentDisposisi->update([
-            'status'     => $currentDisposisi->is_revisi == 1 ? 'revised' : 'completed',
-            'updated_by' => Auth::user()->id,
-        ]);
-
         if($this->status == 'ditolak')
         {
-            $kkprnb->disposisis()->create([
-                'permohonan_id' => $currentDisposisi->permohonan->id,
-                'tahapan_id' => $tahapan_id,
-                'pemberi_id' => Auth::user()->id,
-                'penerima_id' => $penerima_id,
-                'tanggal_disposisi' => now(),
-                'catatan' => $this->catatan,
-                'parent_id' => $currentDisposisi->id,
-                'is_revisi' => 1,
-                'status' => 'pending',
-                'is_done' => 0,
-            ]);
+            $activeRevisi = $kkprnb->disposisis()
+                ->where('tahapan_id', $tahapan_id)
+                ->where('is_revisi', 1)
+                ->where('is_done', 0)
+                ->latest()
+                ->first();
+
+            if ($activeRevisi) {
+                $newCatatan = $this->catatan 
+                    ? ($activeRevisi->catatan ? $activeRevisi->catatan . "\n" . $this->catatan : $this->catatan)
+                    : $activeRevisi->catatan;
+
+                $activeRevisi->update([
+                    'catatan'    => $newCatatan,
+                    'updated_by' => Auth::user()->id,
+                ]);
+            } else {
+                $currentDisposisi = $kkprnb->disposisis()
+                    ->where('tahapan_id', $tahapan_id)
+                    ->where('is_done', true)
+                    ->latest()
+                    ->first();
+
+                if ($currentDisposisi) {
+                    $currentDisposisi->update([
+                        'status'     => $currentDisposisi->is_revisi == 1 ? 'revised' : 'completed',
+                        'updated_by' => Auth::user()->id,
+                    ]);
+                }
+
+                $parent_id = $currentDisposisi ? $currentDisposisi->id : null;
+                $permohonan_id = $kkprnb->permohonan_id ?? $this->berkas->permohonan_id;
+
+                $kkprnb->disposisis()->create([
+                    'permohonan_id' => $permohonan_id,
+                    'tahapan_id' => $tahapan_id,
+                    'pemberi_id' => Auth::user()->id,
+                    'penerima_id' => $penerima_id,
+                    'tanggal_disposisi' => now(),
+                    'catatan' => $this->catatan,
+                    'parent_id' => $parent_id,
+                    'is_revisi' => 1,
+                    'status' => 'pending',
+                    'is_done' => 0,
+                ]);
+            }
 
             if($nama_tahapan == 'Survey')
             {
@@ -102,7 +138,6 @@ class KkprnbVerifikasiCreate extends Component
             $this->createRiwayat($kkprnb->permohonan, "Disposisi kembali kepada {$penerima_name} pada tahapan ". $nama_tahapan);
         }
 
-        
         $message = $this->status == 'diterima'
         ? "Berkas berhasil diverifikasi sebagai : Diterima"
         : "Berkas : Ditolak";
@@ -111,7 +146,8 @@ class KkprnbVerifikasiCreate extends Component
             'type'    => $this->status == 'diterima' ? 'success' : 'error',
             'message' => $message
         ]);
-        $this->reset('status', 'catatan');
+        $this->reset(['status', 'catatan', 'berkas']);
+        $this->isLoading = true;
         
         $this->dispatch('refresh-kkprnb-verifikasi-list');
         $this->dispatch('refresh-kkprnb-survey-list');

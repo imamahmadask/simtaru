@@ -14,6 +14,7 @@ class KkprbVerifikasiEdit extends Component
 {
     public $berkas, $catatan;
     public $kkprb_id;
+    public $isLoading = true;
 
     #[Validate('required')]
     public $status;
@@ -26,15 +27,28 @@ class KkprbVerifikasiEdit extends Component
     #[On('kkprb-verifikasi-edit')]
     public function getBerkas($kkprb_id, $berkas_id)
     {
+        $this->reset(['berkas', 'status', 'catatan']);
+        $this->isLoading = true;
         $this->kkprb_id = $kkprb_id;
-        $this->berkas = PermohonanBerkas::find($berkas_id);
-        $this->status = $this->berkas->status;
-        $this->catatan = $this->berkas->catatan_verifikator;
+        $this->berkas = PermohonanBerkas::with('persyaratan.tahapan')->find($berkas_id);
+        if ($this->berkas) {
+            $this->status = $this->berkas->status;
+            $this->catatan = $this->berkas->catatan_verifikator;
+        }
+        $this->isLoading = false;
     }
 
     public function updateVerifikasi()
     {
         $this->validate();
+
+        if (!$this->berkas) {
+            $this->dispatch('toast', [
+                'type'    => 'error',
+                'message' => 'Berkas belum dipilih atau sedang dimuat!'
+            ]);
+            return;
+        }
 
         $verified_at = $this->status == 'diterima' ? now() : null;
         $verified_by = $this->status == 'diterima' ? Auth::user()->id : null;
@@ -50,7 +64,7 @@ class KkprbVerifikasiEdit extends Component
         {
             $tahapan_id = $this->berkas->persyaratan->tahapan_id;
             $tahapan = Tahapan::find($tahapan_id);
-            $nama_tahapan = $tahapan->nama;
+            $nama_tahapan = $tahapan->nama ?? '';
 
             $kkprb = Kkprb::find($this->kkprb_id);
             $currentDisposisi = $kkprb->disposisis()
@@ -71,28 +85,21 @@ class KkprbVerifikasiEdit extends Component
             if($nama_tahapan == 'Survey')
             {
                 $kkprb->update([
-                    'is_survey' => false
+                    'is_survey' => false,
+                    'is_berkas_survey_uploaded' => false,
                 ]);
             }
             elseif($nama_tahapan == 'Analisis')
             {
                 $kkprb->update([
-                    'is_analis' => false
+                    'is_analis' => false,
+                    'is_berkas_analis_uploaded' => false,
                 ]);
             }
         }
 
-        
-        $message = $this->status == 'diterima'
-        ? "Verifikasi : Berkas Diterima!"
-        : "Verifikasi : Berkas Ditolak!";
-        
-        $this->dispatch('toast', [
-            'type'    => $this->status == 'diterima' ? 'success' : 'error',
-            'message' => $message
-        ]);
-        
-        $this->reset('status', 'catatan');
+        $this->reset(['status', 'catatan', 'berkas']);
+        $this->isLoading = true;
         
         $this->dispatch('refresh-kkprb-verifikasi-list');
         $this->dispatch('refresh-kkprb-analis-list');

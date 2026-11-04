@@ -8,6 +8,26 @@
                 </div>
                 <form wire:submit.prevent="updateVerifikasi">
                     <div class="modal-body">
+                        @if ($berkas)
+                            <div class="alert alert-secondary py-2 px-3 mb-3">
+                                <div class="d-flex align-items-center justify-content-between mb-1">
+                                    <span class="badge {{ ($berkas->persyaratan->tahapan->nama ?? '') == 'Survey' ? 'bg-primary' : 'bg-info' }}">
+                                        Tahap {{ $berkas->persyaratan->tahapan->nama ?? 'Berkas' }}
+                                    </span>
+                                    <small class="text-muted">{{ $berkas->versi }}</small>
+                                </div>
+                                <div class="fw-bold text-dark">{{ $berkas->persyaratan->nama_berkas ?? '-' }}</div>
+                                <div class="text-muted small text-truncate" title="{{ $berkas->file_name }}">
+                                    <i class="bx bx-file"></i> {{ $berkas->file_name }}
+                                </div>
+                            </div>
+                        @else
+                            <div class="text-center py-3">
+                                <div class="spinner-border text-primary spinner-border-sm" role="status"></div>
+                                <span class="ms-1 text-muted">Memuat data berkas...</span>
+                            </div>
+                        @endif
+
                         <p>Apakah Anda ingin <b>menerima</b> atau <b>menolak</b> berkas ini?</p>
                         <div class="row">
                             <div class="col mb-3">
@@ -23,14 +43,17 @@
                             <div class="row">
                                 <div class="col mb-3">
                                     <label for="catatan" class="form-label">Catatan</label>
-                                    <textarea class="form-control" wire:model="catatan" name="catatan" rows="3"></textarea>
+                                    <textarea class="form-control" wire:model="catatan" name="catatan" rows="3" placeholder="Masukkan alasan penolakan..."></textarea>
                                 </div>
                             </div>
                         @endif
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="auto-close-btn">Batal</button>
-                        <button type="submit" class="btn btn-primary">Edit</button>
+                        <button type="submit" class="btn btn-primary" wire:loading.attr="disabled" {{ !$berkas ? 'disabled' : '' }}>
+                            <span wire:loading class="spinner-border spinner-border-sm me-1" role="status"></span>
+                            Edit
+                        </button>
                     </div>
                 </form>
             </div>

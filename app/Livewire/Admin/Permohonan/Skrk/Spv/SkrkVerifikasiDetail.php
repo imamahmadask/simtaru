@@ -23,7 +23,7 @@ class SkrkVerifikasiDetail extends Component
     public function refresh()
     {
         $this->skrk->refresh();
-        $this->skrk->load(['permohonan.berkas.persyaratan', 'permohonan.berkas.verifiedBy']);
+        $this->skrk->load(['permohonan.berkas.persyaratan.tahapan', 'permohonan.berkas.verifiedBy']);
         $this->loadData();
     }
     
@@ -35,14 +35,20 @@ class SkrkVerifikasiDetail extends Component
 
     public function mount($skrk_id)
     {
-        $this->skrk = Skrk::with(['permohonan.berkas.persyaratan', 'permohonan.berkas.verifiedBy'])->findOrFail($skrk_id);
+        $this->skrk = Skrk::with(['permohonan.berkas.persyaratan.tahapan', 'permohonan.berkas.verifiedBy'])->findOrFail($skrk_id);
         $this->loadData();
     }
 
     public function loadData()
     {
         $this->count_verifikasi = $this->skrk->permohonan->berkas->where('status', '!=', 'diterima')->where('versi', 'draft')->count();
-        $this->berkas_draft = $this->skrk->permohonan->berkas->where('versi', 'draft');
+        $this->berkas_draft = $this->skrk->permohonan->berkas
+            ->where('versi', 'draft')
+            ->sortBy([
+                fn ($a, $b) => ($a->persyaratan->tahapan->urutan ?? 99) <=> ($b->persyaratan->tahapan->urutan ?? 99),
+                fn ($a, $b) => ($a->persyaratan_berkas_id ?? 0) <=> ($b->persyaratan_berkas_id ?? 0),
+                fn ($a, $b) => $a->id <=> $b->id,
+            ]);
     }
 
     public function submitKesimpulan()

@@ -20,7 +20,7 @@ class ItrVerifikasiDetail extends Component
     public function refresh()
     {
         $this->itr->refresh();
-        $this->itr->load(['permohonan.berkas.persyaratan', 'permohonan.berkas.verifiedBy']);
+        $this->itr->load(['permohonan.berkas.persyaratan.tahapan', 'permohonan.berkas.verifiedBy']);
         $this->loadData();
     }
     
@@ -31,14 +31,20 @@ class ItrVerifikasiDetail extends Component
 
     public function mount($itr_id)
     {
-        $this->itr = Itr::with(['permohonan.berkas.persyaratan', 'permohonan.berkas.verifiedBy'])->findOrFail($itr_id);
+        $this->itr = Itr::with(['permohonan.berkas.persyaratan.tahapan', 'permohonan.berkas.verifiedBy'])->findOrFail($itr_id);
         $this->loadData();
     }
 
     public function loadData()
     {
         $this->count_verifikasi = $this->itr->permohonan->berkas->where('status', '!=', 'diterima')->where('versi', 'draft')->count();
-        $this->berkas_draft = $this->itr->permohonan->berkas->where('versi', 'draft');
+        $this->berkas_draft = $this->itr->permohonan->berkas
+            ->where('versi', 'draft')
+            ->sortBy([
+                fn ($a, $b) => ($a->persyaratan->tahapan->urutan ?? 99) <=> ($b->persyaratan->tahapan->urutan ?? 99),
+                fn ($a, $b) => ($a->persyaratan_berkas_id ?? 0) <=> ($b->persyaratan_berkas_id ?? 0),
+                fn ($a, $b) => $a->id <=> $b->id,
+            ]);
     }
 
     public function selesaiVerifikasi()

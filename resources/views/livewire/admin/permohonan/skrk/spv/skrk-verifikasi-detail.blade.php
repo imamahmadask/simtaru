@@ -19,6 +19,8 @@
                         <table class="table table-hover table-bordered">
                             <thead>
                                 <th>No</th>
+                                <th>Tahapan</th>
+                                <th>Persyaratan</th>
                                 <th>Nama Berkas</th>
                                 <th>Status</th>
                                 <th>Versi</th>
@@ -35,6 +37,18 @@
                                 @foreach ($berkas_draft as $item)
                                     <tr>
                                         <td>{{ $no++ }}</td>
+                                        <td>
+                                            @if (($item->persyaratan->tahapan->nama ?? '') == 'Survey')
+                                                <span class="badge bg-label-primary">Survey</span>
+                                            @elseif (($item->persyaratan->tahapan->nama ?? '') == 'Analisis')
+                                                <span class="badge bg-label-info">Analisis</span>
+                                            @else
+                                                <span class="badge bg-label-secondary">{{ $item->persyaratan->tahapan->nama ?? '-' }}</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <strong>{{ $item->persyaratan->nama_berkas ?? '-' }}</strong>
+                                        </td>
                                         <td>{{ $item->file_name }}</td>
                                         <td class="text-capitalize">
                                             @switch($item->status)

@@ -22,7 +22,7 @@
                 @endphp
                 @if($showButtons)
                     @if (!$kkprb->is_analis && $disposisiAnalis && $disposisiAnalis->tgl_mulai_kerja)
-                        @if (!$kkprb->is_kajian && $kkprb->is_survey)
+                        @if (!$kkprb->is_kajian)
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#AddKajianKkprbModal">
                                 <i class="bx bx-plus"></i> Data Kajian

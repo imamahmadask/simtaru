@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Permohonan\Itr\Analis;
 
 use Livewire\Component;
+use Livewire\Attributes\On;
 use App\Models\Permohonan;
 use App\Models\RiwayatPermohonan;
 use App\Models\Itr;
@@ -17,6 +18,13 @@ class ItrAnalisDetail extends Component
     public $itr;
     public $koordinatTable = false;
     public $disposisiAnalis = null;
+
+    #[On('refresh-itr-analis-list')]
+    #[On('refresh-itr-analis-detail')]
+    public function refresh()
+    {
+        $this->itr->refresh();
+    }
 
     public function render()
     {

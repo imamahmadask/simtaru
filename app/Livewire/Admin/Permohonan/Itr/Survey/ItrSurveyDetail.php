@@ -38,8 +38,10 @@ class ItrSurveyDetail extends Component
     }
 
     #[On('refresh-itr-survey-list')]
+    #[On('refresh-itr-survey-detail')]
     public function refresh()
     {
+        $this->itr->refresh();
         $this->cek_disposisi = $this->itr->permohonan->disposisi()->where('tahapan_id', $this->itr->permohonan->layanan->tahapan->where('nama', 'Analisis')->value('id'))->first();
     }
 
@@ -155,17 +157,24 @@ class ItrSurveyDetail extends Component
                 // Find and update the disposisi for the 'Survey' stage
                 $tahapanSurveyId = $this->itr->permohonan->layanan->tahapan->where('nama', 'Survey')->value('id');
                 if ($tahapanSurveyId) {
-                    $this->itr->permohonan->disposisi()->where('tahapan_id', $tahapanSurveyId)->update([
+                    $disposisiQuery = $this->itr->permohonan->disposisi()->where('tahapan_id', $tahapanSurveyId);
+                    $currentDisposisi = $disposisiQuery->latest()->first();
+
+                    $disposisiQuery->update([
                         'is_done' => true,
                         'tgl_selesai' => now()
                     ]);
+
+                    if ($currentDisposisi && !$currentDisposisi->is_revisi) {
+                        $this->itr->permohonan->update([
+                            'status' => 'Proses Analisa'
+                        ]);
+
+                        $this->createRiwayat($this->itr->permohonan, 'Selesai Survey Data ITR');
+                    } else {
+                        $this->createRiwayat($this->itr->permohonan, 'Revisi Survey Data ITR Selesai Dilengkapi');
+                    }
                 }
-
-                $this->itr->permohonan->update([
-                    'status' => 'Proses Analisa'
-                ]);
-
-                $this->createRiwayat($this->itr->permohonan, 'Selesai Survey Data ITR');
 
                 session()->flash('success', 'Data Survey selesai!');
             }

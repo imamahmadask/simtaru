@@ -21,7 +21,7 @@ class KkprbVerifikasiDetail extends Component
     public function refresh()
     {
         $this->kkprb->refresh();
-        $this->kkprb->load(['permohonan.berkas.persyaratan', 'permohonan.berkas.verifiedBy']);
+        $this->kkprb->load(['permohonan.berkas.persyaratan.tahapan', 'permohonan.berkas.verifiedBy']);
         $this->loadData();
     }
 
@@ -32,14 +32,20 @@ class KkprbVerifikasiDetail extends Component
 
     public function mount($kkprb_id)
     {
-        $this->kkprb = Kkprb::with(['permohonan.berkas.persyaratan', 'permohonan.berkas.verifiedBy'])->findOrFail($kkprb_id);
+        $this->kkprb = Kkprb::with(['permohonan.berkas.persyaratan.tahapan', 'permohonan.berkas.verifiedBy'])->findOrFail($kkprb_id);
         $this->loadData();
     }
 
     public function loadData()
     {
         $this->count_verifikasi = $this->kkprb->permohonan->berkas->where('status', '!=', 'diterima')->where('versi', 'draft')->count();
-        $this->berkas_draft = $this->kkprb->permohonan->berkas->where('versi', 'draft');
+        $this->berkas_draft = $this->kkprb->permohonan->berkas
+            ->where('versi', 'draft')
+            ->sortBy([
+                fn ($a, $b) => ($a->persyaratan->tahapan->urutan ?? 99) <=> ($b->persyaratan->tahapan->urutan ?? 99),
+                fn ($a, $b) => ($a->persyaratan_berkas_id ?? 0) <=> ($b->persyaratan_berkas_id ?? 0),
+                fn ($a, $b) => $a->id <=> $b->id,
+            ]);
         $this->kesimpulan = $this->kkprb->kesimpulan;
     }
 

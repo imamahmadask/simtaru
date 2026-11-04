@@ -14,6 +14,7 @@ class ItrVerifikasiEdit extends Component
 {
     public $berkas, $catatan;
     public $itr_id;
+    public $isLoading = true;
 
     #[Validate('required')]
     public $status;
@@ -23,9 +24,31 @@ class ItrVerifikasiEdit extends Component
         return view('livewire.admin.permohonan.itr.spv.itr-verifikasi-edit');
     }
 
+    #[On('itr-verifikasi-edit')]
+    public function itrVerifikasiEdit($itr_id, $berkas_id)
+    {
+        $this->reset(['berkas', 'status', 'catatan']);
+        $this->isLoading = true;
+        $this->itr_id = $itr_id;
+        $this->berkas = PermohonanBerkas::with('persyaratan.tahapan')->find($berkas_id);
+        if ($this->berkas) {
+            $this->status = $this->berkas->status;
+            $this->catatan = $this->berkas->catatan_verifikator;
+        }
+        $this->isLoading = false;
+    }
+
     public function updateVerifikasi()
     {
         $this->validate();
+
+        if (!$this->berkas) {
+            $this->dispatch('toast', [
+                'type'    => 'error',
+                'message' => 'Berkas belum dipilih atau sedang dimuat!'
+            ]);
+            return;
+        }
 
         $verified_at = $this->status == 'diterima' ? now() : null;
         $verified_by = $this->status == 'diterima' ? Auth::user()->id : null;
@@ -41,7 +64,7 @@ class ItrVerifikasiEdit extends Component
         {
             $tahapan_id = $this->berkas->persyaratan->tahapan_id;
             $tahapan = Tahapan::find($tahapan_id);
-            $nama_tahapan = $tahapan->nama;
+            $nama_tahapan = $tahapan->nama ?? '';
 
             $itr = Itr::find($this->itr_id);
             $currentDisposisi = $itr->disposisis()
@@ -62,13 +85,15 @@ class ItrVerifikasiEdit extends Component
             if($nama_tahapan == 'Survey')
             {
                 $itr->update([
-                    'is_survey' => false
+                    'is_survey' => false,
+                    'is_berkas_survey_uploaded' => false,
                 ]);
             }
             elseif($nama_tahapan == 'Analisis')
             {
                 $itr->update([
-                    'is_analis' => false
+                    'is_analis' => false,
+                    'is_berkas_analis_uploaded' => false,
                 ]);
             }
         }        
@@ -82,21 +107,15 @@ class ItrVerifikasiEdit extends Component
             'message' => $message
         ]);
 
-        $this->reset('status', 'catatan');
+        $this->reset(['status', 'catatan', 'berkas']);
+        $this->isLoading = true;
         
         $this->dispatch('refresh-itr-verifikasi-list');
         $this->dispatch('refresh-itr-analis-list');
+        $this->dispatch('refresh-itr-analis-detail');
         $this->dispatch('refresh-itr-survey-list');
+        $this->dispatch('refresh-itr-survey-detail');
 
         $this->dispatch('trigger-close-modal');
-    }
-
-    #[On('itr-verifikasi-edit')]
-    public function itrVerifikasiEdit($itr_id, $berkas_id)
-    {
-        $this->itr_id = $itr_id;
-        $this->berkas = PermohonanBerkas::find($berkas_id);
-        $this->status = $this->berkas->status;
-        $this->catatan = $this->berkas->catatan_verifikator;
     }
 }

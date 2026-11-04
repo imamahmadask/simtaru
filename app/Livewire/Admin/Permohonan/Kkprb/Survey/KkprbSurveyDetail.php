@@ -134,17 +134,24 @@ class KkprbSurveyDetail extends Component
                 // Find and update the disposisi for the 'Survey' stage
                 $tahapanSurveyId = $this->kkprb->permohonan->layanan->tahapan->where('nama', 'Survey')->value('id');
                 if ($tahapanSurveyId) {
-                    $this->kkprb->permohonan->disposisi()->where('tahapan_id', $tahapanSurveyId)->update([
+                    $disposisiQuery = $this->kkprb->permohonan->disposisi()->where('tahapan_id', $tahapanSurveyId);
+                    $currentDisposisi = $disposisiQuery->latest()->first();
+
+                    $disposisiQuery->update([
                         'is_done' => true,
                         'tgl_selesai' => now()
                     ]);
+
+                    if ($currentDisposisi && !$currentDisposisi->is_revisi) {
+                        $this->kkprb->permohonan->update([
+                            'status' => 'Proses Analisa'
+                        ]);
+
+                        $this->createRiwayat($this->kkprb->permohonan, 'Selesai Survey KKPR Berusaha');
+                    } else {
+                        $this->createRiwayat($this->kkprb->permohonan, 'Revisi Survey KKPR Berusaha Selesai Dilengkapi');
+                    }
                 }
-
-                $this->kkprb->permohonan->update([
-                    'status' => 'Proses Analisa'
-                ]);
-
-                $this->createRiwayat($this->kkprb->permohonan, 'Selesai Survey KKPR Berusaha');
             }
 
             session()->flash('success', 'Data Survey selesai!');
