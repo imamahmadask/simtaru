@@ -51,7 +51,7 @@
                                             <div class="d-inline-block position-relative me-2 mb-2">
                                                 <img src="{{ $image->temporaryUrl() }}" alt="Preview"
                                                     class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
-                                                <button type="button" wire:click="removeImage({{ $index }})"
+                                                <button type="button" wire:click="removeImage({{ $index }}, 'foto_pengawasan')"
                                                     class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1">
                                                     <i class="bx bx-x"></i>
                                                 </button>
@@ -133,11 +133,11 @@
                                 @enderror
                             </div>                           
                             <div class="col-md-6">
-                                <label class="form-label" for="dokumen_kkpr">Dokumen KKPR/SKRK</label>
-                                <input type="file" id="dokumen_kkpr" wire:model="dokumen_kkpr"
-                                    class="form-control @error('dokumen_kkpr') is-invalid @enderror"
-                                    placeholder="Dokumen KKPR/SKRK">
-                                @error('dokumen_kkpr')
+                                <label class="form-label" for="dokumen_penilaian_kkpr">Dokumen Penilaian KKPR/SKRK</label>
+                                <input type="file" id="dokumen_penilaian_kkpr" wire:model="dokumen_penilaian_kkpr"
+                                    class="form-control @error('dokumen_penilaian_kkpr') is-invalid @enderror">
+                                <div wire:loading wire:target="dokumen_penilaian_kkpr">Uploading...</div>
+                                @error('dokumen_penilaian_kkpr')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -311,7 +311,7 @@
                                         <div class="d-inline-block position-relative me-2 mb-2">
                                             <img src="{{ $image->temporaryUrl() }}" alt="Preview"
                                                 class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
-                                            <button type="button" wire:click="removeImage({{ $index }})"
+                                            <button type="button" wire:click="removeImage({{ $index }}, 'foto_existing')"
                                                 class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1">
                                                 <i class="bx bx-x"></i>
                                             </button>

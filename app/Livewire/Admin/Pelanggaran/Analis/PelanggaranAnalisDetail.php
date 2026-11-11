@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Pelanggaran\Analis;
 
 use App\Models\Pelanggaran;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -105,13 +106,23 @@ class PelanggaranAnalisDetail extends Component
             $this->tindak_lanjut = null;
         }
 
+        $safeFolder = str_replace('/', '-', $this->pelanggaran->no_pelanggaran);
+
+        // Clean up physically removed photos from existing_foto_tindak_lanjut
+        $deletedPhotos = array_diff((array)($this->pelanggaran->foto_tindak_lanjut ?? []), (array)$this->existing_foto_tindak_lanjut);
+        foreach ($deletedPhotos as $oldPath) {
+            if ($oldPath && Storage::disk('public')->exists($oldPath)) {
+                Storage::disk('public')->delete($oldPath);
+            }
+        }
+
         $all_photos = $this->existing_foto_tindak_lanjut;
 
         if($this->foto_tindak_lanjut)
         {
             foreach ($this->foto_tindak_lanjut as $foto) {
-                $foto_tindak_lanjut_filename = $this->pelanggaran->no_pelanggaran . '_' . Str::random(5) . '.' . $foto->getClientOriginalExtension();
-                $all_photos[] = $foto->storeAs('pelanggaran/'.$this->pelanggaran->no_pelanggaran.'/foto_tindak_lanjut', $foto_tindak_lanjut_filename, 'public');
+                $foto_tindak_lanjut_filename = $safeFolder . '_' . Str::random(5) . '.' . $foto->getClientOriginalExtension();
+                $all_photos[] = $foto->storeAs("pelanggaran/{$safeFolder}/foto_tindak_lanjut", $foto_tindak_lanjut_filename, 'public');
             }
         }
 
@@ -145,8 +156,14 @@ class PelanggaranAnalisDetail extends Component
 
         foreach ($documentTemplates as $property => $column) {
             if ($this->$property) {
-                $fileName = Str::upper(str_replace('upload_', '', $property)) . '_' . $this->pelanggaran->no_pelanggaran . '_' . Str::random(5) . '.' . $this->$property->getClientOriginalExtension();
-                $updateData[$column] = $this->$property->storeAs('pelanggaran/'.$this->pelanggaran->no_pelanggaran.'/dokumen', $fileName, 'public');
+                // Delete old document file if exists to prevent orphans
+                $oldFile = $this->pelanggaran->$column;
+                if ($oldFile && Storage::disk('public')->exists($oldFile)) {
+                    Storage::disk('public')->delete($oldFile);
+                }
+                $docPrefix = Str::upper(str_replace('upload_', '', $property));
+                $fileName = "{$docPrefix}_{$safeFolder}_" . Str::random(5) . '.' . $this->$property->getClientOriginalExtension();
+                $updateData[$column] = $this->$property->storeAs("pelanggaran/{$safeFolder}/dokumen", $fileName, 'public');
             }
         }
 
@@ -187,8 +204,17 @@ class PelanggaranAnalisDetail extends Component
 
     public function removeExistingImage($index)
     {
-        unset($this->existing_foto_tindak_lanjut[$index]);
-        $this->existing_foto_tindak_lanjut = array_values($this->existing_foto_tindak_lanjut);
+        if (isset($this->existing_foto_tindak_lanjut[$index])) {
+            $path = $this->existing_foto_tindak_lanjut[$index];
+            if ($path && Storage::disk('public')->exists($path)) {
+                Storage::disk('public')->delete($path);
+            }
+            unset($this->existing_foto_tindak_lanjut[$index]);
+            $this->existing_foto_tindak_lanjut = array_values($this->existing_foto_tindak_lanjut);
+            $this->pelanggaran->update([
+                'foto_tindak_lanjut' => count($this->existing_foto_tindak_lanjut) > 0 ? $this->existing_foto_tindak_lanjut : null
+            ]);
+        }
     }
 
     public function removeTempFotoExisting($index)
@@ -199,8 +225,17 @@ class PelanggaranAnalisDetail extends Component
 
     public function removeExistingFotoExisting($index)
     {
-        unset($this->existing_foto_existing[$index]);
-        $this->existing_foto_existing = array_values($this->existing_foto_existing);
+        if (isset($this->existing_foto_existing[$index])) {
+            $path = $this->existing_foto_existing[$index];
+            if ($path && Storage::disk('public')->exists($path)) {
+                Storage::disk('public')->delete($path);
+            }
+            unset($this->existing_foto_existing[$index]);
+            $this->existing_foto_existing = array_values($this->existing_foto_existing);
+            $this->pelanggaran->update([
+                'foto_existing' => count($this->existing_foto_existing) > 0 ? $this->existing_foto_existing : null
+            ]);
+        }
     }
 
     public function storeEvaluasi()
@@ -211,13 +246,23 @@ class PelanggaranAnalisDetail extends Component
             'temp_foto_existing.*' => 'image|max:10240'
         ]);
 
+        $safeFolder = str_replace('/', '-', $this->pelanggaran->no_pelanggaran);
+
+        // Delete any photos removed from existing_foto_existing
+        $deletedExistingPhotos = array_diff((array)($this->pelanggaran->foto_existing ?? []), (array)$this->existing_foto_existing);
+        foreach ($deletedExistingPhotos as $oldPath) {
+            if ($oldPath && Storage::disk('public')->exists($oldPath)) {
+                Storage::disk('public')->delete($oldPath);
+            }
+        }
+
         $all_existing_photos = $this->existing_foto_existing;
 
         if($this->temp_foto_existing)
         {
             foreach ($this->temp_foto_existing as $foto) {
-                $filename = $this->pelanggaran->no_pelanggaran . '_eval_' . Str::random(5) . '.' . $foto->getClientOriginalExtension();
-                $all_existing_photos[] = $foto->storeAs('pelanggaran/'.$this->pelanggaran->no_pelanggaran.'/foto_existing', $filename, 'public');
+                $filename = "{$safeFolder}_eval_" . Str::random(5) . '.' . $foto->getClientOriginalExtension();
+                $all_existing_photos[] = $foto->storeAs("pelanggaran/{$safeFolder}/foto_existing", $filename, 'public');
             }
         }
 

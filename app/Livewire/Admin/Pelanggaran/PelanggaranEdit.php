@@ -128,6 +128,7 @@ class PelanggaranEdit extends Component
             $foto_existing_path = array_merge($foto_existing_path, $new_paths);
         }
 
+        $safeFolder = str_replace('/', '-', $this->no_pelanggaran);
         $dokumen_penilaian_kkpr_path = $this->existing_dokumen_penilaian_kkpr;
         if ($this->dokumen_penilaian_kkpr) {
             // Delete old file if exists
@@ -135,8 +136,8 @@ class PelanggaranEdit extends Component
                 Storage::disk('public')->delete($this->existing_dokumen_penilaian_kkpr);
             }
             $dokumen_penilaian_kkpr_path = $this->dokumen_penilaian_kkpr->storeAs(
-                "pelanggaran/{$this->no_pelanggaran}/dokumen_penilaian_kkpr", 
-                "{$this->no_pelanggaran}_" . Str::random(5) . '.' . $this->dokumen_penilaian_kkpr->getClientOriginalExtension(), 
+                "pelanggaran/{$safeFolder}/dokumen_penilaian_kkpr", 
+                "{$safeFolder}_" . Str::random(5) . '.' . $this->dokumen_penilaian_kkpr->getClientOriginalExtension(), 
                 'public'
             );
         }
@@ -182,10 +183,11 @@ class PelanggaranEdit extends Component
             return [];
         }
 
+        $safeFolder = str_replace('/', '-', $this->no_pelanggaran);
         $paths = [];
         foreach ($files as $file) {
-            $filename = "{$this->no_pelanggaran}_" . Str::random(5) . '.' . $file->getClientOriginalExtension();
-            $paths[] = $file->storeAs("pelanggaran/{$this->no_pelanggaran}/{$folder}", $filename, 'public');
+            $filename = "{$safeFolder}_" . Str::random(5) . '.' . $file->getClientOriginalExtension();
+            $paths[] = $file->storeAs("pelanggaran/{$safeFolder}/{$folder}", $filename, 'public');
         }
 
         return $paths;

@@ -36,7 +36,11 @@ class PetaPelanggaran extends Component
     {
         $query = Pelanggaran::query()
             ->whereNotNull('koordinat_pelanggaran')
-            ->where('koordinat_pelanggaran', '!=', '');
+            ->where('koordinat_pelanggaran', '!=', '')
+            ->where(function ($q) {
+                $q->whereNull('temuan_pelanggaran')
+                  ->orWhere('temuan_pelanggaran', '!=', 'Tidak Ada Pelanggaran');
+            });
 
         $query->when($this->kecamatan, function ($q) {
             $q->where('kec_pelanggaran', $this->kecamatan);

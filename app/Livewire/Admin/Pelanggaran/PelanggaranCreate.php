@@ -72,14 +72,15 @@ class PelanggaranCreate extends Component
         $this->validate();
 
         $this->no_pelanggaran = $this->generateNoPelanggaran();
+        $safeFolder = str_replace('/', '-', $this->no_pelanggaran);
 
         $foto_pengawasan_path = $this->uploadMultipleFiles($this->foto_pengawasan, 'foto_pengawasan');
         $foto_existing_path = $this->uploadMultipleFiles($this->foto_existing, 'foto_existing');
         
         $dokumen_penilaian_kkpr_path = $this->dokumen_penilaian_kkpr 
             ? $this->dokumen_penilaian_kkpr->storeAs(
-                "pelanggaran/{$this->no_pelanggaran}/dokumen_penilaian_kkpr", 
-                str_replace('/', '-', $this->no_pelanggaran) . "_" . Str::random(5) . '.' . $this->dokumen_penilaian_kkpr->getClientOriginalExtension(), 
+                "pelanggaran/{$safeFolder}/dokumen_penilaian_kkpr", 
+                "{$safeFolder}_" . Str::random(5) . '.' . $this->dokumen_penilaian_kkpr->getClientOriginalExtension(), 
                 'public'
             ) 
             : null;
@@ -125,19 +126,25 @@ class PelanggaranCreate extends Component
             return null;
         }
 
+        $safeFolder = str_replace('/', '-', $this->no_pelanggaran);
         $paths = [];
         foreach ($files as $file) {
-            $filename = str_replace('/', '-', $this->no_pelanggaran) . "_" . Str::random(5) . '.' . $file->getClientOriginalExtension();
-            $paths[] = $file->storeAs("pelanggaran/{$this->no_pelanggaran}/{$folder}", $filename, 'public');
+            $filename = "{$safeFolder}_" . Str::random(5) . '.' . $file->getClientOriginalExtension();
+            $paths[] = $file->storeAs("pelanggaran/{$safeFolder}/{$folder}", $filename, 'public');
         }
 
         return $paths;
     }
 
-    public function removeImage($index)
+    public function removeImage($index, $type = 'foto_pengawasan')
     {
-        unset($this->foto_pengawasan[$index]);
-        $this->foto_pengawasan = array_values($this->foto_pengawasan);
+        if ($type === 'foto_existing') {
+            unset($this->foto_existing[$index]);
+            $this->foto_existing = array_values($this->foto_existing);
+        } else {
+            unset($this->foto_pengawasan[$index]);
+            $this->foto_pengawasan = array_values($this->foto_pengawasan);
+        }
     }
 
     private function generateNoPelanggaran()
@@ -146,7 +153,21 @@ class PelanggaranCreate extends Component
         $tahun = date('Y');
         $romawi = $this->getRomawi($bulan);
         
-        $urutan = Pelanggaran::whereYear('created_at', $tahun)->count() + 1;
+        $casesThisYear = Pelanggaran::whereYear('created_at', $tahun)
+            ->orWhere('no_pelanggaran', 'like', "%/{$tahun}")
+            ->pluck('no_pelanggaran');
+
+        $maxUrutan = 0;
+        foreach ($casesThisYear as $no) {
+            if (preg_match('/^(\d+)\//', (string)$no, $matches)) {
+                $num = (int)$matches[1];
+                if ($num > $maxUrutan) {
+                    $maxUrutan = $num;
+                }
+            }
+        }
+        
+        $urutan = $maxUrutan + 1;
         
         return sprintf("%03d/Wasdal-Taru/%s/%s", $urutan, $romawi, $tahun);
     }

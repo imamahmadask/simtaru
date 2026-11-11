@@ -64,20 +64,42 @@ class PelanggaranIndex extends Component
         $pelanggaran = Pelanggaran::findOrFail($id);
 
         // Collect all file paths to delete
+        $documentFiles = [
+            $pelanggaran->dokumen_penilaian_kkpr,
+            $pelanggaran->bukti_perizinan,
+            $pelanggaran->file_kkpr_skrk,
+            $pelanggaran->file_pbg_imb,
+            $pelanggaran->file_nib_kbli,
+            $pelanggaran->file_sp1,
+            $pelanggaran->file_sp2,
+            $pelanggaran->file_sp3,
+            $pelanggaran->file_pelimpahan_polpp,
+            $pelanggaran->file_pernyataan,
+            $pelanggaran->file_sosialisasi,
+            $pelanggaran->file_ba_pengambilan_dokumen,
+            $pelanggaran->file_ba_penolakan,
+            $pelanggaran->file_ba_survey,
+            $pelanggaran->file_ba_survey_surveyor,
+            $pelanggaran->file_ba_wawancara,
+            $pelanggaran->file_ba_penerapan_sanksi,
+            $pelanggaran->file_ba_sosialisasi,
+            $pelanggaran->file_sk_sanksi_pemberhentian,
+        ];
+
         $filesToDelete = array_merge(
             (array) $pelanggaran->foto_pengawasan,
             (array) $pelanggaran->foto_tindak_lanjut,
             (array) $pelanggaran->foto_existing,
-            (array) ($pelanggaran->dokumen_penilaian_kkpr ? [$pelanggaran->dokumen_penilaian_kkpr] : [])
+            $documentFiles
         );
 
         // Delete files from storage
         Storage::disk('public')->delete(array_filter($filesToDelete));
         
-        // Also ensure the directory is cleaned up if empty
-        // Assuming 'no_pelanggaran' is a property on the Pelanggaran model
-        // and files are stored in a directory named after it.
+        // Also ensure the directory is cleaned up
         if ($pelanggaran->no_pelanggaran) {
+            $safeFolder = str_replace('/', '-', $pelanggaran->no_pelanggaran);
+            Storage::disk('public')->deleteDirectory('pelanggaran/' . $safeFolder);
             Storage::disk('public')->deleteDirectory('pelanggaran/' . $pelanggaran->no_pelanggaran);
         }
 
