@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Pelanggaran\Analis;
 
 use App\Models\Pelanggaran;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
@@ -19,8 +20,28 @@ class PelanggaranAnalisDetail extends Component
     public $temuan_pelanggaran;
     public $existing_foto_tindak_lanjut = [];
 
-    #[Validate('required_if:temuan_pelanggaran,Ada Pelanggaran', message: 'Tindak lanjut wajib diisi')]
     public $tindak_lanjut;
+
+    // Alur Sanksi Administrasi
+    public $jenis_indikasi_pelanggaran;
+    public $kategori_pelanggaran;
+    public $jenis_pelanggaran;
+    public $dampak_keluhan_masyarakat;
+    public $dampak_radius_wilayah;
+
+    // Expert Judgment
+    public $expert_user_id;
+    public $expert_user_name;
+    public $expert_justifikasi;
+    public $expert_kesimpulan;
+    public $expert_tindakan_rekomendasi;
+    public $existing_expert_dokumen = [];
+
+    #[Validate(['upload_expert_dokumen.*' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240'])]
+    public $upload_expert_dokumen = [];
+
+    // Klasifikasi Pelanggaran
+    public $klasifikasi_pelanggaran;
 
     #[Validate(['foto_tindak_lanjut.*' => 'image|max:10240'])]
     public $foto_tindak_lanjut = [];
@@ -69,6 +90,10 @@ class PelanggaranAnalisDetail extends Component
     public $upload_pbg_imb;
     #[Validate('nullable|file|mimes:pdf,jpg,jpeg,png|max:10240')]
     public $upload_nib_kbli;
+    #[Validate('nullable|file|mimes:pdf,jpg,jpeg,png|max:10240')]
+    public $upload_pembatalan_kkpr;
+    #[Validate('nullable|file|mimes:pdf,jpg,jpeg,png|max:10240')]
+    public $upload_pembongkaran_bangunan;
 
     public function render()
     {
@@ -90,12 +115,109 @@ class PelanggaranAnalisDetail extends Component
         $this->status_pelanggaran = $this->pelanggaran->status;
         $this->existing_foto_tindak_lanjut = $this->pelanggaran->foto_tindak_lanjut ?? [];
         $this->existing_foto_existing = $this->pelanggaran->foto_existing ?? [];
+
+        // Bagan Alur Sanksi Administrasi
+        $this->jenis_indikasi_pelanggaran = $this->pelanggaran->jenis_indikasi_pelanggaran;
+        $this->kategori_pelanggaran = $this->pelanggaran->kategori_pelanggaran;
+        $this->jenis_pelanggaran = $this->pelanggaran->jenis_pelanggaran;
+        $this->dampak_keluhan_masyarakat = $this->pelanggaran->dampak_keluhan_masyarakat;
+        $this->dampak_radius_wilayah = $this->pelanggaran->dampak_radius_wilayah;
+
+        // Expert Judgment
+        $this->expert_user_id = $this->pelanggaran->expert_user_id ?? Auth::id();
+        $this->expert_user_name = $this->pelanggaran->expert_user_name ?? (Auth::user()?->name ?? 'Analis');
+        $this->expert_justifikasi = $this->pelanggaran->expert_justifikasi;
+        $this->expert_kesimpulan = $this->pelanggaran->expert_kesimpulan;
+        $this->expert_tindakan_rekomendasi = $this->pelanggaran->expert_tindakan_rekomendasi ?? 'Ikuti Rekomendasi';
+        $this->existing_expert_dokumen = $this->pelanggaran->expert_dokumen_pendukung ?? [];
+
+        // Klasifikasi
+        $this->klasifikasi_pelanggaran = $this->pelanggaran->klasifikasi_pelanggaran;
+    }
+
+    public function updatedJenisIndikasiPelanggaran($value)
+    {
+        $norm = Pelanggaran::normalizeIndikasi($value);
+        if (in_array($norm, ['tidak_menaati_rtr', 'tidak_mematuhi_kkpr'])) {
+            $currentNormKat = Pelanggaran::normalizeKategori($this->kategori_pelanggaran);
+            if (!in_array($currentNormKat, ['tanpa_kkpr', 'tidak_sesuai_kkpr'])) {
+                $this->kategori_pelanggaran = null;
+            }
+        } elseif ($norm === 'menghalangi_akses_umum') {
+            $this->kategori_pelanggaran = 'akses_umum';
+        } else {
+            $this->kategori_pelanggaran = null;
+        }
+        $this->jenis_pelanggaran = null;
+    }
+
+    public function updatedKategoriPelanggaran($value)
+    {
+        $this->jenis_pelanggaran = null;
+    }
+
+    public function removeExistingExpertDokumen($index)
+    {
+        if (isset($this->existing_expert_dokumen[$index])) {
+            $path = $this->existing_expert_dokumen[$index];
+            if ($path && Storage::disk('public')->exists($path)) {
+                Storage::disk('public')->delete($path);
+            }
+            unset($this->existing_expert_dokumen[$index]);
+            $this->existing_expert_dokumen = array_values($this->existing_expert_dokumen);
+            $this->pelanggaran->update([
+                'expert_dokumen_pendukung' => count($this->existing_expert_dokumen) > 0 ? $this->existing_expert_dokumen : null
+            ]);
+        }
+    }
+
+    public function removeTempExpertDokumen($index)
+    {
+        unset($this->upload_expert_dokumen[$index]);
+        $this->upload_expert_dokumen = array_values($this->upload_expert_dokumen);
     }
 
     public function storeAnalisa()
     {
         if ($this->temuan_pelanggaran == 'Ada Pelanggaran') {
-            $this->validate();
+            $this->validate([
+                'temuan_pelanggaran' => 'required',
+                'jenis_indikasi_pelanggaran' => 'required',
+                'kategori_pelanggaran' => 'required',
+                'jenis_pelanggaran' => 'required',
+                'dampak_keluhan_masyarakat' => 'required',
+                'dampak_radius_wilayah' => 'required',
+                'expert_justifikasi' => 'nullable|string',
+                'expert_kesimpulan' => 'nullable|string',
+                'expert_tindakan_rekomendasi' => 'required|string',
+                'klasifikasi_pelanggaran' => 'required|string',
+                'upload_expert_dokumen.*' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
+                'foto_tindak_lanjut.*' => 'nullable|image|max:10240',
+                'upload_bukti_perizinan' => 'nullable|file|mimes:pdf|max:10240',
+                'upload_sp1' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
+                'upload_sp2' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
+                'upload_sp3' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
+                'upload_pelimpahan_polpp' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
+                'upload_pernyataan' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
+                'upload_sosialisasi' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
+                'upload_sk_sanksi_pemberhentian' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
+                'upload_pembatalan_kkpr' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
+                'upload_pembongkaran_bangunan' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
+            ]);
+
+            // Kompilasi nama sanksi administratif dari dokumen yang diunggah / telah ada
+            $sanksiTerunggah = [];
+            if ($this->upload_sosialisasi || $this->pelanggaran->file_sosialisasi) $sanksiTerunggah[] = 'Pembinaan/Sosialisasi';
+            if ($this->upload_sp1 || $this->pelanggaran->file_sp1) $sanksiTerunggah[] = ($this->klasifikasi_pelanggaran == 'Pelanggaran Rendah' ? 'Surat Peringatan' : 'Surat Peringatan I');
+            if ($this->upload_sp2 || $this->pelanggaran->file_sp2) $sanksiTerunggah[] = 'Surat Peringatan II';
+            if ($this->upload_sp3 || $this->pelanggaran->file_sp3) $sanksiTerunggah[] = 'Surat Peringatan III';
+            if ($this->upload_pernyataan || $this->pelanggaran->file_pernyataan) $sanksiTerunggah[] = 'Surat Pernyataan';
+            if ($this->upload_pelimpahan_polpp || $this->pelanggaran->file_pelimpahan_polpp) $sanksiTerunggah[] = 'Pelimpahan PPNS / Penertiban Bangunan';
+            if ($this->upload_sk_sanksi_pemberhentian || $this->pelanggaran->file_sk_sanksi_pemberhentian) $sanksiTerunggah[] = 'Penghentian Sementara Kegiatan';
+            if ($this->upload_pembatalan_kkpr || $this->pelanggaran->file_pembatalan_kkpr) $sanksiTerunggah[] = 'Pembatalan & Pencabutan KKPR';
+            if ($this->upload_pembongkaran_bangunan || $this->pelanggaran->file_pembongkaran_bangunan) $sanksiTerunggah[] = 'Pembongkaran Bangunan';
+
+            $this->tindak_lanjut = count($sanksiTerunggah) > 0 ? implode(', ', $sanksiTerunggah) : 'Menunggu Unggahan Dokumen Sanksi';
         } else {
             $this->validate([
                 'temuan_pelanggaran' => 'required',
@@ -104,9 +226,27 @@ class PelanggaranAnalisDetail extends Component
                 'upload_nib_kbli' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
             ]);
             $this->tindak_lanjut = null;
+            $this->jenis_indikasi_pelanggaran = null;
+            $this->kategori_pelanggaran = null;
+            $this->jenis_pelanggaran = null;
+            $this->dampak_keluhan_masyarakat = null;
+            $this->dampak_radius_wilayah = null;
+            $this->expert_justifikasi = null;
+            $this->expert_kesimpulan = null;
+            $this->expert_tindakan_rekomendasi = null;
+            $this->klasifikasi_pelanggaran = null;
         }
 
         $safeFolder = str_replace('/', '-', $this->pelanggaran->no_pelanggaran);
+
+        // Handle Expert Dokumen Uploads
+        $all_expert_dokumen = $this->existing_expert_dokumen;
+        if ($this->upload_expert_dokumen) {
+            foreach ($this->upload_expert_dokumen as $doc) {
+                $docFilename = "EXPERT_{$safeFolder}_" . Str::random(5) . '.' . $doc->getClientOriginalExtension();
+                $all_expert_dokumen[] = $doc->storeAs("pelanggaran/{$safeFolder}/dokumen_expert", $docFilename, 'public');
+            }
+        }
 
         // Clean up physically removed photos from existing_foto_tindak_lanjut
         $deletedPhotos = array_diff((array)($this->pelanggaran->foto_tindak_lanjut ?? []), (array)$this->existing_foto_tindak_lanjut);
@@ -129,6 +269,18 @@ class PelanggaranAnalisDetail extends Component
         $updateData = [
             'temuan_pelanggaran' => $this->temuan_pelanggaran,
             'tindak_lanjut' => $this->tindak_lanjut,
+            'jenis_indikasi_pelanggaran' => Pelanggaran::normalizeIndikasi($this->jenis_indikasi_pelanggaran),
+            'kategori_pelanggaran' => Pelanggaran::normalizeKategori($this->kategori_pelanggaran),
+            'jenis_pelanggaran' => Pelanggaran::normalizeJenisPelanggaran($this->jenis_pelanggaran),
+            'dampak_keluhan_masyarakat' => $this->dampak_keluhan_masyarakat,
+            'dampak_radius_wilayah' => $this->dampak_radius_wilayah,
+            'expert_user_id' => $this->temuan_pelanggaran == 'Ada Pelanggaran' ? (Auth::id() ?? $this->expert_user_id) : null,
+            'expert_user_name' => $this->temuan_pelanggaran == 'Ada Pelanggaran' ? (Auth::user()?->name ?? $this->expert_user_name) : null,
+            'expert_justifikasi' => $this->expert_justifikasi,
+            'expert_dokumen_pendukung' => count($all_expert_dokumen) > 0 ? $all_expert_dokumen : null,
+            'expert_kesimpulan' => $this->expert_kesimpulan,
+            'expert_tindakan_rekomendasi' => $this->expert_tindakan_rekomendasi,
+            'klasifikasi_pelanggaran' => $this->klasifikasi_pelanggaran,
             'foto_tindak_lanjut' => count($all_photos) > 0 ? $all_photos : null,
         ];
 
@@ -152,6 +304,8 @@ class PelanggaranAnalisDetail extends Component
             'upload_kkpr_skrk' => 'file_kkpr_skrk',
             'upload_pbg_imb' => 'file_pbg_imb',
             'upload_nib_kbli' => 'file_nib_kbli',
+            'upload_pembatalan_kkpr' => 'file_pembatalan_kkpr',
+            'upload_pembongkaran_bangunan' => 'file_pembongkaran_bangunan',
         ];
 
         foreach ($documentTemplates as $property => $column) {
@@ -194,6 +348,9 @@ class PelanggaranAnalisDetail extends Component
         $this->upload_kkpr_skrk = null;
         $this->upload_pbg_imb = null;
         $this->upload_nib_kbli = null;
+        $this->upload_pembatalan_kkpr = null;
+        $this->upload_pembongkaran_bangunan = null;
+        $this->upload_expert_dokumen = [];
     }
 
     public function removeImage($index)

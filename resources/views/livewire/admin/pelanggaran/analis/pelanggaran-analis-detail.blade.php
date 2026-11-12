@@ -1,14 +1,13 @@
 <div>
     <div class="row">
         <div class="col-md-12">
-            <div class="mb-3 text-start">
-                <button type="button" class="btn btn-{{ $pelanggaran->temuan_pelanggaran ? 'warning' : 'primary' }}"
-                    data-bs-toggle="modal" data-bs-target="#AnalisaPelanggaranModal">
-                    <i class="bx bx-{{ $pelanggaran->temuan_pelanggaran ? 'edit' : 'plus' }}"></i>
-                    {{ $pelanggaran->temuan_pelanggaran ? 'Edit Analisa' : 'Analisa Pelanggaran' }}
-                </button>
-                <button type="button" class="btn btn-info ms-1" data-bs-toggle="modal" data-bs-target="#EvaluasiModal">
-                    <i class="bx bx-calendar-check"></i> Evaluasi
+            <div class="mb-3 d-flex flex-wrap gap-2">
+                <a href="{{ route('pelanggaran.analis', $pelanggaran->id) }}" class="btn btn-{{ $pelanggaran->temuan_pelanggaran ? 'warning' : 'primary' }}">
+                    <i class="bx bx-{{ $pelanggaran->temuan_pelanggaran ? 'edit' : 'plus' }} me-1"></i>
+                    {{ $pelanggaran->temuan_pelanggaran ? 'Edit Analisa Pelanggaran' : 'Mulai Analisa Pelanggaran' }}
+                </a>
+                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#EvaluasiModal">
+                    <i class="bx bx-calendar-check me-1"></i> Evaluasi
                 </button>
             </div>
             <div class="card">
@@ -18,30 +17,124 @@
                 <div class="card-body">
                     <table class="table table-borderless">
                         <tr>
-                            <th style="width: 40%">Kesimpulan Pelanggaran</th>
-                            <td style="width: 5%">:</td>
-                            <td class="text-start">{{ $pelanggaran->temuan_pelanggaran ?? '-' }}</td>
+                            <th style="width: 35%">Kesimpulan Pelanggaran</th>
+                            <td style="width: 3%">:</td>
+                            <td class="text-start">
+                                @if ($pelanggaran->temuan_pelanggaran == 'Ada Pelanggaran')
+                                    <span class="badge bg-danger">Ada Pelanggaran</span>
+                                @elseif ($pelanggaran->temuan_pelanggaran == 'Tidak Ada Pelanggaran')
+                                    <span class="badge bg-success">Tidak Ada Pelanggaran</span>
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
+                            </td>
                         </tr>
+                        @if ($pelanggaran->temuan_pelanggaran == 'Ada Pelanggaran')
+                            @if ($pelanggaran->klasifikasi_pelanggaran)
+                                <tr>
+                                    <th>Klasifikasi Pelanggaran</th>
+                                    <td>:</td>
+                                    <td class="text-start">
+                                        @php
+                                            $badgeColor = match($pelanggaran->klasifikasi_pelanggaran) {
+                                                'Pelanggaran Rendah' => 'success',
+                                                'Pelanggaran Sedang' => 'warning',
+                                                'Pelanggaran Tinggi' => 'danger',
+                                                default => 'secondary'
+                                            };
+                                        @endphp
+                                        <span class="badge bg-{{ $badgeColor }} fs-6">{{ $pelanggaran->klasifikasi_pelanggaran }}</span>
+                                    </td>
+                                </tr>
+                            @endif
+                            @if ($pelanggaran->jenis_indikasi_pelanggaran)
+                                <tr>
+                                    <th>Indikasi Pelanggaran</th>
+                                    <td>:</td>
+                                    <td class="text-start fw-semibold">{{ $pelanggaran->indikasi_label }}</td>
+                                </tr>
+                            @endif
+                            @if ($pelanggaran->kategori_pelanggaran)
+                                <tr>
+                                    <th>Kategori Pelanggaran</th>
+                                    <td>:</td>
+                                    <td class="text-start">{{ $pelanggaran->kategori_label }}</td>
+                                </tr>
+                            @endif
+                            @if ($pelanggaran->jenis_pelanggaran)
+                                <tr>
+                                    <th>Jenis Pelanggaran</th>
+                                    <td>:</td>
+                                    <td class="text-start text-danger fw-semibold">{{ $pelanggaran->jenis_pelanggaran_label }}</td>
+                                </tr>
+                            @endif
+                            @if ($pelanggaran->dampak_keluhan_masyarakat || $pelanggaran->dampak_radius_wilayah)
+                                <tr>
+                                    <th>Dampak Pelanggaran</th>
+                                    <td>:</td>
+                                    <td class="text-start">
+                                        Keluhan Masyarakat: <span class="badge bg-label-info">{{ $pelanggaran->dampak_keluhan_masyarakat ?? '-' }}</span> | 
+                                        Radius Wilayah: <span class="badge bg-label-primary">{{ $pelanggaran->dampak_radius_wilayah ?? '-' }}</span>
+                                    </td>
+                                </tr>
+                            @endif
+                            <tr>
+                                <th>Tindak Lanjut (Sanksi)</th>
+                                <td>:</td>
+                                <td class="text-start fw-bold text-primary">{{ $pelanggaran->tindak_lanjut ?? '-' }}</td>
+                            </tr>
+                            @if ($pelanggaran->expert_user_name || $pelanggaran->expert_tindakan_rekomendasi)
+                                <tr>
+                                    <th>Expert Judgment</th>
+                                    <td>:</td>
+                                    <td class="text-start">
+                                        <small class="text-muted">Analis: <strong>{{ $pelanggaran->expert_user_name ?? ($pelanggaran->expertUser?->name ?? '-') }}</strong></small> | 
+                                        <span class="badge bg-{{ $pelanggaran->expert_tindakan_rekomendasi == 'Ikuti Rekomendasi' ? 'label-success' : 'label-warning' }}">
+                                            {{ $pelanggaran->expert_tindakan_rekomendasi ?? 'Ikuti Rekomendasi' }}
+                                        </span>
+                                        @if ($pelanggaran->expert_justifikasi)
+                                            <div class="mt-1 small"><strong>Justifikasi:</strong> {{ $pelanggaran->expert_justifikasi }}</div>
+                                        @endif
+                                        @if ($pelanggaran->expert_kesimpulan)
+                                            <div class="mt-1 small"><strong>Kesimpulan:</strong> {{ $pelanggaran->expert_kesimpulan }}</div>
+                                        @endif
+                                        @if ($pelanggaran->expert_dokumen_pendukung && count($pelanggaran->expert_dokumen_pendukung) > 0)
+                                            <div class="mt-2">
+                                                <strong class="small">Dokumen Pendukung Expert:</strong>
+                                                <div class="d-flex flex-wrap gap-1 mt-1">
+                                                    @foreach ($pelanggaran->expert_dokumen_pendukung as $idx => $doc)
+                                                        <a href="{{ Storage::url($doc) }}" target="_blank" class="btn btn-outline-info btn-xs">
+                                                            <i class="bx bx-file me-1"></i> Berkas {{ $idx + 1 }}
+                                                        </a>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endif
+                        @else
+                            <tr>
+                                <th>Tindak Lanjut</th>
+                                <td>:</td>
+                                <td class="text-start">{{ $pelanggaran->tindak_lanjut ?? '-' }}</td>
+                            </tr>
+                        @endif
                         <tr>
-                            <th style="width: 40%">Tindak Lanjut</th>
-                            <td style="width: 5%">:</td>
-                            <td class="text-start">{{ $pelanggaran->tindak_lanjut ?? '-' }}</td>
-                        </tr>
-                        <tr>
-                            <th style="width: 40%">Tanggal Evaluasi</th>
-                            <td style="width: 5%">:</td>
+                            <th>Tanggal Evaluasi</th>
+                            <td>:</td>
                             <td class="text-start">
                                 {{ $pelanggaran->tgl_evaluasi ? \Carbon\Carbon::parse($pelanggaran->tgl_evaluasi)->translatedFormat('d F Y') : '-' }}
                             </td>
                         </tr>
                         <tr>
-                            <th style="width: 40%">Hasil Evaluasi</th>
-                            <td style="width: 5%">:</td>
+                            <th>Hasil Evaluasi</th>
+                            <td>:</td>
                             <td class="text-start">{{ $pelanggaran->hasil_evaluasi ?? '-' }}</td>
                         </tr>
                         <tr>
-                            <th style="width: 40%">Status Terkini</th>
-                            <td style="width: 5%">:</td>
+                            <th>Status Terkini</th>
+                            <td>:</td>
                             <td class="text-start">
                                 <span
                                     class="badge bg-{{ $pelanggaran->status == 'Selesai' ? 'success' : ($pelanggaran->status == 'Pelimpahan Berkas' ? 'primary' : 'warning') }}">
@@ -51,8 +144,8 @@
                         </tr>
                         @if ($pelanggaran->temuan_pelanggaran == 'Tidak Ada Pelanggaran')
                             <tr>
-                                <th style="width: 40%">Berkas KKPR/SKRK</th>
-                                <td style="width: 5%">:</td>
+                                <th>Berkas KKPR/SKRK</th>
+                                <td>:</td>
                                 <td class="text-start">
                                     @if($pelanggaran->file_kkpr_skrk)
                                         <a href="{{ Storage::url($pelanggaran->file_kkpr_skrk) }}" target="_blank" class="btn btn-primary btn-sm"><i class="bx bx-file me-1"></i>Lihat Berkas</a>
@@ -62,8 +155,8 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th style="width: 40%">Berkas PBG/IMB</th>
-                                <td style="width: 5%">:</td>
+                                <th>Berkas PBG/IMB</th>
+                                <td>:</td>
                                 <td class="text-start">
                                     @if($pelanggaran->file_pbg_imb)
                                         <a href="{{ Storage::url($pelanggaran->file_pbg_imb) }}" target="_blank" class="btn btn-primary btn-sm"><i class="bx bx-file me-1"></i>Lihat Berkas</a>
@@ -73,8 +166,8 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th style="width: 40%">Berkas NIB KBLI</th>
-                                <td style="width: 5%">:</td>
+                                <th>Berkas NIB KBLI</th>
+                                <td>:</td>
                                 <td class="text-start">
                                     @if($pelanggaran->file_nib_kbli)
                                         <a href="{{ Storage::url($pelanggaran->file_nib_kbli) }}" target="_blank" class="btn btn-primary btn-sm"><i class="bx bx-file me-1"></i>Lihat Berkas</a>
@@ -85,8 +178,8 @@
                             </tr>
                         @else
                             <tr>
-                                <th style="width: 40%">Bukti Perizinan</th>
-                                <td style="width: 5%">:</td>
+                                <th>Bukti Perizinan</th>
+                                <td>:</td>
                                 <td class="text-start">
                                     @if($pelanggaran->bukti_perizinan)
                                         <a href="{{ Storage::url($pelanggaran->bukti_perizinan) }}" target="_blank" class="btn btn-primary btn-sm"><i class="bx bx-file me-1"></i>Lihat Berkas</a>
@@ -260,328 +353,6 @@
         </div>
     </div>
 
-    <div wire:ignore.self class="modal fade" id="AnalisaPelanggaranModal" tabindex="-1"
-        aria-labelledby="AnalisaPelanggaranModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="AnalisaPelanggaranModalLabel">
-                        {{ $pelanggaran->temuan_pelanggaran ? 'Edit' : 'Tambah' }} Analisa Pelanggaran
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form wire:submit.prevent="storeAnalisa">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="temuan_pelanggaran" class="form-label">Kesimpulan Pelanggaran</label>
-                            <select wire:model.live="temuan_pelanggaran"
-                                class="form-select @error('temuan_pelanggaran') is-invalid @enderror"
-                                id="temuan_pelanggaran">
-                                <option value="">Pilih Kesimpulan Pelanggaran</option>
-                                <option value="Ada Pelanggaran">Ada Pelanggaran</option>
-                                <option value="Tidak Ada Pelanggaran">Tidak Ada Pelanggaran</option>
-                            </select>
-                            @error('temuan_pelanggaran')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-
-                        @if ($temuan_pelanggaran == 'Ada Pelanggaran')
-                            <div class="mb-3">
-                                <label for="upload_bukti_perizinan" class="form-label">Bukti Perizinan</label>
-                                <input type="file" wire:model="upload_bukti_perizinan" class="form-control @error('upload_bukti_perizinan') is-invalid @enderror" id="upload_bukti_perizinan" accept=".pdf">
-                                <div wire:loading wire:target="upload_bukti_perizinan" class="text-info mt-1">Uploading...</div>
-                                @error('upload_bukti_perizinan')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                                @if ($pelanggaran->bukti_perizinan)
-                                    <div class="mt-2">
-                                        <a href="{{ Storage::url($pelanggaran->bukti_perizinan) }}" target="_blank" class="btn btn-primary btn-sm">
-                                            <i class="bx bx-file me-1"></i> Lihat Berkas Saat Ini
-                                        </a>
-                                    </div>
-                                @endif
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="tindak_lanjut" class="form-label">Tindak Lanjut</label>
-                                <select wire:model="tindak_lanjut"
-                                    class="form-select @error('tindak_lanjut') is-invalid @enderror"
-                                    id="tindak_lanjut">
-                                    <option value="">Pilih Tindak Lanjut</option>
-                                    <option value="Teguran Lisan">Teguran Lisan</option>
-                                    <option value="Sosialisasi/Konfirmasi">Sosialisasi/Konfirmasi</option>
-                                    <option value="Surat Peringatan 1">Surat Peringatan 1</option>
-                                    <option value="Surat Peringatan 2">Surat Peringatan 2</option>
-                                    <option value="Surat Peringatan 3">Surat Peringatan 3</option>
-                                    <option value="Pelimpahan Pol PP">Pelimpahan Pol PP</option>
-                                    <option value="PPNS">PPNS</option>
-                                    <option value="Penertiban Tim Gabungan">Penertiban Tim Gabungan</option>
-                                    <option value="Pembongkaran">Pembongkaran</option>
-                                </select>
-                                @error('tindak_lanjut')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="foto_tindak_lanjut" class="form-label">Bukti Tindak Lanjut
-                                    (Gambar)</label>
-                                <input type="file" wire:model="foto_tindak_lanjut"
-                                    class="form-control @error('foto_tindak_lanjut.*') is-invalid @enderror"
-                                    id="foto_tindak_lanjut" multiple accept="image/*">
-                                <div wire:loading wire:target="foto_tindak_lanjut" class="text-info mt-1">Uploading...
-                                </div>
-                                @error('foto_tindak_lanjut.*')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-
-                                @if (count($existing_foto_tindak_lanjut) > 0)
-                                    <div class="mt-3">
-                                        <label class="form-label">Foto Saat Ini:</label>
-                                        <div class="row g-2">
-                                            @foreach ($existing_foto_tindak_lanjut as $index => $foto)
-                                                <div class="col-3 position-relative">
-                                                    <img src="{{ Storage::url($foto) }}" class="img-thumbnail"
-                                                        style="width: 100px; height: 100px; object-fit: cover;">
-                                                    <button type="button"
-                                                        wire:click="removeExistingImage({{ $index }})"
-                                                        class="btn btn-danger btn-xs position-absolute top-0 end-0 m-1"
-                                                        title="Hapus">
-                                                        <i class="bx bx-x"></i>
-                                                    </button>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                @endif
-
-                                @if ($foto_tindak_lanjut)
-                                    <div class="mt-3">
-                                        <label class="form-label">Preview Foto Baru:</label>
-                                        <div class="row g-2">
-                                            @foreach ($foto_tindak_lanjut as $index => $foto)
-                                                <div class="col-3 position-relative">
-                                                    <img src="{{ $foto->temporaryUrl() }}" class="img-thumbnail"
-                                                        style="width: 100px; height: 100px; object-fit: cover;">
-                                                    <button type="button"
-                                                        wire:click="removeImage({{ $index }})"
-                                                        class="btn btn-danger btn-xs position-absolute top-0 end-0 m-1"
-                                                        title="Hapus">
-                                                        <i class="bx bx-x"></i>
-                                                    </button>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                @endif
-                            </div>
-
-                            <hr>
-                            <h6 class="fw-bold mb-3">Dokumen Template Surat</h6>
-                            <div class="row g-2">
-                                @php
-                                    $uploadFields1 = [
-                                        ['label' => 'Upload SP 1', 'id' => 'upload_sp1', 'current' => 'file_sp1'],
-                                        ['label' => 'Upload SP 2', 'id' => 'upload_sp2', 'current' => 'file_sp2'],
-                                        ['label' => 'Upload SP 3', 'id' => 'upload_sp3', 'current' => 'file_sp3'],
-                                        [
-                                            'label' => 'Upload Pelimpahan Pol PP',
-                                            'id' => 'upload_pelimpahan_polpp',
-                                            'current' => 'file_pelimpahan_polpp',
-                                        ],
-                                        [
-                                            'label' => 'Upload Surat Pernyataan',
-                                            'id' => 'upload_pernyataan',
-                                            'current' => 'file_pernyataan',
-                                        ],
-                                        [
-                                            'label' => 'Upload Surat Sosialisasi',
-                                            'id' => 'upload_sosialisasi',
-                                            'current' => 'file_sosialisasi',
-                                        ],
-                                    ];
-                                @endphp
-
-                                @foreach ($uploadFields1 as $field)
-                                    <div class="col-md-6 mb-3">
-                                        <label for="{{ $field['id'] }}"
-                                            class="form-label small">{{ $field['label'] }}</label>
-                                        <input type="file" wire:model="{{ $field['id'] }}"
-                                            class="form-control form-control-sm @error($field['id']) is-invalid @enderror"
-                                            id="{{ $field['id'] }}">
-                                        <div wire:loading wire:target="{{ $field['id'] }}"
-                                            class="text-info x-small">Uploading...</div>
-                                        @if ($pelanggaran->{$field['current']})
-                                            <div class="mt-1">
-                                                <a href="{{ Storage::url($pelanggaran->{$field['current']}) }}"
-                                                    target="_blank" class="text-primary x-small">
-                                                    <i class="bx bx-file"></i> Lihat Berkas Saat Ini
-                                                </a>
-                                            </div>
-                                        @endif
-                                        @error($field['id'])
-                                            <div class="invalid-feedback small">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                @endforeach
-                            </div>
-
-                            <hr>
-                            <h6 class="fw-bold mb-3">Dokumen Template Berita Acara</h6>
-                            <div class="row g-2">
-                                @php
-                                    $uploadFields2 = [
-                                        [
-                                            'label' => 'Upload BA Pengambilan Dokumen',
-                                            'id' => 'upload_ba_pengambilan_dokumen',
-                                            'current' => 'file_ba_pengambilan_dokumen',
-                                        ],
-                                        [
-                                            'label' => 'Upload BA Penolakan',
-                                            'id' => 'upload_ba_penolakan',
-                                            'current' => 'file_ba_penolakan',
-                                        ],
-                                        [
-                                            'label' => 'Upload BA Survey Lapangan',
-                                            'id' => 'upload_ba_survey',
-                                            'current' => 'file_ba_survey',
-                                        ],
-                                        [
-                                            'label' => 'Upload BA Survey Untuk Surveyor',
-                                            'id' => 'upload_ba_survey_surveyor',
-                                            'current' => 'file_ba_survey_surveyor',
-                                        ],
-                                        [
-                                            'label' => 'Upload BA Wawancara',
-                                            'id' => 'upload_ba_wawancara',
-                                            'current' => 'file_ba_wawancara',
-                                        ],
-                                        [
-                                            'label' => 'Upload BA Penerapan Sanksi',
-                                            'id' => 'upload_ba_penerapan_sanksi',
-                                            'current' => 'file_ba_penerapan_sanksi',
-                                        ],
-                                        [
-                                            'label' => 'Upload BA Sosialisasi',
-                                            'id' => 'upload_ba_sosialisasi',
-                                            'current' => 'file_ba_sosialisasi',
-                                        ],
-                                        [
-                                            'label' => 'Upload SK  Sanksi Pemberhentian',
-                                            'id' => 'upload_sk_sanksi_pemberhentian',
-                                            'current' => 'file_sk_sanksi_pemberhentian',
-                                        ],
-                                    ];
-                                @endphp
-
-                                @foreach ($uploadFields2 as $field)
-                                    <div class="col-md-6 mb-3">
-                                        <label for="{{ $field['id'] }}"
-                                            class="form-label small">{{ $field['label'] }}</label>
-                                        <input type="file" wire:model="{{ $field['id'] }}"
-                                            class="form-control form-control-sm @error($field['id']) is-invalid @enderror"
-                                            id="{{ $field['id'] }}">
-                                        <div wire:loading wire:target="{{ $field['id'] }}"
-                                            class="text-info x-small">Uploading...</div>
-                                        @if ($pelanggaran->{$field['current']})
-                                            <div class="mt-1">
-                                                <a href="{{ Storage::url($pelanggaran->{$field['current']}) }}"
-                                                    target="_blank" class="text-primary x-small">
-                                                    <i class="bx bx-file"></i> Lihat Berkas Saat Ini
-                                                </a>
-                                            </div>
-                                        @endif
-                                        @error($field['id'])
-                                            <div class="invalid-feedback small">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                @endforeach
-                            </div>
-                        @elseif ($temuan_pelanggaran == 'Tidak Ada Pelanggaran')
-                            <hr>
-                            <h6 class="fw-bold mb-3">Dokumen Perizinan (Opsional)</h6>
-                            <div class="mb-3">
-                                <label for="upload_kkpr_skrk" class="form-label">Upload KKPR/SKRK</label>
-                                <input type="file" wire:model="upload_kkpr_skrk"
-                                    class="form-control @error('upload_kkpr_skrk') is-invalid @enderror"
-                                    id="upload_kkpr_skrk" accept=".pdf,.jpg,.jpeg,.png">
-                                <div wire:loading wire:target="upload_kkpr_skrk" class="text-info mt-1">Uploading...</div>
-                                @error('upload_kkpr_skrk')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                                @if ($pelanggaran->file_kkpr_skrk)
-                                    <div class="mt-2">
-                                        <a href="{{ Storage::url($pelanggaran->file_kkpr_skrk) }}" target="_blank"
-                                            class="btn btn-primary btn-sm">
-                                            <i class="bx bx-file me-1"></i> Lihat Berkas KKPR/SKRK Saat Ini
-                                        </a>
-                                    </div>
-                                @endif
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="upload_pbg_imb" class="form-label">Upload PBG/IMB</label>
-                                <input type="file" wire:model="upload_pbg_imb"
-                                    class="form-control @error('upload_pbg_imb') is-invalid @enderror"
-                                    id="upload_pbg_imb" accept=".pdf,.jpg,.jpeg,.png">
-                                <div wire:loading wire:target="upload_pbg_imb" class="text-info mt-1">Uploading...</div>
-                                @error('upload_pbg_imb')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                                @if ($pelanggaran->file_pbg_imb)
-                                    <div class="mt-2">
-                                        <a href="{{ Storage::url($pelanggaran->file_pbg_imb) }}" target="_blank"
-                                            class="btn btn-primary btn-sm">
-                                            <i class="bx bx-file me-1"></i> Lihat Berkas PBG/IMB Saat Ini
-                                        </a>
-                                    </div>
-                                @endif
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="upload_nib_kbli" class="form-label">Upload NIB KBLI</label>
-                                <input type="file" wire:model="upload_nib_kbli"
-                                    class="form-control @error('upload_nib_kbli') is-invalid @enderror"
-                                    id="upload_nib_kbli" accept=".pdf,.jpg,.jpeg,.png">
-                                <div wire:loading wire:target="upload_nib_kbli" class="text-info mt-1">Uploading...</div>
-                                @error('upload_nib_kbli')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                                @if ($pelanggaran->file_nib_kbli)
-                                    <div class="mt-2">
-                                        <a href="{{ Storage::url($pelanggaran->file_nib_kbli) }}" target="_blank"
-                                            class="btn btn-primary btn-sm">
-                                            <i class="bx bx-file me-1"></i> Lihat Berkas NIB KBLI Saat Ini
-                                        </a>
-                                    </div>
-                                @endif
-                            </div>
-                        @endif
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Simpan Analisa</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <div wire:ignore.self class="modal fade" id="EvaluasiModal" tabindex="-1" aria-labelledby="EvaluasiModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -688,13 +459,6 @@
 </div>
 @script
     <script>
-        $wire.on('closeModal', () => {
-            const modal = bootstrap.Modal.getInstance(document.getElementById('AnalisaPelanggaranModal'));
-            if (modal) {
-                modal.hide();
-            }
-        });
-
         $wire.on('closeEvaluasiModal', () => {
             const modal = bootstrap.Modal.getInstance(document.getElementById('EvaluasiModal'));
             if (modal) {

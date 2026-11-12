@@ -54,6 +54,11 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="navs-pills-detail" role="tabpanel">
+                            <div class="mb-3">
+                                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#ResumePelanggaranModal">
+                                    <i class="bx bx-id-card me-1"></i> Resume Pelanggaran
+                                </button>
+                            </div>
                             <div class="row">
                                 <div class="col-md-6 mb-4">
                                     <div class="card h-100">
@@ -77,10 +82,12 @@
                                                 <div class="col-md-4 fw-semibold">Sumber Informasi</div>
                                                 <div class="col-md-8">: {{ $pelanggaran->sumber_informasi_pelanggaran }}</div>
                                             </div>
+                                            @if($pelanggaran->jenis_indikasi_pelanggaran)
                                             <div class="row mb-2">
                                                 <div class="col-md-4 fw-semibold">Jenis Indikasi</div>
-                                                <div class="col-md-8">: {{ $pelanggaran->jenis_indikasi_pelanggaran }}</div>
+                                                <div class="col-md-8">: {{ $pelanggaran->indikasi_label }}</div>
                                             </div>
+                                            @endif
                                             <div class="row">
                                                 <div class="col-md-4 fw-semibold">Penjelasan Singkat</div>
                                                 <div class="col-md-8">: {{ $pelanggaran->penjelasan_singkat ?? '-' }}</div>
@@ -171,13 +178,21 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="row mb-2">
-                                                <div class="col-md-4 fw-semibold">Nama Pemilik/Penanggung Jawab</div>
+                                                <div class="col-md-4 fw-semibold">Nama Pelanggar</div>
                                                 <div class="col-md-8">: {{ $pelanggaran->nama_pelanggar }}</div>
                                             </div>
+                                            @if($pelanggaran->nama_pemilik_perusahaan)
                                             <div class="row mb-2">
-                                                <div class="col-md-4 fw-semibold">Alamat Pemilik/Penanggung Jawab</div>
-                                                <div class="col-md-8">: {{ $pelanggaran->alamat_pelanggar }}, Kel. {{ $pelanggaran->kel_pelanggar }}, Kec. {{ $pelanggaran->kec_pelanggar }}, Kab/Kota {{ $pelanggaran->kota_pelanggar }}, Provinsi {{ $pelanggaran->prov_pelanggar }}</div>
+                                                <div class="col-md-4 fw-semibold">Nama Pemilik/Perusahaan</div>
+                                                <div class="col-md-8">: {{ $pelanggaran->nama_pemilik_perusahaan }}</div>
                                             </div>
+                                            @endif
+                                            @if($pelanggaran->alamat_pelanggar)
+                                            <div class="row mb-2">
+                                                <div class="col-md-4 fw-semibold">Alamat Pemilik Lahan</div>
+                                                <div class="col-md-8">: {{ $pelanggaran->alamat_pelanggar }}{{ $pelanggaran->kel_pelanggar ? ', Kel. ' . $pelanggaran->kel_pelanggar : '' }}{{ $pelanggaran->kec_pelanggar ? ', Kec. ' . $pelanggaran->kec_pelanggar : '' }}{{ $pelanggaran->kota_pelanggar ? ', Kab/Kota ' . $pelanggaran->kota_pelanggar : '' }}{{ $pelanggaran->prov_pelanggar ? ', Provinsi ' . $pelanggaran->prov_pelanggar : '' }}</div>
+                                            </div>
+                                            @endif
                                             <div class="row mb-2">
                                                 <div class="col-md-4 fw-semibold">Alamat Lokasi</div>
                                                 <div class="col-md-8">: {{ $pelanggaran->alamat_pelanggaran }}</div>
@@ -195,11 +210,11 @@
                                                 <div class="col-md-8">: {{ $pelanggaran->koordinat_pelanggaran }}</div>
                                             </div>
                                             <div class="row mb-2">
-                                                <div class="col-md-4 fw-semibold">Peruntukan Pemanfaatan Ruang</div>
+                                                <div class="col-md-4 fw-semibold">Peruntukan Pemanfaatan Ruang dalam RTR</div>
                                                 <div class="col-md-8">: {{ $pelanggaran->pemanfaatan_ruang ?? '-' }}</div>
                                             </div>
                                             <div class="row mb-2">
-                                                <div class="col-md-4 fw-semibold">Jenis Pemanfaatan</div>
+                                                <div class="col-md-4 fw-semibold">Pemanfaatan Ruang Existing</div>
                                                 <div class="col-md-8">: {{ $pelanggaran->jenis_pemanfaatan_ruang ?? '-' }}</div>
                                             </div>
                                             <div class="row">
@@ -265,6 +280,8 @@
             </div>            
         </div>
     </div>
+
+    @include('livewire.admin.pelanggaran.analis.partials.resume-card-modal', ['pelanggaran' => $pelanggaran])
 </div>
 @script
 <script>

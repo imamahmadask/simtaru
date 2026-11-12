@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Livewire\Admin\Pelanggaran\Analis\PelanggaranAnalisDetail;
+use App\Livewire\Admin\Pelanggaran\Analis\PelanggaranAnalisForm;
 use App\Livewire\Admin\Pelanggaran\PelanggaranCreate;
+use App\Livewire\Admin\Pelanggaran\PelanggaranDetail;
 use App\Livewire\Admin\Pelanggaran\PelanggaranEdit;
 use App\Livewire\Admin\Pelanggaran\PelanggaranIndex;
 use App\Livewire\Guest\Maps\PetaPelanggaran;
@@ -31,17 +33,12 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
             ->set('sumber_informasi_pelanggaran', 'Hasil Pengawasan dan Monitoring')
             ->set('tanggal_pengawasan', '2026-10-23')
             ->set('nama_pelanggar', 'Test Pemilik')
-            ->set('alamat_pelanggar', 'Jl. Test No. 1')
-            ->set('kel_pelanggar', 'Test Kelurahan')
-            ->set('kec_pelanggar', 'Test Kecamatan')
-            ->set('kota_pelanggar', 'Mataram')
-            ->set('prov_pelanggar', 'NTB')
+            ->set('nama_pemilik_perusahaan', 'PT Ruang Indah')
             ->set('alamat_pelanggaran', 'Jl. Lokasi Test No. 2')
             ->set('kel_pelanggaran', 'Mataram Barat')
             ->set('kec_pelanggaran', 'Mataram')
             ->set('koordinat_pelanggaran', '-8.583, 116.094')
             ->set('gmaps_pelanggaran', 'https://maps.google.com/?q=-8.583,116.094')
-            ->set('jenis_indikasi_pelanggaran', 'Tidak Memiliki KKPR atau SKRK')
             ->set('jenis_pemanfaatan_ruang', 'Zona Perumahan Kepadatan Tinggi')
             ->set('pemanfaatan_ruang', 'Rumah Tinggal dan Toko')
             ->call('store')
@@ -50,17 +47,21 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
 
         $pelanggaran = Pelanggaran::where('nama_pelanggar', 'Test Pemilik')->latest()->first();
         $this->assertNotNull($pelanggaran);
+        $this->assertEquals('PT Ruang Indah', $pelanggaran->nama_pemilik_perusahaan);
         $this->assertEquals('Rumah Tinggal dan Toko', $pelanggaran->pemanfaatan_ruang);
 
         // Test Edit
         Livewire::test(PelanggaranEdit::class, ['id' => $pelanggaran->id])
             ->assertSet('pemanfaatan_ruang', 'Rumah Tinggal dan Toko')
+            ->assertSet('nama_pemilik_perusahaan', 'PT Ruang Indah')
+            ->set('nama_pemilik_perusahaan', 'PT Ruang Maju')
             ->set('pemanfaatan_ruang', 'Rumah Tinggal dan Kafe')
             ->call('update')
             ->assertHasNoErrors()
             ->assertRedirect();
 
         $pelanggaran->refresh();
+        $this->assertEquals('PT Ruang Maju', $pelanggaran->nama_pemilik_perusahaan);
         $this->assertEquals('Rumah Tinggal dan Kafe', $pelanggaran->pemanfaatan_ruang);
 
         // Clean up
@@ -129,6 +130,92 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
         Storage::disk('public')->assertExists($pelanggaran->file_nib_kbli);
     }
 
+    public function test_analisa_ada_pelanggaran_dengan_alur_sanksi_dan_expert_judgment(): void
+    {
+        Storage::fake('public');
+
+        $user = User::factory()->create([
+            'name' => 'Dr. Analis Tata Ruang',
+            'role' => 'admin-pelanggaran',
+        ]);
+        $this->actingAs($user);
+
+        $pelanggaran = Pelanggaran::create([
+            'no_pelanggaran' => '077/Wasdal-Taru/XI/2026',
+            'tgl_laporan' => '2026-11-11',
+            'sumber_informasi_pelanggaran' => 'Hasil Pengawasan dan Monitoring',
+            'nama_pelanggar' => 'PT Pengembang Maju',
+            'nama_pemilik_perusahaan' => 'Budi Sudarsono',
+            'alamat_pelanggaran' => 'Jl. Pariwisata No. 8',
+            'kel_pelanggaran' => 'Ampenan',
+            'kec_pelanggaran' => 'Ampenan',
+            'koordinat_pelanggaran' => '-8.58, 116.08',
+            'status' => 'On Progress',
+        ]);
+
+        $fakeDoc1 = UploadedFile::fake()->create('kajian_lingkungan.pdf', 200, 'application/pdf');
+        $fakeDoc2 = UploadedFile::fake()->create('foto_lapangan.jpg', 200, 'image/jpeg');
+        $fakeSp1 = UploadedFile::fake()->create('sp1_signed.pdf', 150, 'application/pdf');
+        $fakePembongkaran = UploadedFile::fake()->create('sk_pembongkaran.pdf', 150, 'application/pdf');
+
+        $component = Livewire::test(PelanggaranAnalisDetail::class, ['id' => $pelanggaran->id])
+            ->set('temuan_pelanggaran', 'Ada Pelanggaran')
+            ->set('jenis_indikasi_pelanggaran', 'Tidak Mematuhi Ketentuan Pemanfaatan Ruang dalam Rencana Tata Ruang')
+            ->set('kategori_pelanggaran', 'Pemanfaatan Ruang yang tidak Memenuhi ketentuan dalam KKPR')
+            ->set('jenis_pelanggaran', 'Pelanggaran Sempadan (GSB, GSS, Sempadan Sungai, dll)')
+            ->set('dampak_keluhan_masyarakat', 'Ada')
+            ->set('dampak_radius_wilayah', 'Besar (> 500 m)')
+            ->set('expert_justifikasi', 'Bangunan melanggar sempadan sungai sejauh 15 meter dan berpotensi banjir.')
+            ->set('expert_kesimpulan', 'Perlu dilakukan penindakan tegas penghentian dan pembongkaran.')
+            ->set('expert_tindakan_rekomendasi', 'Ikuti Rekomendasi')
+            ->set('upload_expert_dokumen', [$fakeDoc1, $fakeDoc2])
+            ->set('klasifikasi_pelanggaran', 'Pelanggaran Tinggi')
+            ->set('upload_sp1', $fakeSp1)
+            ->set('upload_pembongkaran_bangunan', $fakePembongkaran)
+            ->call('storeAnalisa')
+            ->assertHasNoErrors();
+
+        $pelanggaran->refresh();
+
+        $this->assertEquals('Ada Pelanggaran', $pelanggaran->temuan_pelanggaran);
+        $this->assertEquals('tidak_mematuhi_kkpr', $pelanggaran->jenis_indikasi_pelanggaran);
+        $this->assertEquals('Tidak Mematuhi Ketentuan Pemanfaatan Ruang dalam Rencana Tata Ruang', $pelanggaran->indikasi_full_text);
+        $this->assertEquals('tidak_sesuai_kkpr', $pelanggaran->kategori_pelanggaran);
+        $this->assertEquals('Pemanfaatan Ruang yang tidak Memenuhi ketentuan dalam KKPR', $pelanggaran->kategori_full_text);
+        $this->assertEquals('sempadan', $pelanggaran->jenis_pelanggaran);
+        $this->assertEquals('Pelanggaran Sempadan (GSB, GSS, Sempadan Sungai, dll)', $pelanggaran->jenis_pelanggaran_full_text);
+        $this->assertEquals('Ada', $pelanggaran->dampak_keluhan_masyarakat);
+        $this->assertEquals('Besar (> 500 m)', $pelanggaran->dampak_radius_wilayah);
+        $this->assertEquals($user->id, $pelanggaran->expert_user_id);
+        $this->assertEquals('Dr. Analis Tata Ruang', $pelanggaran->expert_user_name);
+        $this->assertEquals('Bangunan melanggar sempadan sungai sejauh 15 meter dan berpotensi banjir.', $pelanggaran->expert_justifikasi);
+        $this->assertEquals('Perlu dilakukan penindakan tegas penghentian dan pembongkaran.', $pelanggaran->expert_kesimpulan);
+        $this->assertEquals('Ikuti Rekomendasi', $pelanggaran->expert_tindakan_rekomendasi);
+        $this->assertEquals('Pelanggaran Tinggi', $pelanggaran->klasifikasi_pelanggaran);
+        $this->assertEquals('Surat Peringatan I, Pembongkaran Bangunan', $pelanggaran->tindak_lanjut);
+
+        // Dokumen tersimpan di storage
+        $this->assertCount(2, $pelanggaran->expert_dokumen_pendukung);
+        Storage::disk('public')->assertExists($pelanggaran->expert_dokumen_pendukung[0]);
+        Storage::disk('public')->assertExists($pelanggaran->expert_dokumen_pendukung[1]);
+        Storage::disk('public')->assertExists($pelanggaran->file_sp1);
+        Storage::disk('public')->assertExists($pelanggaran->file_pembongkaran_bangunan);
+
+        // Verifikasi bahwa opsi pertama juga bisa memilih 'Pemanfaatan Ruang yang tidak memiliki KKPR'
+        Livewire::test(PelanggaranAnalisDetail::class, ['id' => $pelanggaran->id])
+            ->set('jenis_indikasi_pelanggaran', 'tidak_menaati_rtr')
+            ->set('kategori_pelanggaran', 'tanpa_kkpr')
+            ->set('jenis_pelanggaran', 'lokasi_tidak_sesuai')
+            ->call('storeAnalisa')
+            ->assertHasNoErrors();
+
+        $pelanggaran->refresh();
+        $this->assertEquals('tanpa_kkpr', $pelanggaran->kategori_pelanggaran);
+        $this->assertEquals('lokasi_tidak_sesuai', $pelanggaran->jenis_pelanggaran);
+        $this->assertEquals('Pemanfaatan Ruang Tidak Memiliki KKPR', $pelanggaran->kategori_label);
+        $this->assertEquals('Lokasi Tidak Sesuai Peruntukannya', $pelanggaran->jenis_pelanggaran_label);
+    }
+
     public function test_can_create_pelanggaran_with_dokumen_penilaian_kkpr_and_sanitized_folder(): void
     {
         Storage::fake('public');
@@ -149,17 +236,12 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
             ->set('no_ba_sk_penilaian_kkpr', 'BA-999')
             ->set('dokumen_penilaian_kkpr', $fakeDoc)
             ->set('nama_pelanggar', 'Pelanggar Dokumen Test')
-            ->set('alamat_pelanggar', 'Jl. Pelanggar')
-            ->set('kel_pelanggar', 'Kel. Test')
-            ->set('kec_pelanggar', 'Kec. Test')
-            ->set('kota_pelanggar', 'Mataram')
-            ->set('prov_pelanggar', 'NTB')
+            ->set('nama_pemilik_perusahaan', 'PT Cipta Ruang')
             ->set('alamat_pelanggaran', 'Jl. Kasus')
             ->set('kel_pelanggaran', 'Kel. Kasus')
             ->set('kec_pelanggaran', 'Mataram')
             ->set('koordinat_pelanggaran', '-8.583, 116.094')
             ->set('gmaps_pelanggaran', 'https://maps.google.com/?q=-8.583,116.094')
-            ->set('jenis_indikasi_pelanggaran', 'Tidak Memiliki Persetujuan Bangunan Gedung (PBG)')
             ->set('foto_pengawasan', [$fakeFotoPengawasan])
             ->set('foto_existing', [$fakeFotoExisting])
             ->call('store')
@@ -321,5 +403,86 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
         $this->assertDatabaseMissing('pelanggarans', ['id' => $pelanggaran->id]);
         Storage::disk('public')->assertMissing($fakeSp1Path);
         Storage::disk('public')->assertMissing($fakeFotoPath);
+    }
+
+    public function test_dedicated_page_pelanggaran_analis_form_saves_slugs_and_redirects(): void
+    {
+        Storage::fake('public');
+
+        $user = User::factory()->create([
+            'role' => 'admin-pelanggaran',
+            'name' => 'Analis Ahli Tata Ruang',
+            'password_changed_at' => now(),
+        ]);
+        $this->actingAs($user);
+
+        $pelanggaran = Pelanggaran::create([
+            'no_pelanggaran' => '099/Wasdal-Taru/XI/2026',
+            'tgl_laporan' => '2026-11-11',
+            'sumber_informasi_pelanggaran' => 'Hasil Pengawasan dan Monitoring',
+            'nama_pelanggar' => 'PT Mega Land',
+            'nama_pemilik_perusahaan' => 'PT Mega Land Corporation',
+            'alamat_pelanggaran' => 'Jl. Bypass Mataram',
+            'kel_pelanggaran' => 'Dasan Cermen',
+            'kec_pelanggaran' => 'Sandubaya',
+            'koordinat_pelanggaran' => '-8.601, 116.142',
+            'jenis_pemanfaatan_ruang' => 'Zona Perdagangan dan Jasa',
+            'pemanfaatan_ruang' => 'Pusat Perbelanjaan',
+            'status' => 'On Progress',
+        ]);
+
+        $response = $this->get(route('pelanggaran.analis', $pelanggaran->id));
+        $response->assertStatus(200);
+
+        $fakeSp1 = UploadedFile::fake()->create('sp1.pdf', 100, 'application/pdf');
+
+        Livewire::test(PelanggaranAnalisForm::class, ['id' => $pelanggaran->id])
+            ->set('temuan_pelanggaran', 'Ada Pelanggaran')
+            ->set('jenis_indikasi_pelanggaran', 'tidak_mematuhi_kkpr')
+            ->set('kategori_pelanggaran', 'tidak_sesuai_kkpr')
+            ->set('jenis_pelanggaran', 'klb')
+            ->set('dampak_keluhan_masyarakat', 'Ada')
+            ->set('dampak_radius_wilayah', 'Besar (> 500 m)')
+            ->assertSet('klasifikasi_pelanggaran', 'Pelanggaran Tinggi')
+            ->set('expert_justifikasi', 'Bangunan melebihi batas koefisien lantai bangunan sebesar 2 lantai.')
+            ->set('expert_kesimpulan', 'Disarankan pengenaan sanksi administratif penghentian sementara dan penyesuaian izin.')
+            ->set('expert_tindakan_rekomendasi', 'Ikuti Rekomendasi')
+            ->set('upload_sp1', $fakeSp1)
+            ->call('storeAnalisa')
+            ->assertHasNoErrors()
+            ->assertRedirect(route('pelanggaran.detail', $pelanggaran->id));
+
+        $pelanggaran->refresh();
+        $this->assertEquals('Ada Pelanggaran', $pelanggaran->temuan_pelanggaran);
+        $this->assertEquals('tidak_mematuhi_kkpr', $pelanggaran->jenis_indikasi_pelanggaran);
+        $this->assertEquals('2. Tidak Mematuhi Ketentuan Pemanfaatan Ruang (Pelanggaran KKPR)', $pelanggaran->indikasi_label);
+        $this->assertEquals('tidak_sesuai_kkpr', $pelanggaran->kategori_pelanggaran);
+        $this->assertEquals('Pemanfaatan Ruang Tidak Memenuhi Ketentuan KKPR', $pelanggaran->kategori_label);
+        $this->assertEquals('klb', $pelanggaran->jenis_pelanggaran);
+        $this->assertEquals('Pelanggaran Ketentuan Koefisien Lantai Bangunan (KLB)', $pelanggaran->jenis_pelanggaran_label);
+        $this->assertEquals('Pelanggaran Tinggi', $pelanggaran->klasifikasi_pelanggaran);
+        $this->assertEquals($user->id, $pelanggaran->expert_user_id);
+        $this->assertEquals('Analis Ahli Tata Ruang', $pelanggaran->expert_user_name);
+        $this->assertNotNull($pelanggaran->file_sp1);
+        Storage::disk('public')->assertExists($pelanggaran->file_sp1);
+
+        // Render setiap cabang UI halaman analisis
+        Livewire::test(PelanggaranAnalisForm::class, ['id' => $pelanggaran->id])
+            ->assertSee('Dokumen Sanksi Administratif')
+            ->assertSee('1 / 8 terunggah')
+            ->set('klasifikasi_pelanggaran', 'Pelanggaran Rendah')
+            ->assertSet('expert_tindakan_rekomendasi', 'Anulir Rekomendasi')
+            ->assertSee('Anulir Rekomendasi')
+            ->set('temuan_pelanggaran', 'Tidak Ada Pelanggaran')
+            ->assertSee('Berkas Perizinan')
+            ->assertDontSee('Dokumen Sanksi Administratif');
+
+        // Verifikasi tombol Resume Pelanggaran berada pada Tab Detail (PelanggaranDetail)
+        Livewire::test(PelanggaranDetail::class, ['id' => $pelanggaran->id])
+            ->assertSee('Resume Pelanggaran')
+            ->assertSee('RESUME PELANGGARAN')
+            ->assertSee('Delik Pelanggaran')
+            ->assertSee('Hasil Tipologi')
+            ->assertSee('Arah Penanganan');
     }
 }

@@ -5,6 +5,7 @@ use App\Livewire\Admin\Disposisi\DisposisiIndex;
 use App\Livewire\Admin\Gallery\GalleryIndex;
 use App\Livewire\Admin\Layanan\LayananDetail;
 use App\Livewire\Admin\Layanan\LayananIndex;
+use App\Livewire\Admin\Pelanggaran\Analis\PelanggaranAnalisForm;
 use App\Livewire\Admin\Pelanggaran\DashboardPelanggaran;
 use App\Livewire\Admin\Pelanggaran\PelanggaranCreate;
 use App\Livewire\Admin\Pelanggaran\PelanggaranDetail;
@@ -106,6 +107,7 @@ Route::middleware(['cekRole:admin-pelanggaran,superadmin'])->prefix('admin/pelan
     Route::get('/index', PelanggaranIndex::class)->name('pelanggaran.index');
     Route::get('/create', PelanggaranCreate::class)->name('pelanggaran.create');
     Route::get('/edit/{id}', PelanggaranEdit::class)->name('pelanggaran.edit');
+    Route::get('/{id}/analis', PelanggaranAnalisForm::class)->name('pelanggaran.analis');
     Route::get('/{id}', PelanggaranDetail::class)->name('pelanggaran.detail');
 });
 
