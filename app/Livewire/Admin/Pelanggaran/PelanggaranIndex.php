@@ -34,6 +34,7 @@ class PelanggaranIndex extends Component
             ->when($this->search, function ($query) {
                 $query->where('no_pelanggaran', 'like', '%' . $this->search . '%')
                     ->orWhere('nama_pelanggar', 'like', '%' . $this->search . '%')
+                    ->orWhere('nama_pemilik_perusahaan', 'like', '%' . $this->search . '%')
                     ->orWhere('alamat_pelanggaran', 'like', '%' . $this->search . '%');
             })
             ->latest()

@@ -177,8 +177,11 @@
                                 <td class="text-wrap" style="max-width: 200px;">
                                     {{ $data->sumber_informasi_pelanggaran }}
                                 </td>
-                                <td class="text-nowrap fw-semibold">
+                                <td class="text-wrap fw-semibold" style="max-width: 200px;">
                                     {{ $data->nama_pelanggar }}
+                                    @if ($data->nama_pemilik_perusahaan)
+                                        <br><small class="text-muted fw-normal">({{ $data->nama_pemilik_perusahaan }})</small>
+                                    @endif
                                 </td>
                                 <td class="text-nowrap">
                                     {{ $data->alamat_pelanggaran }} <br>

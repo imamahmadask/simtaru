@@ -38,19 +38,13 @@ class PelanggaranCreate extends Component
    
     #[Validate('required')]
     public $nama_pelanggar;
-    public $alamat_pelanggar;
-    public $kel_pelanggar;
-    public $kec_pelanggar;
-    public $kota_pelanggar;
-    public $prov_pelanggar;
+    public $nama_pemilik_perusahaan;
     public $alamat_pelanggaran;
     public $kel_pelanggaran;
     public $kec_pelanggaran;
     public $koordinat_pelanggaran;
     public $gmaps_pelanggaran;
 
-    #[Validate('required')]
-    public $jenis_indikasi_pelanggaran;   
     public $jenis_pemanfaatan_ruang; 
     public $pemanfaatan_ruang;
     public $penjelasan_singkat;
@@ -99,17 +93,12 @@ class PelanggaranCreate extends Component
             'no_ba_sk_penilaian_kkpr' => $this->no_ba_sk_penilaian_kkpr,
             'dokumen_penilaian_kkpr' => $dokumen_penilaian_kkpr_path,            
             'nama_pelanggar' => $this->nama_pelanggar,
-            'alamat_pelanggar' => $this->alamat_pelanggar,
-            'kel_pelanggar' => $this->kel_pelanggar,
-            'kec_pelanggar' => $this->kec_pelanggar,
-            'kota_pelanggar' => $this->kota_pelanggar,
-            'prov_pelanggar' => $this->prov_pelanggar,
+            'nama_pemilik_perusahaan' => $this->nama_pemilik_perusahaan,
             'alamat_pelanggaran' => $this->alamat_pelanggaran,
             'kel_pelanggaran' => $this->kel_pelanggaran,
             'kec_pelanggaran' => $this->kec_pelanggaran,
             'koordinat_pelanggaran' => $this->koordinat_pelanggaran,
             'gmaps_pelanggaran' => $this->gmaps_pelanggaran,
-            'jenis_indikasi_pelanggaran' => $this->jenis_indikasi_pelanggaran,  
             'jenis_pemanfaatan_ruang' => $this->jenis_pemanfaatan_ruang,
             'pemanfaatan_ruang' => $this->pemanfaatan_ruang,
             'foto_existing' => $foto_existing_path,          

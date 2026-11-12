@@ -42,19 +42,13 @@ class PelanggaranEdit extends Component
 
     #[Validate('required')]
     public $nama_pelanggar;
-    public $alamat_pelanggar;
-    public $kel_pelanggar;
-    public $kec_pelanggar;
-    public $kota_pelanggar;
-    public $prov_pelanggar;
+    public $nama_pemilik_perusahaan;
     public $alamat_pelanggaran;
     public $kel_pelanggaran;
     public $kec_pelanggaran;
     public $koordinat_pelanggaran;
     public $gmaps_pelanggaran;
 
-    #[Validate('required')]
-    public $jenis_indikasi_pelanggaran;
     public $penjelasan_singkat;
     public $status;
 
@@ -86,17 +80,12 @@ class PelanggaranEdit extends Component
         $this->jenis_pemanfaatan_ruang = $pelanggaran->jenis_pemanfaatan_ruang;
         $this->pemanfaatan_ruang = $pelanggaran->pemanfaatan_ruang;
         $this->nama_pelanggar = $pelanggaran->nama_pelanggar;
-        $this->alamat_pelanggar = $pelanggaran->alamat_pelanggar;
-        $this->kel_pelanggar = $pelanggaran->kel_pelanggar;
-        $this->kec_pelanggar = $pelanggaran->kec_pelanggar;
-        $this->kota_pelanggar = $pelanggaran->kota_pelanggar;
-        $this->prov_pelanggar = $pelanggaran->prov_pelanggar;
+        $this->nama_pemilik_perusahaan = $pelanggaran->nama_pemilik_perusahaan;
         $this->alamat_pelanggaran = $pelanggaran->alamat_pelanggaran;
         $this->kel_pelanggaran = $pelanggaran->kel_pelanggaran;
         $this->kec_pelanggaran = $pelanggaran->kec_pelanggaran;
         $this->koordinat_pelanggaran = $pelanggaran->koordinat_pelanggaran;
         $this->gmaps_pelanggaran = $pelanggaran->gmaps_pelanggaran;
-        $this->jenis_indikasi_pelanggaran = $pelanggaran->jenis_indikasi_pelanggaran;
         $this->penjelasan_singkat = $pelanggaran->penjelasan_singkat;
         $this->status = $pelanggaran->status;
 
@@ -155,20 +144,15 @@ class PelanggaranEdit extends Component
             'no_kkpr_skrk' => $this->no_kkpr_skrk,
             'no_ba_sk_penilaian_kkpr' => $this->no_ba_sk_penilaian_kkpr,
             'dokumen_penilaian_kkpr' => $dokumen_penilaian_kkpr_path,
-            'jenis_pemanfaatan_ruang' => $this->jenis_pemanfaatan_ruang,
-            'pemanfaatan_ruang' => $this->pemanfaatan_ruang,
             'nama_pelanggar' => $this->nama_pelanggar,
-            'alamat_pelanggar' => $this->alamat_pelanggar,
-            'kel_pelanggar' => $this->kel_pelanggar,
-            'kec_pelanggar' => $this->kec_pelanggar,
-            'kota_pelanggar' => $this->kota_pelanggar,
-            'prov_pelanggar' => $this->prov_pelanggar,
+            'nama_pemilik_perusahaan' => $this->nama_pemilik_perusahaan,
             'alamat_pelanggaran' => $this->alamat_pelanggaran,
             'kel_pelanggaran' => $this->kel_pelanggaran,
             'kec_pelanggaran' => $this->kec_pelanggaran,
             'koordinat_pelanggaran' => $this->koordinat_pelanggaran,
             'gmaps_pelanggaran' => $this->gmaps_pelanggaran,
-            'jenis_indikasi_pelanggaran' => $this->jenis_indikasi_pelanggaran,
+            'pemanfaatan_ruang' => $this->pemanfaatan_ruang,
+            'jenis_pemanfaatan_ruang' => $this->jenis_pemanfaatan_ruang,
             'foto_existing' => $foto_existing_path,
             'penjelasan_singkat' => $this->penjelasan_singkat,
             'status' => $this->status,

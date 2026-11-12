@@ -174,84 +174,33 @@
                             </div>
                         @endif
 
-                        <hr>
-                        <h5 class="fw-semibold text-danger">Jenis Indikasi Pelanggaran</h5>
-                        <div class="col-md-12">
-                            <label class="form-label" for="jenis_indikasi_pelanggaran">Jenis Indikasi Pelanggaran</label>
-                            <select id="jenis_indikasi_pelanggaran" wire:model="jenis_indikasi_pelanggaran"
-                                class="form-select @error('jenis_indikasi_pelanggaran') is-invalid @enderror">
-                                <option value="">Pilih Jenis Indikasi Pelanggaran</option>
-                                <option value="Tidak Memiliki KKPR atau SKRK">Tidak Memiliki KKPR atau SKRK</option>
-                                <option value="Tidak Memenuhi Ketentuan Dalam KKPR/SKRK">Tidak Memenuhi Ketentuan Dalam KKPR/SKRK (cth. pelanggaran GSB, KDB/KDH)</option>
-                                <option value="Menghalangi Akses Terhadap Kawasan Yang Ditetapkan Sebagai Milik Umum">Menghalangi Akses Terhadap Kawasan Yang Ditetapkan Sebagai Milik Umum</option>
-                                <option value="Tidak Memiliki Persetujuan Bangunan Gedung (PBG)">Tidak Memiliki Persetujuan Bangunan Gedung (PBG)</option>
-                            </select>
-                            @error('jenis_indikasi_pelanggaran')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+
                         
                         <hr>
 
                         <h5 class="fw-semibold text-danger">Profil Identitas Pelanggar</h5>
                         
                         <div class="col-md-6">
-                            <label class="form-label" for="nama_pelanggar">Nama Pemilik Lahan</label>
+                            <label class="form-label" for="nama_pelanggar">Nama Pelanggar</label>
                             <input type="text" id="nama_pelanggar" wire:model="nama_pelanggar"
                                 class="form-control @error('nama_pelanggar') is-invalid @enderror"
-                                placeholder="Nama Pemilik Lahan">
+                                placeholder="Nama Pelanggar">
                             @error('nama_pelanggar')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label" for="alamat_pelanggar">Alamat Pemilik Lahan</label>
-                            <input type="text" id="alamat_pelanggar" wire:model="alamat_pelanggar"
-                                class="form-control @error('alamat_pelanggar') is-invalid @enderror"
-                                placeholder="Alamat Pemilik Lahan">
-                            @error('alamat_pelanggar')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label" for="kel_pelanggar">Kelurahan Pemilik Lahan</label>
-                            <input type="text" id="kel_pelanggar" wire:model="kel_pelanggar"
-                                class="form-control @error('kel_pelanggar') is-invalid @enderror"
-                                placeholder="Kelurahan Pemilik Lahan">
-                            @error('kel_pelanggar')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label" for="kec_pelanggar">Kecamatan Pemilik Lahan</label>
-                            <input type="text" id="kec_pelanggar" wire:model="kec_pelanggar"
-                                class="form-control @error('kec_pelanggar') is-invalid @enderror"
-                                placeholder="Kecamatan Pemilik Lahan">
-                            @error('kec_pelanggar')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label" for="kota_pelanggar">Kota Pemilik Lahan</label>
-                            <input type="text" id="kota_pelanggar" wire:model="kota_pelanggar"
-                                class="form-control @error('kota_pelanggar') is-invalid @enderror"
-                                placeholder="Kota Pemilik Lahan">
-                            @error('kota_pelanggar')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label" for="prov_pelanggar">Provinsi Pemilik Lahan</label>
-                            <input type="text" id="prov_pelanggar" wire:model="prov_pelanggar"
-                                class="form-control @error('prov_pelanggar') is-invalid @enderror"
-                                placeholder="Provinsi Pemilik Lahan">
-                            @error('prov_pelanggar')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <hr>
                         <h5 class="fw-semibold text-danger">Profil Lokasi Indikasi Pelanggaran</h5>
+                        <div class="col-md-6">
+                            <label class="form-label" for="nama_pemilik_perusahaan">Nama Pemilik / Perusahaan</label>
+                            <input type="text" id="nama_pemilik_perusahaan" wire:model="nama_pemilik_perusahaan"
+                                class="form-control @error('nama_pemilik_perusahaan') is-invalid @enderror"
+                                placeholder="Nama Pemilik / Perusahaan">
+                            @error('nama_pemilik_perusahaan')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                         <div class="col-md-6">
                             <label class="form-label" for="alamat_pelanggaran">Alamat Lokasi Pelanggaran</label>
                             <input type="text" id="alamat_pelanggaran" wire:model="alamat_pelanggaran"
@@ -305,19 +254,19 @@
                             @enderror
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label" for="pemanfaatan_ruang">Peruntukan Pemanfaatan Ruang</label>
+                            <label class="form-label" for="pemanfaatan_ruang">Peruntukan Pemanfaatan Ruang dalam RTR</label>
                             <input type="text" id="pemanfaatan_ruang" wire:model="pemanfaatan_ruang"
                                 class="form-control @error('pemanfaatan_ruang') is-invalid @enderror"
-                                placeholder="Peruntukan Pemanfaatan Ruang">
+                                placeholder="Peruntukan Pemanfaatan Ruang dalam RTR">
                             @error('pemanfaatan_ruang')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label" for="jenis_pemanfaatan_ruang">Jenis Pemanfaatan Ruang</label>
+                            <label class="form-label" for="jenis_pemanfaatan_ruang">Pemanfaatan Ruang Existing</label>
                             <input type="text" id="jenis_pemanfaatan_ruang" wire:model="jenis_pemanfaatan_ruang"
                                 class="form-control @error('jenis_pemanfaatan_ruang') is-invalid @enderror"
-                                placeholder="Jenis Pemanfaatan Ruang">
+                                placeholder="Pemanfaatan Ruang Existing">
                             @error('jenis_pemanfaatan_ruang')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

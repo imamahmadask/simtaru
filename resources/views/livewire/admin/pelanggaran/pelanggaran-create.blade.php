@@ -1,6 +1,6 @@
 <div>
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pelanggaran /</span> Tambah Kasus Pelanggaran</h4>        
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pelanggaran /</span> Tambah Kasus Pelanggaran</h4>
         <div class="card">
             <div class="card-body">
                 <form wire:submit.prevent="store" enctype="multipart/form-data">
@@ -13,7 +13,7 @@
                             @error('tgl_laporan')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                        </div>                        
+                        </div>
 
                         <div class="col-md-6">
                             <label class="form-label" for="sumber_informasi_pelanggaran">Sumber Informasi</label>
@@ -29,7 +29,7 @@
                             @enderror
                         </div>
 
-                        @if($sumber_informasi_pelanggaran == 'Hasil Pengawasan dan Monitoring')
+                        @if ($sumber_informasi_pelanggaran == 'Hasil Pengawasan dan Monitoring')
                             <hr>
                             <h5 class="fw-semibold text-danger">Laporan Hasil Pengawasan</h5>
                             <div class="col-md-6">
@@ -39,19 +39,22 @@
                                 @error('tanggal_pengawasan')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                            </div>                        
+                            </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="foto_pengawasan">Foto Pengawasan</label>
                                 <input type="file" id="foto_pengawasan" wire:model="foto_pengawasan"
-                                    class="form-control @error('foto_pengawasan') is-invalid @enderror" accept="image/*" multiple>
+                                    class="form-control @error('foto_pengawasan') is-invalid @enderror" accept="image/*"
+                                    multiple>
                                 <div wire:loading wire:target="foto_pengawasan">Uploading...</div>
                                 @if ($foto_pengawasan)
                                     <div class="mt-2">
                                         @foreach ($foto_pengawasan as $index => $image)
                                             <div class="d-inline-block position-relative me-2 mb-2">
                                                 <img src="{{ $image->temporaryUrl() }}" alt="Preview"
-                                                    class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
-                                                <button type="button" wire:click="removeImage({{ $index }}, 'foto_pengawasan')"
+                                                    class="img-thumbnail"
+                                                    style="width: 100px; height: 100px; object-fit: cover;">
+                                                <button type="button"
+                                                    wire:click="removeImage({{ $index }}, 'foto_pengawasan')"
                                                     class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1">
                                                     <i class="bx bx-x"></i>
                                                 </button>
@@ -62,7 +65,7 @@
                                 @error('foto_pengawasan')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                            </div>                        
+                            </div>
                         @elseif($sumber_informasi_pelanggaran == 'Laporan Masyarakat')
                             <hr>
                             <h5 class="fw-semibold text-danger">Profil Pelapor</h5>
@@ -103,8 +106,7 @@
 
                             <div class="col-md-6">
                                 <label class="form-label" for="isi_laporan">Kronologis/Isi Laporan</label>
-                                <textarea id="isi_laporan" wire:model="isi_laporan"
-                                    class="form-control @error('isi_laporan') is-invalid @enderror"
+                                <textarea id="isi_laporan" wire:model="isi_laporan" class="form-control @error('isi_laporan') is-invalid @enderror"
                                     placeholder="Kronologis Isi Laporan" rows="3"></textarea>
                                 @error('isi_laporan')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -124,16 +126,19 @@
                                 @enderror
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label" for="no_ba_sk_penilaian_kkpr">No. Berita Acara Penilaian KKPR/SKRK</label>
-                                <input type="text" id="no_ba_sk_penilaian_kkpr" wire:model="no_ba_sk_penilaian_kkpr"
+                                <label class="form-label" for="no_ba_sk_penilaian_kkpr">No. Berita Acara Penilaian
+                                    KKPR/SKRK</label>
+                                <input type="text" id="no_ba_sk_penilaian_kkpr"
+                                    wire:model="no_ba_sk_penilaian_kkpr"
                                     class="form-control @error('no_ba_sk_penilaian_kkpr') is-invalid @enderror"
                                     placeholder="No. Berita Acara Penilaian KKPR/SKRK">
                                 @error('no_ba_sk_penilaian_kkpr')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                            </div>                           
+                            </div>
                             <div class="col-md-6">
-                                <label class="form-label" for="dokumen_penilaian_kkpr">Dokumen Penilaian KKPR/SKRK</label>
+                                <label class="form-label" for="dokumen_penilaian_kkpr">Dokumen Penilaian
+                                    KKPR/SKRK</label>
                                 <input type="file" id="dokumen_penilaian_kkpr" wire:model="dokumen_penilaian_kkpr"
                                     class="form-control @error('dokumen_penilaian_kkpr') is-invalid @enderror">
                                 <div wire:loading wire:target="dokumen_penilaian_kkpr">Uploading...</div>
@@ -144,83 +149,29 @@
                         @endif
 
                         <hr>
-                        <h5 class="fw-semibold text-danger">Jenis Indikasi Pelanggaran</h5>
-                        <div class="col-md-6">
-                            <label class="form-label" for="jenis_indikasi_pelanggaran">Jenis Indikasi Pelanggaran</label>
-                            <select id="jenis_indikasi_pelanggaran" wire:model="jenis_indikasi_pelanggaran"
-                                class="form-select @error('jenis_indikasi_pelanggaran') is-invalid @enderror">
-                                <option value="">Pilih Jenis Indikasi Pelanggaran</option>
-                                <option value="Tidak Memiliki KKPR atau SKRK">Tidak Memiliki KKPR atau SKRK</option>
-                                <option value="Tidak Memenuhi Ketentuan Dalam KKPR/SKRK">Tidak Memenuhi Ketentuan Dalam KKPR/SKRK (cth. pelanggaran GSB, KDB/KDH)</option>
-                                <option value="Menghalangi Akses Terhadap Kawasan Yang Ditetapkan Sebagai Milik Umum">Menghalangi Akses Terhadap Kawasan Yang Ditetapkan Sebagai Milik Umum</option>
-                                <option value="Tidak Memiliki Persetujuan Bangunan Gedung (PBG)">Tidak Memiliki Persetujuan Bangunan Gedung (PBG)</option>
-                            </select>
-                            @error('jenis_indikasi_pelanggaran')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>                        
-                        
-                        <hr>
-
                         <h5 class="fw-semibold text-danger">Profil Identitas Pelanggar</h5>
-                        
+
                         <div class="col-md-6">
-                            <label class="form-label" for="nama_pelanggar">Nama Pemilik Lahan</label>
+                            <label class="form-label" for="nama_pelanggar">Nama Pelanggar</label>
                             <input type="text" id="nama_pelanggar" wire:model="nama_pelanggar"
                                 class="form-control @error('nama_pelanggar') is-invalid @enderror"
-                                placeholder="Nama Pemilik Lahan">
+                                placeholder="Nama Pelanggar">
                             @error('nama_pelanggar')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label" for="alamat_pelanggar">Alamat Pemilik Lahan</label>
-                            <input type="text" id="alamat_pelanggar" wire:model="alamat_pelanggar"
-                                class="form-control @error('alamat_pelanggar') is-invalid @enderror"
-                                placeholder="Alamat Pemilik Lahan">
-                            @error('alamat_pelanggar')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label" for="kel_pelanggar">Kelurahan Pemilik Lahan</label>
-                            <input type="text" id="kel_pelanggar" wire:model="kel_pelanggar"
-                                class="form-control @error('kel_pelanggar') is-invalid @enderror"
-                                placeholder="Kelurahan Pemilik Lahan">
-                            @error('kel_pelanggar')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label" for="kec_pelanggar">Kecamatan Pemilik Lahan</label>
-                            <input type="text" id="kec_pelanggar" wire:model="kec_pelanggar"
-                                class="form-control @error('kec_pelanggar') is-invalid @enderror"
-                                placeholder="Kecamatan Pemilik Lahan">
-                            @error('kec_pelanggar')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label" for="kota_pelanggar">Kota Pemilik Lahan</label>
-                            <input type="text" id="kota_pelanggar" wire:model="kota_pelanggar"
-                                class="form-control @error('kota_pelanggar') is-invalid @enderror"
-                                placeholder="Kota Pemilik Lahan">
-                            @error('kota_pelanggar')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label" for="prov_pelanggar">Provinsi Pemilik Lahan</label>
-                            <input type="text" id="prov_pelanggar" wire:model="prov_pelanggar"
-                                class="form-control @error('prov_pelanggar') is-invalid @enderror"
-                                placeholder="Provinsi Pemilik Lahan">
-                            @error('prov_pelanggar')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <hr>
                         <h5 class="fw-semibold text-danger">Profil Lokasi Indikasi Pelanggaran</h5>
+                        <div class="col-md-6">
+                            <label class="form-label" for="nama_pemilik_perusahaan">Nama Pemilik / Perusahaan</label>
+                            <input type="text" id="nama_pemilik_perusahaan" wire:model="nama_pemilik_perusahaan"
+                                class="form-control @error('nama_pemilik_perusahaan') is-invalid @enderror"
+                                placeholder="Nama Pemilik / Perusahaan">
+                            @error('nama_pemilik_perusahaan')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                         <div class="col-md-6">
                             <label class="form-label" for="alamat_pelanggaran">Alamat Lokasi Pelanggaran</label>
                             <input type="text" id="alamat_pelanggaran" wire:model="alamat_pelanggaran"
@@ -265,7 +216,8 @@
                             @enderror
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label" for="gmaps_pelanggaran">Link Google Maps Lokasi Pelanggaran</label>
+                            <label class="form-label" for="gmaps_pelanggaran">Link Google Maps Lokasi
+                                Pelanggaran</label>
                             <input type="text" id="gmaps_pelanggaran" wire:model="gmaps_pelanggaran"
                                 class="form-control @error('gmaps_pelanggaran') is-invalid @enderror"
                                 placeholder="Link Google Maps Lokasi Pelanggaran">
@@ -274,28 +226,28 @@
                             @enderror
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label" for="pemanfaatan_ruang">Peruntukan Pemanfaatan Ruang</label>
+                            <label class="form-label" for="pemanfaatan_ruang">Peruntukan Pemanfaatan Ruang dalam RTR</label>
                             <input type="text" id="pemanfaatan_ruang" wire:model="pemanfaatan_ruang"
                                 class="form-control @error('pemanfaatan_ruang') is-invalid @enderror"
-                                placeholder="Peruntukan Pemanfaatan Ruang">
+                                placeholder="Peruntukan Pemanfaatan Ruang dalam RTR">
                             @error('pemanfaatan_ruang')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label" for="jenis_pemanfaatan_ruang">Jenis Pemanfaatan Ruang</label>
+                            <label class="form-label" for="jenis_pemanfaatan_ruang">Pemanfaatan Ruang Existing</label>
                             <input type="text" id="jenis_pemanfaatan_ruang" wire:model="jenis_pemanfaatan_ruang"
                                 class="form-control @error('jenis_pemanfaatan_ruang') is-invalid @enderror"
-                                placeholder="Jenis Pemanfaatan Ruang">
+                                placeholder="Pemanfaatan Ruang Existing">
                             @error('jenis_pemanfaatan_ruang')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col-md-12">
-                            <label class="form-label" for="penjelasan_singkat">Penjelasan Singkat</label>
+                            <label class="form-label" for="penjelasan_singkat">Penjelasan Singkat Kasus</label>
                             <textarea id="penjelasan_singkat" wire:model="penjelasan_singkat"
-                                class="form-control @error('penjelasan_singkat') is-invalid @enderror"
-                                placeholder="Penjelasan Singkat" rows="3"></textarea>
+                                class="form-control @error('penjelasan_singkat') is-invalid @enderror" placeholder="Penjelasan Singkat"
+                                rows="3"></textarea>
                             @error('penjelasan_singkat')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -303,15 +255,18 @@
                         <div class="col-md-12">
                             <label class="form-label" for="foto_existing">Foto Existing</label>
                             <input type="file" id="foto_existing" wire:model="foto_existing"
-                            class="form-control @error('foto_existing') is-invalid @enderror" accept="image/*" multiple>
+                                class="form-control @error('foto_existing') is-invalid @enderror" accept="image/*"
+                                multiple>
                             <div wire:loading wire:target="foto_existing">Uploading...</div>
                             @if ($foto_existing)
                                 <div class="mt-2">
                                     @foreach ($foto_existing as $index => $image)
                                         <div class="d-inline-block position-relative me-2 mb-2">
                                             <img src="{{ $image->temporaryUrl() }}" alt="Preview"
-                                                class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
-                                            <button type="button" wire:click="removeImage({{ $index }}, 'foto_existing')"
+                                                class="img-thumbnail"
+                                                style="width: 100px; height: 100px; object-fit: cover;">
+                                            <button type="button"
+                                                wire:click="removeImage({{ $index }}, 'foto_existing')"
                                                 class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1">
                                                 <i class="bx bx-x"></i>
                                             </button>
@@ -322,7 +277,7 @@
                             @error('foto_existing')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                        </div>                                                                                                               
+                        </div>
                     </div>
                     <div class="row mt-5">
                         <div class="col-md-6">
