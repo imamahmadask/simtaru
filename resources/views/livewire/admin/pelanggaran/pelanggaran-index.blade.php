@@ -119,23 +119,140 @@
         <div class="card pelanggaran-table-card shadow-sm">
             <!-- Header Card & Search Toolbar -->
             <div class="card-header-section">
+                <!-- Baris 1: Judul, Status Filter, Tambah Kasus, Per Page, & Search -->
                 <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
-                    <h5 class="mb-0 fw-semibold text-primary">
-                        <i class="bx bx-list-ul me-1"></i> List Data Kasus Pelanggaran
-                    </h5>
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <h5 class="mb-0 fw-semibold text-primary">
+                            <i class="bx bx-list-ul me-1"></i> List Data Kasus Pelanggaran
+                        </h5>
+                        @if ($this->activeFilterCount > 0)
+                            <span class="badge bg-label-primary px-2 py-1">
+                                <i class="bx bx-filter-alt me-1"></i>{{ $this->activeFilterCount }} Filter Aktif
+                            </span>
+                            <button type="button" class="btn btn-outline-secondary btn-sm py-0 px-2"
+                                wire:click="resetFilters" title="Reset Semua Filter">
+                                <i class="bx bx-reset me-1"></i>Reset
+                            </button>
+                        @endif
+                    </div>
 
                     <div class="d-flex flex-wrap align-items-center gap-2">
                         <a href="{{ route('pelanggaran.create') }}" class="btn btn-primary btn-sm">
                             <i class="bx bx-plus me-1"></i> Tambah Kasus
                         </a>
-                        <div style="min-width: 240px;">
+                        <div class="d-flex align-items-center gap-1">
+                            <small class="text-muted text-nowrap d-none d-sm-inline">Tampil:</small>
+                            <select class="form-select form-select-sm" wire:model.live="perPage" style="width: 75px;" title="Jumlah data per halaman">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                        <div style="min-width: 230px;">
                             <div class="input-group input-group-merge input-group-sm">
                                 <span class="input-group-text"><i class="bx bx-search"></i></span>
-                                <input class="form-control form-control-sm" type="search"
+                                <input class="form-control form-control-sm" type="text"
                                     wire:model.live.debounce.300ms="search" placeholder="Cari nomor, nama, lokasi..."
                                     aria-label="Search">
+                                @if ($search)
+                                    <span class="input-group-text cursor-pointer text-muted" role="button"
+                                        wire:click="$set('search', '')" title="Hapus teks pencarian">
+                                        <i class="bx bx-x fs-5"></i>
+                                    </span>
+                                @endif
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Baris 2: Grid Filter Toolbar Kompak -->
+                <div class="pt-2 mt-2 border-top">
+                    <div class="row g-2 align-items-end">
+                        <!-- Filter Tahun -->
+                        <div class="col-6 col-md-3 col-xl-auto" style="min-width: 125px;">
+                            <label class="form-label mb-1 text-muted" style="font-size: 0.75rem;">Tahun Laporan</label>
+                            <select class="form-select form-select-sm" wire:model.live="filterYear">
+                                <option value="">Semua Tahun</option>
+                                @foreach ($years as $year)
+                                    <option value="{{ $year }}">{{ $year }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Filter Status -->
+                        <div class="col-6 col-md-3 col-xl-auto" style="min-width: 140px;">
+                            <label class="form-label mb-1 text-muted" style="font-size: 0.75rem;">Status Kasus</label>
+                            <select class="form-select form-select-sm" wire:model.live="filterStatus">
+                                <option value="">Semua Status</option>
+                                <option value="On Progress">On Progress</option>
+                                <option value="Pelimpahan Berkas">Pelimpahan Berkas</option>
+                                <option value="Selesai">Selesai</option>
+                            </select>
+                        </div>
+
+                        <!-- Filter Temuan -->
+                        <div class="col-6 col-md-3 col-xl-auto" style="min-width: 155px;">
+                            <label class="form-label mb-1 text-muted" style="font-size: 0.75rem;">Temuan Pelanggaran</label>
+                            <select class="form-select form-select-sm" wire:model.live="filterTemuan">
+                                <option value="">Semua Temuan</option>
+                                <option value="Ada Pelanggaran">Ada Pelanggaran</option>
+                                <option value="Tidak Ada Pelanggaran">Tidak Ada Pelanggaran</option>
+                            </select>
+                        </div>
+
+                        <!-- Filter Kecamatan -->
+                        <div class="col-6 col-md-3 col-xl-auto" style="min-width: 145px;">
+                            <label class="form-label mb-1 text-muted" style="font-size: 0.75rem;">Kecamatan</label>
+                            <select class="form-select form-select-sm" wire:model.live="filterKecamatan">
+                                <option value="">Semua Kecamatan</option>
+                                @foreach ($kecamatans as $kec)
+                                    <option value="{{ $kec }}">{{ $kec }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Filter Klasifikasi -->
+                        <div class="col-6 col-md-3 col-xl-auto" style="min-width: 160px;">
+                            <label class="form-label mb-1 text-muted" style="font-size: 0.75rem;">Klasifikasi Sanksi</label>
+                            <select class="form-select form-select-sm" wire:model.live="filterKlasifikasi">
+                                <option value="">Semua Klasifikasi</option>
+                                <option value="Pelanggaran Rendah">Pelanggaran Rendah</option>
+                                <option value="Pelanggaran Sedang">Pelanggaran Sedang</option>
+                                <option value="Pelanggaran Tinggi">Pelanggaran Tinggi</option>
+                                <option value="belum_dianalisis">Belum Dianalisis</option>
+                            </select>
+                        </div>
+
+                        <!-- Filter Sumber Informasi -->
+                        <div class="col-6 col-md-3 col-xl-auto" style="min-width: 175px;">
+                            <label class="form-label mb-1 text-muted" style="font-size: 0.75rem;">Sumber Informasi</label>
+                            <select class="form-select form-select-sm" wire:model.live="filterSumber">
+                                <option value="">Semua Sumber</option>
+                                @foreach ($sumberInformasis as $sumber)
+                                    <option value="{{ $sumber }}">{{ $sumber }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Filter Tindak Lanjut -->
+                        <div class="col-6 col-md-3 col-xl-auto" style="min-width: 160px;">
+                            <label class="form-label mb-1 text-muted" style="font-size: 0.75rem;">Tindak Lanjut</label>
+                            <select class="form-select form-select-sm" wire:model.live="filterTindakLanjut">
+                                <option value="">Semua Tindak Lanjut</option>
+                                @foreach ($tindakLanjuts as $tindak)
+                                    <option value="{{ $tindak }}">{{ $tindak }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        @if ($this->activeFilterCount > 0)
+                            <div class="col-12 col-md-auto ms-auto align-self-end">
+                                <button type="button" class="btn btn-outline-danger btn-sm w-100" wire:click="resetFilters" title="Hapus seluruh filter yang diterapkan">
+                                    <i class="bx bx-filter-alt me-1"></i> Reset Filter
+                                </button>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -247,7 +364,14 @@
                             <tr>
                                 <td colspan="10" class="text-center py-4 text-muted">
                                     <i class="bx bx-folder-open fs-1 d-block mb-2 text-secondary"></i>
-                                    <span>Tidak ada data kasus pelanggaran ditemukan.</span>
+                                    <span>Tidak ada data kasus pelanggaran ditemukan{{ $this->activeFilterCount > 0 ? ' yang sesuai dengan filter yang dipilih.' : '.' }}</span>
+                                    @if ($this->activeFilterCount > 0)
+                                        <div class="mt-2">
+                                            <button type="button" class="btn btn-outline-primary btn-sm" wire:click="resetFilters">
+                                                <i class="bx bx-reset me-1"></i> Reset Semua Filter
+                                            </button>
+                                        </div>
+                                    @endif
                                 </td>
                             </tr>
                         @endforelse
