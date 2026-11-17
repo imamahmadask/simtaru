@@ -327,7 +327,7 @@ INSTRUCTION;
                     'year' => $year,
                     'kecamatan' => !empty($row->kec_pelanggaran) ? trim($row->kec_pelanggaran) : 'Tidak Tercantum',
                     'status' => !empty($row->status) ? trim($row->status) : 'Dalam Proses',
-                    'indikasi' => !empty($row->jenis_indikasi_pelanggaran) ? trim($row->jenis_indikasi_pelanggaran) : 'Lainnya',
+                    'indikasi' => !empty($row->jenis_indikasi_pelanggaran) ? trim($row->indikasi_full_text) : 'Lainnya',
                 ];
             });
 

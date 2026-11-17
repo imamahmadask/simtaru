@@ -22,12 +22,14 @@ class PelanggaranAnalisDetail extends Component
 
     public $tindak_lanjut;
 
-    // Alur Sanksi Administrasi
+    // Alur Sanksi Administrasi & Skoring
     public $jenis_indikasi_pelanggaran;
     public $kategori_pelanggaran;
     public $jenis_pelanggaran;
     public $dampak_keluhan_masyarakat;
     public $dampak_radius_wilayah;
+    public $skala_pelanggaran;
+    public $riwayat_pelanggaran;
 
     // Expert Judgment
     public $expert_user_id;
@@ -116,12 +118,14 @@ class PelanggaranAnalisDetail extends Component
         $this->existing_foto_tindak_lanjut = $this->pelanggaran->foto_tindak_lanjut ?? [];
         $this->existing_foto_existing = $this->pelanggaran->foto_existing ?? [];
 
-        // Bagan Alur Sanksi Administrasi
+        // Bagan Alur Sanksi Administrasi & Skoring
         $this->jenis_indikasi_pelanggaran = $this->pelanggaran->jenis_indikasi_pelanggaran;
         $this->kategori_pelanggaran = $this->pelanggaran->kategori_pelanggaran;
         $this->jenis_pelanggaran = $this->pelanggaran->jenis_pelanggaran;
         $this->dampak_keluhan_masyarakat = $this->pelanggaran->dampak_keluhan_masyarakat;
         $this->dampak_radius_wilayah = $this->pelanggaran->dampak_radius_wilayah;
+        $this->skala_pelanggaran = $this->pelanggaran->skala_pelanggaran;
+        $this->riwayat_pelanggaran = $this->pelanggaran->riwayat_pelanggaran;
 
         // Expert Judgment
         $this->expert_user_id = $this->pelanggaran->expert_user_id ?? Auth::id();
@@ -179,14 +183,18 @@ class PelanggaranAnalisDetail extends Component
 
     public function storeAnalisa()
     {
+        $skorData = null;
+
         if ($this->temuan_pelanggaran == 'Ada Pelanggaran') {
             $this->validate([
                 'temuan_pelanggaran' => 'required',
                 'jenis_indikasi_pelanggaran' => 'required',
                 'kategori_pelanggaran' => 'required',
                 'jenis_pelanggaran' => 'required',
-                'dampak_keluhan_masyarakat' => 'required',
+                'dampak_keluhan_masyarakat' => 'nullable|string',
                 'dampak_radius_wilayah' => 'required',
+                'skala_pelanggaran' => 'nullable|string',
+                'riwayat_pelanggaran' => 'nullable|string',
                 'expert_justifikasi' => 'nullable|string',
                 'expert_kesimpulan' => 'nullable|string',
                 'expert_tindakan_rekomendasi' => 'required|string',
@@ -205,13 +213,20 @@ class PelanggaranAnalisDetail extends Component
                 'upload_pembongkaran_bangunan' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
             ]);
 
+            $skorData = Pelanggaran::hitungSkorPenilaian(
+                $this->jenis_pelanggaran,
+                $this->dampak_radius_wilayah,
+                $this->skala_pelanggaran,
+                $this->riwayat_pelanggaran
+            );
+
             // Kompilasi nama sanksi administratif dari dokumen yang diunggah / telah ada
             $sanksiTerunggah = [];
-            if ($this->upload_sosialisasi || $this->pelanggaran->file_sosialisasi) $sanksiTerunggah[] = 'Pembinaan/Sosialisasi';
-            if ($this->upload_sp1 || $this->pelanggaran->file_sp1) $sanksiTerunggah[] = ($this->klasifikasi_pelanggaran == 'Pelanggaran Rendah' ? 'Surat Peringatan' : 'Surat Peringatan I');
+            if ($this->upload_sp1 || $this->pelanggaran->file_sp1) $sanksiTerunggah[] = 'Surat Peringatan I';
             if ($this->upload_sp2 || $this->pelanggaran->file_sp2) $sanksiTerunggah[] = 'Surat Peringatan II';
             if ($this->upload_sp3 || $this->pelanggaran->file_sp3) $sanksiTerunggah[] = 'Surat Peringatan III';
             if ($this->upload_pernyataan || $this->pelanggaran->file_pernyataan) $sanksiTerunggah[] = 'Surat Pernyataan';
+            if ($this->upload_sosialisasi || $this->pelanggaran->file_sosialisasi) $sanksiTerunggah[] = 'Pembinaan/Sosialisasi';
             if ($this->upload_pelimpahan_polpp || $this->pelanggaran->file_pelimpahan_polpp) $sanksiTerunggah[] = 'Pelimpahan PPNS / Penertiban Bangunan';
             if ($this->upload_sk_sanksi_pemberhentian || $this->pelanggaran->file_sk_sanksi_pemberhentian) $sanksiTerunggah[] = 'Penghentian Sementara Kegiatan';
             if ($this->upload_pembatalan_kkpr || $this->pelanggaran->file_pembatalan_kkpr) $sanksiTerunggah[] = 'Pembatalan & Pencabutan KKPR';
@@ -231,6 +246,8 @@ class PelanggaranAnalisDetail extends Component
             $this->jenis_pelanggaran = null;
             $this->dampak_keluhan_masyarakat = null;
             $this->dampak_radius_wilayah = null;
+            $this->skala_pelanggaran = null;
+            $this->riwayat_pelanggaran = null;
             $this->expert_justifikasi = null;
             $this->expert_kesimpulan = null;
             $this->expert_tindakan_rekomendasi = null;
@@ -271,9 +288,18 @@ class PelanggaranAnalisDetail extends Component
             'tindak_lanjut' => $this->tindak_lanjut,
             'jenis_indikasi_pelanggaran' => Pelanggaran::normalizeIndikasi($this->jenis_indikasi_pelanggaran),
             'kategori_pelanggaran' => Pelanggaran::normalizeKategori($this->kategori_pelanggaran),
-            'jenis_pelanggaran' => Pelanggaran::normalizeJenisPelanggaran($this->jenis_pelanggaran),
+            'jenis_pelanggaran' => $this->temuan_pelanggaran == 'Ada Pelanggaran'
+                ? Pelanggaran::encodeJenisPelanggaran($this->jenis_pelanggaran)
+                : null,
             'dampak_keluhan_masyarakat' => $this->dampak_keluhan_masyarakat,
-            'dampak_radius_wilayah' => $this->dampak_radius_wilayah,
+            'dampak_radius_wilayah' => Pelanggaran::normalizeDampak($this->dampak_radius_wilayah),
+            'skala_pelanggaran' => Pelanggaran::normalizeSkala($this->skala_pelanggaran),
+            'riwayat_pelanggaran' => Pelanggaran::normalizeRiwayat($this->riwayat_pelanggaran),
+            'nilai_a' => $skorData['nilai_a'] ?? null,
+            'nilai_b' => $skorData['nilai_b'] ?? null,
+            'nilai_c' => $skorData['nilai_c'] ?? null,
+            'nilai_d' => $skorData['nilai_d'] ?? null,
+            'skor_total' => ($skorData && $skorData['is_complete']) ? $skorData['skor_total'] : null,
             'expert_user_id' => $this->temuan_pelanggaran == 'Ada Pelanggaran' ? (Auth::id() ?? $this->expert_user_id) : null,
             'expert_user_name' => $this->temuan_pelanggaran == 'Ada Pelanggaran' ? (Auth::user()?->name ?? $this->expert_user_name) : null,
             'expert_justifikasi' => $this->expert_justifikasi,
@@ -443,7 +469,7 @@ class PelanggaranAnalisDetail extends Component
         $data = $this->pelanggaran;
 
         $data = [
-            'jenis_indikasi_pelanggaran' => $data->jenis_indikasi_pelanggaran,
+            'jenis_indikasi_pelanggaran' => $data->indikasi_full_text,
             'nama_pemilik_bangunan' => $data->nama_pelanggar,
             'alamat_pelanggaran' => $data->alamat_pelanggaran,
             'kel_pelanggaran' => $data->kel_pelanggaran,
@@ -460,7 +486,7 @@ class PelanggaranAnalisDetail extends Component
         $data = $this->pelanggaran;
 
         $data = [
-            'jenis_indikasi_pelanggaran' => $data->jenis_indikasi_pelanggaran,
+            'jenis_indikasi_pelanggaran' => $data->indikasi_full_text,
             'nama_pemilik_bangunan' => $data->nama_pelanggar,
             'alamat_pelanggaran' => $data->alamat_pelanggaran,
             'kel_pelanggaran' => $data->kel_pelanggaran,
@@ -477,7 +503,7 @@ class PelanggaranAnalisDetail extends Component
         $data = $this->pelanggaran;
 
         $data = [
-            'jenis_indikasi_pelanggaran' => $data->jenis_indikasi_pelanggaran,
+            'jenis_indikasi_pelanggaran' => $data->indikasi_full_text,
             'nama_pemilik_bangunan' => $data->nama_pelanggar,
             'alamat_pelanggaran' => $data->alamat_pelanggaran,
             'kel_pelanggaran' => $data->kel_pelanggaran,
@@ -494,7 +520,7 @@ class PelanggaranAnalisDetail extends Component
         $data = $this->pelanggaran;
 
         $data = [
-            'jenis_indikasi_pelanggaran' => $data->jenis_indikasi_pelanggaran,
+            'jenis_indikasi_pelanggaran' => $data->indikasi_full_text,
             'nama_pemilik_bangunan' => $data->nama_pelanggar,
             'alamat_pelanggaran' => $data->alamat_pelanggaran,
             'kel_pelanggaran' => $data->kel_pelanggaran,
@@ -511,7 +537,7 @@ class PelanggaranAnalisDetail extends Component
         $data = $this->pelanggaran;
 
         $data = [
-            'jenis_indikasi_pelanggaran' => $data->jenis_indikasi_pelanggaran,
+            'jenis_indikasi_pelanggaran' => $data->indikasi_full_text,
             'nama_pemilik_bangunan' => $data->nama_pelanggar,
             'alamat_pelanggaran' => $data->alamat_pelanggaran,
             'kel_pelanggaran' => $data->kel_pelanggaran,
@@ -527,7 +553,7 @@ class PelanggaranAnalisDetail extends Component
         $data = $this->pelanggaran;
 
         $data = [
-            'jenis_indikasi_pelanggaran' => $data->jenis_indikasi_pelanggaran,
+            'jenis_indikasi_pelanggaran' => $data->indikasi_full_text,
             'nama_pemilik_bangunan' => $data->nama_pelanggar,
             'alamat_pelanggaran' => $data->alamat_pelanggaran,
             'kel_pelanggaran' => $data->kel_pelanggaran,
@@ -543,7 +569,7 @@ class PelanggaranAnalisDetail extends Component
         $data = $this->pelanggaran;
 
         $data = [
-            'jenis_indikasi_pelanggaran' => $data->jenis_indikasi_pelanggaran,
+            'jenis_indikasi_pelanggaran' => $data->indikasi_full_text,
             'alamat_pelanggaran' => $data->alamat_pelanggaran,
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => $data->kec_pelanggaran,
@@ -556,7 +582,7 @@ class PelanggaranAnalisDetail extends Component
         $data = $this->pelanggaran;
 
         $data = [
-            'jenis_indikasi_pelanggaran' => $data->jenis_indikasi_pelanggaran,
+            'jenis_indikasi_pelanggaran' => $data->indikasi_full_text,
             'alamat_pelanggaran' => $data->alamat_pelanggaran,
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => $data->kec_pelanggaran,
@@ -572,7 +598,7 @@ class PelanggaranAnalisDetail extends Component
         $lng = $parts[1] ?? '-';
 
         $data = [
-            'jenis_indikasi_pelanggaran' => $data->jenis_indikasi_pelanggaran,
+            'jenis_indikasi_pelanggaran' => $data->indikasi_full_text,
             'alamat_pelanggaran' => $data->alamat_pelanggaran,
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => $data->kec_pelanggaran,
@@ -614,7 +640,7 @@ class PelanggaranAnalisDetail extends Component
         $data = $this->pelanggaran;
 
         $data = [
-            'jenis_indikasi_pelanggaran' => $data->jenis_indikasi_pelanggaran,
+            'jenis_indikasi_pelanggaran' => $data->indikasi_full_text,
             'alamat_pelanggaran' => $data->alamat_pelanggaran,
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => $data->kec_pelanggaran,
@@ -633,7 +659,7 @@ class PelanggaranAnalisDetail extends Component
         $data = $this->pelanggaran;
 
         $data = [
-            'jenis_indikasi_pelanggaran' => $data->jenis_indikasi_pelanggaran,
+            'jenis_indikasi_pelanggaran' => $data->indikasi_full_text,
             'alamat_pelanggaran' => $data->alamat_pelanggaran,
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => $data->kec_pelanggaran,
@@ -647,7 +673,7 @@ class PelanggaranAnalisDetail extends Component
         $data = $this->pelanggaran;
 
         $data = [
-            'jenis_indikasi_pelanggaran' => $data->jenis_indikasi_pelanggaran,
+            'jenis_indikasi_pelanggaran' => $data->indikasi_full_text,
             'alamat_pelanggaran' => strtoupper($data->alamat_pelanggaran),
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => strtoupper($data->kec_pelanggaran),

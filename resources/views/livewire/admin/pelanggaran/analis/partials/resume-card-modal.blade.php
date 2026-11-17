@@ -1,6 +1,8 @@
 @php
     $resume = $pelanggaran->resume($resumeOverrides ?? []);
     $isHighTipologi = ($resume['tipologi'] ?? null) === 'Pelanggaran Tinggi';
+    $safeNoKasus = preg_replace('/[^A-Za-z0-9_-]+/', '-', (string) ($pelanggaran->no_pelanggaran ?? 'kasus'));
+    $safeFilename = 'Resume_Pelanggaran_' . trim($safeNoKasus, '-');
 
     $pillClass = fn (?string $level) => match ($level) {
         'Rendah', 'Pelanggaran Rendah' => 'rc-pill-low',
@@ -13,9 +15,14 @@
 
 <div wire:ignore.self class="modal fade" id="ResumePelanggaranModal" tabindex="-1"
     aria-labelledby="ResumePelanggaranModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 580px;">
-        <div class="modal-content border-0 bg-transparent shadow-none p-2">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
+        <div class="modal-content border-0 bg-transparent shadow-none">
             <style>
+                #ResumePelanggaranModal #ResumeCaptureArea {
+                    padding: 12px;
+                    border-radius: 22px;
+                    font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+                }
                 #ResumePelanggaranModal .rc-card {
                     background: #ffffff;
                     border-radius: 18px;
@@ -180,92 +187,496 @@
                     color: #1e293b;
                     box-shadow: 0 8px 20px rgba(15, 23, 42, 0.15);
                 }
+                #ResumePelanggaranModal .rc-export-toolbar {
+                    margin-top: 12px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    gap: 10px;
+                }
+                @media (max-width: 575.98px) {
+                    #ResumePelanggaranModal #ResumeCaptureArea {
+                        padding: 6px;
+                    }
+                    #ResumePelanggaranModal .rc-header {
+                        padding: 12px 46px 12px 14px;
+                        font-size: 0.88rem;
+                        min-height: 48px;
+                    }
+                    #ResumePelanggaranModal .rc-photo-wrap {
+                        height: 185px;
+                    }
+                    #ResumePelanggaranModal .rc-table th,
+                    #ResumePelanggaranModal .rc-table td {
+                        display: block;
+                        width: 100%;
+                        padding: 10px 14px;
+                    }
+                    #ResumePelanggaranModal .rc-table th {
+                        border-right: none;
+                        padding-bottom: 2px;
+                        font-size: 0.78rem;
+                        color: #64748b;
+                        text-transform: uppercase;
+                        letter-spacing: 0.3px;
+                    }
+                    #ResumePelanggaranModal .rc-table td {
+                        padding-top: 2px;
+                        padding-bottom: 12px;
+                        font-size: 0.85rem;
+                    }
+                    #ResumePelanggaranModal .rc-cell-flex {
+                        flex-direction: column;
+                        align-items: flex-start !important;
+                        gap: 0.5rem !important;
+                    }
+                }
             </style>
 
-            <div class="rc-card">
-                {{-- Header Card --}}
-                <div class="rc-header {{ $isHighTipologi ? 'rc-header-crimson' : 'rc-header-navy' }}">
-                    <span id="ResumePelanggaranModalLabel" class="text-truncate">
-                        RESUME PELANGGARAN — {{ $pelanggaran->no_pelanggaran }}
-                    </span>
-                    <button type="button" class="rc-dismiss-btn" data-bs-dismiss="modal" aria-label="Tutup" title="Tutup">
-                        <i class="bx bx-x"></i>
-                    </button>
+            <div id="ResumeCaptureArea">
+                <div class="rc-card">
+                    {{-- Header Card --}}
+                    <div class="rc-header {{ $isHighTipologi ? 'rc-header-crimson' : 'rc-header-navy' }}">
+                        <span id="ResumePelanggaranModalLabel" class="text-break">
+                            RESUME PELANGGARAN — {{ $pelanggaran->no_pelanggaran }}
+                        </span>
+                        <button type="button" class="rc-dismiss-btn" data-bs-dismiss="modal"
+                            data-html2canvas-ignore="true" aria-label="Tutup" title="Tutup">
+                            <i class="bx bx-x"></i>
+                        </button>
+                    </div>
+
+                    {{-- Foto Utama --}}
+                    <div class="rc-photo-wrap">
+                        @if ($resume['foto'])
+                            <img src="{{ Storage::url($resume['foto']) }}"
+                                data-rc-cover="true"
+                                alt="Foto Kasus {{ $pelanggaran->no_pelanggaran }}">
+                        @else
+                            <div class="rc-photo-placeholder">
+                                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.55;">
+                                    <path d="M3 21h18" />
+                                    <path d="M5 21V7l8-4v18" />
+                                    <path d="M19 21V11l-6-4" />
+                                    <path d="M9 9v.01" />
+                                    <path d="M9 12v.01" />
+                                    <path d="M9 15v.01" />
+                                    <path d="M9 18v.01" />
+                                </svg>
+                                <div class="fw-bold mt-2">{{ $pelanggaran->nama_pelanggar ?? 'Lokasi Kasus Pelanggaran' }}</div>
+                                <small class="text-muted mt-1">
+                                    {{ $pelanggaran->alamat_pelanggaran ?? '-' }}
+                                    @if ($pelanggaran->kel_pelanggaran)
+                                        , Kel. {{ $pelanggaran->kel_pelanggaran }}
+                                    @endif
+                                </small>
+                            </div>
+                        @endif
+                    </div>
+
+                    {{-- Tabel Ringkasan --}}
+                    <table class="rc-table">
+                        <tr>
+                            <th>Kasus</th>
+                            <td>{{ $resume['kasus'] }}</td>
+                        </tr>
+                        <tr>
+                            <th>Delik Pelanggaran</th>
+                            <td>
+                                <div class="d-flex align-items-center gap-3 rc-cell-flex">
+                                    @if ($resume['delik_level'])
+                                        <span class="rc-pill {{ $pillClass($resume['delik_level']) }}">
+                                            {{ $resume['delik_level'] }}
+                                        </span>
+                                    @endif
+                                    <div>
+                                        @if (!empty($resume['delik_sub']))
+                                            <div class="fw-semibold">{{ $resume['delik_sub'] }}</div>
+                                        @endif
+                                        @if (!empty($resume['delik_items']) && count($resume['delik_items']) > 1)
+                                            <ul class="mb-0 ps-3 mt-1 small">
+                                                @foreach ($resume['delik_items'] as $dItem)
+                                                    <li>{{ $dItem }}</li>
+                                                @endforeach
+                                            </ul>
+                                        @elseif (!empty($resume['delik_items']))
+                                            <div class="small text-muted">{{ $resume['delik_items'][0] }}</div>
+                                        @elseif (empty($resume['delik_sub']))
+                                            <span>{{ $resume['delik_text'] }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Dampak</th>
+                            <td>
+                                <div class="d-flex align-items-center gap-3 rc-cell-flex">
+                                    @if ($resume['dampak_level'])
+                                        <span class="rc-pill {{ $pillClass($resume['dampak_level']) }}">
+                                            {{ $resume['dampak_level'] }}
+                                        </span>
+                                    @endif
+                                    <div>
+                                        <div>{{ $resume['dampak_text'] }}</div>
+                                        @if (!empty($resume['skala_label']) || !empty($resume['riwayat_label']))
+                                            <div class="small text-muted mt-1">
+                                                @if (!empty($resume['skala_label']))
+                                                    <div><strong>Skala:</strong> {{ $resume['skala_label'] }}</div>
+                                                @endif
+                                                @if (!empty($resume['riwayat_label']))
+                                                    <div><strong>Riwayat:</strong> {{ $resume['riwayat_label'] }}</div>
+                                                @endif
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Hasil Tipologi</th>
+                            <td>
+                                <div class="d-flex flex-wrap align-items-center gap-2">
+                                    @if ($resume['tipologi'])
+                                        <span class="rc-pill rc-pill-wide {{ $pillClass($resume['tipologi']) }}">
+                                            {{ $resume['tipologi'] }}
+                                        </span>
+                                    @else
+                                        <span class="text-muted fst-italic">Belum ditetapkan</span>
+                                    @endif
+                                    @if ($resume['skor_total'] !== null)
+                                        <span class="badge bg-label-dark px-2 py-1" style="font-size: 0.82rem;">
+                                            Skor: {{ rtrim(rtrim(number_format((float) $resume['skor_total'], 2, '.', ''), '0'), '.') }}
+                                        </span>
+                                    @endif
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Arah Penanganan</th>
+                            <td>{{ $resume['arah'] }}</td>
+                        </tr>
+                    </table>
                 </div>
 
-                {{-- Foto Utama --}}
-                <div class="rc-photo-wrap">
-                    @if ($resume['foto'])
-                        <img src="{{ Storage::url($resume['foto']) }}" alt="Foto Kasus {{ $pelanggaran->no_pelanggaran }}">
-                    @else
-                        <div class="rc-photo-placeholder">
-                            <i class="bx bx-buildings" style="font-size: 3rem; opacity: 0.6;"></i>
-                            <div class="fw-bold mt-2">{{ $pelanggaran->nama_pelanggar ?? 'Lokasi Kasus Pelanggaran' }}</div>
-                            <small class="text-muted mt-1">
-                                {{ $pelanggaran->alamat_pelanggaran ?? '-' }}
-                                @if ($pelanggaran->kel_pelanggaran)
-                                    , Kel. {{ $pelanggaran->kel_pelanggaran }}
-                                @endif
-                            </small>
-                        </div>
-                    @endif
+                {{-- Catatan Bawah --}}
+                <div class="rc-note-box">
+                    <strong class="text-danger">Catatan:</strong> arah penanganan mengacu pada pedoman sanksi administratif; ketentuan final mengikuti hasil akhir kajian.
                 </div>
-
-                {{-- Tabel Ringkasan --}}
-                <table class="rc-table">
-                    <tr>
-                        <th>Kasus</th>
-                        <td>{{ $resume['kasus'] }}</td>
-                    </tr>
-                    <tr>
-                        <th>Delik Pelanggaran</th>
-                        <td>
-                            <div class="d-flex align-items-center gap-3">
-                                @if ($resume['delik_level'])
-                                    <span class="rc-pill {{ $pillClass($resume['delik_level']) }}">
-                                        {{ $resume['delik_level'] }}
-                                    </span>
-                                @endif
-                                <span>{{ $resume['delik_text'] }}</span>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Dampak</th>
-                        <td>
-                            <div class="d-flex align-items-center gap-3">
-                                @if ($resume['dampak_level'])
-                                    <span class="rc-pill {{ $pillClass($resume['dampak_level']) }}">
-                                        {{ $resume['dampak_level'] }}
-                                    </span>
-                                @endif
-                                <span>{{ $resume['dampak_text'] }}</span>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Hasil Tipologi</th>
-                        <td>
-                            @if ($resume['tipologi'])
-                                <span class="rc-pill rc-pill-wide {{ $pillClass($resume['tipologi']) }}">
-                                    {{ $resume['tipologi'] }}
-                                </span>
-                            @else
-                                <span class="text-muted fst-italic">Belum ditetapkan</span>
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Arah Penanganan</th>
-                        <td>{{ $resume['arah'] }}</td>
-                    </tr>
-                </table>
             </div>
 
-            {{-- Catatan Bawah --}}
-            <div class="rc-note-box">
-                <strong class="text-danger">Catatan:</strong> arah penanganan mengacu pada pedoman sanksi administratif; ketentuan final mengikuti hasil akhir kajian.
+            {{-- Toolbar Unduh Gambar (Tidak ikut terekam pada gambar hasil ekspor) --}}
+            <div class="rc-export-toolbar" data-html2canvas-ignore="true">
+                <button type="button" class="btn btn-primary shadow-sm fw-semibold rc-download-btn"
+                    data-filename="{{ $safeFilename }}">
+                    <i class="bx bx-download me-1"></i>
+                    <span class="rc-btn-label">Download PNG</span>
+                </button>
+                <button type="button" class="btn btn-secondary shadow-sm" data-bs-dismiss="modal">
+                    Tutup
+                </button>
             </div>
         </div>
     </div>
 </div>
+
+@pushOnce('scripts')
+    <script src="{{ asset('assets/vendor/libs/html2canvas/html2canvas.min.js') }}"></script>
+    <script>
+        (function () {
+            if (window.__resumeCardExportBound) {
+                return;
+            }
+            window.__resumeCardExportBound = true;
+
+            const HTML2CANVAS_SRC = @json(asset('assets/vendor/libs/html2canvas/html2canvas.min.js'));
+            let html2canvasLoadPromise = null;
+
+            function withTimeout(promise, ms, onTimeout) {
+                let timerId;
+                const timeoutPromise = new Promise((resolve, reject) => {
+                    timerId = setTimeout(() => {
+                        if (typeof onTimeout === 'function') {
+                            resolve(onTimeout());
+                        } else {
+                            reject(new Error(onTimeout || 'Proses ekspor gambar melewati batas waktu.'));
+                        }
+                    }, ms);
+                });
+
+                return Promise.race([
+                    Promise.resolve(promise).finally(() => clearTimeout(timerId)),
+                    timeoutPromise,
+                ]);
+            }
+
+            async function ensureHtml2Canvas() {
+                if (typeof window.html2canvas === 'function') {
+                    return window.html2canvas;
+                }
+
+                if (!html2canvasLoadPromise) {
+                    html2canvasLoadPromise = new Promise((resolve, reject) => {
+                        const script = document.createElement('script');
+                        script.src = HTML2CANVAS_SRC;
+                        script.onload = () => {
+                            if (typeof window.html2canvas === 'function') {
+                                resolve(window.html2canvas);
+                            } else {
+                                reject(new Error('Pustaka ekspor gambar tidak tersedia.'));
+                            }
+                        };
+                        script.onerror = () => reject(new Error('Gagal memuat pustaka ekspor gambar.'));
+                        document.head.appendChild(script);
+                    }).finally(() => {
+                        html2canvasLoadPromise = null;
+                    });
+                }
+
+                return withTimeout(html2canvasLoadPromise, 8000, 'Gagal memuat pustaka ekspor gambar.');
+            }
+
+            async function waitForImages(container) {
+                const imgs = Array.from(container.querySelectorAll('img'));
+                await Promise.all(imgs.map((img) => {
+                    // PENTING: img yang gagal dimuat (404/broken) tetap memiliki img.complete === true dengan naturalWidth === 0
+                    if (img.complete) {
+                        return Promise.resolve();
+                    }
+                    return withTimeout(new Promise((resolve) => {
+                        img.addEventListener('load', resolve, { once: true });
+                        img.addEventListener('error', resolve, { once: true });
+                    }), 2500, () => null);
+                }));
+            }
+
+            function renderCoverDataUrl(img, scale) {
+                const rect = img.getBoundingClientRect();
+                const rw = rect.width;
+                const rh = rect.height;
+                const nw = img.naturalWidth;
+                const nh = img.naturalHeight;
+
+                if (!rw || !rh || !nw || !nh) {
+                    return null;
+                }
+
+                const imgRatio = nw / nh;
+                const boxRatio = rw / rh;
+                let sx = 0, sy = 0, sw = nw, sh = nh;
+
+                if (imgRatio > boxRatio) {
+                    sw = nh * boxRatio;
+                    sx = (nw - sw) / 2;
+                } else {
+                    sh = nw / boxRatio;
+                    sy = (nh - sh) / 2;
+                }
+
+                const offscreen = document.createElement('canvas');
+                offscreen.width = Math.round(rw * scale);
+                offscreen.height = Math.round(rh * scale);
+                const ctx = offscreen.getContext('2d');
+                if (!ctx) {
+                    return null;
+                }
+                ctx.drawImage(img, sx, sy, sw, sh, 0, 0, offscreen.width, offscreen.height);
+
+                try {
+                    return offscreen.toDataURL('image/png');
+                } catch (e) {
+                    return null;
+                }
+            }
+
+            function appendBrokenPhotoFallback(doc, holder) {
+                if (holder.querySelector('[data-rc-broken-placeholder="1"]')) {
+                    return;
+                }
+                const box = doc.createElement('div');
+                box.setAttribute('data-rc-broken-placeholder', '1');
+                box.style.display = 'flex';
+                box.style.alignItems = 'center';
+                box.style.justifyContent = 'center';
+                box.style.width = '100%';
+                box.style.height = '100%';
+                box.style.background = '#f1f5f9';
+                box.style.color = '#94a3b8';
+
+                const icon = doc.createElement('i');
+                icon.className = 'bx bx-image-alt';
+                icon.style.fontSize = '24px';
+                box.appendChild(icon);
+                holder.appendChild(box);
+            }
+
+            function triggerPngDownload(blobOrDataUrl, filename) {
+                const link = document.createElement('a');
+                link.download = filename;
+                link.style.display = 'none';
+
+                if (blobOrDataUrl instanceof Blob) {
+                    const url = URL.createObjectURL(blobOrDataUrl);
+                    link.href = url;
+                    document.body.appendChild(link);
+                    link.click();
+                    setTimeout(() => {
+                        link.remove();
+                        URL.revokeObjectURL(url);
+                    }, 4000);
+                    return;
+                }
+
+                link.href = blobOrDataUrl;
+                document.body.appendChild(link);
+                link.click();
+                setTimeout(() => link.remove(), 1000);
+            }
+
+            document.addEventListener('click', async function (event) {
+                const btn = event.target.closest('.rc-download-btn');
+                if (!btn || btn.disabled) {
+                    return;
+                }
+
+                const captureArea = document.getElementById('ResumeCaptureArea');
+                if (!captureArea) {
+                    return;
+                }
+
+                const baseFilename = btn.dataset.filename || 'Resume_Pelanggaran';
+                const labelEl = btn.querySelector('.rc-btn-label');
+                const originalLabel = labelEl ? labelEl.textContent : 'Download PNG';
+                const allButtons = document.querySelectorAll('#ResumePelanggaranModal .rc-download-btn');
+                const taggedElements = [];
+
+                try {
+                    allButtons.forEach((b) => { b.disabled = true; });
+                    if (labelEl) {
+                        labelEl.textContent = 'Menyiapkan gambar...';
+                    }
+
+                    const h2c = await ensureHtml2Canvas();
+                    if (document.fonts && document.fonts.ready) {
+                        await withTimeout(document.fonts.ready, 800, () => null);
+                    }
+                    await waitForImages(captureArea);
+
+                    const scale = 2;
+                    const coverSnapshots = [];
+                    const allImgs = captureArea.querySelectorAll('img');
+                    allImgs.forEach((img) => {
+                        if (!img.complete || img.naturalWidth === 0) {
+                            img.setAttribute('data-rc-broken-img', '1');
+                            taggedElements.push([img, 'data-rc-broken-img']);
+                            if (img.parentElement) {
+                                img.parentElement.setAttribute('data-rc-has-broken-img', '1');
+                                taggedElements.push([img.parentElement, 'data-rc-has-broken-img']);
+                            }
+                        }
+                    });
+
+                    // Pra-potong gambar object-fit:cover agar tidak gepeng/tertarik saat dirender html2canvas
+                    const liveCoverImgs = captureArea.querySelectorAll('img[data-rc-cover="true"]');
+                    liveCoverImgs.forEach((img, idx) => {
+                        if (img.getAttribute('data-rc-broken-img') === '1') {
+                            return;
+                        }
+                        img.setAttribute('data-rc-cover-idx', String(idx));
+                        taggedElements.push([img, 'data-rc-cover-idx']);
+                        coverSnapshots[idx] = renderCoverDataUrl(img, scale);
+                    });
+
+                    const canvas = await withTimeout(h2c(captureArea, {
+                        scale: scale,
+                        useCORS: true,
+                        backgroundColor: null,
+                        imageTimeout: 2500,
+                        logging: false,
+                        scrollX: 0,
+                        scrollY: 0,
+                        ignoreElements: (el) => {
+                            if (el.hasAttribute && el.hasAttribute('data-html2canvas-ignore')) {
+                                return true;
+                            }
+                            const tag = el.tagName;
+                            if (tag === 'IFRAME' || tag === 'VIDEO') {
+                                return true;
+                            }
+                            if (tag === 'LINK' && el.rel === 'stylesheet' && el.href && el.href.indexOf('fonts.googleapis.com') !== -1) {
+                                return true;
+                            }
+                            if (tag === 'IMG') {
+                                if (!captureArea.contains(el) || el.getAttribute('data-rc-broken-img') === '1') {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        },
+                        onclone: (clonedDoc) => {
+                            const clonedModal = clonedDoc.getElementById('ResumePelanggaranModal');
+                            if (clonedModal) {
+                                clonedModal.style.overflow = 'visible';
+                                clonedModal.scrollTop = 0;
+                            }
+
+                            const clonedArea = clonedDoc.getElementById('ResumeCaptureArea');
+                            if (!clonedArea) return;
+
+                            // Hilangkan box-shadow berlebih agar tepi bersih & center header simetris tanpa tombol X
+                            const header = clonedArea.querySelector('.rc-header');
+                            if (header) {
+                                header.style.paddingLeft = '20px';
+                                header.style.paddingRight = '20px';
+                            }
+
+                            const brokenHolders = clonedArea.querySelectorAll('[data-rc-has-broken-img="1"]');
+                            brokenHolders.forEach((holder) => appendBrokenPhotoFallback(clonedDoc, holder));
+
+                            const clonedCovers = clonedArea.querySelectorAll('img[data-rc-cover-idx]');
+                            clonedCovers.forEach((cImg) => {
+                                const idx = Number(cImg.getAttribute('data-rc-cover-idx'));
+                                if (coverSnapshots[idx]) {
+                                    cImg.src = coverSnapshots[idx];
+                                    cImg.style.objectFit = 'fill';
+                                }
+                            });
+                        },
+                    }), 15000, 'Waktu render gambar resume habis.');
+
+                    if (!canvas || canvas.width === 0 || canvas.height === 0) {
+                        throw new Error('Kanvas resume kosong.');
+                    }
+
+                    const blob = await withTimeout(new Promise((resolve) => {
+                        if (typeof canvas.toBlob === 'function') {
+                            canvas.toBlob(resolve, 'image/png');
+                        } else {
+                            resolve(null);
+                        }
+                    }), 5000, () => null);
+
+                    if (blob) {
+                        triggerPngDownload(blob, `${baseFilename}.png`);
+                    } else {
+                        const dataUrl = canvas.toDataURL('image/png');
+                        if (!dataUrl || dataUrl === 'data:,') {
+                            throw new Error('Gagal menghasilkan berkas PNG.');
+                        }
+                        triggerPngDownload(dataUrl, `${baseFilename}.png`);
+                    }
+                } catch (err) {
+                    console.error('Gagal mengunduh gambar resume:', err);
+                    alert('Maaf, gagal mengunduh gambar resume. Silakan coba kembali.');
+                } finally {
+                    taggedElements.forEach(([el, attr]) => el.removeAttribute(attr));
+                    allButtons.forEach((b) => { b.disabled = false; });
+                    if (labelEl) {
+                        labelEl.textContent = originalLabel;
+                    }
+                }
+            });
+        })();
+    </script>
+@endPushOnce

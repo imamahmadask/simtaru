@@ -365,10 +365,10 @@
                                         },
                                         xaxis: {
                                             categories: [
-                                                'Tidak Memiliki KKPR/SKRK',
-                                                'Tidak Memenuhi Ketentuan Dalam KKPR/SKRK',
+                                                'Tidak Menaati Rencana Tata Ruang',
+                                                'Tidak Mematuhi Ketentuan Pemanfaatan Ruang',
                                                 'Menghalangi Akses Kawasan Milik Umum',
-                                                'Tidak Memiliki PBG'
+                                                'Tidak Memiliki PBG (Data Lama)'
                                             ],
                                             labels: {
                                                 formatter: function (val) {

@@ -185,7 +185,7 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
         $this->assertEquals('sempadan', $pelanggaran->jenis_pelanggaran);
         $this->assertEquals('Pelanggaran Sempadan (GSB, GSS, Sempadan Sungai, dll)', $pelanggaran->jenis_pelanggaran_full_text);
         $this->assertEquals('Ada', $pelanggaran->dampak_keluhan_masyarakat);
-        $this->assertEquals('Besar (> 500 m)', $pelanggaran->dampak_radius_wilayah);
+        $this->assertEquals('Besar (> 500 meter)', $pelanggaran->dampak_radius_wilayah);
         $this->assertEquals($user->id, $pelanggaran->expert_user_id);
         $this->assertEquals('Dr. Analis Tata Ruang', $pelanggaran->expert_user_name);
         $this->assertEquals('Bangunan melanggar sempadan sungai sejauh 15 meter dan berpotensi banjir.', $pelanggaran->expert_justifikasi);
@@ -442,7 +442,9 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
             ->set('kategori_pelanggaran', 'tidak_sesuai_kkpr')
             ->set('jenis_pelanggaran', 'klb')
             ->set('dampak_keluhan_masyarakat', 'Ada')
-            ->set('dampak_radius_wilayah', 'Besar (> 500 m)')
+            ->set('dampak_radius_wilayah', 'Besar (> 500 meter)')
+            ->set('skala_pelanggaran', 'skala_5')
+            ->set('riwayat_pelanggaran', 'riwayat_5')
             ->assertSet('klasifikasi_pelanggaran', 'Pelanggaran Tinggi')
             ->set('expert_justifikasi', 'Bangunan melebihi batas koefisien lantai bangunan sebesar 2 lantai.')
             ->set('expert_kesimpulan', 'Disarankan pengenaan sanksi administratif penghentian sementara dan penyesuaian izin.')
@@ -455,12 +457,13 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
         $pelanggaran->refresh();
         $this->assertEquals('Ada Pelanggaran', $pelanggaran->temuan_pelanggaran);
         $this->assertEquals('tidak_mematuhi_kkpr', $pelanggaran->jenis_indikasi_pelanggaran);
-        $this->assertEquals('2. Tidak Mematuhi Ketentuan Pemanfaatan Ruang (Pelanggaran KKPR)', $pelanggaran->indikasi_label);
+        $this->assertEquals('Tidak Mematuhi Ketentuan Pemanfaatan Ruang (Pelanggaran KKPR)', $pelanggaran->indikasi_label);
         $this->assertEquals('tidak_sesuai_kkpr', $pelanggaran->kategori_pelanggaran);
         $this->assertEquals('Pemanfaatan Ruang Tidak Memenuhi Ketentuan KKPR', $pelanggaran->kategori_label);
         $this->assertEquals('klb', $pelanggaran->jenis_pelanggaran);
         $this->assertEquals('Pelanggaran Ketentuan Koefisien Lantai Bangunan (KLB)', $pelanggaran->jenis_pelanggaran_label);
         $this->assertEquals('Pelanggaran Tinggi', $pelanggaran->klasifikasi_pelanggaran);
+        $this->assertEquals(69, $pelanggaran->skor_total);
         $this->assertEquals($user->id, $pelanggaran->expert_user_id);
         $this->assertEquals('Analis Ahli Tata Ruang', $pelanggaran->expert_user_name);
         $this->assertNotNull($pelanggaran->file_sp1);
@@ -484,5 +487,321 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
             ->assertSee('Delik Pelanggaran')
             ->assertSee('Hasil Tipologi')
             ->assertSee('Arah Penanganan');
+    }
+
+    public function test_skoring_penilaian_mengikuti_rumus_dan_sheet_kasus_excel(): void
+    {
+        // Contoh 1 Sheet Kasus (Sopian - Single A): Nilai Total = 55 -> Pelanggaran Sedang
+        $kasus1 = Pelanggaran::hitungSkorPenilaian(
+            ['lokasi_tidak_sesuai'],
+            'Tidak Ada',
+            'skala_2',
+            'riwayat_1'
+        );
+        $this->assertTrue($kasus1['is_complete']);
+        $this->assertEquals(5, $kasus1['nilai_a']);
+        $this->assertEquals(2.00, $kasus1['hasil_a']);
+        $this->assertEquals(1, $kasus1['nilai_b']);
+        $this->assertEquals(0.35, $kasus1['hasil_b']);
+        $this->assertEquals(2, $kasus1['nilai_c']);
+        $this->assertEquals(0.30, $kasus1['hasil_c']);
+        $this->assertEquals(1, $kasus1['nilai_d']);
+        $this->assertEquals(0.10, $kasus1['hasil_d']);
+        $this->assertEquals(2.75, $kasus1['jumlah_abcd']);
+        $this->assertEquals(55, $kasus1['skor_total']);
+        $this->assertEquals('Pelanggaran Sedang', $kasus1['rekomendasi_kategori']);
+
+        // Contoh 2 Sheet Kasus (Sopian - Multi-Select A): Nilai Total = 73 -> Pelanggaran Tinggi
+        $kasus2 = Pelanggaran::hitungSkorPenilaian(
+            ['sempadan', 'perubahan_fungsi_bangunan'],
+            'Kecil (< 250 meter)',
+            'skala_3',
+            'riwayat_1'
+        );
+        $this->assertTrue($kasus2['is_complete']);
+        $this->assertCount(2, $kasus2['items_a']);
+        $this->assertEquals(6, $kasus2['nilai_a']);
+        $this->assertEquals(2.40, $kasus2['hasil_a']);
+        $this->assertEquals(2, $kasus2['nilai_b']);
+        $this->assertEquals(0.70, $kasus2['hasil_b']);
+        $this->assertEquals(3, $kasus2['nilai_c']);
+        $this->assertEquals(0.45, $kasus2['hasil_c']);
+        $this->assertEquals(1, $kasus2['nilai_d']);
+        $this->assertEquals(0.10, $kasus2['hasil_d']);
+        $this->assertEquals(3.65, $kasus2['jumlah_abcd']);
+        $this->assertEquals(73, $kasus2['skor_total']);
+        $this->assertEquals('Pelanggaran Tinggi', $kasus2['rekomendasi_kategori']);
+
+        // Skoring minimal (< 40): Skor = 20 -> Pelanggaran Rendah
+        $kasusRendah = Pelanggaran::hitungSkorPenilaian(
+            ['tidak_lanjut_pbg'],
+            'Tidak Ada',
+            'skala_1',
+            'riwayat_1'
+        );
+        $this->assertEquals(1.00, $kasusRendah['jumlah_abcd']);
+        $this->assertEquals(20, $kasusRendah['skor_total']);
+        $this->assertEquals('Pelanggaran Rendah', $kasusRendah['rekomendasi_kategori']);
+    }
+
+    public function test_multi_select_komponen_a_pada_pelanggaran_analis_form_menghitung_dan_menyimpan_skor(): void
+    {
+        Storage::fake('public');
+
+        $user = User::factory()->create([
+            'role' => 'admin-pelanggaran',
+            'name' => 'Tim Penilai Tata Ruang',
+            'password_changed_at' => now(),
+        ]);
+        $this->actingAs($user);
+
+        $pelanggaran = Pelanggaran::create([
+            'no_pelanggaran' => '100/Wasdal-Taru/XI/2026',
+            'tgl_laporan' => '2026-11-16',
+            'sumber_informasi_pelanggaran' => 'Hasil Pengawasan dan Monitoring',
+            'nama_pelanggar' => 'Sopian',
+            'alamat_pelanggaran' => 'Jl. Majapahit No. 10',
+            'kel_pelanggaran' => 'Pagesangan',
+            'kec_pelanggaran' => 'Mataram',
+            'koordinat_pelanggaran' => '-8.590, 116.105',
+            'status' => 'On Progress',
+        ]);
+
+        Livewire::test(PelanggaranAnalisForm::class, ['id' => $pelanggaran->id])
+            ->set('temuan_pelanggaran', 'Ada Pelanggaran')
+            ->set('jenis_indikasi_pelanggaran', 'tidak_mematuhi_kkpr')
+            ->set('kategori_pelanggaran', 'tidak_sesuai_kkpr')
+            ->set('jenis_pelanggaran', ['sempadan', 'perubahan_fungsi_bangunan'])
+            ->set('dampak_radius_wilayah', 'Kecil (< 250 meter)')
+            ->set('skala_pelanggaran', 'skala_3')
+            ->set('riwayat_pelanggaran', 'riwayat_1')
+            ->assertSet('klasifikasi_pelanggaran', 'Pelanggaran Tinggi')
+            ->assertSee('73.00')
+            ->call('storeAnalisa')
+            ->assertHasNoErrors()
+            ->assertRedirect(route('pelanggaran.detail', $pelanggaran->id));
+
+        $pelanggaran->refresh();
+        $this->assertEquals(['sempadan', 'perubahan_fungsi_bangunan'], $pelanggaran->jenis_pelanggaran_list);
+        $this->assertEquals(6, $pelanggaran->nilai_a);
+        $this->assertEquals(2, $pelanggaran->nilai_b);
+        $this->assertEquals(3, $pelanggaran->nilai_c);
+        $this->assertEquals(1, $pelanggaran->nilai_d);
+        $this->assertEquals(73, $pelanggaran->skor_total);
+        $this->assertEquals('Pelanggaran Tinggi', $pelanggaran->klasifikasi_pelanggaran);
+        $this->assertStringContainsString('Pelanggaran GSB & GSS', $pelanggaran->jenis_pelanggaran_label);
+        $this->assertStringContainsString('Perubahan Fungsi Bangunan', $pelanggaran->jenis_pelanggaran_label);
+
+        // Pastikan Resume, Detail & Tab Analisis terender bersih tanpa kode mentah
+        $detailResponse = $this->get(route('pelanggaran.detail', $pelanggaran->id));
+        $detailResponse->assertStatus(200)
+            ->assertSee('ResumeCaptureArea')
+            ->assertSee('Download PNG')
+            ->assertDontSee('Download JPG')
+            ->assertSee('Resume_Pelanggaran_100-Wasdal-Taru-XI-2026')
+            ->assertSee('html2canvas.min.js');
+
+        Livewire::test(PelanggaranDetail::class, ['id' => $pelanggaran->id])
+            ->assertSee('Tidak Mematuhi Ketentuan Pemanfaatan Ruang (Pelanggaran KKPR)')
+            ->assertDontSee('2. Tidak Mematuhi Ketentuan Pemanfaatan Ruang (Pelanggaran KKPR)')
+            ->assertSee('Perubahan Fungsi Bangunan')
+            ->assertSee('73');
+
+        Livewire::test(PelanggaranAnalisDetail::class, ['id' => $pelanggaran->id])
+            ->assertSee('Tidak Mematuhi Ketentuan Pemanfaatan Ruang (Pelanggaran KKPR)')
+            ->assertDontSee('2. Tidak Mematuhi Ketentuan Pemanfaatan Ruang (Pelanggaran KKPR)')
+            ->assertSee('Pelanggaran GSB & GSS (Sempadan Sungai, dll)')
+            ->assertSee('Perubahan Fungsi Bangunan')
+            ->assertSee('25 - 50% Luasan Maksimal yg Diperbolehkan (Luasan Bangunan 200 - 500 m²)')
+            ->assertSee('Tidak Ditemukan faktor pemberat')
+            ->assertDontSee('tidak_mematuhi_kkpr')
+            ->assertDontSee('tidak_sesuai_kkpr')
+            ->assertDontSee('skala_3')
+            ->assertDontSee('riwayat_1');
+
+        Livewire::test(PelanggaranAnalisForm::class, ['id' => $pelanggaran->id])
+            ->assertSee('Tidak Menaati Rencana Tata Ruang (Perubahan Fungsi Ruang)')
+            ->assertSee('Tidak Mematuhi Ketentuan Pemanfaatan Ruang (Pelanggaran KKPR)')
+            ->assertSee('Menghalangi Akses Kawasan Milik Umum')
+            ->assertDontSee('1. Tidak Menaati')
+            ->assertDontSee('2. Tidak Mematuhi')
+            ->assertDontSee('3. Menghalangi Akses');
+
+        // Pastikan PelanggaranIndex menampilkan label terbaca tanpa nomor dan bukan slug mentah
+        Livewire::test(PelanggaranIndex::class)
+            ->assertSee('Tidak Mematuhi Ketentuan Pemanfaatan Ruang (Pelanggaran KKPR)')
+            ->assertDontSee('2. Tidak Mematuhi Ketentuan Pemanfaatan Ruang (Pelanggaran KKPR)')
+            ->assertDontSee('tidak_mematuhi_kkpr');
+
+        // Pastikan PetaPelanggaran dan DashboardPelanggaran membaca indikasi baru dengan label terbaca tanpa nomor
+        $peta = Livewire::test(PetaPelanggaran::class);
+        $locations = $peta->get('locations');
+        $this->assertEquals(
+            'Tidak Mematuhi Ketentuan Pemanfaatan Ruang (Pelanggaran KKPR)',
+            collect($locations)->firstWhere('id', $pelanggaran->id)['jenis_indikasi_pelanggaran'] ?? null
+        );
+
+        Livewire::test(\App\Livewire\Admin\Pelanggaran\DashboardPelanggaran::class)
+            ->assertSet('rekap.count_indikasi_tidak_memenuhi_ketentuan', 1);
+
+        // Pastikan data lama yang masih menyimpan prefiks angka (mis. "3. Menghalangi...") ikut bersih saat tampil
+        $pelanggaran->update(['jenis_indikasi_pelanggaran' => '3. Menghalangi Akses Kawasan Milik Umum']);
+        $pelanggaran->refresh();
+        $this->assertEquals('Menghalangi Akses Kawasan Milik Umum', $pelanggaran->indikasi_label);
+        Livewire::test(PelanggaranIndex::class)
+            ->assertSee('Menghalangi Akses Kawasan Milik Umum')
+            ->assertDontSee('3. Menghalangi Akses Kawasan Milik Umum');
+    }
+
+    public function test_livewire_incremental_checkbox_updates_preserve_multi_select_komponen_a(): void
+    {
+        $user = User::factory()->create(['role' => 'analis']);
+        $this->actingAs($user);
+
+        $pelanggaran = Pelanggaran::create([
+            'no_pelanggaran' => '101/Wasdal-Taru/XI/2026',
+            'tgl_laporan' => '2026-11-17',
+            'sumber_informasi_pelanggaran' => 'Hasil Pengawasan dan Monitoring',
+            'nama_pelanggar' => 'Budi Santoso',
+            'alamat_pelanggaran' => 'Jl. Pejanggik',
+            'kel_pelanggaran' => 'Cakranegara',
+            'kec_pelanggaran' => 'Cakranegara',
+            'koordinat_pelanggaran' => '-8.589, 116.120',
+            'status' => 'On Progress',
+        ]);
+
+        // Simulasikan payload Livewire 3 sebenarnya saat checkbox dicentang satu per satu & di-uncheck (__rm__)
+        Livewire::test(PelanggaranAnalisForm::class, ['id' => $pelanggaran->id])
+            ->set('temuan_pelanggaran', 'Ada Pelanggaran')
+            ->set('jenis_indikasi_pelanggaran', 'tidak_mematuhi_kkpr')
+            ->set('kategori_pelanggaran', 'tidak_sesuai_kkpr')
+            ->set('jenis_pelanggaran.0', 'sempadan')
+            ->assertSet('jenis_pelanggaran', ['sempadan'])
+            ->assertSee('1 dipilih')
+            ->set('jenis_pelanggaran.1', 'perubahan_fungsi_bangunan')
+            ->assertSet('jenis_pelanggaran', ['sempadan', 'perubahan_fungsi_bangunan'])
+            ->assertSee('2 dipilih')
+            ->set('jenis_pelanggaran.2', 'klb')
+            ->assertSet('jenis_pelanggaran', ['sempadan', 'perubahan_fungsi_bangunan', 'klb'])
+            ->assertSee('3 dipilih')
+            ->set('jenis_pelanggaran.1', 'klb')
+            ->set('jenis_pelanggaran.2', '__rm__')
+            ->assertSet('jenis_pelanggaran', ['sempadan', 'klb'])
+            ->assertSee('2 dipilih')
+            ->set('dampak_radius_wilayah', 'Kecil (< 250 meter)')
+            ->set('skala_pelanggaran', 'skala_2')
+            ->set('riwayat_pelanggaran', 'riwayat_1')
+            ->call('storeAnalisa')
+            ->assertHasNoErrors();
+
+        $pelanggaran->refresh();
+        $this->assertEquals(['sempadan', 'klb'], $pelanggaran->jenis_pelanggaran_list);
+        $this->assertEquals(4, $pelanggaran->nilai_a);
+    }
+
+    public function test_wizard_step_by_step_dengan_komponen_c_dan_d_terpisah_berjalan_sesuai_validasi(): void
+    {
+        $user = User::factory()->create(['role' => 'analis']);
+        $this->actingAs($user);
+
+        $pelanggaran = Pelanggaran::create([
+            'no_pelanggaran' => '102/Wasdal-Taru/XI/2026',
+            'tgl_laporan' => '2026-11-17',
+            'sumber_informasi_pelanggaran' => 'Hasil Pengawasan dan Monitoring',
+            'nama_pelanggar' => 'CV Maju Bersama',
+            'alamat_pelanggaran' => 'Jl. Sriwijaya',
+            'kel_pelanggaran' => 'Mataram Timur',
+            'kec_pelanggaran' => 'Mataram',
+            'koordinat_pelanggaran' => '-8.591, 116.115',
+            'status' => 'On Progress',
+        ]);
+
+        // 1. Alur 7 Langkah untuk "Ada Pelanggaran" (Komponen C = Step 4, Komponen D = Step 5 terpisah)
+        $wizard = Livewire::test(PelanggaranAnalisForm::class, ['id' => $pelanggaran->id])
+            ->assertSet('currentStep', 1)
+            ->call('nextStep')
+            ->assertHasErrors(['temuan_pelanggaran'])
+            ->assertSet('currentStep', 1)
+            // Pilih Ada Pelanggaran -> lanjut ke Step 2 (Komponen A)
+            ->set('temuan_pelanggaran', 'Ada Pelanggaran')
+            ->assertSet('total_steps', 7)
+            ->call('nextStep')
+            ->assertHasNoErrors()
+            ->assertSet('currentStep', 2)
+            // Validasi Step 2 (Komponen A)
+            ->call('nextStep')
+            ->assertHasErrors(['jenis_indikasi_pelanggaran', 'kategori_pelanggaran', 'jenis_pelanggaran'])
+            ->assertSet('currentStep', 2)
+            ->set('jenis_indikasi_pelanggaran', 'tidak_menaati_rtr')
+            ->set('kategori_pelanggaran', 'tanpa_kkpr')
+            ->call('selectAllJenisPelanggaran')
+            ->assertSet('jenis_pelanggaran', ['lokasi_sesuai', 'lokasi_tidak_sesuai'])
+            ->call('clearJenisPelanggaran')
+            ->assertSet('jenis_pelanggaran', [])
+            ->set('jenis_pelanggaran.0', 'lokasi_tidak_sesuai')
+            ->call('nextStep')
+            ->assertHasNoErrors()
+            ->assertSet('currentStep', 3)
+            // Validasi Step 3 (Komponen B)
+            ->call('nextStep')
+            ->assertHasErrors(['dampak_radius_wilayah'])
+            ->assertSet('currentStep', 3)
+            ->set('dampak_radius_wilayah', 'Tidak Ada')
+            ->call('nextStep')
+            ->assertHasNoErrors()
+            ->assertSet('currentStep', 4)
+            // Validasi Step 4 (Komponen C - Skala terpisah sendiri)
+            ->call('nextStep')
+            ->assertHasErrors(['skala_pelanggaran'])
+            ->assertSet('currentStep', 4)
+            ->set('skala_pelanggaran', 'skala_2')
+            ->call('nextStep')
+            ->assertHasNoErrors()
+            ->assertSet('currentStep', 5)
+            // Validasi Step 5 (Komponen D - Riwayat terpisah sendiri)
+            ->call('nextStep')
+            ->assertHasErrors(['riwayat_pelanggaran'])
+            ->assertSet('currentStep', 5)
+            ->set('riwayat_pelanggaran', 'riwayat_1')
+            ->assertSee('55.00')
+            ->call('nextStep')
+            ->assertHasNoErrors()
+            ->assertSet('currentStep', 6)
+            // Step 6: Ringkasan Skor & Expert Judgement -> lanjut ke Step 7
+            ->set('expert_justifikasi', 'Lokasi tidak sesuai rencana peruntukan ruang.')
+            ->call('nextStep')
+            ->assertHasNoErrors()
+            ->assertSet('currentStep', 7)
+            ->assertSee('Pelanggaran Sedang')
+            // Uji prevStep & goToStep
+            ->call('prevStep')
+            ->assertSet('currentStep', 6)
+            ->call('goToStep', 2)
+            ->assertSet('currentStep', 2)
+            ->call('goToStep', 7)
+            ->assertSet('currentStep', 7)
+            ->call('storeAnalisa')
+            ->assertHasNoErrors();
+
+        $pelanggaran->refresh();
+        $this->assertEquals(55, $pelanggaran->skor_total);
+        $this->assertEquals('Pelanggaran Sedang', $pelanggaran->klasifikasi_pelanggaran);
+
+        // 2. Jika storeAnalisa() gagal validasi di langkah awal, currentStep otomatis melompat ke langkah tersebut
+        Livewire::test(PelanggaranAnalisForm::class, ['id' => $pelanggaran->id])
+            ->set('currentStep', 7)
+            ->set('skala_pelanggaran', null)
+            ->call('storeAnalisa')
+            ->assertHasErrors(['skala_pelanggaran'])
+            ->assertSet('currentStep', 4);
+
+        // 3. Alur 2 Langkah untuk "Tidak Ada Pelanggaran"
+        Livewire::test(PelanggaranAnalisForm::class, ['id' => $pelanggaran->id])
+            ->set('temuan_pelanggaran', 'Tidak Ada Pelanggaran')
+            ->assertSet('total_steps', 2)
+            ->call('nextStep')
+            ->assertHasNoErrors()
+            ->assertSet('currentStep', 2)
+            ->assertSee('Berkas Perizinan');
     }
 }

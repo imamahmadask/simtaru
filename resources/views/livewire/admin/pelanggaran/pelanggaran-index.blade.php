@@ -306,8 +306,8 @@
                                         Kel. {{ $data->kel_pelanggaran }} - Kec. {{ $data->kec_pelanggaran }}
                                     </small>
                                 </td>
-                                <td class="text-wrap" style="max-width: 220px;">
-                                    {{ $data->jenis_indikasi_pelanggaran }}
+                                <td class="text-wrap" style="max-width: 240px;">
+                                    {{ $data->jenis_indikasi_pelanggaran ? $data->indikasi_label : '-' }}
                                 </td>
                                 <td class="text-nowrap">
                                     @if ($data->temuan_pelanggaran == 'Ada Pelanggaran')

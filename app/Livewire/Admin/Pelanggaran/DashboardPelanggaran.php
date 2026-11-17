@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Pelanggaran;
 
 use App\Models\Pelanggaran;
 use App\Services\PelanggaranExportService;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -42,15 +43,19 @@ class DashboardPelanggaran extends Component
                 COALESCE(SUM(CASE WHEN sumber_informasi_pelanggaran = 'Hasil Penilaian KKPR atau SKRK' THEN 1 ELSE 0 END), 0) as count_sumber_penilaian,
                 COALESCE(SUM(CASE WHEN temuan_pelanggaran = 'Ada Pelanggaran' THEN 1 ELSE 0 END), 0) as count_temuan_ada,
                 COALESCE(SUM(CASE WHEN temuan_pelanggaran = 'Tidak Ada Pelanggaran' THEN 1 ELSE 0 END), 0) as count_temuan_tidak_ada,
-                COALESCE(SUM(CASE WHEN jenis_indikasi_pelanggaran = 'Tidak Memiliki KKPR atau SKRK' THEN 1 ELSE 0 END), 0) as count_indikasi_tidak_memiliki_kkpr,
-                COALESCE(SUM(CASE WHEN jenis_indikasi_pelanggaran = 'Tidak Memenuhi Ketentuan Dalam KKPR/SKRK' THEN 1 ELSE 0 END), 0) as count_indikasi_tidak_memenuhi_ketentuan,
-                COALESCE(SUM(CASE WHEN jenis_indikasi_pelanggaran = 'Menghalangi Akses Terhadap Kawasan Yang Ditetapkan Sebagai Milik Umum' THEN 1 ELSE 0 END), 0) as count_indikasi_menghalangi_akses,
+                COALESCE(SUM(CASE WHEN jenis_indikasi_pelanggaran IN ('tidak_menaati_rtr', 'Tidak Menaati Rencana Tata Ruang yang Telah Ditetapkan yang Mengakibatkan Perubahan Fungsi Ruang', 'Tidak Memiliki KKPR atau SKRK') THEN 1 ELSE 0 END), 0) as count_indikasi_tidak_memiliki_kkpr,
+                COALESCE(SUM(CASE WHEN jenis_indikasi_pelanggaran IN ('tidak_mematuhi_kkpr', 'Tidak Mematuhi Ketentuan Pemanfaatan Ruang dalam Rencana Tata Ruang', 'Tidak Memenuhi Ketentuan Dalam KKPR/SKRK') THEN 1 ELSE 0 END), 0) as count_indikasi_tidak_memenuhi_ketentuan,
+                COALESCE(SUM(CASE WHEN jenis_indikasi_pelanggaran IN ('menghalangi_akses_umum', 'Menghalangi akses terhadap kawasan yang oleh ketentuan peraturan perundang-undangan dinyatakan sebagai milik umum', 'Menghalangi Akses Terhadap Kawasan Yang Ditetapkan Sebagai Milik Umum') THEN 1 ELSE 0 END), 0) as count_indikasi_menghalangi_akses,
                 COALESCE(SUM(CASE WHEN jenis_indikasi_pelanggaran = 'Tidak Memiliki Persetujuan Bangunan Gedung (PBG)' THEN 1 ELSE 0 END), 0) as count_indikasi_tidak_memiliki_pbg
             ")
             ->first();
 
+        $monthExpr = DB::connection()->getDriverName() === 'sqlite'
+            ? "CAST(strftime('%m', tgl_laporan) AS INTEGER) as month"
+            : 'MONTH(tgl_laporan) as month';
+
         $monthly_raw = Pelanggaran::whereYear('tgl_laporan', $this->year)
-            ->selectRaw('MONTH(tgl_laporan) as month, COUNT(*) as total')
+            ->selectRaw("{$monthExpr}, COUNT(*) as total")
             ->groupBy('month')
             ->pluck('total', 'month');
 

@@ -123,7 +123,7 @@ class PelanggaranExportService
             $sheet->setCellValue("F{$row}", $p->alamat_pelanggaran ?? '-');
             $sheet->setCellValue("G{$row}", $p->kel_pelanggaran ?? '-');
             $sheet->setCellValue("H{$row}", $p->kec_pelanggaran ?? '-');
-            $sheet->setCellValue("I{$row}", $p->jenis_indikasi_pelanggaran ?? '-');
+            $sheet->setCellValue("I{$row}", $p->jenis_indikasi_pelanggaran ? $p->indikasi_full_text : '-');
             $sheet->setCellValue("J{$row}", $p->temuan_pelanggaran ?: '-');
             $sheet->setCellValue("K{$row}", $p->tindak_lanjut ?: '-');
             $sheet->setCellValue("L{$row}", $p->status ?: '-');
