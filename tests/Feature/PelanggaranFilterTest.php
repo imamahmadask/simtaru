@@ -172,6 +172,19 @@ class PelanggaranFilterTest extends TestCase
         $this->createPelanggaran([
             'nama_pelanggar' => 'Pelanggaran Tingkat Tinggi',
             'klasifikasi_pelanggaran' => 'Pelanggaran Tinggi',
+            'skor_total' => 73,
+        ]);
+
+        $this->createPelanggaran([
+            'nama_pelanggar' => 'Pelanggaran Tingkat Sedang',
+            'klasifikasi_pelanggaran' => 'Pelanggaran Sedang',
+            'skor_total' => 55,
+        ]);
+
+        $this->createPelanggaran([
+            'nama_pelanggar' => 'Pelanggaran Tingkat Rendah',
+            'klasifikasi_pelanggaran' => 'Pelanggaran Rendah',
+            'skor_total' => 25,
         ]);
 
         $this->createPelanggaran([
@@ -180,8 +193,13 @@ class PelanggaranFilterTest extends TestCase
         ]);
 
         Livewire::test(PelanggaranIndex::class)
+            ->assertSee('Klasifikasi Pelanggaran')
+            ->assertSee('Skor: 73')
+            ->assertSee('Skor: 55')
+            ->assertSee('Skor: 25')
             ->set('filterKlasifikasi', 'Pelanggaran Tinggi')
             ->assertSee('Pelanggaran Tingkat Tinggi')
+            ->assertDontSee('Pelanggaran Tingkat Sedang')
             ->assertDontSee('Pelanggaran Belum Dianalisis')
             ->set('filterKlasifikasi', 'belum_dianalisis')
             ->assertSee('Pelanggaran Belum Dianalisis')
@@ -297,12 +315,14 @@ class PelanggaranFilterTest extends TestCase
             'no_pelanggaran' => '010/Wasdal-Taru/2026',
             'nama_pelanggar' => 'Kasus Ekspor Mataram',
             'kec_pelanggaran' => 'Mataram',
+            'klasifikasi_pelanggaran' => 'Pelanggaran Sedang',
         ]);
 
         $this->createPelanggaran([
             'no_pelanggaran' => '011/Wasdal-Taru/2026',
             'nama_pelanggar' => 'Kasus Ekspor Ampenan',
             'kec_pelanggaran' => 'Ampenan',
+            'klasifikasi_pelanggaran' => 'Pelanggaran Tinggi',
         ]);
 
         Livewire::test(PelanggaranIndex::class)
@@ -316,7 +336,9 @@ class PelanggaranFilterTest extends TestCase
         ]);
         $sheet = $spreadsheet->getActiveSheet();
 
+        $this->assertEquals('Klasifikasi Pelanggaran', $sheet->getCell('K4')->getValue());
         $this->assertEquals('010/Wasdal-Taru/2026', $sheet->getCell('B5')->getValue());
+        $this->assertEquals('Pelanggaran Sedang', $sheet->getCell('K5')->getValue());
         $this->assertNull($sheet->getCell('B6')->getValue());
     }
 }

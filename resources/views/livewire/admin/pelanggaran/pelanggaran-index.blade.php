@@ -279,6 +279,7 @@
                             <th class="text-wrap" style="min-width: 220px;">Alamat Lokasi</th>
                             <th class="text-wrap" style="min-width: 200px;">Jenis Indikasi Pelanggaran</th>
                             <th class="text-nowrap">Temuan Pelanggaran</th>
+                            <th class="text-nowrap">Klasifikasi Pelanggaran</th>
                             <th class="text-nowrap">Tindak Lanjut</th>
                             <th class="text-nowrap">Status</th>
                             <th class="text-center col-actions" style="min-width: 160px;">Actions</th>
@@ -329,6 +330,22 @@
                                     @endif
                                 </td>
                                 <td class="text-nowrap">
+                                    @if (in_array($data->klasifikasi_pelanggaran, ['Pelanggaran Tinggi', 'Pelanggaran Berat'], true))
+                                        <span class="badge bg-label-danger">{{ $data->klasifikasi_pelanggaran }}</span>
+                                    @elseif ($data->klasifikasi_pelanggaran == 'Pelanggaran Sedang')
+                                        <span class="badge bg-label-warning">{{ $data->klasifikasi_pelanggaran }}</span>
+                                    @elseif ($data->klasifikasi_pelanggaran == 'Pelanggaran Rendah')
+                                        <span class="badge bg-label-success">{{ $data->klasifikasi_pelanggaran }}</span>
+                                    @elseif ($data->temuan_pelanggaran == 'Tidak Ada Pelanggaran')
+                                        <span class="badge bg-label-secondary">Tidak Ada</span>
+                                    @else
+                                        <span class="text-muted">-</span>
+                                    @endif
+                                    @if ($data->skor_total !== null)
+                                        <br><small class="text-muted">Skor: {{ rtrim(rtrim(number_format((float) $data->skor_total, 2, '.', ''), '0'), '.') }}</small>
+                                    @endif
+                                </td>
+                                <td class="text-nowrap">
                                     {{ $data->tindak_lanjut ?: '-' }}
                                 </td>
                                 <td class="text-nowrap">
@@ -372,7 +389,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="10" class="text-center py-4 text-muted">
+                                <td colspan="11" class="text-center py-4 text-muted">
                                     <i class="bx bx-folder-open fs-1 d-block mb-2 text-secondary"></i>
                                     <span>Tidak ada data kasus pelanggaran ditemukan{{ $this->activeFilterCount > 0 ? ' yang sesuai dengan filter yang dipilih.' : '.' }}</span>
                                     @if ($this->activeFilterCount > 0)

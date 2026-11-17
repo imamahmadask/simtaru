@@ -238,27 +238,27 @@ class Pelanggaran extends Model
 
     public const SKALA_MAP = [
         'skala_1' => [
-            'label' => '< 10% Luasan Maksimal yg Diperbolehkan (Luasan Bangunan < 50 m²)',
+            'label' => '< 10% Luasan Maksimal yg Diperbolehkan / Luasan Bangunan < 50 m²',
             'short' => '< 10% Luasan Maks / < 50 m²',
             'nilai' => 1,
         ],
         'skala_2' => [
-            'label' => '10 - 25% Luasan Maksimal yg Diperbolehkan (Luasan Bangunan 50 - 200 m²)',
+            'label' => '10 - 25% Luasan Maksimal yg Diperbolehkan / Luasan Bangunan 50 - 200 m²',
             'short' => '10 - 25% Luasan Maks / 50 - 200 m²',
             'nilai' => 2,
         ],
         'skala_3' => [
-            'label' => '25 - 50% Luasan Maksimal yg Diperbolehkan (Luasan Bangunan 200 - 500 m²)',
+            'label' => '25 - 50% Luasan Maksimal yg Diperbolehkan / Luasan Bangunan 200 - 500 m²',
             'short' => '25 - 50% Luasan Maks / 200 - 500 m²',
             'nilai' => 3,
         ],
         'skala_4' => [
-            'label' => '50 - 75% Luasan Maksimal yg Diperbolehkan (Luasan Bangunan 500 - 1.000 m²)',
+            'label' => '50 - 75% Luasan Maksimal yg Diperbolehkan / Luasan Bangunan 500 - 1.000 m²',
             'short' => '50 - 75% Luasan Maks / 500 - 1.000 m²',
             'nilai' => 4,
         ],
         'skala_5' => [
-            'label' => '75 - 100% Luasan Maksimal yg Diperbolehkan (Luasan Bangunan > 1.000 m²)',
+            'label' => '75 - 100% Luasan Maksimal yg Diperbolehkan / Luasan Bangunan > 1.000 m²',
             'short' => '75 - 100% Luasan Maks / > 1.000 m²',
             'nilai' => 5,
         ],
@@ -431,8 +431,15 @@ class Pelanggaran extends Model
     public static function normalizeSkala(?string $value): ?string
     {
         if (!$value) return null;
+        $cleaned = trim(str_replace(['(', ')'], '', $value));
         foreach (self::SKALA_MAP as $slug => $meta) {
-            if ($value === $slug || $value === $meta['label'] || $value === $meta['short']) {
+            $metaNoParen = str_replace(' / ', ' ', $meta['label']);
+            if (
+                $value === $slug
+                || $value === $meta['label']
+                || $value === $meta['short']
+                || str_replace(' / ', ' ', $cleaned) === $metaNoParen
+            ) {
                 return $slug;
             }
         }

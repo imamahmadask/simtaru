@@ -41,7 +41,7 @@ class PelanggaranExportService
         $sheet->setShowGridLines(true);
 
         // 1. Judul Laporan
-        $sheet->mergeCells('A1:L1');
+        $sheet->mergeCells('A1:M1');
         $sheet->setCellValue('A1', 'LAPORAN DATA KASUS PELANGGARAN PEMANFAATAN RUANG (SIMTARU)');
         $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(15)->setColor(new \PhpOffice\PhpSpreadsheet\Style\Color('1E293B'));
         $sheet->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER)->setVertical(Alignment::VERTICAL_CENTER);
@@ -50,7 +50,7 @@ class PelanggaranExportService
         // Subtitle / Info Filter & Tanggal
         $periodeText = !empty($activeYear) ? "Tahun: $activeYear" : "Periode: Semua Tahun";
         $waktuCetak = "Dicetak pada: " . now()->translatedFormat('d F Y H:i:s');
-        $sheet->mergeCells('A2:L2');
+        $sheet->mergeCells('A2:M2');
         $sheet->setCellValue('A2', "$periodeText | $waktuCetak | Total: " . $pelanggarans->count() . " Kasus");
         $sheet->getStyle('A2')->getFont()->setSize(10)->setItalic(true)->setColor(new \PhpOffice\PhpSpreadsheet\Style\Color('64748B'));
         $sheet->getStyle('A2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
@@ -68,8 +68,9 @@ class PelanggaranExportService
             'H' => 'Kecamatan',
             'I' => 'Jenis Indikasi Pelanggaran',
             'J' => 'Hasil Temuan Pelanggaran',
-            'K' => 'Tindak Lanjut',
-            'L' => 'Status Berkas',
+            'K' => 'Klasifikasi Pelanggaran',
+            'L' => 'Tindak Lanjut',
+            'M' => 'Status Berkas',
         ];
 
         $headerRow = 4;
@@ -102,7 +103,7 @@ class PelanggaranExportService
                 ],
             ],
         ];
-        $sheet->getStyle("A{$headerRow}:L{$headerRow}")->applyFromArray($headerStyle);
+        $sheet->getStyle("A{$headerRow}:M{$headerRow}")->applyFromArray($headerStyle);
 
         // 3. Isi Data
         $row = 5;
@@ -116,6 +117,9 @@ class PelanggaranExportService
                 ? Carbon::parse($p->tanggal_pengawasan)->format('d-m-Y')
                 : ($p->tgl_laporan ? Carbon::parse($p->tgl_laporan)->format('d-m-Y') : '-');
 
+            $klasifikasi = $p->klasifikasi_pelanggaran
+                ?: ($p->temuan_pelanggaran === 'Tidak Ada Pelanggaran' ? 'Tidak Ada' : '-');
+
             // Nilai kolom
             $sheet->setCellValue("A{$row}", $no);
             $sheet->setCellValue("B{$row}", $p->no_pelanggaran ?? '-');
@@ -127,12 +131,13 @@ class PelanggaranExportService
             $sheet->setCellValue("H{$row}", $p->kec_pelanggaran ?? '-');
             $sheet->setCellValue("I{$row}", $p->jenis_indikasi_pelanggaran ? $p->indikasi_full_text : '-');
             $sheet->setCellValue("J{$row}", $p->temuan_pelanggaran ?: '-');
-            $sheet->setCellValue("K{$row}", $p->tindak_lanjut ?: '-');
-            $sheet->setCellValue("L{$row}", $p->status ?: '-');
+            $sheet->setCellValue("K{$row}", $klasifikasi);
+            $sheet->setCellValue("L{$row}", $p->tindak_lanjut ?: '-');
+            $sheet->setCellValue("M{$row}", $p->status ?: '-');
 
             // Zebra striping
             if ($row % 2 == 0) {
-                $sheet->getStyle("A{$row}:L{$row}")->getFill()
+                $sheet->getStyle("A{$row}:M{$row}")->getFill()
                     ->setFillType(Fill::FILL_SOLID)
                     ->getStartColor()->setRGB('F8FAFC');
             }
@@ -146,12 +151,13 @@ class PelanggaranExportService
         // Alignment per kolom
         $sheet->getStyle("A5:A{$lastRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $sheet->getStyle("B5:C{$lastRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle("D5:I{$lastRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-        $sheet->getStyle("J5:K{$lastRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-        $sheet->getStyle("L5:L{$lastRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle("D5:J{$lastRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+        $sheet->getStyle("K5:K{$lastRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle("L5:L{$lastRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+        $sheet->getStyle("M5:M{$lastRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
         // Vertical center semua data cell
-        $sheet->getStyle("A5:L{$lastRow}")->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+        $sheet->getStyle("A5:M{$lastRow}")->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
 
         // Borders
         $dataBorderStyle = [
@@ -162,10 +168,10 @@ class PelanggaranExportService
                 ],
             ],
         ];
-        $sheet->getStyle("A{$headerRow}:L{$lastRow}")->applyFromArray($dataBorderStyle);
+        $sheet->getStyle("A{$headerRow}:M{$lastRow}")->applyFromArray($dataBorderStyle);
 
         // Auto size columns
-        foreach (range('A', 'L') as $col) {
+        foreach (range('A', 'M') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 

@@ -597,6 +597,7 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
         $detailResponse->assertStatus(200)
             ->assertSee('ResumeCaptureArea')
             ->assertSee('Download PNG')
+            ->assertSee('Download PDF')
             ->assertDontSee('Download JPG')
             ->assertSee('Resume_Pelanggaran_100-Wasdal-Taru-XI-2026')
             ->assertSee('html2canvas.min.js');
@@ -605,14 +606,17 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
             ->assertSee('Tidak Mematuhi Ketentuan Pemanfaatan Ruang (Pelanggaran KKPR)')
             ->assertDontSee('2. Tidak Mematuhi Ketentuan Pemanfaatan Ruang (Pelanggaran KKPR)')
             ->assertSee('Perubahan Fungsi Bangunan')
-            ->assertSee('73');
+            ->assertSee('73')
+            ->call('downloadResumePdf')
+            ->assertFileDownloaded('Resume_Pelanggaran_100-Wasdal-Taru-XI-2026.pdf');
 
         Livewire::test(PelanggaranAnalisDetail::class, ['id' => $pelanggaran->id])
             ->assertSee('Tidak Mematuhi Ketentuan Pemanfaatan Ruang (Pelanggaran KKPR)')
             ->assertDontSee('2. Tidak Mematuhi Ketentuan Pemanfaatan Ruang (Pelanggaran KKPR)')
             ->assertSee('Pelanggaran GSB & GSS (Sempadan Sungai, dll)')
             ->assertSee('Perubahan Fungsi Bangunan')
-            ->assertSee('25 - 50% Luasan Maksimal yg Diperbolehkan (Luasan Bangunan 200 - 500 m²)')
+            ->assertSee('25 - 50% Luasan Maksimal yg Diperbolehkan / Luasan Bangunan 200 - 500 m²')
+            ->assertDontSee('(Luasan Bangunan')
             ->assertSee('Tidak Ditemukan faktor pemberat')
             ->assertDontSee('tidak_mematuhi_kkpr')
             ->assertDontSee('tidak_sesuai_kkpr')

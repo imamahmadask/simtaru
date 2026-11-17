@@ -366,12 +366,21 @@
                 </div>
             </div>
 
-            {{-- Toolbar Unduh Gambar (Tidak ikut terekam pada gambar hasil ekspor) --}}
+            {{-- Toolbar Unduh Resume (Tidak ikut terekam pada gambar hasil ekspor) --}}
             <div class="rc-export-toolbar" data-html2canvas-ignore="true">
                 <button type="button" class="btn btn-primary shadow-sm fw-semibold rc-download-btn"
                     data-filename="{{ $safeFilename }}">
-                    <i class="bx bx-download me-1"></i>
+                    <i class="bx bx-image me-1"></i>
                     <span class="rc-btn-label">Download PNG</span>
+                </button>
+                <button type="button" class="btn btn-danger shadow-sm fw-semibold"
+                    wire:click="downloadResumePdf" wire:loading.attr="disabled" wire:target="downloadResumePdf">
+                    <span wire:loading.remove wire:target="downloadResumePdf">
+                        <i class="bx bxs-file-pdf me-1"></i> Download PDF
+                    </span>
+                    <span wire:loading wire:target="downloadResumePdf">
+                        <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Menyiapkan PDF...
+                    </span>
                 </button>
                 <button type="button" class="btn btn-secondary shadow-sm" data-bs-dismiss="modal">
                     Tutup
