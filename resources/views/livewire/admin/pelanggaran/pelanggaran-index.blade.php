@@ -140,6 +140,16 @@
                         <a href="{{ route('pelanggaran.create') }}" class="btn btn-primary btn-sm">
                             <i class="bx bx-plus me-1"></i> Tambah Kasus
                         </a>
+                        <button type="button" class="btn btn-success btn-sm"
+                            wire:click="exportExcel" wire:loading.attr="disabled" wire:target="exportExcel"
+                            title="Download Data Pelanggaran Excel{{ $this->activeFilterCount > 0 ? ' (Sesuai Filter Aktif)' : '' }}">
+                            <span wire:loading.remove wire:target="exportExcel">
+                                <i class="bx bx-download me-1"></i> Download Excel
+                            </span>
+                            <span wire:loading wire:target="exportExcel">
+                                <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Mengunduh...
+                            </span>
+                        </button>
                         <div class="d-flex align-items-center gap-1">
                             <small class="text-muted text-nowrap d-none d-sm-inline">Tampil:</small>
                             <select class="form-select form-select-sm" wire:model.live="perPage" style="width: 75px;" title="Jumlah data per halaman">

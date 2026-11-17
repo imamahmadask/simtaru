@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Livewire\Admin\Pelanggaran\PelanggaranIndex;
 use App\Models\Pelanggaran;
 use App\Models\User;
+use App\Services\PelanggaranExportService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -286,5 +287,36 @@ class PelanggaranFilterTest extends TestCase
             ->set('filterKecamatan', 'Mataram')
             ->assertSee('PT Surya Sejahtera')
             ->assertDontSee('PT Surya Abadi');
+    }
+
+    public function test_download_excel_button_and_export_respects_active_filters(): void
+    {
+        $this->actingAs($this->user);
+
+        $this->createPelanggaran([
+            'no_pelanggaran' => '010/Wasdal-Taru/2026',
+            'nama_pelanggar' => 'Kasus Ekspor Mataram',
+            'kec_pelanggaran' => 'Mataram',
+        ]);
+
+        $this->createPelanggaran([
+            'no_pelanggaran' => '011/Wasdal-Taru/2026',
+            'nama_pelanggar' => 'Kasus Ekspor Ampenan',
+            'kec_pelanggaran' => 'Ampenan',
+        ]);
+
+        Livewire::test(PelanggaranIndex::class)
+            ->assertSee('Download Excel')
+            ->set('filterKecamatan', 'Mataram')
+            ->call('exportExcel')
+            ->assertFileDownloaded();
+
+        $spreadsheet = app(PelanggaranExportService::class)->generate(null, [
+            'kecamatan' => 'Mataram',
+        ]);
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $this->assertEquals('010/Wasdal-Taru/2026', $sheet->getCell('B5')->getValue());
+        $this->assertNull($sheet->getCell('B6')->getValue());
     }
 }

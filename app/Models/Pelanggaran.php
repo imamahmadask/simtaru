@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Pelanggaran extends Model
@@ -770,5 +771,36 @@ class Pelanggaran extends Model
     public function sarans()
     {
         return $this->hasMany(SaranPelanggaran::class, 'pelanggaran_id');
+    }
+
+    /**
+     * Terapkan pencarian teks dan filter daftar kasus pelanggaran secara seragam.
+     */
+    public function scopeApplyFilters(Builder $query, array $filters): Builder
+    {
+        return $query
+            ->when($filters['search'] ?? null, function ($q, $search) {
+                $q->where(function ($sub) use ($search) {
+                    $sub->where('no_pelanggaran', 'like', '%' . $search . '%')
+                        ->orWhere('nama_pelanggar', 'like', '%' . $search . '%')
+                        ->orWhere('nama_pemilik_perusahaan', 'like', '%' . $search . '%')
+                        ->orWhere('alamat_pelanggaran', 'like', '%' . $search . '%')
+                        ->orWhere('kel_pelanggaran', 'like', '%' . $search . '%')
+                        ->orWhere('kec_pelanggaran', 'like', '%' . $search . '%');
+                });
+            })
+            ->when($filters['status'] ?? null, fn ($q, $v) => $q->where('status', $v))
+            ->when($filters['temuan'] ?? null, fn ($q, $v) => $q->where('temuan_pelanggaran', $v))
+            ->when($filters['kecamatan'] ?? null, fn ($q, $v) => $q->where('kec_pelanggaran', $v))
+            ->when($filters['year'] ?? null, fn ($q, $v) => $q->whereYear('tgl_laporan', $v))
+            ->when($filters['sumber'] ?? null, fn ($q, $v) => $q->where('sumber_informasi_pelanggaran', $v))
+            ->when($filters['tindak_lanjut'] ?? null, fn ($q, $v) => $q->where('tindak_lanjut', $v))
+            ->when($filters['klasifikasi'] ?? null, function ($q, $klasifikasi) {
+                if ($klasifikasi === 'belum_dianalisis') {
+                    $q->whereNull('klasifikasi_pelanggaran');
+                } else {
+                    $q->where('klasifikasi_pelanggaran', $klasifikasi);
+                }
+            });
     }
 }

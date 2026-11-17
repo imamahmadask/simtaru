@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Pelanggaran;
 
 use App\Models\Pelanggaran;
+use App\Services\PelanggaranExportService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -85,35 +86,32 @@ class PelanggaranIndex extends Component
         return $count;
     }
 
+    protected function currentFilters(): array
+    {
+        return [
+            'search' => $this->search,
+            'status' => $this->filterStatus,
+            'temuan' => $this->filterTemuan,
+            'kecamatan' => $this->filterKecamatan,
+            'year' => $this->filterYear,
+            'sumber' => $this->filterSumber,
+            'tindak_lanjut' => $this->filterTindakLanjut,
+            'klasifikasi' => $this->filterKlasifikasi,
+        ];
+    }
+
+    public function exportExcel(PelanggaranExportService $exportService)
+    {
+        return $exportService->download($this->filterYear ?: null, $this->currentFilters());
+    }
+
     #[On('refresh')]
     #[Layout('layouts.app-pelanggaran')]
     public function render()
     {
         $pelanggarans = Pelanggaran::query()
             ->withCount('sarans')
-            ->when($this->search, function ($query) {
-                $query->where(function ($q) {
-                    $q->where('no_pelanggaran', 'like', '%' . $this->search . '%')
-                        ->orWhere('nama_pelanggar', 'like', '%' . $this->search . '%')
-                        ->orWhere('nama_pemilik_perusahaan', 'like', '%' . $this->search . '%')
-                        ->orWhere('alamat_pelanggaran', 'like', '%' . $this->search . '%')
-                        ->orWhere('kel_pelanggaran', 'like', '%' . $this->search . '%')
-                        ->orWhere('kec_pelanggaran', 'like', '%' . $this->search . '%');
-                });
-            })
-            ->when($this->filterStatus, fn($q) => $q->where('status', $this->filterStatus))
-            ->when($this->filterTemuan, fn($q) => $q->where('temuan_pelanggaran', $this->filterTemuan))
-            ->when($this->filterKecamatan, fn($q) => $q->where('kec_pelanggaran', $this->filterKecamatan))
-            ->when($this->filterYear, fn($q) => $q->whereYear('tgl_laporan', $this->filterYear))
-            ->when($this->filterSumber, fn($q) => $q->where('sumber_informasi_pelanggaran', $this->filterSumber))
-            ->when($this->filterTindakLanjut, fn($q) => $q->where('tindak_lanjut', $this->filterTindakLanjut))
-            ->when($this->filterKlasifikasi, function ($q) {
-                if ($this->filterKlasifikasi === 'belum_dianalisis') {
-                    $q->whereNull('klasifikasi_pelanggaran');
-                } else {
-                    $q->where('klasifikasi_pelanggaran', $this->filterKlasifikasi);
-                }
-            })
+            ->applyFilters($this->currentFilters())
             ->latest('tgl_laporan')
             ->latest('id')
             ->paginate($this->perPage);

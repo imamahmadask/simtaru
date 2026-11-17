@@ -17,19 +17,21 @@ class PelanggaranExportService
      * Generate PhpSpreadsheet instance for Pelanggaran report.
      *
      * @param int|string|null $year
+     * @param array<string, mixed> $filters
      * @return Spreadsheet
      */
-    public function generate($year = null): Spreadsheet
+    public function generate($year = null, array $filters = []): Spreadsheet
     {
-        $query = Pelanggaran::query()
-            ->orderBy('tgl_laporan', 'desc')
-            ->orderBy('id', 'desc');
-
-        if (!empty($year)) {
-            $query->whereYear('tgl_laporan', $year);
+        if (!empty($year) && empty($filters['year'])) {
+            $filters['year'] = $year;
         }
+        $activeYear = $filters['year'] ?? null;
 
-        $pelanggarans = $query->get();
+        $pelanggarans = Pelanggaran::query()
+            ->applyFilters($filters)
+            ->orderBy('tgl_laporan', 'desc')
+            ->orderBy('id', 'desc')
+            ->get();
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
@@ -46,7 +48,7 @@ class PelanggaranExportService
         $sheet->getRowDimension(1)->setRowHeight(30);
 
         // Subtitle / Info Filter & Tanggal
-        $periodeText = !empty($year) ? "Tahun: $year" : "Periode: Semua Tahun";
+        $periodeText = !empty($activeYear) ? "Tahun: $activeYear" : "Periode: Semua Tahun";
         $waktuCetak = "Dicetak pada: " . now()->translatedFormat('d F Y H:i:s');
         $sheet->mergeCells('A2:L2');
         $sheet->setCellValue('A2', "$periodeText | $waktuCetak | Total: " . $pelanggarans->count() . " Kasus");
@@ -174,12 +176,14 @@ class PelanggaranExportService
      * Download as Excel stream response.
      *
      * @param int|string|null $year
+     * @param array<string, mixed> $filters
      * @return StreamedResponse
      */
-    public function download($year = null): StreamedResponse
+    public function download($year = null, array $filters = []): StreamedResponse
     {
-        $spreadsheet = $this->generate($year);
-        $filenameYear = !empty($year) ? $year : 'Semua_Tahun';
+        $spreadsheet = $this->generate($year, $filters);
+        $activeYear = !empty($year) ? $year : ($filters['year'] ?? null);
+        $filenameYear = !empty($activeYear) ? $activeYear : 'Semua_Tahun';
         $filename = "Laporan_Pelanggaran_SIMTARU_{$filenameYear}_" . date('Ymd_His') . ".xlsx";
 
         return response()->streamDownload(function () use ($spreadsheet) {
