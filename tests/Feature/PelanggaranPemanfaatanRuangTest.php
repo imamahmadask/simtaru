@@ -808,4 +808,91 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
             ->assertSet('currentStep', 2)
             ->assertSee('Berkas Perizinan');
     }
+
+    public function test_dashboard_pelanggaran_menampilkan_rekap_klasifikasi_dan_jenis_indikasi(): void
+    {
+        $user = User::factory()->create(['role' => 'admin']);
+        $this->actingAs($user);
+
+        $year = date('Y');
+        $base = [
+            'tgl_laporan' => "{$year}-06-15",
+            'sumber_informasi_pelanggaran' => 'Laporan Masyarakat',
+            'alamat_pelanggaran' => 'Jl. Majapahit',
+            'kel_pelanggaran' => 'Kekalik Jaya',
+            'kec_pelanggaran' => 'Sekarbela',
+            'koordinat_pelanggaran' => '-8.590, 116.100',
+            'status' => 'On Progress',
+        ];
+
+        Pelanggaran::create(array_merge($base, [
+            'no_pelanggaran' => '201/Wasdal-Taru/VI/' . $year,
+            'nama_pelanggar' => 'Pelanggar Tinggi 1',
+            'temuan_pelanggaran' => 'Ada Pelanggaran',
+            'klasifikasi_pelanggaran' => 'Pelanggaran Tinggi',
+            'jenis_indikasi_pelanggaran' => 'tidak_menaati_rtr',
+        ]));
+
+        Pelanggaran::create(array_merge($base, [
+            'no_pelanggaran' => '202/Wasdal-Taru/VI/' . $year,
+            'nama_pelanggar' => 'Pelanggar Tinggi 2',
+            'temuan_pelanggaran' => 'Ada Pelanggaran',
+            'klasifikasi_pelanggaran' => 'Pelanggaran Tinggi',
+            'jenis_indikasi_pelanggaran' => 'tidak_mematuhi_kkpr',
+        ]));
+
+        Pelanggaran::create(array_merge($base, [
+            'no_pelanggaran' => '203/Wasdal-Taru/VI/' . $year,
+            'nama_pelanggar' => 'Pelanggar Sedang',
+            'temuan_pelanggaran' => 'Ada Pelanggaran',
+            'klasifikasi_pelanggaran' => 'Pelanggaran Sedang',
+            'jenis_indikasi_pelanggaran' => 'menghalangi_akses_umum',
+        ]));
+
+        Pelanggaran::create(array_merge($base, [
+            'no_pelanggaran' => '204/Wasdal-Taru/VI/' . $year,
+            'nama_pelanggar' => 'Pelanggar Rendah Lama',
+            'temuan_pelanggaran' => 'Ada Pelanggaran',
+            'klasifikasi_pelanggaran' => 'Pelanggaran Rendah',
+            'jenis_indikasi_pelanggaran' => 'Tidak Memiliki Persetujuan Bangunan Gedung (PBG)',
+        ]));
+
+        Pelanggaran::create(array_merge($base, [
+            'no_pelanggaran' => '205/Wasdal-Taru/VI/' . $year,
+            'nama_pelanggar' => 'Belum Dianalisis',
+            'klasifikasi_pelanggaran' => null,
+            'jenis_indikasi_pelanggaran' => null,
+        ]));
+
+        // Data tahun sebelumnya tidak boleh ikut terhitung di rekap tahun aktif
+        Pelanggaran::create(array_merge($base, [
+            'no_pelanggaran' => '206/Wasdal-Taru/VI/' . ((int) $year - 1),
+            'tgl_laporan' => ((int) $year - 1) . '-06-15',
+            'nama_pelanggar' => 'Pelanggar Tahun Lalu',
+            'temuan_pelanggaran' => 'Ada Pelanggaran',
+            'klasifikasi_pelanggaran' => 'Pelanggaran Tinggi',
+            'jenis_indikasi_pelanggaran' => 'tidak_menaati_rtr',
+        ]));
+
+        Livewire::test(\App\Livewire\Admin\Pelanggaran\DashboardPelanggaran::class)
+            ->assertSet('rekap.count_pelanggaran_year', 5)
+            ->assertSet('rekap.count_klasifikasi_tinggi', 2)
+            ->assertSet('rekap.count_klasifikasi_sedang', 1)
+            ->assertSet('rekap.count_klasifikasi_rendah', 1)
+            ->assertSet('rekap.count_klasifikasi_belum', 1)
+            ->assertSet('rekap.count_indikasi_tidak_memiliki_kkpr', 1)
+            ->assertSet('rekap.count_indikasi_tidak_memenuhi_ketentuan', 1)
+            ->assertSet('rekap.count_indikasi_menghalangi_akses', 1)
+            ->assertSet('rekap.count_indikasi_tidak_memiliki_pbg', 1)
+            ->assertSee('Rekap Berdasarkan Klasifikasi Pelanggaran')
+            ->assertSee('Rekap Jenis Indikasi Pelanggaran')
+            ->assertSee('Pelanggaran Tinggi')
+            ->assertSee('Pelanggaran Sedang')
+            ->assertSee('Pelanggaran Rendah')
+            ->assertSee('Belum Dianalisis')
+            ->assertSee('Tidak Menaati Rencana Tata Ruang')
+            ->assertSee('Tidak Mematuhi Ketentuan Pemanfaatan Ruang')
+            ->assertSee('Menghalangi Akses Kawasan Milik Umum')
+            ->assertSee('Tidak Memiliki PBG (Data Lama)');
+    }
 }

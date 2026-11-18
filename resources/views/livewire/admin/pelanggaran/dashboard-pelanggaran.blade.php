@@ -207,45 +207,187 @@
             <hr>
             <h5>Rekap Berdasarkan Sumber Informasi</h5>
             <div class="row">
-                <div class="col-6 col-md-3 mb-4">
-                    <div class="card">
+                <div class="col-6 col-md-4 mb-4">
+                    <div class="card h-100">
                         <div class="card-body">
                             <div class="card-title d-flex align-items-start justify-content-between">
                                 <div class="p-2 rounded bg-info text-white">
                                     <i class="bx bx-info-circle fs-3"></i>
-                                </div>                              
+                                </div>
+                                <a href="{{ route('pelanggaran.index', ['filterYear' => $year, 'filterSumber' => 'Hasil Pengawasan dan Monitoring']) }}"
+                                    class="btn btn-sm btn-icon btn-outline-secondary" title="Lihat Data">
+                                    <i class="bx bx-right-arrow-alt"></i>
+                                </a>
                             </div>
-                            <span class="fw-bold">Hasil Pengawasan <small class="text-muted fst-italic">({{ $year }})</small></span>
-                            <h3 class="card-title text-nowrap">{{ $this->rekap['count_sumber_pengawasan'] }}</h3>
+                            <span class="fw-bold d-block mb-1">Hasil Pengawasan <small class="text-muted fst-italic">({{ $year }})</small></span>
+                            <h3 class="card-title text-nowrap mb-0">{{ $this->rekap['count_sumber_pengawasan'] }}</h3>
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-md-3 mb-4">
-                    <div class="card">
+                <div class="col-6 col-md-4 mb-4">
+                    <div class="card h-100">
                         <div class="card-body">
                             <div class="card-title d-flex align-items-start justify-content-between">
                                 <div class="p-2 rounded bg-warning text-white">
                                     <i class="bx bx-info-circle fs-3"></i>
-                                </div>                                
+                                </div>
+                                <a href="{{ route('pelanggaran.index', ['filterYear' => $year, 'filterSumber' => 'Laporan Masyarakat']) }}"
+                                    class="btn btn-sm btn-icon btn-outline-secondary" title="Lihat Data">
+                                    <i class="bx bx-right-arrow-alt"></i>
+                                </a>
                             </div>
-                            <span class="fw-bold">Dari Masyarakat <small class="text-muted fst-italic">({{ $year }})</small></span>
-                            <h3 class="card-title text-nowrap">{{ $this->rekap['count_sumber_masyarakat'] }}</h3>
+                            <span class="fw-bold d-block mb-1">Dari Masyarakat <small class="text-muted fst-italic">({{ $year }})</small></span>
+                            <h3 class="card-title text-nowrap mb-0">{{ $this->rekap['count_sumber_masyarakat'] }}</h3>
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-md-3 mb-4">
-                    <div class="card">
+                <div class="col-12 col-md-4 mb-4">
+                    <div class="card h-100">
                         <div class="card-body">
                             <div class="card-title d-flex align-items-start justify-content-between">
                                 <div class="p-2 rounded bg-primary text-white">
                                     <i class="bx bx-info-circle fs-3"></i>
-                                </div>                               
+                                </div>
+                                <a href="{{ route('pelanggaran.index', ['filterYear' => $year, 'filterSumber' => 'Hasil Penilaian KKPR atau SKRK']) }}"
+                                    class="btn btn-sm btn-icon btn-outline-secondary" title="Lihat Data">
+                                    <i class="bx bx-right-arrow-alt"></i>
+                                </a>
                             </div>
-                            <span class="fw-bold">Hasil Penilaian KKPR/SKRK <small class="text-muted fst-italic">({{ $year }})</small></span>
-                            <h3 class="card-title text-nowrap">{{ $this->rekap['count_sumber_penilaian'] }}</h3>
+                            <span class="fw-bold d-block mb-1">Hasil Penilaian KKPR/SKRK <small class="text-muted fst-italic">({{ $year }})</small></span>
+                            <h3 class="card-title text-nowrap mb-0">{{ $this->rekap['count_sumber_penilaian'] }}</h3>
                         </div>
                     </div>
-                </div>  
+                </div>
+            </div>
+
+            <hr>
+            <h5>Rekap Berdasarkan Klasifikasi Pelanggaran</h5>
+            <div class="row">
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="card-title d-flex align-items-start justify-content-between">
+                                <div class="p-2 rounded bg-danger text-white">
+                                    <i class="bx bx-shield-x fs-3"></i>
+                                </div>
+                                <a href="{{ route('pelanggaran.index', ['filterYear' => $year, 'filterKlasifikasi' => 'Pelanggaran Tinggi']) }}"
+                                    class="btn btn-sm btn-icon btn-outline-secondary" title="Lihat Data">
+                                    <i class="bx bx-right-arrow-alt"></i>
+                                </a>
+                            </div>
+                            <span class="fw-bold d-block mb-1">Pelanggaran Tinggi <small class="text-muted fst-italic">({{ $year }})</small></span>
+                            <h3 class="card-title text-nowrap mb-0">{{ $this->rekap['count_klasifikasi_tinggi'] }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="card-title d-flex align-items-start justify-content-between">
+                                <div class="p-2 rounded bg-warning text-white">
+                                    <i class="bx bx-shield-quarter fs-3"></i>
+                                </div>
+                                <a href="{{ route('pelanggaran.index', ['filterYear' => $year, 'filterKlasifikasi' => 'Pelanggaran Sedang']) }}"
+                                    class="btn btn-sm btn-icon btn-outline-secondary" title="Lihat Data">
+                                    <i class="bx bx-right-arrow-alt"></i>
+                                </a>
+                            </div>
+                            <span class="fw-bold d-block mb-1">Pelanggaran Sedang <small class="text-muted fst-italic">({{ $year }})</small></span>
+                            <h3 class="card-title text-nowrap mb-0">{{ $this->rekap['count_klasifikasi_sedang'] }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="card-title d-flex align-items-start justify-content-between">
+                                <div class="p-2 rounded bg-success text-white">
+                                    <i class="bx bx-shield fs-3"></i>
+                                </div>
+                                <a href="{{ route('pelanggaran.index', ['filterYear' => $year, 'filterKlasifikasi' => 'Pelanggaran Rendah']) }}"
+                                    class="btn btn-sm btn-icon btn-outline-secondary" title="Lihat Data">
+                                    <i class="bx bx-right-arrow-alt"></i>
+                                </a>
+                            </div>
+                            <span class="fw-bold d-block mb-1">Pelanggaran Rendah <small class="text-muted fst-italic">({{ $year }})</small></span>
+                            <h3 class="card-title text-nowrap mb-0">{{ $this->rekap['count_klasifikasi_rendah'] }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="card-title d-flex align-items-start justify-content-between">
+                                <div class="p-2 rounded bg-secondary text-white">
+                                    <i class="bx bx-time-five fs-3"></i>
+                                </div>
+                                <a href="{{ route('pelanggaran.index', ['filterYear' => $year, 'filterKlasifikasi' => 'belum_dianalisis']) }}"
+                                    class="btn btn-sm btn-icon btn-outline-secondary" title="Lihat Data">
+                                    <i class="bx bx-right-arrow-alt"></i>
+                                </a>
+                            </div>
+                            <span class="fw-bold d-block mb-1">Belum Dianalisis <small class="text-muted fst-italic">({{ $year }})</small></span>
+                            <h3 class="card-title text-nowrap mb-0">{{ $this->rekap['count_klasifikasi_belum'] }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+            <h5>Rekap Jenis Indikasi Pelanggaran</h5>
+            <div class="row">
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="card-title d-flex align-items-start justify-content-between">
+                                <div class="p-2 rounded bg-danger text-white">
+                                    <i class="bx bx-map-pin fs-3"></i>
+                                </div>
+                            </div>
+                            <span class="fw-bold d-block mb-1">Tidak Menaati Rencana Tata Ruang <small class="text-muted fst-italic">({{ $year }})</small></span>
+                            <h3 class="card-title text-nowrap mb-0">{{ $this->rekap['count_indikasi_tidak_memiliki_kkpr'] }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="card-title d-flex align-items-start justify-content-between">
+                                <div class="p-2 rounded bg-success text-white">
+                                    <i class="bx bx-check-square fs-3"></i>
+                                </div>
+                            </div>
+                            <span class="fw-bold d-block mb-1">Tidak Mematuhi Ketentuan Pemanfaatan Ruang <small class="text-muted fst-italic">({{ $year }})</small></span>
+                            <h3 class="card-title text-nowrap mb-0">{{ $this->rekap['count_indikasi_tidak_memenuhi_ketentuan'] }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="card-title d-flex align-items-start justify-content-between">
+                                <div class="p-2 rounded bg-info text-white">
+                                    <i class="bx bx-block fs-3"></i>
+                                </div>
+                            </div>
+                            <span class="fw-bold d-block mb-1">Menghalangi Akses Kawasan Milik Umum <small class="text-muted fst-italic">({{ $year }})</small></span>
+                            <h3 class="card-title text-nowrap mb-0">{{ $this->rekap['count_indikasi_menghalangi_akses'] }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="card-title d-flex align-items-start justify-content-between">
+                                <div class="p-2 rounded bg-warning text-white">
+                                    <i class="bx bx-buildings fs-3"></i>
+                                </div>
+                            </div>
+                            <span class="fw-bold d-block mb-1">Tidak Memiliki PBG (Data Lama) <small class="text-muted fst-italic">({{ $year }})</small></span>
+                            <h3 class="card-title text-nowrap mb-0">{{ $this->rekap['count_indikasi_tidak_memiliki_pbg'] }}</h3>
+                        </div>
+                    </div>
+                </div>
             </div>
             <hr>
             <div class="row">

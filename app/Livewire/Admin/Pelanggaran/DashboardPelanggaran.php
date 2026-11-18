@@ -43,10 +43,14 @@ class DashboardPelanggaran extends Component
                 COALESCE(SUM(CASE WHEN sumber_informasi_pelanggaran = 'Hasil Penilaian KKPR atau SKRK' THEN 1 ELSE 0 END), 0) as count_sumber_penilaian,
                 COALESCE(SUM(CASE WHEN temuan_pelanggaran = 'Ada Pelanggaran' THEN 1 ELSE 0 END), 0) as count_temuan_ada,
                 COALESCE(SUM(CASE WHEN temuan_pelanggaran = 'Tidak Ada Pelanggaran' THEN 1 ELSE 0 END), 0) as count_temuan_tidak_ada,
-                COALESCE(SUM(CASE WHEN jenis_indikasi_pelanggaran IN ('tidak_menaati_rtr', 'Tidak Menaati Rencana Tata Ruang yang Telah Ditetapkan yang Mengakibatkan Perubahan Fungsi Ruang', 'Tidak Memiliki KKPR atau SKRK') THEN 1 ELSE 0 END), 0) as count_indikasi_tidak_memiliki_kkpr,
-                COALESCE(SUM(CASE WHEN jenis_indikasi_pelanggaran IN ('tidak_mematuhi_kkpr', 'Tidak Mematuhi Ketentuan Pemanfaatan Ruang dalam Rencana Tata Ruang', 'Tidak Memenuhi Ketentuan Dalam KKPR/SKRK') THEN 1 ELSE 0 END), 0) as count_indikasi_tidak_memenuhi_ketentuan,
-                COALESCE(SUM(CASE WHEN jenis_indikasi_pelanggaran IN ('menghalangi_akses_umum', 'Menghalangi akses terhadap kawasan yang oleh ketentuan peraturan perundang-undangan dinyatakan sebagai milik umum', 'Menghalangi Akses Terhadap Kawasan Yang Ditetapkan Sebagai Milik Umum') THEN 1 ELSE 0 END), 0) as count_indikasi_menghalangi_akses,
-                COALESCE(SUM(CASE WHEN jenis_indikasi_pelanggaran = 'Tidak Memiliki Persetujuan Bangunan Gedung (PBG)' THEN 1 ELSE 0 END), 0) as count_indikasi_tidak_memiliki_pbg
+                COALESCE(SUM(CASE WHEN jenis_indikasi_pelanggaran IN ('tidak_menaati_rtr', 'Tidak Menaati Rencana Tata Ruang yang Telah Ditetapkan yang Mengakibatkan Perubahan Fungsi Ruang', 'Tidak Menaati Rencana Tata Ruang (Perubahan Fungsi Ruang)', '1. Tidak Menaati Rencana Tata Ruang (Perubahan Fungsi Ruang)', 'Tidak Memiliki KKPR atau SKRK') THEN 1 ELSE 0 END), 0) as count_indikasi_tidak_memiliki_kkpr,
+                COALESCE(SUM(CASE WHEN jenis_indikasi_pelanggaran IN ('tidak_mematuhi_kkpr', 'Tidak Mematuhi Ketentuan Pemanfaatan Ruang dalam Rencana Tata Ruang', 'Tidak Mematuhi Ketentuan Pemanfaatan Ruang (Pelanggaran KKPR)', '2. Tidak Mematuhi Ketentuan Pemanfaatan Ruang (Pelanggaran KKPR)', 'Tidak Memenuhi Ketentuan Dalam KKPR/SKRK') THEN 1 ELSE 0 END), 0) as count_indikasi_tidak_memenuhi_ketentuan,
+                COALESCE(SUM(CASE WHEN jenis_indikasi_pelanggaran IN ('menghalangi_akses_umum', 'Menghalangi akses terhadap kawasan yang oleh ketentuan peraturan perundang-undangan dinyatakan sebagai milik umum', 'Menghalangi Akses Terhadap Kawasan Yang Ditetapkan Sebagai Milik Umum', 'Menghalangi Akses Kawasan Milik Umum', '3. Menghalangi Akses Kawasan Milik Umum') THEN 1 ELSE 0 END), 0) as count_indikasi_menghalangi_akses,
+                COALESCE(SUM(CASE WHEN jenis_indikasi_pelanggaran = 'Tidak Memiliki Persetujuan Bangunan Gedung (PBG)' THEN 1 ELSE 0 END), 0) as count_indikasi_tidak_memiliki_pbg,
+                COALESCE(SUM(CASE WHEN klasifikasi_pelanggaran IN ('Pelanggaran Tinggi', 'Pelanggaran Berat') THEN 1 ELSE 0 END), 0) as count_klasifikasi_tinggi,
+                COALESCE(SUM(CASE WHEN klasifikasi_pelanggaran = 'Pelanggaran Sedang' THEN 1 ELSE 0 END), 0) as count_klasifikasi_sedang,
+                COALESCE(SUM(CASE WHEN klasifikasi_pelanggaran = 'Pelanggaran Rendah' THEN 1 ELSE 0 END), 0) as count_klasifikasi_rendah,
+                COALESCE(SUM(CASE WHEN klasifikasi_pelanggaran IS NULL THEN 1 ELSE 0 END), 0) as count_klasifikasi_belum
             ")
             ->first();
 
@@ -79,6 +83,10 @@ class DashboardPelanggaran extends Component
             'count_indikasi_tidak_memenuhi_ketentuan' => (int) ($stats->count_indikasi_tidak_memenuhi_ketentuan ?? 0),
             'count_indikasi_menghalangi_akses' => (int) ($stats->count_indikasi_menghalangi_akses ?? 0),
             'count_indikasi_tidak_memiliki_pbg' => (int) ($stats->count_indikasi_tidak_memiliki_pbg ?? 0),
+            'count_klasifikasi_tinggi' => (int) ($stats->count_klasifikasi_tinggi ?? 0),
+            'count_klasifikasi_sedang' => (int) ($stats->count_klasifikasi_sedang ?? 0),
+            'count_klasifikasi_rendah' => (int) ($stats->count_klasifikasi_rendah ?? 0),
+            'count_klasifikasi_belum' => (int) ($stats->count_klasifikasi_belum ?? 0),
             'monthly_counts' => $monthly_counts
         ];
         
