@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\DocumentTemplate;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentTemplateSeeder extends Seeder
 {
@@ -930,11 +931,17 @@ class DocumentTemplateSeeder extends Seeder
                 'description' => 'Surat Peringatan Pertama atas dugaan pelanggaran tata ruang.',
                 'available_variables' => [
                     'jenis_indikasi_pelanggaran' => 'Jenis Indikasi Pelanggaran',
-                    'nama_pemilik_bangunan' => 'Nama Pelanggar / Pemilik Bangunan',
+                    'nama_pemilik_bangunan' => 'Nama Pemilik / Perusahaan',
                     'alamat_pelanggaran' => 'Alamat Lokasi Pelanggaran',
                     'kel_pelanggaran' => 'Kelurahan',
                     'kec_pelanggaran' => 'Kecamatan',
-                    'jenis_pemanfaatan_ruang' => 'Jenis Pemanfaatan Ruang',
+                    'peruntukan_rtr' => 'Peruntukan Pemanfaatan Ruang dalam RTR',
+                    'pemanfaatan_ruang_eksisting' => 'Pemanfaatan Ruang Eksisting',
+                    'penjelasan_singkat' => 'Penjelasan Kasus Singkat',
+                    'pasal_aturan_dilanggar' => 'Pasal dan Aturan yang Dilanggar',
+                    'penjelasan_lainnya' => 'Penjelasan Lainnya',
+                    'foto_existing' => 'Gambar Foto Kondisi Eksisting (Otomatis - Lampiran I)',
+                    'peta_deliniasi' => 'Gambar Peta Deliniasi (Otomatis - Lampiran II)',
                 ],
             ],
             [
@@ -945,11 +952,17 @@ class DocumentTemplateSeeder extends Seeder
                 'description' => 'Surat Peringatan Kedua tindak lanjut pelanggaran tata ruang.',
                 'available_variables' => [
                     'jenis_indikasi_pelanggaran' => 'Jenis Indikasi Pelanggaran',
-                    'nama_pemilik_bangunan' => 'Nama Pelanggar / Pemilik Bangunan',
+                    'nama_pemilik_bangunan' => 'Nama Pemilik / Perusahaan',
                     'alamat_pelanggaran' => 'Alamat Lokasi Pelanggaran',
                     'kel_pelanggaran' => 'Kelurahan',
                     'kec_pelanggaran' => 'Kecamatan',
-                    'jenis_pemanfaatan_ruang' => 'Jenis Pemanfaatan Ruang',
+                    'peruntukan_rtr' => 'Peruntukan Pemanfaatan Ruang dalam RTR',
+                    'pemanfaatan_ruang_eksisting' => 'Pemanfaatan Ruang Eksisting',
+                    'penjelasan_singkat' => 'Penjelasan Kasus Singkat',
+                    'pasal_aturan_dilanggar' => 'Pasal dan Aturan yang Dilanggar',
+                    'penjelasan_lainnya' => 'Penjelasan Lainnya',
+                    'foto_existing' => 'Gambar Foto Kondisi Eksisting (Otomatis - Lampiran I)',
+                    'peta_deliniasi' => 'Gambar Peta Deliniasi (Otomatis - Lampiran II)',
                 ],
             ],
             [
@@ -960,11 +973,17 @@ class DocumentTemplateSeeder extends Seeder
                 'description' => 'Surat Peringatan Ketiga (Terakhir) sebelum pelimpahan berkas sanksi.',
                 'available_variables' => [
                     'jenis_indikasi_pelanggaran' => 'Jenis Indikasi Pelanggaran',
-                    'nama_pemilik_bangunan' => 'Nama Pelanggar / Pemilik Bangunan',
+                    'nama_pemilik_bangunan' => 'Nama Pemilik / Perusahaan',
                     'alamat_pelanggaran' => 'Alamat Lokasi Pelanggaran',
                     'kel_pelanggaran' => 'Kelurahan',
                     'kec_pelanggaran' => 'Kecamatan',
-                    'jenis_pemanfaatan_ruang' => 'Jenis Pemanfaatan Ruang',
+                    'peruntukan_rtr' => 'Peruntukan Pemanfaatan Ruang dalam RTR',
+                    'pemanfaatan_ruang_eksisting' => 'Pemanfaatan Ruang Eksisting',
+                    'penjelasan_singkat' => 'Penjelasan Kasus Singkat',
+                    'pasal_aturan_dilanggar' => 'Pasal dan Aturan yang Dilanggar',
+                    'penjelasan_lainnya' => 'Penjelasan Lainnya',
+                    'foto_existing' => 'Gambar Foto Kondisi Eksisting (Otomatis - Lampiran I)',
+                    'peta_deliniasi' => 'Gambar Peta Deliniasi (Otomatis - Lampiran II)',
                 ],
             ],
             [
@@ -975,11 +994,14 @@ class DocumentTemplateSeeder extends Seeder
                 'description' => 'Surat pelimpahan penegakan hukum dan eksekusi sanksi ke Satpol PP.',
                 'available_variables' => [
                     'jenis_indikasi_pelanggaran' => 'Jenis Indikasi Pelanggaran',
-                    'nama_pemilik_bangunan' => 'Nama Pelanggar',
+                    'nama_pemilik_bangunan' => 'Nama Pemilik / Perusahaan',
                     'alamat_pelanggaran' => 'Alamat Lokasi Pelanggaran',
                     'kel_pelanggaran' => 'Kelurahan',
                     'kec_pelanggaran' => 'Kecamatan',
-                    'jenis_pemanfaatan_ruang' => 'Jenis Pemanfaatan Ruang',
+                    'peruntukan_rtr' => 'Peruntukan Pemanfaatan Ruang dalam RTR',
+                    'pemanfaatan_ruang_eksisting' => 'Pemanfaatan Ruang Eksisting',
+                    'penjelasan_singkat' => 'Penjelasan Kasus Singkat',
+                    'pasal_aturan_dilanggar' => 'Pasal dan Aturan yang Dilanggar',
                 ],
             ],
             [
@@ -990,11 +1012,12 @@ class DocumentTemplateSeeder extends Seeder
                 'description' => 'Surat pernyataan kesanggupan/pengakuan dari pihak pelanggar tata ruang.',
                 'available_variables' => [
                     'jenis_indikasi_pelanggaran' => 'Jenis Indikasi Pelanggaran',
-                    'nama_pemilik_bangunan' => 'Nama Pemilik Bangunan',
+                    'nama_pemilik_bangunan' => 'Nama Pemilik / Perusahaan',
                     'alamat_pelanggaran' => 'Alamat Pelanggaran',
                     'kel_pelanggaran' => 'Kelurahan',
                     'kec_pelanggaran' => 'Kecamatan',
-                    'jenis_pemanfaatan_ruang' => 'Jenis Pemanfaatan Ruang',
+                    'jenis_pemanfaatan_ruang' => 'Pemanfaatan Ruang Eksisting',
+                    'peruntukan_rtr' => 'Peruntukan Pemanfaatan Ruang dalam RTR',
                 ],
             ],
             [
@@ -1005,11 +1028,14 @@ class DocumentTemplateSeeder extends Seeder
                 'description' => 'Surat resmi sosialisasi dan edukasi ketentuan tata ruang.',
                 'available_variables' => [
                     'jenis_indikasi_pelanggaran' => 'Jenis Indikasi Pelanggaran',
-                    'nama_pemilik_bangunan' => 'Nama Pemilik Bangunan',
+                    'nama_pemilik_bangunan' => 'Nama Pemilik / Perusahaan',
                     'alamat_pelanggaran' => 'Alamat Pelanggaran',
                     'kel_pelanggaran' => 'Kelurahan',
                     'kec_pelanggaran' => 'Kecamatan',
-                    'jenis_pemanfaatan_ruang' => 'Jenis Pemanfaatan Ruang',
+                    'peruntukan_rtr' => 'Peruntukan Pemanfaatan Ruang dalam RTR',
+                    'pemanfaatan_ruang_eksisting' => 'Pemanfaatan Ruang Eksisting',
+                    'penjelasan_singkat' => 'Penjelasan Kasus Singkat',
+                    'foto_existing' => 'Gambar Foto Kondisi Eksisting (Otomatis - Lampiran I)',
                 ],
             ],
 
@@ -1041,6 +1067,16 @@ class DocumentTemplateSeeder extends Seeder
                 ['kode' => $data['kode']],
                 $data
             );
+
+            // Sinkronkan file template default dari public/templates/ ke storage private defaults (tidak menyentuh custom upload)
+            $publicSource = public_path('templates/' . $data['default_path']);
+            $privateTarget = 'templates/defaults/' . $data['default_path'];
+            if (is_file($publicSource)) {
+                $targetFullPath = Storage::disk('local')->path($privateTarget);
+                if (!is_file($targetFullPath) || md5_file($publicSource) !== md5_file($targetFullPath)) {
+                    Storage::disk('local')->put($privateTarget, file_get_contents($publicSource));
+                }
+            }
         }
     }
 }

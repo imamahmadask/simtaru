@@ -34,12 +34,13 @@ class PelanggaranDetail extends Component
         $safeNoKasus = preg_replace('/[^A-Za-z0-9_-]+/', '-', (string) ($pelanggaran->no_pelanggaran ?? 'kasus'));
         $filename = 'Resume_Pelanggaran_' . trim($safeNoKasus, '-') . '.pdf';
 
-        $fotoDataUri = null;
-        if (!empty($resume['foto']) && Storage::disk('public')->exists($resume['foto'])) {
-            $fullPath = Storage::disk('public')->path($resume['foto']);
-            $imageInfo = is_file($fullPath) && is_readable($fullPath) ? @getimagesize($fullPath) : false;
-            if ($imageInfo && !empty($imageInfo['mime'])) {
-                $fotoDataUri = 'data:' . $imageInfo['mime'] . ';base64,' . base64_encode(file_get_contents($fullPath));
+        $fotoDataUri = !empty($resume['foto']) ? $this->imagePathToDataUri($resume['foto']) : null;
+
+        $petaDeliniasiDataUris = [];
+        foreach ((array) ($resume['peta_deliniasi'] ?? []) as $petaPath) {
+            $uri = $this->imagePathToDataUri($petaPath);
+            if ($uri !== null) {
+                $petaDeliniasiDataUris[] = $uri;
             }
         }
 
@@ -48,6 +49,7 @@ class PelanggaranDetail extends Component
             'resume' => $resume,
             'isHighTipologi' => $isHighTipologi,
             'fotoDataUri' => $fotoDataUri,
+            'petaDeliniasiDataUris' => $petaDeliniasiDataUris,
         ])->setPaper('a4', 'portrait');
 
         return response()->streamDownload(function () use ($pdf) {
@@ -55,6 +57,39 @@ class PelanggaranDetail extends Component
         }, $filename, [
             'Content-Type' => 'application/pdf',
         ]);
+    }
+
+    private function imagePathToDataUri(?string $relativePath): ?string
+    {
+        if (empty($relativePath) || !Storage::disk('public')->exists($relativePath)) {
+            return null;
+        }
+
+        $fullPath = Storage::disk('public')->path($relativePath);
+        if (!is_file($fullPath) || !is_readable($fullPath)) {
+            return null;
+        }
+
+        $imageInfo = @getimagesize($fullPath);
+        if (!$imageInfo || empty($imageInfo['mime'])) {
+            return null;
+        }
+
+        // Konversi WebP ke PNG agar DomPDF selalu dapat merender dengan aman
+        if ($imageInfo['mime'] === 'image/webp' && function_exists('imagecreatefromwebp')) {
+            $img = @imagecreatefromwebp($fullPath);
+            if ($img) {
+                ob_start();
+                imagepng($img);
+                $pngData = ob_get_clean();
+                imagedestroy($img);
+                if ($pngData !== false && $pngData !== '') {
+                    return 'data:image/png;base64,' . base64_encode($pngData);
+                }
+            }
+        }
+
+        return 'data:' . $imageInfo['mime'] . ';base64,' . base64_encode(file_get_contents($fullPath));
     }
 
     #[Layout('layouts.app-pelanggaran')]

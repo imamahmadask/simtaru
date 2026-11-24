@@ -205,6 +205,8 @@ class PelanggaranIndex extends Component
             (array) $pelanggaran->foto_pengawasan,
             (array) $pelanggaran->foto_tindak_lanjut,
             (array) $pelanggaran->foto_existing,
+            (array) $pelanggaran->peta_deliniasi,
+            (array) $pelanggaran->expert_dokumen_pendukung,
             $documentFiles
         );
 

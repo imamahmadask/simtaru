@@ -41,7 +41,6 @@ class PelanggaranEdit extends Component
     public $pemanfaatan_ruang;
 
     #[Validate('required')]
-    public $nama_pelanggar;
     public $nama_pemilik_perusahaan;
     public $alamat_pelanggaran;
     public $kel_pelanggaran;
@@ -49,11 +48,11 @@ class PelanggaranEdit extends Component
     public $koordinat_pelanggaran;
     public $gmaps_pelanggaran;
 
-    public $penjelasan_singkat;
     public $status;
 
     public $existing_foto_pengawasan = [];
     public $existing_foto_existing = [];
+    public $existing_peta_deliniasi = [];
     public $existing_dokumen_penilaian_kkpr;
     
     #[Validate(['new_foto_pengawasan.*' => 'image|max:10240'])]
@@ -61,6 +60,9 @@ class PelanggaranEdit extends Component
 
     #[Validate(['new_foto_existing.*' => 'image|max:10240'])]
     public $new_foto_existing = [];
+
+    #[Validate(['new_peta_deliniasi.*' => 'image|max:10240'])]
+    public $new_peta_deliniasi = [];
 
     public function mount($id)
     {
@@ -79,18 +81,18 @@ class PelanggaranEdit extends Component
         $this->existing_dokumen_penilaian_kkpr = $pelanggaran->dokumen_penilaian_kkpr;
         $this->jenis_pemanfaatan_ruang = $pelanggaran->jenis_pemanfaatan_ruang;
         $this->pemanfaatan_ruang = $pelanggaran->pemanfaatan_ruang;
-        $this->nama_pelanggar = $pelanggaran->nama_pelanggar;
-        $this->nama_pemilik_perusahaan = $pelanggaran->nama_pemilik_perusahaan;
+        $this->nama_pemilik_perusahaan = $pelanggaran->nama_pemilik_perusahaan
+            ?: ($pelanggaran->nama_pelanggar && trim((string) $pelanggaran->nama_pelanggar) !== '-' ? $pelanggaran->nama_pelanggar : null);
         $this->alamat_pelanggaran = $pelanggaran->alamat_pelanggaran;
         $this->kel_pelanggaran = $pelanggaran->kel_pelanggaran;
         $this->kec_pelanggaran = $pelanggaran->kec_pelanggaran;
         $this->koordinat_pelanggaran = $pelanggaran->koordinat_pelanggaran;
         $this->gmaps_pelanggaran = $pelanggaran->gmaps_pelanggaran;
-        $this->penjelasan_singkat = $pelanggaran->penjelasan_singkat;
         $this->status = $pelanggaran->status;
 
         $this->existing_foto_pengawasan = $pelanggaran->foto_pengawasan ?? [];
         $this->existing_foto_existing = $pelanggaran->foto_existing ?? [];
+        $this->existing_peta_deliniasi = $pelanggaran->peta_deliniasi ?? [];
     }
 
     #[Layout('layouts.app-pelanggaran')]
@@ -115,6 +117,12 @@ class PelanggaranEdit extends Component
         if ($this->new_foto_existing) {
             $new_paths = $this->uploadMultipleFiles($this->new_foto_existing, 'foto_existing');
             $foto_existing_path = array_merge($foto_existing_path, $new_paths);
+        }
+
+        $peta_deliniasi_path = $this->existing_peta_deliniasi;
+        if ($this->new_peta_deliniasi) {
+            $new_paths = $this->uploadMultipleFiles($this->new_peta_deliniasi, 'peta_deliniasi');
+            $peta_deliniasi_path = array_merge($peta_deliniasi_path, $new_paths);
         }
 
         $safeFolder = str_replace('/', '-', $this->no_pelanggaran);
@@ -144,7 +152,6 @@ class PelanggaranEdit extends Component
             'no_kkpr_skrk' => $this->no_kkpr_skrk,
             'no_ba_sk_penilaian_kkpr' => $this->no_ba_sk_penilaian_kkpr,
             'dokumen_penilaian_kkpr' => $dokumen_penilaian_kkpr_path,
-            'nama_pelanggar' => $this->nama_pelanggar,
             'nama_pemilik_perusahaan' => $this->nama_pemilik_perusahaan,
             'alamat_pelanggaran' => $this->alamat_pelanggaran,
             'kel_pelanggaran' => $this->kel_pelanggaran,
@@ -154,7 +161,7 @@ class PelanggaranEdit extends Component
             'pemanfaatan_ruang' => $this->pemanfaatan_ruang,
             'jenis_pemanfaatan_ruang' => $this->jenis_pemanfaatan_ruang,
             'foto_existing' => $foto_existing_path,
-            'penjelasan_singkat' => $this->penjelasan_singkat,
+            'peta_deliniasi' => count($peta_deliniasi_path) > 0 ? $peta_deliniasi_path : null,
             'status' => $this->status,
         ]);
 

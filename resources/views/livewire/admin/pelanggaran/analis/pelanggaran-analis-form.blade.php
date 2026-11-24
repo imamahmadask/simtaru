@@ -157,12 +157,8 @@
                         </div>
                         <div class="card-body pt-0">
                             <div class="ap-info-row">
-                                <div class="ap-info-label">Nama Pelanggar</div>
-                                <div class="ap-info-value">{{ $pelanggaran->nama_pelanggar ?? '-' }}</div>
-                            </div>
-                            <div class="ap-info-row">
                                 <div class="ap-info-label">Pemilik / Perusahaan</div>
-                                <div class="ap-info-value">{{ $pelanggaran->nama_pemilik_perusahaan ?: '-' }}</div>
+                                <div class="ap-info-value">{{ $pelanggaran->nama_pemilik_display }}</div>
                             </div>
                             <div class="ap-info-row">
                                 <div class="ap-info-label">Lokasi</div>
@@ -247,11 +243,60 @@
 
                 <form wire:submit.prevent="storeAnalisa" class="d-flex flex-column gap-4">
 
-                    {{-- LANGKAH 1: Kesimpulan Pemeriksaan --}}
-                    <div class="ap-step-pane {{ $activeStep === 1 ? 'is-active' : '' }}" id="step-kesimpulan">
+                    {{-- LANGKAH 1: Penjelasan Kasus --}}
+                    <div class="ap-step-pane {{ $activeStep === 1 ? 'is-active' : '' }}" id="step-penjelasan">
                         <div class="card ap-section">
                             <div class="card-header ap-card-header">
                                 <span class="ap-step-no">1</span>
+                                <div>
+                                    <h5>Penjelasan Kasus</h5>
+                                    <small>Uraikan penjelasan singkat kasus, pasal/aturan yang dilanggar, serta catatan tambahan lainnya</small>
+                                </div>
+                            </div>
+                            <div class="card-body pt-4 d-flex flex-column gap-3">
+                                <div>
+                                    <label for="penjelasan_singkat" class="form-label fw-semibold">Penjelasan Kasus Singkat</label>
+                                    <textarea wire:model.blur="penjelasan_singkat" id="penjelasan_singkat" rows="4"
+                                        class="form-control @error('penjelasan_singkat') is-invalid @enderror"
+                                        placeholder="Jelaskan secara singkat kronologi dan uraian kasus pelanggaran pemanfaatan ruang..."></textarea>
+                                    @error('penjelasan_singkat')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label for="pasal_aturan_dilanggar" class="form-label fw-semibold">Pasal dan Aturan yang Dilanggar</label>
+                                    <textarea wire:model.blur="pasal_aturan_dilanggar" id="pasal_aturan_dilanggar" rows="4"
+                                        class="form-control @error('pasal_aturan_dilanggar') is-invalid @enderror"
+                                        placeholder="Contoh: Perda Kota Mataram No. 5 Tahun 2019 Pasal 58 Ayat (2), Perwal No. 19 Tahun 2024 Pasal 47..."></textarea>
+                                    @error('pasal_aturan_dilanggar')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label for="penjelasan_lainnya" class="form-label fw-semibold">Penjelasan Lainnya</label>
+                                    <textarea wire:model.blur="penjelasan_lainnya" id="penjelasan_lainnya" rows="3"
+                                        class="form-control @error('penjelasan_lainnya') is-invalid @enderror"
+                                        placeholder="Tambahkan informasi pendukung atau catatan lain yang relevan (opsional)..."></textarea>
+                                    @error('penjelasan_lainnya')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="alert alert-info small d-flex align-items-center gap-2 mb-0">
+                                    <i class="bx bx-info-circle fs-5"></i>
+                                    <div>Klik <strong>Selanjutnya</strong> untuk menentukan <strong>Kesimpulan Pemeriksaan</strong> pada Langkah 2.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- LANGKAH 2: Kesimpulan Pemeriksaan --}}
+                    <div class="ap-step-pane {{ $activeStep === 2 ? 'is-active' : '' }}" id="step-kesimpulan">
+                        <div class="card ap-section">
+                            <div class="card-header ap-card-header">
+                                <span class="ap-step-no">2</span>
                                 <div>
                                     <h5>Kesimpulan Pemeriksaan</h5>
                                     <small>Tentukan apakah ditemukan pelanggaran pemanfaatan ruang</small>
@@ -290,7 +335,7 @@
                                 @elseif ($isTidakAda)
                                     <div class="alert alert-success small d-flex align-items-center gap-2 mt-3 mb-0">
                                         <i class="bx bx-check-circle fs-5"></i>
-                                        <div>Klik <strong>Selanjutnya</strong> untuk melengkapi <strong>Berkas Perizinan (Opsional)</strong> dan menyimpan analisis.</div>
+                                        <div>Klik <strong>Selanjutnya</strong> untuk melengkapi <strong>Berkas Perizinan &amp; Peta Deliniasi (Opsional)</strong> dan menyimpan analisis.</div>
                                     </div>
                                 @endif
                             </div>
@@ -298,12 +343,12 @@
                     </div>
 
                     @if ($isAda)
-                        {{-- LANGKAH 2: Komponen A — Jenis Pelanggaran (Bobot 40%) --}}
-                        <div class="ap-step-pane {{ $activeStep === 2 ? 'is-active' : '' }}" id="step-indikasi">
+                        {{-- LANGKAH 3: Komponen A — Jenis Pelanggaran (Bobot 40%) --}}
+                        <div class="ap-step-pane {{ $activeStep === 3 ? 'is-active' : '' }}" id="step-indikasi">
                             <div class="card ap-section">
                                 <div class="card-header ap-card-header justify-content-between">
                                     <div class="d-flex align-items-center gap-3">
-                                        <span class="ap-step-no">2</span>
+                                        <span class="ap-step-no">3</span>
                                         <div>
                                             <h5>A. Jenis Pelanggaran <span class="badge bg-label-primary ms-1">Bobot 40%</span></h5>
                                             <small>Ikuti 3 sub-tahap berurutan: Indikasi → Kategori → Sub-Pelanggaran (Multi-Select)</small>
@@ -424,12 +469,12 @@
                             </div>
                         </div>
 
-                        {{-- LANGKAH 3: Komponen B — Dampak Terhadap Masyarakat (Bobot 35%) --}}
-                        <div class="ap-step-pane {{ $activeStep === 3 ? 'is-active' : '' }}" id="step-dampak">
+                        {{-- LANGKAH 4: Komponen B — Dampak Terhadap Masyarakat (Bobot 35%) --}}
+                        <div class="ap-step-pane {{ $activeStep === 4 ? 'is-active' : '' }}" id="step-dampak">
                             <div class="card ap-section">
                                 <div class="card-header ap-card-header justify-content-between">
                                     <div class="d-flex align-items-center gap-3">
-                                        <span class="ap-step-no">3</span>
+                                        <span class="ap-step-no">4</span>
                                         <div>
                                             <h5>B. Dampak Terhadap Masyarakat <span class="badge bg-label-primary ms-1">Bobot 35%</span></h5>
                                             <small>Pilih kategori dampak dan radius wilayah terdampak</small>
@@ -473,12 +518,12 @@
                             </div>
                         </div>
 
-                        {{-- LANGKAH 4: Komponen C — Skala & Intensitas Pelanggaran (Bobot 15%) --}}
-                        <div class="ap-step-pane {{ $activeStep === 4 ? 'is-active' : '' }}" id="step-skala">
+                        {{-- LANGKAH 5: Komponen C — Skala & Intensitas Pelanggaran (Bobot 15%) --}}
+                        <div class="ap-step-pane {{ $activeStep === 5 ? 'is-active' : '' }}" id="step-skala">
                             <div class="card ap-section">
                                 <div class="card-header ap-card-header justify-content-between">
                                     <div class="d-flex align-items-center gap-3">
-                                        <span class="ap-step-no">4</span>
+                                        <span class="ap-step-no">5</span>
                                         <div>
                                             <h5>C. Skala &amp; Intensitas Pelanggaran <span class="badge bg-label-primary ms-1">Bobot 15%</span></h5>
                                             <small>Pilih besaran persentase luasan maksimal dan luas bangunan pelanggaran</small>
@@ -511,12 +556,12 @@
                             </div>
                         </div>
 
-                        {{-- LANGKAH 5: Komponen D — Riwayat Pelanggaran (Bobot 10%) --}}
-                        <div class="ap-step-pane {{ $activeStep === 5 ? 'is-active' : '' }}" id="step-riwayat">
+                        {{-- LANGKAH 6: Komponen D — Riwayat Pelanggaran (Bobot 10%) --}}
+                        <div class="ap-step-pane {{ $activeStep === 6 ? 'is-active' : '' }}" id="step-riwayat">
                             <div class="card ap-section">
                                 <div class="card-header ap-card-header justify-content-between">
                                     <div class="d-flex align-items-center gap-3">
-                                        <span class="ap-step-no">5</span>
+                                        <span class="ap-step-no">6</span>
                                         <div>
                                             <h5>D. Riwayat Pelanggaran <span class="badge bg-label-primary ms-1">Bobot 10%</span></h5>
                                             <small>Tentukan faktor pemberat atau riwayat pembinaan / peringatan sebelumnya</small>
@@ -562,11 +607,11 @@
                             </div>
                         </div>
 
-                        {{-- LANGKAH 6: Ringkasan Skor Penilaian (S) & Expert Judgement --}}
-                        <div class="ap-step-pane {{ $activeStep === 6 ? 'is-active' : '' }}" id="step-expert">
+                        {{-- LANGKAH 7: Ringkasan Skor Penilaian (S) & Expert Judgement --}}
+                        <div class="ap-step-pane {{ $activeStep === 7 ? 'is-active' : '' }}" id="step-expert">
                             <div class="card ap-section mb-4">
                                 <div class="card-header ap-card-header">
-                                    <span class="ap-step-no">6</span>
+                                    <span class="ap-step-no">7</span>
                                     <div>
                                         <h5>Ringkasan Perhitungan Skor (S) &amp; Expert Judgement</h5>
                                         <small>Tinjau rincian skor A, B, C, D lalu tentukan pertimbangan teknis / rapat FPR</small>
@@ -752,13 +797,13 @@
                             </div>
                         </div>
 
-                        {{-- LANGKAH 7: Klasifikasi Pelanggaran, Dokumen Sanksi & Dokumentasi --}}
-                        <div class="ap-step-pane {{ $activeStep === 7 ? 'is-active' : '' }}" id="step-klasifikasi">
+                        {{-- LANGKAH 8: Klasifikasi Pelanggaran, Dokumen Sanksi & Dokumentasi --}}
+                        <div class="ap-step-pane {{ $activeStep === 8 ? 'is-active' : '' }}" id="step-klasifikasi">
                             <div class="card ap-section mb-4">
                                 <div class="card-header ap-card-header">
-                                    <span class="ap-step-no">7</span>
+                                    <span class="ap-step-no">8</span>
                                     <div>
-                                        <h5>Klasifikasi Pelanggaran &amp; Dokumen Sanksi</h5>
+                                        <h5>Klasifikasi Pelanggaran, Dokumen Sanksi &amp; Peta Deliniasi</h5>
                                         <small>Slot unggahan menyesuaikan kategori pelanggaran akhir yang ditetapkan</small>
                                     </div>
                                 </div>
@@ -892,11 +937,59 @@
                                             @endforeach
                                         </div>
                                     @endif
+
+                                    <hr class="my-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h6 class="fw-semibold mb-0">
+                                            <i class="bx bx-map-alt me-1 text-primary"></i> Upload Peta Deliniasi
+                                            <span class="badge bg-label-info ms-1">Otomatis ke Surat SP &amp; Resume</span>
+                                        </h6>
+                                    </div>
+                                    <p class="small text-muted mb-3">
+                                        Gambar peta deliniasi yang diunggah akan otomatis disisipkan ke dalam Lampiran II Surat Peringatan (SP 1–3) dan Kartu Resume Pelanggaran.
+                                    </p>
+                                    <div>
+                                        <label for="upload_peta_deliniasi" class="form-label fw-semibold">Peta Deliniasi (Gambar)</label>
+                                        <input type="file" wire:model="upload_peta_deliniasi" multiple id="upload_peta_deliniasi" accept="image/*"
+                                            class="form-control @error('upload_peta_deliniasi.*') is-invalid @enderror">
+                                        <div class="form-text">Format JPG, PNG, WEBP — maks. 10 MB per file. Dapat lebih dari satu gambar.</div>
+                                        <div wire:loading wire:target="upload_peta_deliniasi" class="small text-info mt-1">
+                                            <i class="bx bx-loader-alt bx-spin me-1"></i> Mengunggah Peta Deliniasi...
+                                        </div>
+                                        @error('upload_peta_deliniasi.*')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    @if (!empty($existing_peta_deliniasi) || !empty($upload_peta_deliniasi))
+                                        <div class="d-flex flex-wrap gap-3 mt-3">
+                                            @foreach ($existing_peta_deliniasi as $idx => $peta)
+                                                <div class="ap-thumb" wire:key="peta-ex-{{ $idx }}">
+                                                    <a href="{{ Storage::url($peta) }}" target="_blank">
+                                                        <img src="{{ Storage::url($peta) }}" alt="Peta Deliniasi">
+                                                    </a>
+                                                    <button type="button" class="btn btn-danger" title="Hapus"
+                                                        wire:click="removeExistingPetaDeliniasi({{ $idx }})" wire:confirm="Hapus peta deliniasi ini?">
+                                                        <i class="bx bx-x"></i>
+                                                    </button>
+                                                </div>
+                                            @endforeach
+                                            @foreach ($upload_peta_deliniasi as $idx => $peta)
+                                                <div class="ap-thumb" wire:key="peta-new-{{ $idx }}">
+                                                    <img src="{{ $peta->temporaryUrl() }}" alt="Peta Baru" style="border-color: #71dd37;">
+                                                    <button type="button" class="btn btn-secondary" title="Batal"
+                                                        wire:click="removeTempPetaDeliniasi({{ $idx }})">
+                                                        <i class="bx bx-x"></i>
+                                                    </button>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
                     @elseif ($isTidakAda)
-                        {{-- LANGKAH 2 (Tidak Ada Pelanggaran): Berkas Perizinan --}}
+                        {{-- LANGKAH 3 (Tidak Ada Pelanggaran): Berkas Perizinan & Peta Deliniasi --}}
                         @php
                             $berkasIzin = [
                                 ['prop' => 'upload_kkpr_skrk', 'col' => 'file_kkpr_skrk', 'label' => 'KKPR / SKRK'],
@@ -904,13 +997,13 @@
                                 ['prop' => 'upload_nib_kbli', 'col' => 'file_nib_kbli', 'label' => 'NIB / KBLI'],
                             ];
                         @endphp
-                        <div class="ap-step-pane {{ $activeStep === 2 ? 'is-active' : '' }}" id="step-perizinan">
+                        <div class="ap-step-pane {{ $activeStep === 3 ? 'is-active' : '' }}" id="step-perizinan">
                             <div class="card ap-section">
                                 <div class="card-header ap-card-header">
-                                    <span class="ap-step-no" style="background: rgba(113,221,55,.16); color: #71dd37;"><i class="bx bx-check"></i></span>
+                                    <span class="ap-step-no" style="background: rgba(113,221,55,.16); color: #71dd37;">3</span>
                                     <div>
-                                        <h5>Berkas Perizinan <span class="badge bg-label-secondary ms-1">Opsional</span></h5>
-                                        <small>Lampirkan perizinan yang sah sebagai arsip pengawasan</small>
+                                        <h5>Berkas Perizinan &amp; Peta Deliniasi <span class="badge bg-label-secondary ms-1">Opsional</span></h5>
+                                        <small>Lampirkan perizinan yang sah serta peta deliniasi sebagai arsip pengawasan</small>
                                     </div>
                                 </div>
                                 <div class="card-body pt-4">
@@ -942,6 +1035,46 @@
                                             </div>
                                         @endforeach
                                     </div>
+
+                                    <hr class="my-4">
+                                    <h6 class="fw-semibold mb-2">
+                                        <i class="bx bx-map-alt me-1 text-primary"></i> Upload Peta Deliniasi <span class="badge bg-label-secondary ms-1">Opsional</span>
+                                    </h6>
+                                    <div>
+                                        <input type="file" wire:model="upload_peta_deliniasi" multiple id="upload_peta_deliniasi_tidak" accept="image/*"
+                                            class="form-control @error('upload_peta_deliniasi.*') is-invalid @enderror">
+                                        <div wire:loading wire:target="upload_peta_deliniasi" class="small text-info mt-1">
+                                            <i class="bx bx-loader-alt bx-spin me-1"></i> Mengunggah Peta Deliniasi...
+                                        </div>
+                                        @error('upload_peta_deliniasi.*')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    @if (!empty($existing_peta_deliniasi) || !empty($upload_peta_deliniasi))
+                                        <div class="d-flex flex-wrap gap-3 mt-3">
+                                            @foreach ($existing_peta_deliniasi as $idx => $peta)
+                                                <div class="ap-thumb" wire:key="peta-tidak-ex-{{ $idx }}">
+                                                    <a href="{{ Storage::url($peta) }}" target="_blank">
+                                                        <img src="{{ Storage::url($peta) }}" alt="Peta Deliniasi">
+                                                    </a>
+                                                    <button type="button" class="btn btn-danger" title="Hapus"
+                                                        wire:click="removeExistingPetaDeliniasi({{ $idx }})" wire:confirm="Hapus peta deliniasi ini?">
+                                                        <i class="bx bx-x"></i>
+                                                    </button>
+                                                </div>
+                                            @endforeach
+                                            @foreach ($upload_peta_deliniasi as $idx => $peta)
+                                                <div class="ap-thumb" wire:key="peta-tidak-new-{{ $idx }}">
+                                                    <img src="{{ $peta->temporaryUrl() }}" alt="Peta Baru" style="border-color: #71dd37;">
+                                                    <button type="button" class="btn btn-secondary" title="Batal"
+                                                        wire:click="removeTempPetaDeliniasi({{ $idx }})">
+                                                        <i class="bx bx-x"></i>
+                                                    </button>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -968,7 +1101,7 @@
                             <div class="d-flex align-items-center gap-2">
                                 @if ($activeStep < $totalSteps)
                                     <button type="button" class="btn btn-primary px-4" wire:click="nextStep"
-                                        wire:loading.attr="disabled" wire:target="nextStep" @disabled(!$temuan_pelanggaran)>
+                                        wire:loading.attr="disabled" wire:target="nextStep" @disabled($activeStep === 2 && !$temuan_pelanggaran)>
                                         <span wire:loading.remove wire:target="nextStep">
                                             Selanjutnya <i class="bx bx-chevron-right ms-1"></i>
                                         </span>

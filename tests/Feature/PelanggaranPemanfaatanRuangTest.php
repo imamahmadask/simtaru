@@ -22,47 +22,68 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
 
     public function test_can_create_pelanggaran_with_pemanfaatan_ruang(): void
     {
+        Storage::fake('public');
+
         $user = User::factory()->create([
             'role' => 'admin',
         ]);
 
         $this->actingAs($user);
 
+        $fakePeta = UploadedFile::fake()->image('peta_deliniasi.png', 400, 300);
+
         Livewire::test(PelanggaranCreate::class)
+            ->assertDontSee('Profil Identitas Pelanggar')
+            ->assertDontSee('Penjelasan Singkat Kasus')
+            ->assertSee('Peta Deliniasi')
             ->set('tgl_laporan', '2026-10-23')
             ->set('sumber_informasi_pelanggaran', 'Hasil Pengawasan dan Monitoring')
             ->set('tanggal_pengawasan', '2026-10-23')
-            ->set('nama_pelanggar', 'Test Pemilik')
             ->set('nama_pemilik_perusahaan', 'PT Ruang Indah')
             ->set('alamat_pelanggaran', 'Jl. Lokasi Test No. 2')
             ->set('kel_pelanggaran', 'Mataram Barat')
             ->set('kec_pelanggaran', 'Mataram')
             ->set('koordinat_pelanggaran', '-8.583, 116.094')
             ->set('gmaps_pelanggaran', 'https://maps.google.com/?q=-8.583,116.094')
-            ->set('jenis_pemanfaatan_ruang', 'Zona Perumahan Kepadatan Tinggi')
-            ->set('pemanfaatan_ruang', 'Rumah Tinggal dan Toko')
+            ->set('pemanfaatan_ruang', 'Zona Perumahan Kepadatan Tinggi')
+            ->set('jenis_pemanfaatan_ruang', 'Rumah Tinggal dan Toko')
+            ->set('peta_deliniasi', [$fakePeta])
             ->call('store')
             ->assertHasNoErrors()
             ->assertRedirect();
 
-        $pelanggaran = Pelanggaran::where('nama_pelanggar', 'Test Pemilik')->latest()->first();
+        $pelanggaran = Pelanggaran::where('nama_pemilik_perusahaan', 'PT Ruang Indah')->latest()->first();
         $this->assertNotNull($pelanggaran);
+        $this->assertNull($pelanggaran->nama_pelanggar);
         $this->assertEquals('PT Ruang Indah', $pelanggaran->nama_pemilik_perusahaan);
-        $this->assertEquals('Rumah Tinggal dan Toko', $pelanggaran->pemanfaatan_ruang);
+        $this->assertEquals('Zona Perumahan Kepadatan Tinggi', $pelanggaran->pemanfaatan_ruang);
+        $this->assertEquals('Rumah Tinggal dan Toko', $pelanggaran->jenis_pemanfaatan_ruang);
+        $this->assertCount(1, $pelanggaran->peta_deliniasi);
+        Storage::disk('public')->assertExists($pelanggaran->peta_deliniasi[0]);
 
-        // Test Edit
+        // Test Edit (memastikan field lama penjelasan_singkat dari analisis tidak tertimpa saat edit kasus)
+        $pelanggaran->update(['penjelasan_singkat' => 'Catatan analisis tersimpan']);
+
+        $fakePetaBaru = UploadedFile::fake()->image('peta_baru.jpg', 400, 300);
+
         Livewire::test(PelanggaranEdit::class, ['id' => $pelanggaran->id])
-            ->assertSet('pemanfaatan_ruang', 'Rumah Tinggal dan Toko')
+            ->assertDontSee('Profil Identitas Pelanggar')
+            ->assertDontSee('Penjelasan Singkat')
+            ->assertSet('pemanfaatan_ruang', 'Zona Perumahan Kepadatan Tinggi')
             ->assertSet('nama_pemilik_perusahaan', 'PT Ruang Indah')
             ->set('nama_pemilik_perusahaan', 'PT Ruang Maju')
-            ->set('pemanfaatan_ruang', 'Rumah Tinggal dan Kafe')
+            ->set('pemanfaatan_ruang', 'Zona Perdagangan dan Jasa')
+            ->set('new_peta_deliniasi', [$fakePetaBaru])
             ->call('update')
             ->assertHasNoErrors()
             ->assertRedirect();
 
         $pelanggaran->refresh();
         $this->assertEquals('PT Ruang Maju', $pelanggaran->nama_pemilik_perusahaan);
-        $this->assertEquals('Rumah Tinggal dan Kafe', $pelanggaran->pemanfaatan_ruang);
+        $this->assertEquals('Zona Perdagangan dan Jasa', $pelanggaran->pemanfaatan_ruang);
+        $this->assertEquals('Catatan analisis tersimpan', $pelanggaran->penjelasan_singkat);
+        $this->assertCount(2, $pelanggaran->peta_deliniasi);
+        Storage::disk('public')->assertExists($pelanggaran->peta_deliniasi[1]);
 
         // Clean up
         $pelanggaran->delete();
@@ -228,6 +249,7 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
         $fakeDoc = UploadedFile::fake()->create('dokumen_penilaian.pdf', 100, 'application/pdf');
         $fakeFotoPengawasan = UploadedFile::fake()->image('pengawasan.jpg');
         $fakeFotoExisting = UploadedFile::fake()->image('existing.jpg');
+        $fakePetaDeliniasi = UploadedFile::fake()->image('deliniasi.png');
 
         Livewire::test(PelanggaranCreate::class)
             ->set('tgl_laporan', '2026-11-11')
@@ -235,7 +257,6 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
             ->set('no_kkpr_skrk', 'KKPR-12345')
             ->set('no_ba_sk_penilaian_kkpr', 'BA-999')
             ->set('dokumen_penilaian_kkpr', $fakeDoc)
-            ->set('nama_pelanggar', 'Pelanggar Dokumen Test')
             ->set('nama_pemilik_perusahaan', 'PT Cipta Ruang')
             ->set('alamat_pelanggaran', 'Jl. Kasus')
             ->set('kel_pelanggaran', 'Kel. Kasus')
@@ -244,17 +265,21 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
             ->set('gmaps_pelanggaran', 'https://maps.google.com/?q=-8.583,116.094')
             ->set('foto_pengawasan', [$fakeFotoPengawasan])
             ->set('foto_existing', [$fakeFotoExisting])
+            ->set('peta_deliniasi', [$fakePetaDeliniasi])
             ->call('store')
             ->assertHasNoErrors()
             ->assertRedirect();
 
-        $pelanggaran = Pelanggaran::where('nama_pelanggar', 'Pelanggar Dokumen Test')->first();
+        $pelanggaran = Pelanggaran::where('nama_pemilik_perusahaan', 'PT Cipta Ruang')->first();
         $this->assertNotNull($pelanggaran);
         $this->assertNotNull($pelanggaran->dokumen_penilaian_kkpr);
+        $this->assertCount(1, $pelanggaran->peta_deliniasi);
 
         $safeFolder = str_replace('/', '-', $pelanggaran->no_pelanggaran);
         $this->assertStringContainsString("pelanggaran/{$safeFolder}/dokumen_penilaian_kkpr", $pelanggaran->dokumen_penilaian_kkpr);
+        $this->assertStringContainsString("pelanggaran/{$safeFolder}/peta_deliniasi", $pelanggaran->peta_deliniasi[0]);
         Storage::disk('public')->assertExists($pelanggaran->dokumen_penilaian_kkpr);
+        Storage::disk('public')->assertExists($pelanggaran->peta_deliniasi[0]);
     }
 
     public function test_remove_image_supports_both_types(): void
@@ -268,15 +293,20 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
         $img2 = UploadedFile::fake()->image('p2.jpg');
         $e1 = UploadedFile::fake()->image('e1.jpg');
         $e2 = UploadedFile::fake()->image('e2.jpg');
+        $d1 = UploadedFile::fake()->image('d1.png');
+        $d2 = UploadedFile::fake()->image('d2.png');
 
         $component = Livewire::test(PelanggaranCreate::class)
             ->set('foto_pengawasan', [$img1, $img2])
             ->set('foto_existing', [$e1, $e2])
+            ->set('peta_deliniasi', [$d1, $d2])
             ->call('removeImage', 0, 'foto_pengawasan')
-            ->call('removeImage', 1, 'foto_existing');
+            ->call('removeImage', 1, 'foto_existing')
+            ->call('removeImage', 0, 'peta_deliniasi');
 
         $this->assertCount(1, $component->get('foto_pengawasan'));
         $this->assertCount(1, $component->get('foto_existing'));
+        $this->assertCount(1, $component->get('peta_deliniasi'));
     }
 
     public function test_generate_no_pelanggaran_handles_gaps_without_duplicate(): void
@@ -370,14 +400,16 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
 
         $fakeSp1Path = 'pelanggaran/009-Wasdal-Taru-I-2026/dokumen/SP1_test.pdf';
         $fakeFotoPath = 'pelanggaran/009-Wasdal-Taru-I-2026/foto_pengawasan/p1.jpg';
+        $fakePetaPath = 'pelanggaran/009-Wasdal-Taru-I-2026/peta_deliniasi/peta1.png';
         Storage::disk('public')->put($fakeSp1Path, 'dummy content');
         Storage::disk('public')->put($fakeFotoPath, 'dummy content');
+        Storage::disk('public')->put($fakePetaPath, 'dummy content');
 
         $pelanggaran = Pelanggaran::create([
             'no_pelanggaran' => '009/Wasdal-Taru/I/2026',
             'tgl_laporan' => '2026-01-10',
             'sumber_informasi_pelanggaran' => 'Hasil Pengawasan dan Monitoring',
-            'nama_pelanggar' => 'Test Delete',
+            'nama_pemilik_perusahaan' => 'Test Delete',
             'alamat_pelanggar' => 'A',
             'kel_pelanggar' => 'K',
             'kec_pelanggar' => 'Mataram',
@@ -389,12 +421,14 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
             'koordinat_pelanggaran' => '-8.581, 116.091',
             'jenis_indikasi_pelanggaran' => 'Tidak Memiliki KKPR atau SKRK',
             'foto_pengawasan' => [$fakeFotoPath],
+            'peta_deliniasi' => [$fakePetaPath],
             'file_sp1' => $fakeSp1Path,
             'status' => 'On Progress',
         ]);
 
         Storage::disk('public')->assertExists($fakeSp1Path);
         Storage::disk('public')->assertExists($fakeFotoPath);
+        Storage::disk('public')->assertExists($fakePetaPath);
 
         Livewire::test(PelanggaranIndex::class)
             ->call('deletePelanggaran', $pelanggaran->id)
@@ -403,6 +437,7 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
         $this->assertDatabaseMissing('pelanggarans', ['id' => $pelanggaran->id]);
         Storage::disk('public')->assertMissing($fakeSp1Path);
         Storage::disk('public')->assertMissing($fakeFotoPath);
+        Storage::disk('public')->assertMissing($fakePetaPath);
     }
 
     public function test_dedicated_page_pelanggaran_analis_form_saves_slugs_and_redirects(): void
@@ -435,8 +470,12 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
         $response->assertStatus(200);
 
         $fakeSp1 = UploadedFile::fake()->create('sp1.pdf', 100, 'application/pdf');
+        $fakePeta = UploadedFile::fake()->image('peta_deliniasi_analis.png', 500, 400);
 
         Livewire::test(PelanggaranAnalisForm::class, ['id' => $pelanggaran->id])
+            ->set('penjelasan_singkat', 'Bangunan melebihi KLB yang ditetapkan.')
+            ->set('pasal_aturan_dilanggar', 'Perda Kota Mataram No. 5 Tahun 2019 Pasal 84')
+            ->set('penjelasan_lainnya', 'Sudah dilakukan verifikasi awal oleh tim pengawasan.')
             ->set('temuan_pelanggaran', 'Ada Pelanggaran')
             ->set('jenis_indikasi_pelanggaran', 'tidak_mematuhi_kkpr')
             ->set('kategori_pelanggaran', 'tidak_sesuai_kkpr')
@@ -450,11 +489,15 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
             ->set('expert_kesimpulan', 'Disarankan pengenaan sanksi administratif penghentian sementara dan penyesuaian izin.')
             ->set('expert_tindakan_rekomendasi', 'Ikuti Rekomendasi')
             ->set('upload_sp1', $fakeSp1)
+            ->set('upload_peta_deliniasi', [$fakePeta])
             ->call('storeAnalisa')
             ->assertHasNoErrors()
             ->assertRedirect(route('pelanggaran.detail', $pelanggaran->id));
 
         $pelanggaran->refresh();
+        $this->assertEquals('Bangunan melebihi KLB yang ditetapkan.', $pelanggaran->penjelasan_singkat);
+        $this->assertEquals('Perda Kota Mataram No. 5 Tahun 2019 Pasal 84', $pelanggaran->pasal_aturan_dilanggar);
+        $this->assertEquals('Sudah dilakukan verifikasi awal oleh tim pengawasan.', $pelanggaran->penjelasan_lainnya);
         $this->assertEquals('Ada Pelanggaran', $pelanggaran->temuan_pelanggaran);
         $this->assertEquals('tidak_mematuhi_kkpr', $pelanggaran->jenis_indikasi_pelanggaran);
         $this->assertEquals('Tidak Mematuhi Ketentuan Pemanfaatan Ruang (Pelanggaran KKPR)', $pelanggaran->indikasi_label);
@@ -467,12 +510,16 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
         $this->assertEquals($user->id, $pelanggaran->expert_user_id);
         $this->assertEquals('Analis Ahli Tata Ruang', $pelanggaran->expert_user_name);
         $this->assertNotNull($pelanggaran->file_sp1);
+        $this->assertCount(1, $pelanggaran->peta_deliniasi);
         Storage::disk('public')->assertExists($pelanggaran->file_sp1);
+        Storage::disk('public')->assertExists($pelanggaran->peta_deliniasi[0]);
 
         // Render setiap cabang UI halaman analisis
         Livewire::test(PelanggaranAnalisForm::class, ['id' => $pelanggaran->id])
+            ->assertSee('Penjelasan Kasus')
             ->assertSee('Dokumen Sanksi Administratif')
             ->assertSee('1 / 8 terunggah')
+            ->assertSee('Upload Peta Deliniasi')
             ->set('klasifikasi_pelanggaran', 'Pelanggaran Rendah')
             ->assertSet('expert_tindakan_rekomendasi', 'Anulir Rekomendasi')
             ->assertSee('Anulir Rekomendasi')
@@ -480,13 +527,24 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
             ->assertSee('Berkas Perizinan')
             ->assertDontSee('Dokumen Sanksi Administratif');
 
-        // Verifikasi tombol Resume Pelanggaran berada pada Tab Detail (PelanggaranDetail)
+        // Verifikasi Resume Pelanggaran sesuai 10 bagian pada sheet mode isian
         Livewire::test(PelanggaranDetail::class, ['id' => $pelanggaran->id])
             ->assertSee('Resume Pelanggaran')
             ->assertSee('RESUME PELANGGARAN')
-            ->assertSee('Delik Pelanggaran')
+            ->assertSee('Penjelasan Singkat Kasus')
+            ->assertSee('Profil Lokasi Indikasi Pelanggaran')
+            ->assertSee('PT Mega Land Corporation')
+            ->assertSee('Jenis dan Sub Pelanggaran')
+            ->assertSee('Dampak')
+            ->assertSee('Skala dan Intensitas Pelanggaran')
+            ->assertSee('Riwayat Pelanggaran')
             ->assertSee('Hasil Tipologi')
-            ->assertSee('Arah Penanganan');
+            ->assertSee('Rekomendasi Penanganan')
+            ->assertSee('Petugas Analis')
+            ->assertSee('Analis Ahli Tata Ruang')
+            ->assertSee('Peta Deliniasi')
+            ->call('downloadResumePdf')
+            ->assertFileDownloaded('Resume_Pelanggaran_099-Wasdal-Taru-XI-2026.pdf');
     }
 
     public function test_skoring_penilaian_mengikuti_rumus_dan_sheet_kasus_excel(): void
@@ -720,22 +778,31 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
             'status' => 'On Progress',
         ]);
 
-        // 1. Alur 7 Langkah untuk "Ada Pelanggaran" (Komponen C = Step 4, Komponen D = Step 5 terpisah)
+        // 1. Alur 8 Langkah untuk "Ada Pelanggaran" (Step 1 = Penjelasan Kasus, Step 2 = Kesimpulan, Step 3-6 = A..D, Step 7 = Skor & Expert, Step 8 = Klasifikasi, Sanksi & Peta Deliniasi)
         $wizard = Livewire::test(PelanggaranAnalisForm::class, ['id' => $pelanggaran->id])
             ->assertSet('currentStep', 1)
-            ->call('nextStep')
-            ->assertHasErrors(['temuan_pelanggaran'])
-            ->assertSet('currentStep', 1)
-            // Pilih Ada Pelanggaran -> lanjut ke Step 2 (Komponen A)
-            ->set('temuan_pelanggaran', 'Ada Pelanggaran')
-            ->assertSet('total_steps', 7)
+            ->assertSet('total_steps', 8)
+            // Step 1: Penjelasan Kasus -> lanjut ke Step 2
+            ->set('penjelasan_singkat', 'Bangunan ruko tidak sesuai pola ruang perumahan.')
+            ->set('pasal_aturan_dilanggar', 'Perda No. 5 Tahun 2019 Pasal 84')
+            ->set('penjelasan_lainnya', 'Ditemukan saat patroli pengawasan.')
             ->call('nextStep')
             ->assertHasNoErrors()
             ->assertSet('currentStep', 2)
-            // Validasi Step 2 (Komponen A)
+            // Validasi Step 2 (Kesimpulan Pemeriksaan)
+            ->call('nextStep')
+            ->assertHasErrors(['temuan_pelanggaran'])
+            ->assertSet('currentStep', 2)
+            // Pilih Ada Pelanggaran -> lanjut ke Step 3 (Komponen A)
+            ->set('temuan_pelanggaran', 'Ada Pelanggaran')
+            ->assertSet('total_steps', 8)
+            ->call('nextStep')
+            ->assertHasNoErrors()
+            ->assertSet('currentStep', 3)
+            // Validasi Step 3 (Komponen A)
             ->call('nextStep')
             ->assertHasErrors(['jenis_indikasi_pelanggaran', 'kategori_pelanggaran', 'jenis_pelanggaran'])
-            ->assertSet('currentStep', 2)
+            ->assertSet('currentStep', 3)
             ->set('jenis_indikasi_pelanggaran', 'tidak_menaati_rtr')
             ->set('kategori_pelanggaran', 'tanpa_kkpr')
             ->call('selectAllJenisPelanggaran')
@@ -745,68 +812,187 @@ class PelanggaranPemanfaatanRuangTest extends TestCase
             ->set('jenis_pelanggaran.0', 'lokasi_tidak_sesuai')
             ->call('nextStep')
             ->assertHasNoErrors()
-            ->assertSet('currentStep', 3)
-            // Validasi Step 3 (Komponen B)
+            ->assertSet('currentStep', 4)
+            // Validasi Step 4 (Komponen B)
             ->call('nextStep')
             ->assertHasErrors(['dampak_radius_wilayah'])
-            ->assertSet('currentStep', 3)
+            ->assertSet('currentStep', 4)
             ->set('dampak_radius_wilayah', 'Tidak Ada')
             ->call('nextStep')
             ->assertHasNoErrors()
-            ->assertSet('currentStep', 4)
-            // Validasi Step 4 (Komponen C - Skala terpisah sendiri)
+            ->assertSet('currentStep', 5)
+            // Validasi Step 5 (Komponen C - Skala terpisah sendiri)
             ->call('nextStep')
             ->assertHasErrors(['skala_pelanggaran'])
-            ->assertSet('currentStep', 4)
+            ->assertSet('currentStep', 5)
             ->set('skala_pelanggaran', 'skala_2')
             ->call('nextStep')
             ->assertHasNoErrors()
-            ->assertSet('currentStep', 5)
-            // Validasi Step 5 (Komponen D - Riwayat terpisah sendiri)
+            ->assertSet('currentStep', 6)
+            // Validasi Step 6 (Komponen D - Riwayat terpisah sendiri)
             ->call('nextStep')
             ->assertHasErrors(['riwayat_pelanggaran'])
-            ->assertSet('currentStep', 5)
+            ->assertSet('currentStep', 6)
             ->set('riwayat_pelanggaran', 'riwayat_1')
             ->assertSee('55.00')
             ->call('nextStep')
             ->assertHasNoErrors()
-            ->assertSet('currentStep', 6)
-            // Step 6: Ringkasan Skor & Expert Judgement -> lanjut ke Step 7
+            ->assertSet('currentStep', 7)
+            // Step 7: Ringkasan Skor & Expert Judgement -> lanjut ke Step 8
             ->set('expert_justifikasi', 'Lokasi tidak sesuai rencana peruntukan ruang.')
             ->call('nextStep')
             ->assertHasNoErrors()
-            ->assertSet('currentStep', 7)
+            ->assertSet('currentStep', 8)
             ->assertSee('Pelanggaran Sedang')
             // Uji prevStep & goToStep
             ->call('prevStep')
-            ->assertSet('currentStep', 6)
-            ->call('goToStep', 2)
-            ->assertSet('currentStep', 2)
-            ->call('goToStep', 7)
             ->assertSet('currentStep', 7)
+            ->call('goToStep', 3)
+            ->assertSet('currentStep', 3)
+            ->call('goToStep', 8)
+            ->assertSet('currentStep', 8)
             ->call('storeAnalisa')
             ->assertHasNoErrors();
 
         $pelanggaran->refresh();
+        $this->assertEquals('Bangunan ruko tidak sesuai pola ruang perumahan.', $pelanggaran->penjelasan_singkat);
+        $this->assertEquals('Perda No. 5 Tahun 2019 Pasal 84', $pelanggaran->pasal_aturan_dilanggar);
+        $this->assertEquals('Ditemukan saat patroli pengawasan.', $pelanggaran->penjelasan_lainnya);
         $this->assertEquals(55, $pelanggaran->skor_total);
         $this->assertEquals('Pelanggaran Sedang', $pelanggaran->klasifikasi_pelanggaran);
 
         // 2. Jika storeAnalisa() gagal validasi di langkah awal, currentStep otomatis melompat ke langkah tersebut
         Livewire::test(PelanggaranAnalisForm::class, ['id' => $pelanggaran->id])
-            ->set('currentStep', 7)
+            ->set('currentStep', 8)
             ->set('skala_pelanggaran', null)
             ->call('storeAnalisa')
             ->assertHasErrors(['skala_pelanggaran'])
-            ->assertSet('currentStep', 4);
+            ->assertSet('currentStep', 5);
 
-        // 3. Alur 2 Langkah untuk "Tidak Ada Pelanggaran"
+        // 3. Alur 3 Langkah untuk "Tidak Ada Pelanggaran" (Step 1 = Penjelasan, Step 2 = Kesimpulan, Step 3 = Berkas & Peta)
         Livewire::test(PelanggaranAnalisForm::class, ['id' => $pelanggaran->id])
             ->set('temuan_pelanggaran', 'Tidak Ada Pelanggaran')
-            ->assertSet('total_steps', 2)
+            ->assertSet('total_steps', 3)
             ->call('nextStep')
             ->assertHasNoErrors()
             ->assertSet('currentStep', 2)
+            ->call('nextStep')
+            ->assertHasNoErrors()
+            ->assertSet('currentStep', 3)
             ->assertSee('Berkas Perizinan');
+    }
+
+    public function test_surat_peringatan_sp1_sp2_sp3_memuat_nama_pemilik_rtr_eksisting_dan_auto_insert_gambar(): void
+    {
+        Storage::fake('public');
+
+        $user = User::factory()->create(['role' => 'admin-pelanggaran']);
+        $this->actingAs($user);
+
+        // Buat gambar nyata via GD agar PhpWord dapat membaca ukuran dan menyisipkannya ke DOCX
+        $foto1Rel = 'pelanggaran/147-Wasdal-Taru-XI-2026/foto_existing/ex1.png';
+        $foto2Rel = 'pelanggaran/147-Wasdal-Taru-XI-2026/foto_existing/ex2.jpg';
+        $petaRel = 'pelanggaran/147-Wasdal-Taru-XI-2026/peta_deliniasi/peta1.png';
+
+        $img = imagecreatetruecolor(240, 160);
+        $blue = imagecolorallocate($img, 30, 64, 175);
+        imagefill($img, 0, 0, $blue);
+        ob_start();
+        imagepng($img);
+        $pngBytes = ob_get_clean();
+
+        ob_start();
+        imagejpeg($img);
+        $jpgBytes = ob_get_clean();
+        imagedestroy($img);
+
+        Storage::disk('public')->put($foto1Rel, $pngBytes);
+        Storage::disk('public')->put($foto2Rel, $jpgBytes);
+        Storage::disk('public')->put($petaRel, $pngBytes);
+
+        $pelanggaran = Pelanggaran::create([
+            'no_pelanggaran' => '147/Wasdal-Taru/XI/2026',
+            'tgl_laporan' => '2026-11-17',
+            'sumber_informasi_pelanggaran' => 'Hasil Pengawasan dan Monitoring',
+            'nama_pelanggar' => '-',
+            'nama_pemilik_perusahaan' => 'PT Agromas',
+            'alamat_pelanggaran' => 'Jalan Madiun I/C Taman Baru Mataram',
+            'kel_pelanggaran' => 'Cakranegara Utara',
+            'kec_pelanggaran' => 'Mataram',
+            'koordinat_pelanggaran' => '-8.593899, 116.105553',
+            'pemanfaatan_ruang' => 'Kawasan Perumahan Kepadatan Sedang',
+            'jenis_pemanfaatan_ruang' => 'Perdagangan dan Jasa (Perjas)',
+            'jenis_indikasi_pelanggaran' => 'tidak_menaati_rtr',
+            'foto_existing' => [$foto1Rel, $foto2Rel],
+            'peta_deliniasi' => [$petaRel],
+            'status' => 'On Progress',
+        ]);
+
+        foreach (['downloadSP1', 'downloadSP2', 'downloadSP3'] as $method) {
+            $component = new PelanggaranAnalisDetail();
+            $component->mount($pelanggaran->id);
+            $response = $component->{$method}();
+            $filePath = $response->getFile()->getPathname();
+
+            $this->assertFileExists($filePath);
+
+            $zip = new \ZipArchive();
+            $this->assertTrue($zip->open($filePath) === true);
+
+            $docXml = $zip->getFromName('word/document.xml');
+            $relsXml = $zip->getFromName('word/_rels/document.xml.rels');
+
+            $mediaCount = 0;
+            for ($i = 0; $i < $zip->numFiles; $i++) {
+                $entry = $zip->getNameIndex($i);
+                if (str_starts_with($entry, 'word/media/image') && str_contains($entry, '_')) {
+                    $mediaCount++;
+                }
+            }
+            $zip->close();
+            @unlink($filePath);
+
+            // Pastikan document.xml tetap 100% valid XML setelah injeksi multi-gambar
+            $domCheck = new \DOMDocument();
+            $this->assertTrue($domCheck->loadXML($docXml), "word/document.xml harus valid XML pada {$method}");
+
+            // Pastikan Nama Pemilik / Perusahaan tampil (bukan '-')
+            $this->assertStringContainsString('PT Agromas', $docXml);
+            // Pastikan Pemanfaatan Ruang Eksisting & Peruntukan RTR tidak tertukar
+            $this->assertStringContainsString('Perdagangan dan Jasa (Perjas)', $docXml);
+            $this->assertStringContainsString('Kawasan Perumahan Kepadatan Sedang', $docXml);
+            $this->assertLessThan(
+                strpos($docXml, 'Kawasan Perumahan Kepadatan Sedang'),
+                strpos($docXml, 'Perdagangan dan Jasa (Perjas)'),
+                "Urutan eksisting vs RTR harus benar pada {$method}"
+            );
+            // Pastikan tidak ada placeholder mentah tersisa
+            $this->assertStringNotContainsString('${foto_existing}', $docXml);
+            $this->assertStringNotContainsString('${peta_deliniasi}', $docXml);
+            $this->assertStringNotContainsString('${peruntukan_rtr}', $docXml);
+            $this->assertStringNotContainsString('${pemanfaatan_ruang_eksisting}', $docXml);
+            // Pastikan 2 Foto Existing + 1 Peta Deliniasi (3 gambar) benar-benar tertanam ke word/media/ & rels
+            $this->assertGreaterThanOrEqual(3, $mediaCount, "Gambar foto_existing + peta_deliniasi harus tertanam pada {$method}");
+            $this->assertStringContainsString('Target="media/image_', $relsXml);
+        }
+
+        // Uji juga kondisi tanpa foto & tanpa peta deliniasi (harus tampil pesan fallback, bukan placeholder mentah)
+        $pelanggaran->update(['foto_existing' => null, 'peta_deliniasi' => null]);
+        $component = new PelanggaranAnalisDetail();
+        $component->mount($pelanggaran->id);
+        $response = $component->downloadSP1();
+        $emptyDocPath = $response->getFile()->getPathname();
+
+        $zipEmpty = new \ZipArchive();
+        $this->assertTrue($zipEmpty->open($emptyDocPath) === true);
+        $emptyDocXml = $zipEmpty->getFromName('word/document.xml');
+        $zipEmpty->close();
+        @unlink($emptyDocPath);
+
+        $this->assertStringContainsString('Belum ada foto kondisi eksisting yang diunggah.', $emptyDocXml);
+        $this->assertStringContainsString('Belum ada peta deliniasi yang diunggah.', $emptyDocXml);
+        $this->assertStringNotContainsString('${foto_existing}', $emptyDocXml);
+        $this->assertStringNotContainsString('${peta_deliniasi}', $emptyDocXml);
     }
 
     public function test_dashboard_pelanggaran_menampilkan_rekap_klasifikasi_dan_jenis_indikasi(): void

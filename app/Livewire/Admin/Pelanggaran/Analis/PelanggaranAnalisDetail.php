@@ -466,103 +466,66 @@ class PelanggaranAnalisDetail extends Component
 
     public function downloadSP1()
     {
-        $data = $this->pelanggaran;
+        $pelanggaran = $this->pelanggaran->fresh() ?? $this->pelanggaran;
 
-        $data = [
-            'jenis_indikasi_pelanggaran' => $data->indikasi_full_text,
-            'nama_pemilik_bangunan' => $data->nama_pelanggar,
-            'alamat_pelanggaran' => $data->alamat_pelanggaran,
-            'kel_pelanggaran' => $data->kel_pelanggaran,
-            'kec_pelanggaran' => $data->kec_pelanggaran,
-            'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,
-            'pemanfaatan_ruang' => $data->pemanfaatan_ruang,
-        ];
-
-        return $this->generateDocument('SURAT_PERINGATAN_1.docx', $data);
+        return $this->generateDocument(
+            'SURAT_PERINGATAN_1.docx',
+            $this->buildSuratData($pelanggaran, swapLegacyRtrEksisting: true),
+            $this->buildSpImageBlocks($pelanggaran)
+        );
     }
 
     public function downloadSP2()
     {
-        $data = $this->pelanggaran;
+        $pelanggaran = $this->pelanggaran->fresh() ?? $this->pelanggaran;
 
-        $data = [
-            'jenis_indikasi_pelanggaran' => $data->indikasi_full_text,
-            'nama_pemilik_bangunan' => $data->nama_pelanggar,
-            'alamat_pelanggaran' => $data->alamat_pelanggaran,
-            'kel_pelanggaran' => $data->kel_pelanggaran,
-            'kec_pelanggaran' => $data->kec_pelanggaran,
-            'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,
-            'pemanfaatan_ruang' => $data->pemanfaatan_ruang,
-        ];
-
-        return $this->generateDocument('SURAT_PERINGATAN_2.docx', $data);
+        return $this->generateDocument(
+            'SURAT_PERINGATAN_2.docx',
+            $this->buildSuratData($pelanggaran, swapLegacyRtrEksisting: true),
+            $this->buildSpImageBlocks($pelanggaran)
+        );
     }
 
     public function downloadSP3()
     {
-        $data = $this->pelanggaran;
+        $pelanggaran = $this->pelanggaran->fresh() ?? $this->pelanggaran;
 
-        $data = [
-            'jenis_indikasi_pelanggaran' => $data->indikasi_full_text,
-            'nama_pemilik_bangunan' => $data->nama_pelanggar,
-            'alamat_pelanggaran' => $data->alamat_pelanggaran,
-            'kel_pelanggaran' => $data->kel_pelanggaran,
-            'kec_pelanggaran' => $data->kec_pelanggaran,
-            'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,
-            'pemanfaatan_ruang' => $data->pemanfaatan_ruang,
-        ];
-
-        return $this->generateDocument('SURAT_PERINGATAN_3.docx', $data);
+        return $this->generateDocument(
+            'SURAT_PERINGATAN_3.docx',
+            $this->buildSuratData($pelanggaran, swapLegacyRtrEksisting: true),
+            $this->buildSpImageBlocks($pelanggaran)
+        );
     }
 
     public function downloadSuratPelimpahanBerkasPolPP()
     {
-        $data = $this->pelanggaran;
+        $pelanggaran = $this->pelanggaran->fresh() ?? $this->pelanggaran;
 
-        $data = [
-            'jenis_indikasi_pelanggaran' => $data->indikasi_full_text,
-            'nama_pemilik_bangunan' => $data->nama_pelanggar,
-            'alamat_pelanggaran' => $data->alamat_pelanggaran,
-            'kel_pelanggaran' => $data->kel_pelanggaran,
-            'kec_pelanggaran' => $data->kec_pelanggaran,
-            'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,
-            'pemanfaatan_ruang' => $data->pemanfaatan_ruang,
-        ];
-
-        return $this->generateDocument('SURAT_PELIMPAHAN_BERKAS_POLPP.docx', $data);
+        return $this->generateDocument(
+            'SURAT_PELIMPAHAN_BERKAS_POLPP.docx',
+            $this->buildSuratData($pelanggaran)
+        );
     }
 
     public function downloadSuratPernyataan()
     {
-        $data = $this->pelanggaran;
+        $pelanggaran = $this->pelanggaran->fresh() ?? $this->pelanggaran;
 
-        $data = [
-            'jenis_indikasi_pelanggaran' => $data->indikasi_full_text,
-            'nama_pemilik_bangunan' => $data->nama_pelanggar,
-            'alamat_pelanggaran' => $data->alamat_pelanggaran,
-            'kel_pelanggaran' => $data->kel_pelanggaran,
-            'kec_pelanggaran' => $data->kec_pelanggaran,
-            'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,
-            'pemanfaatan_ruang' => $data->pemanfaatan_ruang,
-        ];
-
-        return $this->generateDocument('SURAT_PERNYATAAN_PELANGGARAN_PEMANFAATAN_RUANG.docx', $data);
+        return $this->generateDocument(
+            'SURAT_PERNYATAAN_PELANGGARAN_PEMANFAATAN_RUANG.docx',
+            $this->buildSuratData($pelanggaran)
+        );
     }
 
-    public function downloadSuratSosialisasi(){
-        $data = $this->pelanggaran;
+    public function downloadSuratSosialisasi()
+    {
+        $pelanggaran = $this->pelanggaran->fresh() ?? $this->pelanggaran;
 
-        $data = [
-            'jenis_indikasi_pelanggaran' => $data->indikasi_full_text,
-            'nama_pemilik_bangunan' => $data->nama_pelanggar,
-            'alamat_pelanggaran' => $data->alamat_pelanggaran,
-            'kel_pelanggaran' => $data->kel_pelanggaran,
-            'kec_pelanggaran' => $data->kec_pelanggaran,
-            'jenis_pemanfaatan_ruang' => $data->jenis_pemanfaatan_ruang,
-            'pemanfaatan_ruang' => $data->pemanfaatan_ruang,
-        ];
-
-        return $this->generateDocument('SURAT_SOSIALISASI_PELANGGARAN.docx', $data);
+        return $this->generateDocument(
+            'SURAT_SOSIALISASI_PELANGGARAN.docx',
+            $this->buildSuratData($pelanggaran),
+            $this->buildSpImageBlocks($pelanggaran)
+        );
     }
 
     public function downloadBAPengambilanDokumen(){
@@ -602,7 +565,7 @@ class PelanggaranAnalisDetail extends Component
             'alamat_pelanggaran' => $data->alamat_pelanggaran,
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => $data->kec_pelanggaran,
-            'nama_pemilik_bangunan' => $data->nama_pelanggar,
+            'nama_pemilik_bangunan' => $data->nama_pemilik_display,
             'latitude' => $lat !== '' ? $lat : '-',
             'longitude' => $lng !== '' ? $lng : '-',
             'gmaps' => $data->gmaps_pelanggaran,
@@ -620,7 +583,7 @@ class PelanggaranAnalisDetail extends Component
         $data = $this->pelanggaran;
 
         $data = [
-            'nama_pemilik_bangunan' => $data->nama_pelanggar,
+            'nama_pemilik_bangunan' => $data->nama_pemilik_display,
         ];
 
         return $this->generateDocument('3B_BA_SURVEI_LAPANGAN_SURVEYOR.docx', $data);
@@ -630,7 +593,7 @@ class PelanggaranAnalisDetail extends Component
         $data = $this->pelanggaran;
 
         $data = [
-            'nama_pemilik_bangunan' => $data->nama_pelanggar,
+            'nama_pemilik_bangunan' => $data->nama_pemilik_display,
         ];
 
         return $this->generateDocument('4A_BA_WAWANCARA.docx', $data);
@@ -644,7 +607,7 @@ class PelanggaranAnalisDetail extends Component
             'alamat_pelanggaran' => $data->alamat_pelanggaran,
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => $data->kec_pelanggaran,
-            'nama_pemilik_bangunan' => $data->nama_pelanggar,
+            'nama_pemilik_bangunan' => $data->nama_pemilik_display,
             'alamat_pelanggar' => $data->alamat_pelanggar,
             'kel_pelanggar' => $data->kel_pelanggar,
             'kec_pelanggar' => $data->kec_pelanggar,
@@ -663,7 +626,7 @@ class PelanggaranAnalisDetail extends Component
             'alamat_pelanggaran' => $data->alamat_pelanggaran,
             'kel_pelanggaran' => $data->kel_pelanggaran,
             'kec_pelanggaran' => $data->kec_pelanggaran,
-            'nama_pemilik_bangunan' => $data->nama_pelanggar,
+            'nama_pemilik_bangunan' => $data->nama_pemilik_display,
         ];
 
         return $this->generateDocument('6_BA_SOSIALISASI.docx', $data);
@@ -674,21 +637,67 @@ class PelanggaranAnalisDetail extends Component
 
         $data = [
             'jenis_indikasi_pelanggaran' => $data->indikasi_full_text,
-            'alamat_pelanggaran' => strtoupper($data->alamat_pelanggaran),
+            'alamat_pelanggaran' => strtoupper((string) $data->alamat_pelanggaran),
             'kel_pelanggaran' => $data->kel_pelanggaran,
-            'kec_pelanggaran' => strtoupper($data->kec_pelanggaran),
-            'nama_pemilik_bangunan' => $data->nama_pelanggar,
+            'kec_pelanggaran' => strtoupper((string) $data->kec_pelanggaran),
+            'nama_pemilik_bangunan' => $data->nama_pemilik_display,
         ];
 
         return $this->generateDocument('10_SK_SANKSI_PEMBERHENTIAN.docx', $data);
     }
 
-    private function generateDocument($templatePath, $data)
+    private function buildSuratData(Pelanggaran $pelanggaran, bool $swapLegacyRtrEksisting = false): array
+    {
+        $peruntukanRtr = $pelanggaran->pemanfaatan_ruang ?: '-';
+        $pemanfaatanEksisting = $pelanggaran->jenis_pemanfaatan_ruang ?: '-';
+
+        return [
+            'jenis_indikasi_pelanggaran' => $pelanggaran->indikasi_full_text,
+            'nama_pemilik_bangunan' => $pelanggaran->nama_pemilik_display,
+            'alamat_pelanggaran' => $pelanggaran->alamat_pelanggaran,
+            'kel_pelanggaran' => $pelanggaran->kel_pelanggaran,
+            'kec_pelanggaran' => $pelanggaran->kec_pelanggaran,
+            'peruntukan_rtr' => $peruntukanRtr,
+            'pemanfaatan_ruang_eksisting' => $pemanfaatanEksisting,
+            'penjelasan_singkat' => $pelanggaran->penjelasan_singkat ?: '-',
+            'pasal_aturan_dilanggar' => $pelanggaran->pasal_aturan_dilanggar ?: '-',
+            'penjelasan_lainnya' => $pelanggaran->penjelasan_lainnya ?: '-',
+            // Variabel legacy: pada Surat Peringatan (SP1-SP3), template lama menempatkan
+            // ${jenis_pemanfaatan_ruang} untuk peruntukan RTR dan ${pemanfaatan_ruang} untuk eksisting.
+            'jenis_pemanfaatan_ruang' => $swapLegacyRtrEksisting ? $peruntukanRtr : $pemanfaatanEksisting,
+            'pemanfaatan_ruang' => $swapLegacyRtrEksisting ? $pemanfaatanEksisting : $peruntukanRtr,
+        ];
+    }
+
+    private function buildSpImageBlocks(Pelanggaran $pelanggaran): array
+    {
+        return [
+            'foto_existing' => [
+                'paths' => array_values(array_filter((array) ($pelanggaran->foto_existing ?? []))),
+                'layout' => 'grid',
+                'width' => '14.5cm',
+                'height' => '10cm',
+                'grid_width' => '7.2cm',
+                'grid_height' => '5.5cm',
+                'empty_text' => 'Belum ada foto kondisi eksisting yang diunggah.',
+            ],
+            'peta_deliniasi' => [
+                'paths' => array_values(array_filter((array) ($pelanggaran->peta_deliniasi ?? []))),
+                'layout' => 'stack',
+                'width' => '15.2cm',
+                'height' => '17cm',
+                'empty_text' => 'Belum ada peta deliniasi yang diunggah.',
+            ],
+        ];
+    }
+
+    private function generateDocument($templatePath, $data, ?array $imageBlocks = null)
     {
         return app(\App\Services\DocumentTemplateService::class)->generate(
             codeOrPath: $templatePath,
             data: $data,
-            modul: 'pelanggaran'
+            modul: 'pelanggaran',
+            imageBlocks: $imageBlocks
         );
     }
 }

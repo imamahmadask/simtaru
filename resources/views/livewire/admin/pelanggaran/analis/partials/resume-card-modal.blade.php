@@ -15,7 +15,7 @@
 
 <div wire:ignore.self class="modal fade" id="ResumePelanggaranModal" tabindex="-1"
     aria-labelledby="ResumePelanggaranModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 680px;">
         <div class="modal-content border-0 bg-transparent shadow-none">
             <style>
                 #ResumePelanggaranModal #ResumeCaptureArea {
@@ -83,7 +83,7 @@
                 }
                 #ResumePelanggaranModal .rc-photo-wrap {
                     width: 100%;
-                    height: 235px;
+                    height: 230px;
                     background: #f1f5f9;
                     border-bottom: 1.5px solid #cbd5e1;
                     position: relative;
@@ -112,49 +112,91 @@
                     border-collapse: collapse;
                     background: #ffffff;
                 }
-                #ResumePelanggaranModal .rc-table tr {
+                #ResumePelanggaranModal .rc-table > tbody > tr {
                     border-bottom: 1px solid #cbd5e1;
                 }
-                #ResumePelanggaranModal .rc-table tr:last-child {
+                #ResumePelanggaranModal .rc-table > tbody > tr:last-child {
                     border-bottom: none;
                 }
-                #ResumePelanggaranModal .rc-table th {
-                    width: 32%;
-                    padding: 15px 18px;
+                #ResumePelanggaranModal .rc-table > tbody > tr > th {
+                    width: 34%;
+                    padding: 13px 16px;
                     font-weight: 700;
-                    font-size: 0.9rem;
+                    font-size: 0.87rem;
                     color: #1e293b;
                     border-right: 1px solid #cbd5e1;
-                    vertical-align: middle;
+                    vertical-align: top;
                     text-align: left;
-                    background: #ffffff;
+                    background: #f8fafc;
                 }
-                #ResumePelanggaranModal .rc-table td {
-                    width: 68%;
-                    padding: 15px 18px;
-                    font-size: 0.88rem;
+                #ResumePelanggaranModal .rc-table > tbody > tr > td {
+                    width: 66%;
+                    padding: 13px 16px;
+                    font-size: 0.86rem;
                     color: #1e293b;
                     line-height: 1.45;
-                    vertical-align: middle;
+                    vertical-align: top;
                     background: #ffffff;
+                }
+                #ResumePelanggaranModal .rc-subtable {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                #ResumePelanggaranModal .rc-subtable tr {
+                    border-bottom: 1px dashed #e2e8f0;
+                }
+                #ResumePelanggaranModal .rc-subtable tr:last-child {
+                    border-bottom: none;
+                }
+                #ResumePelanggaranModal .rc-subtable td {
+                    padding: 4px 0;
+                    font-size: 0.83rem;
+                    vertical-align: top;
+                    background: transparent;
+                }
+                #ResumePelanggaranModal .rc-subtable td.rc-sub-lbl {
+                    width: 48%;
+                    color: #475569;
+                    font-weight: 600;
+                    padding-right: 8px;
+                }
+                #ResumePelanggaranModal .rc-subtable td.rc-sub-val {
+                    width: 52%;
+                    color: #0f172a;
+                }
+                #ResumePelanggaranModal .rc-peta-box {
+                    border: 1px solid #cbd5e1;
+                    border-radius: 10px;
+                    background: #f8fafc;
+                    padding: 6px;
+                    text-align: center;
+                }
+                #ResumePelanggaranModal .rc-peta-box img {
+                    max-width: 100%;
+                    max-height: 320px;
+                    width: auto;
+                    height: auto;
+                    display: block;
+                    margin: 0 auto;
+                    border-radius: 6px;
                 }
                 #ResumePelanggaranModal .rc-pill {
                     display: inline-flex;
                     align-items: center;
                     justify-content: center;
                     border-radius: 999px;
-                    padding: 5px 18px;
+                    padding: 5px 16px;
                     font-weight: 700;
-                    font-size: 0.84rem;
-                    min-width: 86px;
+                    font-size: 0.82rem;
+                    min-width: 82px;
                     text-align: center;
                     flex-shrink: 0;
                     color: #ffffff;
                     letter-spacing: 0.2px;
                 }
                 #ResumePelanggaranModal .rc-pill-wide {
-                    padding: 6px 24px;
-                    font-size: 0.88rem;
+                    padding: 6px 22px;
+                    font-size: 0.86rem;
                 }
                 #ResumePelanggaranModal .rc-pill-low {
                     background-color: #688f1c;
@@ -206,24 +248,24 @@
                     #ResumePelanggaranModal .rc-photo-wrap {
                         height: 185px;
                     }
-                    #ResumePelanggaranModal .rc-table th,
-                    #ResumePelanggaranModal .rc-table td {
+                    #ResumePelanggaranModal .rc-table > tbody > tr > th,
+                    #ResumePelanggaranModal .rc-table > tbody > tr > td {
                         display: block;
                         width: 100%;
                         padding: 10px 14px;
                     }
-                    #ResumePelanggaranModal .rc-table th {
+                    #ResumePelanggaranModal .rc-table > tbody > tr > th {
                         border-right: none;
-                        padding-bottom: 2px;
+                        padding-bottom: 4px;
                         font-size: 0.78rem;
-                        color: #64748b;
+                        color: #475569;
                         text-transform: uppercase;
                         letter-spacing: 0.3px;
                     }
-                    #ResumePelanggaranModal .rc-table td {
-                        padding-top: 2px;
+                    #ResumePelanggaranModal .rc-table > tbody > tr > td {
+                        padding-top: 6px;
                         padding-bottom: 12px;
-                        font-size: 0.85rem;
+                        font-size: 0.84rem;
                     }
                     #ResumePelanggaranModal .rc-cell-flex {
                         flex-direction: column;
@@ -246,7 +288,7 @@
                         </button>
                     </div>
 
-                    {{-- Foto Utama --}}
+                    {{-- Foto Utama (Kondisi Eksisting) --}}
                     <div class="rc-photo-wrap">
                         @if ($resume['foto'])
                             <img src="{{ Storage::url($resume['foto']) }}"
@@ -264,7 +306,7 @@
                                     <path d="M9 15v.01" />
                                     <path d="M9 18v.01" />
                                 </svg>
-                                <div class="fw-bold mt-2">{{ $pelanggaran->nama_pelanggar ?? 'Lokasi Kasus Pelanggaran' }}</div>
+                                <div class="fw-bold mt-2">{{ $pelanggaran->nama_pemilik_display !== '-' ? $pelanggaran->nama_pemilik_display : 'Lokasi Kasus Pelanggaran' }}</div>
                                 <small class="text-muted mt-1">
                                     {{ $pelanggaran->alamat_pelanggaran ?? '-' }}
                                     @if ($pelanggaran->kel_pelanggaran)
@@ -275,94 +317,162 @@
                         @endif
                     </div>
 
-                    {{-- Tabel Ringkasan --}}
+                    {{-- Tabel Ringkasan (10 Bagian sesuai sheet mode isian) --}}
+                    @php
+                        $profil = $resume['profil_lokasi'] ?? [];
+                        $petaList = $resume['peta_deliniasi'] ?? [];
+                    @endphp
                     <table class="rc-table">
-                        <tr>
-                            <th>Kasus</th>
-                            <td>{{ $resume['kasus'] }}</td>
-                        </tr>
-                        <tr>
-                            <th>Delik Pelanggaran</th>
-                            <td>
-                                <div class="d-flex align-items-center gap-3 rc-cell-flex">
-                                    @if ($resume['delik_level'])
-                                        <span class="rc-pill {{ $pillClass($resume['delik_level']) }}">
-                                            {{ $resume['delik_level'] }}
-                                        </span>
+                        <tbody>
+                            <tr>
+                                <th>Penjelasan Singkat Kasus</th>
+                                <td>
+                                    <div>{{ $resume['kasus'] }}</div>
+                                    @if (!empty($resume['pasal_aturan_dilanggar']))
+                                        <div class="small text-muted mt-2">
+                                            <strong class="text-dark">Pasal &amp; Aturan Dilanggar:</strong>
+                                            {{ $resume['pasal_aturan_dilanggar'] }}
+                                        </div>
                                     @endif
-                                    <div>
-                                        @if (!empty($resume['delik_sub']))
-                                            <div class="fw-semibold">{{ $resume['delik_sub'] }}</div>
+                                    @if (!empty($resume['penjelasan_lainnya']))
+                                        <div class="small text-muted mt-1">
+                                            <strong class="text-dark">Penjelasan Lainnya:</strong>
+                                            {{ $resume['penjelasan_lainnya'] }}
+                                        </div>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Profil Lokasi Indikasi Pelanggaran</th>
+                                <td>
+                                    <table class="rc-subtable">
+                                        <tr>
+                                            <td class="rc-sub-lbl">Nama Pemilik/Perusahaan</td>
+                                            <td class="rc-sub-val">{{ $profil['nama_pemilik_perusahaan'] ?? '-' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="rc-sub-lbl">Alamat Lokasi Pelanggaran</td>
+                                            <td class="rc-sub-val">{{ $profil['alamat_pelanggaran'] ?? '-' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="rc-sub-lbl">Kelurahan Lokasi Pelanggaran</td>
+                                            <td class="rc-sub-val">{{ $profil['kel_pelanggaran'] ?? '-' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="rc-sub-lbl">Kecamatan Lokasi Pelanggaran</td>
+                                            <td class="rc-sub-val">{{ $profil['kec_pelanggaran'] ?? '-' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="rc-sub-lbl">Peruntukan Pemanfaatan Ruang dalam RTR</td>
+                                            <td class="rc-sub-val">{{ $profil['peruntukan_rtr'] ?? '-' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="rc-sub-lbl">Pemanfaatan Ruang Eksisting</td>
+                                            <td class="rc-sub-val">{{ $profil['pemanfaatan_ruang_eksisting'] ?? '-' }}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Jenis dan Sub Pelanggaran</th>
+                                <td>
+                                    <div class="d-flex align-items-start gap-3 rc-cell-flex">
+                                        @if ($resume['delik_level'])
+                                            <span class="rc-pill {{ $pillClass($resume['delik_level']) }}">
+                                                {{ $resume['delik_level'] }}
+                                            </span>
                                         @endif
-                                        @if (!empty($resume['delik_items']) && count($resume['delik_items']) > 1)
-                                            <ul class="mb-0 ps-3 mt-1 small">
-                                                @foreach ($resume['delik_items'] as $dItem)
-                                                    <li>{{ $dItem }}</li>
-                                                @endforeach
-                                            </ul>
-                                        @elseif (!empty($resume['delik_items']))
-                                            <div class="small text-muted">{{ $resume['delik_items'][0] }}</div>
-                                        @elseif (empty($resume['delik_sub']))
-                                            <span>{{ $resume['delik_text'] }}</span>
-                                        @endif
+                                        <div>
+                                            @if (!empty($resume['delik_sub']))
+                                                <div class="fw-semibold">{{ $resume['delik_sub'] }}</div>
+                                            @endif
+                                            @if (!empty($resume['delik_items']) && count($resume['delik_items']) > 1)
+                                                <ul class="mb-0 ps-3 mt-1 small">
+                                                    @foreach ($resume['delik_items'] as $dItem)
+                                                        <li>{{ $dItem }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            @elseif (!empty($resume['delik_items']))
+                                                <div class="small text-muted">{{ $resume['delik_items'][0] }}</div>
+                                            @elseif (empty($resume['delik_sub']))
+                                                <span>{{ $resume['delik_text'] }}</span>
+                                            @endif
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Dampak</th>
-                            <td>
-                                <div class="d-flex align-items-center gap-3 rc-cell-flex">
-                                    @if ($resume['dampak_level'])
-                                        <span class="rc-pill {{ $pillClass($resume['dampak_level']) }}">
-                                            {{ $resume['dampak_level'] }}
-                                        </span>
-                                    @endif
-                                    <div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Dampak</th>
+                                <td>
+                                    <div class="d-flex align-items-start gap-3 rc-cell-flex">
+                                        @if ($resume['dampak_level'])
+                                            <span class="rc-pill {{ $pillClass($resume['dampak_level']) }}">
+                                                {{ $resume['dampak_level'] }}
+                                            </span>
+                                        @endif
                                         <div>{{ $resume['dampak_text'] }}</div>
-                                        @if (!empty($resume['skala_label']) || !empty($resume['riwayat_label']))
-                                            <div class="small text-muted mt-1">
-                                                @if (!empty($resume['skala_label']))
-                                                    <div><strong>Skala:</strong> {{ $resume['skala_label'] }}</div>
-                                                @endif
-                                                @if (!empty($resume['riwayat_label']))
-                                                    <div><strong>Riwayat:</strong> {{ $resume['riwayat_label'] }}</div>
-                                                @endif
-                                            </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Skala dan Intensitas Pelanggaran</th>
+                                <td>{{ $resume['skala_label'] ?: '-' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Riwayat Pelanggaran</th>
+                                <td>{{ $resume['riwayat_label'] ?: '-' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Hasil Tipologi</th>
+                                <td>
+                                    <div class="d-flex flex-wrap align-items-center gap-2">
+                                        @if ($resume['tipologi'])
+                                            <span class="rc-pill rc-pill-wide {{ $pillClass($resume['tipologi']) }}">
+                                                {{ $resume['tipologi'] }}
+                                            </span>
+                                        @else
+                                            <span class="text-muted fst-italic">Belum ditetapkan</span>
+                                        @endif
+                                        @if ($resume['skor_total'] !== null)
+                                            <span class="badge bg-label-dark px-2 py-1" style="font-size: 0.82rem;">
+                                                Skor: {{ rtrim(rtrim(number_format((float) $resume['skor_total'], 2, '.', ''), '0'), '.') }}
+                                            </span>
                                         @endif
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Hasil Tipologi</th>
-                            <td>
-                                <div class="d-flex flex-wrap align-items-center gap-2">
-                                    @if ($resume['tipologi'])
-                                        <span class="rc-pill rc-pill-wide {{ $pillClass($resume['tipologi']) }}">
-                                            {{ $resume['tipologi'] }}
-                                        </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Rekomendasi Penanganan</th>
+                                <td>{{ $resume['rekomendasi_penanganan'] ?? $resume['arah'] }}</td>
+                            </tr>
+                            <tr>
+                                <th>Petugas Analis</th>
+                                <td class="fw-semibold">{{ $resume['petugas_analis'] ?? '-' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Peta Deliniasi</th>
+                                <td>
+                                    @if (!empty($petaList))
+                                        <div class="d-flex flex-column gap-2">
+                                            @foreach ($petaList as $petaPath)
+                                                <div class="rc-peta-box">
+                                                    <img src="{{ Storage::url($petaPath) }}"
+                                                        alt="Peta Deliniasi {{ $pelanggaran->no_pelanggaran }}">
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     @else
-                                        <span class="text-muted fst-italic">Belum ditetapkan</span>
+                                        <span class="text-muted fst-italic">Belum ada peta deliniasi yang diunggah.</span>
                                     @endif
-                                    @if ($resume['skor_total'] !== null)
-                                        <span class="badge bg-label-dark px-2 py-1" style="font-size: 0.82rem;">
-                                            Skor: {{ rtrim(rtrim(number_format((float) $resume['skor_total'], 2, '.', ''), '0'), '.') }}
-                                        </span>
-                                    @endif
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Arah Penanganan</th>
-                            <td>{{ $resume['arah'] }}</td>
-                        </tr>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
 
                 {{-- Catatan Bawah --}}
                 <div class="rc-note-box">
-                    <strong class="text-danger">Catatan:</strong> arah penanganan mengacu pada pedoman sanksi administratif; ketentuan final mengikuti hasil akhir kajian.
+                    <strong class="text-danger">Catatan:</strong> rekomendasi penanganan mengacu pada pedoman sanksi administratif; ketentuan final mengikuti hasil akhir kajian.
                 </div>
             </div>
 

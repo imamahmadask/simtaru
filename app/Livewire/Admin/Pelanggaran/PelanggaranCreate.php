@@ -37,7 +37,6 @@ class PelanggaranCreate extends Component
     public $dokumen_penilaian_kkpr;    
    
     #[Validate('required')]
-    public $nama_pelanggar;
     public $nama_pemilik_perusahaan;
     public $alamat_pelanggaran;
     public $kel_pelanggaran;
@@ -47,13 +46,15 @@ class PelanggaranCreate extends Component
 
     public $jenis_pemanfaatan_ruang; 
     public $pemanfaatan_ruang;
-    public $penjelasan_singkat;
 
     #[Validate(['foto_pengawasan.*' => 'image|max:10240'])]
     public $foto_pengawasan = [];
 
     #[Validate(['foto_existing.*' => 'image|max:10240'])]
     public $foto_existing = [];
+
+    #[Validate(['peta_deliniasi.*' => 'image|max:10240'])]
+    public $peta_deliniasi = [];
     
     #[Layout('layouts.app-pelanggaran')]
     public function render()
@@ -70,6 +71,7 @@ class PelanggaranCreate extends Component
 
         $foto_pengawasan_path = $this->uploadMultipleFiles($this->foto_pengawasan, 'foto_pengawasan');
         $foto_existing_path = $this->uploadMultipleFiles($this->foto_existing, 'foto_existing');
+        $peta_deliniasi_path = $this->uploadMultipleFiles($this->peta_deliniasi, 'peta_deliniasi');
         
         $dokumen_penilaian_kkpr_path = $this->dokumen_penilaian_kkpr 
             ? $this->dokumen_penilaian_kkpr->storeAs(
@@ -92,7 +94,6 @@ class PelanggaranCreate extends Component
             'no_kkpr_skrk' => $this->no_kkpr_skrk,
             'no_ba_sk_penilaian_kkpr' => $this->no_ba_sk_penilaian_kkpr,
             'dokumen_penilaian_kkpr' => $dokumen_penilaian_kkpr_path,            
-            'nama_pelanggar' => $this->nama_pelanggar,
             'nama_pemilik_perusahaan' => $this->nama_pemilik_perusahaan,
             'alamat_pelanggaran' => $this->alamat_pelanggaran,
             'kel_pelanggaran' => $this->kel_pelanggaran,
@@ -101,8 +102,8 @@ class PelanggaranCreate extends Component
             'gmaps_pelanggaran' => $this->gmaps_pelanggaran,
             'jenis_pemanfaatan_ruang' => $this->jenis_pemanfaatan_ruang,
             'pemanfaatan_ruang' => $this->pemanfaatan_ruang,
-            'foto_existing' => $foto_existing_path,          
-            'penjelasan_singkat' => $this->penjelasan_singkat,
+            'foto_existing' => $foto_existing_path,
+            'peta_deliniasi' => $peta_deliniasi_path,
             'status' => 'On Progress',
         ]);
 
@@ -130,6 +131,9 @@ class PelanggaranCreate extends Component
         if ($type === 'foto_existing') {
             unset($this->foto_existing[$index]);
             $this->foto_existing = array_values($this->foto_existing);
+        } elseif ($type === 'peta_deliniasi') {
+            unset($this->peta_deliniasi[$index]);
+            $this->peta_deliniasi = array_values($this->peta_deliniasi);
         } else {
             unset($this->foto_pengawasan[$index]);
             $this->foto_pengawasan = array_values($this->foto_pengawasan);

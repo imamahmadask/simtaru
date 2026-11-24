@@ -165,10 +165,6 @@
                                                     <div class="pd-kv-value"><span class="d-none d-md-inline me-1 text-muted">:</span>{{ $pelanggaran->indikasi_label }}</div>
                                                 </div>
                                                 @endif
-                                                <div class="pd-kv-item">
-                                                    <div class="pd-kv-label">Penjelasan Singkat</div>
-                                                    <div class="pd-kv-value"><span class="d-none d-md-inline me-1 text-muted">:</span>{{ $pelanggaran->penjelasan_singkat ?? '-' }}</div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -263,15 +259,9 @@
                                         <div class="card-body">
                                             <div class="pd-kv-list">
                                                 <div class="pd-kv-item">
-                                                    <div class="pd-kv-label">Nama Pelanggar</div>
-                                                    <div class="pd-kv-value"><span class="d-none d-md-inline me-1 text-muted">:</span>{{ $pelanggaran->nama_pelanggar }}</div>
-                                                </div>
-                                                @if($pelanggaran->nama_pemilik_perusahaan)
-                                                <div class="pd-kv-item">
                                                     <div class="pd-kv-label">Nama Pemilik/Perusahaan</div>
-                                                    <div class="pd-kv-value"><span class="d-none d-md-inline me-1 text-muted">:</span>{{ $pelanggaran->nama_pemilik_perusahaan }}</div>
+                                                    <div class="pd-kv-value"><span class="d-none d-md-inline me-1 text-muted">:</span>{{ $pelanggaran->nama_pemilik_display }}</div>
                                                 </div>
-                                                @endif
                                                 @if($pelanggaran->alamat_pelanggar)
                                                 <div class="pd-kv-item">
                                                     <div class="pd-kv-label">Alamat Pemilik Lahan</div>
@@ -314,6 +304,7 @@
                                 @php
                                     $photos = $pelanggaran->foto_pengawasan ?? [];
                                     $existing_photos = $pelanggaran->foto_existing ?? [];
+                                    $peta_deliniasi_photos = $pelanggaran->peta_deliniasi ?? [];
                                 @endphp
                                 @if(count($photos) > 0)
                                     <!-- Foto Pengawasan -->
@@ -350,6 +341,28 @@
                                                         <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                                                             <a href="{{ Storage::url($photo) }}" target="_blank" class="pd-photo-grid-item">
                                                                 <img src="{{ Storage::url($photo) }}" alt="Foto Existing">
+                                                            </a>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+
+                                @if(count($peta_deliniasi_photos) > 0)
+                                    <!-- Peta Deliniasi -->
+                                    <div class="col-md-12 mb-4">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">Peta Deliniasi</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row g-2 g-md-3">
+                                                    @foreach ($peta_deliniasi_photos as $peta)
+                                                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                                                            <a href="{{ Storage::url($peta) }}" target="_blank" class="pd-photo-grid-item">
+                                                                <img src="{{ Storage::url($peta) }}" alt="Peta Deliniasi">
                                                             </a>
                                                         </div>
                                                     @endforeach

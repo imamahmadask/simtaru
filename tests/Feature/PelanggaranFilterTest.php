@@ -30,11 +30,15 @@ class PelanggaranFilterTest extends TestCase
         static $count = 1;
         $num = str_pad($count++, 3, '0', STR_PAD_LEFT);
 
+        if (!array_key_exists('nama_pemilik_perusahaan', $attributes) && isset($attributes['nama_pelanggar'])) {
+            $attributes['nama_pemilik_perusahaan'] = $attributes['nama_pelanggar'];
+        }
+
         return Pelanggaran::create(array_merge([
             'no_pelanggaran' => "{$num}/Wasdal-Taru/2026",
             'tgl_laporan' => '2026-03-01',
             'sumber_informasi_pelanggaran' => 'Hasil Pengawasan dan Monitoring',
-            'nama_pelanggar' => "Pelanggar {$num}",
+            'nama_pelanggar' => null,
             'nama_pemilik_perusahaan' => "Perusahaan {$num}",
             'alamat_pelanggar' => 'Jl. Pelanggar',
             'kel_pelanggar' => 'Kel Pelanggar',
@@ -336,6 +340,8 @@ class PelanggaranFilterTest extends TestCase
         ]);
         $sheet = $spreadsheet->getActiveSheet();
 
+        $this->assertEquals('Nama Pemilik / Perusahaan', $sheet->getCell('E4')->getValue());
+        $this->assertEquals('Kasus Ekspor Mataram', $sheet->getCell('E5')->getValue());
         $this->assertEquals('Klasifikasi Pelanggaran', $sheet->getCell('K4')->getValue());
         $this->assertEquals('010/Wasdal-Taru/2026', $sheet->getCell('B5')->getValue());
         $this->assertEquals('Pelanggaran Sedang', $sheet->getCell('K5')->getValue());

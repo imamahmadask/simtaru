@@ -24,6 +24,11 @@ class PelanggaranAnalisForm extends Component
     public $tindak_lanjut;
     public int $currentStep = 1;
 
+    // Langkah 1: Penjelasan Kasus
+    public $penjelasan_singkat;
+    public $pasal_aturan_dilanggar;
+    public $penjelasan_lainnya;
+
     // Alur Sanksi Administrasi & Komponen Penilaian (A, B, C, D)
     public $jenis_indikasi_pelanggaran;
     public $kategori_pelanggaran;
@@ -51,6 +56,11 @@ class PelanggaranAnalisForm extends Component
     public $existing_foto_tindak_lanjut = [];
     #[Validate(['foto_tindak_lanjut.*' => 'image|max:10240'])]
     public $foto_tindak_lanjut = [];
+
+    // Peta Deliniasi
+    public $existing_peta_deliniasi = [];
+    #[Validate(['upload_peta_deliniasi.*' => 'nullable|image|max:10240'])]
+    public $upload_peta_deliniasi = [];
 
     // Dokumen Sanksi Administratif
     #[Validate('nullable|file|mimes:pdf,jpg,jpeg,png|max:10240')]
@@ -87,6 +97,9 @@ class PelanggaranAnalisForm extends Component
     public function mount($id)
     {
         $this->pelanggaran = Pelanggaran::findOrFail($id);
+        $this->penjelasan_singkat = $this->pelanggaran->penjelasan_singkat;
+        $this->pasal_aturan_dilanggar = $this->pelanggaran->pasal_aturan_dilanggar;
+        $this->penjelasan_lainnya = $this->pelanggaran->penjelasan_lainnya;
         $this->temuan_pelanggaran = $this->pelanggaran->temuan_pelanggaran;
         $this->tindak_lanjut = $this->pelanggaran->tindak_lanjut;
 
@@ -108,9 +121,10 @@ class PelanggaranAnalisForm extends Component
         $this->expert_tindakan_rekomendasi = $this->pelanggaran->expert_tindakan_rekomendasi ?? 'Ikuti Rekomendasi';
         $this->existing_expert_dokumen = $this->pelanggaran->expert_dokumen_pendukung ?? [];
 
-        // Klasifikasi
+        // Klasifikasi & Dokumentasi
         $this->klasifikasi_pelanggaran = $this->pelanggaran->klasifikasi_pelanggaran;
         $this->existing_foto_tindak_lanjut = $this->pelanggaran->foto_tindak_lanjut ?? [];
+        $this->existing_peta_deliniasi = $this->pelanggaran->peta_deliniasi ?? [];
 
         // Jika belum ada klasifikasi dan tindakan = 'Ikuti Rekomendasi', auto sync
         if (!$this->klasifikasi_pelanggaran && $this->rekomendasi_sistem && $this->expert_tindakan_rekomendasi === 'Ikuti Rekomendasi') {
@@ -159,8 +173,8 @@ class PelanggaranAnalisForm extends Component
     public function updatedTemuanPelanggaran($value): void
     {
         $this->resetErrorBag();
-        if ($value === 'Tidak Ada Pelanggaran' && $this->currentStep > 2) {
-            $this->currentStep = 2;
+        if ($value === 'Tidak Ada Pelanggaran' && $this->currentStep > 3) {
+            $this->currentStep = 3;
         }
         if ($this->currentStep > $this->total_steps) {
             $this->currentStep = $this->total_steps;
@@ -169,19 +183,38 @@ class PelanggaranAnalisForm extends Component
 
     public function getWizardStepsProperty(): array
     {
+        $penjelasanDone = filled($this->penjelasan_singkat)
+            || filled($this->pasal_aturan_dilanggar)
+            || filled($this->penjelasan_lainnya);
+
+        $step1 = [
+            'num' => 1,
+            'title' => 'Penjelasan Kasus',
+            'short' => 'Penjelasan Kasus',
+            'optional' => true,
+            'done' => $penjelasanDone,
+        ];
+
         if ($this->temuan_pelanggaran === 'Tidak Ada Pelanggaran') {
             return [
-                1 => [
-                    'num' => 1,
+                1 => $step1,
+                2 => [
+                    'num' => 2,
                     'title' => 'Kesimpulan Pemeriksaan',
                     'short' => 'Kesimpulan',
                     'done' => true,
                 ],
-                2 => [
-                    'num' => 2,
-                    'title' => 'Berkas Perizinan (Opsional)',
-                    'short' => 'Berkas Perizinan',
-                    'done' => (bool) ($this->pelanggaran->file_kkpr_skrk || $this->pelanggaran->file_pbg_imb || $this->pelanggaran->file_nib_kbli),
+                3 => [
+                    'num' => 3,
+                    'title' => 'Berkas Perizinan & Peta Deliniasi (Opsional)',
+                    'short' => 'Berkas & Peta',
+                    'done' => (bool) (
+                        $this->pelanggaran->file_kkpr_skrk
+                        || $this->pelanggaran->file_pbg_imb
+                        || $this->pelanggaran->file_nib_kbli
+                        || !empty($this->existing_peta_deliniasi)
+                        || !empty($this->upload_peta_deliniasi)
+                    ),
                 ],
             ];
         }
@@ -190,45 +223,46 @@ class PelanggaranAnalisForm extends Component
         $isAda = $this->temuan_pelanggaran === 'Ada Pelanggaran';
 
         return [
-            1 => [
-                'num' => 1,
+            1 => $step1,
+            2 => [
+                'num' => 2,
                 'title' => 'Kesimpulan Pemeriksaan',
                 'short' => 'Kesimpulan',
                 'done' => $isAda,
             ],
-            2 => [
-                'num' => 2,
+            3 => [
+                'num' => 3,
                 'title' => 'A. Jenis Pelanggaran (40%)',
                 'short' => 'Komponen A (40%)',
                 'done' => $isAda && $this->jenis_indikasi_pelanggaran && $this->kategori_pelanggaran && count($selectedJenis) > 0,
             ],
-            3 => [
-                'num' => 3,
+            4 => [
+                'num' => 4,
                 'title' => 'B. Dampak Masyarakat (35%)',
                 'short' => 'Komponen B (35%)',
                 'done' => $isAda && filled($this->dampak_radius_wilayah),
             ],
-            4 => [
-                'num' => 4,
+            5 => [
+                'num' => 5,
                 'title' => 'C. Skala & Intensitas (15%)',
                 'short' => 'Komponen C (15%)',
                 'done' => $isAda && filled($this->skala_pelanggaran),
             ],
-            5 => [
-                'num' => 5,
+            6 => [
+                'num' => 6,
                 'title' => 'D. Riwayat Pelanggaran (10%)',
                 'short' => 'Komponen D (10%)',
                 'done' => $isAda && filled($this->riwayat_pelanggaran),
             ],
-            6 => [
-                'num' => 6,
+            7 => [
+                'num' => 7,
                 'title' => 'Skor Penilaian & Expert Judgement',
                 'short' => 'Skor & Expert',
                 'done' => $isAda && filled($this->expert_tindakan_rekomendasi),
             ],
-            7 => [
-                'num' => 7,
-                'title' => 'Klasifikasi & Dokumen Sanksi',
+            8 => [
+                'num' => 8,
+                'title' => 'Klasifikasi, Sanksi & Peta Deliniasi',
                 'short' => 'Klasifikasi & Sanksi',
                 'done' => $isAda && filled($this->klasifikasi_pelanggaran),
             ],
@@ -251,7 +285,7 @@ class PelanggaranAnalisForm extends Component
 
         $steps = $this->wizard_steps;
         for ($s = 1; $s < $targetStep; $s++) {
-            if (empty($steps[$s]['done'])) {
+            if (empty($steps[$s]['done']) && empty($steps[$s]['optional'])) {
                 return false;
             }
         }
@@ -261,7 +295,7 @@ class PelanggaranAnalisForm extends Component
 
     public function nextStep(): void
     {
-        if ($this->currentStep === 2 && $this->temuan_pelanggaran === 'Ada Pelanggaran') {
+        if ($this->currentStep === 3 && $this->temuan_pelanggaran === 'Ada Pelanggaran') {
             $this->jenis_pelanggaran = Pelanggaran::normalizeJenisPelanggaranList($this->jenis_pelanggaran);
         }
 
@@ -297,7 +331,7 @@ class PelanggaranAnalisForm extends Component
         }
 
         for ($s = $this->currentStep; $s < $target; $s++) {
-            if ($s === 2 && $this->temuan_pelanggaran === 'Ada Pelanggaran') {
+            if ($s === 3 && $this->temuan_pelanggaran === 'Ada Pelanggaran') {
                 $this->jenis_pelanggaran = Pelanggaran::normalizeJenisPelanggaranList($this->jenis_pelanggaran);
             }
             try {
@@ -316,22 +350,31 @@ class PelanggaranAnalisForm extends Component
     private function rulesForStep(int $step): array
     {
         if ($step === 1) {
+            return [
+                'penjelasan_singkat' => 'nullable|string',
+                'pasal_aturan_dilanggar' => 'nullable|string',
+                'penjelasan_lainnya' => 'nullable|string',
+            ];
+        }
+
+        if ($step === 2) {
             return ['temuan_pelanggaran' => 'required'];
         }
 
         if ($this->temuan_pelanggaran === 'Tidak Ada Pelanggaran') {
             return match ($step) {
-                2 => [
+                3 => [
                     'upload_kkpr_skrk' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
                     'upload_pbg_imb' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
                     'upload_nib_kbli' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
+                    'upload_peta_deliniasi.*' => 'nullable|image|max:10240',
                 ],
                 default => [],
             };
         }
 
         return match ($step) {
-            2 => [
+            3 => [
                 'jenis_indikasi_pelanggaran' => 'required',
                 'kategori_pelanggaran' => 'required',
                 'jenis_pelanggaran' => [
@@ -343,25 +386,26 @@ class PelanggaranAnalisForm extends Component
                     },
                 ],
             ],
-            3 => [
+            4 => [
                 'dampak_keluhan_masyarakat' => 'nullable|string',
                 'dampak_radius_wilayah' => 'required',
             ],
-            4 => [
+            5 => [
                 'skala_pelanggaran' => 'required',
             ],
-            5 => [
+            6 => [
                 'riwayat_pelanggaran' => 'required',
             ],
-            6 => [
+            7 => [
                 'expert_justifikasi' => 'nullable|string',
                 'expert_kesimpulan' => 'nullable|string',
                 'expert_tindakan_rekomendasi' => 'required|string',
                 'upload_expert_dokumen.*' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
             ],
-            7 => [
+            8 => [
                 'klasifikasi_pelanggaran' => 'required|string',
                 'foto_tindak_lanjut.*' => 'nullable|image|max:10240',
+                'upload_peta_deliniasi.*' => 'nullable|image|max:10240',
                 'upload_bukti_perizinan' => 'nullable|file|mimes:pdf|max:10240',
                 'upload_sp1' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
                 'upload_sp2' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
@@ -545,6 +589,27 @@ class PelanggaranAnalisForm extends Component
         $this->foto_tindak_lanjut = array_values($this->foto_tindak_lanjut);
     }
 
+    public function removeExistingPetaDeliniasi($index)
+    {
+        if (isset($this->existing_peta_deliniasi[$index])) {
+            $path = $this->existing_peta_deliniasi[$index];
+            if ($path && Storage::disk('public')->exists($path)) {
+                Storage::disk('public')->delete($path);
+            }
+            unset($this->existing_peta_deliniasi[$index]);
+            $this->existing_peta_deliniasi = array_values($this->existing_peta_deliniasi);
+            $this->pelanggaran->update([
+                'peta_deliniasi' => count($this->existing_peta_deliniasi) > 0 ? $this->existing_peta_deliniasi : null,
+            ]);
+        }
+    }
+
+    public function removeTempPetaDeliniasi($index)
+    {
+        unset($this->upload_peta_deliniasi[$index]);
+        $this->upload_peta_deliniasi = array_values($this->upload_peta_deliniasi);
+    }
+
     public function storeAnalisa()
     {
         $skorData = null;
@@ -553,7 +618,7 @@ class PelanggaranAnalisForm extends Component
             $this->jenis_pelanggaran = Pelanggaran::normalizeJenisPelanggaranList($this->jenis_pelanggaran);
 
             $rules = [];
-            for ($s = 1; $s <= 7; $s++) {
+            for ($s = 1; $s <= 8; $s++) {
                 $rules = array_merge($rules, $this->rulesForStep($s));
             }
 
@@ -586,7 +651,7 @@ class PelanggaranAnalisForm extends Component
 
             $this->tindak_lanjut = count($sanksiTerunggah) > 0 ? implode(', ', $sanksiTerunggah) : 'Menunggu Unggahan Dokumen Sanksi';
         } else {
-            $rules = array_merge($this->rulesForStep(1), $this->rulesForStep(2));
+            $rules = array_merge($this->rulesForStep(1), $this->rulesForStep(2), $this->rulesForStep(3));
             try {
                 $this->validate($rules, $this->stepValidationMessages());
             } catch (ValidationException $e) {
@@ -628,7 +693,19 @@ class PelanggaranAnalisForm extends Component
             }
         }
 
+        // Upload Peta Deliniasi
+        $all_peta_deliniasi = $this->existing_peta_deliniasi;
+        if ($this->upload_peta_deliniasi) {
+            foreach ($this->upload_peta_deliniasi as $peta) {
+                $petaFilename = "PETA_{$safeFolder}_" . Str::random(5) . '.' . $peta->getClientOriginalExtension();
+                $all_peta_deliniasi[] = $peta->storeAs("pelanggaran/{$safeFolder}/peta_deliniasi", $petaFilename, 'public');
+            }
+        }
+
         $updateData = [
+            'penjelasan_singkat' => $this->penjelasan_singkat,
+            'pasal_aturan_dilanggar' => $this->pasal_aturan_dilanggar,
+            'penjelasan_lainnya' => $this->penjelasan_lainnya,
             'temuan_pelanggaran' => $this->temuan_pelanggaran,
             'tindak_lanjut' => $this->tindak_lanjut,
             'jenis_indikasi_pelanggaran' => Pelanggaran::normalizeIndikasi($this->jenis_indikasi_pelanggaran),
@@ -653,6 +730,7 @@ class PelanggaranAnalisForm extends Component
             'expert_tindakan_rekomendasi' => $this->expert_tindakan_rekomendasi,
             'klasifikasi_pelanggaran' => $this->klasifikasi_pelanggaran,
             'foto_tindak_lanjut' => count($all_photos) > 0 ? $all_photos : null,
+            'peta_deliniasi' => count($all_peta_deliniasi) > 0 ? $all_peta_deliniasi : null,
         ];
 
         // Handle Dokumen Berkas

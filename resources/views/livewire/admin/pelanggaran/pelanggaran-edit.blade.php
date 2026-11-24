@@ -177,23 +177,9 @@
 
                         
                         <hr>
-
-                        <h5 class="fw-semibold text-danger">Profil Identitas Pelanggar</h5>
-                        
-                        <div class="col-md-6">
-                            <label class="form-label" for="nama_pelanggar">Nama Pelanggar</label>
-                            <input type="text" id="nama_pelanggar" wire:model="nama_pelanggar"
-                                class="form-control @error('nama_pelanggar') is-invalid @enderror"
-                                placeholder="Nama Pelanggar">
-                            @error('nama_pelanggar')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <hr>
                         <h5 class="fw-semibold text-danger">Profil Lokasi Indikasi Pelanggaran</h5>
                         <div class="col-md-6">
-                            <label class="form-label" for="nama_pemilik_perusahaan">Nama Pemilik / Perusahaan</label>
+                            <label class="form-label" for="nama_pemilik_perusahaan">Nama Pemilik / Perusahaan <span class="text-danger">*</span></label>
                             <input type="text" id="nama_pemilik_perusahaan" wire:model="nama_pemilik_perusahaan"
                                 class="form-control @error('nama_pemilik_perusahaan') is-invalid @enderror"
                                 placeholder="Nama Pemilik / Perusahaan">
@@ -272,18 +258,9 @@
                             @enderror
                         </div>
                         <div class="col-md-12">
-                            <label class="form-label" for="penjelasan_singkat">Penjelasan Singkat</label>
-                            <textarea id="penjelasan_singkat" wire:model="penjelasan_singkat"
-                                class="form-control @error('penjelasan_singkat') is-invalid @enderror"
-                                placeholder="Penjelasan Singkat" rows="3"></textarea>
-                            @error('penjelasan_singkat')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="col-md-12">
                             <label class="form-label" for="new_foto_existing">Foto Kondisi Existing</label>
                             <input type="file" id="new_foto_existing" wire:model="new_foto_existing"
-                                class="form-control @error('new_foto_existing') is-invalid @enderror" accept="image/*" multiple>
+                                class="form-control @error('new_foto_existing.*') is-invalid @enderror" accept="image/*" multiple>
                             <div wire:loading wire:target="new_foto_existing">Uploading...</div>
                             
                             <!-- Existing Photos -->
@@ -319,8 +296,51 @@
                                     @endforeach
                                 </div>
                             @endif
-                            @error('new_foto_existing')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                            @error('new_foto_existing.*')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label" for="new_peta_deliniasi">Peta Deliniasi</label>
+                            <input type="file" id="new_peta_deliniasi" wire:model="new_peta_deliniasi"
+                                class="form-control @error('new_peta_deliniasi.*') is-invalid @enderror" accept="image/*" multiple>
+                            <div class="form-text">Unggah gambar peta deliniasi (JPG, PNG, WEBP — maks. 10 MB per file). Otomatis masuk ke Lampiran II Surat Peringatan &amp; Resume Pelanggaran.</div>
+                            <div wire:loading wire:target="new_peta_deliniasi">Uploading...</div>
+
+                            @if ($existing_peta_deliniasi)
+                                <div class="mt-2">
+                                    <h6>Peta Deliniasi Saat Ini:</h6>
+                                    @foreach ($existing_peta_deliniasi as $index => $path)
+                                        <div class="d-inline-block position-relative me-2 mb-2">
+                                            <img src="{{ Storage::url($path) }}" alt="Peta Deliniasi"
+                                                class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
+                                            <button type="button" wire:click="removeExistingImage({{ $index }}, 'peta_deliniasi')"
+                                                class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1"
+                                                wire:confirm="Yakin ingin menghapus peta deliniasi ini?">
+                                                <i class="bx bx-x"></i>
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
+
+                            @if ($new_peta_deliniasi)
+                                <div class="mt-2">
+                                    <h6>Preview Peta Deliniasi Baru:</h6>
+                                    @foreach ($new_peta_deliniasi as $index => $image)
+                                        <div class="d-inline-block position-relative me-2 mb-2">
+                                            <img src="{{ $image->temporaryUrl() }}" alt="Preview Peta Deliniasi"
+                                                class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
+                                            <button type="button" wire:click="removeNewImage({{ $index }}, 'peta_deliniasi')"
+                                                class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1">
+                                                <i class="bx bx-x"></i>
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
+                            @error('new_peta_deliniasi.*')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                         </div>                                                                                                                                    
                     </div>

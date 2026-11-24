@@ -62,7 +62,7 @@ class PelanggaranExportService
             'B' => 'No. Kasus',
             'C' => 'Tgl Pengawasan',
             'D' => 'Sumber',
-            'E' => 'Nama',
+            'E' => 'Nama Pemilik / Perusahaan',
             'F' => 'Alamat',
             'G' => 'Kelurahan',
             'H' => 'Kecamatan',
@@ -125,7 +125,7 @@ class PelanggaranExportService
             $sheet->setCellValue("B{$row}", $p->no_pelanggaran ?? '-');
             $sheet->setCellValue("C{$row}", $tglPengawasan);
             $sheet->setCellValue("D{$row}", $p->sumber_informasi_pelanggaran ?? '-');
-            $sheet->setCellValue("E{$row}", $p->nama_pelanggar ?? '-');
+            $sheet->setCellValue("E{$row}", $p->nama_pemilik_display);
             $sheet->setCellValue("F{$row}", $p->alamat_pelanggaran ?? '-');
             $sheet->setCellValue("G{$row}", $p->kel_pelanggaran ?? '-');
             $sheet->setCellValue("H{$row}", $p->kec_pelanggaran ?? '-');

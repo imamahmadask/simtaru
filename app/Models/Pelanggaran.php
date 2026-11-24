@@ -46,7 +46,10 @@ class Pelanggaran extends Model
         'dokumen_akhir',
         'foto_tindak_lanjut',
         'foto_existing',
+        'peta_deliniasi',
         'penjelasan_singkat',
+        'pasal_aturan_dilanggar',
+        'penjelasan_lainnya',
         'file_sp1',
         'file_sp2',
         'file_sp3',
@@ -90,6 +93,7 @@ class Pelanggaran extends Model
     protected $casts = [
         'foto_pengawasan' => 'array',
         'foto_existing' => 'array',
+        'peta_deliniasi' => 'array',
         'foto_tindak_lanjut' => 'array',
         'expert_dokumen_pendukung' => 'array',
         'nilai_a' => 'float',
@@ -660,8 +664,20 @@ class Pelanggaran extends Model
         return 'Rendah';
     }
 
+    public function getNamaPemilikDisplayAttribute(): string
+    {
+        $pemilik = trim((string) ($this->nama_pemilik_perusahaan ?? ''));
+        if ($pemilik !== '' && $pemilik !== '-') {
+            return $pemilik;
+        }
+
+        $legacy = trim((string) ($this->nama_pelanggar ?? ''));
+
+        return ($legacy !== '' && $legacy !== '-') ? $legacy : '-';
+    }
+
     /**
-     * Data ringkas untuk card Resume Pelanggaran.
+     * Data ringkas untuk card Resume Pelanggaran (sesuai sheet mode isian).
      * Menerima $overrides agar dapat menampilkan pratinjau langsung dari state form Livewire.
      */
     public function resume(array $overrides = []): array
@@ -677,14 +693,17 @@ class Pelanggaran extends Model
         $justifikasi = $overrides['expert_justifikasi'] ?? $this->expert_justifikasi;
         $kesimpulan = $overrides['expert_kesimpulan'] ?? $this->expert_kesimpulan;
         $temuan = $overrides['temuan_pelanggaran'] ?? $this->temuan_pelanggaran;
+        $penjelasanSingkat = $overrides['penjelasan_singkat'] ?? $this->penjelasan_singkat;
+        $pasalAturan = $overrides['pasal_aturan_dilanggar'] ?? $this->pasal_aturan_dilanggar;
+        $penjelasanLainnya = $overrides['penjelasan_lainnya'] ?? $this->penjelasan_lainnya;
 
         $jenisLabels = collect($jenisKeys)
             ->map(fn ($slug) => self::JENIS_MAP[$slug]['label'] ?? $slug)
             ->values();
 
-        // Uraian kasus
-        if (filled($this->penjelasan_singkat)) {
-            $kasus = $this->penjelasan_singkat;
+        // Uraian singkat kasus
+        if (filled($penjelasanSingkat)) {
+            $kasus = $penjelasanSingkat;
         } else {
             $lokasi = collect([
                 $this->alamat_pelanggaran,
@@ -699,14 +718,27 @@ class Pelanggaran extends Model
                 . '.';
         }
 
-        // Foto utama
+        // Foto utama (kondisi eksisting)
         $foto = collect([
             $this->foto_existing[0] ?? null,
             $this->foto_pengawasan[0] ?? null,
             $this->foto_tindak_lanjut[0] ?? null,
         ])->filter()->first();
 
-        // Delik Pelanggaran (ambil bobot tertinggi bila multi-select)
+        // Peta Deliniasi
+        $petaDeliniasi = array_values(array_filter((array) ($overrides['peta_deliniasi'] ?? $this->peta_deliniasi ?? [])));
+
+        // Profil Lokasi Indikasi Pelanggaran (6 sub-item sesuai sheet mode isian)
+        $profilLokasi = [
+            'nama_pemilik_perusahaan' => $this->nama_pemilik_display,
+            'alamat_pelanggaran' => filled($this->alamat_pelanggaran) ? $this->alamat_pelanggaran : '-',
+            'kel_pelanggaran' => filled($this->kel_pelanggaran) ? $this->kel_pelanggaran : '-',
+            'kec_pelanggaran' => filled($this->kec_pelanggaran) ? $this->kec_pelanggaran : '-',
+            'peruntukan_rtr' => filled($this->pemanfaatan_ruang) ? $this->pemanfaatan_ruang : '-',
+            'pemanfaatan_ruang_eksisting' => filled($this->jenis_pemanfaatan_ruang) ? $this->jenis_pemanfaatan_ruang : '-',
+        ];
+
+        // Jenis & Sub Pelanggaran (ambil bobot tertinggi bila multi-select)
         $kategoriLabel = self::KATEGORI_MAP[$kategoriKey]['full'] ?? (self::KATEGORI_MAP[$kategoriKey]['label'] ?? $kategoriKey);
         $delikText = collect([$kategoriLabel, $jenisLabels->implode(', ')])->filter()->implode(' — ');
 
@@ -746,14 +778,23 @@ class Pelanggaran extends Model
         // Hitung skor penilaian
         $penilaian = self::hitungSkorPenilaian($jenisKeys, $radius, $skala, $riwayat);
 
-        // Arah Penanganan
+        // Rekomendasi / Arah Penanganan
         $arahDefault = self::ARAH_PENANGANAN[$klasifikasi] ?? ($temuan === 'Tidak Ada Pelanggaran' ? 'Tidak diperlukan sanksi administratif (pemanfaatan ruang telah sesuai ketentuan).' : '-');
         $arahText = filled($kesimpulan) ? $kesimpulan : $arahDefault;
+
+        // Petugas Analis
+        $petugasAnalis = trim((string) ($overrides['expert_user_name'] ?? $this->expert_user_name ?? ($this->expertUser?->name ?? '')));
+        $petugasAnalis = $petugasAnalis !== '' ? $petugasAnalis : '-';
 
         return [
             'temuan' => $temuan,
             'kasus' => $kasus,
+            'penjelasan_singkat' => filled($penjelasanSingkat) ? $penjelasanSingkat : null,
+            'pasal_aturan_dilanggar' => filled($pasalAturan) ? $pasalAturan : null,
+            'penjelasan_lainnya' => filled($penjelasanLainnya) ? $penjelasanLainnya : null,
+            'profil_lokasi' => $profilLokasi,
             'foto' => $foto,
+            'peta_deliniasi' => $petaDeliniasi,
             'indikasi_text' => self::INDIKASI_MAP[$indikasiKey]['label'] ?? ($indikasiKey ?: '-'),
             'delik_level' => $delikLevel,
             'delik_items' => $jenisLabels->all(),
@@ -767,6 +808,8 @@ class Pelanggaran extends Model
             'jumlah_abcd' => $penilaian['is_complete'] ? $penilaian['jumlah_abcd'] : null,
             'tipologi' => $klasifikasi ?: ($temuan === 'Tidak Ada Pelanggaran' ? 'Tidak Ada Pelanggaran' : null),
             'arah' => $arahText,
+            'rekomendasi_penanganan' => $arahText,
+            'petugas_analis' => $petugasAnalis,
         ];
     }
 

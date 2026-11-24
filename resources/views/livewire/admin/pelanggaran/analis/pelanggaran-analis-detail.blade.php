@@ -82,6 +82,18 @@
                 <div class="card-body">
                     <div class="pa-kv-list">
                         <div class="pa-kv-item">
+                            <div class="pa-kv-label">Penjelasan Kasus Singkat</div>
+                            <div class="pa-kv-value text-start"><span class="d-none d-md-inline me-1 text-muted">:</span>{{ $pelanggaran->penjelasan_singkat ?: '-' }}</div>
+                        </div>
+                        <div class="pa-kv-item">
+                            <div class="pa-kv-label">Pasal dan Aturan yang Dilanggar</div>
+                            <div class="pa-kv-value text-start"><span class="d-none d-md-inline me-1 text-muted">:</span>{{ $pelanggaran->pasal_aturan_dilanggar ?: '-' }}</div>
+                        </div>
+                        <div class="pa-kv-item">
+                            <div class="pa-kv-label">Penjelasan Lainnya</div>
+                            <div class="pa-kv-value text-start"><span class="d-none d-md-inline me-1 text-muted">:</span>{{ $pelanggaran->penjelasan_lainnya ?: '-' }}</div>
+                        </div>
+                        <div class="pa-kv-item">
                             <div class="pa-kv-label">Kesimpulan Pelanggaran</div>
                             <div class="pa-kv-value text-start">
                                 <span class="d-none d-md-inline me-1 text-muted">:</span>
@@ -354,6 +366,25 @@
                             </div>
                         @else
                             <p class="text-muted small fst-italic mt-1 mb-0">Belum ada foto evaluasi lokasi</p>
+                        @endif
+                    </div>
+
+                    <hr>
+
+                    <div class="my-3">
+                        <label class="form-label fw-bold">Peta Deliniasi</label>
+                        @if (!empty($pelanggaran->peta_deliniasi))
+                            <div class="row g-2 g-md-3 mt-1">
+                                @foreach ($pelanggaran->peta_deliniasi as $peta)
+                                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                                        <a href="{{ Storage::url($peta) }}" target="_blank" class="pa-photo-grid-item">
+                                            <img src="{{ Storage::url($peta) }}" alt="Peta Deliniasi">
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <p class="text-muted small fst-italic mt-1 mb-0">Belum ada peta deliniasi yang diunggah</p>
                         @endif
                     </div>
 
